@@ -1,0 +1,35 @@
+﻿<div class="block login">
+  <form>
+  <h6>@("Login".Label())</h6>
+  <table>
+    <tr>
+      <th><label for="username">@("Username".Label())</label></th>
+      <td><input type="text" id="username" name="UserName" /></td>
+    </tr>
+    <tr>
+      <th><label for="password">@("Password".Label())</label></th>
+      <td><input type="password" id="password" name="Password" /></td>
+    </tr>
+    <tr>
+      <th><label for="redirect">@("Redirect to".Label())</label></th>
+      <td>
+        <select id="redirect" name="redirect">
+          <option value="current">@("Current page".Label())</option>
+          <option value="admin">@("Admin page".Label())</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th></th>
+      <td>
+        <input type="checkbox" id="rememberMe" name="RememberMe" />
+        <label for="rememberMe">@("Remember me".Label())</label>
+      </td>
+    </tr>
+    <tr>
+      <th></th>
+      <td><button type="submit">@("Login".Label())</button></td>
+    </tr>
+  </table>
+</form>
+</div>

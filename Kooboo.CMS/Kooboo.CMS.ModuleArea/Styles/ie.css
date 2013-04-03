@@ -1,0 +1,81 @@
+/*
+[Contents]
+
+	0- Global
+	1- Switch
+	2- Task block
+	3- Command
+	4- Upload list
+*/
+
+/* =0 Global
+---------------------------------------*/
+/* Input */
+input[type="checkbox"],
+input[type="radio"]{
+	height:13px;
+	width:13px;
+}
+
+/* Dropdown button */
+.dropdown-button{
+	float:left;
+	margin-right:3px;
+}
+.dropdown-button li a{
+	min-width:90%;
+	padding:0 6%;
+}
+
+/* Operation icon */
+.o-icon{
+	display:block;
+	text-transform: capitalize;
+}
+#message-box p {
+	display:inline;
+	zoom:1;
+}
+
+/* =1 Switch
+---------------------------------------*/
+.switch > span{
+	float:left;
+}
+
+/* =2 Task block
+---------------------------------------*/
+.task-block span{
+	float:left;
+}
+
+/* =3 Command
+---------------------------------------*/
+.command > a{
+	float:left;
+	margin-right:5px;
+}
+
+.search-panel{
+	width:155px;
+}
+
+/* =4 Upload list
+---------------------------------------*/
+.upload-list li:hover .o-icon{
+	display:inline-block;
+}
+.upload-list .box-out{
+	overflow:hidden;
+	position:relative;
+}
+.upload-list .box-in{
+	left:0;
+	position:absolute;
+	top:50%;
+	width:100%;
+}
+.upload-list .box-in img{
+	position:relative;
+	top:-50%;
+}

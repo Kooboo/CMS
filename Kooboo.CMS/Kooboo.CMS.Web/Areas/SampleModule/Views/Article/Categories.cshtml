@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Kooboo.CMS.Content.Models.TextContent>
+<div class="block">
+    <h4 class="title">@("Category".Label())</h4>
+    <ul class="list">
+        @foreach (dynamic item in Model)
+        {
+
+            <li>@Html.FrontHtml().PageLink(item.Title, "Articles", new { UserKey = item.UserKey })
+            </li>
+        }
+    </ul>
+</div>

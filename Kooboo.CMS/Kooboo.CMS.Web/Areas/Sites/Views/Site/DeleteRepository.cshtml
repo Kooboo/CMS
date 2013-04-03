@@ -1,0 +1,33 @@
+﻿@model Kooboo.CMS.Sites.Models.Site
+@{
+    Layout = "~/Areas/Sites/Views/Shared/Blank.cshtml";
+}
+<div class="common-form">
+    @using (Html.BeginForm())
+    {
+        @Html.Hidden("SiteName", Request["SiteName"])
+        <fieldset>
+            <p class="clearfix">
+                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: 8px;"></span>
+                @("This content database will be permanently deleted and cannot be recovered. Are you sure?".Localize())
+            </p>
+            <p class="clearfix" style="padding-left: 25px;">
+                @if (ServiceFactory.SiteManager.UseSharedDB(Model))
+                { 
+                    <input type="checkbox" id="DeleteRepository" value="True" name="DeleteRepository" /><label
+                        class="checkbox-label" for="DeleteRepository">
+                        @Html.Raw("The content database is also used in the other site, <br/>delete it will break the other sites.<br/> Do you want to continue?".Localize())
+                    </label>
+                }
+                <input type="hidden" value="False" name="DeleteRepository" />
+            </p>
+        </fieldset>
+        <p class="buttons">
+            <a class="dialog-close button" href="javascript:;" style="float: right; margin: 0 0 0 10px;">
+                @("Cancel".Localize())
+            </a>
+            <button type="submit" style="float: right; margin: 0;">
+                @("Delete".Localize())</button>
+        </p>
+    }
+</div>

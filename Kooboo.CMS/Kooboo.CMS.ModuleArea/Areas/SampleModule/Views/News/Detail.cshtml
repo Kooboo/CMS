@@ -1,0 +1,6 @@
+﻿@model Kooboo.CMS.ModuleArea.Models.News
+@{
+    Layout = "~/Areas/" + Kooboo.CMS.ModuleArea.SampleAreaRegistration.ModuleName + "/Views/Shared/Front.cshtml";
+}
+<h3 class="module-title">@Model.Title</h3>
+<div class="article">@Model.Body</div>

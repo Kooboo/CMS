@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<msdeploy.iisApp>
+  <iisApp path="Kooboo_CMS"/>
+
+  <!-- 
+ 	this Acl can be removed after successful installation 
+ 	** begin remove **
+ -->
+  <setAcl path="Kooboo_CMS"
+ 		setAclAccess="Read, Write, Modify" />
+  <!-- 
+ 	** end remove ** 
+ -->
+
+  <setAcl path="Kooboo_CMS\Areas"
+     setAclAccess="ReadandExecute" />
+  <setAcl path="Kooboo_CMS\Cms_Data"
+     setAclAccess="Read, Write, Modify" />
+  <setAcl path="Kooboo_CMS\Bin"
+     setAclAccess="Read, Write, Modify" />
+  <setAcl path="Kooboo_CMS\Images"
+     setAclAccess="Read" />
+  <setAcl path="Kooboo_CMS\Scripts"
+     setAclAccess="Read" />
+  <setAcl path="Kooboo_CMS\Styles"
+     setAclAccess="Read" />
+  <setAcl path="Kooboo_CMS\Views"
+     setAclAccess="ReadandExecute" />
+  <setAcl path="Kooboo_CMS\routes.config"
+          setAclResourceType="File"
+     setAclAccess="Read" />
+  <setAcl path="Kooboo_CMS\Global.asax"
+          setAclResourceType="File"
+     setAclAccess="Read" />
+  <setAcl path="Kooboo_CMS\WebResources.config"
+          setAclResourceType="File"
+     setAclAccess="Read" />
+  <setAcl path="Kooboo_CMS\web.config"
+     setAclResourceType="File"
+     setAclAccess="Read" />
+  <setAcl path="Kooboo_CMS\I18N"
+     setAclAccess="Read, Write, Modify" />
+</msdeploy.iisApp>

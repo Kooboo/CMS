@@ -1,0 +1,215 @@
+﻿/*
+[Contents]
+
+	0- Global
+	1- Flow map
+	2- Text folder form
+	3- Table description
+*/
+
+/* =0 Global
+---------------------------------------------------------------------------------------------------------------------*/
+
+/* =1 Flow map
+---------------------------------------------------------------------------------------------------------------------*/
+.flow-chart
+{
+    border-top: 1px solid #CCC;
+    padding-top: 30px;
+    position: relative;
+}
+.fm-board
+{
+    float: left;
+    left: 50px;
+    position: relative;
+    top: 30px;
+    width: 730px;
+}
+.fm-board .step1, .fm-board .step2, .fm-board .step3
+{
+    float: left;
+    min-height: 400px;
+    position: relative;
+    text-align: center;
+    top: -30px;
+}
+.fm-board .step1
+{
+    border-right: 1px dashed #999;
+    width: 175px;
+}
+.fm-board .step2
+{
+    border-right: 1px dashed #999;
+    width: 280px;
+}
+.fm-board .step3
+{
+    width: 220px;
+}
+.fm-board h3
+{
+    font-size: 14px;
+    margin-bottom: 270px;
+}
+.fm-board .description
+{
+    border: 3px solid #DDD;
+    display: inline-block;
+    height: 35px;
+    margin: 0 5px;
+    padding: 5px;
+    text-align: left;
+    width: 140px; /* Do Rounding */
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+/* Flowmap Node */
+.flow-item
+{
+    background: url(images/map-item.png) repeat-x;
+    height: 30px;
+    line-height: 30px;
+    width: 110px; /* Do Rounding */
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.flow-item a
+{
+    color: #333;
+    display: block;
+    font-weight: bold;
+    text-decoration: none;
+}
+.flow-item:hover
+{
+    background: url(images/map-item-hover.png) repeat-x;
+    border-color: #2E63A5;
+    color: #FFF;
+}
+
+.flow-item.disabled
+{
+    background: #E9E9E9;
+    filter: none; /* IE */
+    border-color: #999999;
+}
+.flow-item.disabled a, .flow-item.disabled:hover a
+{
+    color: #999;
+}
+.flow-item.disabled .shade
+{
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+.flow-item.done
+{
+    background: url(images/map-item-done.png) repeat-x;
+    border-color: #7EBC87;
+}
+.flow-item.done a
+{
+    color: #FFF;
+}
+.flow-item:hover a
+{
+    color: #FFF;
+}
+
+/* Flow Description */
+.flow-description
+{
+    left: 100px;
+    position: absolute;
+    top: -30px;
+}
+.flow-description li
+{
+    float: left;
+    margin-right: 10px;
+}
+.flow-description .color-block
+{
+    background-color: #000;
+    border: 1px solid #999;
+    display: block;
+    float: left;
+    height: 15px;
+    margin-right: 10px;
+    width: 15px;
+}
+.flow-description .color-block.white
+{
+    background-color: #F1F1F1;
+}
+.flow-description .color-block.grey
+{
+    background-color: #E1E1E1;
+}
+.flow-description .color-block.green
+{
+    background-color: #7EBC87;
+}
+/* =2 Text folder form
+---------------------------------------------------------------------------------------------------------------------*/
+.text-folder-form legend
+{
+    border-width: 2px;
+    color: #555;
+    font-size: 12px;
+    font-weight: normal;
+    padding-left: 5px;
+}
+.text-folder-form .o-icon.add
+{
+    margin: 5px 0 0 5px;
+}
+.text-folder-form .o-icon.remove
+{
+    margin: 2px 0 0 0;
+}
+/* =3 Table description
+---------------------------------------------------------------------------------------------------------------------*/
+.table-desc
+{
+    position: absolute;
+    right: 0;
+}
+.table-desc li
+{
+    float: left;
+    margin-left: 10px;
+}
+.table-desc li span
+{
+    border: 1px solid #CCC;
+    float: left;
+    height: 14px;
+    margin-right: 5px;
+    width: 14px;
+}
+.table-desc li span.red
+{
+    background-color: #FCD5D5;
+}
+.table-desc li span.blue
+{
+    background-color: #BBDAFD;
+}
+
+/* =4 draggable
+-----------------------------------------------------------*/
+.holder
+{
+    width: 100%;
+    height: 30px;
+}

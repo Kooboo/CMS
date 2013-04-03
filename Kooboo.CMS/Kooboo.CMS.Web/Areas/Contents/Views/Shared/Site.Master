@@ -1,0 +1,43 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<%@ Import Namespace="Kooboo.CMS.Web.Areas.Contents" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+        <asp:ContentPlaceHolder ID="TitleContent" runat="server">
+        </asp:ContentPlaceHolder>
+        <%= " - Database - Kooboo CMS".Localize()%>
+    </title>
+    <%: Html.ExternalResources("siteStyles")%>
+    <%: Html.ExternalResources("skinStyles") %>
+    <%: Html.ExternalResources("siteScripts") %>
+    <script type="text/javascript" src="<%: Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/Scripts/tiny_mce_extension.js") %>"></script>
+</head>
+<body>
+    <div id="body-container">
+        <%: Html.Partial("Header") %>
+        <%:Html.Partial("MessageBox") %>
+        <div id="main-container" class="clearfix">
+            <div id="main">
+                <div class="inner-main">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+            </div>
+            <div id="sidebar">
+                <%: Html.Partial("Sidebar") %>
+                <asp:ContentPlaceHolder ID="SidebarHolder" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+        <div id="footer">
+            <%:Html.Partial("Footer") %>
+        </div>
+    </div>
+    <%: Html.Partial("Master.Script")%>
+    <%: Html.Partial("AjaxForm.Script") %>
+    <%: Html.Partial("LastReady.Script") %>
+</body>
+</html>

@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C7B73E67-D226-41CB-A86D-410276B265A1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kooboo.CMS.Search</RootNamespace>
+    <AssemblyName>Kooboo.CMS.Search</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Kooboo.CMS.Search.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Lucene.Net.Contrib.Highlighter">
+      <HintPath>..\..\Lib\Lucene.net\Lucene.Net.Contrib.Highlighter.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Lucene.Net">
+      <HintPath>..\..\Lib\Lucene.net\Lucene.Net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CMSAssemblyInfoGlobal.cs">
+      <Link>CMSAssemblyInfoGlobal.cs</Link>
+    </Compile>
+    <Compile Include="AssemblyInitializer.cs" />
+    <Compile Include="ContentEventsSubscriber.cs" />
+    <Compile Include="IndexSummaryService.cs" />
+    <Compile Include="IObjectConverter.cs" />
+    <Compile Include="ISearchService.cs" />
+    <Compile Include="Models\FolderIndexInfo.cs" />
+    <Compile Include="Models\LastAction.cs" />
+    <Compile Include="Models\SearchSetting.cs" />
+    <Compile Include="Models\IndexObject.cs" />
+    <Compile Include="Models\ResultObject.cs" />
+    <Compile Include="Persistence\Caching\SearchSettingProvider.cs" />
+    <Compile Include="Persistence\Caching\ProviderFactory.cs" />
+    <Compile Include="Persistence\Default\LastActionProvider.cs" />
+    <Compile Include="Persistence\Default\SearchSettingProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\Default\ProviderFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\ILastActionProvider.cs" />
+    <Compile Include="Persistence\ISearchSettingProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\Providers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchDir.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SearchHelper.cs" />
+    <Compile Include="SearchService.cs" />
+    <Compile Include="IServiceBuilder.cs" />
+    <Compile Include="TextContentConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+      <Project>{347E47E5-3132-4BAD-B935-8282A2B16CF5}</Project>
+      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Content\Kooboo.CMS.Content\Kooboo.CMS.Content.csproj">
+      <Project>{C5A5186D-6F8E-4BB9-AF0E-74F0993B48DA}</Project>
+      <Name>Kooboo.CMS.Content</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Form\Kooboo.CMS.Form.csproj">
+      <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
+      <Name>Kooboo.CMS.Form</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

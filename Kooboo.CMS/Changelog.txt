@@ -1,0 +1,394 @@
+3.3.0
+
+* DropdownList/RadioList/CheckboxList 这个在使用folder的时候userkey改用uuid。
+
+* 在站点中可以删除，导出，导入内容数据库。
+
+* Label可以导入导出。
+
+* 用户安全设置，限制密码强度；密码输入错误达到一定次数后锁定等，并且可以配置。
+
+* 子站点可以看到并且执行父站点的Plugin。
+
+* Page_Context.Current可以动态赋View的参数值。
+
+* 内容数据可以拷贝。
+
+* 可以选择单独导出CustomError,UrlKeyMap,UrlRedirect的某些记录，而不是整个类别导出。
+
+* 升级Visual Studio 2012 Solutin。
+
+* 增加Re-broadcast的功能。
+
+* 优化内容类别的选择方式，并且支持选择相同content type的子目录。
+
+* 友好格式的XML序列化。
+
+* 给页面增加LinkTarget，生成：<a target="_blank"></a>
+
+* 导入子站点时，使用的数据库名称不再动态生成，这样有可能造成导入站点不能正常运行。
+
+* Module的菜单权限可以通过角色来配置。
+
+* 树形结构数据使用AJAX延迟加载，解决数据比较多的时候的性能问题。
+
+* 增加Media library的图片编辑功能和元数据修改功能。
+
+* 完善Inline editing的功能。
+
+* 内容广播可以设置直接发送到子站点而不需要再站点在去设置接收。
+
+Bugs:
+
+* Fixed：Media library图片更新是，预览效果没更新。
+
+* Fixed: 某些浏览器抛出 “Culture is not supported” 的异常。
+
+* Fixed：样式文件排序效果在后台没有正确显示。
+
+* Fixed: 一些Tip和拼写错误的修改。
+
+* Fixed: Sitemap的字站点Offline/Online状态显示不正确。
+
+* Fixed: Url.FrontUrl().ResizeImage的一些bugs和改进。
+
+* Fixed：修复生产CDN链接的一些问题，改善对CDN的支持。
+
+* Fixed：Receiving setting可以添加相同记录的问题。
+
+* Fixed: 其他一些Bugs的修复。
+
+* Fixed: Label存储在SQLServer的SiteName字段使用Site.Name的问题。
+3.2.2
+
+* 在Layout中增加Plugin的功能
+
+* 在Page的HtmlMeta设置中增加Canonical http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html
+
+* 内容目录可以设置后台显示的列表的数据量。
+
+* Custom error的定义可以选择重定向方式。(301,302,Transfer)
+
+* 在Custom error中可以定义站点下线时的提示页面。
+
+* 支持多级子站点路径. ( SitePath可以设置：zh/cn)
+
+* 增加@Html.FrontHtml().RegisterScripts(bool compressed).(用于有些用户只想要合并脚本，但不希望进行语法压缩)
+
+* SubmissionHelper的提交服务支持SuccessedUrl和FailedUrl。
+
+* 子页面的URL别名可设置为*和#，这样做可将：Flights映射到Flights页面；Flights/China映射到Flights的子页面上。(这两个特别字符的增加会提高URL的灵活性，但同时会增加复杂度，普通用户一般不需要知道。)
+
+* 页面可以拖拉排序。
+
+* 页面列表的工具栏重组，增加可批量发布，取消发布的功能。
+
+* HtmlBlock增加导入导出功能。
+
+* 增加UpdateSpecifiedFields API
+
+* Mysql和SQLServer支持执行日志功能。（可以查看一个页面请求，进行了什么数据库查询。）
+
+* MySql,SQLCe,SQLServer支持事务。(支持内容管理API的事务功能 using(var unit = repository.CreateTransaction()){} )
+
+* Kooboo.CMS.Sites.Providers.SqlServer和Kooboo.CMS.Sites.Providers.AzureTable增加站点用户存储。
+
+* 完善了多台服务器负载和CDN缓存的支持。
+
+* 为兼容.NET 4.5，将Kooboo.CMS.Sites.Extension.Module的名称空间改为Kooboo.CMS.Sites.Extension.ModuleArea
+
+
+
+Bugs:
+
+* media 查询的WhereEquals的大小写敏感问题。
+* 在前台站点也设置UICulture
+* RadioList不支持目录数据的问题
+* 站点缓存数据清除的问题。
+* 内容树结点的从父拖到子的问题。
+* 内容树结点的查询问题 （根据关键字查询时，不再显示树形结点）
+* Fixed: http://forum.kooboo.com/yaf_postst1596_Bugs-with-embedded-folders.aspx
+* Fixed: http://forum.kooboo.com/yaf_postst1600_selecting-from-folder-for-radiolist--dropdownlist--and-checkboxlist-never-clears-out.aspx
+* 其它一些Bugs
+
+3.2.1.0
+
+* 新功能
+
+1.增加Controller的可替换机制，开发人员可以随意替换系统的Controller.  Kooboo.CMS.Sites.ControllerTypeCache.RegisterController("Kooboo.CMS.Sites.Controllers.Front.PageController", typeof(MyPageController));
+
+2.在站点设置中增加ResourceDomain用于生成脚本链接时使用单独域名。同时增加：RegisterAbsoluteScripts(string baseUri)和RegisterAbsoluteStyles(string baseUri)，允许开发人员在模板中指定域名。Url.FrontUrl().ResourceCDNUrl(string relativeUrl) 是用于根据ResourceDomain的设置生成完整链接。
+
+3.站点脚本的继承和本地化功能支持。
+
+4.增加Page_Context.PageLayout 和 Page_Context.PageTheme，可让开发人员通过API修改当前页面的Layout和Theme
+
+5.Label管理列表的搜索功能。
+
+6.内容目录增加可隐藏的设置，比如某些内嵌目录不想显示在菜单中让用户可以增加数据。
+
+7."Builtin."将做为@Html.FrontHtml().RenderView专用视图，不出现在页的添加视图列表中。
+
+* Bugs修复和更新 
+
+1.Url重定向的Bug:http://forum.kooboo.com/yaf_postsm5837_301-redirect--catching-query-string.aspx
+
+2.单词拼写错误：http://forum.kooboo.com/yaf_postsm5852_3-1-and-3-2-typo--Preivew-should-be-Preview.aspx
+
+3.使用IndexReader.IndexExists避免建索引时的锁异常
+
+4.修复页面设计器的一些bug
+
+5.修复Plugin维护的一些问题。
+
+6.页面使用到的plugin不存在时，不再抛异常。
+
+7.页面管理权限的一些问题。
+
+8.Inline editing和Style editing的一些完善。
+
+9.更新Tinymce 3.5b3
+
+10.对用户输入的时期处理进行修改，以前假设用户提交的时间是UTC时间，存储的时候直接把它当成UTC时间存储。现改为，假设用户提供的服务器的本地时间，存储的时间将这个时间转化为UTC时间再存储。
+
+3.2.0.0
+
+*重要更新
+
+所有旧站点升级到 3.2.0.0都需要重置一下Content type模板，否则会出现内容无法编辑的异常。
+
+*新增功能
+
+1. 与Azure尝试集成。 http://wiki.kooboo.com/?wiki=Kooboo CMS on Azure
+
+2. 多服务器部署的解决方案。http://wiki.kooboo.com/?wiki=Kooboo CMS 
+
+3. 更新Jquery(1.7.1)和JqueryUI(1.8.16)
+
+4. 添加内容的上一条和下一条API (textContent.Next(), textContent.Previous()).
+
+5. 前台编辑样式功能。
+
+6. 前台内容编辑可以选择不同编辑器。
+
+*Bug修复
+
+1.当页面未发布时，用户访问将会重定向到410页面。
+
+2.Checkboxlist/Dropdownlist的数据源按目录设置排序。
+
+3.自动去除域名设置中的 “http://” 前缀
+
+4.在DataRule中可以使用更多的系统字段。
+
+5.当View不存在时，页面输出不再抛异常。
+
+6.子站点会使用父站点的脚本。
+
+7.在站点启动时拷贝站点的dll
+
+8.删除内容时，子内容也会被删除。
+
+9.FileUrl的Bug
+
+
+
+
+3.1.0
+
+*重要更新
+
+1. Module框架的修改，以Area的开发方式去开发Kooboo CMS。Module的前台页面的运行模式没有改变，后台页面则以Area的机制运行，大大简化了Module后面页面的开发和调试工作。
+
+Module的项目模板也进行了相应的修改，直接以Kooboo CMS的真实运行环境做为Module的开发环境。
+
+新的Module框架将不兼容旧版本开发的Module。
+
+2. 重构了缓存框架，支持缓存过期通知，通知其它服务器清除相同缓存Key的缓存项。（用在多主机负载平衡环境下）
+
+*新增功能
+
+1. 支持 Mono/Linux/Mac。新版本将完全支持Mono/Linux/Mac平台，让Kooboo CMS走出Windows，进入一个全新的平台生态链。在Mono/Linux/Mac平台下，开发人员可以使用Monodevelop打开Kooboo CMS源码进行调试，编译，发布等工作。Mono/Linux/Mac下，支持XML，mysql，mangodb这三种数据库。
+
+2. 支持Windows Azure + SQLAzure。将会发布Windows Azure安装包方便用户将Kooboo CMS部署到Azure. SQLAzure使用SQLServer content provider.
+
+3. 新增管理员可以修改用户密码的功能。
+
+4. 新增用户可以通过邮箱重置密码的功能。
+
+5. 新增在移动页面里，可以自动创建301重定向的功能。
+
+6. 新增Layout的Position可以定义默认内容的API。使用方法： @Html.FrontHtml().Position("sidebar","<div>default content</div>").
+
+7. 修改Contact us form的示例代码，支持用户使用邮件模板。
+
+8. 优化修改界面语言的设置。
+
+9. 内置支持MySQL Content Provider
+
+*Bug修复
+
+1. 修改Mongodb provider的一些bugs.
+
+2. 修复ImageCrop控件保存文件更大的bug和其它一些Bugs。
+
+3. 修复User在SQLServer provider下不保存 UICulture 的Bug.
+
+4. 修改日期在全文搜索中出现的语言文化无法正常解析的问题。
+
+
+
+3.0.5
+
+*新增功能
+
+.开发人员可以指定自定义的content type模板，比如用户在content type目录下添加CustomTemplates\Grid.cshtml文件，系统将会优先使用它作为内容列表模板。
+
+.Media content可以移动目录和改名。
+
+.添加Password控件。
+
+.增加查看目录索引和重过目录索引的功能。
+
+
+*更新和bug修复
+修复：类别选择时，单选变成多选的问题。
+更新：Content的附件中带有一些特殊字符会出错的问题。
+修复：ModuleHtml().Action 不能使用的问题。
+修复：Media content选择时的URL被编码的问题。
+修复：内容的ThenOrderBy 问题。
+更新：在创建内容查询时，不再添加默认排序条件。
+修复：MongoDB的驱动更新后的时间问题。
+修复：AllowNull 支持客户端验证。
+修复：ThemeFileUrl 当子站点的文件不存在时，不会自动使用父站点的文件路径问题。
+修复：Html block在没有本地化前就可以编辑的问题。
+修复：Inline editing的权限问题。
+修复：http://forum.kooboo.com/yaf_postst1180_Using-Telnet-to-connect-to-a-Kooboo-website.aspx
+更新：移除Data rule的第三种类型。
+修复：Media content的文件名带有空格时不能删除文件的问题。
+修复：Order setting的共享问题。
+修复：SMTP设置的邮箱地址为空时发送邮件出错的问题。
+
+
+3.0.4
+
+*新增功能
+
+.新增 MediaContentUrl API用于生成media的地址：@Url.FrontUrl().MediaContentUrl(fullFoldername, fileName)
+
+.@Html.FrontHtml().RenderHtmlBlock，通过API的方式输出Html block.
+
+.新增兼容性诊断页面，检测系统的当前状态。
+
+.新增HighlightEditor控件，输入HTML时的语法高亮。
+
+.新增了RawLabel，这个API会输出不带任何Inline editing标签的Label。
+
+.页面新增 Searchable属性，用于设置页面是否加到索引目录，允许全文搜索可以搜索到该页面。
+
+.弹出窗体的最大化功能。
+
+.改进Inline editing,增加后台编辑模式。
+
+.新增 WhereNotIn 
+
+.类别内容可以单选
+
+.Dropdownlist,Checkboxlist的数据源可以从目录取数据。
+
+.内容广播增加同步类别同步的功能。
+
+.每个内容目录都可以单独设置内容的排序字段。如果目录按Sequence字段排序时，内容列表可以有拖拉排序功能。
+
+.内容广播的发送设置新增，是否发送接收内容的设置。用于控制内容在本地化之前是否向外发送它的更新广播。
+
+
+*更新和bug修复。
+
+修复：Url地址编码的问题。
+
+修复：内容存储Provider的连接超时问题。
+
+修复：用户存储Provider的一些Bug.
+
+修复：目录名称包含.时，会现问题。
+
+修复： CheckBoxList: A local variable named 'values' is already defined in this scope
+
+修复： 拷贝主页的时候，分出现两个首页。
+
+修复：页面管理的一些BUG。
+
+修复：内容管理的一些Bug.
+
+
+3.0.3
+
+* Breaking change
+
+1. 新增四个系统字段，分别为：OriginalRepository，OriginalFolder，IsLocalized，Sequence。如果升级前的系统使用SQL Server, SQLCe, MySQL这三种数据库，请手工在内容的动态表中新增这四个字段，类型分别为：
+
+   OriginalRepository nvarchar(256) NULL
+   OriginalFolder nvarchar(256) NULL
+   IsLocalized bit NULL
+   Sequence bit null
+
+2. 由于RavenDb的稳定性问题，以及它使用的Lucene.NET版本冲突，暂时移除对RavenDB的支持。
+
+* 新增功能
+
+站点管理部分：
+ 新增Html block功能，方便开发人员共享一些静态的HTML代码块。
+
+ 新增EmptySite站点模板。
+
+ 增加允许禁用版本控制的站点设置。
+
+ 重构了页面的Title，改为HtmlTitle，新增一个ContentTitle字段。
+
+内容管理部分：
+
+ 内容广播，用于完成各站点的内容共享。
+
+ 工作流，用于控制内容的发布审核。
+
+ 全文检索功能，基于Lucene.NET的全文搜索支持。(不支持Medium trust level)
+
+ 新增内容编辑控件:RadioList,CheckBoxList。
+
+
+ 内容事件增加三种类型，PreAdd,PreUpdate,PreDelete.
+
+ 内容目录允许按角色控制是否显示权限。
+
+ 内容查询API新增WhereIn表达式。
+
+ 内容查询，新增对OrderBy...Then的支持。
+
+* 改进和Bug修复
+
+1. Content type的自定义模板改为Razor语法。
+
+2. 站点删除时让用户确认是否删除对应的内容数据库。
+
+3. 修复Content type维护时的bug.
+
+4. 修复Textarea不能做Required验证的问题。
+
+5. 页面中的IncludeJquery移到站点的全局设置。
+
+6. 界面显示多语言移到用户设置。
+
+7. 改进后面的页面搜索和站点搜索。
+
+8. 修复WhereBetween的bug.
+
+
+
+还其它更多的Bug修复。
+
+
+
+
+
+

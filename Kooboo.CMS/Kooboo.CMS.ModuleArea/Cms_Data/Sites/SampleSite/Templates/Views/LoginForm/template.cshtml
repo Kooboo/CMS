@@ -1,0 +1,94 @@
+﻿<div class="block login-form" id="loginForm">
+    <form id="logonForm" action="@Url.Action("Ajax", "LogOn", new { area = "Account" })" method="post">
+    <h6>@("Login".Label())</h6>
+    <table>
+        <tr class="field">
+            <th>
+                <label for="UserName">@("Username".Label()):</label>
+            </th>
+            <td>
+                <input class="" data-val="true" data-val-required="@("Required".RawLabel())" id="UserName" name="UserName"
+                    type="text" value="">
+                <span class="field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true"
+                    name=""></span>
+            </td>
+        </tr>
+        <tr class="field">
+            <th>
+                <label for="Password">@("Password".Label()):</label>
+            </th>
+            <td>
+                <input class="" data-val="true" data-val-required="@("Required".RawLabel())" id="Password" name="Password"
+                    type="password">
+                <span class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"
+                    name=""></span>
+            </td>
+        </tr>
+        <tr class="field">
+            <th>
+                <label for="redirect">@("Redirect to".Label()):</label>
+            </th>
+            <td>
+                <select id="redirect" name="redirect">
+                    <option value="0">@("Current page".Label())</option>
+                    <option value="1">@("Admin page".Label())</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>
+            </th>
+            <td>
+                <input type="checkbox" id="rememberMe" name="RememberMe" value="true" />
+                <label class="inline" for="rememberMe">@("Remember me".Label())</label>
+                <input type="hidden" name="RememberMe" value="false" />
+            </td>
+        </tr>
+        <tr>
+            <th>
+            </th>
+            <td>
+                <button type="submit">@("Login".Label())</button>
+            </td>
+        </tr>
+    </table>
+    </form>
+    <script type="text/javascript">
+
+        $('#logonForm').each(function () {
+            var form = $(this);
+            form.ajaxForm({
+                sync: true,
+                beforeSerialize: function ($form, options) {
+                },
+                beforeSend: function () {
+                    var form = $(this);
+                    form.find("[type=submit]").addClass("disabled").attr("disabled", true);
+                },
+                beforeSubmit: function (arr, $form, options) {
+                },
+                success: function (responseData, statusText, xhr, $form) {
+                    form.find("[type=submit]").removeClass("disabled").removeAttr("disabled");
+                    if (!responseData.Success) {
+                        var validator = form.validate();
+                        //                            var errors = [];
+                        for (var i = 0; i < responseData.FieldErrors.length; i++) {
+                            var obj = {};
+                            obj[responseData.FieldErrors[i].FieldName] = responseData.FieldErrors[i].ErrorMessage;
+                            validator.showErrors(obj);
+                        }
+                    }
+                    else {
+                        location.href = responseData.RedirectUrl;
+                    }
+                },
+                error: function () {
+                    var form = $(this);
+                    form.find("[type=submit]").removeClass('disabled').removeAttr('disabled');
+                }
+
+            });
+        })
+
+    </script>
+</div>

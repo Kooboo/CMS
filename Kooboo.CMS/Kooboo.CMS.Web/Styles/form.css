@@ -1,0 +1,1069 @@
+﻿/*
+[Contents]
+
+	0- Global
+	1- Common Form
+	2- Addons for Common Form
+	3- Datarule Form
+	4- View Form
+*/
+
+/* =0 Global
+---------------------------------------------------------------------------------------------------------------------*/
+label {
+	color: #555;
+	font-weight: bold;
+	line-height: 20px;
+}
+.required {
+	color: #F00;
+	display: block;
+	float: left;
+	line-height: 20px;
+}
+
+input[type="text"], input[type="password"] {
+	border: 1px solid #CCC;
+	height: 16px;
+	padding: 1px;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+	border-color: #39C;
+}
+
+textarea {
+	border: 1px solid #CCC;
+}
+
+textarea:focus {
+	border-color: #39C;
+}
+
+select {
+	border: 1px solid #CCC;
+	height: 20px;
+}
+
+select:focus {
+	border-color: #39C;
+}
+
+.jqButton {
+	margin-top: 10px;
+}
+
+button, input.button {
+	background: url(images/button.png) repeat-x left top;
+	border: 1px solid #999;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	color: #333;
+	cursor: pointer;
+	font-size: 11px;
+	height: 22px;
+	line-height: 22px;
+	padding: 0 8px;
+}
+
+button:hover, input.button:hover {
+	background-position: left -20px;
+	border-color: #2E63A5;
+	color: #FFF;
+}
+
+/* jQuery Dropdown Checklist
+--------------------------------------------------------*/
+.ui-dropdownchecklist {
+	background: url(images/dropdown.png) no-repeat center right;
+	border: 1px solid #CCC;
+	height: 18px;
+}
+
+.ui-dropdownchecklist-active {
+	background: url(images/dropdown_active.png) no-repeat center right;
+	border-color: #39C;
+}
+
+.ui-dropdownchecklist-text {
+	font-weight: normal;
+	line-height: 18px;
+	margin-right: 17px;
+	padding-left: 2px;
+	white-space: nowrap;
+}
+
+.ui-dropdownchecklist-dropcontainer {
+	background-color: #FFF;
+	border: 1px solid #999;
+}
+
+.ui-dropdownchecklist-item {
+	overflow: hidden;
+	padding: 1px 3px;
+}
+
+.ui-dropdownchecklist-item input[type="checkbox"] {
+	float: left;
+	margin-top: 3px;
+}
+
+.ui-dropdownchecklist-item-hover {
+	background-color: #39F;
+}
+
+.ui-dropdownchecklist-item-disabled label {
+	color: #000;
+}
+
+.ui-dropdownchecklist-item-hover .ui-dropdownchecklist-text {
+	color: #FFF;
+}
+
+.ui-dropdownchecklist-group {
+	font-style: italic;
+	font-weight: bold;
+}
+
+.ui-dropdownchecklist-indent {
+	padding-left: 20px;
+}
+
+/* jQuery UI
+--------------------------------------------------------*/
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 12px;
+}
+
+.ui-dialog-titlebar-maximize,
+.ui-dialog-titlebar-restore {
+	right: 22px !important;
+}
+
+/* =1 Common Form
+---------------------------------------------------------------------------------------------------------------------*/
+.common-form {
+	margin-top: 0px;
+}
+
+.common-form .info {
+	color: #666;
+}
+
+.common-form .info p {
+	margin: 0;
+}
+
+.common-form legend span, .common-form input, .common-form select, .common-form .ui-dropdownchecklist-wrapper, .common-form textarea, .common-form .radio-list {
+	float: left;
+	margin-right: 5px;
+}
+
+.common-form fieldset {
+	margin: 10px 0;
+}
+
+.common-form legend {
+	border-bottom: 3px solid #CCC;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 1.5;
+	margin-bottom: 5px;
+	width: 100%;
+}
+
+.common-form legend.clickable {
+	overflow: hidden;
+}
+
+.common-form legend.clickable span {
+	background: url(images/arrow1.png) no-repeat left center;
+	cursor: pointer;
+	padding-left: 15px;
+}
+
+.common-form legend.clickable.active span {
+	background-image: url(images/arrow2.png);
+}
+
+.common-form table {
+	width: 100%;
+}
+
+.common-form tr {
+	border-bottom: 1px solid #EEE;
+}
+
+.common-form tbody > tr > th {
+	padding: 5px;
+	vertical-align: top;
+	width: 170px;
+}
+
+.common-form td {
+	padding: 5px 0 5px 5px;
+	vertical-align: top;
+}
+
+.common-form div.datafield {
+	margin-bottom: 5px;
+}
+
+.common-form tbody.datafield {
+	border-bottom: 3px solid #CCC;
+}
+
+.common-form .datafield input[type="text"] {
+	width: 200px;
+}
+
+.common-form p {
+	margin-bottom: 10px;
+}
+
+.common-form p.left {
+	margin-right: 10px;
+}
+
+.common-form label {
+	float: left;
+}
+
+.common-form input[type="text"], .common-form input[type="password"] {
+	width: 300px;
+}
+
+.common-form input[type="checkbox"], .common-form input[type="radio"] {
+	margin-top: 3px;
+}
+
+.common-form textarea {
+	width: 500px;
+}
+
+.common-form .radio-list {
+	line-height: 20px;
+}
+
+.common-form .radio-list p {
+	margin: 0 0 5px 0;
+}
+
+.common-form .checkbox-label, .common-form .radio-label, .common-form label.inline {
+	display: inline !important;
+	font-weight: normal;
+	white-space: nowrap;
+}
+
+.common-form .select-label {
+	display: inline;
+	margin-right: 5px;
+	width: auto;
+}
+
+.common-form .checkbox-list {
+	float: left;
+	margin-right: 10px;
+}
+
+.common-form .checkbox-list label {
+	float: none !important;
+}
+
+/* Action icons
+--------------------------------------------------------*/
+.form-action {
+	margin: 2px 5px 0 0;
+}
+
+.common-form .inline-action {
+	margin-right: 5px;
+}
+
+/* Buttons
+--------------------------------------------------------*/
+p.buttons {
+	background: url(images/command-bg.png) repeat-x;
+	border: 1px solid #DDD;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin: 0;
+	overflow: hidden;
+	padding: 5px;
+}
+
+.common-form button, .common-form input.button {
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 11px;
+}
+
+.common-form p.buttons button, .common-form p.buttons .button {
+	float: left;
+	margin-right: 10px;
+}
+
+/* Length of form elements
+--------------------------------------------------------*/
+/* Mini */
+.common-form label.mini {
+	width: 44px;
+}
+
+.common-form input[type="text"].mini, .common-form input[type="password"].mini {
+	width: 40px;
+}
+
+.common-form select.mini {
+	width: 42px;
+}
+/* Short */
+.common-form label.short {
+	width: 104px;
+}
+
+.common-form input[type="text"].short, .common-form input[type="password"].short {
+	width: 100px;
+}
+
+.common-form select.short {
+	width: 102px;
+}
+/* Medium */
+.common-form label.medium {
+	width: 204px;
+}
+
+.common-form input[type="text"].medium, .common-form input[type="password"].medium {
+	width: 200px;
+}
+
+.common-form select.medium {
+	width: 204px;
+}
+
+.common-form textarea.medium {
+	width: 202px;
+}
+/* Long */
+.common-form label.long {
+	width: 304px;
+}
+
+.common-form input[type="text"].long, .common-form input[type="password"].long {
+	width: 300px;
+}
+
+.common-form select.long {
+	width: 304px;
+}
+/* Max */
+.common-form textarea.max {
+	height: 400px;
+	width: 99.5%;
+}
+
+/* =2 Addons for Common Form
+---------------------------------------------------------------------------------------------------------------------*/
+/* Tooltip
+--------------------------------------------------------*/
+.tooltip-link {
+	background: url(images/help_light.png) no-repeat left top;
+	cursor: pointer;
+	display: block;
+	float: left;
+	height: 15px;
+	margin-left: 5px;
+	margin-top: 3px;
+	text-indent: -5000px;
+	width: 15px;
+}
+
+.common-form legend .tooltip-link {
+	margin: 0;
+}
+
+.tooltip-link:hover, .tooltip-link.active {
+	background: url(images/help.png) no-repeat left top;
+}
+
+.tooltip {
+	background: #F0E9A5;
+	border: 2px solid #E1DEAC;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	padding: 5px;
+}
+
+/* Task Panel
+--------------------------------------------------------*/
+.task-panel {
+	float: left;
+	width: 250px;
+}
+/* Task Block */
+.task-block {
+	margin-top: 10px;
+}
+
+.task-panel .task-block:first-child {
+	margin: 0;
+}
+
+.task-block .title {
+	background: #CCC;
+	display: block !important;
+	font-size: 12px;
+	height: 20px;
+	line-height: 20px;
+	padding: 0 5px;
+}
+
+.task-block span.arrow {
+	background: url(images/arrow-up.png) no-repeat center center;
+	cursor: pointer;
+	float: right;
+	height: 16px;
+	margin-top: 2px;
+	width: 16px;
+}
+
+.task-block span.arrow.close {
+	background-image: url(images/arrow-down.png);
+}
+
+.task-block .content {
+	border: 1px solid #CCC;
+	border-top: none;
+	padding: 5px;
+}
+
+.task-block .list {
+	margin-top: 5px;
+}
+
+.task-block .list li {
+	border-bottom: 1px solid #CCC;
+	line-height: 16px;
+	overflow: hidden;
+	padding: 3px;
+}
+
+.task-block li.has-sub li {
+	border: none;
+	padding-right: 0;
+}
+
+.task-block .list span {
+	line-height: 16px;
+}
+
+.task-block .block-list {
+	padding: 0;
+}
+
+.task-block .block-list li {
+	position: relative;
+}
+
+.task-block .block-list a {
+	background-color: #F9F9F9;
+	border-bottom: 1px solid #CCC;
+	color: #333;
+	display: block;
+	padding: 5px 10px;
+	padding-right: 20px;
+	white-space: nowrap;
+}
+
+.task-block .block-list li.last > a {
+	border-bottom: none;
+}
+
+.task-block .block-list li.has-sub > a {
+	background-image: url(images/arrow1.png);
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+
+.task-block .block-list a:hover, .task-block .block-list li li a, .task-block .block-list li.active > a {
+	background-color: #EEE;
+	text-decoration: none;
+}
+
+.task-block .block-list li li a {
+	width: 120px;
+}
+
+.task-block .block-list li li a:hover {
+	background-color: #DDD;
+}
+
+.task-block .block-list li ul {
+	border: 1px solid #CCC;
+	display: none;
+	position: absolute;
+	right: 100%;
+	top: -1px;
+}
+
+.task-block .block-list li:hover > ul {
+	display: block;
+}
+
+
+/* Styles for editor and display helpers
+--------------------------------------------------------*/
+.display-label, .editor-label, .display-field, .editor-field {
+	margin: 0.5em 0;
+}
+
+.text-box {
+	width: 30em;
+}
+
+.text-box.multi-line {
+	height: 6.5em;
+}
+
+.tri-state {
+	width: 6em;
+}
+
+/* jQuery validation
+--------------------------------------------------------*/
+label.error {
+	color: red;
+	float: none;
+	padding-left: .5em;
+	vertical-align: top;
+}
+
+/* Key Value
+--------------------------------------------------------*/
+ul.key-value li {
+	float: none;
+	height: 30px;
+}
+
+ul.key-value li label {
+	margin-right: 10px;
+	width: 140px;
+}
+
+ul.key-value li .marginL10 {
+	margin-left: 10px;
+}
+
+ul.key-value li .textbox {
+	float: left;
+	width: 140px;
+}
+
+ul.key-value li img.key-value-add {
+	cursor: pointer;
+	margin-left: 280px;
+	width: 18px;
+}
+
+ul.key-value li img.key-value-remove {
+	cursor: Pointer;
+	display: none;
+	float: left;
+	width: 25px;
+}
+
+/* Dynamic List
+--------------------------------------------------------*/
+img.dynamicIcon {
+	cursor: pointer;
+	height: 14px;
+	margin: 3px 0 0 10px;
+	width: 14px;
+}
+
+.dynamicGroups .template {
+	display: none;
+}
+
+.dynamicGroups .container .template, .dynamicGroups .title {
+	display: block;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	overflow: hidden;
+	width: 350px;
+}
+
+.dynamicGroups .container .border {
+	border-style: groove;
+	border-width: 1px;
+	padding: 5px;
+}
+
+.dynamicGroups .title .key-value, .dynamicGroups .container .template .key-value {
+	float: left;
+	margin-right: 10px;
+	width: 150px;
+}
+
+.dynamicGroups .container .template .key-value input {
+	width: 100%;
+}
+
+.dynamicGroups .container .template .template-content {
+	float: left;
+	width: 320px;
+}
+
+.dynamicGroups .container .template .template-del {
+	float: left;
+	width: 20px;
+}
+
+.dynamicGroups .container .template .Parameters label {
+	float: left;
+	width: 80px;
+}
+
+.dynamicGroups .container .Parameters input {
+	float: left;
+	width: 220px;
+}
+
+div.dynamicList-add {
+	width: 100%;
+}
+
+/* flexable list
+--------------------------------------------------------*/
+.flex-list span.arrow {
+	background: url(images/arrow1.png) no-repeat left center;
+	border: none;
+	cursor: pointer;
+	display: block;
+	float: left;
+	height: 20px;
+	padding: 0;
+	width: 20px;
+}
+
+.flex-list span.arrow:hover {
+	background: url(images/arrow3.png) no-repeat left center;
+}
+
+.flex-list span.active {
+	background: url(images/arrow2.png) no-repeat left center;
+}
+
+.flex-list span.active:hover {
+	background: url(images/arrow4.png) no-repeat left center;
+}
+
+/* CodeMirror
+--------------------------------------------------------*/
+.CodeMirror {
+	border: 1px solid #CCC;
+	height: 600px;
+	overflow: auto;
+	width: 99%;
+}
+
+.CodeMirror pre {
+	height: 13px;
+}
+/* Table Container
+--------------------------------------------------------*/
+.common-form .table-container th.auto-width {
+	width: auto;
+}
+
+/* Select tree
+--------------------------------------------------------*/
+.select-tree {
+	border: 1px solid #CCC;
+	height: 310px;
+	overflow: auto;
+}
+
+/* Page designer
+--------------------------------------------------------*/
+.designer {
+	position: relative;
+}
+
+.designer .actions {
+	margin-bottom: 5px;
+	position: absolute;
+	right: 10px;
+	top: -30px;
+}
+
+.designer .actions li {
+	float: left;
+	margin-left: 10px;
+}
+
+.designer .actions input.undo[disabled] {
+	background-image: url(images/icons/undo-disabled.png);
+	cursor: default;
+}
+
+.designer .actions input.redo[disabled] {
+	background-image: url(images/icons/redo-disabled.png);
+	cursor: default;
+}
+
+.designer .container {
+	border: 5px solid #CCC;
+}
+
+.designer #iframeMask {
+	background-color: #888;
+	filter: alpha(opacity=20);
+	height: 100%;
+	-moz-opacity: 0.2;
+	opacity: 0.2;
+	position: absolute;
+	width: 100%;
+}
+
+.designer #iframeLoading {
+	background-image: url(images/loading_bar.gif);
+	background-position: left bottom;
+	background-repeat: no-repeat;
+	height: 24px;
+	margin-left: 2px;
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+}
+
+/* Mutifiles
+--------------------------------------------------------*/
+.multifiles .o-icon.add {
+	float: left;
+}
+
+.multifiles .o-icon.folder-add {
+	margin: 1px 0 0 10px;
+}
+/* Upload list */
+.upload-list li {
+	clear: both;
+	margin-bottom: 2px;
+	overflow: hidden;
+}
+
+.upload-list li span {
+	margin-right: 5px;
+}
+
+.upload-list li .o-icon {
+	float: left;
+}
+
+.upload-list li .o-icon.remove {
+	display: none;
+}
+
+.upload-list li:hover .o-icon.remove {
+	display: block;
+}
+
+.upload-list li.uploader {
+	height: 23px;
+	line-height: 23px;
+}
+
+.upload-list li.img {
+	clear: none;
+	float: left;
+	height: auto;
+	margin-right: 5px;
+	position: relative;
+}
+
+.upload-list li.img .o-icon {
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	z-index: 100;
+}
+
+.upload-list img {
+	max-height: 100px;
+	max-width: 100px;
+}
+
+.upload-list .box-out {
+	border: 1px solid #CCC;
+	display: table;
+	height: 100px;
+	width: 100px;
+}
+
+.upload-list .box-in {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+}
+
+/* Image Cropper
+--------------------------------------------------------*/
+/* Image info */
+.image-info {
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+
+.image-info li {
+	float: left;
+}
+
+.image-info label {
+	margin-right: 5px;
+}
+
+.image-info input {
+	width: 30px !important;
+}
+
+.image-container {
+	height: 400px;
+	margin-bottom: 10px;
+	width: 640px;
+}
+
+.image-container img {
+	max-height: 400px;
+	max-width: 640px;
+}
+/* Image crop */
+.image-crop {
+	border: 1px solid #CCC;
+	padding: 0 10px 10px;
+}
+
+.image-crop .actions {
+	background: #EEE;
+	margin: 0 -10px 10px;
+}
+
+.image-crop ul {
+	overflow: hidden;
+	padding: 5px;
+}
+
+.image-crop li {
+	float: left;
+	margin-right: 10px;
+}
+
+.image-crop .o-icon.cross {
+	margin: 2px 0 0 -10px;
+}
+
+.image-crop .jcrop-holder {
+	margin: 0 auto;
+}
+
+.common-form #ClearScale {
+	margin-top: 2px;
+}
+
+/* =3 Datarule Form
+---------------------------------------------------------------------------------------------------------------------*/
+.datarule-form .left {
+	width: 42%;
+}
+
+.datarule-form .command {
+	margin: 0;
+}
+
+.datarule-form .common-form {
+	float: right;
+	width: 56%;
+}
+
+.datarule-form .common-form fieldset {
+	margin-top: 0;
+}
+
+.datarule-form .common-form th {
+	width: 100px;
+}
+
+.datarule-form .filter-list li {
+	margin-bottom: 5px;
+}
+
+.datarule-form .filter-list span {
+	float: left;
+	line-height: 20px;
+	margin-right: 5px;
+}
+
+.datarule-form .filter-form {
+	border: 1px dashed #CCC;
+	margin-bottom: 5px;
+	padding: 5px;
+	width: 290px;
+}
+
+.datarule-form .filter-form .short {
+	margin: 0;
+	width: 70px;
+}
+
+.datarule-form .filter-form .button {
+	margin-top: 5px;
+}
+
+/* =4 View Form
+---------------------------------------------------------------------------------------------------------------------*/
+.view-form {
+	border: 1px solid #CCC;
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+
+.view-form table {
+	width: 100%;
+}
+
+.view-form table td {
+	vertical-align: top;
+}
+
+.view-form h6 {
+	border-bottom: 1px solid #CCC;
+	margin: 3px 5px;
+}
+
+.view-tree {
+	border-right: 1px solid #CCC;
+	width: 48%;
+}
+
+.view-tree > ul {
+	height: 370px;
+	overflow: auto;
+	padding: 5px;
+}
+
+.view-tree li ul {
+	display: none;
+	margin-left: 10px;
+}
+
+.view-tree li.active > ul {
+	display: block;
+}
+
+.view-tree li.has-child {
+	position: relative;
+}
+
+.view-tree span.arrow {
+	background: url("images/arrow1.png") no-repeat left center;
+	cursor: pointer;
+	display: block;
+	height: 16px;
+	position: absolute;
+	width: 12px;
+}
+
+.view-tree span.arrow:hover {
+	background-image: url(images/arrow3.png);
+}
+
+.view-tree li.active > span.arrow {
+	background-image: url(images/arrow2.png);
+}
+
+.view-tree li.active > span.arrow:hover {
+	background-image: url(images/arrow4.png);
+}
+
+.view-tree a {
+	padding-left: 12px;
+}
+
+.view-tree a.title {
+	color: #333;
+	cursor: default;
+	text-decoration: none;
+}
+
+.view-tree a.selected {
+	color: #555;
+	font-weight: bold;
+}
+
+.view-parameter > div {
+	height: 278px;
+	overflow: auto;
+	padding: 5px;
+}
+
+.view-parameter td {
+	padding: 2px;
+}
+
+.view-parameter td input[type="text"] {
+	width: 200px;
+}
+
+/* =5 Site Form
+---------------------------------------------------------------------------------------------------------------------*/
+.site-form > div.left {
+	width: 460px;
+}
+
+.site-form > div.right {
+	width: 280px;
+}
+
+.site-form div.right label, .site-form div.right input[type="text"], .site-form div.right select {
+	display: block;
+	float: none;
+	margin: 0;
+	width: 100%;
+}
+
+.site-form div.right input[type="text"] {
+	width: 98%;
+}
+
+/* Template
+---------------------------------------------------------------*/
+.template {
+	border: 1px solid #CCC;
+	height: 405px;
+	margin-bottom: 10px;
+	overflow: auto;
+	padding: 5px;
+}
+
+.template-item {
+	float: left;
+	padding: 5px;
+	text-align: center;
+	width: 133px;
+}
+
+.template-item img {
+	border: 1px solid #CCC;
+	height: 100px;
+	width: 100px;
+}
+
+.common-form .template-item input, .common-form .template-item label {
+	display: inline;
+	float: none;
+	white-space: normal;
+}

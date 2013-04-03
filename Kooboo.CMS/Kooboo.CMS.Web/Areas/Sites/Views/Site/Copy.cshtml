@@ -1,0 +1,21 @@
+﻿@model Kooboo.CMS.Web.Areas.Sites.Models.CopySiteModel
+@{
+    Layout = "~/Areas/Sites/Views/Shared/Blank.cshtml";
+}
+
+<div class="common-form">
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.Parent)
+        <table>
+            <tbody>
+                @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.Repository, new { HtmlAttributes = new { @class = "medium" } })
+            </tbody>
+        </table>        
+        <p class="buttons">
+            <button type="submit">
+                @("Save".Localize())</button>
+        </p>
+    }
+</div>

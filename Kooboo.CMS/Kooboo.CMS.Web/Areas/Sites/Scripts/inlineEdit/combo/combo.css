@@ -1,0 +1,52 @@
+﻿/*
+*   combo
+*   author: ronglin
+*   create date: 2010.05.28
+*/
+
+.kb-combo
+{
+    padding-right: 12px;
+    border: 1px solid #dddddd;
+    cursor: pointer;
+    margin: 0;
+    display: inline-block;
+    vertical-align: middle;
+    background: url("images/textfield_dropdown.gif") no-repeat scroll right top #FFFFFF;
+}
+
+.kb-combo input
+{
+    cursor: pointer;
+    border: 0px;
+    padding: 1px;
+    font-size: 12px;
+    font: 0.9em Arial,Helvetica,sans-serif;
+}
+
+.kb-combo .kb-inner
+{
+    display:inline-block;
+    overflow:hidden;
+    border: 0px;
+    padding:1px;
+    white-space:nowrap;
+    line-height:100%;
+}
+
+.kb-combo-hl
+{
+    border-color: #888888;
+}
+
+.kb-combo-disabled
+{
+    cursor: default;
+    border-style: dashed;
+}
+
+.kb-combo-disabled input,
+.kb-combo-disabled .kb-inner
+{
+    cursor: default;
+}

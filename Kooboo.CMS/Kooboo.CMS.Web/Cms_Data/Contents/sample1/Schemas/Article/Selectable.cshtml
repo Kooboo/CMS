@@ -1,0 +1,80 @@
+﻿
+@model Kooboo.CMS.Web.Areas.Contents.Models.SelectableViewModel
+@using Kooboo.CMS.Content.Query
+@using Kooboo.CMS.Content.Models
+@using Kooboo.CMS.Web.Areas.Contents.Controllers
+@{
+    var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
+    var folder = (Kooboo.CMS.Content.Models.TextFolder)ViewData["Folder"];
+    var routes = ViewContext.RequestContext.AllRouteValues();
+    this.ViewBag.IsEven = true;
+    var parentUUID = routes["parentUUID"] ?? "";
+    var pagedList = Model.Contents;
+    //used in Content_Order
+    this.ViewContext.Controller.ViewData["ContentPagedList"] = pagedList;    
+}
+<div class="command clearfix">
+    @Html.Partial("Search")
+</div>
+<form id="selectedForm" action="">
+<div class="table-container clearfix">
+    <table class="datasource">
+        <thead>
+            <tr>
+                <th class="checkbox">
+                </th>
+                		<th class="common title">Title</th>
+		<th class="common readings">Readings</th>
+		<th class="common utccreationdate">Creation date</th>
+		<th class="common published">Published</th>
+
+            </tr>
+        </thead>
+        <tbody>
+           @AddTreeItems(pagedList, schema, folder, true)
+        </tbody>
+    </table>
+    <div class="pager">
+        @Html.Pager(pagedList)
+    </div>
+</div>
+</form>
+<script language="javascript" type="text/javascript">
+    $().ready(function () {
+        $(".datasource").treeTable({ initialState: "collapsed", expandable: true, treeColumn: 1 });
+    });
+</script>
+@helper AddTreeItems(IEnumerable<TextContent> items, Schema schema, TextFolder folder, bool isRoot)
+    {
+        if (Repository.Current.EnableWorkflow == true)
+        {
+            items = Kooboo.CMS.Content.Services.ServiceFactory.WorkflowManager.GetPendWorkflowItemForContents(Repository.Current, items.ToArray(), User.Identity.Name);
+        }
+        if (items.Count() > 0)
+        {
+            foreach (dynamic item in items)
+            {
+    <tr id="node-@item.UUID" class="@(this.ViewBag.IsEven ? "even " : "")@((!isRoot && !string.IsNullOrEmpty(item.ParentUUID)) ? "child-of-node-" + item.ParentUUID : "")">
+        <td>
+            @if (Model.SingleChoice)
+            {
+                <input type="radio" value='@item["UUID"]' name="chkContent"/> 
+            }
+            else
+            {
+                <text>@Html.CheckBox("chkContent", false, new { value = item["UUID"], @class = "checkboxList" })</text> 
+            }
+        </td>
+        		<td>@(item.Title ?? "")</td>
+		<td>@(item.Readings ?? "")</td>
+		<td class="date">@(DateTime.Parse(item["UtcCreationDate"].ToString()).ToLocalTime().ToShortDateString())</td>
+		<td class="action"><span class="o-icon @((item.Published!=null && item.Published == true)?"tick":"cross")"></span></td>
+    </tr>this.ViewBag.IsEven = (!this.ViewBag.IsEven);
+         if (schema.IsTreeStyle)
+         {
+             var query = folder.CreateQuery().WhereEquals("ParentUUID", ((TextContent)item).UUID);
+    @AddTreeItems(query.ToArray(), schema, folder, false);
+         }
+            }
+        }
+}

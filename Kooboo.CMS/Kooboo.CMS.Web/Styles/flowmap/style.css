@@ -1,0 +1,75 @@
+/**
+ * Flow Map
+ *
+ * Author: ronglin
+ *
+ * Create date: 2010.11.08
+ *
+ */
+
+/* =0 Global
+---------------------------------------------------------------------------------------------------------------------*/
+*{
+	margin:0;
+	padding:0;
+}
+
+/* =1 Flowmap Node
+---------------------------------------------------------------------------------------------------------------------*/
+.fm-node {
+	background:#FFF;
+	border:1px solid #999;
+    color: #333;
+    font-weight: bold;
+    height: 40px;
+    position: absolute;
+    text-align: center;
+    width: 130px;
+}
+
+.fm-holder {
+	border: 1px dashed #F00;
+    cursor: move;
+    position: absolute;
+    -moz-user-select: none;
+}
+
+.fm-node-hover {
+    /*     background: -moz-linear-gradient(-90deg, #0CA6DD, #0770A0);     background: -webkit-gradient(linear, 0% 0, 0% 100%, from(#0CA6DD), to(#0770A0));     filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#0CA6DD',endColorstr='#0770A0');     border-color: #2E63A5;     color: #fff;     */
+}
+
+
+/* =2 Flowmap Line
+---------------------------------------------------------------------------------------------------------------------*/
+.fm-line {
+    left: 0px;
+    top: 0px;
+}
+
+.fm-line p {
+    background-color: #CCC;
+    display: block;
+    position: absolute;
+}
+
+/* arrow */
+.fm-line .left {
+	background: url(images/sword_left.png);
+    height: 15px;
+    width: 10px;
+}
+.fm-line .right {
+	background: url(images/sword_right.png);
+    height: 15px;
+    width: 10px;
+}
+.fm-line .up {
+	background: url(images/sword_up.png);
+    height: 10px;
+    width: 15px;
+}
+.fm-line .down {
+	background: url(images/sword_down.png);
+    height: 10px;
+    width: 15px;
+}

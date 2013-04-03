@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C5A5186D-6F8E-4BB9-AF0E-74F0993B48DA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kooboo.CMS.Content</RootNamespace>
+    <AssemblyName>Kooboo.CMS.Content</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Kooboo.CMS.Content.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ionic.Zip.Reduced">
+      <HintPath>..\..\..\Lib\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\..\..\Lib\MVC\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\CMSAssemblyInfoGlobal.cs">
+      <Link>CMSAssemblyInfoGlobal.cs</Link>
+    </Compile>
+    <Compile Include="Caching\CacheExtensions.cs" />
+    <Compile Include="DateTimeHelper.cs" />
+    <Compile Include="EventBus\Content\CascadingContentDeletingSubscriber.cs" />
+    <Compile Include="EventBus\Content\ContentBroadcastingSubscriber.cs" />
+    <Compile Include="EventBus\Content\ContentSequenceSubscriber.cs" />
+    <Compile Include="EventBus\Content\ContentVersioningSubscriber.cs" />
+    <Compile Include="EventBus\Content\ContentWorkflowSubscriber.cs" />
+    <Compile Include="EventBus\Content\ContentImageCropSubscriber.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\MediaContent.cs" />
+    <Compile Include="Models\Paths\BroadcastingPath.cs" />
+    <Compile Include="Models\Paths\MediaContentPath.cs" />
+    <Compile Include="Models\Paths\MetaWeblogPath.cs" />
+    <Compile Include="Models\Paths\PathHelper.cs" />
+    <Compile Include="Models\Paths\SendingSettingPath.cs" />
+    <Compile Include="Models\Paths\WorkflowPath.cs" />
+    <Compile Include="Models\SendingSetting.cs" />
+    <Compile Include="Models\FolderExtensions.cs" />
+    <Compile Include="Models\Paths\DataPath.cs" />
+    <Compile Include="Models\Workflow.cs" />
+    <Compile Include="Persistence\Caching\CacheProviderFactory.cs" />
+    <Compile Include="Persistence\Caching\CacheRepositoryBase.cs" />
+    <Compile Include="Persistence\Caching\MediaFolderProvider.cs" />
+    <Compile Include="Persistence\Caching\RepositoryProvider.cs" />
+    <Compile Include="Persistence\Caching\TextFolderProvider.cs" />
+    <Compile Include="Persistence\Caching\SchemaProvider.cs" />
+    <Compile Include="Persistence\Default\QueryExecutor.cs" />
+    <Compile Include="Persistence\Default\QueryExpressionTranslator.cs" />
+    <Compile Include="Persistence\Default\TextContentFileProvider.cs" />
+    <Compile Include="Persistence\Default\WorkflowProvider.cs" />
+    <Compile Include="Persistence\Default\XmlContentHelper.cs" />
+    <Compile Include="Persistence\Default\ImportHelper.cs" />
+    <Compile Include="Persistence\Default\MediaContentProvider.cs" />
+    <Compile Include="Persistence\Default\ProviderFactory.cs" />
+    <Compile Include="Persistence\Default\ReceivingSettingProvider.cs" />
+    <Compile Include="Persistence\Default\SendingSettingProvider.cs" />
+    <Compile Include="Persistence\DbCommandLoger.cs" />
+    <Compile Include="Persistence\TextContentFileHelper.cs" />
+    <Compile Include="Persistence\Default\TextContentProvider.cs" />
+    <Compile Include="Persistence\IReceivingSettingProvider.cs" />
+    <Compile Include="EventBus\Content\ContentEvent.cs" />
+    <Compile Include="EventBus\Content\ContentEventContext.cs" />
+    <Compile Include="Persistence\ISendingSettingProvider.cs" />
+    <Compile Include="Persistence\ITextContentFileProvider.cs" />
+    <Compile Include="Persistence\IWorkflowProvider.cs" />
+    <Compile Include="Persistence\RepositoryOfflineException.cs" />
+    <Compile Include="Query\Expressions\WhereNotInExpression.cs" />
+    <Compile Include="Query\Expressions\WhereCategoryExpression.cs" />
+    <Compile Include="Query\Expressions\WhereInExpression.cs" />
+    <Compile Include="Query\Translator\String\ITranslator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Query\Translator\String\MediaContentQueryTranslator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Query\Translator\String\StringVisitor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Query\Translator\String\TextContentQueryTranslator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Query\Translator\String\TextTranslator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Query\Translator\String\TranslatedMediaContentQuery.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Query\Translator\String\TranslatedQuery.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Query\Translator\String\TranslatedTextContentQuery.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Query\RepositoryQueryExtensions.cs" />
+    <Compile Include="Services\BroadcastingContentHelper.cs" />
+    <Compile Include="EventBus\EventBus.cs" />
+    <Compile Include="EventBus\IEventContext.cs" />
+    <Compile Include="EventBus\ISubscriber.cs" />
+    <Compile Include="Models\Binder\ITextContentBinder.cs" />
+    <Compile Include="Models\Binder\RuleViolationException.cs" />
+    <Compile Include="Models\Content.cs" />
+    <Compile Include="Models\ContentAction.cs" />
+    <Compile Include="Models\ContentExtensions.cs" />
+    <Compile Include="Models\Folder.cs" />
+    <Compile Include="Models\FormType.cs" />
+    <Compile Include="Models\IPersistable.cs" />
+    <Compile Include="Models\IPersistableExtensions.cs" />
+    <Compile Include="Models\IRepositoryElement.cs" />
+    <Compile Include="Models\Paths\TextContentPath.cs" />
+    <Compile Include="Models\Paths\FolderPath.cs" />
+    <Compile Include="Models\Paths\ReceivingSettingPath.cs" />
+    <Compile Include="Models\Paths\SchemaPath.cs" />
+    <Compile Include="Models\ReceivingSetting.cs" />
+    <Compile Include="Models\Repository.cs" />
+    <Compile Include="Models\Binder\RuleViolation.cs" />
+    <Compile Include="Models\Schema.cs" />
+    <Compile Include="Models\Binder\TextContentBinder.cs" />
+    <Compile Include="Models\SchemaExtensions.cs" />
+    <Compile Include="Models\UserKeyGenerator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Persistence\Default\RepositoryProvider.cs" />
+    <Compile Include="Persistence\Default\FileSystemProviderBase.cs" />
+    <Compile Include="Persistence\Default\FolderProvider.cs" />
+    <Compile Include="Models\Paths\IPath.cs" />
+    <Compile Include="Models\Paths\PathFactory.cs" />
+    <Compile Include="Models\Paths\RepositoryPath.cs" />
+    <Compile Include="Persistence\Default\SchemaProvider.cs" />
+    <Compile Include="Persistence\Default\Serialization.cs" />
+    <Compile Include="Persistence\IContentProvider.cs" />
+    <Compile Include="Persistence\IRepositoryProvider.cs" />
+    <Compile Include="Persistence\IFolderProvider.cs" />
+    <Compile Include="Persistence\IProvider.cs" />
+    <Compile Include="Persistence\IProviderFactory.cs" />
+    <Compile Include="Persistence\ISchemaProvider.cs" />
+    <Compile Include="Persistence\Providers.cs" />
+    <Compile Include="FriendlyException.cs" />
+    <Compile Include="Query\MediaContentQuery.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Query\Expressions\AndAlsoExpression.cs" />
+    <Compile Include="Query\IContentQueryExtensions.cs" />
+    <Compile Include="Query\Translator\ExpressionVisitor.cs" />
+    <Compile Include="Query\Expressions\FalseExpression.cs" />
+    <Compile Include="Query\Expressions\IExpression.cs" />
+    <Compile Include="Query\Expressions\IWhereExpression.cs" />
+    <Compile Include="Query\Expressions\TrueExpression.cs" />
+    <Compile Include="Query\Expressions\WhereFieldExpression.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Query\Expressions\OrElseExpression.cs" />
+    <Compile Include="Query\IContentQueryToPagedListExtension.cs" />
+    <Compile Include="Query\TextContentQuery.cs" />
+    <Compile Include="Query\ContentQuery.cs" />
+    <Compile Include="Query\Expressions\BinaryExpression.cs" />
+    <Compile Include="Query\Expressions\TakeExpression.cs" />
+    <Compile Include="Query\Expressions\WhereNotEqualsExpression.cs" />
+    <Compile Include="Query\Expressions\CallExpression.cs" />
+    <Compile Include="Query\Expressions\WhereStartsWithExpression.cs" />
+    <Compile Include="Query\Expressions\WhereLessThanOrEqualExpression.cs" />
+    <Compile Include="Query\Expressions\WhereLessThanExpression.cs" />
+    <Compile Include="Query\Expressions\WhereGreaterThanOrEqualExpression.cs" />
+    <Compile Include="Query\Expressions\Expression.cs" />
+    <Compile Include="Query\Expressions\OrderExpression.cs" />
+    <Compile Include="Query\Expressions\SelectExpression.cs" />
+    <Compile Include="Query\Expressions\SkipExpression.cs" />
+    <Compile Include="Query\Expressions\WhereBetweenExpression.cs" />
+    <Compile Include="Query\Expressions\WhereBetweenOrEqualExpression.cs" />
+    <Compile Include="Query\Expressions\WhereContainsExpression.cs" />
+    <Compile Include="Query\Expressions\WhereEndsWithExpression.cs" />
+    <Compile Include="Query\Expressions\WhereEqualsExpression.cs" />
+    <Compile Include="Query\Expressions\WhereClauseExpression.cs" />
+    <Compile Include="Query\Expressions\WhereGreaterThanExpression.cs" />
+    <Compile Include="Query\IContentQuery.cs" />
+    <Compile Include="Services\MediaContentManager.cs" />
+    <Compile Include="Services\FolderManager.cs" />
+    <Compile Include="Services\IManager.cs" />
+    <Compile Include="ItemAlreadyExistsException.cs" />
+    <Compile Include="ItemDoesNotExistException.cs" />
+    <Compile Include="NameIsReqiredException.cs" />
+    <Compile Include="Services\ManagerBase.cs" />
+    <Compile Include="Services\MediaFolderManager.cs" />
+    <Compile Include="Services\ItemTemplateManager.cs" />
+    <Compile Include="Services\ReceivingSettingManager.cs" />
+    <Compile Include="Services\RepositoryManager.cs" />
+    <Compile Include="Services\RepositoryTemplateManager.cs" />
+    <Compile Include="Services\SchemaManager.cs" />
+    <Compile Include="Services\SchemaTemplateManager.cs" />
+    <Compile Include="Services\SendingSettingManager.cs" />
+    <Compile Include="Services\ServiceFactory.cs" />
+    <Compile Include="Services\TextContentManager.cs" />
+    <Compile Include="Services\TextFolderManager.cs" />
+    <Compile Include="Services\WorkflowManager.cs" />
+    <Compile Include="Versioning\ContentVersionPath.cs" />
+    <Compile Include="Versioning\VersionInfo.cs" />
+    <Compile Include="Versioning\VersionManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Kooboo\Kooboo.csproj">
+      <Project>{347E47E5-3132-4BAD-B935-8282A2B16CF5}</Project>
+      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
+      <Project>{570CD9D3-75D2-468A-8245-45BDCA57432E}</Project>
+      <Name>Kooboo.CMS.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo.CMS.Form\Kooboo.CMS.Form.csproj">
+      <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
+      <Name>Kooboo.CMS.Form</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

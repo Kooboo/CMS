@@ -1,0 +1,103 @@
+﻿/*
+*   visualStyle
+*   author: ronglin
+*   create date: 2011.12.28
+*/
+
+.vs-visualstyle {
+	position: relative;
+	height: 400px;
+	width: 770px; /*padding:5px;*/ /*border:1px solid #ccc;*/
+}
+
+.vs-visualstyle > .loading {
+	position: absolute;
+	display: none;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	filter: alpha(opacity=50);
+	opacity: 0.5;
+	background-color: #fff;
+	background-image: url("modules/images/visualstyle_loading.gif");
+	background-repeat: no-repeat;
+	background-position: center center;
+	z-index: 4;
+}
+
+.vs-visualstyle * {
+	padding: 0;
+	margin: 0;
+}
+
+.vs-visualstyle ul {
+	list-style-type: none;
+}
+
+.vs-visualstyle h3 {
+	font-size: 12px;
+	font-weight: bold;
+	padding-left: 2px;
+	line-height: 20px;
+	border-bottom: 1px solid #ccc;
+	background-image: url("modules/images/visualstyle_menu_bg.gif");
+	background-repeat: repeat-x;
+}
+
+body {
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	font-family: "Arial" , "Helvetica" , "sans-serif";
+	line-height: 18px;
+	margin:0px;
+	border:0px;
+	padding:0px;
+}
+
+var {
+	display: block;
+	color: #000000;
+	line-height: 1;
+	font-style: normal !important;
+}
+
+.kb-reset {
+	background: #fff none !important;
+	background-color: transparent !important;
+	background-image: none !important;
+	background-repeat: no-repeat !important;
+	border: 0 !important;
+	border-bottom: 0 !important;
+	border-left: 0 !important;
+	border-right: 0 !important;
+	border-top: 0 !important;
+	color: #000 !important;
+	cursor: default !important;
+	float: none !important;
+	font-family: "Arial" , "Helvetica" , "sans-serif" !important;
+	font-size: 12px !important;
+	font-style: normal !important;
+	font-variant: normal !important;
+	font-weight: normal !important;
+	line-height: 1 !important;
+	list-style-image: none !important;
+	list-style-type: none !important;
+	list-style-position: inherit !important;
+	margin: 0 !important;
+	margin-bottom: 0 !important;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	margin-top: 0 !important;
+	padding: 0 !important;
+	padding-bottom: 0 !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	padding-top: 0 !important;
+	text-align: left !important;
+	text-decoration: none !important;
+	text-transform: none !important;
+	visibility: visible !important;
+}

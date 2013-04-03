@@ -1,0 +1,41 @@
+﻿/* pager */
+.pager
+{
+    width: 90%;
+    margin: 5px auto;
+    padding: 3px;
+    text-align: center;
+}
+
+.pager .disabled
+{
+    border: 1px solid #ddd;
+    color: #999;
+    margin-top: 4px;
+    padding: 3px;
+    text-align: center;
+}
+
+.pager .current
+{
+    background-color: #06c;
+    border: 1px solid #009;
+    color: #fff;
+    font-weight: bold;
+    margin-top: 4px;
+    padding: 3px 5px;
+    text-align: center;
+}
+
+.pager span, .pager a
+{
+    margin: 4px 3px;
+}
+
+.pager a
+{
+    border: 1px solid #c0c0c0;
+    padding: 3px 5px;
+    text-align: center;
+    text-decoration: none;
+}

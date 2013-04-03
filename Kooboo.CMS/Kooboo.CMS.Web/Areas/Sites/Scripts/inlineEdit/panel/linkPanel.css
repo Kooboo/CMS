@@ -1,0 +1,133 @@
+﻿/*
+*   linkPanel
+*   author: ronglin
+*   create date: 2010.06.17
+*/
+
+
+.kb-linkPanel
+{
+    margin: 6px;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+.kb-linkPanel input
+{
+    background-color: #fff;
+    display: inline;
+    margin: 0px;
+    padding: 1px;
+    border: 1px solid #ccc;
+    float: none;
+}
+
+.kb-linkPanel label
+{
+    display: inline;
+}
+
+.kb-linkPanel input[type="text"]
+{
+    margin: 0 0 0 2px;
+    padding: 2px 5px;
+}
+
+.kb-linkPanel input.kb-text
+{
+    width: 240px;
+}
+
+.kb-linkPanel input.kb-url
+{
+    width: 200px;
+}
+
+.kb-linkPanel input.kb-tle
+{
+    width: 240px;
+}
+
+.kb-linkPanel input.kb-check
+{
+}
+
+.kb-linkPanel .kb-row
+{
+    margin-top: 4px;
+    text-align: right;
+}
+
+.kb-linkPanel .kb-newwin
+{
+    text-align: left;
+    margin-left: 32px;
+}
+
+.kb-linkPanel .kb-btn
+{
+    margin-left: 4px;
+    padding: 2px 5px;
+    cursor: pointer;
+    color: Black;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+    background: url("images/button.png") repeat-x left top;
+    border: 1px solid #999; /* Do Rounding */
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.kb-linkPanel .kb-bottom
+{
+    margin-top: 14px;
+    text-align: right;
+}
+
+.kb-linkPanel .kb-view
+{
+    width: 36px;
+}
+
+.kb-linkPanel input[type="radio"]
+{
+    border-bottom-color: #f0f0f0;
+    background-color: #f0f0f0;
+}
+
+.kb-linkPanel .kb-normal
+{
+    margin-left: 4px;
+}
+
+.kb-linkPanel .kb-normal-text
+{
+}
+
+.kb-linkPanel .kb-confirm
+{
+    margin-left: 34px;
+}
+
+.kb-linkPanel .kb-confirm-text
+{
+}
+
+.kb-linkPanel .kb-unsubscribe
+{
+}
+
+.kb-linkPanel .kb-unsubscribe-text
+{
+}
+
+.kb-linkPanel .kb-onlineversion
+{
+    margin-left: 4px;
+}
+
+.kb-linkPanel .kb-onlineversion-text
+{
+    margin-right: 35px;
+}

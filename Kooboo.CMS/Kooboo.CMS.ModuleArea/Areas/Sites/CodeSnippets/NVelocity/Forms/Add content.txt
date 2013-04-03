@@ -1,0 +1,35 @@
+﻿<div class="common-form">
+    <h5 class="title">Add content</h5>
+    <form method="post" action="$SubmissionHelper.CreateContentUrl()">
+        $Html.AntiForgeryToken()
+        <input type="hidden" name="FolderName" value="Article" />
+        <input type="hidden" name="Published" value="true" />
+        #*<input type="hidden" name="RedirectUrl" value='$Url.FrontUrl().PageUrl("Thankyou")'/>*#
+        #*<input type="hidden" name="JsonResult" value='true'/>*#
+        #*<input type="hidden" name="Categories[0].FolderName" value="$ViewBag.category.FolderName" />*#
+        #*<input type="hidden" name="Categories[0].UUID" value="$ViewBag.category.UUID" />*#
+		#*<input type="hidden" name="ParentFolder" value="Article" />*#
+		#*<input type="hidden" name="ParentUUID" value="$ViewBag.Article.UUID" />*#
+        <table>
+            <tbody>
+                <tr>
+                    <th><label for="title">title:</label></th>
+                    <td>
+                        <input type="text" id="title" name="title" data-val-required="title is required" data-val="true" />
+                        $Html.ValidationMessageForInput("title")
+                        </td>
+                </tr>
+                <tr>
+                    <th><label for="Summary">Summary:</label></th>
+                    <td>
+                        <textarea id="Summary" name="Summary" cols="20" rows="10"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td><input type="submit" name="submit" value="submit" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>

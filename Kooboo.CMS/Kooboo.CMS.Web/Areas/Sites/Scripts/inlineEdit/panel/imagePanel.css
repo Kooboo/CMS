@@ -1,0 +1,91 @@
+﻿/*
+*   imagePanel
+*   author: ronglin
+*   create date: 2010.06.17
+*/
+
+.kb-imagePanel
+{
+    margin: 6px;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+.kb-imagePanel input
+{
+    background-color: #fff;
+    display: inline;
+    margin: 0px;
+    padding: 1px;
+    border: 1px solid #ccc;
+    float: none;
+}
+
+.kb-imagePanel input.kb-url
+{
+    width: 177px;
+}
+
+.kb-imagePanel input.kb-alt
+{
+    width: 234px;
+}
+
+.kb-imagePanel input.kb-size
+{
+    width: 50px;
+}
+
+.kb-imagePanel input[type="text"]
+{
+    margin: 0 5px 0 2px;
+    padding: 2px 5px;
+}
+
+.kb-imagePanel .kb-btn
+{
+    margin: 0 5px 0 2px;
+    padding: 2px 5px;
+    cursor: pointer;
+    color: Black;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+    background: url("images/button.png") repeat-x left top;
+    border: 1px solid #999; /* Do Rounding */
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.kb-imagePanel .kb-bottom
+{
+    margin-top: 14px;
+    text-align: right;
+}
+
+.kb-imagePanel .kb-row
+{
+    margin-top: 4px;
+    text-align: right;
+}
+
+.kb-imagePanel .kb-lib
+{
+    width: 50px;
+}
+
+.kb-imagePanel input.kb-linkhref
+{
+    width: 191px;
+}
+
+.kb-imagePanel input.kb-view
+{
+    width: 36px;
+}
+
+.kb-imagePanel var.kb-sep
+{
+    background-color:#ccc;
+    height:1px;
+}

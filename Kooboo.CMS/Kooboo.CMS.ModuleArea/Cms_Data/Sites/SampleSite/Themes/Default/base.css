@@ -1,0 +1,147 @@
+﻿/*
+[Contents]
+
+    0- Global
+    1- Links
+    2- Headings
+    3- Article(For tinymce)
+*/
+
+/* =0 Global
+---------------------------------------------------------------------------------------------------------------------*/
+body {
+	color: #555;
+	font: 12px/1.2 Verdana, Geneva, sans-serif;
+}
+.hide {
+	display: none;
+}
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+.clear {
+	clear: both;
+}
+
+/* Clearfix */
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+.clearfix {
+	display: block;
+}
+/* for IE6 */
+* html .clearfix {
+	height: 1%;
+}
+/* for IE7 */
+*+html .clearfix {
+	zoom:1 !important;
+}
+
+/* =1 Links
+---------------------------------------------------------------------------------------------------------------------*/
+a {
+	color: #21759B;
+	text-decoration: none;
+}
+a:hover {
+	color: #D54E21;
+	text-decoration: underline;
+}
+
+/* Button link */
+a.button {
+	border: 1px solid #BBB;
+	font-size: 11px;
+	padding: 0 8px;
+	text-decoration: none; /* Do rounding */
+	border-radius: 11px;
+	-moz-border-radius: 11px;
+	-webkit-border-radius: 11px;
+}
+a.button:hover {
+	border-color: #666;
+}
+/* =2 Headings
+---------------------------------------------------------------------------------------------------------------------*/
+h2 {
+	font-family: Georgia, "Times New Roman" , Times, serif;
+	font-size: 36px;
+}
+h3 {
+	font-size: 18px;
+}
+h4 {
+	font-size: 16px;
+}
+h5 {
+	font-size: 14px;
+}
+h6 {
+	font-size: 12px;
+}
+
+/* =3 Article(For Tinymce)
+---------------------------------------------------------------------------------------------------------------------*/
+.article h1, .article h2, .article h3, .article h4, .article h5, .article h6 {
+	font-weight: bold;
+	margin: 13px 0;
+}
+.article h1 {
+	font-size: 2em;
+}
+.article h2 {
+	font-size: 1.5em;
+}
+.article h3 {
+	font-size: 1.17em;
+}
+.article h4 {
+	font-size: 1em;
+}
+.article h5 {
+	font-size: 0.83em;
+}
+.article h6 {
+	font-size: 0.75em;
+}
+.article p {
+	margin: 10px 0;
+}
+.article address {
+	font-style: italic;
+}
+.article pre {
+	padding: 8px;
+}
+.article strong, .article b {
+	font-weight: bold;
+}
+.article em, .article i {
+	font-style: italic;
+}
+.article u {
+	text-decoration: underline;
+}
+.article del, .article strike {
+	text-decoration: underline;
+}
+.article ol {
+	list-style: decimal outside;
+	margin: 10px 0;
+	padding-left: 40px;
+}
+.article ul {
+	list-style: disc outside;
+	margin: 10px 0;
+	padding-left: 40px;
+}

@@ -1,0 +1,216 @@
+﻿/*
+[Contents]
+
+    0- Global
+    1- Header
+    2- Headline
+    3- Main Container
+    4- Main
+    5- Sidebar
+    6- Footer
+*/
+
+/* =0 Global
+---------------------------------------------------------------------------------------------------------------------*/
+
+/* =1 Header
+---------------------------------------------------------------------------------------------------------------------*/
+#header {
+	background: url(images/header-bg.png) repeat-x left bottom;
+}
+
+/* LOGO */
+.logo {
+	font-family: Georgia, "Times New Roman" , Times, serif;
+	font-size: 24px;
+}
+.logo a {
+	color: #555;
+	text-decoration: none;
+}
+
+/* Quicklink */
+.quicklink li {
+	float: left;
+	margin-left:10px;
+}
+
+/* Menu */
+.menu li {
+	float: left;
+}
+.menu a {
+	color: #666;
+	display: block;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 14px;
+	line-height: 34px;
+	padding: 0 9px;
+	text-shadow: 0 1px 0 #EEEEEE;
+}
+.menu a:hover {
+	color: #D54E21;
+	text-decoration: none;
+}
+.menu li.current a {
+	background: #FFF;
+	border: 1px solid #C6C6C6;
+	border-bottom: 0 none;
+	color: #555;
+	line-height: 33px; /* Do rounding */
+	border-radius: 3px 3px 0 0;
+	-moz-border-radius: 3px 3px 0 0;
+	-webkit-border-radius: 3px 3px 0 0;
+}
+
+/* =2 Headline
+---------------------------------------------------------------------------------------------------------------------*/
+#headline {
+	border-bottom: 1px solid #DFDFDF;
+}
+#headline h2 {
+	color: #555;
+	float: left;
+	padding: 0 0 10px 10px;
+}
+.search{
+	float:right;
+	margin-top:15px;
+}
+.search .watermark{
+	float:left;
+	margin-right:5px;
+}
+.search button{
+	margin-top:1px;
+}
+
+/* =3 Main Container
+---------------------------------------------------------------------------------------------------------------------*/
+
+/* =4 Main
+---------------------------------------------------------------------------------------------------------------------*/
+/* Title */
+#main > .title {
+	border-bottom: 1px solid #CCC;
+	color: #333;
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+}
+
+/* Block */
+#main .block{
+	border-bottom:1px dashed #CCC;
+	overflow:hidden;
+	padding-bottom:3px;
+}
+#main .block .title {
+	color: #444;
+	margin-bottom: 5px;
+}
+#main .block h3.title {
+	font-family: Georgia, "Times New Roman" , Times, serif;
+	font-size: 20px;
+}
+#main .block h4.title {
+	font-size: 12px;
+	font-weight: bold;
+}
+#main .block .date {
+	color: #999;
+	display:block;
+	margin-bottom:2px;
+}
+#main .block a.comment {
+	color: #999;
+	float:right;
+}
+#main .block .highlight {
+	background-color:#FFFF96;
+}
+
+/* Pagination */
+.pagination {
+	font-size: 10px;
+}
+.pagination a {
+	border: 1px solid #CCC;
+	display: inline-block;
+	padding: 1px 4px;
+}
+.pagination a:hover {
+	border-color: #999;
+	text-decoration: none;
+}
+.pagination .current {
+	background: #328AB2;
+	border: 1px solid #328AB2;
+	color: #FFF;
+	cursor: default;
+	display: inline-block;
+	font-weight: bold;
+	padding: 1px 4px;
+}
+.pagination .pagenavigation a {
+	border: 0 none;
+}
+.pagination .disabled {
+	display: none;
+}
+
+/* Comment */
+.comment{
+	padding:10px;
+}
+.comment .title{
+	font-weight:bold;
+	margin-bottom:10px;
+}
+.comment li{
+	background:#FBFBFB;
+	border:1px solid #CCC;
+	margin-bottom:10px;
+	padding:10px;
+}
+.comment strong{
+	display:block;
+	font-weight:bold;
+	margin-bottom:5px;
+}
+.comment .info{
+	color:#999;
+	display:block;
+	margin-bottom:5px;
+}
+
+/* =5 Sidebar
+---------------------------------------------------------------------------------------------------------------------*/
+/* Block */
+#sidebar .block .title {
+	border-bottom: 1px solid #CCC;
+	color: #333;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 20px;
+	margin-bottom: 10px;
+	padding-bottom: 2px;
+	text-transform: uppercase;
+}
+#sidebar .block .title a {
+	color: #333;
+}
+#sidebar .block .list li {
+	border-bottom: 1px solid #CCC;
+	font-size: 11px;
+	padding: 5px 0;
+}
+
+/* =6 Footer
+---------------------------------------------------------------------------------------------------------------------*/
+#footer {
+	border-top: 1px solid #DEDEDE;
+	color: #999;
+	font-size: 10px;
+}

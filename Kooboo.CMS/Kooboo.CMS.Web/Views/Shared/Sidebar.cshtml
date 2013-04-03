@@ -1,0 +1,31 @@
+﻿@using Kooboo.CMS.Web.Areas.Sites
+<div class="block">
+    <h4 class="title">
+        <span>
+            @("Site manager".Localize())</span>@Html.ActionLink("Site cluster", "Index", new { controller = "Home", area = "sites" }, new { @class = "o-icon sites right", title = "Go to site cluster".Localize() })</h4>
+    <div class="switch clearfix">
+        @if (Kooboo.CMS.Sites.Models.Site.Current != null)
+        {            
+            <span class="title" id="current-sitename">
+                @Kooboo.CMS.Sites.Models.Site.Current.ReversedFriendlyName</span>
+        }
+        else
+        {
+            <span>@("No site selected".Localize())</span>
+        }
+        @if (ServiceFactory.UserManager.IsAdministrator(User.Identity.Name))
+        {
+            @Html.ActionLink("Create", "Create", "Site", new { area = "Sites", siteName = ViewContext.RequestContext.GetRequestValue("siteName") }, new { @class = "icon icon-create dialog-link", title = ViewContext.RequestContext.GetRequestValue("siteName") == null ? "Create a new site".Localize() : "Create a sub site".Localize() })
+        }
+        <a class="icon icon-switch" href="#">@("Switch".Localize())</a>
+        <ul class="list">
+            @Html.Partial("SitesNavTree", Kooboo.CMS.Web.Areas.Sites.Models.SiteDropDownListTree.BuildTree(ViewContext.RequestContext).SetActiveItem(ViewContext.RequestContext.GetRequestValue("SiteName")).Take(20))
+        </ul>
+    </div>
+    @if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("SiteName")))
+    {
+        <div class="menu">
+            @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Sites").SetCurrentSite(this.ViewContext))
+        </div>
+    }
+</div>

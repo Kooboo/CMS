@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+        @ViewBag.Title @(" - Kooboo CMS".Localize())</title>
+    @Html.ExternalResources("skinStyles")
+    @Html.ExternalResources("siteStyles")
+    @Html.ExternalResources("commonStyles")
+    @Html.ExternalResources("logonScripts")
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            $('input:visible').first().focus();
+        });
+    </script>
+</head>
+<body>
+    <div id="body-container">
+        <div id="header" class="clearfix">
+            <h1 class="logo">
+                <a href="@Html.Raw(Url.Content("~/Account/Logon"))">
+                    <img src="@Html.Raw(Url.Content("~/Images/logo.png"))" alt="logo" /></a></h1>
+            <span class="slogan"><em>@("Kooboo CMS".Localize())</em></span>
+        </div>
+        <div id="main-container" class="clearfix">
+            <div id="main">
+                <div class="inner-main">
+                    <h3 class="title">
+                        @("About kooboo CMS".Localize())
+                    </h3>
+                    <div class="content">
+                        <p>
+                            @Html.Raw("This Enterprise CMS system saves time and allows you the freedom that you need to develop high-quality websites with a personal touch. We've streamlined the web development process.".Localize())</p>
+                        <p>
+                            @Html.Raw("For a list of new added features and a quick start guide,<br />See: <a href=\"http://www.kooboo.com/documents\" target=\"_blank\">http://www.kooboo.com/documents</a>".Localize())</p>
+                        <p>
+                            @Html.Raw("Sign in to the CMS and create your first Kooboo website, default login is: <strong>admin/admin</strong>".Localize())</p>
+                    </div>
+                </div>
+            </div>
+            <div id="sidebar">
+                @RenderBody()
+            </div>
+        </div>
+        <div id="footer">
+           @Html.Partial("Footer")
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Kooboo.Data.Collection&lt;T&gt;" Collapsed="true">
+    <Position X="7.75" Y="7" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>ACIAAAAAABAACBAQAAAABAQAAAAAAAAAAAAAAABQIAA=</HashCode>
+      <FileName>Data\Collection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Kooboo.Data.AssociatableCollection&lt;T&gt;">
+    <Position X="9" Y="11.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAEAAEQAAAAABEAAAAAAAAAAQCAAAAAAAAA=</HashCode>
+      <FileName>Data\AssociatableCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Kooboo.Data.CascadableCollection&lt;T&gt;">
+    <Position X="9.75" Y="15.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\CascadableCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Kooboo.Data.AssociatableQueryableCollection&lt;T&gt;">
+    <Position X="5.25" Y="14.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAEAAEQAAAAABEAAAAAAAAAAQCAAAAAAAAA=</HashCode>
+      <FileName>Data\AssociatableQueryableCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Kooboo.Data.QueryableCollection&lt;T&gt;">
+    <Position X="5.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\QueryableCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="System.Collections.Generic.ICollection&lt;T&gt;" Collapsed="true">
+    <Position X="4.75" Y="3" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Kooboo.IAssociatableCollection&lt;T&gt;">
+    <Position X="3" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAEAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Data\IAssociatableCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Kooboo.Data.IAssociatableQueryableCollection&lt;T&gt;">
+    <Position X="6" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\IAssociatableQueryableCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Kooboo.ICascadableCollection&lt;T&gt;">
+    <Position X="3.25" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\ICascadableCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Kooboo.Data.IQueryableCollection&lt;T&gt;">
+    <Position X="2" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\IQueryableCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

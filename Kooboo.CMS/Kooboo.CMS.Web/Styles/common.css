@@ -1,0 +1,195 @@
+/*
+[Contents]
+
+	0-   Global
+	1-   Header
+	2-   Footer
+	3-   Main container
+	3.1- Main
+	3.2- Sidebar
+*/
+
+/* =0 Global
+---------------------------------------------------------------------------------------------------------------------*/
+body {
+	background:#FFF;
+}
+#body-container {
+	margin:20px 40px;
+}
+.big-button{
+	background: url(images/big-button.png) repeat;
+	color: #333;
+	display: inline-block;
+	font-size:14px;
+	font-weight:bold;
+	height: 45px;
+	line-height: 45px;
+	padding-left: 15px;
+	text-decoration: none !important;
+}
+.big-button span{
+	background: url(images/big-button.png) no-repeat right bottom;
+	display:block;
+	padding-right:15px;
+}
+/* =1 Header
+---------------------------------------------------------------------------------------------------------------------*/
+#header {
+	background:none;
+	margin-bottom:40px;
+}
+.logo {
+	margin:0;
+}
+.slogan {
+	display:block;
+	margin-left:150px;
+}
+.slogan em {
+	background:#EAEAEA;
+	display:block;
+	font-weight:bold;
+	height:25px;
+	line-height:25px;
+	padding:0 10px;
+	/* Do Rounding */
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+}
+/* =2 Footer
+---------------------------------------------------------------------------------- -----------------------------------*/
+#footer {
+	border-top:1px dotted #CCC;
+	margin-top:20px;
+	padding:5px;
+	text-align:center;
+}
+/* =3 Main container
+---------------------------------------------------------------------------------------------------------------------*/
+#main-container{
+	margin:0 0 40px;
+}
+/* =3.1 Main
+---------------------------------------------------------------------------------------------------------------------*/
+#main {
+	float:left;
+	margin:0;
+	margin-right:-300px;
+}
+#main .inner-main{
+	margin:0;
+	margin-right:400px;
+}
+#main .title{
+	font-size:21px;
+	font-weight:normal;
+	margin-bottom:10px;
+}
+
+/* Content */
+#main .content p{
+	margin-bottom:20px;
+}
+#main .content strong{
+	font-weight:bold;
+}
+
+/* Error Page */
+#main.errorpage{
+	float:none;
+	font-size:16px;
+	margin:100px auto 200px;
+	width:710px;
+}
+.errorpage h2{
+	font-size:36px;
+	margin-bottom:30px;
+}
+.errorpage p{
+	margin-bottom:10px;
+}
+.errorpage ol{
+	margin-left:20px;
+}
+.errorpage ol li{
+	list-style:decimal inside;
+	margin-bottom:5px;
+}
+
+/* Reset */
+.block.reset{
+	width:500px;
+}
+#main .block.reset .title{
+	font-size:16px;
+	font-weight:bold;
+	text-align:left;
+}
+.block.reset .common-form table{
+	width:auto;
+}
+.block.reset .common-form tr {
+	border:0 none;
+}
+.block.reset .common-form th{
+	width:110px;
+}
+.block.reset .forgot-form th{
+	width:70px;
+}
+.block.reset .common-form label {
+	color:#000;
+	font-weight:normal;
+}
+.block.reset .common-form input[type="text"],
+.block.reset .common-form input[type="password"] {
+	width:180px;
+}
+/* =3.2 Sidebar
+---------------------------------------------------------------------------------------------------------------------*/
+#sidebar {
+	float:right;
+	width:300px;
+}
+
+/* Block */
+.block {
+	border:1px solid #CCC;
+	margin:20px 0 0;
+	padding:3px;
+}
+.block:first-child {
+	margin:0;
+}
+.block > div{
+	background:#F1F1F1;
+	padding:10px;
+}
+.block h6 {
+	font-weight:normal;
+	margin-bottom:15px;
+	text-align:center;
+}
+
+/* Login */
+.block.login .common-form tr {
+	border:0 none;
+}
+.block.login .common-form label {
+	color:#000;
+	font-weight:normal;
+}
+.block.login .common-form input[type="text"],
+.block.login .common-form input[type="password"] {
+	width:180px;
+}
+.block.login .common-form .label-checkbox {
+	line-height:16px;
+}
+
+/* Register */
+.block.register{
+	text-align:center;
+}

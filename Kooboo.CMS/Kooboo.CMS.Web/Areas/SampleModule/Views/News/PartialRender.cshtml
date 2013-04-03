@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "~/Areas/" + Kooboo.CMS.ModuleArea3.SampleAreaRegistration.ModuleName + "/Views/Shared/Front.cshtml";
+}
+@this.Ajax.ModuleAjax().ActionLink("AjaxView", "AjaxView", "Home", new AjaxOptions() { UpdateTargetId = "ajaxViewDiv", LoadingElementId = "loading" }, new { @class = "module-button" })
+<div class="module-block">
+    <p id="loading" style="display: none">
+        loading...</p>
+    <div id="ajaxViewDiv">
+    </div>
+</div>

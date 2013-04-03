@@ -1,0 +1,27 @@
+﻿@model Kooboo.CMS.ModuleArea3.Models.News
+@{
+    Layout = "~/Areas/" + Kooboo.CMS.ModuleArea3.SampleAreaRegistration.ModuleName + "/Views/Shared/Site.cshtml";
+    ViewBag.Title = "News".Localize();
+}
+<h3 class="title">
+    @("Edit news".Localize())
+    @Html.ActionLink("Back to list".Localize(), "Index", ViewContext.RequestContext.AllRouteValues())</h3>
+<div class="common-form">
+    @using (Html.BeginForm())
+    {	 
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend></legend>
+            <table>
+                <tbody>
+                    @Html.EditorFor(m => m.Title, new { @class = "medium" })
+                    @Html.EditorFor(m => m.Body)
+                </tbody>
+            </table>
+        </fieldset>
+        <p class="buttons">
+            <button type="submit">
+                @("Save".Localize())</button>
+        </p>
+    }
+</div>

@@ -1,0 +1,18 @@
+﻿@foreach (var item in Model){
+<div class="block" @ViewHelper.Edit(item)>  
+  <h4 class="title"><a href='@Url.FrontUrl().PageUrl("Articles/detail", new { UserKey = item.UserKey})'@ViewHelper.Edit(item,"Title") >@item.Title</a></h4>
+  <span class="date">@ViewHelper.DateTimeToString(item.UtcCreationDate,"yyyy-MM-dd")</span>
+  <p @ViewHelper.Edit(item,"Summary")>@Html.Raw(item.Summary)</p>
+</div>
+}
+@{
+    var pageOption = new PagerOptions
+    {
+        NextPageText = "Next »",
+        PrevPageText = "« Previous",
+        CssClass="pagination",
+        CurrentPagerItemWrapperFormatString="<span class=\"current\">{0}</span>",
+        NavigationPagerItemWrapperFormatString="<span class=\"pagenavigation\">{0}</span>"
+    };
+}
+@Html.FrontHtml().Pager(Model, pageOption)

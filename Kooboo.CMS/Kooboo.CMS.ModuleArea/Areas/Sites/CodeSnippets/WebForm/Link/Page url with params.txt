@@ -1,0 +1,1 @@
+<%=Url.FrontUrl().PageUrl("Index",new { key = "hello"}) %>

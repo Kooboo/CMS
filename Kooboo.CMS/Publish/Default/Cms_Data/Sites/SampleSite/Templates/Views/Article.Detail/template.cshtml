@@ -1,0 +1,92 @@
+﻿
+@using Kooboo.CMS.Content.Query; 
+@using Kooboo.CMS.Content.Models; 
+@{
+ 
+   if(ViewBag.Article!=null)
+   {
+         var textContent =(TextContent)ViewBag.Article;
+         var readings = 1;
+         if(textContent["Readings"]!=null)
+        {
+                readings = (int)textContent["Readings"] +1 ;
+         }
+     Kooboo.CMS.Content.Services.ServiceFactory.TextContentManager.Update(Repository.Current,textContent.GetSchema(),
+textContent.UUID,"Readings",readings);
+ 
+     }
+}
+
+<div class="block">
+    <h3 class="title" @ViewHelper.Edit(ViewBag.Article, "Title")>@(ViewBag.Article.Title ?? "")</h3>
+    <span class="date">@ViewHelper.DateTimeToString(ViewBag.Article.UtcCreationDate, "yyyy-MM-dd")</span>
+    <div class="article" @ViewHelper.Edit(ViewBag.Article, "Description")>
+        @Html.Raw(ViewBag.Article.Description ?? "")
+    </div>
+</div>
+<div id="comments" class="block comment">
+    <h5 class="title">
+        Comments</h5>
+    <ul>
+        @foreach (dynamic comment in ((Kooboo.CMS.Content.Models.TextContent)ViewBag.Article).Children("Comment"))
+        {
+
+            <li><strong>@comment.Title</strong> <span class="info">@comment.Name</span>
+                <p>@comment.Body</p>
+            </li>
+        }
+    </ul>
+</div>
+<div class="common-form comment-form">
+    <h5 class="title">
+        Post a comment</h5>
+    <form method="post" action="@SubmissionHelper.CreateContentUrl()">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="FolderName" value="@SecurityHelper.Encrypt("Comment")" />
+    <input type="hidden" name="Published" value="true" />
+    <input type="hidden" name="ParentFolder" value="@SecurityHelper.Encrypt("news")" />
+    <input type="hidden" name="ParentUUID" value="@ViewBag.Article.UUID" />
+    <table>
+        <tbody>
+            <tr>
+                <th>
+                    <label for="title">
+                        Title:</label>
+                </th>
+                <td>
+                    <input type="text" id="title" name="title" data-val-required="Title is required"
+                        data-val="true" />
+                    @Html.ValidationMessageForInput("title")
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label for="title">
+                        Name:</label>
+                </th>
+                <td>
+                    <input type="text" id="Name" name="Name" data-val-required="Name is required" data-val="true" />
+                    @Html.ValidationMessageForInput("title")
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label for="Summary">
+                        Body:</label>
+                </th>
+                <td>
+                    <textarea id="Summary" name="Summary" cols="20" rows="10"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                </th>
+                <td>
+                    <button type="submit">
+                        Submit</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+</div>

@@ -1,0 +1,37 @@
+﻿<div class="common-form">
+    <h5 class="title">Update content</h5>
+    <form method="post" action="@SubmissionHelper.UpdateContentUrl()">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="FolderName" value="@SecurityHelper.Encrypt(@ViewBag.Article.FolderName)" />
+        <input type="hidden" name="Published" value="true" />
+        <input type="hidden" name="uuid" value="@ViewBag.Article.UUID" />
+        @*<input type="hidden" name="RedirectUrl" value='@Url.FrontUrl().PageUrl("Thankyou")'/>*@
+		@*<input type="hidden" name="FailedUrl" value='@Url.FrontUrl().PageUrl("Failed")'/>*@
+        @*<input type="hidden" name="JsonResult" value='true'/>*@
+        @*<input type="hidden" name="Categories[0].FolderName" value="@SecurityHelper.Encrypt(@ViewBag.category.FolderName)" />*@
+        @*<input type="hidden" name="Categories[0].UUID" value="@ViewBag.category.UUID" />*@
+		@*<input type="hidden" name="ParentFolder" value="news" />*@
+		@*<input type="hidden" name="ParentUUID" value="@ViewBag.Article.UUID" />*@
+        <table>
+            <tbody>
+                <tr>
+                    <th><label for="title">title:</label></th>
+                    <td>
+                        <input type="text" name="title" data-val-required="title is required" data-val="true" value="@ViewBag.Article.Title"/>
+                        @Html.ValidationMessageForInput("title")
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="Summary">Summary:</th>
+                    <td>
+                        <textarea name="Summary" cols="20" rows="10">@ViewBag.Article.Summary</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td><input type="submit" name="submit" value="submit" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>

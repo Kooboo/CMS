@@ -1,0 +1,82 @@
+﻿/*
+*
+* index
+* author: ronglin
+* create date: 2010.11.15
+*
+*/
+
+.kb-do-reset
+{
+    background: #fff none;
+    background-color: transparent;
+    background-image: none;
+    background-repeat: no-repeat;
+    border: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    /*color: #000;*/
+    cursor: default;
+    float: none;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    list-style-image: none;
+    list-style-type: none;
+    list-style-position: inherit;
+    margin: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    padding: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    text-align: left;
+    text-decoration: none;
+    text-transform: none;
+    visibility: visible;
+}
+
+var
+{
+    /*color: #000000;*/
+    font-style: normal !important;
+}
+
+var.pagedesign-holder
+{
+    display: none;
+    min-height: 56px; /* 2 item height 40px, 4 item border 4px, 3 margin 12px */
+    min-width: 160px;
+    font-family: Arial,Helvetica,sans-serif;
+    border: 1px dashed #4282C3;
+    clear: both;
+}
+
+var.pagedesign-watermark
+{
+    background: url("design/images/watermark.png") repeat;
+}
+
+var.kb-cache
+{
+    width: 0px;
+    height: 0px;
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.ui-dialog .ui-dialog-content
+{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}

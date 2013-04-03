@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLastAction xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Kooboo.CMS.Search.Models">
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet - Copy</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-03-20T01:10:55.0787918Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet - Copy</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-03-20T01:10:53.4234046Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet 3 - Copy - Copy</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-03-20T01:10:16.5843488Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet 3 - Copy - Copy</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-03-20T01:10:14.9980733Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet 3 - Copy - Copy</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-03-20T01:10:12.5915419Z</UtcActionDate>
+	</LastAction>
+</ArrayOfLastAction>

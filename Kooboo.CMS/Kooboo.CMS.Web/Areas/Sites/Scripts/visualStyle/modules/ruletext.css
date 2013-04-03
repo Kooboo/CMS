@@ -1,0 +1,238 @@
+﻿/*
+*   ruletext
+*   author: ronglin
+*   create date: 2011.12.28
+*/
+
+.vs-ruletext {
+	border: 1px solid #CCC;
+	float: left;
+	width: 250px;
+	margin-left: 5px;
+}
+
+.vs-ruletext .content {
+	height: 255px;
+	padding: 5px;
+	overflow:auto;
+}
+
+.vs-ruletext .content .message {
+	color: #000;
+}
+
+.vs-ruletext .content .editor {
+	position: absolute;
+	display: none;
+	padding: 1px;
+	line-height:14px;
+	border: 1px solid #9ecaf6;
+	background-color: #fff;
+	z-index: 1;
+}
+.vs-ruletext .content .editor.valid {
+	border: 1px solid green;
+}
+.vs-ruletext .content .editor.warning {
+	border: 1px solid red;
+}
+.vs-ruletext .content .editor input {
+	padding: 0px;
+	border: 0px;
+	margin: 0px;
+	outline: 0px;
+	width: 100%;
+	font-size: 12px;
+	font-family: "Verdana" , "Tahoma" , "Arial";
+}
+.vs-ruletext .content .editor .measure {
+	display: none;
+	white-space: nowrap;
+	font-size: 12px;
+	font-family: "Verdana" , "Tahoma" , "Arial";
+}
+.vs-ruletext .content .editing {
+	color: #ddd !important;
+}
+
+.vs-ruletext .content .head {
+	position: relative;
+	display: none;
+	margin-bottom: 3px;
+}
+.vs-ruletext .content .head .toggle {
+    display:none;
+    cursor:pointer;
+    vertical-align:top;
+    padding-left: 14px;
+    background-position:left center;
+    background-repeat:no-repeat;
+    background-image:url("images/ruletext_arrow_down.gif");
+}
+.vs-ruletext .content .head .toggle.ellipsis {
+    background-image:url("images/ruletext_arrow_right.gif");
+}
+.vs-ruletext .content .head .brace {
+    display:inline-block;
+    vertical-align:top;
+	padding-left: 4px;
+	color: #000;
+}
+.vs-ruletext .content .head .selector {
+	color: #555;
+	background-repeat: no-repeat;
+	background-position: left 2px;
+}
+.vs-ruletext .content .head .selector.ellipsis {
+    display:inline-block;
+    margin-bottom:-5px;/* fix inline-block issue */
+    width:200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /* ie */
+    -o-text-overflow: ellipsis; /* opera */
+    -moz-binding: url("../../inlineEdit/core/ellipsis.xml#ellipsis"); /* ff */
+}
+.vs-ruletext .content .head .selector.warning {
+	padding-left: 12px;
+	text-decoration: line-through;
+	background-position:left center;
+	background-image: url("images/ruletext_item_warning.png");
+}
+.vs-ruletext .content .head .selector.warning.ellipsis {
+    width:188px;
+}
+
+.vs-ruletext .content .foot {
+	position: relative;
+	display: none;
+	margin-top: 3px;
+}
+.vs-ruletext .content .foot .brace {
+	color: #000;
+}
+.vs-ruletext .content .foot .swap {
+	display: inline-block;
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	left: 10px;
+	top: 2px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-position:center center;
+	background-image: url("images/ruletext_swap.gif");
+}
+.vs-ruletext .content .foot .swapback {
+	background-image: url("images/ruletext_swapback.gif");
+}
+
+.vs-ruletext .content .body {
+    clear:both;
+}
+.vs-ruletext .content .body .property {
+	border: 0px;
+	color: #000;
+}
+.vs-ruletext .content .body .property .item {
+	position: relative;
+	line-height: 16px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: transparent;
+    word-wrap:break-word;
+    word-break:break-all;
+}
+.vs-ruletext .content .body .property .item span {
+	font-size: 12px;
+	font-family: "Verdana" , "Tahoma" , "Arial";
+}
+.vs-ruletext .content .body .property .item.warning span {
+}
+.vs-ruletext .content .body .property .item.disabled span {
+	color: #888;
+}
+.vs-ruletext .content .body .property .item .move {
+	position: absolute;
+	left: 2px;
+	top: 3px;
+	display: none;
+	width: 10px;
+	height: 10px;
+	cursor: move;
+	background-position:center center;
+	background-image: url("images/ruletext_item_drag.gif");
+}
+.vs-ruletext .content .body .property .item .status {
+	position: absolute;
+	left: 14px;
+	top: 3px;
+	display: none;
+	width: 10px;
+	height: 10px;
+	cursor: pointer;
+	background-position:center center;
+	background-image: url("images/ruletext_item_enable.png");
+}
+.vs-ruletext .content .body .property .item.warning .status {
+	display: block;
+	background-image: url("images/ruletext_item_warning.png");
+}
+.vs-ruletext .content .body .property .item.disabled .status {
+	display: block;
+	background-image: url("images/ruletext_item_disable.png");
+}
+.vs-ruletext .content .body .property .item .nbsp {
+	padding-left: 28px;
+	cursor: default;
+}
+.vs-ruletext .content .body .property .item .name {
+	color: red;
+	white-space: nowrap;
+}
+.vs-ruletext .content .body .property .item .name.warning {
+	text-decoration: line-through;
+}
+.vs-ruletext .content .body .property .item .colon {
+	color: #000;
+	padding-right: 4px;
+}
+.vs-ruletext .content .body .property .item .value {
+	color: blue;
+}
+.vs-ruletext .content .body .property .item .value.warning {
+	text-decoration: line-through;
+}
+.vs-ruletext .content .body .property .item .semicolon {
+	color: #000;
+}
+.vs-ruletext .content .body .property .holder {
+	border: 1px dashed red;
+}
+.vs-ruletext .content .body .property .helper {
+	border: 1px dashed #999;
+}
+
+.vs-ruletext .content .body .textarea {
+	display: none;
+	overflow:hidden;
+	position:relative;
+}
+.vs-ruletext .content .body .textarea textarea {
+	width: 99%;
+	height: 15px;
+	min-height: 15px;
+	border: 1px solid #9ecaf6;
+	overflow: hidden;
+	line-height: 18px;
+	font-size: 12px;
+	font-family: "Verdana" , "Tahoma" , "Arial";
+	resize: none; /* both,horizontal,vertical,none */
+}
+.vs-ruletext .content .body .textarea textarea.actual {
+}
+.vs-ruletext .content .body .textarea textarea.measure {
+    position:absolute;
+    left:0px;
+    top:-20px; /* hide */
+}

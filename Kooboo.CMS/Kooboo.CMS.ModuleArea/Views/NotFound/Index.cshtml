@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@("Not Found - Kooboo CMS".Localize())</title>
+    @Html.ExternalResources("Account", "skinStyles", null)
+    @Html.ExternalResources("Account", "siteStyles", null)
+    @Html.ExternalResources("Account", "commonStyles", null)
+    @Html.ExternalResources("Account", "logonScripts", null)
+</head>
+<body>
+    <div id="body-container">
+        <div id="header" class="clearfix">
+            <h1 class="logo">
+                <a href="#">
+                    <img src="@Url.Content("~/Images/logo.png")" alt="logo" /></a></h1>
+        </div>
+        <div id="main-container" class="clearfix">
+            <div id="main" class="errorpage">
+                <h2>
+                    @("Not Found".Localize())</h2>
+                <p>
+                    @("If you see this page, it means that Kooboo CMS has been installed on this server.".Localize())
+                </p>
+                <p>
+                    @("The requested URL was not found on this server. These could be the following reasons.".Localize())</p>
+                <ol>
+                    <li>@("You might have typed the URL incorrectly".Localize())</li>
+                    <li>@("Your page has been moved".Localize())</li>
+                    <li>@Html.Raw(string.Format("You haven't created your Kooboo website yet. Please <a href='{0}'>login</a> and create your first Kooboo website.".Localize().ToString(),Url.Content("~/Admin")))</li>
+                </ol>
+            </div>
+        </div>
+        <div id="footer">
+            @Html.Partial("Footer")
+        </div>
+    </div>
+</body>
+</html>

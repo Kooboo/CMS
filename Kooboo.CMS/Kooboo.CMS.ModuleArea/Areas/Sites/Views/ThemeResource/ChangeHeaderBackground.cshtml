@@ -1,0 +1,115 @@
+﻿@{
+    Layout = "~/Areas/Sites/Views/Shared/Blank.cshtml";
+}
+<script language="javascript" type="text/javascript" src="@Html.Raw(Url.Content("~/Scripts/jquery.Jcrop.js"))"></script>
+<img id="previewImg" src="@Url.Content(ViewBag.VirtualPath)" alt="" width="640" />
+<div class="common-form">
+    <fieldset>
+        <table>
+            <tr>
+                <td>
+                    <form action="@Html.Raw(Url.Action("PostFile", ViewContext.RequestContext.AllRouteValues()))" method="post" enctype="multipart/form-data">
+                    <input type="file" name="File" id="file" />
+                    </form>
+                    <button id="save" disabled="disabled">
+                        @("Save".Localize())
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <div>
+        <img src="" style="display: none" alt="" id="crop-image" />
+    </div>
+</div>
+<script language="javascript" type="text/javascript">
+    kooboo.namespace('kooboo.cms.sites.imageCrop');
+    kooboo.cms.sites.imageCrop.extend({
+        init: function () {
+            var _cropCls = this,
+                counter = 0,
+            imgStr = '<img/>',
+            saveBtn = $('#save'),
+            cropParam = top.kooboo.data('crop-param'),
+            file = $('#file'),
+            form = $('form'), img = $('#crop-image'),
+            param = {},
+            sourceWidth,
+            sourceHeight,
+            cropChange = function (c) {            
+                param['Width'] = parseInt(c.w);
+                param['Height'] = parseInt(c.h);
+                var x = parseInt(c.x);               
+                param['X'] = x ;
+                param['Y'] = parseInt(c.y);
+            },
+            jcropAPI,         
+            uploadSuccess = function (response) {
+                setTimeout(function () {
+                    kooboo.cms.ui.loading().show();
+                }, 30);
+                img.attr('src', response.Model).load(function () {
+                    kooboo.cms.ui.loading().hide();
+                    img.show();
+
+                     param.Url = response.Model;
+                    
+                    var cropSetting = _cropCls.settings.crop || {};
+                    cropSetting['onChange'] = cropChange;
+
+                    var source = $(this);
+                    sourceHeight = source.height();
+                    sourceWidth = source.width();                
+
+                    if (counter > 0) {
+                        jcropAPI.destroy();
+                    }
+
+                    jcropAPI = $.Jcrop(img, cropSetting);
+
+                    var select = [0,0,cropSetting.minSize[0],cropSetting.minSize[1]]
+                  
+                     jcropAPI.setSelect(select);                   
+
+                    saveBtn.removeAttr("disabled");
+                    counter++;
+                });
+                return false;
+            };
+            window.onSuccess = uploadSuccess;
+            file.change(function () {
+                var file = $('input:file[name="File"]'), reg = /.jpg$|.png$/;
+                if (!reg.test(file.val())) {
+                    kooboo.cms.ui.messageBox().show('<%:"Please upload jpg or png file.".Localize() %>', 'error');
+                    return false;
+                }
+                form.submit();
+            });
+            saveBtn.click(function () {
+                $.post("@Html.Raw(Url.Action("SaveBackground", ViewContext.RequestContext.AllRouteValues()))",param,function(data, textStatus, jqXHR){
+                    var previewImg = $("#previewImg");
+                    previewImg.attr("src",previewImg.attr("src")+"&ts" + (new Date()).getMilliseconds());
+                    kooboo.cms.ui.messageBox().show("@("The background has been changed".Localize())");
+                });
+            });           
+        },
+        settings: {
+            crop: {                
+                minSize:[@ViewBag.ContainerSize.Width, @ViewBag.ContainerSize.Height],
+                boxWidth:680,                
+                allowResize:false                
+            }
+        }
+    });
+    $(function () {
+        kooboo.cms.sites.imageCrop.init();
+    });
+    $(function () {
+        setTimeout(function () {
+            window.ajaxFormParam.error = function () {
+                kooboo.cms.ui.messageBox().show('Upload image failed.', 'error');
+            }
+        }, 100);
+
+    });
+</script>

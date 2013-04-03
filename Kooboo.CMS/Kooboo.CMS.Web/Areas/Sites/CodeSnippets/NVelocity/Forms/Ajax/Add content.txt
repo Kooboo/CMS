@@ -1,0 +1,76 @@
+﻿<script language="javascript" type="text/javascript">
+    jQuery(function(){
+        var form = jQuery('#ajax-form').ajaxForm({
+            dataType: 'json',
+            type:'post',
+            beforeSerialize: function () {
+
+                //inform the server you need JsonResult return
+                var jsonResultHidden = form.find('input:hidden[name=JsonResult]').val(true);
+                if (!jsonResultHidden.length) {
+                    jsonResultHidden = jQuery('<input type="hidden" name="JsonResult" value="true"/>').appendTo(form);
+                }
+            },
+            success: function (response, textStatus) {
+                if (response.Success) {
+                    if (response.RedirectUrl) {
+                        window.location.href = response.RedirectUrl;
+                    } else {
+                        window.location.reload(true);
+                    }
+                } else {
+                    var msgStr = '';
+                    for (var i = 0; i < response.Messages.length; i++) {
+                        msgStr += response.Messages[i] + '\r\n';
+                    }
+
+                    var validator = form.validate();
+                    //var errors = [];
+                    for (var i = 0; i < responseData.FieldErrors.length; i++) {
+                        var obj = {};
+                        obj[responseData.FieldErrors[i].FieldName] = responseData.FieldErrors[i].ErrorMessage;
+                        validator.showErrors(obj);
+                    }
+                    alert(msgStr);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) { }
+        });
+    });
+</script>
+<div class="common-form">
+    <h5 class="title">Add content</h5>
+    <form id="ajax-form" method="post" action="$SubmissionHelper.CreateContentUrl($Url)">
+        $Html.AntiForgeryToken()
+        <input type="hidden" name="JsonResult" value="true" />
+        <input type="hidden" name="FolderName" value="Article" />
+        <input type="hidden" name="Published" value="true" />
+        #*<input type="hidden" name="RedirectUrl" value='$Url.FrontUrl().PageUrl("Thankyou")'/>*#
+        #*<input type="hidden" name="JsonResult" value='true'/>*#
+        #*<input type="hidden" name="Categories[0].FolderName" value="$ViewBag.category.FolderName" />*#
+        #*<input type="hidden" name="Categories[0].UUID" value="$ViewBag.category.UUID" />*#
+		#*<input type="hidden" name="ParentFolder" value="Article" />*#
+		#*<input type="hidden" name="ParentUUID" value="$ViewBag.Article.UUID" />*#
+        <table>
+            <tbody>
+                <tr>
+                    <th><label for="title">title:</label></th>
+                    <td>
+                        <input type="text" id="title" name="title" data-val-required="title is required" data-val="true" />
+                        $Html.ValidationMessageForInput("title")
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="Summary">Summary:</label></th>
+                    <td>
+                        <textarea id="Summary" name="Summary" cols="20" rows="10"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td><input type="submit" name="submit" value="submit" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>

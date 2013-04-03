@@ -1,0 +1,12 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.ModuleArea.Models.News>
+@{
+    Layout = "~/Areas/" + Kooboo.CMS.ModuleArea.SampleAreaRegistration.ModuleName + "/Views/Shared/Site.cshtml";
+    ViewBag.Title = "Settings".Localize();
+}
+<h3 class="title">
+    <span>@("News".Localize())</span></h3>
+<div class="command">
+    @Html.ActionLink("Create".Localize(), "Create", ViewContext.RequestContext.AllRouteValues(), new RouteValueDictionary(new { @class = "button", title = "Create news".Localize() }))
+    @Html.ActionLink("Delete".Localize(), "Delete", ViewContext.RequestContext.AllRouteValues(), new RouteValueDictionary(new { @class = "button deleteCommand" }))
+</div>
+@Html.GridForModel()

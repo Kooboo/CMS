@@ -1,0 +1,338 @@
+﻿@model string
+@{
+    var folder = ViewData["Folder"] as Kooboo.CMS.Content.Models.TextFolder;
+    var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
+
+    var enableSort = folder != null && folder.OrderBySequence && ViewData["WhereClause"] == null;
+    var isTreeStyle = schema.IsTreeStyle;
+    var draggable = enableSort || isTreeStyle;
+}
+<script type="text/javascript">
+    (function ($) {
+        $.fn.lazyTreeNode = function () {
+            var $tr = $(this);
+            $tr.each(function (index, tr) {
+                var $selfTR = $(tr);
+                @if (!draggable)
+                {<text>
+                $selfTR.children('td:eq(0)').removeClass('draggable');
+                </text>}
+
+                $selfTR.data('expend', function () {
+                    var childNode = $selfTR.data('childNode');
+                    if (childNode != null) {
+                        childNode.show();
+                    }
+                    else {
+                        var id = $selfTR.attr('id');
+                        var parentChain = $selfTR.attr('parentChain');
+                        var url = '@Html.Raw(Url.Action("QueryByParentUUID", ViewContext.RequestContext.AllRouteValues().Merge("return", Request.RawUrl)))';
+                        $.ajax(url,
+                        {
+                            type: 'POST',
+                            data: 'parentUUID=' + id + "&parentChain=" + (parentChain == undefined ? "" : parentChain),
+                            success: function (data, textStatus, jqXHR) {
+                                if (data.Model.length == 0) {
+                                    $selfTR.removeClass('parent');
+                                    $selfTR.data('childNode', $(''));
+                                }
+                                else {
+                                    var template = $('#treeNode-template').clone();
+                                    ko.applyBindings(data, template[0]);
+                                    var tbody = template.children('tbody');
+
+                                    var parentPadding = parseInt($selfTR.find('.expander').parent().css("padding-left").replace("px", ""));
+                                    tbody.find('.treeStyle').css('padding-left', parentPadding + 15);
+                                    var html = $(tbody.html());
+                                    $selfTR.after(html);
+                                    html.dialogLink();
+                                    html.lazyTreeNode();
+
+                                    //used in the Categories.ascx
+                                    parent.jQuery($selfTR).triggerHandler('treeNodeLoaded', [html]);
+
+                                    $selfTR.data('childNode', html);
+                                }
+                                kooboo.cms.ui.loading().hide();
+                            }
+                        });
+                    }
+                    $selfTR.removeClass('collapsed').addClass('expanded');
+                });
+                $selfTR.data('collapse', function () {
+                    var childNode = $selfTR.data('childNode');
+
+                    if (childNode && childNode.hide) {
+                        if (childNode.data('collapse')) {
+                            childNode.data('collapse')();
+                        }
+                        childNode.hide();
+                    }
+                    $selfTR.removeClass('expanded').addClass('collapsed');
+                });
+
+                $selfTR.find('.expander').click(function (e) {
+                    e.stopPropagation();
+                    var handler = $(this);
+                    var tr = handler.parent().parent();
+                    var collapsed = tr.hasClass('collapsed');
+                    if (collapsed) {
+                        tr.data('expend')();
+                    }
+                    else {
+                        tr.data('collapse')();
+                    }
+                });
+            });
+        }
+    })(jQuery);
+
+</script>
+
+<script type="text/javascript">
+    var fixHelper = function (e, ui) {
+        ui.children().each(function () {
+            $(this).width($(this).width());
+        });
+        return ui.clone();
+    };
+    var TreeAction = {
+        Sort: function (items, asc) {
+            var uuidList = [];
+
+            items.each(function (index, item) {
+                uuidList.push($(item).attr('id'));
+            });
+
+            var sortData = (asc ? uuidList : uuidList.reverse()).select(function (text, index) {
+                return 'list[' + index + '].UUID=' + text
+                    + '&' + 'list[' + index + '].Sequence=' + index
+            }).join('&');
+
+            $.ajax({
+                url: '@Html.Raw(this.Url.Action("Sort", ViewContext.RequestContext.AllRouteValues()))',
+                data: sortData,
+                type: 'post',
+                success: function (response) {
+                },
+                error: function () {
+                }
+            });
+        }
+        , MoveContent: function (uuid, parentUUID) {
+            if (uuid != parentUUID) {
+                $.ajax({
+                    url: '@Html.Raw(Server.HtmlDecode(this.Url.Action("MoveContent", ViewContext.RequestContext.AllRouteValues().Merge("UUID", "").Merge("ParentUUID", ""))))',
+                    data: { uuid: uuid, parentUUID: parentUUID },
+                    type: 'post',
+                    beforeSend: function () {
+                        kooboo.cms.ui.loading().show();
+                    },
+                    success: function (response) {
+                        if (response.Success) {
+                            setTimeout(function () {
+                                document.location.reload(true);
+                                kooboo.cms.ui.messageBox().show('Succeed in moving the item', 'info');
+                            }, 400);
+                        } else {
+                            kooboo.cms.ui.messageBox().showResponse(response);
+                        }
+                        kooboo.cms.ui.loading().hide();
+                    },
+                    error: function () {
+                        kooboo.cms.ui.messageBox().show('There is an error occurs', 'error');
+                    }
+                });
+            }            
+        }
+        , ReconfigContent: function (items, uuid, parentUUID, asc) {
+            var uuidList = [];
+
+            items.each(function (index, item) {
+                uuidList.push($(item).attr('id'));
+            });
+
+            var sortData = (asc ? uuidList : uuidList.reverse()).select(function (text, index) {
+                return 'list[' + index + '].UUID=' + text
+                    + '&' + 'list[' + index + '].Sequence=' + index
+            }).join('&');
+
+            sortData += "&uuid=" + uuid + "&parentUUID=" + parentUUID;
+
+            $.ajax({
+                url: '@Html.Raw(this.Url.Action("ReconfigContent", ViewContext.RequestContext.AllRouteValues().Merge("UUID", "").Merge("ParentUUID", "")))',
+                data: sortData,
+                type: 'post',
+                beforeSend: function () {
+                    kooboo.cms.ui.loading().show();
+                },
+                success: function (response) {
+                    if (response.Success) {
+                        setTimeout(function () {
+
+                            document.location.reload(true);
+                            kooboo.cms.ui.messageBox().show('Succeed in moving the item', 'info');
+                        }, 400);
+                    } else {
+                        kooboo.cms.ui.messageBox().showResponse(response);
+                    }
+                    kooboo.cms.ui.loading().hide();
+                },
+                error: function () {
+                    kooboo.cms.ui.messageBox().show('There is an error occurs', 'error');
+                }
+            });
+        }
+    };
+
+    $(function () {
+        var $table = $(".table-container table");
+        $table.find('tbody tr').lazyTreeNode();
+        @if ((string.IsNullOrEmpty(Model) || Model.ToLower() != "readonly") && draggable)
+        {           
+            <text>
+        var asc = '@(folder.OrderSetting.Direction == Kooboo.CMS.Content.Models.OrderDirection.Ascending)' == 'True';
+        var enableSort = '@enableSort'.toLowerCase() == 'true';
+        var isTreeStyle = '@isTreeStyle'.toLowerCase() == 'true';
+        //Get Destination row number
+        function getRowNumber(positionY, $tbody, selfId) {
+            var i = 0, totalHeight = getTotalHeight(i);
+            function getTotalHeight(i) {
+                var height = 0;
+                $tbody.children(':not(#' + selfId + '):lt(' + (i + 1) + ')').css({
+                    visibility: 'visible'
+                }).each(function () {
+                    height += $(this).height();
+                });
+                return height;
+            }
+            while (totalHeight <= positionY && i < $tbody.children().length) {
+                totalHeight = getTotalHeight(++i);
+            }
+            return i;
+        }
+
+        var sortoptions = {
+            helper: fixHelper,
+            revert: true,
+            handle: 'td:eq(0)',
+            cancel: 'tr.folderTr',
+            cursor: 'move',
+            placeholder: "ui-state-highlight holder",
+            start: function (event, ui) {
+                var colSpan = $(".table-container thead tr:eq(0) th").length;
+                var $tdWrap = $("<td></td>").attr({ 'colspan': colSpan });
+                ui.placeholder.html($tdWrap);
+                if (ui.item.data('collapse')) {
+                    ui.item.data('collapse')();
+                }
+                var oldRowNum = tbody.children().toArray().indexOf(ui.item[0]);
+                tbody.data('oldRowNum', oldRowNum);
+            },
+            sort: function (event, ui) {
+                //#region --- dynamic get destination row ---
+                var id = ui.item[0].id;
+                var topDiff = ui.offset.top - tbody.offset().top;
+                var rowNum = getRowNumber(topDiff, tbody, id);
+                var destTr = $(tbody.children(':visible').get(rowNum));
+                destTr.addClass('accept').siblings().removeClass('accept');
+                tbody.data('destTr', destTr);
+                var prevTr = destTr.prev('tr:not(#' + id + ')');
+                var nextTr = destTr.next('tr:not(#' + id + ')');
+                tbody.data('prevTr', prevTr);
+                tbody.data('nextTr', nextTr);
+                tbody.data('rowNum', rowNum);
+                //#endregion
+            }
+
+        };
+        if (enableSort) {
+            sortoptions.stop = function (e, ui) {
+                var $destParent = tbody.data('destTr');
+                var uuid = ui.item[0].id;
+                var parentUUID = '';
+                //Disable MoveContent when is not tree style
+                if (!isTreeStyle) {
+                    uuid = '';
+                }
+                if ($destParent.attr('id')) {
+                    if (isTreeStyle) {
+                        parentUUID = $destParent.attr('id');
+                        //set current items's parentChain to destination  parentUUID
+                        ui.item.attr('parentChain', parentUUID);
+                        var $items = $table.find('tbody tr[parentChain*="' + parentUUID + '"]');
+                        TreeAction.ReconfigContent($items, uuid, parentUUID, asc);
+                    }
+                    else {
+                        tbody.children().removeClass('accept');
+                        $(this).sortable('cancel');
+                    }
+                }
+                else {
+                    var $prev = tbody.data('prevTr');
+                    var $next = tbody.data('nextTr');
+                    var rowNum = tbody.data('rowNum');
+                    var oldRowNum = tbody.data('oldRowNum');
+
+                    if (rowNum == oldRowNum) {
+                        $(this).sortable('cancel');
+                    }
+                    else if (($prev.length && !$prev.attr('parentChain')) || ($next.length && !$next.attr('parentChain'))) {
+                        //Move To Root And Sort Root Nodes
+                        ui.item.removeAttr('parentChain');
+                        var $items = $table.find('tbody tr:not([parentChain])');
+
+                        TreeAction.ReconfigContent($items, uuid, parentUUID, asc);
+                    }
+                    else if ($prev.length && $prev.attr('parentChain')) {
+                        var $ParentChain = $prev.attr('parentChain');
+                        var len = $ParentChain.split(',').length;
+                        parentUUID = $ParentChain.split(',')[len - 1];
+                        ui.item.attr('parentChain', $ParentChain);
+                        var $items = $table.find('tbody tr[parentChain*="' + parentUUID + '"]');
+                        if (uuid != parentUUID) {
+                            TreeAction.ReconfigContent($items, uuid, parentUUID, asc);
+                        }
+                        else {
+                            $(this).sortable('cancel');
+                        }
+                    }
+                    else if ($next.length && $next.attr('parentChain')) {
+                        var $ParentChain = $next.attr('parentChain');
+                        var len = $ParentChain.split(',').length;
+                        parentUUID = $ParentChain.split(',')[len - 1];
+                        ui.item.attr('parentChain', $ParentChain);
+                        var $items = $table.find('tbody tr[parentChain*="' + parentUUID + '"]');
+                        if (uuid != parentUUID) {
+                            TreeAction.ReconfigContent($items, uuid, parentUUID, asc);
+                        }
+                        else {
+                            $(this).sortable('cancel');
+                        }
+                    }
+                    else {
+                        $(this).sortable('cancel');
+                    }
+                }
+            }
+        }
+        else if (isTreeStyle) {
+            sortoptions.stop = function (event, ui) {
+                var $destParent = tbody.data('destTr');
+                var uuid = ui.item[0].id;
+                var parentUUID = '';
+                if ($destParent.attr('id')) {
+                    parentUUID = $destParent.attr('id');
+                    TreeAction.MoveContent(uuid, parentUUID);
+                }
+                else {
+                    tbody.children().removeClass('accept');
+                    $(this).sortable('cancel');
+                }
+            };
+        }
+        var tbody = $table.find('tbody').sortable(sortoptions);
+        </text>        
+        }
+    });
+</script>

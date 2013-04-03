@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    @Html.ExternalResources("siteStyles")
+    @Html.ExternalResources("skinStyles")
+    @Html.ExternalResources("siteScripts")
+    <script type="text/javascript" src="@Html.Raw(Url.Content("~/Scripts/tiny_mce/tiny_mce.js"))"></script>
+    <script type="text/javascript" src="@Html.Raw(Url.Content("~/Scripts/tiny_mce_extension.js"))"></script>
+    <link href="@Html.Raw(Url.Content("~/Styles/jQuery.JCrop/jquery.Jcrop.css"))" rel="Stylesheet" type="text/css" />
+</head>
+<body style="background: none">
+    @Html.Partial("MessageBox")
+    @RenderBody()
+    @Html.Partial("Master.Script")
+    @Html.Partial("AjaxForm.Script")
+    @Html.Partial("LastReady.Script")
+</body>
+</html>

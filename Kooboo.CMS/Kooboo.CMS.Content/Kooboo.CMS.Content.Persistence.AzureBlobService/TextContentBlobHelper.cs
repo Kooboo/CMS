@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Kooboo.CMS.Content.Models.Paths;
+using Microsoft.WindowsAzure.StorageClient;
+using Kooboo.CMS.Content.Models;
+using Kooboo.Web.Url;
+
+namespace Kooboo.CMS.Content.Persistence.AzureBlobService
+{
+    public static class TextContentBlobHelper
+    {
+        public static string TextContentFileDirectoryName = "Folders";
+
+        public static string GetTextContentDirectoryPath(this TextContent textContent)
+        {
+            var textFolder = textContent.GetFolder();
+            return UrlUtility.Combine(new string[] { textFolder.Repository.Name.ToLower(), TextContentFileDirectoryName }
+               .Concat(textFolder.NamePaths)
+               .Concat(new[] { textContent.UUID })
+               .ToArray());
+        }
+        public static string GetTextContentFilePath(this TextContent textContent, ContentFile contentFile)
+        {
+            return UrlUtility.Combine(GetTextContentDirectoryPath(textContent), contentFile.FileName);
+        }
+    }
+}

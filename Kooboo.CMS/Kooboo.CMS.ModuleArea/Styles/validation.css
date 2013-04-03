@@ -1,0 +1,18 @@
+﻿/* Styles for validation helpers
+--------------------------------------------------------*/
+.field-validation-valid, .field-validation-error {
+	line-height: 20px;
+}
+.field-validation-valid {
+	display: none;
+}
+.field-validation-error {
+	color: #F00;
+}
+.validation-summary-valid {
+	display: none;
+}
+.validation-summary-errors {
+	color: #F00;
+	font-weight: bold;
+}

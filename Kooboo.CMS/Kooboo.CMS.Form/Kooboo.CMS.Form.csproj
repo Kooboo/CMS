@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C4F32215-EFAD-45C9-8276-6126681C3589}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kooboo.CMS.Form</RootNamespace>
+    <AssemblyName>Kooboo.CMS.Form</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\..\Lib\MVC\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages">
+      <HintPath>..\..\Lib\MVC\System.Web.WebPages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CMSAssemblyInfoGlobal.cs">
+      <Link>CMSAssemblyInfoGlobal.cs</Link>
+    </Compile>
+    <Compile Include="ColumnValidation.cs" />
+    <Compile Include="Html\ControlHelper.cs" />
+    <Compile Include="Html\Controls\CheckBox.cs" />
+    <Compile Include="Html\Controls\ControlBase.cs" />
+    <Compile Include="Html\Controls\CLEditor.cs" />
+    <Compile Include="Html\Controls\CheckBoxList.cs" />
+    <Compile Include="Html\Controls\Password.cs" />
+    <Compile Include="Html\Controls\HighlightEditor.cs" />
+    <Compile Include="Html\Controls\ImageCrop.cs" />
+    <Compile Include="Html\Controls\RadioList.cs" />
+    <Compile Include="Html\Controls\Empty.cs" />
+    <Compile Include="Html\Controls\InputNumber.cs" />
+    <Compile Include="Html\Controls\InputInt32.cs" />
+    <Compile Include="Html\Controls\InputFloat.cs" />
+    <Compile Include="Html\Controls\Date.cs" />
+    <Compile Include="Html\Controls\Display.cs" />
+    <Compile Include="Html\Controls\DropDownList.cs" />
+    <Compile Include="Html\Controls\File.cs" />
+    <Compile Include="Html\Controls\Hidden.cs" />
+    <Compile Include="Html\Controls\IControl.cs" />
+    <Compile Include="Html\Controls\Input.cs" />
+    <Compile Include="Html\Controls\MultiFiles.cs" />
+    <Compile Include="Html\Controls\TextArea.cs" />
+    <Compile Include="Html\Controls\TextBox.cs" />
+    <Compile Include="Html\Controls\Tinymce.cs" />
+    <Compile Include="Html\DetailForm.cs" />
+    <Compile Include="Html\HtmlCodeHelper.cs" />
+    <Compile Include="Html\ListForm.cs" />
+    <Compile Include="Html\SelectableForm.cs" />
+    <Compile Include="Html\CreateForm.cs" />
+    <Compile Include="Html\FormHelper.cs" />
+    <Compile Include="Html\GridForm.cs" />
+    <Compile Include="Html\ISchemaForm.cs" />
+    <Compile Include="Html\UpdateForm.cs" />
+    <Compile Include="Html\ValidationExtensions.cs" />
+    <Compile Include="IColumn.cs" />
+    <Compile Include="ISchema.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+      <Project>{347E47E5-3132-4BAD-B935-8282A2B16CF5}</Project>
+      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

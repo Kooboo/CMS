@@ -1,0 +1,106 @@
+.cm-s-default span.cm-keyword ,
+.cm-s-default span.cm-xml-keyword ,
+.cm-s-default span.cm-css-keyword ,
+.cm-s-default span.cm-js-keyword {color: #708;}
+
+
+.cm-s-default span.cm-atom ,
+.cm-s-default span.cm-xml-atom ,
+.cm-s-default span.cm-css-atom ,
+.cm-s-default span.cm-js-atom {color: #219;}
+
+
+.cm-s-default span.cm-number  ,
+.cm-s-default span.cm-xml-number ,
+.cm-s-default span.cm-css-number ,
+.cm-s-default span.cm-js-number {color: #164;}
+
+
+.cm-s-default span.cm-def  ,
+.cm-s-default span.cm-xml-def ,
+.cm-s-default span.cm-css-def ,
+.cm-s-default span.cm-js-def {color: #00f;}
+
+
+.cm-s-default span.cm-variable ,
+.cm-s-default span.cm-xml-variable ,
+.cm-s-default span.cm-css-variable ,
+.cm-s-default span.cm-js-variable {color: black;}
+
+
+.cm-s-default span.cm-variable-2 ,
+.cm-s-default span.cm-xml-variable-2 ,
+.cm-s-default span.cm-css-variable-2 ,
+.cm-s-default span.cm-js-variable-2{color: #05a;}
+
+
+.cm-s-default span.cm-variable-3 ,
+.cm-s-default span.cm-xml-variable-3 ,
+.cm-s-default span.cm-css-variable-3 ,
+.cm-s-default span.cm-js-variable-3 {color: #0a5;}
+
+
+.cm-s-default span.cm-property ,
+.cm-s-default span.cm-xml-property ,
+.cm-s-default span.cm-css-property ,
+.cm-s-default span.cm-js-property {color: black;}
+
+
+.cm-s-default span.cm-operator ,
+.cm-s-default span.cm-xml-operator ,
+.cm-s-default span.cm-css-operator ,
+.cm-s-default span.cm-js-operator{color: black;}
+
+
+.cm-s-default span.cm-comment ,
+.cm-s-default span.cm-xml-comment ,
+.cm-s-default span.cm-css-comment ,
+.cm-s-default span.cm-js-comment{color: #a50;}
+
+
+.cm-s-default span.cm-string ,
+.cm-s-default span.cm-xml-string ,
+.cm-s-default span.cm-css-string ,
+.cm-s-default span.cm-js-string{color: #a11;}
+
+
+.cm-s-default span.cm-meta ,
+.cm-s-default span.cm-xml-meta ,
+.cm-s-default span.cm-css-meta ,
+.cm-s-default span.cm-js-meta{color: #555;}
+
+
+.cm-s-default span.cm-error ,
+.cm-s-default span.cm-xml-error ,
+.cm-s-default span.cm-css-error ,
+.cm-s-default span.cm-js-error{color: #f00;}
+
+
+.cm-s-default span.cm-qualifier,
+.cm-s-default span.cm-xml-qualifier ,
+.cm-s-default span.cm-css-qualifier ,
+.cm-s-default span.cm-js-qualifier {color: #555;}
+
+
+.cm-s-default span.cm-builtin ,
+.cm-s-default span.cm-xml-builtin ,
+.cm-s-default span.cm-css-builtin ,
+.cm-s-default span.cm-js-builtin{color: #30a;}
+
+
+.cm-s-default span.cm-bracket,
+.cm-s-default span.cm-xml-bracket ,
+.cm-s-default span.cm-css-bracket ,
+.cm-s-default span.cm-js-bracket {color: #cc7;}
+
+
+.cm-s-default span.cm-tag ,
+.cm-s-default span.cm-xml-tag ,
+.cm-s-default span.cm-css-tag ,
+.cm-s-default span.cm-js-tag {color: #170;}
+
+
+.cm-s-default span.cm-attribute ,
+.cm-s-default span.cm-xml-attribute ,
+.cm-s-default span.cm-css-attribute ,
+.cm-s-default span.cm-js-attribute{color: #00c;}

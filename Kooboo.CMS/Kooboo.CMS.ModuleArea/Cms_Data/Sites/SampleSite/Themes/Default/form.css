@@ -1,0 +1,134 @@
+﻿/*
+[Contents]
+
+    0- Global
+    1- Common Form
+    2- Comment Form
+    3- Login Form
+*/
+
+/* =0 Global
+---------------------------------------------------------------------------------------------------------------------*/
+input[type="text"],
+input[type="password"] {
+	border: 1px solid #CCC;
+	color: #666;
+	height: 14px;
+	padding: 3px; /* Do rounding */
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+	background: #FFF;
+	border: 1px solid #BBB;
+	color: #464646;
+	cursor: pointer;
+	font-size: 11px;
+	line-height: 16px;
+	padding: 2px 8px; /* Do rounding */
+	border-radius: 11px;
+	-moz-border-radius: 11px;
+	-webkit-border-radius: 11px;
+}
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+	border-color: #666;
+	color: #000;
+}
+textarea {
+	border: 1px solid #CCC;
+	color: #666;
+	padding: 3px; /* Do rounding */
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+.watermark{
+	position:relative;
+}
+.watermark label{
+	color:#CCC;
+	left:4px;
+	line-height:22px;
+	position:absolute;
+}
+/* =1 Common Form
+---------------------------------------------------------------------------------------------------------------------*/
+.common-form {
+	padding: 10px;
+}
+.common-form .title {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.common-form tbody th,
+.common-form tbody td {
+	vertical-align: top;
+}
+.common-form tbody th {
+	padding: 3px 3px 3px 0;
+	width: 100px;
+}
+.common-form tbody td {
+	padding: 3px 0 3px 3px;
+}
+.common-form input[type="text"],
+.common-form input[type="password"] {
+	width: 300px;
+}
+.common-form textarea {
+	height: 100px;
+	width: 300px;
+}
+
+/* =2 Comment Form
+---------------------------------------------------------------------------------------------------------------------*/
+.comment-form table{
+	width:100%;
+}
+.comment-form textarea{
+	width:98%;
+}
+
+/* =3 Login Form
+---------------------------------------------------------------------------------------------------------------------*/
+.login-form h6{
+  font-size:14px;
+  font-weight:bold;
+  margin-bottom:20px;
+}
+.login-form th,
+.login-form td{
+  padding:10px;
+}
+.login-form .field th,
+.login-form .field td{
+  border-bottom:1px dashed #CCC;
+}
+.login-form th{
+  padding-right:0;
+  text-align:right;
+  width:140px;
+}
+.login-form td{
+  width:300px;
+}
+.login-form label{
+  font-weight:normal;
+}
+.login-form input[type="checkbox"]{
+  float:left;
+  margin-right:5px;
+}
+.login-form label.inline{
+  line-height:13px;
+}
+.login-form button{
+  font-weight:bold;
+}

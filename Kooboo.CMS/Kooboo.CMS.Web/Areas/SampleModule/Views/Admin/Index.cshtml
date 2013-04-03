@@ -1,0 +1,42 @@
+﻿@model Kooboo.CMS.ModuleArea3.Models.ModuleInfo_Metadata
+@{
+    Layout = "~/Areas/" + Kooboo.CMS.ModuleArea3.SampleAreaRegistration.ModuleName + "/Views/Shared/Site.cshtml";
+    ViewBag.Title = "Settings".Localize();
+}
+<h3 class="title">
+    @("Settings".Localize())</h3>
+<div class="common-form">
+    @{Html.BeginForm();}
+    <div id="setting-tab">
+        <ul class="tabs clearfix">
+            <li class="current"><a href="#basicInfo">@("Basic".Localize())</a></li>
+            <li><a href="#settingsInfo">@("Settings".Localize())</a></li>
+            <li><a href="#entryInfo">@("Default entry".Localize())</a></li>
+        </ul>
+        <div class="tab-content" id="basicInfo">
+            <fieldset>
+                <table>
+                    <tbody>
+                        @Html.HiddenFor(m => m.ModuleName)
+                        @Html.DisplayFor(m => m.ModuleName)
+                        @Html.DisplayFor(m => m.Version)
+                        @Html.DisplayFor(m => m.KoobooCMSVersion)
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+        <div class="tab-content" id="settingsInfo">
+            @Html.EditorFor(m => m.Settings)
+        </div>
+        <div class="tab-content" id="entryInfo">
+            @Html.EditorFor(m => m.Settings.Entry)
+        </div>
+    </div>
+    <p class="buttons">
+        <button type="submit">
+            @("Save".Localize())</button>
+    </p>
+    @{Html.EndForm();}
+</div>
+<script type="text/javascript">    $(function () { $('#setting-tab').koobooTab(); });
+</script>

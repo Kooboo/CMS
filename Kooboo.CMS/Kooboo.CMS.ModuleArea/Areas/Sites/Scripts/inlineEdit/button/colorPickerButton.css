@@ -1,0 +1,49 @@
+﻿/*
+*
+* color picker button
+* author: ronglin
+* create date: 2010.06.01
+*
+*/
+
+.kb-colorpickerbutton
+{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.kb-colorpickerbutton var
+{
+    border: 1px solid #DDD;
+    display: block;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    background-color: transparent;
+}
+
+.kb-colorpickerbutton .kb-hl
+{
+    border: 1px solid #888;
+}
+
+.kb-colorpickerbutton .kb-disabled
+{
+    cursor: default;
+    border: 1px dashed #DDD;
+}
+
+.kb-colorpickerbutton .default
+{
+    background-image: url(../colorPicker/images/tb_default_color.gif);
+}
+
+.kb-colorpickerbutton .backcolor
+{
+    background-image: url(../colorPicker/images/tb_back_color.png);
+}
+
+.kb-colorpickerbutton .fontcolor
+{
+    background-image: url(../colorPicker/images/tb_font_color.png);
+}

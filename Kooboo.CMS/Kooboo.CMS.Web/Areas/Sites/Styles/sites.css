@@ -1,0 +1,283 @@
+/*
+[Contents]
+
+	0- Global
+	1- Site panel
+	2- Site map
+	3- Data folder form
+*/
+
+/* =0 Global
+---------------------------------------------------------------------------------------------------------------------*/
+
+
+/* =1 Site panel
+---------------------------------------------------------------------------------------------------------------------*/
+.main-block {
+	border: 1px solid #CCC;
+	padding: 20px 10px 10px 10px; /* Do rounding */
+	border-radius: 0 0 5px 5px;
+	-moz-border-radius: 0 0 5px 5px;
+	-webkit-border-radius: 0 0 5px 5px;
+}
+.sitetrees {
+	float: left;
+	padding: 0 20px;
+}
+/* =2 Site map
+---------------------------------------------------------------------------------------------------------------------*/
+.sitemap-panel {
+	border: 1px solid #CCC;
+	overflow: visible;
+	position: relative;
+	width: 100%;
+}
+
+.sitemap-panel > div {
+	overflow: auto;
+}
+
+/* Sitemap description */
+.sitemap-description {
+	left: 100px;
+	min-width: 120px;
+	overflow: visible !important;
+	position: absolute;
+	top: -28px;
+	width: 700px;
+}
+.sitemap-description .title {
+	float: left;
+	margin: 0 10px 0 0;
+}
+.sitemap-description li {
+	float: left;
+	margin-right: 10px;
+}
+.sitemap-description li span {
+	background: #E6E6E6;
+	border: 1px solid #999;
+	display: block;
+	float: left;
+	height: 14px;
+	line-height: 15px;
+	margin-right: 10px;
+	width: 14px;
+}
+.sitemap-description li.dynamic span {
+	background: #ABB2BE;
+	border-color: #72849E;
+}
+.sitemap-description li.from-parent span {
+	border-style: dashed;
+}
+.sitemap-description li.in-menu span {
+	background: none;
+	font-weight: bold;
+	text-align: center;
+}
+.sitemap-description li.unpublished span {
+	background: #FDE9E9;
+	border-color: #FDBDBD;
+}
+
+/* Sitemap */
+.sitemap {
+	min-height: 300px;
+	overflow: visible;
+	padding-right: 100px;
+	width: 99.7%;
+}
+.map-item {
+	background: url(images/map-item.png) repeat-x;
+	height: 30px;
+	width: 110px; /* Do Rounding */
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+.map-item.dynamic {
+	background: url(images/map-item-dark.png) repeat-x;
+	border-color: #72849E;
+	color: #FFF;
+}
+.map-item.from-parent {
+	border-style: dashed;
+}
+.map-item.offline {
+	border-style: dashed;
+}
+.map-item.unpublished {
+	background: #FDE9E9;
+	border-color: #FDBDBD;
+}
+.map-item h4 {
+	cursor: default;
+	display: block;
+	float: left;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 30px;
+	margin-left: 5px;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 90px;
+}
+.map-item h4.in-nav {
+	font-weight: bold;
+}
+.map-item h4 a {
+	color: #000;
+	display: block;
+}
+.map-item div.action {
+	display: block;
+	float: right;
+	position: relative;
+	width: 15px;
+}
+.map-item div.action > a {
+	background: url(images/arrow-down.png) no-repeat center center;
+	border-left: 1px solid #CCC;
+	display: block;
+	height: 30px;
+	text-indent: -500000px;
+}
+.map-item.dynamic div.action > a {
+	background-image: url(images/arrow-white.png);
+}
+.map-item div.action > a.active {
+	background-image: url(images/arrow-up.png);
+}
+.map-item.dynamic div.action > a.active {
+	background-image: url(images/arrow-white-up.png);
+}
+.map-item ul {
+	background: #FFF;
+	border: 2px solid #0CA6DD;
+	display: none;
+	position: absolute;
+	right: 0;
+	text-align: left;
+	top: 30px;
+	width: 106px;
+	z-index: 2; /* Do Rounding */
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+.map-item li {
+	position: relative;
+}
+.map-item ul a {
+	color: #000;
+	font-weight: normal;
+	display: block;
+	padding: 5px;
+	padding-right: 15px;
+	white-space: nowrap;
+}
+.map-item li.has-sub > a {
+	background: url(images/arrow-right.png) no-repeat right center;
+}
+.map-item li ul {
+	left: 95px;
+	position: absolute;
+	top: 0;
+}
+.map-item li:hover ul {
+	display: block;
+}
+
+/* Home page create */
+.home-page-create p {
+	margin: 100px 0 30px 0;
+	text-align: center;
+}
+.page-create-button {
+	background: url(images/map-item.png) repeat-x;
+	border: 1px solid #999;
+	height: 30px;
+	margin: 0 auto 100px;
+	position: relative;
+	width: 150px; /* Do Rounding */
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+.page-create-button:hover, .page-create-button.active {
+	background: url(images/map-item-hover.png) repeat-x;
+	border-color: #2E63A5;
+}
+.page-create-button > span {
+	background: url(images/arrow.png) no-repeat 135px center;
+	cursor: pointer;
+	display: block;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 30px;
+	text-align: center;
+}
+.page-create-button:hover > span, .page-create-button.active > span {
+	background-image: url(images/arrow-white.png);
+	color: #FFF;
+}
+.page-create-button ul {
+	background: #EEE;
+	border: 1px solid #BBB;
+	display: none;
+	left: -1px;
+	min-width: 100%;
+	position: absolute;
+	top: 27px;
+}
+.page-create-button.active ul {
+	display: block;
+}
+.page-create-button a {
+	color: #333;
+	display: block;
+	padding: 5px;
+}
+.page-create-button a:hover {
+	background: #E1E1E1;
+	text-decoration: none;
+}
+
+/* =3 Data folder form
+---------------------------------------------------------------------------------------------------------------------*/
+.datafolder-form p.clearfix {
+	margin: 0;
+}
+.datafolder-form p.clearfix:first-child {
+	border-bottom: 1px solid #EEE;
+	padding-bottom: 5px;
+}
+.datafolder-form p.clearfix span {
+	float: left;
+	margin-left: 20px;
+}
+
+/* =4 Diagnosis
+---------------------------------------------------------------------------------------------------------------------*/
+.common-form.diagnosis fieldset {
+	margin:0 0 20px;
+}
+.common-form.diagnosis legend {
+	margin-bottom:0;
+}
+.common-form.diagnosis th {
+	background:#F3F3F3;
+	padding:2px 5px;
+	white-space:nowrap;
+	width:300px;
+}
+.common-form.diagnosis td {
+	background:#F9F9F9;
+	padding:2px 5px;
+	vertical-align:middle;
+}
+.common-form.diagnosis td.icon {
+	border-right:1px solid #EEE;
+	width:10px;
+}

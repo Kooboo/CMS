@@ -1,0 +1,46 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Import Namespace="Kooboo.CMS.Web" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="HeadContentFirst" runat="server">
+    </asp:ContentPlaceHolder>
+    <%: Html.ExternalResources("siteStyles")%>
+    <%: Html.ExternalResources("skinStyles") %>
+    <%: Html.ExternalResources("siteScripts") %>
+    <%: Html.IncludeLocalizationScripts() %>
+    <script type="text/javascript" src="<%: Url.Content("~/Scripts/tiny_mce/tiny_mce.js") %>"></script>
+    <script type="text/javascript" src="<%: Url.Content("~/Scripts/tiny_mce_extension.js") %>"></script>
+    <link type="text/css" rel="Stylesheet" href="<%=Url.Content("~/Areas/Sites/Scripts/pageDesign/page.css")%>" />
+    <script type="text/javascript">
+        var __pageDesign = {
+            errorMessage: '<%="network error".Localize()%>',
+            selectView: '<%="Please select a view".Localize()%>',
+            selectFolder: '<%="Please select a data folder".Localize()%>',
+            selectModule: '<%="Please select a module".Localize()%>',
+            selectHtmlBlock: '<%="Please select a HTML block".Localize()%>'
+        };
+    </script>
+    <script type="text/javascript" src="<%=Url.Content("~/Areas/Sites/Scripts/pageDesign/page.js")%>"></script>
+    <script language="javascript" type="text/javascript">
+        $(function () { $('a.tooltip-link').yardiTip(); });
+    </script>
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <%using (Html.BeginForm())
+      {%>
+    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+    </asp:ContentPlaceHolder>
+    <input type="hidden" name="IsEdit" id="IsEdit" value="<%=ViewData["IsEdit"]%>" />
+    <input type="hidden" name="Order" id="Order" />
+    <input type="hidden" name="PagePositionId" id="PagePositionId" />
+    <p class="buttons">
+        <input type="submit" value="OK" class="button" />
+        <input type="button" id="btnCancel" value="Cancel" class="button" />
+    </p>
+    <%}%>
+</body>
+</html>

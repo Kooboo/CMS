@@ -1,0 +1,90 @@
+﻿
+@using Kooboo.CMS.Content.Models;
+@using Kooboo.CMS.Content.Query;
+@if(Model==null)
+{
+    @("The content was deleted.".Localize())
+}
+else
+{
+    var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
+    var allowedEdit = (bool)ViewData["AllowedEdit"];
+    var allowedView = (bool)ViewData["AllowedView"];
+    var workflowItem  = Model._WorkflowItem_;
+    var hasWorkflowItem = workflowItem!=null;
+    var availableEdit = hasWorkflowItem || (!hasWorkflowItem && allowedEdit);
+
+    using(Html.BeginForm(ViewContext.RequestContext.AllRouteValues()["action"].ToString()
+            , ViewContext.RequestContext.AllRouteValues()["controller"].ToString()
+            , ViewContext.RequestContext.AllRouteValues()
+            , FormMethod.Post, new RouteValueDictionary(new { enctype = "application/x-www-form-urlencoded" })))
+{
+    <div class="common-form">
+    <fieldset>
+    <table><tr>
+            <td>
+            <label for="Title">Title</label>
+            </td>
+            <td>
+            <input id="Title" name="Title" type="text" value="@(Model.Title ?? "")" />
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Title"], null)
+            </td>          
+            </tr><tr>
+            <td>
+            <label for="Summary">Summary</label>
+            </td>
+            <td>
+            <textarea name="Summary" rows="10" cols="100" >@(Model.Summary ?? "")</textarea> 
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Summary"], null)
+            </td>          
+            </tr><tr>
+            <td>
+            <label for="Description">Description</label>
+            </td>
+            <td>
+            
+<textarea name="Description" id="Description" class="Description tinymce" media_library_url="@Url.Action("Selection","MediaContent",ViewContext.RequestContext.AllRouteValues()))"  media_library_title ="@("Selected Files".Localize())" rows="10" cols="100">@( Model.Description ?? "")</textarea>
+
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Description"], null)
+            </td>          
+            </tr><tr>
+            <td>
+            <label for="Readings">Readings</label>
+            </td>
+            <td>
+            <input id="Readings" name="Readings" type="Int32" value="@(Model.Readings ?? "")"  data-val-number="The field Readings must be a number." data-val="true" value-type="int32"/>
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Readings"], null)
+            </td>          
+            </tr>
+            @if (allowedEdit) {
+                <tr>
+            <td>
+            <label for="Published">Published</label>
+            </td>
+            <td>
+            <input name="Published" type="checkbox" @(Convert.ToBoolean(Model.Published)?"checked":"") value="true"/>
+                                    <input type="hidden" value="false" name="Published"/>
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Published"], null)
+            </td>          
+            </tr>
+            }
+    @Html.Action("Categories", ViewContext.RequestContext.AllRouteValues())
+    </table>
+    </fieldset>
+     <p class="buttons">
+        @if(availableEdit){
+           <button type="submit">@("Save".Localize())</button>
+            if(Model.IsLocalized !=null && Model.IsLocalized == false){<button type="submit" name="Localize" value="true">Localize</button>}            
+            <a href="javascript:;" class="dialog-close button">@("Close".Localize())</a>            
+        }
+        else
+        {
+            <a href="javascript:;" class="dialog-close button">@("Close".Localize())</a>
+            <a href="@Url.Action("WorkflowHistory","PendingWorkflow",ViewContext.RequestContext.AllRouteValues().Merge("UserKey", (object)(Model.UserKey)).Merge("UUID",(object)(Model.UUID)))" title="@("View workflow history".Localize())" class="button  dialog-link">@("View workflow history".Localize())</a>
+            <a href="javascript:;" class="tooltip-link" title="@("The content is approving or you have not permission to publish.".Localize())"></a>
+        }
+       
+     </p>
+   </div>   
+  }
+}

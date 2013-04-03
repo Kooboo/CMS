@@ -1,0 +1,136 @@
+﻿/*
+*
+* design
+* author: ronglin
+* create date: 2010.11.25
+*
+*/
+
+var.pagedesign-holder var.content-place
+{
+    border: 1px dashed red;
+    border-color: red;
+    border-style: dashed;
+    -moz-user-select: none;
+}
+
+var.pagedesign-holder var.ui-state-disabled
+{
+    filter: alpha(opacity=60);
+    -moz-opacity: 0.6;
+    opacity: 0.6;
+}
+
+var.pagedesign-content
+{
+    display: none;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-left: 4px;
+    margin-right: 4px;
+    background-image: url("images/c_bg.jpg");
+    background-repeat: repeat-x;
+    background-color: transparent;
+    background-attachment: scroll;
+    background-position: 0 0;
+    border: 1px solid #78808B;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+var.pagedesign-content var.kb-title
+{
+    display: block;
+    height: 20px;
+    padding-left: 2px;
+    line-height: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /* ie */
+    -o-text-overflow: ellipsis; /* opera */
+    -moz-binding: url("ellipsis.xml#ellipsis"); /* ff */
+}
+
+var.pagedesign-content var.kb-sep
+{
+    float: left;
+    width: 1px;
+    height: 20px;
+}
+
+var.pagedesign-content var.kb-btn
+{
+    float: left;
+    cursor: pointer;
+    margin-top: 1px;
+    height: 16px;
+    width: 17px;
+    background-position: center center;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+var.pagedesign-content var.kb-btnhl
+{
+    border: 1px solid #777777;
+    background-color: #dddddd;
+}
+
+var.pagedesign-content var.kb-movebtn
+{
+    float: left;
+    width: 10px;
+    height: 20px;
+    cursor: move;
+    margin-left: 1px;
+    -moz-user-select: none;
+    background-image: url("images/c_move.jpg");
+}
+
+var.pagedesign-content var.kb-editbtn
+{
+    background-image: url("images/c_edit.gif");
+}
+
+var.pagedesign-content var.kb-removebtn
+{
+    background-image: url("images/c_remove.gif");
+}
+
+var.pagedesign-content var.kb-downbtn
+{
+    background-image: url("images/c_down.gif");
+}
+
+var.pagedesign-content var.kb-upbtn
+{
+    background-image: url("images/c_up.gif");
+}
+
+var.pagedesign-content var.kb-htmlcon
+{
+    padding: 4px;
+    display: none;
+    border-top: 1px solid #78808B;
+    background-color: transparent;
+    word-wrap: break-word;
+    word-break: break-all; /*word-wrap:break-word;     overflow:hidden;*/
+}
+
+var.pagedesign-content var.kb-htmlcon > *
+{
+    margin: 0 !important;
+    float: none !important;
+}
+
+var.content-highlight
+{
+    position: absolute;
+    background-color: red;
+    filter: alpha(opacity=40);
+    -moz-opacity: 0.4;
+    opacity: 0.4;
+}

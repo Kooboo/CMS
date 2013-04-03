@@ -1,0 +1,19 @@
+﻿@foreach (var item in ViewBag.Articles){
+<div class="block" @ViewHelper.Edit(item)>
+    <h4 class="title"><a href='@Url.FrontUrl().PageUrl("Articles/Detail", new { UserKey = item.UserKey})'@ViewHelper.Edit(item,"Title") >@item.Title</a></h4>
+    <span class="date">@ViewHelper.DateTimeToString(item.UtcCreationDate,"yyyy-MM-dd")</span>
+    <p @ViewHelper.Edit(item,"Summary")>@Html.Raw(item.Summary)</p>
+    <a class="comment" href="@Url.FrontUrl().PageUrl("Articles/Detail", new { UserKey = item.UserKey})#comments">@(((Kooboo.CMS.Content.Models.TextContent)item).Children("Comment").Count()) Comments</a>
+</div>
+}
+@{
+    var pageOption = new PagerOptions
+    {
+        NextPageText = "Next »",
+        PrevPageText = "« Previous",
+        CssClass="pagination",
+        CurrentPagerItemWrapperFormatString="<span class=\"current\">{0}</span>",
+        NavigationPagerItemWrapperFormatString="<span class=\"pagenavigation\">{0}</span>"
+    };
+}
+@Html.FrontHtml().Pager(ViewBag.Articles,pageOption)

@@ -1,0 +1,31 @@
+﻿/*
+*
+* toolbar button
+* author: ronglin
+* create date: 2010.06.13
+*
+*/
+
+.kb-toolbarbtn
+{
+    border: 1px solid #dddddd;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.kb-toolbarbtn-on
+{
+    background-color: #ccc;
+}
+
+.kb-toolbarbtn-hl
+{
+    border: 1px solid #888888;
+}
+
+.kb-toolbarbtn-disabled
+{
+    cursor: default;
+    border: 1px dashed #dddddd;
+    background-color: #ffffff;
+}

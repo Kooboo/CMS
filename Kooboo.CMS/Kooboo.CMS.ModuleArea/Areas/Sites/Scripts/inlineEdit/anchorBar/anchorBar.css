@@ -1,0 +1,19 @@
+﻿/*
+*
+* anchor bar
+* author: ronglin
+* create date: 2010.06.07
+*
+*/
+
+.kb-anchorbar-alignto
+{
+    border: 1px solid transparent;
+}
+
+.kb-anchorbar-highlight
+{
+    border: 1px dashed red;
+    position: relative;
+    z-index: 4;
+}

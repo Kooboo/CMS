@@ -1,0 +1,41 @@
+﻿@model Kooboo.CMS.Web.Areas.Account.Models.LoginModel
+@{
+    ViewBag.Title = "Sign in".Localize();
+    Layout = "~/Areas/Account/Views/Shared/FrontLayout.cshtml";
+}
+<div class="block login">
+    <div class="common-form">
+        <h6 class="title">
+            @("Sign in".Localize())</h6>
+        @Html.ValidationSummary(true)
+        @using (Html.BeginForm())
+        {
+            <table>
+                <tbody>
+                    @Html.EditorFor(m => m.UserName)
+                    @Html.EditorFor(m => m.Password)
+                    @Html.EditorFor(m => m.RememberMe)                
+                    @if (((Kooboo.CMS.Sites.Web.FrontHttpRequestWrapper)Request).Site != null)
+                    { 
+                        @Html.EditorFor(m => m.RedirectToHome)
+                    }
+                    <tr>
+                        <th>
+                        </th>
+                        <td>
+                            <button type="submit">
+                                @("Sign in".Localize())</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                        </th>
+                        <td>
+                            @Html.ActionLink("Forgot password?".Localize(), "ForgotPassword")
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

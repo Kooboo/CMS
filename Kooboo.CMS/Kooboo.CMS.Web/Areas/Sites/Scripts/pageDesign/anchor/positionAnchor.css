@@ -1,0 +1,102 @@
+﻿/*
+*
+* position anchor
+* author: ronglin
+* create date: 2010.11.12
+*
+*/
+
+.kb-positionAnchor
+{
+    display: none;
+    position: absolute;
+    overflow: hidden;
+    height: 20px;
+    min-width: 20px;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+    line-height: 1;
+    background-color: #C7DAF8;
+    background: url("images/menu_bg.gif");
+    background-repeat: repeat-x;
+    border: 1px solid #4282C3;
+    -moz-user-select: none;
+    z-index: 4;
+}
+
+.kb-positionAnchor .kb-sep
+{
+    float: left;
+    margin-top: 2px;
+    height: 16px;
+    width: 2px;
+    cursor: default;
+    background-repeat: repeat-y;
+    background-image: url("images/menu_split.gif");
+}
+
+.kb-positionAnchor .kb-name
+{
+    margin-left: 4px;
+    margin-right: 4px;
+    line-height: 20px;
+    cursor: default;
+    color: #000;
+}
+
+.kb-positionAnchor .kb-btn
+{
+    float: left;
+    margin-top: 1px;
+    margin-left: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+}
+
+.kb-positionAnchor .kb-btnhl
+{
+    background-color: #ffffff;
+    border: 1px solid #4282c3;
+}
+
+var.kb-positionAnchor-anchorto
+{
+    border-color: Red !important;
+}
+
+/*
+* image buttons
+*/
+.kb-positionAnchor .btnAddView,
+.kb-positionAnchor .btnAddModule,
+.kb-positionAnchor .btnAddFolder,
+.kb-positionAnchor .btnAddHtml,
+.kb-positionAnchor .btnAddHtmlBlock{
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+}
+
+.kb-positionAnchor .btnAddView{
+    background-image: url("images/add_view.png");
+}
+
+.kb-positionAnchor .btnAddModule{
+    background-image: url("images/add_module.gif");
+}
+
+.kb-positionAnchor .btnAddFolder{
+    background-image: url("images/add_folder.gif");
+}
+
+.kb-positionAnchor .btnAddHtml{
+    background-image: url("images/add_html.png");
+}
+
+.kb-positionAnchor .btnAddHtmlBlock{
+    background-image: url("images/add_htmlBlock.png");
+}

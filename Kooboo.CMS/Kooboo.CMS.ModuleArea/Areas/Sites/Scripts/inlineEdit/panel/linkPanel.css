@@ -1,0 +1,135 @@
+﻿/*
+*
+* link panel
+* author: ronglin
+* create date: 2010.06.17
+*
+*/
+
+
+.kb-linkpanel
+{
+    margin: 6px;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+.kb-linkpanel input
+{
+    background-color: #fff;
+    display: inline;
+    margin: 0px;
+    padding: 1px;
+    border: 1px solid #ccc;
+    float: none;
+}
+
+.kb-linkpanel label
+{
+    display: inline;
+}
+
+.kb-linkpanel input[type=text]
+{
+    margin: 0 0 0 2px;
+    padding: 2px 5px;
+}
+
+.kb-linkpanel input.kb-text
+{
+    width: 240px;
+}
+
+.kb-linkpanel input.kb-url
+{
+    width: 200px;
+}
+
+.kb-linkpanel input.kb-tle
+{
+    width: 240px;
+}
+
+.kb-linkpanel input.kb-check
+{
+}
+
+.kb-linkpanel .kb-row
+{
+    margin-top: 4px;
+    text-align: right;
+}
+
+.kb-linkpanel .kb-newwin
+{
+    text-align: left;
+    margin-left: 32px;
+}
+
+.kb-linkpanel .kb-btn
+{
+    margin-left: 4px;
+    padding: 2px 5px;
+    cursor: pointer;
+    color: Black;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+    background: url("images/button.png") repeat-x left top;
+    border: 1px solid #999; /* Do Rounding */
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.kb-linkpanel .kb-bottom
+{
+    margin-top: 14px;
+    text-align: right;
+}
+
+.kb-linkpanel .kb-view
+{
+    width: 36px;
+}
+
+.kb-linkpanel input[type=radio]
+{
+    border-bottom-color: #f0f0f0;
+    background-color: #f0f0f0;
+}
+
+.kb-linkpanel .kb-normal
+{
+    margin-left: 4px;
+}
+
+.kb-linkpanel .kb-normal-text
+{
+}
+
+.kb-linkpanel .kb-confirm
+{
+    margin-left: 34px;
+}
+
+.kb-linkpanel .kb-confirm-text
+{
+}
+
+.kb-linkpanel .kb-unsubscribe
+{
+}
+
+.kb-linkpanel .kb-unsubscribe-text
+{
+}
+
+.kb-linkpanel .kb-onlineversion
+{
+    margin-left: 4px;
+}
+
+.kb-linkpanel .kb-onlineversion-text
+{
+    margin-right: 35px;
+}

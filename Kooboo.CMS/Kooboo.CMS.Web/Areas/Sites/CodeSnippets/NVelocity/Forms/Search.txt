@@ -1,0 +1,29 @@
+﻿
+ <form action="$Url.FrontUrl().PageUrl("search")" method="get">     
+        <input type="text" name="key" id="searchBox" />
+        <button type="submit">
+            Search</button>
+  </form>
+
+#set( $key = $Page_Context.Current.PageRequestContext.AllQueryString.get_Item("key"))
+#set( $pageIndex = $Page_Context.Current.PageRequestContext.AllQueryString.get_Item("pageIndex"))
+#if( ! $pageIndex )
+	#set($pageIndex=1)	
+#else
+	$pageIndex = $int.Parse($pageIndex)
+#end
+
+#set( $results = $SearchHelper.Search($Repository,$key,1,10))
+
+#foreach($item in $results)
+#each
+	
+<div class="block">  
+  <h4 class="title">
+  <a href='$item.Url'>$Html.Raw($item.HighlightedTitle)</a></h4> 
+  <p>$Html.Raw($item.HighlightedBody)</p>
+</div>
+
+#end
+
+$Html.FrontHtml().Pager($results)

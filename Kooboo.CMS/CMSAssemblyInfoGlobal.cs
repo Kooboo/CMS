@@ -4,5 +4,5 @@
 [assembly: AssemblyCopyright("Copyright © Yari 2009-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("3.3.2.0403")]
-[assembly: AssemblyFileVersion("3.3.2.0403")]
+[assembly: AssemblyVersion("3.3.2.0415")]
+[assembly: AssemblyFileVersion("3.3.2.0415")]

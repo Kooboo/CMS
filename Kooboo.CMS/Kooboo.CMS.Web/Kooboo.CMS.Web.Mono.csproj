@@ -14,7 +14,7 @@
     <RootNamespace>Kooboo.CMS.Web</RootNamespace>
     <AssemblyName>Kooboo.CMS.Web</AssemblyName>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -58,8 +58,9 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\Kooboo_CMS 4\Lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -276,6 +277,7 @@
     <Compile Include="Areas\Sites\Controllers\UrlRedirectController.cs" />
     <Compile Include="Areas\Sites\Controllers\UsersController.cs" />
     <Compile Include="Areas\Sites\Controllers\ViewController.cs" />
+    <Compile Include="Areas\Sites\Models\CopySiteModel.cs" />
     <Compile Include="Areas\Sites\SiteCustomTabs.cs" />
     <Compile Include="Areas\Sites\MenuExtensions.cs" />
     <Compile Include="Areas\Sites\Menus\ContentFolderMenuItemInitializer.cs" />
@@ -451,6 +453,7 @@
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\Identifier.ascx" />
     <Content Include="Areas\Sites\Views\Layout\EditorTemplates\Plugins.ascx" />
     <Content Include="Areas\Sites\Views\StyleEditing\FrontEnd.aspx" />
+    <Content Include="Areas\Sites\Views\System\EditorTemplates\Security.ascx" />
     <Content Include="Scripts\html5uploader\cors\jquery.postmessage-transport.js" />
     <Content Include="Scripts\html5uploader\cors\jquery.xdr-transport.js" />
     <Content Include="Scripts\html5uploader\jquery.fileupload-fp.js" />
@@ -2370,6 +2373,7 @@
     <Content Include="Areas\Sites\Views\Site\DeleteRepository.cshtml" />
     <Content Include="Areas\Sites\Views\Site\ImportRepository.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\_TreeDataScripts.cshtml" />
+    <Content Include="Areas\Sites\Views\Site\Copy.cshtml" />
     <None Include="Kooboo_CMS_Front_Page_Reqeust_Flow.sequencediagram" />
     <None Include="Kooboo_CMS_Request_Flow .xps" />
     <Content Include="Views\Web.config" />
@@ -2381,7 +2385,9 @@
     <Folder Include="Areas\Sites\Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="routes.config" />
+    <Content Include="routes.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Kooboo.Connect\Kooboo.Connect.csproj">
@@ -2496,8 +2502,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>3910</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:3910/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

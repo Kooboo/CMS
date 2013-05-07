@@ -46,7 +46,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         protected string GetZipFileName()
         {
-            return "PageVisitRules.zip";
+            return "ABPageSettings.zip";
         }
 
         public virtual ActionResult Import()

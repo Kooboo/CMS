@@ -36,7 +36,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
 
         [Required]
         [UIHint("DropdownList")]
-        [DataSource(typeof(VisitRuleSettingDataSource))]
+        [DataSource(typeof(ABRuleSettingDataSource))]
         [GridColumnAttribute(HeaderText = "Rule name", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 2)]
         [Display(Name = "Rule name")]
         public string RuleName { get; set; }

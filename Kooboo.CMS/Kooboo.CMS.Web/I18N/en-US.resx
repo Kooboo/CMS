@@ -2378,4 +2378,10 @@ Are you sure you want to use this size?</value>
   <data name="The A/B page setting already exists." xml:space="preserve">
     <value>The A/B page setting already exists.</value>
   </data>
+  <data name="Add a layout first" xml:space="preserve">
+    <value>Add a layout first</value>
+  </data>
+  <data name="You do not have any site yet, click the button below to create a site." xml:space="preserve">
+    <value>You do not have any site yet, click the button below to create a site.</value>
+  </data>
 </root>

@@ -203,7 +203,7 @@
     <Compile Include="Areas\Sites\Models\ProxyPosition_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\RandomVisitRule_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ABPageSetting_Metadata.cs" />
-    <Compile Include="Areas\Sites\Models\DataSources\VisitRuleSettingDataSource.cs" />
+    <Compile Include="Areas\Sites\Models\DataSources\ABRuleSettingDataSource.cs" />
     <Compile Include="Areas\Sites\Models\Security_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ABSiteSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\SubmissionSetting_Metadata.cs" />

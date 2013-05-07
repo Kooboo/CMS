@@ -39,11 +39,11 @@ namespace Kooboo.CMS.Sites.DataRule
                     {
                         if (dataRuleBase.SortDirection == DataRule.SortDirection.Ascending)
                         {
-                            contentQuery = contentQuery.OrderBy(dataRuleBase.SortField);
+                            data = contentQuery.OrderBy(dataRuleBase.SortField);
                         }
                         else
                         {
-                            contentQuery = contentQuery.OrderByDescending(dataRuleBase.SortField);
+                            data = contentQuery.OrderByDescending(dataRuleBase.SortField);
                         }
                     }
                     if (item.DataRule.EnablePaging.Value)

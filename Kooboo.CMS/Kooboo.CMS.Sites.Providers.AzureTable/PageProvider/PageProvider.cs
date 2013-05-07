@@ -102,7 +102,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
                    .Select(it => PageEntityHelper.ToPage(it));
         }
 
-        public IQueryable<Models.Page> ChildPages(Models.Page parentPage)
+        public IEnumerable<Models.Page> ChildPages(Models.Page parentPage)
         {
             return CloudTableHelper.GetTableServiceContext().CreateQuery<PageEntity>(PageTable)
                 .Where(it => it.PartitionKey == parentPage.Site.FullName && it.ParentPage == parentPage.FullName)
@@ -125,7 +125,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
         #endregion
 
         #region relation
-        private IQueryable<Page> AllPagesNested(Site site)
+        private IEnumerable<Page> AllPagesNested(Site site)
         {
             return CloudTableHelper.GetTableServiceContext().CreateQuery<PageEntity>(PageTable)
                 .Where(it => it.SiteName == site.FullName)
@@ -133,7 +133,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
                 .Select(it => PageEntityHelper.ToPage(it))
                 .AsQueryable();
         }
-        public IQueryable<Models.Page> ByLayout(Models.Layout layout)
+        public IEnumerable<Models.Page> ByLayout(Models.Layout layout)
         {
             return AllPagesNested(layout.Site)
                  .Select(it => it.AsActual())
@@ -142,7 +142,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
                  .AsQueryable();
         }
 
-        public IQueryable<Models.Page> ByView(Models.View view)
+        public IEnumerable<Models.Page> ByView(Models.View view)
         {
             return AllPagesNested(view.Site).Select(it => it.AsActual())
                 .Where(it => it.PagePositions != null &&
@@ -151,7 +151,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
                     .AsQueryable();
         }
 
-        public IQueryable<Models.Page> ByModule(Models.Site site, string moduleName)
+        public IEnumerable<Models.Page> ByModule(Models.Site site, string moduleName)
         {
             return AllPagesNested(site).Select(it => it.AsActual())
                  .Where(it => it.PagePositions != null &&
@@ -476,30 +476,5 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
 
         }
         #endregion
-
-        #region Relation
-
-        IEnumerable<Page> IPageProvider.ChildPages(Page parentPage)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Page> IPageProvider.ByLayout(Layout layout)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Page> IPageProvider.ByView(Models.View view)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Page> IPageProvider.ByModule(Site site, string moduleName)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-
     }
 }

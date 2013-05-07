@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.Sites.Persistence.Caching
 {
-    public class SiteVisitRuleProvider : ProviderBase<ABSiteSetting>, IABSiteSettingProvider
+    public class ABSiteSettingProvider : ProviderBase<ABSiteSetting>, IABSiteSettingProvider
     {
         #region .ctor
         IABSiteSettingProvider _provider;
-        public SiteVisitRuleProvider(IABSiteSettingProvider provider)
+        public ABSiteSettingProvider(IABSiteSettingProvider provider)
             : base(provider)
         {
             this._provider = provider;

@@ -21,13 +21,13 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Services
 {
-    public class PageVisitRuleManager : ManagerBase<ABPageSetting, IABPageSettingProvider>
+    public class ABPageSettingManager : ManagerBase<ABPageSetting, IABPageSettingProvider>
     {
         #region .ctor
         IABPageSettingProvider _provider;
         IPageVisitRuleMatchedObserver[] _observers;
         ABPageTestResultManager _abPageTestResultManager;
-        public PageVisitRuleManager(IABPageSettingProvider provider, IPageVisitRuleMatchedObserver[] observers, ABPageTestResultManager abPageTestResultManager)
+        public ABPageSettingManager(IABPageSettingProvider provider, IPageVisitRuleMatchedObserver[] observers, ABPageTestResultManager abPageTestResultManager)
             : base(provider)
         {
             _provider = provider;

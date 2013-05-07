@@ -22,11 +22,11 @@ using Kooboo.CMS.Web.Authorizations;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "A/B Test", Order = 1)]
-    public class ABPageSettingController : ManageControllerBase<ABPageSetting, PageVisitRuleManager>
+    public class ABPageSettingController : ManageControllerBase<ABPageSetting, ABPageSettingManager>
     {
         #region .ctor
-        PageVisitRuleManager _manager;
-        public ABPageSettingController(PageVisitRuleManager manager)
+        ABPageSettingManager _manager;
+        public ABPageSettingController(ABPageSettingManager manager)
             : base(manager)
         {
             _manager = manager;

@@ -22,11 +22,11 @@ using Kooboo.CMS.Web.Authorizations;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [RequiredLogOn(RequiredAdministrator = true)]
-    public class ABSiteSettingController : ManageControllerBase<ABSiteSetting, SiteVisitRuleManager>
+    public class ABSiteSettingController : ManageControllerBase<ABSiteSetting, ABSiteSettingManager>
     {
         #region .ctor
-        SiteVisitRuleManager _manager;
-        public ABSiteSettingController(SiteVisitRuleManager manager)
+        ABSiteSettingManager _manager;
+        public ABSiteSettingController(ABSiteSettingManager manager)
             : base(manager)
         {
             _manager = manager;

@@ -25,11 +25,11 @@ using Kooboo.Web.Mvc;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "A/B Test", Order = 1)]
-    public class ABRuleSettingController : ManageControllerBase<ABRuleSetting, VisitRuleSettingManager>
+    public class ABRuleSettingController : ManageControllerBase<ABRuleSetting, ABRuleSettingManager>
     {
         #region .ctor
-        VisitRuleSettingManager _manager;
-        public ABRuleSettingController(VisitRuleSettingManager manager)
+        ABRuleSettingManager _manager;
+        public ABRuleSettingController(ABRuleSettingManager manager)
             : base(manager)
         {
             _manager = manager;

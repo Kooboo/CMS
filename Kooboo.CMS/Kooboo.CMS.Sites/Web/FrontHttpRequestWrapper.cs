@@ -197,7 +197,7 @@ namespace Kooboo.CMS.Sites.Web
 
         protected virtual Site MatchSiteByVisitRule(Site site)
         {
-            return Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Sites.Services.SiteVisitRuleManager>().MatchRule(site, new HttpContextWrapper(HttpContext.Current));
+            return Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Sites.Services.ABSiteSettingManager>().MatchRule(site, new HttpContextWrapper(HttpContext.Current));
         }
         #endregion
     }

@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.Sites.Persistence.Caching
 {
-    public class VisitRuleSettingProvider : SiteElementProviderBase<ABRuleSetting>, IABRuleSettingProvider
+    public class ABPageSettingProvider : SiteElementProviderBase<ABPageSetting>, IABPageSettingProvider
     {
         #region .ctor
-        private IABRuleSettingProvider _provider;
-        public VisitRuleSettingProvider(IABRuleSettingProvider provider)
+        IABPageSettingProvider _provider;
+        public ABPageSettingProvider(IABPageSettingProvider provider)
             : base(provider)
         {
             this._provider = provider;
@@ -29,28 +29,28 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region GetListCacheKey
         protected override string GetListCacheKey()
         {
-            return "All-VisitRuleSettings:";
-        }
+            return "All-PageVisisRules";
+        } 
         #endregion
 
         #region GetItemCacheKey
-        protected override string GetItemCacheKey(ABRuleSetting o)
+        protected override string GetItemCacheKey(ABPageSetting o)
         {
-            return string.Format("VisitRuleSetting:{0}", o.Name);
+            return string.Format("PageVisit:{0}", o.MainPage);
         }
         #endregion
 
         #region Export
-        public void Export(IEnumerable<ABRuleSetting> sources, System.IO.Stream outputStream)
+        public void Export(IEnumerable<ABPageSetting> sources, System.IO.Stream outputStream)
         {
-            _provider.Export(sources, outputStream);
+            this._provider.Export(sources, outputStream);
         }
         #endregion
 
         #region Import
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
         {
-            _provider.Import(site, zipStream, @override);
+            this._provider.Import(site, zipStream, @override);
             ClearObjectCache(site);
         }
         #endregion

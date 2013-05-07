@@ -53,15 +53,15 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
             containerManager.AddComponentInstance(typeof(IProvider<Kooboo.CMS.Sites.Models.View>), viewProvider);
 
 
-            var visitRuleSettingProvider = new VisitRuleSettingProvider(containerManager.Resolve<IABRuleSettingProvider>());
+            var visitRuleSettingProvider = new ABRuleSettingProvider(containerManager.Resolve<IABRuleSettingProvider>());
             containerManager.AddComponentInstance(typeof(IABRuleSettingProvider), visitRuleSettingProvider);
             containerManager.AddComponentInstance(typeof(IProvider<Kooboo.CMS.Sites.ABTest.ABRuleSetting>), visitRuleSettingProvider);
 
-            var siteVisitRuleProvider = new SiteVisitRuleProvider(containerManager.Resolve<IABSiteSettingProvider>());
+            var siteVisitRuleProvider = new ABSiteSettingProvider(containerManager.Resolve<IABSiteSettingProvider>());
             containerManager.AddComponentInstance(typeof(IABSiteSettingProvider), siteVisitRuleProvider);
             containerManager.AddComponentInstance(typeof(IProvider<Kooboo.CMS.Sites.ABTest.ABSiteSetting>), siteVisitRuleProvider);
 
-            var pageVisitRuleProvider = new PageVisitRuleProvider(containerManager.Resolve<IABPageSettingProvider>());
+            var pageVisitRuleProvider = new ABPageSettingProvider(containerManager.Resolve<IABPageSettingProvider>());
             containerManager.AddComponentInstance(typeof(IABPageSettingProvider), pageVisitRuleProvider);
             containerManager.AddComponentInstance(typeof(IProvider<Kooboo.CMS.Sites.ABTest.ABPageSetting>), pageVisitRuleProvider);
 

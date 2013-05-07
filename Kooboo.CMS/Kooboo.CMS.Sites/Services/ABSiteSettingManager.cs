@@ -21,12 +21,12 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Services
 {
-    public class SiteVisitRuleManager : IManager<ABSiteSetting>
+    public class ABSiteSettingManager : IManager<ABSiteSetting>
     {
         #region .ctor
         IABSiteSettingProvider _provider;
         ISiteVisitRuleMatchedObserver[] _observers;
-        public SiteVisitRuleManager(IABSiteSettingProvider provider, ISiteVisitRuleMatchedObserver[] observers)
+        public ABSiteSettingManager(IABSiteSettingProvider provider, ISiteVisitRuleMatchedObserver[] observers)
         {
             _provider = provider;
             _observers = observers;

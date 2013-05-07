@@ -94,9 +94,9 @@
     <Compile Include="Extension\PluginHelper.cs" />
     <Compile Include="Models\HtmlMeta.cs" />
     <Compile Include="Models\SubmissionSetting.cs" />
-    <Compile Include="Persistence\Caching\PageVisitRuleProvider.cs" />
-    <Compile Include="Persistence\Caching\SiteVisitRuleProvider.cs" />
-    <Compile Include="Persistence\Caching\VisitRuleSettingProvider.cs" />
+    <Compile Include="Persistence\Caching\ABPageSettingProvider.cs" />
+    <Compile Include="Persistence\Caching\ABSiteSettingProvider.cs" />
+    <Compile Include="Persistence\Caching\ABRuleSettingProvider.cs" />
     <Compile Include="Persistence\FileSystem\ABPageTestResultProvider.cs" />
     <Compile Include="Persistence\IABPageTestResultProvider.cs" />
     <Compile Include="Persistence\ISubmissionSettingProvider.cs" />
@@ -246,9 +246,9 @@
     <Compile Include="Persistence\FileSystem\ABRuleSettingProvider.cs" />
     <Compile Include="Persistence\IABSiteSettingProvider.cs" />
     <Compile Include="Persistence\IABRuleSettingProvider.cs" />
-    <Compile Include="Services\PageVisitRuleManager.cs" />
-    <Compile Include="Services\SiteVisitRuleManager.cs" />
-    <Compile Include="Services\VisitRuleSettingManager.cs" />
+    <Compile Include="Services\ABPageSettingManager.cs" />
+    <Compile Include="Services\ABSiteSettingManager.cs" />
+    <Compile Include="Services\ABRuleSettingManager.cs" />
     <Compile Include="View\PageSettingValueProvider.cs" />
     <Compile Include="View\WebProxy\IProxyHtmlFixer.cs" />
     <Compile Include="View\PositionRender\IRender.cs" />

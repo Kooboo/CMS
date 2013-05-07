@@ -348,15 +348,15 @@ namespace Kooboo.CMS.Sites.Services
                 (EngineContext.Current).ContainerManager.AddComponentInstance<HeaderBackgroundManager>(value);
             }
         }
-        public static PageVisitRuleManager PageVisitRuleManager
+        public static ABPageSettingManager PageVisitRuleManager
         {
             get
             {
-                return EngineContext.Current.Resolve<PageVisitRuleManager>();
+                return EngineContext.Current.Resolve<ABPageSettingManager>();
             }
             set
             {
-                (EngineContext.Current).ContainerManager.AddComponentInstance<PageVisitRuleManager>(value);
+                (EngineContext.Current).ContainerManager.AddComponentInstance<ABPageSettingManager>(value);
             }
         }
         public static T GetService<T>()

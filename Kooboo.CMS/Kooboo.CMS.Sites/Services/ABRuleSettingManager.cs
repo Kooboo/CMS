@@ -20,11 +20,11 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Services
 {
-    public class VisitRuleSettingManager : ManagerBase<ABRuleSetting, IABRuleSettingProvider>
+    public class ABRuleSettingManager : ManagerBase<ABRuleSetting, IABRuleSettingProvider>
     {
         #region .ctor
         IABRuleSettingProvider _provider;
-        public VisitRuleSettingManager(IABRuleSettingProvider provider)
+        public ABRuleSettingManager(IABRuleSettingProvider provider)
             : base(provider)
         {
             _provider = provider;

@@ -23,7 +23,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
     {
         #region Properties
         [Inject]
-        public VisitRuleSettingManager Manager { get; set; }
+        public ABRuleSettingManager Manager { get; set; }
         #endregion
 
         #region Methods

@@ -19,9 +19,9 @@ namespace Kooboo.CMS.Sites.ABTest
     [Dependency(typeof(IPageRequestModule), Key = "ABTestPageRequestModule")]
     public class ABPageTestRequestModule : PageRequestModuleBase
     {
-        PageVisitRuleManager _pageVisitRuleManager;
+        ABPageSettingManager _pageVisitRuleManager;
         ABPageTestResultManager _abPageTestResultManager;
-        public ABPageTestRequestModule(PageVisitRuleManager pageVisitRuleManager, ABPageTestResultManager abPageTestResultManager)
+        public ABPageTestRequestModule(ABPageSettingManager pageVisitRuleManager, ABPageTestResultManager abPageTestResultManager)
         {
             this._pageVisitRuleManager = pageVisitRuleManager;
             this._abPageTestResultManager = abPageTestResultManager;

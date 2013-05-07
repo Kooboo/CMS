@@ -3,16 +3,16 @@
 _svn
 .svn
 
-Kooboo.CMS.Web/Cms_Data/ABRuleSettings/
-Kooboo.CMS.Web/Cms_Data/ABSiteSettings/
-Kooboo.CMS.Web/Cms_Data/ImageCaching/
-Kooboo.CMS.Web/Cms_Data/Versions/
-Kooboo.CMS.Web/Cms_Data/WebEvents/
-Kooboo.CMS.Web/Cms_Data/PageCaching/
-Kooboo.CMS.Web/Cms_Data/Contents/
-Kooboo.CMS.Web/Cms_Data/Sites/
+ABRuleSettings/
+ABSiteSettings/
+ImageCaching/
+Versions/
+WebEvents/
+PageCaching/
+Contents/
+Sites/
 I18N/
-Kooboo.CMS/Release/
+Release/
 Modules/
 Kooboo.Connect/Web
 *.suo

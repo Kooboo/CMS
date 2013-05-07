@@ -1,0 +1,59 @@
+﻿@model dynamic
+@using Kooboo.CMS.Web
+@Html.IncludeLocalizationScripts()
+@{
+    var route = ViewContext.RequestContext.AllRouteValues();
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+    var tinymceLang = "en";
+    var tinymceLangFile = Server.MapPath(string.Format("~/Scripts/tiny_mce/langs/{0}.js", culture.Name));
+    if (File.Exists(tinymceLangFile))
+    {
+        tinymceLang = culture.Name.ToLower();
+    }
+}
+<script type="text/javascript">
+   @* (function ($) {
+        $.fn.numberic = function () {
+            var $self = $(this)
+            $self.find('input[data-value-type=float]').numeric('@Html.Raw(culture.NumberFormat.NumberDecimalSeparator)');
+            $self.find('input[data-value-type=int32]').numeric(false);
+        };
+    })(jQuery);*@
+    $(function () {
+        window.leaveConfirm.bind('@("All your changes might be lost.".Localize())');
+        //$(window.body).numberic();
+
+        //#region Initialize the js culture
+        Globalize.culture('@Html.Raw(culture.Name)');
+
+
+        //#endregion
+        var hasTinymce = false;
+        $('textarea.tinymce').each(function () {
+            var textarea = $(this);
+            var tinyMCEConfig = $.extend({}, tinymce.getKoobooConfig(), {
+                '$textarea': textarea,
+                'elements': textarea.attr('id'),
+                'media_library_url': '@Html.Raw(Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType","grid"))) ',
+                'media_library_title': '@("Select Files".Localize())',
+                language: '@tinymceLang',
+                setup: function (ed) {
+                    ed.onChange.add(function (ed, l) {
+                        window.leaveConfirm.stop();
+                    });
+                }
+            });
+
+            tinyMCE.init(tinyMCEConfig);
+
+            hasTinymce = true;
+        });
+        if (hasTinymce) {
+            window.ajaxFormParam = {
+                beforeSerialize: function ($form, options) {
+                    tinyMCE.triggerSave();                               
+                }
+            };           
+        }      
+    });
+</script>

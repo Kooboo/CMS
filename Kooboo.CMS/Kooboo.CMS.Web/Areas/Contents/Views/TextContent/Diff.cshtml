@@ -1,0 +1,40 @@
+﻿@model Kooboo.CMS.Web.Areas.Contents.Models.TextContentDiffModel
+@{
+    ViewBag.Title = "Diff";
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@Html.ExternalResources("DiffStyles")
+
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div id="diffBox">
+    <div id="leftPane">
+        <div class="diffHeader">
+            @("Version".ToString())
+            @Model.Version1Name
+        </div>
+        @Html.Partial("_DiffPanel", Model.Version1)
+    </div>
+    <div id="rightPane">
+        <div class="diffHeader">
+            @("Version".Localize())
+            @Model.Version2Name
+        </div>
+        @Html.Partial("_DiffPanel", Model.Version2)
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        InitializeDiffPanes();
+    });
+</script>
+@section ScriptCSS{
+    <script type="text/javascript" src="@Html.Raw(Url.Content("~/Areas/Contents/Scripts/Diff.js"))"></script>
+}

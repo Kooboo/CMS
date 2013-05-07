@@ -1,0 +1,1 @@
+..\7z a ..\Released\Kooboo_CMS.zip manifest.xml parameters.xml Kooboo_CMS

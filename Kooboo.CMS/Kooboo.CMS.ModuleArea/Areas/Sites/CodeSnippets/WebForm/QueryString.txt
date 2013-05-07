@@ -1,0 +1,1 @@
+<%:Page_Context.Current.PageRequestContext.AllQueryString["id"]%>

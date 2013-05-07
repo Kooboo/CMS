@@ -1,0 +1,70 @@
+﻿/*
+*   blockAnchor
+*   author: ronglin
+*   create date: 2011.01.28
+*/
+
+.kb-blockAnchor
+{
+}
+
+.kb-block
+{
+    outline: 1px solid transparent;
+    +border: 1px solid transparent;
+}
+
+.kb-block-unpublish
+{
+    outline: 1px dashed red !important;
+    +border: 1px dashed red !important;
+    filter: alpha(opacity=50) !important;
+    -moz-opacity: 0.5 !important;
+    opacity: 0.5 !important;
+}
+
+.kb-block-hl
+{
+    outline: 1px dashed red !important;
+    +border: 1px dashed red !important;
+    filter: alpha(opacity=100) !important;
+    -moz-opacity: 1 !important;
+    opacity: 1 !important;
+}
+
+.kb-block-mask
+{
+    position: absolute;
+    background-color: red;
+    filter: alpha(opacity=40);
+    -moz-opacity: 0.4;
+    opacity: 0.4;
+}
+
+/*
+* image buttons
+*/
+.kb-blockAnchor .btnEdit,
+.kb-blockAnchor .btnCopy,
+.kb-blockAnchor .btnDelete,
+.kb-blockAnchor .btnPublish{
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+}
+
+.kb-blockAnchor .btnEdit{
+    background-image: url("images/menu_eidttext.gif");
+}
+
+.kb-blockAnchor .btnCopy{
+    background-image: url("images/menu_copy.gif");
+}
+
+.kb-blockAnchor .btnDelete{
+    background-image: url("images/menu_delete.gif");
+}
+
+.kb-blockAnchor .btnPublish{
+    background-image: url("images/menu_publish.gif");
+}

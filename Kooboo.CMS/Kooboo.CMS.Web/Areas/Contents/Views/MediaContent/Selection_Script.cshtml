@@ -1,0 +1,74 @@
+﻿<script>
+    $(function () {
+
+        var iframe = function () {
+            window.__rid = Math.random().toString();
+            var frm, frms = window.parent.document.getElementsByTagName('iframe');
+            for (var i = 0; i < frms.length; i++) {
+                try {
+                    if (frms[i].contentWindow.__rid == window.__rid) { // Permission denied to access property
+                        frm = frms[i];
+                        break;
+                    }
+                } catch (e) { }
+            }
+            return frm;
+        }();
+
+        $('#addBtn').click(function () {
+            var selecteds = $('input:checkbox.doc:checked');
+            var added = false;
+
+            var selectList = [];
+            selecteds.each(function () {
+                var $self = $(this);
+                selectList.push({
+                    url: $self.data('url'),
+                    text: $self.data('alt-text'),
+                    el: $self,
+                    line: $self
+                });
+            });
+            if (top.checkSelect) {
+                result = top.checkSelect.call(this, selectList);
+            }
+
+            if (iframe && iframe.outerApi && selectList.length > 0) {
+                var content = selectList[0];
+                var disable = function (disabled) {
+                    $('#addBtn').attr('disabled', disabled);
+                    $('#cancelBtn').attr('disabled', disabled);
+                };
+                $.ajax({
+                    url: '@Html.Raw(Url.Action("ImageDetailInfo", "MediaContent", ViewContext.RequestContext.AllRouteValues()))',
+                    data: { fileUrl: content.url },
+                    type: 'post', dataType: 'json', timeout: 5000,
+                    beforeSend: function (request) { disable(true); },
+                    complete: function (request, state) { disable(false); },
+                    success: function (data, state) {
+                        var width = 100, height = 100;
+                        if (data.Success) {
+                            width = data.Model.Width;
+                            height = data.Model.Height;
+                        }
+                        iframe.outerApi.OnSelect(content.url, width, height, content.text);
+                        iframe.outerApi.close();
+                    }
+                });
+                added = true;
+            }
+            if (!added) {
+                _.each(selectList, function (d) {
+                    top.onFileSelected(d.url, d.text);
+                });
+                setTimeout(function () {
+                    $.popContext.getCurrent().close();
+                }, 100);
+            }
+        });
+
+        $('#cancelBtn').click(function () {
+            iframe.outerApi ? iframe.outerApi.close() : $.popContext.getCurrent().close();
+        });
+    });
+</script>

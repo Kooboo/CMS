@@ -1,0 +1,68 @@
+﻿@model object[]
+@using Kooboo.Web.Script.Serialization
+@{
+    Layout = ViewBag.Layout ?? "_TR.cshtml";
+    //ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
+    var fullPropertyName = ViewData.TemplateInfo.HtmlFieldPrefix;
+    if (ViewBag.FullPropertyName != null)
+    {
+        fullPropertyName = ViewBag.FullPropertyName.ToString();
+    }
+    var elementId = fullPropertyName.Replace(".", "_");
+    var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString();
+
+
+    var editorHtmlAttributes = Html.GetUnobtrusiveValidationAttributes(propertyName, ViewData.ModelMetadata).Merge(ViewData.ModelMetadata.AdditionalValues, true);
+    var htmlAttributes = ViewBag.HtmlAttributes;
+    if (htmlAttributes != null)
+    {
+        if (htmlAttributes is IDictionary<string, object>)
+        {
+            editorHtmlAttributes.Merge((IDictionary<string, object>)htmlAttributes);
+        }
+        else
+        {
+            editorHtmlAttributes.Merge(new RouteValueDictionary(htmlAttributes));
+        }
+    }
+}
+<div id="@elementId-Editor" class="mutiple-list">
+    <ul data-bind="foreach: data">
+        <li class="clearfix">
+            @Html.TextBox("", "", editorHtmlAttributes.Merge("data-bind", "value: value, attr: {name: $parent.getName($index())}"))
+            <a class="action left" data-bind="click: $parent.removeItem">@Html.IconImage("minus")</a>
+        </li>
+    </ul>
+    <a class="action" data-bind="click: $data.addItem">@Html.IconImage("plus")</a>
+</div>
+@if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+{
+    <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
+}
+@{
+    var items = ViewData.Model == null ? string.Empty : ViewData.Model.Select(it => new { value = it }).ToJSON();
+}
+<script type="text/javascript">
+    $(function () {
+
+        function AppViewModel() {
+            var self = this;
+
+            self.data = ko.observableArray(@Html.Raw(items));
+
+            self.addItem = function () {
+                self.data.push({ value: '' });
+            };
+
+            self.removeItem = function () {              
+                self.data.remove(this);
+            };
+
+            var namePrfix = '@fullPropertyName';
+            self.getName = function (index) {
+                return namePrfix + '[' + (index) + ']';
+            };
+        }
+        ko.applyBindings(new AppViewModel(), $("#@elementId-Editor")[0]);
+    });
+</script>

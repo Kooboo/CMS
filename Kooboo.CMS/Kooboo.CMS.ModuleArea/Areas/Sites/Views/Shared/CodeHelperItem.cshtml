@@ -1,0 +1,20 @@
+﻿@model CodeSnippetGroup
+@if (Model != null)
+{
+    <ul>
+        @foreach (var c in Model.CodeSnippets)
+        {
+            <li>
+                <a  title="@(c.Code)" class="right">@Html.IconImage("insert")</a>
+                @(c.Name)
+            </li>
+        }
+        @foreach (var g in Model.ChildGroups)
+        {
+            <li class="@(g.ChildGroups.Count() > 0 || g.CodeSnippets.Count() > 0 ? "has-sub" : "")">
+                <span>@Html.IconImage("arrow")@g.Name</span>
+                @Html.Partial("CodeHelperItem", g)
+            </li>
+        }
+    </ul> 
+}

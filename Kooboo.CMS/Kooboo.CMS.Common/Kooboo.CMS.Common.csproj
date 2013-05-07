@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AB6DDE14-EEB6-4497-80A0-D148A0A692B5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kooboo.CMS.Common</RootNamespace>
+    <AssemblyName>Kooboo.CMS.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\MVC\4.0\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CMSAssemblyInfoGlobal.cs">
+      <Link>CMSAssemblyInfoGlobal.cs</Link>
+    </Compile>
+    <Compile Include="AggregateHtmlString.cs" />
+    <Compile Include="DataType.cs" />
+    <Compile Include="DependencyResolver.cs" />
+    <Compile Include="EntityModelBinder.cs" />
+    <Compile Include="Formula\FormulaParser.cs" />
+    <Compile Include="Formula\IValueProvider.cs" />
+    <Compile Include="Formula\IFormulaParser.cs" />
+    <Compile Include="Formula\NameValueCollectionProvider.cs" />
+    <Compile Include="HttpApplicationHooker.cs" />
+    <Compile Include="IBaseDir.cs" />
+    <Compile Include="IHttpApplicationEvents.cs" />
+    <Compile Include="ITimeZoneHelper.cs" />
+    <Compile Include="ITypeActivtorStartupTask.cs" />
+    <Compile Include="Persistence\ISaveObservable.cs" />
+    <Compile Include="Persistence\Non_Relational\IIdentifiable.cs" />
+    <Compile Include="Persistence\Relational\IEntity.cs" />
+    <Compile Include="Runtime\AppDomainTypeFinder.cs" />
+    <Compile Include="Runtime\Dependency\AttributeInfo.cs" />
+    <Compile Include="Runtime\Dependency\ComponentLifeStyle.cs" />
+    <Compile Include="Runtime\Dependency\DependencyAttribute.cs" />
+    <Compile Include="Runtime\Dependency\IContainerManager.cs" />
+    <Compile Include="Runtime\Dependency\IDependencyRegistrar.cs" />
+    <Compile Include="Runtime\Dependency\InjectAttribute.cs" />
+    <Compile Include="Runtime\EngineContext.cs" />
+    <Compile Include="Runtime\IEngine.cs" />
+    <Compile Include="Runtime\IStartupTask.cs" />
+    <Compile Include="Runtime\ITypeFinder.cs" />
+    <Compile Include="Runtime\Singleton.cs" />
+    <Compile Include="Runtime\WebAppTypeFinder.cs" />
+    <Compile Include="JsonResultData.cs" />
+    <Compile Include="Persistence\Non_Relational\IPersistable.cs" />
+    <Compile Include="Persistence\Non_Relational\IPersistableExtensions.cs" />
+    <Compile Include="Persistence\Non_Relational\IProvider.cs" />
+    <Compile Include="Persistence\Relational\IProvider.cs" />
+    <Compile Include="Persistence\Relational\ISiteObject.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateControllerContextActionFilterAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
+      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

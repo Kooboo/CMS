@@ -1,0 +1,9 @@
+﻿@using System.Web.Script.Serialization;
+ @{
+string str = "Hello" + DateTime.Now.ToString();
+JavaScriptSerializer serializer = new JavaScriptSerializer();
+string jsStr = serializer.Serialize(str);
+Response.ContentType = "application/json";
+Response.Write(jsStr);
+Response.End();
+}

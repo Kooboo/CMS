@@ -1,0 +1,60 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Sites.Models.View>
+@{
+    ViewBag.Title = "Views".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+}
+
+@section Panel{
+    <ul class="panel">
+        @if (Kooboo.CMS.Sites.View.TemplateEngines.Engines.Count() == 1)
+        {
+            <li>
+                <a href="@Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("EngineName", Kooboo.CMS.Sites.View.TemplateEngines.Engines.First().Name))">
+                    @Html.IconImage("add") @("Create".Localize())</a>
+            </li>
+        }
+        else
+        {
+            <li class="j_DropDown">
+                <a>
+                    @Html.IconImage("add")
+                    @("Create New".Localize())
+                    @Html.IconImage("arrow small white-down")
+                </a>
+                @Html.Partial("_TemplateEngineList")
+            </li>
+        }
+
+        <li>
+            <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import views"))">
+                @Html.IconImage("import") @("Import".Localize())
+            </a>
+        </li>
+
+        <li><a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
+            @Html.IconImage("delete") @("Delete".Localize())</a></li>
+        <li><a href="@Url.Action("Localize", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".unlocalized" data-command-type="AjaxPost">
+            @Html.IconImage("localize") @("Localize".Localize())</a></li>
+        <li class="j_DropDown" data-show-on-check="Any" data-show-on-selector=".localized">
+            <a>
+                @("More...".Localize())
+                @Html.IconImage("arrow small white-down")
+            </a>
+            <ul class="j_DropDownContent hide">
+                <li>
+                    <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized" data-command-type="Download">
+                        @("Export".Localize())
+                    </a>
+                </li>
+                <li><a href="@Url.Action("Copy", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Copy view"))" data-show-on-check="Single" data-show-on-selector=".localized"  data-command-type="Redirect">@("Copy".Localize())</a></li>
+                <li><a href="@Url.Action("Versions", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show view versions"))" data-show-on-check="Single" data-show-on-selector=".localized" data-command-type="Redirect">@("Versions".Localize())</a></li>
+                <li><a href="@Url.Action("Relations", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show view relations"))" data-show-on-check="Single" data-show-on-selector=".localized" data-command-type="Redirect">@("Relations".Localize())</a></li>
+            </ul>
+        </li>
+    </ul>
+}
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+</div>
+@Html.GridForModel2()

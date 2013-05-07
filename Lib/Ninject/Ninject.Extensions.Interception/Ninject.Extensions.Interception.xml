@@ -1,0 +1,1680 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ninject.Extensions.Interception</name>
+    </assembly>
+    <members>
+        <member name="T:Ninject.Extensions.Interception.Activation.Strategies.ProxyActivationStrategy">
+            <summary>
+            Activates and deactivates proxied instances in the activation pipeline attaching and detaching proxies.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Activation.Strategies.ProxyActivationStrategy.Activate(Ninject.Activation.IContext,Ninject.Activation.InstanceReference)">
+            <summary>
+            Activates the specified context.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="reference">The reference.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Activation.Strategies.ProxyActivationStrategy.Deactivate(Ninject.Activation.IContext,Ninject.Activation.InstanceReference)">
+            <summary>
+            Deactivates the specified context.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="reference">The reference.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Activation.Strategies.ProxyActivationStrategy.ShouldProxy(Ninject.Activation.IContext)">
+            <summary>
+            Returns a value indicating whether the instance in the specified context should be proxied.
+            </summary>
+            <param name="context">The activation context.</param>
+            <returns><see langword="True"/> if the instance should be proxied, otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Advice.Builders.AdviceBuilder">
+            <summary>
+            The stock definition of an advice builder.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Infrastructure.DisposableObject">
+            <summary>
+            An abstract object that is disposable. Used for proper implementation of the Disposal pattern.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Infrastructure.IDisposableEx">
+            <summary>
+            A disposable object.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Infrastructure.IDisposableEx.IsDisposed">
+            <summary>
+            Gets a value indicating whether the object has been disposed.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.DisposableObject.Dispose">
+            <summary>
+            Releases all resources currently held by the object.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.DisposableObject.Dispose(System.Boolean)">
+            <summary>
+            Releases all resources currently held by the object.
+            </summary>
+            <param name="disposing"><see langword="True"/> if managed objects should be disposed, otherwise <see langword="false"/>.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.DisposableObject.Finalize">
+            <summary>
+            Releases unmanaged resources and performs other cleanup operations before the
+            object is reclaimed by garbage collection.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.DisposableObject.DisposeMember(System.Object)">
+            <summary>
+            Disposes the specified member if it implements <see cref="T:System.IDisposable"/>.
+            </summary>
+            <param name="member">The member to dispose.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.DisposableObject.DisposeCollection(System.Collections.IEnumerable)">
+            <summary>
+            Disposes the collection and all of its contents, if they implement <see cref="T:System.IDisposable"/>.
+            </summary>
+            <param name="collection">The collection to dispose.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.DisposableObject.DisposeDictionary``2(System.Collections.Generic.IDictionary{``0,``1})">
+            <summary>
+            Disposes the dictionary and all of its contents, if they implement <see cref="T:System.IDisposable"/>.
+            </summary>
+            <param name="dictionary">The dictionary to dispose.</param>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Infrastructure.DisposableObject.IsDisposed">
+            <summary>
+            Gets a value indicating whether the object has been disposed.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Advice.Builders.IAdviceBuilder">
+            <summary>
+            Builds information associated with advice.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.Builders.IAdviceBuilder.Advice">
+            <summary>
+            Gets the advice the builder should manipulate.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Advice.Syntax.IAdviceTargetSyntax">
+            <summary>
+            Describes a fluent syntax for modifying the target of an interception.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Syntax.IAdviceTargetSyntax.With``1">
+            <summary>
+            Indicates that matching requests should be intercepted via an interceptor of the
+            specified type. The interceptor will be created via the kernel when the method is called.
+            </summary>
+            <typeparam name="T">The type of interceptor to call.</typeparam>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Syntax.IAdviceTargetSyntax.With(System.Type)">
+            <summary>
+            Indicates that matching requests should be intercepted via an interceptor of the
+            specified type. The interceptor will be created via the kernel when the method is called.
+            </summary>
+            <param name="interceptorType">The type of interceptor to call.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Syntax.IAdviceTargetSyntax.With(Ninject.Extensions.Interception.IInterceptor)">
+            <summary>
+            Indicates that matching requests should be intercepted via the specified interceptor.
+            </summary>
+            <param name="interceptor">The interceptor to call.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Syntax.IAdviceTargetSyntax.With(System.Func{Ninject.Extensions.Interception.Request.IProxyRequest,Ninject.Extensions.Interception.IInterceptor})">
+            <summary>
+            Indicates that matching requests should be intercepted via an interceptor created by
+            calling the specified callback.
+            </summary>
+            <param name="factoryMethod">The factory method that will create the interceptor.</param>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Advice.Syntax.IAdviceOrderSyntax">
+            <summary>
+            Describes a fluent syntax for modifying the order of an interception.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Syntax.IAdviceOrderSyntax.InOrder(System.Int32)">
+            <summary>
+            Indicates that the interceptor should be called with the specified order. (Interceptors
+            with a lower order will be called first.)
+            </summary>
+            <param name="order">The order.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Builders.AdviceBuilder.#ctor(Ninject.Extensions.Interception.Advice.IAdvice)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Advice.Builders.AdviceBuilder"/> class.
+            </summary>
+            <param name="advice">The advice that should be manipulated.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Builders.AdviceBuilder.Ninject#Extensions#Interception#Advice#Syntax#IAdviceOrderSyntax#InOrder(System.Int32)">
+            <summary>
+            Indicates that the interceptor should be called with the specified order. (Interceptors
+            with a lower order will be called first.)
+            </summary>
+            <param name="order">The order.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Builders.AdviceBuilder.Ninject#Extensions#Interception#Advice#Syntax#IAdviceTargetSyntax#With``1">
+            <summary>
+            Indicates that matching requests should be intercepted via an interceptor of the
+            specified type. The interceptor will be created via the kernel when the method is called.
+            </summary>
+            <typeparam name="T">The type of interceptor to call.</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Builders.AdviceBuilder.Ninject#Extensions#Interception#Advice#Syntax#IAdviceTargetSyntax#With(System.Type)">
+            <summary>
+            Indicates that matching requests should be intercepted via an interceptor of the
+            specified type. The interceptor will be created via the kernel when the method is called.
+            </summary>
+            <param name="interceptorType">The type of interceptor to call.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Builders.AdviceBuilder.Ninject#Extensions#Interception#Advice#Syntax#IAdviceTargetSyntax#With(Ninject.Extensions.Interception.IInterceptor)">
+            <summary>
+            Indicates that matching requests should be intercepted via the specified interceptor.
+            </summary>
+            <param name="interceptor">The interceptor to call.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Builders.AdviceBuilder.Ninject#Extensions#Interception#Advice#Syntax#IAdviceTargetSyntax#With(System.Func{Ninject.Extensions.Interception.Request.IProxyRequest,Ninject.Extensions.Interception.IInterceptor})">
+            <summary>
+            Indicates that matching requests should be intercepted via an interceptor created by
+            calling the specified callback.
+            </summary>
+            <param name="factoryMethod">The factory method that will create the interceptor.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.Builders.AdviceBuilder.Advice">
+            <summary>
+            Gets or sets the advice the builder should manipulate.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Advice.Advice">
+            <summary>
+            A declaration of advice, which is called for matching requests.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Advice.IAdvice">
+            <summary>
+            A declaration of advice, which relates a method or condition with an interceptor.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.IAdvice.Matches(Ninject.Extensions.Interception.Request.IProxyRequest)">
+            <summary>
+            Determines whether the advice matches the specified request.
+            </summary>
+            <param name="request">The request in question.</param>
+            <returns><see langword="True"/> if the request matches, otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.IAdvice.GetInterceptor(Ninject.Extensions.Interception.Request.IProxyRequest)">
+            <summary>
+            Gets the interceptor associated with the advice for the specified request.
+            </summary>
+            <param name="request">The request in question.</param>
+            <returns>The interceptor.</returns>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.IAdvice.MethodHandle">
+            <summary>
+            Gets or sets the method handle for the advice, if it is static.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.IAdvice.Condition">
+            <summary>
+            Gets or sets the condition for the advice, if it is dynamic.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.IAdvice.Interceptor">
+            <summary>
+            Gets or sets the interceptor associated with the advice, if one was defined during
+            registration.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.IAdvice.Callback">
+            <summary>
+            Gets or sets the callback that will be triggered to create the interceptor, if applicable.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.IAdvice.Order">
+            <summary>
+            Gets the order of precedence in which the advice should be called.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.IAdvice.IsDynamic">
+            <summary>
+            Gets a value indicating whether the advice is related to a condition instead of a
+            specific method.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Advice.#ctor(System.Reflection.MethodInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Advice.Advice"/> class.
+            </summary>
+            <param name="method">The method that will be intercepted.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Advice.#ctor(System.Predicate{Ninject.Activation.IContext})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Advice.Advice"/> class.
+            </summary>
+            <param name="condition">The condition that will be evaluated for a request.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Advice.Matches(Ninject.Extensions.Interception.Request.IProxyRequest)">
+            <summary>
+            Determines whether the advice matches the specified request.
+            </summary>
+            <param name="request">The request in question.</param>
+            <returns><see langword="True"/> if the request matches, otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.Advice.GetInterceptor(Ninject.Extensions.Interception.Request.IProxyRequest)">
+            <summary>
+            Gets the interceptor associated with the advice for the specified request.
+            </summary>
+            <param name="request">The request in question.</param>
+            <returns>The interceptor.</returns>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.Advice.MethodHandle">
+            <summary>
+            Gets or sets the method handle for the advice, if it is static.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.Advice.Condition">
+            <summary>
+            Gets or sets the condition for the advice, if it is dynamic.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.Advice.Interceptor">
+            <summary>
+            Gets or sets the interceptor associated with the advice, if applicable.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.Advice.Callback">
+            <summary>
+            Gets or sets the factory method that should be called to create the interceptor, if applicable.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.Advice.Order">
+            <summary>
+            Gets the order of precedence that the advice should be called in.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Advice.Advice.IsDynamic">
+            <summary>
+            Gets a value indicating whether the advice is related to a condition instead of a
+            specific method.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Advice.AdviceFactory">
+            <summary>
+            The stock definition of an advice factory.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Advice.IAdviceFactory">
+            <summary>
+            Creates <see cref="T:Ninject.Extensions.Interception.Advice.IAdvice"/> objects, which hold information about interception.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.IAdviceFactory.Create(System.Reflection.MethodInfo)">
+            <summary>
+            Creates static advice for the specified method.
+            </summary>
+            <param name="method">The method that will be intercepted.</param>
+            <returns>The created advice.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.IAdviceFactory.Create(System.Predicate{Ninject.Activation.IContext})">
+            <summary>
+            Creates dynamic advice for the specified condition.
+            </summary>
+            <param name="condition">The condition that will be evaluated to determine whether a request should be intercepted.</param>
+            <returns>The created advice.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.AdviceFactory.Create(System.Reflection.MethodInfo)">
+            <summary>
+            Creates static advice for the specified method.
+            </summary>
+            <param name="method">The method that will be intercepted.</param>
+            <returns>The created advice.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Advice.AdviceFactory.Create(System.Predicate{Ninject.Activation.IContext})">
+            <summary>
+            Creates dynamic advice for the specified condition.
+            </summary>
+            <param name="condition">The condition that will be evaluated to determine whether a request should be intercepted.</param>
+            <returns>The created advice.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Attributes.DoNotInterceptAttribute">
+            <summary>
+            Indicates that the decorated method should not be intercepted by interceptors defined
+            at the class level.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Attributes.DoNotNotifyOfChangesAttribute">
+            <summary>
+            Indicated that the <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> events should not be raised for the given property.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Attributes.InterceptAttribute">
+            <summary>
+            Base attribute used to mark methods for interception.
+            </summary>
+            <remarks>
+            This class should be extended in order to provide an <see cref="T:Ninject.Extensions.Interception.IInterceptor"/> reference.
+            If you are trying to create a cusom interception strategy, you should inherit from <see cref="T:Ninject.Extensions.Interception.Attributes.InterceptAttributeBase"/>
+            instead.
+            </remarks>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Attributes.InterceptAttributeBase">
+            <summary>
+            A baseline definition of an attribute that indicates one or more methods should be intercepted.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Attributes.InterceptAttributeBase.CreateInterceptor(Ninject.Extensions.Interception.Request.IProxyRequest)">
+            <summary>
+            Creates the interceptor associated with the attribute.
+            </summary>
+            <param name="request">The request that is being intercepted.</param>
+            <returns>The interceptor.</returns>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Attributes.InterceptAttributeBase.Order">
+            <summary>
+            Gets or sets the interceptor's order number. Interceptors are invoked in ascending order.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Attributes.InternalInterceptAttribute.CreateInterceptor(Ninject.Extensions.Interception.Request.IProxyRequest)">
+            <summary>
+            Creates the interceptor associated with the attribute.
+            </summary>
+            <param name="request">The request that is being intercepted.</param>
+            <returns>The interceptor.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Attributes.NotifyOfChangesAttribute">
+            <summary>
+            Provides interceptor's details on how this property or class should participate in <see cref="T:Ninject.Extensions.Interception.IAutoNotifyPropertyChanged"/> events.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Attributes.NotifyOfChangesAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Attributes.NotifyOfChangesAttribute"/> class.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Attributes.NotifyOfChangesAttribute.#ctor(System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Attributes.NotifyOfChangesAttribute"/> class.
+            </summary>
+            <param name="notifyChangeFor">The dependent properties to also trigger events for.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Attributes.NotifyOfChangesAttribute.CreateInterceptor(Ninject.Extensions.Interception.Request.IProxyRequest)">
+            <summary>
+            Creates the interceptor associated with the attribute.
+            </summary>
+            <param name="request">The request that is being intercepted.</param>
+            <returns>The interceptor.</returns>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Attributes.NotifyOfChangesAttribute.NotifyChangeFor">
+            <summary>
+            Gets or sets the additional properties to notify changes for.
+            </summary>
+            <value>The notify change for.</value>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForIBindingSyntax">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForIBindingSyntax.Intercept``1(Ninject.Syntax.IBindingWhenInNamedWithOrOnSyntax{``0})">
+            <summary>
+            Indicates that instances associated with this binding will be proxied.
+            </summary>
+            <typeparam name="T">The type associated with this binding.</typeparam>
+            <param name="bindingSyntax">The binding syntax target.</param>
+            <returns>
+                An <see cref="T:Ninject.Extensions.Interception.Advice.Syntax.IAdviceTargetSyntax"/> instance which allows the attachment of an <see cref="T:Ninject.Extensions.Interception.IInterceptor"/>.
+            </returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForIBindingSyntax.Intercept``1(Ninject.Syntax.IBindingInNamedWithOrOnSyntax{``0})">
+            <summary>
+            Indicates that instances associated with this binding will be proxied.
+            </summary>
+            <typeparam name="T">The type associated with this binding.</typeparam>
+            <param name="bindingSyntax">The binding syntax target.</param>
+            <returns>
+                An <see cref="T:Ninject.Extensions.Interception.Advice.Syntax.IAdviceTargetSyntax"/> instance which allows the attachment of an <see cref="T:Ninject.Extensions.Interception.IInterceptor"/>.
+            </returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForIBindingSyntax.Intercept``1(Ninject.Syntax.IBindingNamedWithOrOnSyntax{``0})">
+            <summary>
+            Indicates that instances associated with this binding will be proxied.
+            </summary>
+            <typeparam name="T">The type associated with this binding.</typeparam>
+            <param name="bindingSyntax">The binding syntax target.</param>
+            <returns>
+                An <see cref="T:Ninject.Extensions.Interception.Advice.Syntax.IAdviceTargetSyntax"/> instance which allows the attachment of an <see cref="T:Ninject.Extensions.Interception.IInterceptor"/>.
+            </returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForIBindingSyntax.Intercept``1(Ninject.Syntax.IBindingWithOrOnSyntax{``0})">
+            <summary>
+            Indicates that instances associated with this binding will be proxied.
+            </summary>
+            <typeparam name="T">The type associated with this binding.</typeparam>
+            <param name="bindingSyntax">The binding syntax target.</param>
+            <returns>
+                An <see cref="T:Ninject.Extensions.Interception.Advice.Syntax.IAdviceTargetSyntax"/> instance which allows the attachment of an <see cref="T:Ninject.Extensions.Interception.IInterceptor"/>.
+            </returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForIBindingSyntax.DoIntercept(Ninject.Syntax.IBindingSyntax)">
+            <summary>
+            Constructs the interception advice to trigger according to the binding used.
+            </summary>
+            <param name="binding">The binding.</param>
+            <returns>
+                An <see cref="T:Ninject.Extensions.Interception.Advice.Syntax.IAdviceTargetSyntax"/> instance which allows the attachment of an <see cref="T:Ninject.Extensions.Interception.IInterceptor"/>.
+            </returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForICustomAttributeProvider">
+            <summary>
+            Extension methods that enhance <see cref="T:System.Reflection.ICustomAttributeProvider"/>.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForICustomAttributeProvider.GetOneAttribute``1(System.Reflection.ICustomAttributeProvider)">
+            <summary>
+            Gets the first attribute of a specified type that decorates the member.
+            </summary>
+            <typeparam name="T">The type of attribute to search for.</typeparam>
+            <param name="member">The member to examine.</param>
+            <returns>The first attribute matching the specified type.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForICustomAttributeProvider.GetOneAttribute(System.Reflection.ICustomAttributeProvider,System.Type)">
+            <summary>
+            Gets the first attribute of a specified type that decorates the member.
+            </summary>
+            <param name="member">The member to examine.</param>
+            <param name="type">The type of attribute to search for.</param>
+            <returns>The first attribute matching the specified type.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForICustomAttributeProvider.GetAllAttributes``1(System.Reflection.ICustomAttributeProvider)">
+            <summary>
+            Gets an array of attributes matching the specified type that decorate the member.
+            </summary>
+            <typeparam name="T">The type of attribute to search for.</typeparam>
+            <param name="member">The member to examine.</param>
+            <returns>An array of attributes matching the specified type.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForICustomAttributeProvider.GetAllAttributes(System.Reflection.ICustomAttributeProvider,System.Type)">
+            <summary>
+            Gets an array of attributes matching the specified type that decorate the member.
+            </summary>
+            <param name="member">The member to examine.</param>
+            <param name="type">The type of attribute to search for.</param>
+            <returns>An array of attributes matching the specified type.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForICustomAttributeProvider.HasAttribute``1(System.Reflection.ICustomAttributeProvider)">
+            <summary>
+            Determines whether the member is decorated with one or more attributes of the specified type.
+            </summary>
+            <typeparam name="T">The type of attribute to search for.</typeparam>
+            <param name="member">The member to examine.</param>
+            <returns><see langword="True"/> if the member is decorated with one or more attributes of the type, otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForICustomAttributeProvider.HasAttribute(System.Reflection.ICustomAttributeProvider,System.Type)">
+            <summary>
+            Determines whether the member is decorated with one or more attributes of the specified type.
+            </summary>
+            <param name="member">The member to examine.</param>
+            <param name="type">The type of attribute to search for.</param>
+            <returns><see langword="True"/> if the member is decorated with one or more attributes of the type, otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForICustomAttributeProvider.HasMatchingAttribute``1(System.Reflection.ICustomAttributeProvider,``0)">
+            <summary>
+            Determines whether the member is decorated with an attribute that matches the one provided.
+            </summary>
+            <typeparam name="T">The type of attribute to search for.</typeparam>
+            <param name="member">The member to examine.</param>
+            <param name="attributeToMatch">The attribute to match against.</param>
+            <returns><see langword="True"/> if the member is decorated with a matching attribute, otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForIEnumerable">
+            <summary>
+            Extension methods that enhance System.Collections.IEnumerable.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForIEnumerable.Convert``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            Converts all of the items in the specified series using the specified converter.
+            </summary>
+            <typeparam name="TInput">The type of items contained in the input list.</typeparam>
+            <typeparam name="TOutput">The type of items to return.</typeparam>
+            <param name="items">The series of items to convert.</param>
+            <param name="converter">The converter to use to convert the items.</param>
+            <returns>A list of the converted items.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForIEnumerable.SkipLast``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Skips the last items where the count of skipped items is given by count.
+            </summary>
+            <typeparam name="T">The type of the enumerable.</typeparam>
+            <param name="source">The source.</param>
+            <param name="count">The count of skipped items.</param>
+            <returns>An enumerable that skippes the last items from the source enumerable.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForMethodBase">
+            <summary>
+            Contains extension methods for <see cref="T:System.Reflection.MethodBase"/>.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForMethodBase.GetParameterTypes(System.Reflection.MethodBase)">
+            <summary>
+            Gets the types of the parameters of the method.
+            </summary>
+            <param name="method">The method in question.</param>
+            <returns>An array containing the types of the method's parameters.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.ExtensionsForMethodBase.GetMethodHandle(System.Reflection.MethodBase)">
+            <summary>
+            Gets the method handle of either the method or its generic type definition, if it is
+            a generic method.
+            </summary>
+            <param name="method">The method in question.</param>
+            <returns>The runtime method handle for the method or its generic type definition.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions">
+            <summary>
+            Provides extensions methods on the <see cref="T:Ninject.IKernel"/> interface.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.Intercept(Ninject.IKernel,System.Predicate{Ninject.Activation.IContext})">
+            <summary>
+            Begins a dynamic interception definition.
+            </summary>
+            <param name="kernel">The kernel.</param>
+            <param name="predicate">The predicate to run when determining whether to intercept the method call.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.DoIntercept(Ninject.IKernel,System.Predicate{Ninject.Activation.IContext})">
+            <summary>
+            Begins a dynamic interception definition.
+            </summary>
+            <param name="kernel"></param>
+            <param name="condition">The condition to evaluate to determine if a request should be intercepted.</param>
+            <returns>An advice builder.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.CreateAdviceBuilder(Ninject.Extensions.Interception.Advice.IAdvice)">
+            <summary>
+            Creates an advice builder.
+            </summary>
+            <param name="advice">The advice that will be built.</param>
+            <returns>The created builder.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.AddMethodInterceptor(Ninject.IKernel,System.Reflection.MethodInfo,System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Adds the method interceptor.
+            </summary>
+            <param name="kernel">The kernel.</param>
+            <param name="method">The method to intercept.</param>
+            <param name="action">The action to take in its place.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptReplace``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Action{``0}},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts the given method call and replaces it with the proxy action.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="methodExpr">The method to intercept.</param>
+            <param name="action">The action to take in its place.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptAround``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Action{``0}},System.Action{Ninject.Extensions.Interception.IInvocation},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts the action surrounding the invocation with the two interceptor calls.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="methodExpr">The method to wrap.</param>
+            <param name="beforeAction">The before action.</param>
+            <param name="afterAction">The after action.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptBefore``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Action{``0}},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts the given action and executes the interception action prior to continuing execution.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="methodExpr">The method to intercept.</param>
+            <param name="action">The action to execute before.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptAfter``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Action{``0}},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts the given action and executes the interception action after the method is executed.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="methodExpr">The method to intercept.</param>
+            <param name="action">The action to execute before.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptReplaceGet``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts and the replaces get call of a property.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="propertyExpr">The get_ property expression to replace.</param>
+            <param name="action">The action to take in its place.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptAroundGet``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Action{Ninject.Extensions.Interception.IInvocation},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts the action surrounding the invocation with the two interceptor calls.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="propertyExpr">The property expression.</param>
+            <param name="beforeAction">The before action.</param>
+            <param name="afterAction">The after action.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptBeforeGet``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts the get call and runs the action prior to executing the original expression.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="propertyExpr">The property expr.</param>
+            <param name="action">The action.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptAfterGet``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts the get call and runs the specified interception action after the get call is made.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="propertyExpr">The property expr.</param>
+            <param name="action">The action.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptReplaceSet``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts and the replaces set call of a property.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="propertyExpr">The set_ property expression to replace.</param>
+            <param name="action">The action to take in its place.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptAroundSet``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Action{Ninject.Extensions.Interception.IInvocation},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts the action surrounding the invocation with the two interceptor calls.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="propertyExpr">The property expression.</param>
+            <param name="beforeAction">The before action.</param>
+            <param name="afterAction">The after action.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptBeforeSet``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts the set call and runs the action prior to executing the original expression.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="propertyExpr">The property expr.</param>
+            <param name="action">The action.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Infrastructure.Language.KernelExtensions.InterceptAfterSet``1(Ninject.IKernel,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Intercepts the set call and runs the specified interception action after the set call is made.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="kernel">The kernel.</param>
+            <param name="propertyExpr">The property expr.</param>
+            <param name="action">The action.</param>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.Dynamic.DynamicInjectorFactory">
+            <summary>
+            Creates instances of injectors that use generated <see cref="T:System.Reflection.Emit.DynamicMethod"/> objects
+            for invocation.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.InjectorFactoryBase">
+            <summary>
+            Creates instances of injectors.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.IInjectorFactory">
+            <summary>
+            Creates instances of injectors.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.IInjectorFactory.GetInjector(System.Reflection.MethodInfo)">
+            <summary>
+            Gets an injector for the specified method.
+            </summary>
+            <param name="method">The method that the injector will invoke.</param>
+            <returns>A new injector for the method.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.InjectorFactoryBase.GetInjector(System.Reflection.MethodInfo)">
+            <summary>
+            Gets an injector for the specified method.
+            </summary>
+            <param name="method">The method that the injector will invoke.</param>
+            <returns>A new injector for the method.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.InjectorFactoryBase.CreateInjector(System.Reflection.MethodInfo)">
+            <summary>
+            Creates a new method injector.
+            </summary>
+            <param name="method">The method that the injector will invoke.</param>
+            <returns>A new injector for the method.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Dynamic.DynamicInjectorFactory.CreateInjector(System.Reflection.MethodInfo)">
+            <summary>
+            Creates a new method injector.
+            </summary>
+            <param name="method">The method that the injector will invoke.</param>
+            <returns>A new injector for the method.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.Dynamic.DynamicMethodFactory">
+            <summary>
+            A helper class that uses lightweight code generation to create dynamic methods.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Dynamic.DynamicMethodFactory.CreateInvoker(System.Reflection.MethodInfo)">
+            <summary>
+            Creates a new <see cref="T:Ninject.Extensions.Interception.Injection.Invoker"/> that calls the specified method in a
+            late-bound manner.
+            </summary>
+            <param name="method">The method that the invoker should call.</param>
+            <returns>A dynamic invoker that can call the specified method.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Dynamic.DynamicMethodFactory.CreateFactoryMethod(System.Reflection.ConstructorInfo)">
+            <summary>
+            Creates a new <see cref="T:Ninject.Extensions.Interception.Injection.FactoryMethod"/> that calls the specified constructor in a
+            late-bound manner.
+            </summary>
+            <param name="constructor">The constructor that the factory method should call.</param>
+            <returns>A dynamic factory method that can call the specified constructor.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Dynamic.DynamicMethodFactory.CreateGetter(System.Reflection.FieldInfo)">
+            <summary>
+            Creates a new <see cref="T:Ninject.Extensions.Interception.Injection.Getter"/> that gets the value of the specified field in a
+            late-bound manner.
+            </summary>
+            <param name="field">The field that the getter should read from.</param>
+            <returns>A dynamic getter that can read from the specified field.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Dynamic.DynamicMethodFactory.CreateGetter(System.Reflection.PropertyInfo)">
+            <summary>
+            Creates a new <see cref="T:Ninject.Extensions.Interception.Injection.Getter"/> that gets the value of the specified property in a
+            late-bound manner.
+            </summary>
+            <param name="property">The property that the getter should read from.</param>
+            <returns>A dynamic getter that can read from the specified property.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Dynamic.DynamicMethodFactory.CreateSetter(System.Reflection.FieldInfo)">
+            <summary>
+            Creates a new <see cref="T:Ninject.Extensions.Interception.Injection.Setter"/> that sets the value of the specified field in a
+            late-bound manner.
+            </summary>
+            <param name="field">The field that the setter should write to.</param>
+            <returns>A dynamic setter that can write to the specified field.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Dynamic.DynamicMethodFactory.CreateSetter(System.Reflection.PropertyInfo)">
+            <summary>
+            Creates a new <see cref="T:Ninject.Extensions.Interception.Injection.Setter"/> that sets the value of the specified property in a
+            late-bound manner.
+            </summary>
+            <param name="property">The property that the setter should write to.</param>
+            <returns>A dynamic setter that can write to the specified property.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.Dynamic.DynamicMethodInjector">
+            <summary>
+            A method injector that uses a dynamically-generated <see cref="T:Ninject.Extensions.Interception.Injection.Invoker"/> for invocation.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.InjectorBase`1">
+            <summary>
+            A baseline definition of an injector. This type can be extended to create custom injectors.
+            </summary>
+            <typeparam name="TMember"></typeparam>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.IInjector`1">
+            <summary>
+            An object that can inject one or more values into the specified member.
+            </summary>
+            <typeparam name="TMember">The type of member that the injector can inject.</typeparam>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Injection.IInjector`1.Member">
+            <summary>
+            Gets the member associated with the injector.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.InjectorBase`1.Dispose(System.Boolean)">
+            <summary>
+            Releases all resources currently held by the object.
+            </summary>
+            <param name="disposing"><see langword="True"/> if managed objects should be disposed, otherwise <see langword="false"/>.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.InjectorBase`1.#ctor(`0)">
+            <summary>
+            Creates a new InjectorBase.
+            </summary>
+            <param name="member">The member associated with the injector.</param>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Injection.InjectorBase`1.Member">
+            <summary>
+            Gets the member associated with the injector.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.IMethodInjector">
+            <summary>
+            Provides a way to inject one or more values into the specified member.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.IMethodInjector.Invoke(System.Object,System.Object[])">
+            <summary>
+            Calls the method associated with the injector.
+            </summary>
+            <param name="target">The instance on which to call the method.</param>
+            <param name="arguments">The arguments to pass to the method.</param>
+            <returns>The return value of the method.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Dynamic.DynamicMethodInjector.#ctor(System.Reflection.MethodInfo)">
+            <summary>
+            Creates a new DynamicMethodInjector.
+            </summary>
+            <param name="member">The method that will be injected.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Dynamic.DynamicMethodInjector.Invoke(System.Object,System.Object[])">
+            <summary>
+            Calls the method associated with the injector.
+            </summary>
+            <param name="target">The instance on which to call the method.</param>
+            <param name="arguments">The arguments to pass to the method.</param>
+            <returns>The return value of the method.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.Reflection.ReflectionInjectorFactory">
+            <summary>
+            Creates instances of injectors that use reflection for invocation.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Reflection.ReflectionInjectorFactory.CreateInjector(System.Reflection.MethodInfo)">
+            <summary>
+            Creates a new method injector.
+            </summary>
+            <param name="method">The method that the injector will invoke.</param>
+            <returns>A new injector for the method.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.Reflection.ReflectionMethodInjector">
+            <summary>
+            A method injector that uses reflection for invocation.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Reflection.ReflectionMethodInjector.#ctor(System.Reflection.MethodInfo)">
+            <summary>
+            Creates a new ReflectionMethodInjector.
+            </summary>
+            <param name="member">The method that will be injected.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Reflection.ReflectionMethodInjector.Invoke(System.Object,System.Object[])">
+            <summary>
+            Calls the method associated with the injector.
+            </summary>
+            <param name="target">The instance on which to call the method.</param>
+            <param name="arguments">The arguments to pass to the method.</param>
+            <returns>The return value of the method.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Injection.Reflection.ReflectionMethodInjector.RethrowPreservingStackTrace(System.Exception)">
+            <summary>
+            Re-throws the specified exception, preserving its internal stack trace.
+            </summary>
+            <param name="ex">The exception to re-throw.</param>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.FactoryMethod">
+            <summary>
+            Represents a method that creates instances of a type.
+            </summary>
+            <param name="arguments">A collection of arguments to pass to the constructor.</param>
+            <returns>An instance of the associated type.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.Getter">
+            <summary>
+            Represents a method that gets the value stored in a field or property on
+            the specified object.
+            </summary>
+            <param name="target">The object to get the value from.</param>
+            <returns>The value stored in the associated field or property.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.Invoker">
+            <summary>
+            Represents a method that calls another method.
+            </summary>
+            <param name="target">The object on which to call the associated method.</param>
+            <param name="arguments">A collection of arguments to pass to the associated method.</param>
+            <returns>The return value of the method.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Injection.Setter">
+            <summary>
+            Represents a method that sets the value stored in a field or property on
+            the specified object.
+            </summary>
+            <param name="target">The object to get the value from.</param>
+            <param name="value">The value to store in the associated field or property.</param>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Invocation.Invocation">
+            <summary>
+            An implementation of an invocation which uses an <see cref="T:Ninject.Extensions.Interception.Injection.IMethodInjector"/> to call
+            the target method.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Invocation.InvocationBase">
+            <summary>
+            A baseline definition of an invocation.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.IInvocation">
+            <summary>
+            Describes an executable invocation.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.IInvocation.Proceed">
+            <summary>
+            Continues the invocation, either by invoking the next interceptor in the chain, or
+            if there are no more interceptors, calling the target method.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.IInvocation.Request">
+            <summary>
+            Gets the request, which describes the method call.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.IInvocation.Interceptors">
+            <summary>
+            Gets the chain of interceptors that will be executed before the target method is called.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.IInvocation.ReturnValue">
+            <summary>
+            Gets or sets the return value for the method.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Invocation.InvocationBase.#ctor(Ninject.Extensions.Interception.Request.IProxyRequest,System.Collections.Generic.IEnumerable{Ninject.Extensions.Interception.IInterceptor})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Invocation.InvocationBase"/> class.
+            </summary>
+            <param name="request">The request, which describes the method call.</param>
+            <param name="interceptors">The chain of interceptors that will be executed before the target method is called.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Invocation.InvocationBase.Proceed">
+            <summary>
+            Continues the invocation, either by invoking the next interceptor in the chain, or
+            if there are no more interceptors, calling the target method.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Invocation.InvocationBase.CallTargetMethod">
+            <summary>
+            Calls the target method described by the request.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Invocation.InvocationBase.Request">
+            <summary>
+            Gets the request, which describes the method call.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Invocation.InvocationBase.Interceptors">
+            <summary>
+            Gets the chain of interceptors that will be executed before the target method is called.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Invocation.InvocationBase.ReturnValue">
+            <summary>
+            Gets or sets the return value for the method.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Invocation.Invocation.#ctor(Ninject.Extensions.Interception.Request.IProxyRequest,Ninject.Extensions.Interception.Injection.IMethodInjector,System.Collections.Generic.IEnumerable{Ninject.Extensions.Interception.IInterceptor})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Invocation.Invocation"/> class.
+            </summary>
+            <param name="request">The request, which describes the method call.</param>
+            <param name="injector">The injector that will be used to call the target method.</param>
+            <param name="interceptors">The chain of interceptors that will be executed before the target method is called.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Invocation.Invocation.CallTargetMethod">
+            <summary>
+            Calls the target method described by the request.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Invocation.Invocation.Injector">
+            <summary>
+            Gets the injector that will be used to call the target method.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Planning.Directives.ProxyDirective">
+            <summary>
+            Provides hints to the <see cref="T:Ninject.Activation.Strategies.IActivationStrategy"/> pipeline that the type should be proxied.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Planning.Strategies.AutoNotifyInterceptorRegistrationStrategy">
+            <summary>
+            Examines the implementation type via reflection and registers any static interceptors
+            that are defined via attributes.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Planning.Strategies.InterceptorRegistrationStrategy">
+            <summary>
+            Examines the implementation type via reflection and registers any static interceptors
+            that are defined via attributes.
+            </summary>
+        </member>
+        <member name="F:Ninject.Extensions.Interception.Planning.Strategies.InterceptorRegistrationStrategy.DefaultBindingFlags">
+            <summary>
+            The default <see cref="T:System.Reflection.BindingFlags"/> to use during reflection.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.InterceptorRegistrationStrategy.#ctor(Ninject.Extensions.Interception.Advice.IAdviceFactory,Ninject.Extensions.Interception.Registry.IAdviceRegistry)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Planning.Strategies.InterceptorRegistrationStrategy"/> class.
+            </summary>
+            <param name="adviceFactory">The advice factory.</param>
+            <param name="adviceRegistry">The advice registry.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.InterceptorRegistrationStrategy.Execute(Ninject.Planning.IPlan)">
+            <summary>
+            Contributes to the specified plan.
+            </summary>
+            <param name="plan">The plan that is being generated.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.InterceptorRegistrationStrategy.RegisterClassInterceptors(System.Type,Ninject.Planning.IPlan,System.Collections.Generic.IEnumerable{System.Reflection.MethodInfo})">
+            <summary>
+            Registers static interceptors defined by attributes on the class for all candidate
+            methods on the class, execept those decorated with a <see cref="T:Ninject.Extensions.Interception.Attributes.DoNotInterceptAttribute"/>.
+            </summary>
+            <param name="type">The type whose activation plan is being manipulated.</param>
+            <param name="plan">The activation plan that is being manipulated.</param>
+            <param name="candidates">The candidate methods to intercept.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.InterceptorRegistrationStrategy.RegisterMethodInterceptors(System.Type,System.Reflection.MethodInfo,System.Collections.Generic.ICollection{Ninject.Extensions.Interception.Attributes.InterceptAttributeBase})">
+            <summary>
+            Registers static interceptors defined by attributes on the specified method.
+            </summary>
+            <param name="type">The type whose activation plan is being manipulated.</param>
+            <param name="method">The method that may be intercepted.</param>
+            <param name="attributes">The interception attributes that apply.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.InterceptorRegistrationStrategy.GetCandidateMethods(System.Type)">
+            <summary>
+            Gets a collection of methods that may be intercepted on the specified type.
+            </summary>
+            <param name="type">The type to examine.</param>
+            <returns>The candidate methods.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.InterceptorRegistrationStrategy.ShouldIntercept(System.Reflection.MethodInfo)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Reflection.MethodInfo"/> should be intercepted.
+            </summary>
+            <param name="methodInfo">The method info.</param>
+            <returns>
+                <c>true</c> if the method should be intercepted; <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Planning.Strategies.InterceptorRegistrationStrategy.AdviceFactory">
+            <summary>
+            Gets or sets the advice factory.
+            </summary>
+            <value>The advice factory.</value>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Planning.Strategies.InterceptorRegistrationStrategy.AdviceRegistry">
+            <summary>
+            Gets or sets the advice registry.
+            </summary>
+            <value>The advice registry.</value>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.AutoNotifyInterceptorRegistrationStrategy.#ctor(Ninject.Extensions.Interception.Advice.IAdviceFactory,Ninject.Extensions.Interception.Registry.IAdviceRegistry)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Planning.Strategies.AutoNotifyInterceptorRegistrationStrategy"/> class.
+            </summary>
+            <param name="adviceFactory">The advice factory.</param>
+            <param name="adviceRegistry">The advice registry.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.AutoNotifyInterceptorRegistrationStrategy.Execute(Ninject.Planning.IPlan)">
+            <summary>
+            Contributes to the specified plan.
+            </summary>
+            <param name="plan">The plan that is being generated.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.AutoNotifyInterceptorRegistrationStrategy.RegisterClassInterceptors(System.Type,Ninject.Planning.IPlan,System.Collections.Generic.IEnumerable{System.Reflection.MethodInfo})">
+            <summary>
+            Registers static interceptors defined by attributes on the class for all candidate
+            methods on the class, execept those decorated with a <see cref="T:Ninject.Extensions.Interception.Attributes.DoNotInterceptAttribute"/>.
+            </summary>
+            <param name="type">The type whose activation plan is being manipulated.</param>
+            <param name="plan">The activation plan that is being manipulated.</param>
+            <param name="candidates">The candidate methods to intercept.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.AutoNotifyInterceptorRegistrationStrategy.ShouldIntercept(System.Reflection.MethodInfo)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Reflection.MethodInfo"/> should be intercepted.
+            </summary>
+            <param name="methodInfo">The method info.</param>
+            <returns>
+                <c>true</c> if the method should be intercepted; <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Planning.Strategies.MethodInterceptorRegistrationStrategy">
+            <summary>
+            Provides interceptor attachment for methods configured by the kernel for method level interception.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.MethodInterceptorRegistrationStrategy.#ctor(Ninject.Extensions.Interception.Advice.IAdviceFactory,Ninject.Extensions.Interception.Registry.IAdviceRegistry,Ninject.Extensions.Interception.Registry.IMethodInterceptorRegistry)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Planning.Strategies.MethodInterceptorRegistrationStrategy"/> class.
+            </summary>
+            <param name="adviceFactory">The advice factory.</param>
+            <param name="adviceRegistry">The advice registry.</param>
+            <param name="methodInterceptorRegistry">The method interceptor registry.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Planning.Strategies.MethodInterceptorRegistrationStrategy.Execute(Ninject.Planning.IPlan)">
+            <summary>
+            Contributes to the specified plan.
+            </summary>
+            <param name="plan">The plan that is being generated.</param>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Planning.Strategies.MethodInterceptorRegistrationStrategy.MethodInterceptorRegistry">
+            <summary>
+            Gets or sets the method interceptor registry.
+            </summary>
+            <value>The method interceptor registry.</value>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.ProxyFactory.IProxyFactory">
+            <summary>
+            Creates proxies for activated instances to allow method calls on them to be intercepted.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.ProxyFactory.IProxyFactory.Wrap(Ninject.Activation.IContext,Ninject.Activation.InstanceReference)">
+            <summary>
+            Wraps the instance in the specified context in a proxy.
+            </summary>
+            <param name="context">The activation context.</param>
+            <param name="reference"></param>
+            <returns>A proxy that wraps the instance.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.ProxyFactory.IProxyFactory.Unwrap(Ninject.Activation.IContext,Ninject.Activation.InstanceReference)">
+            <summary>
+            Unwraps the instance in the specified context.
+            </summary>
+            <param name="context">The activation context.</param>
+            <param name="reference"></param>
+            <returns>The unwrapped instance.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.ProxyFactory.ProxyFactoryBase">
+            <summary>
+            A baseline definition of a proxy factory.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.ProxyFactory.ProxyFactoryBase.Wrap(Ninject.Activation.IContext,Ninject.Activation.InstanceReference)">
+            <summary>
+            Wraps the instance in the specified context in a proxy.
+            </summary>
+            <param name="context">The context in which the instance was activated.</param>
+            <param name="reference">The <see cref="T:Ninject.Activation.InstanceReference"/> to wrap.</param>
+            <returns>A proxy that wraps the instance.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.ProxyFactory.ProxyFactoryBase.Unwrap(Ninject.Activation.IContext,Ninject.Activation.InstanceReference)">
+            <summary>
+            Unwraps the instance in the specified context.
+            </summary>
+            <param name="context">The context in which the instance was activated.</param>
+            <param name="reference">The <see cref="T:Ninject.Activation.InstanceReference"/> to unwrap.</param>
+            <returns>The unwrapped instance.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Registry.AdviceRegistry">
+            <summary>
+            Collects advice defined for methods.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Registry.IAdviceRegistry">
+            <summary>
+            Collects advice defined for methods.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.IAdviceRegistry.HasAdvice(Ninject.Activation.IContext)">
+            <summary>
+            Determines whether an advice for the specified context exists.
+            </summary>
+            <param name="context">The context.</param>
+            <returns>
+            	<c>true</c> if an advice for the specified context exists.; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.IAdviceRegistry.Register(Ninject.Extensions.Interception.Advice.IAdvice)">
+            <summary>
+            Registers the specified advice.
+            </summary>
+            <param name="advice">The advice to register.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.IAdviceRegistry.HasStaticAdvice(System.Type)">
+            <summary>
+            Determines whether any static advice has been registered for the specified type.
+            </summary>
+            <param name="type">The type in question.</param>
+            <returns><see langword="True"/> if advice has been registered, otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.IAdviceRegistry.GetInterceptors(Ninject.Extensions.Interception.Request.IProxyRequest)">
+            <summary>
+            Gets the interceptors that should be invoked for the specified request.
+            </summary>
+            <param name="request">The request.</param>
+            <returns>A collection of interceptors, ordered by the priority in which they should be invoked.</returns>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Registry.IAdviceRegistry.HasDynamicAdvice">
+            <summary>
+            Gets a value indicating whether dynamic advice has been registered.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.AdviceRegistry.HasAdvice(Ninject.Activation.IContext)">
+            <summary>
+            Determines whether an advice for the specified context exists.
+            </summary>
+            <param name="context">The context.</param>
+            <returns>
+            	<c>true</c> if an advice for the specified context exists.; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.AdviceRegistry.Register(Ninject.Extensions.Interception.Advice.IAdvice)">
+            <summary>
+            Registers the specified advice.
+            </summary>
+            <param name="advice">The advice to register.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.AdviceRegistry.HasStaticAdvice(System.Type)">
+            <summary>
+            Determines whether any static advice has been registered for the specified type.
+            </summary>
+            <param name="type">The type in question.</param>
+            <returns><see langword="True"/> if advice has been registered, otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.AdviceRegistry.GetInterceptors(Ninject.Extensions.Interception.Request.IProxyRequest)">
+            <summary>
+            Gets the interceptors that should be invoked for the specified request.
+            </summary>
+            <param name="request">The request.</param>
+            <returns>A collection of interceptors, ordered by the priority in which they should be invoked.</returns>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Registry.AdviceRegistry.HasDynamicAdvice">
+            <summary>
+            Gets a value indicating whether one or more dynamic interceptors have been registered.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Registry.IMethodInterceptorRegistry">
+            <summary>
+            Provides a registry of <see cref="T:Ninject.Extensions.Interception.IInterceptor"/> and <see cref="T:System.Reflection.MethodInfo"/> bindings for interception.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.IMethodInterceptorRegistry.Add(System.Reflection.MethodInfo,Ninject.Extensions.Interception.IInterceptor)">
+            <summary>
+            Adds the specified interceptor for the given method.
+            </summary>
+            <param name="method">The method to bind the interceptor to.</param>
+            <param name="interceptor">The interceptor to add.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.IMethodInterceptorRegistry.Contains(System.Type)">
+            <summary>
+            Determines whether the registry contains interceptors for the specified type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>
+            	<c>true</c> if the registry contains interceptors for the specified type; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.IMethodInterceptorRegistry.GetMethodInterceptors(System.Type)">
+            <summary>
+            Gets the method interceptors bindings associated with the given type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>
+                <see cref="T:System.Reflection.MethodInfo"/> and <see cref="T:Ninject.Extensions.Interception.IInterceptor"/> bindings for the given type.
+            </returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Registry.MethodInterceptorCollection">
+            <summary>
+            Provides lookup table functionality to trace <see cref="T:System.Reflection.MethodInfo"/> to a collection of <see cref="T:Ninject.Extensions.Interception.IInterceptor"/>.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.MethodInterceptorCollection.Add(System.Reflection.MethodInfo,Ninject.Extensions.Interception.IInterceptor)">
+            <summary>
+            Adds the specified interceptor for the given method.
+            </summary>
+            <param name="method">The method to bind the interceptor to.</param>
+            <param name="interceptor">The interceptor to add.</param>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Registry.MethodInterceptorRegistry">
+            <summary>
+            Provides a registry of <see cref="T:Ninject.Extensions.Interception.IInterceptor"/> and <see cref="T:System.Reflection.MethodInfo"/> bindings for interception.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.MethodInterceptorRegistry.Add(System.Reflection.MethodInfo,Ninject.Extensions.Interception.IInterceptor)">
+            <summary>
+            Adds the specified interceptor for the given method.
+            </summary>
+            <param name="method">The method to bind the interceptor to.</param>
+            <param name="interceptor">The interceptor to add.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.MethodInterceptorRegistry.Contains(System.Type)">
+            <summary>
+            Determines whether the registry contains interceptors for the specified type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>
+            	<c>true</c> if the registry contains interceptors for the specified type; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Registry.MethodInterceptorRegistry.GetMethodInterceptors(System.Type)">
+            <summary>
+            Gets the method interceptors bindings associated with the given type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>
+            	<see cref="T:System.Reflection.MethodInfo"/> and <see cref="T:Ninject.Extensions.Interception.IInterceptor"/> bindings for the given type.
+            </returns>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Registry.MethodInterceptorRegistry.TypeMethods">
+            <summary>
+            Gets the type method lookup table.
+            </summary>
+            <value>The type methods.</value>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Request.IProxyRequest">
+            <summary>
+            Describes a method call on a proxied contextualized instance.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.IProxyRequest.Kernel">
+            <summary>
+            Gets the kernel that created the target instance.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.IProxyRequest.Context">
+            <summary>
+            Gets the context in which the target instance was activated.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.IProxyRequest.Proxy">
+            <summary>
+            Gets or sets the proxy instance.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.IProxyRequest.Target">
+            <summary>
+            Gets the target instance.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.IProxyRequest.Method">
+            <summary>
+            Gets the method that will be called on the target instance.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.IProxyRequest.Arguments">
+            <summary>
+            Gets the arguments to the method.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.IProxyRequest.GenericArguments">
+            <summary>
+            Gets the generic type arguments for the method.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.IProxyRequest.HasGenericArguments">
+            <summary>
+            Gets a value indicating whether the request has generic arguments.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Request.IProxyRequestFactory">
+            <summary>
+            Creates <see cref="T:Ninject.Extensions.Interception.Request.IProxyRequest"/>s, which describe method calls.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Request.IProxyRequestFactory.Create(Ninject.Activation.IContext,System.Object,System.Object,System.Reflection.MethodInfo,System.Object[],System.Type[])">
+            <summary>
+            Creates a request representing the specified method call.
+            </summary>
+            <param name="context">The context in which the target instance was activated.</param>
+            <param name="proxy">The proxy instance.</param>
+            <param name="target">The target instance.</param>
+            <param name="method">The method that will be called on the target instance.</param>
+            <param name="arguments">The arguments to the method.</param>
+            <param name="genericArguments">The generic type arguments for the method.</param>
+            <returns>The newly-created request.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Request.ProxyRequest">
+            <summary>
+            The stock implementation of a request.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Request.ProxyRequest.#ctor(Ninject.Activation.IContext,System.Object,System.Object,System.Reflection.MethodInfo,System.Object[],System.Type[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Request.ProxyRequest"/> class.
+            </summary>
+            <param name="context">The context in which the target instance was activated.</param>
+            <param name="proxy"></param>
+            <param name="target">The target instance.</param>
+            <param name="method">The method that will be called on the target instance.</param>
+            <param name="arguments">The arguments to the method.</param>
+            <param name="genericArguments">The generic type arguments for the method.</param>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.ProxyRequest.Kernel">
+            <summary>
+            Gets the kernel that created the target instance.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.ProxyRequest.Context">
+            <summary>
+            Gets the context in which the target instance was activated.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.ProxyRequest.Proxy">
+            <summary>
+            Gets or sets the proxy instance.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.ProxyRequest.Target">
+            <summary>
+            Gets the target instance.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.ProxyRequest.Method">
+            <summary>
+            Gets the method that will be called on the target instance.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.ProxyRequest.Arguments">
+            <summary>
+            Gets the arguments to the method.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.ProxyRequest.GenericArguments">
+            <summary>
+            Gets the generic type arguments for the method.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Request.ProxyRequest.HasGenericArguments">
+            <summary>
+            Gets a value indicating whether the request has generic arguments.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Request.ProxyRequestFactory">
+            <summary>
+            The stock definition of a <see cref="T:Ninject.Extensions.Interception.Request.IProxyRequestFactory"/>.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Request.ProxyRequestFactory.Create(Ninject.Activation.IContext,System.Object,System.Object,System.Reflection.MethodInfo,System.Object[],System.Type[])">
+            <summary>
+            Creates a request representing the specified method call.
+            </summary>
+            <param name="context">The context in which the target instance was activated.</param>
+            <param name="proxy">The proxy instance.</param>
+            <param name="target">The target instance.</param>
+            <param name="method">The method that will be called on the target instance.</param>
+            <param name="arguments">The arguments to the method.</param>
+            <param name="genericArguments">The generic type arguments for the method.</param>
+            <returns>The newly-created request.</returns>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Wrapper.IWrapper">
+            <summary>
+            Contains a contextualized instance and can be used to create executable invocations.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Wrapper.IWrapper.CreateInvocation(Ninject.Extensions.Interception.Request.IProxyRequest)">
+            <summary>
+            Creates an executable invocation for the specified request.
+            </summary>
+            <param name="request">The request.</param>
+            <returns>An executable invocation representing the specified request.</returns>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Wrapper.IWrapper.Kernel">
+            <summary>
+            Gets the kernel associated with the wrapper.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Wrapper.IWrapper.Context">
+            <summary>
+            Gets the context in which the wrapper was created.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Wrapper.IWrapper.Instance">
+            <summary>
+            Gets or sets the wrapped instance.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Wrapper.StandardWrapper">
+            <summary>
+            Defines an interception wrapper, which contains a contextualized instance and can be
+            used to create executable invocations.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Wrapper.StandardWrapper.#ctor(Ninject.IKernel,Ninject.Activation.IContext,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Wrapper.StandardWrapper"/> class.
+            </summary>
+            <param name="kernel">The kernel associated with the wrapper.</param>
+            <param name="context">The context in which the instance was activated.</param>
+            <param name="instance">The wrapped instance.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Wrapper.StandardWrapper.CreateInvocation(Ninject.Extensions.Interception.Request.IProxyRequest)">
+            <summary>
+            Creates an executable invocation for the specified request.
+            </summary>
+            <param name="request">The request.</param>
+            <returns>An executable invocation representing the specified request.</returns>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Wrapper.StandardWrapper.Kernel">
+            <summary>
+            Gets the kernel associated with the wrapper.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Wrapper.StandardWrapper.Context">
+            <summary>
+            Gets the context in which the wrapper was created.
+            </summary>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.Wrapper.StandardWrapper.Instance">
+            <summary>
+            Gets or sets the wrapped instance.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.ActionInterceptor">
+            <summary>
+            Provides the ability to supply an action which will be invoked during method inteterception.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.IInterceptor">
+            <summary>
+            Intercepts a method call on an activated instance.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.IInterceptor.Intercept(Ninject.Extensions.Interception.IInvocation)">
+            <summary>
+            Intercepts the specified invocation.
+            </summary>
+            <param name="invocation">The invocation to intercept.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.ActionInterceptor.#ctor(System.Action{Ninject.Extensions.Interception.IInvocation})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.ActionInterceptor"/> class.
+            </summary>
+            <param name="interceptAction">The intercept action to take.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.ActionInterceptor.Intercept(Ninject.Extensions.Interception.IInvocation)">
+            <summary>
+            Intercepts the specified invocation.
+            </summary>
+            <param name="invocation">The invocation to intercept.</param>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.AutoNotifyPropertyChangedInterceptor`1">
+            <summary>
+            Provides interceptor capabilities for integration in the <see cref="T:Ninject.Extensions.Interception.IAutoNotifyPropertyChanged"/> interception scheme.
+            </summary>
+            <typeparam name="TViewModel">The type of the view model.</typeparam>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.IAutoNotifyPropertyChangedInterceptor`1">
+            <summary>
+            Provides interceptor capabilities for integration in the <see cref="T:Ninject.Extensions.Interception.IAutoNotifyPropertyChanged"/> interception scheme.
+            </summary>
+            <typeparam name="TViewModel">The type of the view model.</typeparam>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.AutoNotifyPropertyChangedInterceptor`1.Intercept(Ninject.Extensions.Interception.IInvocation)">
+            <summary>
+            Intercepts the specified invocation.
+            </summary>
+            <param name="invocation">The invocation to intercept.</param>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.IAutoNotifyPropertyChanged">
+            <summary>
+            Provides a common interface for classes that wish to provide automatic <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> functionality.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.IAutoNotifyPropertyChanged.OnPropertyChanged(System.String)">
+            <summary>
+            Raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> event for the given property.
+            </summary>
+            <param name="propertyName">Name of the property.</param>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.InterceptionModule">
+            <summary>
+            Extends the functionality of the kernel, providing the base functionality needed for interception.
+            </summary>
+            <remarks>
+            Note: Inheritors must provide a component binding for <see cref="T:Ninject.Extensions.Interception.ProxyFactory.IProxyFactory"/>.
+            </remarks>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.InterceptionModule.Load">
+            <summary>
+            Loads the module into the kernel.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.InterceptionModule.VerifyNoBoundProxyFactoriesExist">
+            <summary>
+            Verifies that there are no proxy factories attached as kernel components.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.SimpleInterceptor">
+            <summary>
+            A simple definition of an interceptor, which can take action both before and after
+            the invocation proceeds.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.SimpleInterceptor.Intercept(Ninject.Extensions.Interception.IInvocation)">
+            <summary>
+            Intercepts the specified invocation.
+            </summary>
+            <param name="invocation">The invocation to intercept.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.SimpleInterceptor.BeforeInvoke(Ninject.Extensions.Interception.IInvocation)">
+            <summary>
+            Takes some action before the invocation proceeds.
+            </summary>
+            <param name="invocation">The invocation that is being intercepted.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.SimpleInterceptor.AfterInvoke(Ninject.Extensions.Interception.IInvocation)">
+            <summary>
+            Takes some action after the invocation proceeds.
+            </summary>
+            <param name="invocation">The invocation that is being intercepted.</param>
+        </member>
+    </members>
+</doc>

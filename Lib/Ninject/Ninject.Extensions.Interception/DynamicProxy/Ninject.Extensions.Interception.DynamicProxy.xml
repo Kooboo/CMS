@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ninject.Extensions.Interception.DynamicProxy</name>
+    </assembly>
+    <members>
+        <member name="T:Ninject.Extensions.Interception.DynamicProxyModule">
+            <summary>
+            Extends the functionality of the kernel, providing a proxy factory that uses Castle DynamicProxy2
+            to generate dynamic proxies.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.DynamicProxyModule.Load">
+            <summary>
+            Loads the module into the kernel.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.ProxyFactory.DynamicProxyProxyFactory">
+            <summary>
+            An implementation of a proxy factory that uses a Castle DynamicProxy2 <see cref="T:Castle.DynamicProxy.ProxyGenerator"/>
+            and <see cref="T:Ninject.Extensions.Interception.Wrapper.DynamicProxyWrapper"/>s to create wrapped instances.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.ProxyFactory.DynamicProxyProxyFactory.#ctor(Ninject.IKernel)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.ProxyFactory.DynamicProxyProxyFactory"/> class.
+            </summary>
+            <param name="kernel">The kernel.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.ProxyFactory.DynamicProxyProxyFactory.Dispose(System.Boolean)">
+            <summary>
+            Releases all resources held by the object.
+            </summary>
+            <param name="disposing"><see langword="True"/> if managed objects should be disposed, otherwise <see langword="false"/>.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.ProxyFactory.DynamicProxyProxyFactory.Wrap(Ninject.Activation.IContext,Ninject.Activation.InstanceReference)">
+            <summary>
+            Wraps the specified instance in a proxy.
+            </summary>
+            <param name="context">The context in which the instance was activated.</param>
+            <param name="reference">The <see cref="T:Ninject.Activation.InstanceReference"/> to wrap.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.ProxyFactory.DynamicProxyProxyFactory.Unwrap(Ninject.Activation.IContext,Ninject.Activation.InstanceReference)">
+            <summary>
+            Unwraps the specified proxied instance.
+            </summary>
+            <param name="context">The context in which the instance was activated.</param>
+            <param name="reference">The <see cref="T:Ninject.Activation.InstanceReference"/> to unwrap.</param>
+        </member>
+        <member name="P:Ninject.Extensions.Interception.ProxyFactory.DynamicProxyProxyFactory.Kernel">
+            <summary>
+            Gets the kernel.
+            </summary>
+        </member>
+        <member name="T:Ninject.Extensions.Interception.Wrapper.DynamicProxyWrapper">
+            <summary>
+            Defines an interception wrapper that can convert a Castle DynamicProxy2 <see cref="!:Castle.Core.Interceptor.IInvocation"/>
+            into a Ninject <see cref="T:Ninject.Activation.IRequest"/> for interception.
+            </summary>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Wrapper.DynamicProxyWrapper.#ctor(Ninject.IKernel,Ninject.Activation.IContext,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Ninject.Extensions.Interception.Wrapper.DynamicProxyWrapper"/> class.
+            </summary>
+            <param name="kernel">The kernel associated with the wrapper.</param>
+            <param name="context">The context in which the instance was activated.</param>
+            <param name="instance">The wrapped instance.</param>
+        </member>
+        <member name="M:Ninject.Extensions.Interception.Wrapper.DynamicProxyWrapper.Intercept(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            Intercepts the specified invocation.
+            </summary>
+            <param name="castleInvocation">The invocation.</param>
+            <returns>The return value of the invocation, once it is completed.</returns>
+        </member>
+    </members>
+</doc>

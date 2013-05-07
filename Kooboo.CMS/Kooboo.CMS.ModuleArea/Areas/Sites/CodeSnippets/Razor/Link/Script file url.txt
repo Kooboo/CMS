@@ -1,0 +1,1 @@
+@Url.FrontUrl().ScriptFileUrl("images/header-bg.png")

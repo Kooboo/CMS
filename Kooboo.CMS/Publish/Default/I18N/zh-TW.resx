@@ -1,0 +1,2139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Powered by Kooboo CMS" xml:space="preserve">
+    <value>Powered by Kooboo CMS</value>
+  </data>
+  <data name="Sign in - Kooboo CMS" xml:space="preserve">
+    <value>登錄 - Kooboo CMS</value>
+  </data>
+  <data name="About kooboo CMS" xml:space="preserve">
+    <value>關於 Kooboo CMS</value>
+  </data>
+  <data name="This Enterprise CMS system saves time and allows you the freedom that you need to develop high-quality websites with a personal touch. We've streamlined the web development process." xml:space="preserve">
+    <value>這個企業級內容管理系統可以讓你在短時間內創建一個高品質的網站。我們擁有專業、規範的流程。</value>
+  </data>
+  <data name="For a list of new added features and a quick start guide,&lt;br /&gt;See: &lt;a href=&quot;http://www.kooboo.com/documents&quot; target=&quot;_blank&quot;&gt;http://www.kooboo.com/documents&lt;/a&gt;" xml:space="preserve">
+    <value>新功能和快速入門，請參考：&lt;br /&gt; &lt;a href="http://www.kooboo.com/documents" target="_blank"&gt;http://www.kooboo.com/documents&lt;/a&gt;</value>
+  </data>
+  <data name="Sign in to the CMS and create your first Kooboo website, default login is: &lt;strong&gt;admin/admin&lt;/strong&gt;" xml:space="preserve">
+    <value>登錄Kooboo CMS 並創建您的第一個Kooboo網站, 默認登錄: &lt;strong&gt;admin/admin&lt;/strong&gt;</value>
+  </data>
+  <data name="Sign in" xml:space="preserve">
+    <value>登錄</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>用戶名</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>必填</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="Remember me 字段是必需的。" xml:space="preserve">
+    <value>“記住我的登錄狀態”為必填欄位</value>
+  </data>
+  <data name="Remember me" xml:space="preserve">
+    <value>記住我的登錄狀態</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>開始</value>
+  </data>
+  <data name="- Kooboo CMS" xml:space="preserve">
+    <value> - Kooboo CMS</value>
+  </data>
+  <data name="CMS &gt; Site Manager" xml:space="preserve">
+    <value>CMS &gt; 網站管理</value>
+  </data>
+  <data name="Site Manager" xml:space="preserve">
+    <value>網站管理</value>
+  </data>
+  <data name="Content Manager" xml:space="preserve">
+    <value>內容管理</value>
+  </data>
+  <data name="Change Password" xml:space="preserve">
+    <value>修改密碼</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>用戶</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>角色</value>
+  </data>
+  <data name="Modules" xml:space="preserve">
+    <value>模組擴展</value>
+  </data>
+  <data name="Sign Out" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="please wait..." xml:space="preserve">
+    <value>請稍候……</value>
+  </data>
+  <data name="Create a new site" xml:space="preserve">
+    <value>新建網站</value>
+  </data>
+  <data name="Create a sub site" xml:space="preserve">
+    <value>新建子網站</value>
+  </data>
+  <data name="Create a subsite" xml:space="preserve">
+    <value>新建子網站</value>
+  </data>
+  <data name="Import site" xml:space="preserve">
+    <value>導入網站</value>
+  </data>
+  <data name="Import sites" xml:space="preserve">
+    <value>導入多個網站</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>查找</value>
+  </data>
+  <data name="(Offline)" xml:space="preserve">
+    <value>(離線)</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>預覽</value>
+  </data>
+  <data name="Add sub site" xml:space="preserve">
+    <value>添加子網站</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>導出</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="Take offline" xml:space="preserve">
+    <value>離線</value>
+  </data>
+  <data name="Take online" xml:space="preserve">
+    <value>上線</value>
+  </data>
+  <data name="Are you sure you want to delete this site?" xml:space="preserve">
+    <value>您確定要刪除這個網站嗎？</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名稱</value>
+  </data>
+  <data name="The site name" xml:space="preserve">
+    <value>網站名稱</value>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>父站</value>
+  </data>
+  <data name="The parent website which this new website will base on" xml:space="preserve">
+    <value>新網站要繼承的網站</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>上傳</value>
+  </data>
+  <data name="Go to site cluster" xml:space="preserve">
+    <value>到站群</value>
+  </data>
+  <data name="The bad netword or some unknow reasons cause timeout, do you want to reload the page." xml:space="preserve">
+    <value>網路問題或者未知原因導致超時，您要重新載入頁面嗎？</value>
+  </data>
+  <data name="Page selector" xml:space="preserve">
+    <value>選擇頁面</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>導入</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>複製</value>
+  </data>
+  <data name="There is an error occurs" xml:space="preserve">
+    <value>發生錯誤</value>
+  </data>
+  <data name="Start - Sitemap" xml:space="preserve">
+    <value>開始 - 網站地圖</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>編輯</value>
+  </data>
+  <data name="Copy Page" xml:space="preserve">
+    <value>複製頁面</value>
+  </data>
+  <data name="Add sub page" xml:space="preserve">
+    <value>添加子頁面</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>發佈</value>
+  </data>
+  <data name="Unpublish" xml:space="preserve">
+    <value>取消發佈</value>
+  </data>
+  <data name="Move To" xml:space="preserve">
+    <value>移到</value>
+  </data>
+  <data name="Move Page" xml:space="preserve">
+    <value>移動頁面</value>
+  </data>
+  <data name="Dynamic page" xml:space="preserve">
+    <value>動態頁面</value>
+  </data>
+  <data name="Static page" xml:space="preserve">
+    <value>靜態頁面</value>
+  </data>
+  <data name="Parent page" xml:space="preserve">
+    <value>父頁面</value>
+  </data>
+  <data name="In menu" xml:space="preserve">
+    <value>在菜單裏</value>
+  </data>
+  <data name="Unpublished" xml:space="preserve">
+    <value>已取消發佈</value>
+  </data>
+  <data name="Are you sure you want to delete this page?" xml:space="preserve">
+    <value>您確定要刪除這個頁面嗎？</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>系統</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>設置</value>
+  </data>
+  <data name="Site users" xml:space="preserve">
+    <value>網站用戶</value>
+  </data>
+  <data name="Custom errors" xml:space="preserve">
+    <value>自定義錯誤</value>
+  </data>
+  <data name="Url redirects" xml:space="preserve">
+    <value>URL重定向</value>
+  </data>
+  <data name="Robots.txt" xml:space="preserve">
+    <value>Robots.txt</value>
+  </data>
+  <data name="Publishing queue" xml:space="preserve">
+    <value>發佈佇列</value>
+  </data>
+  <data name="Development" xml:space="preserve">
+    <value>開發</value>
+  </data>
+  <data name="Layouts" xml:space="preserve">
+    <value>佈局</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>視圖</value>
+  </data>
+  <data name="Labels" xml:space="preserve">
+    <value>標籤</value>
+  </data>
+  <data name="Scripts" xml:space="preserve">
+    <value>腳本</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>主題</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="Action mapping" xml:space="preserve">
+    <value>action映射</value>
+  </data>
+  <data name="Extension" xml:space="preserve">
+    <value>擴展</value>
+  </data>
+  <data name="Plug-ins" xml:space="preserve">
+    <value>插件</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>頁面</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>資料庫</value>
+  </data>
+  <data name="Content type" xml:space="preserve">
+    <value>內容類型</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>內容</value>
+  </data>
+  <data name="Media Library" xml:space="preserve">
+    <value>媒體</value>
+  </data>
+  <data name="- Database - Kooboo CMS" xml:space="preserve">
+    <value>- 資料庫 - Kooboo CMS</value>
+  </data>
+  <data name="Only alphameric and numeric are allowed in the field name" xml:space="preserve">
+    <value>只允許字母和數位</value>
+  </data>
+  <data name="Display name" xml:space="preserve">
+    <value>顯示名稱</value>
+  </data>
+  <data name="Custom template" xml:space="preserve">
+    <value>自定義範本</value>
+  </data>
+  <data name="Custom template 字段是必需的。" xml:space="preserve">
+    <value>“自定義範本”為必填項</value>
+  </data>
+  <data name="Userkey escape chars" xml:space="preserve">
+    <value>Userkey的非法字元</value>
+  </data>
+  <data name="Disallowed userkey chars. Replace chars that match this regular expression into hyphens" xml:space="preserve">
+    <value>UserKey包含不允許的字元</value>
+  </data>
+  <data name="Userkey hyphens" xml:space="preserve">
+    <value>關鍵字連接符</value>
+  </data>
+  <data name="Enable versioning" xml:space="preserve">
+    <value>啟用版本控制</value>
+  </data>
+  <data name="Enable versioning 字段是必需的。" xml:space="preserve">
+    <value>“啟用版本控制”為必填項</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Are you sure you want to delete this repository?" xml:space="preserve">
+    <value>您確定要刪除這個庫嗎？</value>
+  </data>
+  <data name="CMS &gt; Content Manager" xml:space="preserve">
+    <value>CMS &gt; 內容管理</value>
+  </data>
+  <data name="1. Create database" xml:space="preserve">
+    <value>1、創建資料庫</value>
+  </data>
+  <data name="Create a library to store your contents" xml:space="preserve">
+    <value>創建一個庫來存儲您的內容</value>
+  </data>
+  <data name="2. Customize setting" xml:space="preserve">
+    <value>2、個性化設置</value>
+  </data>
+  <data name="Create folders or content types with custom fields" xml:space="preserve">
+    <value>用自定義欄位創建檔夾或內容類型</value>
+  </data>
+  <data name="3. Add content" xml:space="preserve">
+    <value>3、添加內容</value>
+  </data>
+  <data name="Create text content &lt;br /&gt; or upload media files" xml:space="preserve">
+    <value>創建一個文本內容&lt;br /&gt;或者上傳媒體檔</value>
+  </data>
+  <data name="Create Database" xml:space="preserve">
+    <value>創建資料庫</value>
+  </data>
+  <data name="Add content type" xml:space="preserve">
+    <value>添加內容類型</value>
+  </data>
+  <data name="Add TextFolder" xml:space="preserve">
+    <value>添加文字檔案夾</value>
+  </data>
+  <data name="Add text folder" xml:space="preserve">
+    <value>添加文字檔案夾</value>
+  </data>
+  <data name="Add text content" xml:space="preserve">
+    <value>添加文本內容</value>
+  </data>
+  <data name="Add media files" xml:space="preserve">
+    <value>添加媒體文件</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>有效</value>
+  </data>
+  <data name="Not avaliable" xml:space="preserve">
+    <value>無效</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Create new content repository" xml:space="preserve">
+    <value>創建內容庫</value>
+  </data>
+  <data name="Choose an existing repository" xml:space="preserve">
+    <value>選擇現有的庫</value>
+  </data>
+  <data name="SampleSite" xml:space="preserve">
+    <value>示例網站</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>所有</value>
+  </data>
+  <data name="A name cannot contain a space or any of the following characters:\/:*?&lt;&gt;|~" xml:space="preserve">
+    <value>名稱不能包含空格或以下字元:\/:*?&lt;&gt;|~</value>
+  </data>
+  <data name="'Name' is invalid." xml:space="preserve">
+    <value>“名稱”無效</value>
+  </data>
+  <data name="Name 字段是必需的。" xml:space="preserve">
+    <value>“名稱”為必填項</value>
+  </data>
+  <data name="Database name" xml:space="preserve">
+    <value>資料庫名稱</value>
+  </data>
+  <data name="The name of your database to be created" xml:space="preserve">
+    <value>您要創建的資料庫的名稱</value>
+  </data>
+  <data name="'Content database' is invalid." xml:space="preserve">
+    <value>“內容資料庫”無效</value>
+  </data>
+  <data name="The site display name" xml:space="preserve">
+    <value>顯示網站名</value>
+  </data>
+  <data name="Culture" xml:space="preserve">
+    <value>語言</value>
+  </data>
+  <data name="Your front site culture, this is used to display currency,  &lt;br/&gt;date, number or other culture related content" xml:space="preserve">
+    <value>您的前臺網站的語言，用來顯示貨幣、&lt;br/&gt;日期、數位或其語言相關的內容。</value>
+  </data>
+  <data name="Domains" xml:space="preserve">
+    <value>功能變數名稱</value>
+  </data>
+  <data name="Your website domains" xml:space="preserve">
+    <value>您的網站的功能變數名稱</value>
+  </data>
+  <data name="SitePath" xml:space="preserve">
+    <value>網站路徑</value>
+  </data>
+  <data name="The virtual path of your website.  &lt;br/&gt;You may create a subsite eg. www.kooboo.com/china, &lt;b&gt;china&lt;/b&gt; is the SitePath." xml:space="preserve">
+    <value>您的網站的虛擬路徑。&lt;br/&gt;您可能例如 www.kooboo.com/china的子網站，&lt;b&gt;china&lt;/b&gt; 就是網站的路徑。</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="Give your wesite a version number, it can be any number as you like" xml:space="preserve">
+    <value>給網站設定一個版本號，它可以是任何數字。</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>模式</value>
+  </data>
+  <data name="Use &lt;b&gt;debug&lt;/b&gt; on development and  use &lt;b&gt;release&lt;/b&gt; on live site. &lt;br/&gt;&lt;b&gt;Release&lt;/b&gt; mode utilizes CSS/JS compression and other techniques" xml:space="preserve">
+    <value>開發時使用&lt;b&gt;debug&lt;/b&gt;和發佈時使用&lt;b&gt;release&lt;/b&gt;。&lt;br/&gt;&lt;b&gt;Release&lt;/b&gt; 模式採用CSS/JS 壓縮和其他技術。</value>
+  </data>
+  <data name="Debug" xml:space="preserve">
+    <value>調試</value>
+  </data>
+  <data name="Release" xml:space="preserve">
+    <value>發佈</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>創建</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="Override" xml:space="preserve">
+    <value>覆蓋</value>
+  </data>
+  <data name="Please select content types!" xml:space="preserve">
+    <value>請選擇內容類型！</value>
+  </data>
+  <data name="Are you sure you want to delete these items?" xml:space="preserve">
+    <value>您確定要刪除這些項目嗎？</value>
+  </data>
+  <data name="Reset templates" xml:space="preserve">
+    <value>重置範本</value>
+  </data>
+  <data name="Please content types!" xml:space="preserve">
+    <value>請選擇類型！</value>
+  </data>
+  <data name="Are you sure you want to reset the templates of this item?" xml:space="preserve">
+    <value>您確定要重置這個專案的範本嗎？</value>
+  </data>
+  <data name="Select All" xml:space="preserve">
+    <value>全選</value>
+  </data>
+  <data name="Relations" xml:space="preserve">
+    <value>關係</value>
+  </data>
+  <data name="Please select items" xml:space="preserve">
+    <value>請選擇項目</value>
+  </data>
+  <data name="New Name" xml:space="preserve">
+    <value>新名稱</value>
+  </data>
+  <data name="'New Name' is invalid." xml:space="preserve">
+    <value>“新名稱”無效</value>
+  </data>
+  <data name="Create Folder" xml:space="preserve">
+    <value>創建文件夾</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>後退</value>
+  </data>
+  <data name="You have not select any items!" xml:space="preserve">
+    <value>您未選擇任何項目！</value>
+  </data>
+  <data name="Flash uploader" xml:space="preserve">
+    <value>上傳Flash</value>
+  </data>
+  <data name="Import from zip" xml:space="preserve">
+    <value>從zip導入</value>
+  </data>
+  <data name="Create New" xml:space="preserve">
+    <value>新建</value>
+  </data>
+  <data name="Overrided" xml:space="preserve">
+    <value>覆蓋的</value>
+  </data>
+  <data name="All Elements" xml:space="preserve">
+    <value>所有元素</value>
+  </data>
+  <data name="Only Documents" xml:space="preserve">
+    <value>僅文檔</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>文件夾</value>
+  </data>
+  <data name="Only Folders" xml:space="preserve">
+    <value>僅文件夾</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>無</value>
+  </data>
+  <data name="Are you sure you want to remove these items?" xml:space="preserve">
+    <value>您確定要移除這些項目嗎？</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>標題</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>類型</value>
+  </data>
+  <data name="Please select items?" xml:space="preserve">
+    <value>請選擇項目？</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>鏈結</value>
+  </data>
+  <data name="Versions" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="Please upload zip file" xml:space="preserve">
+    <value>請上傳zip文件</value>
+  </data>
+  <data name="existed!" xml:space="preserve">
+    <value>已存在！</value>
+  </data>
+  <data name="Are you sure you want to delect these items?" xml:space="preserve">
+    <value>您確定要刪除這些項目嗎？</value>
+  </data>
+  <data name="Kooboo CMS" xml:space="preserve">
+    <value>Kooboo CMS</value>
+  </data>
+  <data name="Create user" xml:space="preserve">
+    <value>創建用戶</value>
+  </data>
+  <data name="Please select schemas!" xml:space="preserve">
+    <value>請選擇內容類型！</value>
+  </data>
+  <data name="Create role" xml:space="preserve">
+    <value>創建角色</value>
+  </data>
+  <data name="Content database" xml:space="preserve">
+    <value>內容資料庫</value>
+  </data>
+  <data name="Upload new files" xml:space="preserve">
+    <value>上傳新文件</value>
+  </data>
+  <data name="Import from uploaded new template files or existing site templates." xml:space="preserve">
+    <value>導入新上傳的範本或從現有的網站導入範本</value>
+  </data>
+  <data name="The site is offline, please remove this file to take it online." xml:space="preserve">
+    <value>網站已經脫機，刪除此檔使它聯機。</value>
+  </data>
+  <data name="The repository is offline, please remove this file to take it online." xml:space="preserve">
+    <value>庫已經脫機，刪除此檔使它聯機。</value>
+  </data>
+  <data name="This item has not been published yet.&lt;br/&gt;Click to publish this item." xml:space="preserve">
+    <value>此項目沒有發佈&lt;br/&gt;點擊發佈它。</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="font family" xml:space="preserve">
+    <value>字體樣式</value>
+  </data>
+  <data name="font size" xml:space="preserve">
+    <value>字體大小</value>
+  </data>
+  <data name="font color" xml:space="preserve">
+    <value>字體顏色</value>
+  </data>
+  <data name="background color" xml:space="preserve">
+    <value>背景顏色</value>
+  </data>
+  <data name="Color picker" xml:space="preserve">
+    <value>顏色選擇器</value>
+  </data>
+  <data name="Select a color or insert a hex code value." xml:space="preserve">
+    <value>選擇一個顏色或者插入一個16進制值</value>
+  </data>
+  <data name="Original:" xml:space="preserve">
+    <value>舊值：</value>
+  </data>
+  <data name="New:" xml:space="preserve">
+    <value>新值：</value>
+  </data>
+  <data name="Hex value:" xml:space="preserve">
+    <value>16進制值：</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>確定</value>
+  </data>
+  <data name="Invalid input width" xml:space="preserve">
+    <value>無效的長度</value>
+  </data>
+  <data name="Invalid input height" xml:space="preserve">
+    <value>無效的高度</value>
+  </data>
+  <data name="Are you sure you want to delete this image?" xml:space="preserve">
+    <value>您確定要刪除這個圖片嗎？</value>
+  </data>
+  <data name="Are you sure you want to delete the link?" xml:space="preserve">
+    <value>您確定要刪除這些鏈結嗎？</value>
+  </data>
+  <data name="bold" xml:space="preserve">
+    <value>粗體</value>
+  </data>
+  <data name="italic" xml:space="preserve">
+    <value>斜體</value>
+  </data>
+  <data name="underline" xml:space="preserve">
+    <value>下劃線</value>
+  </data>
+  <data name="align left" xml:space="preserve">
+    <value>左對齊</value>
+  </data>
+  <data name="align center" xml:space="preserve">
+    <value>居中對齊</value>
+  </data>
+  <data name="align right" xml:space="preserve">
+    <value>右對齊</value>
+  </data>
+  <data name="align justify" xml:space="preserve">
+    <value>自由對齊</value>
+  </data>
+  <data name="number list" xml:space="preserve">
+    <value>編號</value>
+  </data>
+  <data name="bullet list" xml:space="preserve">
+    <value>專案符號</value>
+  </data>
+  <data name="increase indent" xml:space="preserve">
+    <value>增加縮進</value>
+  </data>
+  <data name="decrease indent" xml:space="preserve">
+    <value>減少縮進</value>
+  </data>
+  <data name="insert image" xml:space="preserve">
+    <value>插入圖片</value>
+  </data>
+  <data name="insert link" xml:space="preserve">
+    <value>插入鏈結</value>
+  </data>
+  <data name="edit source" xml:space="preserve">
+    <value>編輯源碼</value>
+  </data>
+  <data name="redo" xml:space="preserve">
+    <value>恢復</value>
+  </data>
+  <data name="undo" xml:space="preserve">
+    <value>撤銷</value>
+  </data>
+  <data name="remove format" xml:space="preserve">
+    <value>清除格式</value>
+  </data>
+  <data name="insert horizontal ruler" xml:space="preserve">
+    <value>插入水準尺規</value>
+  </data>
+  <data name="Are you sure you want to delete this item?" xml:space="preserve">
+    <value>您確定要刪除此專案嗎？</value>
+  </data>
+  <data name="Network error, the action has been cancelled" xml:space="preserve">
+    <value>網路錯誤，操作被取消。</value>
+  </data>
+  <data name="copying..." xml:space="preserve">
+    <value>正在複製……</value>
+  </data>
+  <data name="deleting..." xml:space="preserve">
+    <value>正在刪除……</value>
+  </data>
+  <data name="publishing..." xml:space="preserve">
+    <value>正在發佈……</value>
+  </data>
+  <data name="copy successfully" xml:space="preserve">
+    <value>複製成功</value>
+  </data>
+  <data name="delete successfully" xml:space="preserve">
+    <value>刪除成功</value>
+  </data>
+  <data name="saving..." xml:space="preserve">
+    <value>正在保存……</value>
+  </data>
+  <data name="Select Files" xml:space="preserve">
+    <value>選擇檔</value>
+  </data>
+  <data name="Crop image" xml:space="preserve">
+    <value>剪切圖片</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>確定</value>
+  </data>
+  <data name="Html block" xml:space="preserve">
+    <value>HTML塊</value>
+  </data>
+  <data name="Dev" xml:space="preserve">
+    <value>Dev</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>新值</value>
+  </data>
+  <data name="Search settings" xml:space="preserve">
+    <value>搜索設置</value>
+  </data>
+  <data name="Workflows" xml:space="preserve">
+    <value>工作流</value>
+  </data>
+  <data name="Broadcasting" xml:space="preserve">
+    <value>內容廣播</value>
+  </data>
+  <data name="Sending setting" xml:space="preserve">
+    <value>發送設置</value>
+  </data>
+  <data name="Receiving setting" xml:space="preserve">
+    <value>接收設置</value>
+  </data>
+  <data name="Basic" xml:space="preserve">
+    <value>基本</value>
+  </data>
+  <data name="Smtp" xml:space="preserve">
+    <value>SMTP</value>
+  </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>顯示名稱</value>
+  </data>
+  <data name="The name of your website how it would be displayed on this CMS" xml:space="preserve">
+    <value>系統如何顯示網站名稱</value>
+  </data>
+  <data name="The culture shown on your website. &lt;br /&gt; This is used to display currency, date, number and other culture related content" xml:space="preserve">
+    <value>站點的顯示文化&lt;br /&gt; 不同的文化會有不同的貨幣，時間，數值的顯示不同。</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>皮膚</value>
+  </data>
+  <data name="Load theme CSS files from the theme folder" xml:space="preserve">
+    <value>載入皮膚目錄下的樣式檔</value>
+  </data>
+  <data name="The virtual path of your website. You may create a subsite eg. www.kooboo.com/china, &lt;b&gt;china&lt;/b&gt; is the SitePath." xml:space="preserve">
+    <value>站點的虛擬目錄，可以映射類似：www.kooboo.com/china，&lt;b&gt;china&lt;/b&gt; 就是站點虛擬目錄。</value>
+  </data>
+  <data name="Use &lt;b&gt;debug&lt;/b&gt; on development and use &lt;b&gt;release&lt;/b&gt; on live site. &lt;b&gt;Release&lt;/b&gt; mode utilizes CSS/JS compression and other techniques" xml:space="preserve">
+    <value>在開發時使用Debug模式；發佈後使用Release模式。發Release模式會合並和壓縮腳本樣式。</value>
+  </data>
+  <data name="Enable inline editing" xml:space="preserve">
+    <value>啟用線上編輯</value>
+  </data>
+  <data name="Enables you to edit content on the front end of your website" xml:space="preserve">
+    <value>允許在前臺頁面中編輯內容</value>
+  </data>
+  <data name="Show start sitemap" xml:space="preserve">
+    <value>顯示開始頁面</value>
+  </data>
+  <data name="Shows the sitemap as the start page in the menu" xml:space="preserve">
+    <value>在開始頁顯示站點地圖</value>
+  </data>
+  <data name="JQuery" xml:space="preserve">
+    <value>JQuery</value>
+  </data>
+  <data name="Load JQuery and JQuery validation files" xml:space="preserve">
+    <value>載入 JQuery and JQuery 驗證腳本樣式檔</value>
+  </data>
+  <data name="Enable version control on Layout, View and Page" xml:space="preserve">
+    <value>啟用佈局、視圖、頁面的版本控制</value>
+  </data>
+  <data name="Custom fields" xml:space="preserve">
+    <value>自定義欄位</value>
+  </data>
+  <data name="Smtp Server" xml:space="preserve">
+    <value>SMTP伺服器</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>埠</value>
+  </data>
+  <data name="EnableSsl" xml:space="preserve">
+    <value>啟用SSL</value>
+  </data>
+  <data name="From address" xml:space="preserve">
+    <value>來自郵箱</value>
+  </data>
+  <data name="The FROM email address of emails sent out by system, for example user registration confirmation email" xml:space="preserve">
+    <value>發送郵箱，用於發送系統郵件。</value>
+  </data>
+  <data name="TO address" xml:space="preserve">
+    <value>接收郵箱</value>
+  </data>
+  <data name="The receiver's Email addresses of your contact form" xml:space="preserve">
+    <value>接收郵箱，用於接收系統發送的系統郵件。</value>
+  </data>
+  <data name="Delete this site" xml:space="preserve">
+    <value>刪除站點</value>
+  </data>
+  <data name="Clear cache" xml:space="preserve">
+    <value>清除緩存</value>
+  </data>
+  <data name="User name" xml:space="preserve">
+    <value>用戶名</value>
+  </data>
+  <data name="Add an user to your website &lt;br /&gt;The user must be created first under Users menu" xml:space="preserve">
+    <value>添加一個用戶到站點&lt;br /&gt;用戶必須在系統中創建好</value>
+  </data>
+  <data name="'User name' is invalid." xml:space="preserve">
+    <value>“用戶名”輸入錯誤。</value>
+  </data>
+  <data name="Define your error redirect pages" xml:space="preserve">
+    <value>定義請求出錯時的重定向頁面</value>
+  </data>
+  <data name="Create custom error" xml:space="preserve">
+    <value>創建自定義錯誤</value>
+  </data>
+  <data name="Replace the existing files when they have the same name" xml:space="preserve">
+    <value>替換已存在的文件</value>
+  </data>
+  <data name="The Override field is required." xml:space="preserve">
+    <value>“覆蓋”為必填項</value>
+  </data>
+  <data name="StatusCode" xml:space="preserve">
+    <value>狀態碼</value>
+  </data>
+  <data name="'StatusCode' is invalid." xml:space="preserve">
+    <value>“狀態碼”非法</value>
+  </data>
+  <data name="The StatusCode field is required." xml:space="preserve">
+    <value>“狀態碼”為心填項</value>
+  </data>
+  <data name="RedirectUrl" xml:space="preserve">
+    <value>重定向URL</value>
+  </data>
+  <data name="Create URL redirect" xml:space="preserve">
+    <value>創建頁面重定向</value>
+  </data>
+  <data name="Sample robots.txt" xml:space="preserve">
+    <value>示例 robots.txt</value>
+  </data>
+  <data name="The collection of pages to be published" xml:space="preserve">
+    <value>頁面發佈佇列</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>空</value>
+  </data>
+  <data name="Localize" xml:space="preserve">
+    <value>本地化</value>
+  </data>
+  <data name="Create layout" xml:space="preserve">
+    <value>創建佈局</value>
+  </data>
+  <data name="Back to list" xml:space="preserve">
+    <value>回到列表</value>
+  </data>
+  <data name="Positions" xml:space="preserve">
+    <value>位置</value>
+  </data>
+  <data name="Layout helper" xml:space="preserve">
+    <value>佈局説明</value>
+  </data>
+  <data name="HTML header" xml:space="preserve">
+    <value>HTML頭</value>
+  </data>
+  <data name="Register HtmlMeta" xml:space="preserve">
+    <value>註冊Html Meta</value>
+  </data>
+  <data name="Register Style" xml:space="preserve">
+    <value>註冊樣式</value>
+  </data>
+  <data name="Register Script" xml:space="preserve">
+    <value>註冊腳本</value>
+  </data>
+  <data name="Register Title" xml:space="preserve">
+    <value>註冊標題</value>
+  </data>
+  <data name="Add views" xml:space="preserve">
+    <value>添加視圖</value>
+  </data>
+  <data name="Code helper" xml:space="preserve">
+    <value>輔助代碼</value>
+  </data>
+  <data name="Are you sure you want to leave current page" xml:space="preserve">
+    <value>您確定要離開當前頁面嗎？</value>
+  </data>
+  <data name="Position Name" xml:space="preserve">
+    <value>位置名稱</value>
+  </data>
+  <data name="Please input a new position name." xml:space="preserve">
+    <value>請輸入新的位置名稱</value>
+  </data>
+  <data name="The position name already exists." xml:space="preserve">
+    <value>位置已經存在</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="Are you sure you want to remove this item?" xml:space="preserve">
+    <value>您確定要刪除這條資料嗎？</value>
+  </data>
+  <data name="Are you sure you want to replace this template?" xml:space="preserve">
+    <value>您確定要替換這個範本嗎？</value>
+  </data>
+  <data name="a name cannot contain a space, a single or double quote." xml:space="preserve">
+    <value>名稱不能含有空格、單引號和雙引號。</value>
+  </data>
+  <data name="Save &amp; return" xml:space="preserve">
+    <value>保存並返回</value>
+  </data>
+  <data name="Create view" xml:space="preserve">
+    <value>創建視圖</value>
+  </data>
+  <data name="DataRules" xml:space="preserve">
+    <value>資料查詢</value>
+  </data>
+  <data name="Add DataRule" xml:space="preserve">
+    <value>添加資料查詢</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>參數</value>
+  </data>
+  <data name="DataType" xml:space="preserve">
+    <value>資料類型</value>
+  </data>
+  <data name="Default Value" xml:space="preserve">
+    <value>預設值</value>
+  </data>
+  <data name="Name is required." xml:space="preserve">
+    <value>“名稱”為必填項</value>
+  </data>
+  <data name="This name is being used by other parameters." xml:space="preserve">
+    <value>參數名稱已被使用</value>
+  </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>插件</value>
+  </data>
+  <data name="Select Plugin" xml:space="preserve">
+    <value>選擇插件</value>
+  </data>
+  <data name="Select a category" xml:space="preserve">
+    <value>選擇類別</value>
+  </data>
+  <data name="Current folder is null." xml:space="preserve">
+    <value>目錄為空</value>
+  </data>
+  <data name="Please input another name ." xml:space="preserve">
+    <value>請輸入新名稱</value>
+  </data>
+  <data name="Please choose another position" xml:space="preserve">
+    <value>請選擇位置</value>
+  </data>
+  <data name="Edit DataRule" xml:space="preserve">
+    <value>編輯資料查詢</value>
+  </data>
+  <data name="This item is already existed!" xml:space="preserve">
+    <value>該項已存在</value>
+  </data>
+  <data name="Choose Folder" xml:space="preserve">
+    <value>選擇目錄</value>
+  </data>
+  <data name="Edit Filters" xml:space="preserve">
+    <value>編輯過濾條件</value>
+  </data>
+  <data name="Query type" xml:space="preserve">
+    <value>查詢類型</value>
+  </data>
+  <data name="List of contents in the selected folder" xml:space="preserve">
+    <value>查詢目錄下的內容</value>
+  </data>
+  <data name="First or default (one content item)" xml:space="preserve">
+    <value>第一條</value>
+  </data>
+  <data name="List of contents in the category folders" xml:space="preserve">
+    <value>查詢類別下的內容</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>下一條</value>
+  </data>
+  <data name="DataName" xml:space="preserve">
+    <value>數據名稱</value>
+  </data>
+  <data name="Only alphabetical characters allowed" xml:space="preserve">
+    <value>只允許字母字元</value>
+  </data>
+  <data name="This dataname is being used by other datarule." xml:space="preserve">
+    <value>資料名稱已經被使用</value>
+  </data>
+  <data name="Content filter" xml:space="preserve">
+    <value>內容過濾</value>
+  </data>
+  <data name="Query condition filter, you may use value from URL string, for example: {querystringkey}" xml:space="preserve">
+    <value>查詢過濾條件，可以從URL傳參中取值，比如：{querystringkey}</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>過濾</value>
+  </data>
+  <data name="Equals" xml:space="preserve">
+    <value>等於</value>
+  </data>
+  <data name="NotEquals" xml:space="preserve">
+    <value>不等於</value>
+  </data>
+  <data name="Greater than" xml:space="preserve">
+    <value>大於</value>
+  </data>
+  <data name="Less than" xml:space="preserve">
+    <value>小於</value>
+  </data>
+  <data name="Contains" xml:space="preserve">
+    <value>包含</value>
+  </data>
+  <data name="Start with" xml:space="preserve">
+    <value>開頭為</value>
+  </data>
+  <data name="End with" xml:space="preserve">
+    <value>結束為</value>
+  </data>
+  <data name="AND" xml:space="preserve">
+    <value>與</value>
+  </data>
+  <data name="OR" xml:space="preserve">
+    <value>或者</value>
+  </data>
+  <data name="Than AND" xml:space="preserve">
+    <value>Than AND</value>
+  </data>
+  <data name="Than OR" xml:space="preserve">
+    <value>Than OR</value>
+  </data>
+  <data name="Category Folder" xml:space="preserve">
+    <value>類別目錄</value>
+  </data>
+  <data name="Category filter" xml:space="preserve">
+    <value>類別過濾</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>高級</value>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>TOP</value>
+  </data>
+  <data name="Sort direction" xml:space="preserve">
+    <value>排序方向</value>
+  </data>
+  <data name="Enable paging" xml:space="preserve">
+    <value>啟用分頁</value>
+  </data>
+  <data name="Page size" xml:space="preserve">
+    <value>每頁記錄數</value>
+  </data>
+  <data name="Page index" xml:space="preserve">
+    <value>分頁下標</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>前一條</value>
+  </data>
+  <data name="Theme contains both CSS and image files. Folders directly under the Theme root will be considered as one theme. ThemeRules.txt is a speical text file used to write your CSS loading rules." xml:space="preserve">
+    <value>皮膚會包含樣式和圖片檔。皮膚根目錄下的目錄被當作一個皮膚。ThemeRules.txt可以指定特殊的載入規則。</value>
+  </data>
+  <data name="Create File" xml:space="preserve">
+    <value>創建文件</value>
+  </data>
+  <data name="Large file" xml:space="preserve">
+    <value>大文件</value>
+  </data>
+  <data name="Please select items!" xml:space="preserve">
+    <value>請選擇項目</value>
+  </data>
+  <data name="Are you sure you want to close this window." xml:space="preserve">
+    <value>您確定要關閉當前窗口嗎？</value>
+  </data>
+  <data name="VirtualPath:" xml:space="preserve">
+    <value>虛擬目錄：</value>
+  </data>
+  <data name="RelativePath:" xml:space="preserve">
+    <value>相對路徑：</value>
+  </data>
+  <data name="This folder is existed." xml:space="preserve">
+    <value>目錄已經存在</value>
+  </data>
+  <data name="Map a MVC action link to another page" xml:space="preserve">
+    <value>映射頁面鏈結</value>
+  </data>
+  <data name="Folder name" xml:space="preserve">
+    <value>目錄名稱</value>
+  </data>
+  <data name="The Folder name field is required." xml:space="preserve">
+    <value>“目錄名稱”為必填項</value>
+  </data>
+  <data name="'Folder name' is invalid." xml:space="preserve">
+    <value>非法的目錄名稱</value>
+  </data>
+  <data name="Folder name is required." xml:space="preserve">
+    <value>“目錄名稱”為必填項</value>
+  </data>
+  <data name="Content Url format" xml:space="preserve">
+    <value>內容位址格式</value>
+  </data>
+  <data name="The URL format with parameters of content detail page. e.g.: /article/detail/{userkey}" xml:space="preserve">
+    <value>頁面位址的格式，例如： /article/detail/{userkey}</value>
+  </data>
+  <data name="Include all fields" xml:space="preserve">
+    <value>包含所有欄位</value>
+  </data>
+  <data name="Include all content fields in the search index or select special fields." xml:space="preserve">
+    <value>包含所有欄位到索引檔或者選擇部分欄位</value>
+  </data>
+  <data name="The Include all fields field is required." xml:space="preserve">
+    <value>“包含所有欄位”為必填項</value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>欄位</value>
+  </data>
+  <data name="Create content type" xml:space="preserve">
+    <value>創建內容類別</value>
+  </data>
+  <data name="Templates" xml:space="preserve">
+    <value>範本</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Validation" xml:space="preserve">
+    <value>驗證</value>
+  </data>
+  <data name="Selection value" xml:space="preserve">
+    <value>選項值</value>
+  </data>
+  <data name="Name of your field, excludes the following characters:\/:*?&lt;&gt;|" xml:space="preserve">
+    <value>名稱欄位不能包括以下字元：\/:*?&lt;&gt;|</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>標籤</value>
+  </data>
+  <data name="Descriptive label of your field on the content editing page" xml:space="preserve">
+    <value>在內容編輯頁面時顯示的欄位文本</value>
+  </data>
+  <data name="ControlType" xml:space="preserve">
+    <value>控制類型</value>
+  </data>
+  <data name="The way that you would like to input your content" xml:space="preserve">
+    <value>你喜歡的內容輸入方式</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>排序</value>
+  </data>
+  <data name="Order of your field in the content editing page" xml:space="preserve">
+    <value>對欄位進行排序</value>
+  </data>
+  <data name="Primary field" xml:space="preserve">
+    <value>主要欄位</value>
+  </data>
+  <data name="Primary fields will be used as a title or summary to describe your content item" xml:space="preserve">
+    <value>用於描述內容的概要資訊</value>
+  </data>
+  <data name="Content list page" xml:space="preserve">
+    <value>內容列表</value>
+  </data>
+  <data name="Show this field in the CMS content list page" xml:space="preserve">
+    <value>在內容列表顯示該欄位</value>
+  </data>
+  <data name="Tooltip" xml:space="preserve">
+    <value>顯示提示</value>
+  </data>
+  <data name="Input tip while users entering content" xml:space="preserve">
+    <value>內容輸入提示</value>
+  </data>
+  <data name="Length" xml:space="preserve">
+    <value>長度</value>
+  </data>
+  <data name="AllowNull" xml:space="preserve">
+    <value>允許為空</value>
+  </data>
+  <data name="Allows null value in this field" xml:space="preserve">
+    <value>欄位值允許為空</value>
+  </data>
+  <data name="Modifiable" xml:space="preserve">
+    <value>可修改</value>
+  </data>
+  <data name="Enable the modification of this field in the content editing page." xml:space="preserve">
+    <value>在內容修改頁面中可以修改欄位值</value>
+  </data>
+  <data name="Selection values" xml:space="preserve">
+    <value>選項值</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>文本</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="Validation rules" xml:space="preserve">
+    <value>驗證規則</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>結束</value>
+  </data>
+  <data name="Pattern" xml:space="preserve">
+    <value>模式串</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>最小</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>最大</value>
+  </data>
+  <data name="Error message" xml:space="preserve">
+    <value>錯誤消息</value>
+  </data>
+  <data name="This name is being used by other column." xml:space="preserve">
+    <value>欄位名稱已經被使用</value>
+  </data>
+  <data name="Workflow" xml:space="preserve">
+    <value>工作流</value>
+  </data>
+  <data name="Index" xml:space="preserve">
+    <value>索引</value>
+  </data>
+  <data name="Edit folder" xml:space="preserve">
+    <value>編輯目錄</value>
+  </data>
+  <data name="Are you sure you want to publish this item?" xml:space="preserve">
+    <value>您確定要發佈當前內容嗎？</value>
+  </data>
+  <data name="Are you sure you want to unpublish this item?" xml:space="preserve">
+    <value>您確定要取消發佈這條資料嗎？</value>
+  </data>
+  <data name="You have not select any item!" xml:space="preserve">
+    <value>您未選擇任何項目！</value>
+  </data>
+  <data name="Include" xml:space="preserve">
+    <value>包含</value>
+  </data>
+  <data name="Exclude" xml:space="preserve">
+    <value>排除</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>視圖</value>
+  </data>
+  <data name="ViewType" xml:space="preserve">
+    <value>視圖類型</value>
+  </data>
+  <data name="MovePage" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>草稿</value>
+  </data>
+  <data name="Click to publish" xml:space="preserve">
+    <value>點擊發佈</value>
+  </data>
+  <data name="Home page" xml:space="preserve">
+    <value>主頁</value>
+  </data>
+  <data name="Click to unpublish" xml:space="preserve">
+    <value>點擊取消發佈</value>
+  </data>
+  <data name="Create page" xml:space="preserve">
+    <value>創建頁面</value>
+  </data>
+  <data name="Designer" xml:space="preserve">
+    <value>設計器</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>導航</value>
+  </data>
+  <data name="HTML meta" xml:space="preserve">
+    <value>HTML meta</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>許可權</value>
+  </data>
+  <data name="URL route" xml:space="preserve">
+    <value>URL路由</value>
+  </data>
+  <data name="Loading..." xml:space="preserve">
+    <value>正在載入……</value>
+  </data>
+  <data name="Are you sure you want to leave page? All your changes might be lost." xml:space="preserve">
+    <value>所有未保存的資料將會丟失，您確實要離開當前頁面嗎？</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>佈局</value>
+  </data>
+  <data name="Are you sure you want to change layout" xml:space="preserve">
+    <value>您確實要修改佈局嗎？</value>
+  </data>
+  <data name="Content title" xml:space="preserve">
+    <value>內容標題</value>
+  </data>
+  <data name="The title that can be used by page content, this value can be accessed via API: @Page_Context.Current.ContentTitle" xml:space="preserve">
+    <value>標題能作為頁面內容使用，使用API: @Page_Context.Current.ContentTitle訪問其值。</value>
+  </data>
+  <data name="Set as homepage" xml:space="preserve">
+    <value>設置為首頁</value>
+  </data>
+  <data name="Load the theme css files from the system selected theme folder" xml:space="preserve">
+    <value>載入皮膚檔</value>
+  </data>
+  <data name="Script" xml:space="preserve">
+    <value>腳本</value>
+  </data>
+  <data name="Load JavaScript files from the site script folder" xml:space="preserve">
+    <value>載入腳本檔</value>
+  </data>
+  <data name="Type of page" xml:space="preserve">
+    <value>頁面的類型</value>
+  </data>
+  <data name="The type of your page, used to mark them differently in the sitemap&lt;br /&gt;&lt;b&gt;Default: &lt;/b&gt; select this option if you do not know your page type&lt;br /&gt;&lt;b&gt;Static: &lt;/b&gt; contains only manually input static content &lt;br /&gt;&lt;b&gt;Dynamic:&lt;/b&gt; contains dynamic content from database either via the datarule or your own API query" xml:space="preserve">
+    <value>頁面類型&lt;br /&gt;&lt;b&gt;默認：&lt;/b&gt; 系統自動判斷&lt;br /&gt;&lt;b&gt;靜態：&lt;/b&gt; 指定這是一個靜態頁面 &lt;br /&gt;&lt;b&gt;動態：&lt;/b&gt; 指定這是一個調用資料規則或API的動態頁面。</value>
+  </data>
+  <data name="The Type of page field is required." xml:space="preserve">
+    <value>“頁面類型”為必填項</value>
+  </data>
+  <data name="OutputCache" xml:space="preserve">
+    <value>輸出緩存</value>
+  </data>
+  <data name="Duration (seconds)" xml:space="preserve">
+    <value>間隔時間(秒)</value>
+  </data>
+  <data name="Expiration Policy" xml:space="preserve">
+    <value>過期策略</value>
+  </data>
+  <data name="&lt;b&gt;AbsouluteExpiration:&lt;/b&gt; a cache entry should be evicted after a specified duration. &lt;br /&gt;&lt;b&gt;SlidingExpiration:&lt;/b&gt; a cache entry should be evicted if it has not been accessed in a given span of time." xml:space="preserve">
+    <value>&lt;b&gt;AbsouluteExpiration：&lt;/b&gt; 緩存項將在一定的時間後過期。&lt;br /&gt;&lt;b&gt;SlidingExpiration：&lt;/b&gt; 緩存項不可使用一定時間後過期。</value>
+  </data>
+  <data name="Show in menu" xml:space="preserve">
+    <value>顯示在導航</value>
+  </data>
+  <data name="Make this page accessiable from the menu API" xml:space="preserve">
+    <value>該頁面可以被頁面導航API調用</value>
+  </data>
+  <data name="Display text" xml:space="preserve">
+    <value>顯示文本</value>
+  </data>
+  <data name="The Order field is required." xml:space="preserve">
+    <value>“排序”為必填項</value>
+  </data>
+  <data name="Show in Crumb Path" xml:space="preserve">
+    <value>顯示在導航麵包屑</value>
+  </data>
+  <data name="Make this page accesiable from the Crumb path API." xml:space="preserve">
+    <value>該頁面可以顯示在導航麵包屑</value>
+  </data>
+  <data name="Html title" xml:space="preserve">
+    <value>HTML 標題</value>
+  </data>
+  <data name="The title tag and value that appear in the page HTML header and also used by browsers as the page title. &lt;br /&gt;This value can be accessed via API: @Html.FrontHtml().HtmlTitle()" xml:space="preserve">
+    <value>頁面標題&lt;br /&gt;使用API：@Html.FrontHtml().HtmlTitle()可以訪問其值</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>作者</value>
+  </data>
+  <data name="Keywords" xml:space="preserve">
+    <value>關鍵字</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="Custom meta fields" xml:space="preserve">
+    <value>自定義meta</value>
+  </data>
+  <data name="Allowed" xml:space="preserve">
+    <value>允許</value>
+  </data>
+  <data name="Denied" xml:space="preserve">
+    <value>拒絕</value>
+  </data>
+  <data name="Alternative name" xml:space="preserve">
+    <value>URL別名</value>
+  </data>
+  <data name="Give your page an alternative name. This new name will be used when generating page links" xml:space="preserve">
+    <value>為頁面指定其他的URL，可以生成與頁面名不同的頁面位址。</value>
+  </data>
+  <data name="'Alternative name' is invalid." xml:space="preserve">
+    <value>URL別名無效</value>
+  </data>
+  <data name="URL path" xml:space="preserve">
+    <value>URL路徑</value>
+  </data>
+  <data name="Customize the page URL to anyway you like.&lt;br /&gt; Use {key} to match the URL query string. &lt;br /&gt;For example: {userkey}_othertext to replace parameter &quot;?userkey=&quot; into static URL" xml:space="preserve">
+    <value>自定義URL地址格式。&lt;br /&gt;{key}對應位址參數名。&lt;br /&gt;比如：用 {userkey}_othertext 替換“?userkey=”，使其變為靜態URL位址。</value>
+  </data>
+  <data name="Default values" xml:space="preserve">
+    <value>預設值</value>
+  </data>
+  <data name="Item already existed" xml:space="preserve">
+    <value>資料項目已經存在</value>
+  </data>
+  <data name="Save &amp; publish" xml:space="preserve">
+    <value>保存並發佈</value>
+  </data>
+  <data name="Add a view" xml:space="preserve">
+    <value>添加視圖</value>
+  </data>
+  <data name="Add a module" xml:space="preserve">
+    <value>添加模組擴展</value>
+  </data>
+  <data name="Add a data folder" xml:space="preserve">
+    <value>添加目錄</value>
+  </data>
+  <data name="Add HTML" xml:space="preserve">
+    <value>添加HTML</value>
+  </data>
+  <data name="Add a HTML block" xml:space="preserve">
+    <value>添加HTML塊</value>
+  </data>
+  <data name="Edit view" xml:space="preserve">
+    <value>編輯視圖</value>
+  </data>
+  <data name="Edit HTML" xml:space="preserve">
+    <value>編輯HTML</value>
+  </data>
+  <data name="Edit module" xml:space="preserve">
+    <value>編輯模組</value>
+  </data>
+  <data name="Edit data folder" xml:space="preserve">
+    <value>編輯目錄</value>
+  </data>
+  <data name="Edit HTML block" xml:space="preserve">
+    <value>編輯HTML塊</value>
+  </data>
+  <data name="expand" xml:space="preserve">
+    <value>展開</value>
+  </data>
+  <data name="close" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="move" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="network error" xml:space="preserve">
+    <value>網路錯誤</value>
+  </data>
+  <data name="Please select a view" xml:space="preserve">
+    <value>請選擇視圖</value>
+  </data>
+  <data name="Please select a data folder" xml:space="preserve">
+    <value>請選擇目錄</value>
+  </data>
+  <data name="Please select a module" xml:space="preserve">
+    <value>請選擇模組擴展</value>
+  </data>
+  <data name="Please select a HTML block" xml:space="preserve">
+    <value>請選擇HTML塊</value>
+  </data>
+  <data name="Exclusive" xml:space="preserve">
+    <value>排除</value>
+  </data>
+  <data name="If checked, links within this module will not contains &lt;br /&gt;URL parameters of other modules in the same page" xml:space="preserve">
+    <value>如果選中，該模組的鏈結在同一頁面將不包含&lt;br /&gt;其他模組的URL參數。</value>
+  </data>
+  <data name="Entry Options" xml:space="preserve">
+    <value>入口選項</value>
+  </data>
+  <data name="Entry Controller" xml:space="preserve">
+    <value>入口Controller</value>
+  </data>
+  <data name="Initial MVC controller when this module first loaded on a page" xml:space="preserve">
+    <value>頁面請求時，載入的Module的默認controller。</value>
+  </data>
+  <data name="Entry Action" xml:space="preserve">
+    <value>入口Action</value>
+  </data>
+  <data name="Initial MVC action when this module first loaded on a page" xml:space="preserve">
+    <value>頁面請求時，載入的Module的默認action。</value>
+  </data>
+  <data name="Edit page" xml:space="preserve">
+    <value>編輯頁面</value>
+  </data>
+  <data name="Save as draft" xml:space="preserve">
+    <value>保存為草稿</value>
+  </data>
+  <data name="Save &amp; preview" xml:space="preserve">
+    <value>保存並預覽</value>
+  </data>
+  <data name="The item has been saved." xml:space="preserve">
+    <value>專案已保存</value>
+  </data>
+  <data name="Are you sure you want to remove this?" xml:space="preserve">
+    <value>您確定要刪除這條資料嗎？</value>
+  </data>
+  <data name="Html code" xml:space="preserve">
+    <value>HTML代碼</value>
+  </data>
+  <data name="Html With Inline editing" xml:space="preserve">
+    <value>可線上編輯的HTML</value>
+  </data>
+  <data name="This site will be permanently deleted and cannot be recovered. Are you sure?" xml:space="preserve">
+    <value>該站點將會被永久刪除，你確定嗎？</value>
+  </data>
+  <data name="Delete the associated content database." xml:space="preserve">
+    <value>刪除相關的內容資料庫</value>
+  </data>
+  <data name="The image size is too big for this layout.&#xA;Are you sure you want to use this size?" xml:space="preserve">
+    <value>圖片太大，是否繼續使用該圖片尺寸？</value>
+  </data>
+  <data name="Edit layout" xml:space="preserve">
+    <value>編輯</value>
+  </data>
+  <data name="The Enable versioning field is required." xml:space="preserve">
+    <value>“啟用版本控制”為必填項</value>
+  </data>
+  <data name="Enable workflow" xml:space="preserve">
+    <value>啟用工作流</value>
+  </data>
+  <data name="The Enable workflow field is required." xml:space="preserve">
+    <value>“啟用工作流”為必填項</value>
+  </data>
+  <data name="Enable broadcasting" xml:space="preserve">
+    <value>啟用內容廣播</value>
+  </data>
+  <data name="The Enable broadcasting field is required." xml:space="preserve">
+    <value>“啟用內容廣播”為必填項</value>
+  </data>
+  <data name="The Custom template field is required." xml:space="preserve">
+    <value>“定制範本”為必填項</value>
+  </data>
+  <data name="Database setting has been changed." xml:space="preserve">
+    <value>資料庫設置修改成功</value>
+  </data>
+  <data name="Send recieved content" xml:space="preserve">
+    <value>發送收到的內容</value>
+  </data>
+  <data name="Sending folder" xml:space="preserve">
+    <value>發送目錄</value>
+  </data>
+  <data name="Sending folder is required." xml:space="preserve">
+    <value>發送目錄必填</value>
+  </data>
+  <data name="Receving folder" xml:space="preserve">
+    <value>接收目錄</value>
+  </data>
+  <data name="Keep content status" xml:space="preserve">
+    <value>保存內容狀態</value>
+  </data>
+  <data name="Decide myself" xml:space="preserve">
+    <value>重新設置</value>
+  </data>
+  <data name="The Keep content stataus field is required." xml:space="preserve">
+    <value>“保存內容狀態”為必填項</value>
+  </data>
+  <data name="Change send received content setting" xml:space="preserve">
+    <value>修改廣播發送設置</value>
+  </data>
+  <data name="Publish schedule" xml:space="preserve">
+    <value>發佈計畫</value>
+  </data>
+  <data name="Publish now" xml:space="preserve">
+    <value>現在發佈</value>
+  </data>
+  <data name="Publish later" xml:space="preserve">
+    <value>稍後發佈</value>
+  </data>
+  <data name="Publish date" xml:space="preserve">
+    <value>發佈日期</value>
+  </data>
+  <data name="The Publish date field is required." xml:space="preserve">
+    <value>“發佈日期”為必填項</value>
+  </data>
+  <data name="Publish time" xml:space="preserve">
+    <value>發佈時間</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>週期</value>
+  </data>
+  <data name="The Period field is required." xml:space="preserve">
+    <value>“週期”為必填項</value>
+  </data>
+  <data name="Offline date" xml:space="preserve">
+    <value>取消發佈日期</value>
+  </data>
+  <data name="The Offline date field is required." xml:space="preserve">
+    <value>“取消發佈日期”為必填項</value>
+  </data>
+  <data name="Offline time" xml:space="preserve">
+    <value>下線時間</value>
+  </data>
+  <data name="Selected Files" xml:space="preserve">
+    <value>選中的文件</value>
+  </data>
+  <data name="From:" xml:space="preserve">
+    <value>來自：</value>
+  </data>
+  <data name="jpg" xml:space="preserve">
+    <value>jpg</value>
+  </data>
+  <data name="Are you sure you want to publish this item." xml:space="preserve">
+    <value>您確定要發佈此項內容嗎？</value>
+  </data>
+  <data name="Are you sure you want to unpublish this item." xml:space="preserve">
+    <value>您確定要取消發佈這條資料嗎？</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Invalid email address" xml:space="preserve">
+    <value>非法郵件地址</value>
+  </data>
+  <data name="The IsAdministrator field is required." xml:space="preserve">
+    <value>“是否為管理員”為必填項</value>
+  </data>
+  <data name="IsAdministrator" xml:space="preserve">
+    <value>是否為管理員</value>
+  </data>
+  <data name="UICulture" xml:space="preserve">
+    <value>介面語言</value>
+  </data>
+  <data name="The culture represents the current culture used by the Resource Manager to look up culture-specific resources at run time." xml:space="preserve">
+    <value>用於顯示介面的語言</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="Advanced search" xml:space="preserve">
+    <value>高級搜索</value>
+  </data>
+  <data name="Key words" xml:space="preserve">
+    <value>關鍵字</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>過慮條件</value>
+  </data>
+  <data name="Edit content type" xml:space="preserve">
+    <value>編輯</value>
+  </data>
+  <data name="The TemplateBuildByMachine field is required." xml:space="preserve">
+    <value>“TemplateBuildByMachine”為必填項</value>
+  </data>
+  <data name="Grid" xml:space="preserve">
+    <value>網格</value>
+  </data>
+  <data name="The CMS content list page" xml:space="preserve">
+    <value>CMS內容列表頁</value>
+  </data>
+  <data name="The page to add a content" xml:space="preserve">
+    <value>加入至內容的頁</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Content editing page" xml:space="preserve">
+    <value>頁面編輯頁面</value>
+  </data>
+  <data name="Selectable" xml:space="preserve">
+    <value>可選擇</value>
+  </data>
+  <data name="Category selection page" xml:space="preserve">
+    <value>類別選擇頁</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>列表</value>
+  </data>
+  <data name="The front site content list display" xml:space="preserve">
+    <value>顯示網站內容列表</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>細節</value>
+  </data>
+  <data name="The front site content detail display" xml:space="preserve">
+    <value>顯示網站內容細節</value>
+  </data>
+  <data name="« Previous" xml:space="preserve">
+    <value>« 前項</value>
+  </data>
+  <data name="Create Column" xml:space="preserve">
+    <value>創建欄位</value>
+  </data>
+  <data name="Reset Current" xml:space="preserve">
+    <value>重置當前</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>重置</value>
+  </data>
+  <data name="Reset All" xml:space="preserve">
+    <value>全部重置</value>
+  </data>
+  <data name="ResetAll" xml:space="preserve">
+    <value>全部重置</value>
+  </data>
+  <data name="Are you sure you want to leave this page" xml:space="preserve">
+    <value>您確定要離開此頁面嗎？</value>
+  </data>
+  <data name="Are you sure you want to reset this template" xml:space="preserve">
+    <value>您確定要重置這個專案的範本嗎？</value>
+  </data>
+  <data name="System diagnosis" xml:space="preserve">
+    <value>系統診斷</value>
+  </data>
+  <data name="Unlocalized item" xml:space="preserve">
+    <value>未本地化的項</value>
+  </data>
+  <data name="Workflow item" xml:space="preserve">
+    <value>工作流</value>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>設置</value>
+  </data>
+  <data name="Folder setting" xml:space="preserve">
+    <value>目錄設置</value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value>插入</value>
+  </data>
+  <data name="The Remember me field is required." xml:space="preserve">
+    <value>“記住我的登錄狀態”為必填項</value>
+  </data>
+  <data name="Forgot password?" xml:space="preserve">
+    <value>忘記密碼？</value>
+  </data>
+  <data name="Kooboo team" xml:space="preserve">
+    <value>Kooboo 團隊</value>
+  </data>
+  <data name="Forgot password" xml:space="preserve">
+    <value>忘記密碼？</value>
+  </data>
+  <data name="The UserName field is required." xml:space="preserve">
+    <value>“用戶名”為必填項</value>
+  </data>
+  <data name="Get password" xml:space="preserve">
+    <value>找回密碼</value>
+  </data>
+  <data name="Sing in?" xml:space="preserve">
+    <value>登錄</value>
+  </data>
+  <data name="Reset password" xml:space="preserve">
+    <value>重置密碼</value>
+  </data>
+  <data name="New password" xml:space="preserve">
+    <value>新密碼</value>
+  </data>
+  <data name="Confirm new password" xml:space="preserve">
+    <value>再次輸入新密碼</value>
+  </data>
+  <data name="'Confirm new password' and 'NewPassword' do not match." xml:space="preserve">
+    <value>兩次密碼輸入不一致</value>
+  </data>
+  <data name="The password token is invalid." xml:space="preserve">
+    <value>密碼錯誤</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>提交</value>
+  </data>
+  <data name="Your password" xml:space="preserve">
+    <value>您的密碼</value>
+  </data>
+  <data name="&lt;b&gt;{0}&lt;/b&gt; &lt;br/&gt; To change your password, click on the following link:&lt;br/&gt; &lt;a href='{1}'&gt;{1}&lt;/a&gt; &lt;br/&gt; Kooboo CMS" xml:space="preserve">
+    <value>&lt;b&gt;{0}&lt;/b&gt; &lt;br/&gt; 點擊下面鏈結修改密碼：&lt;br/&gt; &lt;a href='{1}'&gt;{1}&lt;/a&gt; &lt;br/&gt; Kooboo CMS</value>
+  </data>
+  <data name="An email with instructions to choose a new password has been sent to you." xml:space="preserve">
+    <value>密碼重置鏈結已發到您的郵箱。</value>
+  </data>
+  <data name="Enter your username and then click Continue." xml:space="preserve">
+    <value>輸入用戶名後點擊繼續</value>
+  </data>
+  <data name="We'll email you a link to a page where you can easily create a new password." xml:space="preserve">
+    <value>我們會發送給你一個修改密碼頁面鏈結。</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>繼續</value>
+  </data>
+  <data name="Back to login page" xml:space="preserve">
+    <value>回到登錄頁面</value>
+  </data>
+  <data name="&lt;b&gt;{0}&lt;/b&gt; &lt;br/&gt;&lt;br/&gt; To change your password, click on the following link:&lt;br/&gt; &lt;br/&gt; &lt;a href='{1}'&gt;{1}&lt;/a&gt; &lt;br/&gt;" xml:space="preserve">
+    <value>&lt;b&gt;{0}&lt;/b&gt; &lt;br/&gt;&lt;br/&gt; 點擊下面鏈結修改密碼：&lt;br/&gt; &lt;br/&gt; &lt;a href='{1}'&gt;{1}&lt;/a&gt; &lt;br/&gt;</value>
+  </data>
+  <data name="Select your new password and enter it below." xml:space="preserve">
+    <value>請輸入您的新密碼</value>
+  </data>
+  <data name="Re-enter password" xml:space="preserve">
+    <value>再次輸入密碼</value>
+  </data>
+  <data name="'Re-enter password' and 'NewPassword' do not match." xml:space="preserve">
+    <value>兩次密碼不一致</value>
+  </data>
+  <data name="The password was reset." xml:space="preserve">
+    <value>密碼已重置</value>
+  </data>
+  <data name="No site selected" xml:space="preserve">
+    <value>沒有選擇的站點</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>交換</value>
+  </data>
+  <data name="SampleModule" xml:space="preserve">
+    <value>示例模組</value>
+  </data>
+  <data name="Create news" xml:space="preserve">
+    <value>創建 news</value>
+  </data>
+  <data name="The Title field is required." xml:space="preserve">
+    <value>標題為必填項</value>
+  </data>
+  <data name="Body" xml:space="preserve">
+    <value>主體</value>
+  </data>
+  <data name="The Redirect to home page field is required." xml:space="preserve">
+    <value>“重定向到首頁”為必填項</value>
+  </data>
+  <data name="Redirect to home page" xml:space="preserve">
+    <value>重定向到首頁</value>
+  </data>
+  <data name="Users &amp; Roles" xml:space="preserve">
+    <value>用戶和角色</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>安裝</value>
+  </data>
+  <data name="Module installation" xml:space="preserve">
+    <value>模組安裝</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>卸載</value>
+  </data>
+  <data name="Page mapping" xml:space="preserve">
+    <value>頁面映射</value>
+  </data>
+  <data name="Index data" xml:space="preserve">
+    <value>索引資訊</value>
+  </data>
+  <data name="Cms_Data folder read/write permission" xml:space="preserve">
+    <value>Cms_Data的修改許可權</value>
+  </data>
+  <data name="Test if Kooboo cms has read/write permission on this folder." xml:space="preserve">
+    <value>測試Kooboo CMS是否可以在這個目錄讀寫檔</value>
+  </data>
+  <data name="Content db connectivity" xml:space="preserve">
+    <value>內容資料庫的連通性</value>
+  </data>
+  <data name="SMTP connectivity" xml:space="preserve">
+    <value>SMTP的連通性</value>
+  </data>
+  <data name="Site domain setting" xml:space="preserve">
+    <value>站點功能變數名稱設置</value>
+  </data>
+  <data name="System info" xml:space="preserve">
+    <value>系統資訊</value>
+  </data>
+  <data name="Machine name" xml:space="preserve">
+    <value>機器名</value>
+  </data>
+  <data name="Application virtual path" xml:space="preserve">
+    <value>站點部署目錄</value>
+  </data>
+  <data name="Trust level" xml:space="preserve">
+    <value>信任等級</value>
+  </data>
+  <data name="Content provider" xml:space="preserve">
+    <value>內容資料庫類型</value>
+  </data>
+  <data name="Enable SSL" xml:space="preserve">
+    <value>啟用SSL</value>
+  </data>
+  <data name="Site setting has been changed." xml:space="preserve">
+    <value>站點設置修改成功</value>
+  </data>
+  <data name="The SMTP server was not correctly setup, please configure it under System\Settings\SMTP" xml:space="preserve">
+    <value>SMTP帳戶沒有設置，請到“系統\設置\STMP”選項下設置。</value>
+  </data>
+  <data name="No domain is assigned for this website, please configure it under System\Settings" xml:space="preserve">
+    <value>沒有功能變數名稱指到該站點，請到“系統\設置”下修改。</value>
+  </data>
+  <data name="Save Change" xml:space="preserve">
+    <value>保存修改</value>
+  </data>
+  <data name="Summary field" xml:space="preserve">
+    <value>概述欄位</value>
+  </data>
+  <data name="Summary fields will be used as a title or summary to describe your content item" xml:space="preserve">
+    <value>概述欄位用來描述內容項</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>手動</value>
+  </data>
+  <data name="From folder" xml:space="preserve">
+    <value>來自目錄</value>
+  </data>
+  <data name="SelectionFolder" xml:space="preserve">
+    <value>選擇目錄</value>
+  </data>
+  <data name="Please select a folder." xml:space="preserve">
+    <value>請選擇目錄</value>
+  </data>
+  <data name="Back to site manager" xml:space="preserve">
+    <value>返回站點管理</value>
+  </data>
+  <data name="Localization" xml:space="preserve">
+    <value>本地化</value>
+  </data>
+  <data name="CustomFields" xml:space="preserve">
+    <value>自定義欄位</value>
+  </data>
+  <data name="Search index" xml:space="preserve">
+    <value>搜索索引</value>
+  </data>
+  <data name="Include this page content in the search index" xml:space="preserve">
+    <value>在搜索索引中包含此頁內容</value>
+  </data>
+  <data name="The Search index field is required." xml:space="preserve">
+    <value>“搜索索引”為必填項</value>
+  </data>
+  <data name="Give your page an alternative name. This new name will be used when generating page links. Start with '/' to indicate using as absolute path." xml:space="preserve">
+    <value>為頁面設置一個備用名，該名稱將用來生成以“/”開頭的絕對位址。</value>
+  </data>
+  <data name="Preivew" xml:space="preserve">
+    <value>預覽</value>
+  </data>
+  <data name="Please select one category!" xml:space="preserve">
+    <value>請選擇類別</value>
+  </data>
+  <data name="Failed to save datarule!" xml:space="preserve">
+    <value>保存資料規則失敗</value>
+  </data>
+  <data name="This exception is caused by the wrong setting of the url route of this page. Please check this setting to correct the error. Page name:{0}" xml:space="preserve">
+    <value>該錯誤由不正確的頁面路由設置，頁面名稱：{0}</value>
+  </data>
+  <data name="Index dashboard" xml:space="preserve">
+    <value>索引資訊</value>
+  </data>
+  <data name="The system will automatically index new or updated content, rebuilding all may take a long time, are you sure you want to continue?" xml:space="preserve">
+    <value>系統將自動索引新的內容，重建可能要一些時間，確定繼續嗎？</value>
+  </data>
+  <data name="Rebuild index" xml:space="preserve">
+    <value>重建索引</value>
+  </data>
+  <data name="Last actions" xml:space="preserve">
+    <value>最後的 actions</value>
+  </data>
+  <data name="Indexed folder '{0}' - content title '{1}'" xml:space="preserve">
+    <value>已建索引目錄'{0}' - 內容標題'{1}'</value>
+  </data>
+  <data name="Delete index content title '{1}' from folder '{0}'" xml:space="preserve">
+    <value>從目錄 '{0}'刪除索引內容標題 '{1}'</value>
+  </data>
+  <data name="Permission Setting" xml:space="preserve">
+    <value>許可權設置</value>
+  </data>
+  <data name="Role base" xml:space="preserve">
+    <value>基於角色</value>
+  </data>
+  <data name="Workflow name" xml:space="preserve">
+    <value>工作流名稱</value>
+  </data>
+  <data name="Relation folders" xml:space="preserve">
+    <value>關聯目錄</value>
+  </data>
+  <data name="Category folders" xml:space="preserve">
+    <value>類別目錄</value>
+  </data>
+  <data name="Single choice" xml:space="preserve">
+    <value>單選</value>
+  </data>
+  <data name="Embedded folders" xml:space="preserve">
+    <value>內嵌目錄</value>
+  </data>
+  <data name="Content display order" xml:space="preserve">
+    <value>內容顯示排序</value>
+  </data>
+  <data name="The content item display order in the content list page. Default is Sequence with possibility to change the order of each content item" xml:space="preserve">
+    <value>內容的顯示排序欄位，默認的Sequence可以調整項目的排序。</value>
+  </data>
+  <data name="Field name" xml:space="preserve">
+    <value>欄位名</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>方向</value>
+  </data>
+  <data name="The Direction field is required." xml:space="preserve">
+    <value>“方向”為必填欄位</value>
+  </data>
+  <data name="Network error, the action has been cancelled." xml:space="preserve">
+    <value>網路故障，操作終止。</value>
+  </data>
+  <data name="copy successfully." xml:space="preserve">
+    <value>複製成功</value>
+  </data>
+  <data name="delete successfully." xml:space="preserve">
+    <value>刪除成功</value>
+  </data>
+  <data name="publish successfully." xml:space="preserve">
+    <value>發佈成功</value>
+  </data>
+  <data name="The attempt to copy has failed." xml:space="preserve">
+    <value>嘗試複製失敗</value>
+  </data>
+  <data name="The attempt to delete has failed." xml:space="preserve">
+    <value>嘗試刪除失敗</value>
+  </data>
+  <data name="The attempt to publish has failed." xml:space="preserve">
+    <value>嘗試發佈失敗</value>
+  </data>
+  <data name="save successfully." xml:space="preserve">
+    <value>保存成功</value>
+  </data>
+  <data name="The attempt to save has failed." xml:space="preserve">
+    <value>嘗試保存失敗</value>
+  </data>
+  <data name="image options" xml:space="preserve">
+    <value>圖片選項</value>
+  </data>
+  <data name="URL:" xml:space="preserve">
+    <value>URL：</value>
+  </data>
+  <data name="ALT:" xml:space="preserve">
+    <value>ALT：</value>
+  </data>
+  <data name="Width:" xml:space="preserve">
+    <value>寬：</value>
+  </data>
+  <data name="Height:" xml:space="preserve">
+    <value>高：</value>
+  </data>
+  <data name="library" xml:space="preserve">
+    <value>庫</value>
+  </data>
+  <data name="link panel" xml:space="preserve">
+    <value>鏈結面板</value>
+  </data>
+  <data name="unlink" xml:space="preserve">
+    <value>取消鏈結</value>
+  </data>
+  <data name="Text:" xml:space="preserve">
+    <value>文字：</value>
+  </data>
+  <data name="Title:" xml:space="preserve">
+    <value>標題：</value>
+  </data>
+  <data name="Link Type:" xml:space="preserve">
+    <value>鏈結類型：</value>
+  </data>
+  <data name="Open in a new window" xml:space="preserve">
+    <value>在新視窗中打開</value>
+  </data>
+  <data name="please input the url." xml:space="preserve">
+    <value>請輸入URL</value>
+  </data>
+  <data name="text panel" xml:space="preserve">
+    <value>文字面板</value>
+  </data>
+</root>

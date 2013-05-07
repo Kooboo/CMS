@@ -1,0 +1,94 @@
+﻿/*
+*   toolbarButton
+*   author: ronglin
+*   create date: 2010.06.13
+*/
+
+.kb-toolbarButton
+{
+    border: 1px solid #dddddd;
+    cursor: pointer;
+    margin-right: 2px;
+    background-repeat:no-repeat;
+    display:inline-block;
+    height:20px;
+    width:20px;
+}
+
+.kb-toolbarButton-on
+{
+    background-color: #ccc;
+}
+
+.kb-toolbarButton-hl
+{
+    border: 1px solid #888888;
+}
+
+.kb-toolbarButton-disabled
+{
+    cursor: default;
+    border: 1px dashed #dddddd;
+    background-color: #ffffff;
+}
+
+/*
+* image buttons
+*/
+.kb-toolbarButton.btnBold{
+    background-image: url("images/tb_bold_off.gif");
+}
+.kb-toolbarButton.btnItalic{
+    background-image: url("images/tb_italic_off.gif");
+}
+.kb-toolbarButton.btnUnderline{
+    background-image: url("images/tb_underline_off.gif");
+}
+.kb-toolbarButton.btnAlignLeft{
+    background-image: url("images/tb_alignleft_off.gif");
+}
+.kb-toolbarButton.btnAlignCenter{
+    background-image: url("images/tb_aligncenter_off.gif");
+}
+.kb-toolbarButton.btnAlignRight{
+    background-image: url("images/tb_alignright_off.gif");
+}
+.kb-toolbarButton.btnAlignJustify{
+    background-image: url("images/tb_alignjustify_off.gif");
+}
+.kb-toolbarButton.btnNumberList{
+    background-image: url("images/tb_numberlist_off.gif");
+}
+.kb-toolbarButton.btnBulletList{
+    background-image: url("images/tb_bulletlist_off.gif");
+}
+.kb-toolbarButton.btnIndent{
+    background-image: url("images/tb_indent_off.gif");
+}
+.kb-toolbarButton.btnOutdent{
+    background-image: url("images/tb_outdent_off.gif");
+}
+.kb-toolbarButton.btnInsertImage{
+    background-image: url("images/tb_insert_image_off.gif");
+}
+.kb-toolbarButton.btnInsertLink{
+    background-image: url("images/tb_insert_link_off.gif");
+}
+.kb-toolbarButton.btnEditSource{
+    background-image: url("images/tb_eidt_source_off.gif");
+}
+.kb-toolbarButton.btnRedo{
+    background-image: url("images/tb_redo_off.gif");
+}
+.kb-toolbarButton.btnUndo{
+    background-image: url("images/tb_undo_off.gif");
+}
+.kb-toolbarButton.btnUnformat{
+    background-image: url("images/tb_unformat_off.gif");
+}
+.kb-toolbarButton.btnHorizontalRuler{
+    background-image: url("images/tb_horizontalruler_off.gif");
+}
+.kb-toolbarButton.btnPastePlainText{
+    background-image: url("images/tb_pasteplaintext_off.gif");
+}

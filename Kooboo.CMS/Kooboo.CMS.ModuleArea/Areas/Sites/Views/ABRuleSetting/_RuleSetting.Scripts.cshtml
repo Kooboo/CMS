@@ -1,0 +1,146 @@
+﻿@using System.Text;
+@using Newtonsoft.Json
+@using Kooboo.CMS.Sites.ABTest
+@{
+    //StringBuilder rulesJson = new StringBuilder();
+    //foreach (var rule in ViewBag.Rules)
+    //{
+    //    rulesJson.AppendFormat("'{0}':{1},", rule.RuleType, JsonConvert.SerializeObject(rule, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }));
+    //}
+    //if (rulesJson.Length > 0)
+    //{
+    //    rulesJson.Remove(rulesJson.Length - 1, 1);
+    //}
+
+    IVisitRule visitRule = (IVisitRule)ViewBag.Rule;
+}
+<div id="rulType_@visitRule.RuleType" class="hide">
+    @Html.Partial((string)(visitRule.TemplateVirtualPath), visitRule)
+</div>
+<script type="text/javascript">
+    $(function () {
+        var metadata = {
+            rule : @Html.Raw(JsonConvert.SerializeObject(visitRule, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }))
+            };
+        var $currentDialog = null;
+        
+        var Utilities =  {            
+            cloneObject:function(obj) {
+                return _.clone(obj);
+            },            
+            showDialog:function(ruleItem) {
+                $currentDialog = $("#rulType_" + ruleItem.RuleType());
+                var editViewModel = new EditViewModel(ruleItem);
+                ko.cleanNode($currentDialog[0]);               
+                ko.applyBindings(editViewModel, $currentDialog[0]);
+
+                this.resetValidation($currentDialog.find('form'));
+
+                $currentDialog.dialog({
+                    autoOpen:false,
+                    width: 780,
+                    modal: true,
+                    draggable: false,
+                    resizable: false,
+                    open:function() {}
+                }).dialog("open").dialog("option", "position", 'center');;   
+            },
+            resetValidation:function(form){
+                form.find('.input-validation-error').removeClass('input-validation-error').addClass('valid');
+                form.find('.field-validation-error').removeClass('field-validation-error').addClass('field-validation-valid').empty();
+                form.removeData("validator").removeData("unobtrusiveValidation");                
+                $.validator.unobtrusive.parse(form);
+            },
+        };
+
+        var RuleSettingViewModel = function(){
+            var self = this;
+            var rawViewModelData = @Html.Raw(JsonConvert.SerializeObject(Model, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }))  ;
+            var viewModelMappingOptions = {
+                'RuleItems': {
+                    key: function(item) {
+                        
+                    }
+                }
+            };    
+            self.metadata = metadata;
+            self.ruleSetting = ko.mapping.fromJS(rawViewModelData,viewModelMappingOptions);
+            self.ruleSetting.RuleType = '@visitRule.RuleType';
+            if (self.ruleSetting.RuleItems == null) {
+                self.ruleSetting.RuleItems = ko.observableArray([]);
+            }
+            //delete item
+            self.delete = function(item) {
+                if ( confirm('@("Are you sure you want to delete this item?".Localize())') ) {
+                    self.ruleSetting.RuleItems.remove(item);            
+                    window.leaveConfirm.stop();
+                }
+            };
+            self.add = function() {
+                var ruleItem = ko.mapping.fromJS(metadata.rule);
+                Utilities.showDialog(ruleItem);
+            };
+            self.edit = function(item) {
+                var shadowItem = Utilities.cloneObject(item);
+                shadowItem.isEdit = true;
+                Utilities.showDialog(shadowItem);              
+            };
+            
+            self.submit = function() {
+                var data = ko.mapping.toJSON(self.ruleSetting);                
+                if ($('#ruleSettingForm').valid()) {
+                    window.loading.show();
+                    $.ajax({
+                        type: "POST",
+                        url: location.href,
+                        contentType:"application/json",
+                        dataType:"json",
+                        data: data
+                    }).done(function( responseData ) {
+                        parse_JsonResultData(responseData);
+                    });
+                }
+            };
+        };
+        var EditViewModel = function(ruleItem) {
+            var self = this;
+            self.RuleItem = ko.observable(ruleItem);           
+            self.metadata = metadata;            
+            self.save = function() {
+                var $form = $currentDialog.find('form');
+                
+                if ($form == null || ($form && $form.valid())) {                    
+                    if (self.RuleItem().isEdit) {
+                        var oldColumn = ko.utils.arrayFirst(ruleSettingModel.ruleSetting.RuleItems(), function(item) {
+                            return item.Name() === self.RuleItem().Name();
+                        });
+                        ruleSettingModel.ruleSetting.RuleItems.replace(oldColumn, Utilities.cloneObject(self.RuleItem()));
+                    } else {
+                        ruleSettingModel.ruleSetting.RuleItems.push(self.RuleItem());
+                    }
+                    window.leaveConfirm.stop();
+                    $currentDialog.dialog("close");
+                } 
+            };
+            self.cancel = function() {
+                $currentDialog.dialog("close");
+            };
+        };
+
+        var ruleSettingModel = new RuleSettingViewModel();
+        ko.applyBindings(ruleSettingModel,$('#ruleSettingForm')[0]);    
+
+        $('#submitVisitRule').click(function(e){
+            e.preventDefault();
+            ruleSettingModel.submit();
+        });
+
+        $.validator.addMethod('uniquerulename', function(value) {
+            var exsited = ko.utils.arrayFirst(ruleSettingModel.ruleSetting.RuleItems(), function(item) {
+                return item.Name().toLowerCase() === value.toLowerCase();
+            });
+            return exsited == null;
+        });
+        $.validator.unobtrusive.adapters.addBool('uniquerulename');
+    });
+</script>

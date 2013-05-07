@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="Kooboo.CMS.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="1" osVersion="*">
+  <Role name="Kooboo.CMS.Web">
+    <Instances count="2" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="admin" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEHzvkgkdUTeeTlKs0oNc7U4wDQYJKoZIhvcNAQEBBQAEggEAeSJy0Dys7AJSkqkzVSL8caBDL86iw7ucx4Ee8tCRhbg263gHpicenIgZpbczWAUitaw3XWmlEDWWjNY5epIf9128s+D6Z82IABBZ8JGy53PkTZO+AAwRNFIOhXNL+d9t/fORD+NkWdj+F6M9cnnr1te4nApSxHemUcDCqEnKDm6wv5Ph4rSPlQrYemXElwl7D+pXBkgkSLDRaZ4kdQApSn/mu4iQX8QoFX3DKg0OCWartUtq0VYwldfkvu8ksjN5KI0yZ/KV0yPCCQIf52FtmVs3/A22q5RJS35ZLYOiRf4hJqpLANJxgs9QJPu61TY/o7i06GNmcRNqo+b+QEiOdzAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECH7CkcOZ8oGAgBD5dY/vKPCVaZIVh+3CjTSK" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-03-06T23:59:59.0000000+08:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="926FBF057C48EB89BE8ED4E4899C6B2A79C449E5" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

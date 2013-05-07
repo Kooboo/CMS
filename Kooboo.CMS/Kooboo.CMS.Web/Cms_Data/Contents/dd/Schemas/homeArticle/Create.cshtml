@@ -1,0 +1,116 @@
+﻿
+@using Kooboo.CMS.Content.Models;
+@using Kooboo.CMS.Content.Query;
+@{ var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
+    var allowedEdit = (bool)ViewData["AllowedEdit"];
+    var allowedView = (bool)ViewData["AllowedView"];
+    var parentUUID = ViewContext.RequestContext.AllRouteValues()["parentUUID"];
+    var parentFolder=ViewContext.RequestContext.AllRouteValues()["parentFolder"];
+}
+@using(Html.BeginForm(ViewContext.RequestContext.AllRouteValues()["action"].ToString()
+    , ViewContext.RequestContext.AllRouteValues()["controller"].ToString()
+    , ViewContext.RequestContext.AllRouteValues()
+    , FormMethod.Post
+    , new RouteValueDictionary(new { enctype = "multipart/form-data" })))
+{
+    <table><tr>
+            <th>
+            <label for="title">title</label>
+            </th>
+            <td>
+            <input class='long' id="title" name="title" type="text" value="@(Model.title ?? "")" />            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["title"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="date">date</label>
+            </th>
+            <td>
+            <input class="long" id="date" name="date" type="text" value="@(Model.date ==null ? "" : Model.date.ToLocalTime().ToShortDateString())" /><script language="javascript" type="text/javascript">$(function(){$("#date").datepicker();});</script>            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["date"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="author">author</label>
+            </th>
+            <td>
+            <input class='long' id="author" name="author" type="text" value="@(Model.author ?? "")" />            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["author"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="commentsCount">commentsCount</label>
+            </th>
+            <td>
+            <input class='long' id="commentsCount" name="commentsCount" type="text" value="@(Model.commentsCount ?? "")"  data-val-number="The field commentsCount must be a number." data-val="true"/>            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["commentsCount"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="category">category</label>
+            </th>
+            <td>
+            @{ var checkBoxListDefaultValue_category = @"".Split(new []{','},StringSplitOptions.RemoveEmptyEntries);
+                        var values_category = new string[0];
+                        if(!string.IsNullOrEmpty(Model.category))
+                        {
+                            values_category=Model.category.Split(new []{','},StringSplitOptions.RemoveEmptyEntries);
+                        }
+                        }<ul class="checkbox-list">
+<li>
+<input id="category_0" name="category" type="checkbox" value="@(@"Web Design")"  @((Model.category == null && checkBoxListDefaultValue_category.Contains(@"Web Design",StringComparer.OrdinalIgnoreCase))  || (Model.category != null && values_category.Contains(@"Web Design",StringComparer.OrdinalIgnoreCase)) ? "checked" : "")/><label for="category_0" class="inline">Web Design</label>
+</li>
+<li>
+<input id="category_1" name="category" type="checkbox" value="@(@" Interfaces")"  @((Model.category == null && checkBoxListDefaultValue_category.Contains(@" Interfaces",StringComparer.OrdinalIgnoreCase))  || (Model.category != null && values_category.Contains(@" Interfaces",StringComparer.OrdinalIgnoreCase)) ? "checked" : "")/><label for="category_1" class="inline"> Interfaces</label>
+</li>
+<li>
+<input id="category_2" name="category" type="checkbox" value="@(@" Freebies")"  @((Model.category == null && checkBoxListDefaultValue_category.Contains(@" Freebies",StringComparer.OrdinalIgnoreCase))  || (Model.category != null && values_category.Contains(@" Freebies",StringComparer.OrdinalIgnoreCase)) ? "checked" : "")/><label for="category_2" class="inline"> Freebies</label>
+</li>
+<li>
+<input id="category_3" name="category" type="checkbox" value="@(@"Templates")"  @((Model.category == null && checkBoxListDefaultValue_category.Contains(@"Templates",StringComparer.OrdinalIgnoreCase))  || (Model.category != null && values_category.Contains(@"Templates",StringComparer.OrdinalIgnoreCase)) ? "checked" : "")/><label for="category_3" class="inline">Templates</label>
+</li></ul>            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["category"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="content">content</label>
+            </th>
+            <td>
+            
+<textarea name="content" id="content" class="content tinymce" media_library_url="@Url.Action("Selection","MediaContent",ViewContext.RequestContext.AllRouteValues()))"  media_library_title ="@("Selected Files".Localize())" rows="10" cols="100">@( Model.content ?? "")</textarea>
+            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["content"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="image">image</label>
+            </th>
+            <td>
+            <input id="image" name="image" type="file" value="@(Model.image ?? "")"  data-value="@(Model.image ?? "")" class='filestyle' />            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["image"], null)
+            
+            </td>          
+            </tr>
+            @if (allowedEdit) {
+                <tr>
+            <th>
+           
+            </th>
+            <td>
+            <input id='Published' name="Published" type="checkbox" @(Convert.ToBoolean(Model.Published)?"checked":"") value="true"/>
+                                    <input type="hidden" value="false" name="Published"/>
+            <label class="inline" for="Published">Published</label>
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Published"], null)
+            </td>          
+            </tr>
+            }
+    @Html.Action("Categories", ViewContext.RequestContext.AllRouteValues())
+    
+    </table>
+}

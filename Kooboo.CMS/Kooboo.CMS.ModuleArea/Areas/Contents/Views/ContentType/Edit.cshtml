@@ -1,0 +1,33 @@
+﻿@model Kooboo.CMS.Content.Models.Schema
+@{
+    ViewBag.Title = "Edit content type".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a id="submitContentType">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<form id="column-display-grid">
+    <div class="topbar">
+        <h1 class="title left">@ViewBag.Title: <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+    </div>
+    <div class="common-form fixed">
+        @Html.Partial("_ContentType", Model)
+    </div>
+</form>
+
+<div id="dialog" style="display: none">
+    @Html.Partial("_EditColumn", new Kooboo.CMS.Content.Models.Column())
+</div>
+@Html.Partial("_ContentType.Scripts")
+
+

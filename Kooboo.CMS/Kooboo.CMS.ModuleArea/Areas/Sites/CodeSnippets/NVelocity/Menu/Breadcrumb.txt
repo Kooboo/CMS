@@ -1,0 +1,14 @@
+<ul class="breadcrumb">
+#foreach ($item in $MenuHelper.Breadcrumb())
+#each
+    <li>$Html.FrontHtml().PageLink($item.LinkText, $item.FullName)</li>
+    <li class="separator">|</li>
+#end
+<li>#set($title=$Page_Context.Current.GetFieldValue("Title"))
+#if($title)
+    $title
+#else
+    $MenuHelper.Current().Name
+#end
+</li>
+</ul>

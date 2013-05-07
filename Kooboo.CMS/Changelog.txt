@@ -1,0 +1,73 @@
+V 4.0.1
+
+!! This is the stable release of Kooboo CMS 4, with Metro Style UI, Site template tool, better performance and more. 
+
+* Add export function to the following elements: Theme, Script and custom files, can select multiple files and export them as a .zip. 
+
+* Add default theme function. In the Theme folder, when there is only one folder and the Theme setting is null, that Theme folder will be default applied to the site, without needing to assign it first from the sitesetting. 
+
+* Content broadcasting now also broadcast content from category folders
+
+* Add noindex, nofollow tag to the CMS backend, it will not be indexed by Google any more. 
+
+* Add test email to test SMTP function.
+
+* Add copy site function to copy a parallel site. 
+
+* Improve proformance on MongoDB provider
+
+* Improve some UI elements. 
+
+* Add ShowHiddenFolders in content database.
+
+* Metro grid on media library grid.
+
+* Add export function to media library.
+
+* Fixed: Order.txt appears in the file list page. Order.txt is used to sort the files. 
+
+* Fixed: Alert "are you sure you want to leave this page" appears when there is no change in the page. 
+
+* Fixed: UUID mapping error in the user management when using MSSQL provider
+
+
+
+V4.0.0
+
+! New Kooboo CMS UI based on Microsoft Metro Style
+
+*We have change the entire UI to Metry style, we try to make it compatible with old version of Kooboo CMS 3. Without additional modules and plugins, you should be able to directly export and import sites from Kooboo CMS 3. In the database section, you may need to reset the content type template. *
+
+Some of the changes are:
+
+* Migrate to .NET framework 4.5, MVC 4.0.
+
+* Upgrade JQuery and JQuery UI to newer version.
+
+* Upgrade codemirror,with the support of F11 full screen function key.
+
+* Using Razor and knockoutjs to rebuild the CMS backend interface, using some HTML5 elements.
+
+* Add new website TimeZone setting.
+
+* Improve Page Plug-in interface. Add two methods: HttpGet(Page_Context context,  
+PagePositionContext positionContext) and HttpPost(Page_Context context, PagePositionContext  
+positionContext)
+
+*  Add a new overload to FrontHtml().Position: public virtual IHtmlString Position(string  
+positionID, Func<string> defaultContentFunc). This is used to assign default content when a  
+position does not have content yet.
+
+* Content type template now use Razor syntax. To add a new control type for content editing,  
+add the control template to folder: Cms_Data\ContentType_Templates\Controls.
+
+* Improve the management of JavaScript, Theme and files. When there is a modification to those files, a new version number will be generated so that the cache of the website will be reset. 
+
+* Improve search setting URL configuration. 
+
+* Add return value EventResult to Receive Interface at EventBus. 
+
+* Improve Content broadcasting setting, now you can directly add broadcasting content to sub sites and create the receiving folders. 
+
+* Iprove the content list page, it supports sorting and paging now.
+

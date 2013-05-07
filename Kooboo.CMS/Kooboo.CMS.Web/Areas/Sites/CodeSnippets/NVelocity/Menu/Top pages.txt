@@ -1,0 +1,8 @@
+<ul class="menu">
+#foreach ($item in $MenuHelper.Top())
+#each
+    #if($item.Navigation.Show)
+        <li class="#if($MenuHelper.IsCurrent($item)) 'current' #end">$Html.FrontHtml().PageLink($item.LinkText, $item.FullName)</li>
+    #end
+#end
+</ul>

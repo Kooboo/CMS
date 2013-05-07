@@ -1,0 +1,50 @@
+﻿@using Kooboo.CMS.Content.Models
+@using Kooboo.CMS.Content.Services
+@{
+    Layout = "Design.cshtml";
+}
+@section HeadContent{
+    <script type="text/javascript">
+        function getDesignerType(types) { return types['folder']; }
+    </script>
+}
+<h6>
+    @("Select a data folder:".Localize())</h6>
+<div class="select-tree">
+    @Html.Partial("_TextFolderTree")
+</div>
+<div class="common-form datafolder-form">
+
+    <table>
+        <tbody>
+            <tr>
+                <th>
+                    <label>
+                        @("Result type".Localize())</label>
+                </th>
+                <td>
+                    <ul class="radio-list">
+                    <li class="clearfix">
+                        <input id="List" value="List" type="radio" name="Type" /><label class="inline" for="List">
+                            @("List".Localize())</label>
+                        <span id="top_con" class="left hide">
+                            <label for="Top" class="left">
+                                @("Top:".Localize())</label>
+                            <input id="Top" name="Top" type="text" class="mini" value="50" />
+                        </span>
+                    </li>
+                    <li class="clearfix">
+                        <input id="Detail" value="Detail" type="radio" name="Type" /><label class="inline" for="Detail">
+                            @("Detail".Localize())</label>
+                        <span id="userkey_con" class="left hide">
+                            <label for="UserKey" class="left">
+                                @("UserKey=".Localize())</label>
+                            <input id="UserKey" name="UserKey" type="text" value="{UserKey}" class="short" source="@Html.Raw(ViewData["UserKeyQuery"])" />
+                        </span>
+                    </li></ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

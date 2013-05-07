@@ -1,0 +1,8 @@
+<ul class="menu">
+@foreach (var item in MenuHelper.Sub())
+{
+    if (item.Navigation.Show)
+    {
+        <li class ='@(MenuHelper.IsCurrent(item) ? "current" : "")'>@Html.FrontHtml().PageLink(item.LinkText, item.FullName)</li>
+    }
+}</ul>

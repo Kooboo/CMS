@@ -1,0 +1,24 @@
+﻿/*
+*   preview
+*   author: ronglin
+*   create date: 2011.12.28
+*/
+
+.vs-preview {
+	border: 1px solid #CCC;
+	float: left;
+	width: 250px;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.vs-preview .body {
+	position: relative;
+	width: 200px;
+	margin: 5px;
+	padding: 20px;
+	background-image: url("images/preview_grid_bg.gif");
+}
+
+.vs-preview .target {
+}

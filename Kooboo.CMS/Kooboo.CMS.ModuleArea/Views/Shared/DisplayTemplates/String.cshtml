@@ -1,0 +1,15 @@
+﻿@model object
+
+<tr>
+	<th>
+		<label for="@ViewData.ModelMetadata.PropertyName">
+			@ViewData.ModelMetadata.GetDisplayName().Localize()</label>
+		@if(!string.IsNullOrEmpty(ViewData.ModelMetadata.Description)) {
+		    <a href="#" class="tooltip-link" title="@ViewData.ModelMetadata.Description ">
+		    </a>
+		} 
+	</th>
+	<td>
+		<span class="gray">@ViewData.ModelMetadata.Model</span>
+	</td>
+</tr>

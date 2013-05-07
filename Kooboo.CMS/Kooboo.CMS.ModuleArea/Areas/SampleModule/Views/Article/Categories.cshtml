@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Kooboo.CMS.Content.Models.TextContent>
+@functions{
+    IEnumerable<Kooboo.CMS.Content.Models.TextContent> GetChildContents(string parentUUID)
+    {
+        var all = Model;
+        return all.Where(it => (it["ParentUUID"] ==null && null == parentUUID) || (it["ParentUUID"] !=null && it["ParentUUID"].ToString() == parentUUID) );        
+    }
+}
+@helper RenderCategories(string parentUUID, int level)
+{
+   <ul>
+     @foreach (dynamic item in GetChildContents(parentUUID)){
+     <li>
+       @Html.FrontHtml().PageLink(item.Title, "Articles", new { UserKey = item.UserKey})
+       @RenderCategories(item.UUID,level+1)
+     </li>       
+     }
+   </ul>
+}
+<div class="block menu">
+  	@RenderCategories(null,0)
+</div>
+
+
+
+

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLastAction xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Kooboo.CMS.Search.Models">
+	<LastAction>
+		<FolderName>SlidesPic</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-04-03T03:04:19.725725Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>SlidesPic</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-04-03T03:04:15.932508Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>SlidesPic</FolderName>
+		<ContentSummary>Suspendisse sed odio ut mi auctor blandit</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-04-03T03:04:10.250183Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>SlidesPic</FolderName>
+		<ContentSummary>Fusce eget tortor id nunc consequat facilisis</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-04-03T03:04:04.2048373Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>SlidesPic</FolderName>
+		<ContentSummary>Phasellus tellus libero, pulvinar vitae</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-04-03T03:03:58.2064942Z</UtcActionDate>
+	</LastAction>
+</ArrayOfLastAction>

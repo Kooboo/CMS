@@ -1,0 +1,51 @@
+﻿@model Kooboo.CMS.Sites.Models.Page
+@{
+    ViewBag.Title = "Edit DRAFT page".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+    var publishPermission = ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_PublishPermission);
+    var previewUrl = FrontUrlHelper.Preview(Url, Kooboo.CMS.Sites.Models.Site.Current, Model, new { _draft_ = true });
+    var customTabs = Kooboo.CMS.Web.Areas.Sites.PageCustomTabs.Tabs(Model.Layout).ToArray();
+
+}
+@section Panel{
+    <ul class="panel">
+        <li class="j_DropDown">
+            <a>
+                @Html.IconImage("save")
+                @Html.IconImage("arrow small white-down")
+                @("Save".Localize())
+            </a>
+            <ul class="j_DropDownContent hide">
+                <li><a data-ajaxform="">@("Save".Localize())</a></li>
+                @if (publishPermission)
+                {       
+                    <li><a data-ajaxform="" href="@Url.Action("Draft", "Page", ViewContext.RequestContext.AllRouteValues().Merge("setPublished", "true"))">@("Save & publish".Localize())</a></li>            
+                }
+            </ul>
+        </li>
+        <li><a href="@FrontUrlHelper.Preview(Url, Kooboo.CMS.Sites.Models.Site.Current, Model, new { _draft_ = "true" })" target="_blank">@Html.IconImage("preview") @("Preview".Localize())</a></li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="block common-form" id="page-form">
+    <h1 class="title">@ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+
+    @using (Html.BeginForm("Draft", "Page", ViewContext.RequestContext.AllRouteValues(), FormMethod.Post, new RouteValueDictionary(new { id = "page-form" })))
+    { 
+        @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName")) 
+        @Html.Hidden("ParentPage", ViewContext.RequestContext.GetRequestValue("ParentPage"))
+        @Html.Hidden("old_Key", Model.FullName)
+        <input type="hidden" value="@Model.Name " name="Name" />
+        @Html.ValidationSummary(true)
+        @Html.Partial("_PageTabs", Model, new ViewDataDictionary() { { "IsCreating", false } })     
+    }
+</div>
+<script type="text/javascript">
+
+    $(function () {
+        $('.tabs').koobooTab();
+    });
+</script>

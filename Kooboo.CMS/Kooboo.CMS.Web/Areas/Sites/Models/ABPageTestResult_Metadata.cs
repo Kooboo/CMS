@@ -1,0 +1,28 @@
+﻿using Kooboo.CMS.Sites.ABTest;
+using Kooboo.CMS.Web.Areas.Sites.Models.Grid2;
+using Kooboo.CMS.Web.Grid2;
+using Kooboo.ComponentModel;
+using Kooboo.Web.Mvc.Grid2.Design;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Kooboo.CMS.Web.Areas.Sites.Models
+{
+    [MetadataFor(typeof(ABPageTestResult))]
+    [Grid(Checkable = true, IdProperty = "UUID")]
+    public class ABPageTestResult_Metadata
+    {
+        [GridColumnAttribute(HeaderText = "A/B test name", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(HitReport_GridItemColumn), Order = 1)]
+        public string PageVisitRuleUUID { get; set; }
+        public IList<ABPageTestHitsReport> PageHits { get; set; }
+        [GridColumnAttribute(HeaderText = "Total shows", GridColumnType = typeof(SortableGridColumn), Order = 2)]
+        public int TotalShowTimes { get; set; }
+        [GridColumnAttribute(HeaderText = "Total hits", GridColumnType = typeof(SortableGridColumn), Order = 3)]
+        public int TotalHitTimes { get; set; }
+    }
+}

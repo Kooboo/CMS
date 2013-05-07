@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	@Html.FrontHtml().HtmlTitle()
+	@Html.FrontHtml().Meta()
+	@Html.FrontHtml().RegisterStyles()
+  @Html.FrontHtml().RegisterScripts()
+  
+  <link href="@Url.FrontUrl().FileUrl("css_pirobox/white/style.css")"  rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src=@Url.FrontUrl().FileUrl("jquery.min.js")></script>
+  
+   <script type="text/javascript" src=@Url.FrontUrl().FileUrl("piroBox.1_2.js")></script>
+  
+   
+  <script type="text/javascript">
+$(document).ready(function() {
+	$().piroBox({
+			my_speed: 600, //animation speed
+			bg_alpha: 0.5, //background opacity
+			radius: 4, //caption rounded corner
+			scrollImage : false, // true == image follows the page, false == image remains in the same open position
+			pirobox_next : 'piro_next', // Nav buttons -> piro_next == inside piroBox , piro_next_out == outside piroBox
+			pirobox_prev : 'piro_prev',// Nav buttons -> piro_prev == inside piroBox , piro_prev_out == outside piroBox
+			close_all : '.piro_close',// add class .piro_overlay(with comma)if you want overlay click close piroBox
+			slideShow : 'slideshow', // just delete slideshow between '' if you don't want it.
+			slideSpeed : 4 //slideshow duration in seconds(3 to 6 Recommended)
+	});
+});
+</script>
+</head>
+<body>
+    <div id="templatemo_header_wrapper">
+     	@Html.FrontHtml().RenderView("Header",ViewData)
+    </div>
+
+<div id="templatemo_top_wrapper">
+	@Html.FrontHtml().Position("PageArticle")
+</div>
+
+<div id="templatemo_middle_wrapper">
+
+	<div id="content_wrapper">
+    	
+        <div class="content_box_top"></div>
+        <div class="content_box">
+        @Html.FrontHtml().Position("Content")
+          
+        </div>
+      <div class="content_box_bottom"></div>
+
+	</div>
+    
+	<div id="sidebar_wrapper">
+
+	
+       @Html.FrontHtml().Position("Sidebar")
+        
+    </div>
+    
+    <div class="cleaner"></div>
+
+</div>
+
+<div id="templatemo_footer_wrapper">
+
+	@Html.FrontHtml().Position("Footer")
+</div>
+
+<div id="templatemo_copyright_wrapper">
+	@Html.FrontHtml().RenderView("Footer.Copyright",ViewData)
+</div>
+
+</body>
+</html>

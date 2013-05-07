@@ -1,0 +1,495 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FFD8E9F0-61B6-4B0D-A803-5BECCD2A6578}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kooboo.CMS.Sites</RootNamespace>
+    <AssemblyName>Kooboo.CMS.Sites</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Kooboo.CMS.Sites.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1591,1592,1573,1571,1570,1572</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\..\Lib\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip.Reduced">
+      <HintPath>..\..\Lib\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\MVC\4.0\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\MVC\4.0\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\MVC\4.0\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CMSAssemblyInfoGlobal.cs">
+      <Link>CMSAssemblyInfoGlobal.cs</Link>
+    </Compile>
+    <Compile Include="AreaControllerBase.cs" />
+    <Compile Include="Assemblies.cs" />
+    <Compile Include="Caching\CacheExtensions.cs" />
+    <Compile Include="Controllers\ActionFilters\CachedContentResult.cs" />
+    <Compile Include="Controllers\ActionFilters\CheckRequireHttpsAttribute.cs" />
+    <Compile Include="Controllers\ActionFilters\CheckSiteExistsActionFilter.cs" />
+    <Compile Include="Controllers\ActionFilters\CacheToDiskAttribute.cs" />
+    <Compile Include="Controllers\ActionFilters\CustomOutputTextWriterFilter.cs" />
+    <Compile Include="Controllers\ActionFilters\CustomRedirectFilterAttribute.cs" />
+    <Compile Include="Controllers\ActionFilters\OutputCacheFilterAttribute.cs" />
+    <Compile Include="Controllers\SubmissionController.cs" />
+    <Compile Include="Extension\EmailPlugin.cs" />
+    <Compile Include="Extension\IHttpMethodPagePlugin.cs" />
+    <Compile Include="Extension\IPageRequestModule.cs" />
+    <Compile Include="Extension\ISubmissionPlugin.cs" />
+    <Compile Include="Extension\PageRequestModuleExecutor.cs" />
+    <Compile Include="Extension\PluginHelper.cs" />
+    <Compile Include="Models\HtmlMeta.cs" />
+    <Compile Include="Models\SubmissionSetting.cs" />
+    <Compile Include="Persistence\Caching\PageVisitRuleProvider.cs" />
+    <Compile Include="Persistence\Caching\SiteVisitRuleProvider.cs" />
+    <Compile Include="Persistence\Caching\VisitRuleSettingProvider.cs" />
+    <Compile Include="Persistence\FileSystem\ABPageTestResultProvider.cs" />
+    <Compile Include="Persistence\IABPageTestResultProvider.cs" />
+    <Compile Include="Persistence\ISubmissionSettingProvider.cs" />
+    <Compile Include="Persistence\FileSystem\SubmissionSettingProvider.cs" />
+    <Compile Include="Services\ABPageTestResultManager.cs" />
+    <Compile Include="Services\PageCachingManager.cs" />
+    <Compile Include="Services\SubmissionSettingManager.cs" />
+    <Compile Include="View\SecurityHelper.cs" />
+    <Compile Include="View\WebProxy\IHttpProcessor.cs" />
+    <Compile Include="ABTest\ABPageTestMatchedObserver.cs" />
+    <Compile Include="ABTest\ABPageTestRequestModule.cs" />
+    <Compile Include="ABTest\ABPageTestResult.cs" />
+    <Compile Include="ABTest\ABPageTestTrackingHelper.cs" />
+    <Compile Include="ABTest\ISiteVisitRuleMatchedObserver.cs" />
+    <Compile Include="ABTest\IPageVisitRuleMatchedObserver.cs" />
+    <Compile Include="Web\OutputTextWriterWrapper.cs" />
+    <Compile Include="Controllers\PageController.cs" />
+    <Compile Include="Controllers\FrontControllerBase.cs" />
+    <Compile Include="Controllers\ActionFilters\PageExecutionFilterAttribute.cs" />
+    <Compile Include="Controllers\ActionFilters\PageHtmlParserActionFilter.cs" />
+    <Compile Include="Controllers\PageControllerActionInvoker.cs" />
+    <Compile Include="Controllers\Redirect301Result.cs" />
+    <Compile Include="Controllers\RedirectHelper.cs" />
+    <Compile Include="Controllers\ResourceController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\ActionFilters\SiteOfflinedFilterAttribute.cs" />
+    <Compile Include="Controllers\TransferResult.cs" />
+    <Compile Include="DataRule\CategoryDataRule.cs" />
+    <Compile Include="DataRule\DataRuleBase.cs" />
+    <Compile Include="DataRule\DataRuleExecutor.cs" />
+    <Compile Include="DataRule\DataRulePagedList.cs" />
+    <Compile Include="DataRule\DataRuleType.cs" />
+    <Compile Include="DataRule\IValueProvider.cs" />
+    <Compile Include="DataRule\ParameterizedFieldValue.cs" />
+    <Compile Include="DataRule\DataRuleContext.cs" />
+    <Compile Include="DataRule\FolderDataRule.cs" />
+    <Compile Include="DataRule\IDataRule.cs" />
+    <Compile Include="DataRule\SchemaDataRule.cs" />
+    <Compile Include="DataRule\WhereClause.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extension\ContentPlugin.cs" />
+    <Compile Include="Extension\IPagePlugin.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleActionInvokedContext.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleActionResultExecutor.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleAdminPosition.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleAreaControllerBase.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleContext.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleControllerActionInvoker.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleControllerBase.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleExecutor.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleEntryPath.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleFormValueProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extension\ModuleArea\ModuleInfo.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleInstaller.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleMenu.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleRoute.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleSettings.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleUninstaller.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleUrlHelper.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleViewHelperExtension.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleHttpContext.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleHttpRequest.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleHttpResponse.cs" />
+    <Compile Include="Extension\ModuleArea\ModulePath.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleRequestContext.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleResultExecutedContext.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleSessionStateTempDataProvider.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleViewEngine.cs" />
+    <Compile Include="Extension\ModuleArea\RouteTables.cs" />
+    <Compile Include="Extension\PagePluginHelper.cs" />
+    <Compile Include="Globalization\IRepositoryFactory.cs" />
+    <Compile Include="Globalization\SiteLabelRepository.cs" />
+    <Compile Include="LocalizationHtmlExtensions.cs" />
+    <Compile Include="IEnumerableStringExtension.cs" />
+    <Compile Include="IPath.cs" />
+    <Compile Include="KoobooCMSVersion.cs" />
+    <Compile Include="Models\AssemblyFile.cs" />
+    <Compile Include="Models\CodeSnippet.cs" />
+    <Compile Include="Models\CustomDirectory.cs" />
+    <Compile Include="Models\CustomErrorsFile.cs" />
+    <Compile Include="Models\HtmlBlock.cs" />
+    <Compile Include="Models\IFilePersistable.cs" />
+    <Compile Include="Models\ISiteObject.cs" />
+    <Compile Include="Models\ItemTemplate.cs" />
+    <Compile Include="Models\LayoutSample.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ModelExtensions.cs" />
+    <Compile Include="Models\CacheSettings.cs" />
+    <Compile Include="Models\PageExtensions.cs" />
+    <Compile Include="Models\PagePublishingQueueItem.cs" />
+    <Compile Include="Models\Robots_Txt.cs" />
+    <Compile Include="Models\SiteMap.cs" />
+    <Compile Include="Models\SiteTree.cs" />
+    <Compile Include="Models\StyleFile.cs" />
+    <Compile Include="Models\UrlKeyMap.cs" />
+    <Compile Include="Models\UrlKeyMapsFile.cs" />
+    <Compile Include="Models\UrlRedirect.cs" />
+    <Compile Include="Models\UrlRedirectsFile.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\View.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\CustomError.cs" />
+    <Compile Include="Models\DataRuleSetting.cs" />
+    <Compile Include="Models\DefaultModelActivator.cs" />
+    <Compile Include="Models\ICascadable.cs" />
+    <Compile Include="Models\IInheritable.cs" />
+    <Compile Include="Models\IModelActivator.cs" />
+    <Compile Include="Models\ModelActivatorFactory.cs" />
+    <Compile Include="Models\DirectoryResource.cs" />
+    <Compile Include="Models\PathResource.cs" />
+    <Compile Include="Models\ScriptFile.cs" />
+    <Compile Include="Models\Label.cs" />
+    <Compile Include="Models\ThemeFile.cs" />
+    <Compile Include="Models\ThemeImageFile.cs" />
+    <Compile Include="Models\LayoutPosition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Layout.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Page.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\PagePosition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ThemeRuleFile.cs" />
+    <Compile Include="Models\FileResource.cs" />
+    <Compile Include="Models\CustomFile.cs" />
+    <Compile Include="Models\Theme.cs" />
+    <Compile Include="Models\Site.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Template.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\ABPageSettingProvider.cs" />
+    <Compile Include="Persistence\IABPageSettingProvider.cs" />
+    <Compile Include="Persistence\FileSystem\ObjectFileProviderBase.cs" />
+    <Compile Include="Persistence\FileSystem\ABSiteSettingProvider.cs" />
+    <Compile Include="Persistence\FileSystem\ABRuleSettingProvider.cs" />
+    <Compile Include="Persistence\IABSiteSettingProvider.cs" />
+    <Compile Include="Persistence\IABRuleSettingProvider.cs" />
+    <Compile Include="Services\PageVisitRuleManager.cs" />
+    <Compile Include="Services\SiteVisitRuleManager.cs" />
+    <Compile Include="Services\VisitRuleSettingManager.cs" />
+    <Compile Include="View\PageSettingValueProvider.cs" />
+    <Compile Include="View\WebProxy\IProxyHtmlFixer.cs" />
+    <Compile Include="View\PositionRender\IRender.cs" />
+    <Compile Include="View\PositionRender\ProxyRender.cs" />
+    <Compile Include="View\PositionRender\ViewRender.cs" />
+    <Compile Include="View\WebProxy\IWebProxy.cs" />
+    <Compile Include="ABTest\RandomVisitRule.cs" />
+    <Compile Include="ABTest\CustomRuleBase.cs" />
+    <Compile Include="ABTest\IPVisitRule.cs" />
+    <Compile Include="ABTest\IVisitRule.cs" />
+    <Compile Include="ABTest\ABPageSetting.cs" />
+    <Compile Include="ABTest\QueryStringVisitRule.cs" />
+    <Compile Include="ABTest\ABSiteSetting.cs" />
+    <Compile Include="ABTest\VisitRuleBase.cs" />
+    <Compile Include="ABTest\ABRuleSetting.cs" />
+    <Compile Include="Parsers\ThemeRule\RegularThemeRuleParser.cs" />
+    <Compile Include="Parsers\ThemeRule\ThemeRuleParser.cs" />
+    <Compile Include="Parsers\ThemeRule\IThemeRuleParser.cs" />
+    <Compile Include="Persistence\Caching\SiteElementProviderBase.cs" />
+    <Compile Include="Persistence\Caching\ProviderBase.cs" />
+    <Compile Include="Persistence\Caching\DependencyRegistrar.cs" />
+    <Compile Include="Persistence\Caching\HtmlBlockProvider.cs" />
+    <Compile Include="Persistence\Caching\LayoutProvider.cs" />
+    <Compile Include="Persistence\Caching\PageProvider.cs" />
+    <Compile Include="Persistence\Caching\SiteProvider.cs" />
+    <Compile Include="Persistence\Caching\UrlKeyMapProvider.cs" />
+    <Compile Include="Persistence\Caching\ViewProvider.cs" />
+    <Compile Include="Persistence\FileSystem\HtmlBlockProvider.cs" />
+    <Compile Include="Persistence\FileSystem\ListFileProvider.cs" />
+    <Compile Include="Persistence\FileSystem\SettingFileProviderBase.cs" />
+    <Compile Include="Persistence\FileSystem\PagePublishingQueueProvider.cs" />
+    <Compile Include="Persistence\FileSystem\UserProvider.cs" />
+    <Compile Include="Persistence\IHtmlBlockProvider.cs" />
+    <Compile Include="Persistence\IPagePublishingQueueProvider.cs" />
+    <Compile Include="Persistence\IUserProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Persistence\FileSystem\CustomErrorProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\IInheritableHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\ILocalizableHelper.cs" />
+    <Compile Include="Persistence\FileSystem\ImportHelper.cs" />
+    <Compile Include="Persistence\FileSystem\LayoutProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\PageProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\InheritableProviderBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\ProviderFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\SiteProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\TemplateProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\UrlKeyMapProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\UrlRedirectProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\ViewProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\ICustomErrorProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\IImportProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\ILayoutProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\ILocalizableProvider.cs" />
+    <Compile Include="Persistence\IPageProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\ISiteElementProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\IProviderFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\ISiteProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\IUrlKeyMapProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\IUrlRedirectProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\IViewProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\Providers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\Serialization.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CMSControllerFactory.cs" />
+    <Compile Include="Search\PageConverter.cs" />
+    <Compile Include="Search\TextContentConverter.cs" />
+    <Compile Include="Services\AssemblyManager.cs" />
+    <Compile Include="Services\CodeSnippetManager.cs" />
+    <Compile Include="Services\CustomFileManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\FileManager.cs" />
+    <Compile Include="Services\HeaderBackgroundManager.cs" />
+    <Compile Include="Services\HtmlBlockManager.cs" />
+    <Compile Include="Services\ImportedSiteManager.cs" />
+    <Compile Include="Services\ItemTemplateManager.cs" />
+    <Compile Include="Services\LayoutItemTemplateManager.cs" />
+    <Compile Include="Services\ManagerBase.cs" />
+    <Compile Include="Services\ModuleManager.cs" />
+    <Compile Include="Services\Namespace.cs" />
+    <Compile Include="Services\PagePublishingJob.cs" />
+    <Compile Include="Services\SiteTemplateManager.cs" />
+    <Compile Include="Services\SystemManager.cs" />
+    <Compile Include="Services\ThemeManager.cs" />
+    <Compile Include="Services\UrlKeyMapManager.cs" />
+    <Compile Include="Services\CustomErrorManager.cs" />
+    <Compile Include="Services\FriendlyException.cs" />
+    <Compile Include="Services\ItemAlreadyExistsException.cs" />
+    <Compile Include="Services\ItemDoesNotExistException.cs" />
+    <Compile Include="Services\LabelManager.cs" />
+    <Compile Include="Services\LayoutManager.cs" />
+    <Compile Include="Services\NameIsReqiredException.cs" />
+    <Compile Include="Services\PathResourceManagerBase.cs" />
+    <Compile Include="Services\PageManager.cs" />
+    <Compile Include="Services\ScriptManager.cs" />
+    <Compile Include="Services\ServiceFactory.cs" />
+    <Compile Include="Services\SiteManager.cs" />
+    <Compile Include="Services\UrlRedirectManager.cs" />
+    <Compile Include="Services\UserManager.cs" />
+    <Compile Include="Services\ViewManager.cs" />
+    <Compile Include="SiteRepositoryNotExists.cs" />
+    <Compile Include="TimeZoneHelper.cs" />
+    <Compile Include="Versioning\IVersionable.cs" />
+    <Compile Include="Versioning\IVersionLogger.cs" />
+    <Compile Include="Versioning\VersionBasePath.cs" />
+    <Compile Include="Versioning\VersionManager.cs" />
+    <Compile Include="View\CodeSnippet\ICodeHelper.cs" />
+    <Compile Include="View\CodeSnippet\IDataRuleCodeSnippet.cs" />
+    <Compile Include="View\CodeSnippet\ILayoutPositionParser.cs" />
+    <Compile Include="View\ContentHelper.cs" />
+    <Compile Include="View\EditingType.cs" />
+    <Compile Include="View\FrontHtmlHelper.cs" />
+    <Compile Include="View\FrontUrlHelper.cs" />
+    <Compile Include="View\FrontViewControl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="View\FrontViewPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="View\HtmlExtensions.cs" />
+    <Compile Include="View\HtmlParsing\HtmlParser.cs" />
+    <Compile Include="View\HtmlParsing\IHtmlParser.cs" />
+    <Compile Include="View\HtmlParsing\IPageUrlGenerator.cs" />
+    <Compile Include="View\HtmlParsing\IParser.cs" />
+    <Compile Include="View\HtmlParsing\IParsers.cs" />
+    <Compile Include="View\HtmlParsing\PageUrlGenerator.cs" />
+    <Compile Include="View\HtmlParsing\Parsers.cs" />
+    <Compile Include="View\HtmlParsing\UrlParser.cs" />
+    <Compile Include="View\IFrontPageView.cs" />
+    <Compile Include="View\IFrontView.cs" />
+    <Compile Include="View\MenuHelper.cs" />
+    <Compile Include="View\PagePositionContext.cs" />
+    <Compile Include="View\PageRequestContext.cs" />
+    <Compile Include="View\Page_Context.cs" />
+    <Compile Include="View\FrontViewResult.cs" />
+    <Compile Include="View\RouteValuesHelpers.cs" />
+    <Compile Include="Globalization\SiteLabel.cs" />
+    <Compile Include="View\SubmissionHelper.cs" />
+    <Compile Include="View\TemplateEngines.cs" />
+    <Compile Include="View\UrlExtensions.cs" />
+    <Compile Include="View\PageDesignContent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\PageDesignHolder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\PageDesignHtml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\ViewHelper.cs" />
+    <Compile Include="ABTest\UserAgentVisitRule.cs" />
+    <Compile Include="Web\FrontHttpContextWrapper.cs" />
+    <Compile Include="Web\FrontHttpRequestWrapper.cs" />
+    <Compile Include="Web\FrontHttpResponseWrapper.cs" />
+    <Compile Include="Web\FrontRequestChannel.cs" />
+    <Compile Include="Web\FrontUrlRoutingModule.cs" />
+    <Compile Include="Web\KoobooCMSResponseModule.cs" />
+    <Compile Include="Web\UrlMapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+      <Project>{347E47E5-3132-4BAD-B935-8282A2B16CF5}</Project>
+      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Account\Kooboo.CMS.Account.csproj">
+      <Project>{61ED004C-9E20-4680-AF2B-0723FE7648BB}</Project>
+      <Name>Kooboo.CMS.Account</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
+      <Project>{570CD9D3-75D2-468A-8245-45BDCA57432E}</Project>
+      <Name>Kooboo.CMS.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
+      <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
+      <Name>Kooboo.CMS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Content\Kooboo.CMS.Content\Kooboo.CMS.Content.csproj">
+      <Project>{C5A5186D-6F8E-4BB9-AF0E-74F0993B48DA}</Project>
+      <Name>Kooboo.CMS.Content</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Form\Kooboo.CMS.Form.csproj">
+      <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
+      <Name>Kooboo.CMS.Form</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Search\Kooboo.CMS.Search.csproj">
+      <Project>{c7b73e67-d226-41cb-a86d-410276b265a1}</Project>
+      <Name>Kooboo.CMS.Search</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

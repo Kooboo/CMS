@@ -1,0 +1,140 @@
+﻿
+@using Kooboo.CMS.Content.Models;
+@using Kooboo.CMS.Content.Query;
+@{
+    var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
+    var allowedEdit = (bool)ViewData["AllowedEdit"];
+    var allowedView = (bool)ViewData["AllowedView"];
+    var workflowItem  = Model._WorkflowItem_;
+    var hasWorkflowItem = workflowItem!=null;
+    var availableEdit = hasWorkflowItem || (!hasWorkflowItem && allowedEdit);
+}
+    @using(Html.BeginForm(ViewContext.RequestContext.AllRouteValues()["action"].ToString()
+            , ViewContext.RequestContext.AllRouteValues()["controller"].ToString()
+            , ViewContext.RequestContext.AllRouteValues()
+            , FormMethod.Post, new RouteValueDictionary(new { enctype = "application/x-www-form-urlencoded" })))
+{
+    <table><tr>
+            <th>
+            <label for="Title">Title</label>
+            </th>
+            <td>
+            <input class='long' id="Title" name="Title" type="text" value="@(Model.Title ?? "")" />            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Title"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="Summary">Summary</label>
+            </th>
+            <td>
+            <textarea class="extra-large" name="Summary" >@(Model.Summary ?? "")</textarea>             
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Summary"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="Description">Description</label>
+            </th>
+            <td>
+            
+<textarea name="Description" id="Description" class="Description tinymce" media_library_url="@Url.Action("Selection","MediaContent",ViewContext.RequestContext.AllRouteValues()))"  media_library_title ="@("Selected Files".Localize())" rows="10" cols="100">@( Model.Description ?? "")</textarea>
+            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Description"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="Readings">Readings</label>
+            </th>
+            <td>
+            <input class="long" id="Readings" name="Readings" type="text" value="@(Model.Readings ?? "")"  data-val-number="The field Readings must be a number." data-val="true"/>            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Readings"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="Categories">Categories</label>
+            </th>
+            <td>
+            @{ var checkBoxListDefaultValue_Categories = @"".Split(new []{','},StringSplitOptions.RemoveEmptyEntries);
+                        var values_Categories = new string[0];
+                        if(!string.IsNullOrEmpty(Model.Categories))
+                        {
+                            values_Categories=Model.Categories.Split(new []{','},StringSplitOptions.RemoveEmptyEntries);
+                        }
+                        }
+                        @{
+                           var textFolder_Categories = new TextFolder(Repository.Current, "Category");
+                           var query_Categories = textFolder_Categories.CreateQuery().DefaultOrder(); 
+                           var index_Categories = 0;
+                        }
+                        <ul class="checkbox-list">
+                        @foreach (var item in query_Categories)
+                        {                            
+                            var id = "Category" + index_Categories.ToString();
+                            <li>
+                             <input id="@id" name="Categories" type="checkbox" value="@item.UUID"  @((Model.Categories == null && checkBoxListDefaultValue_Categories.Contains(@item.UUID, StringComparer.OrdinalIgnoreCase)) || (Model.Categories != null && values_Categories.Contains(@item.UUID, StringComparer.OrdinalIgnoreCase)) ? "checked" : "")/><label
+                            for="@id" class="inline">@item.GetSummary()</label>
+                            </li>
+                            index_Categories++;                            
+                        }
+                        </ul>
+                                    
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Categories"], null)
+            
+            </td>          
+            </tr>
+<tr>
+    <th>Image</th>
+    <td>
+        <input id="Image" name="Image" type="text" value="@(Model.Image)"   class='long' readonly="readonly"/>
+        <a id="Image_button"><img class="icon plus" src="/Images/invis.gif" />
+</a>
+        <input id="Image_param" name="Image_param" type="hidden" />
+           <input type="hidden" name="Kooboo-Image-Crop-Field" value="Image" />                
+        <script>
+            $(function () {
+                var $input = $('#Image');
+                var $input_param = $('#Image_param');
+                var $uploadButton = $('#Image_button');
+                var tempFileUrl = '@Html.Raw(Url.Action("ImageCrop", ViewContext.RequestContext.AllRouteValues()))';
+                var $top = $(top);
+                $uploadButton.click(function () {
+                    cropParam = $top.data('crop-param');
+                    $top.data('onCropped', function (param) {
+                        cropParam = param;
+                        var json = $.toJSON(param);
+                        $input_param.val(json);
+                        $input.val(param.Url);
+                        $top.data('crop-param', param)
+                    });
+                    $.pop({
+                        width: 800,
+                        height: 580,
+                        dialogClass: 'iframe-dialog',
+                        frameHeight: "100%",
+                        url: tempFileUrl + "&sourceUrl=" + $input.val()
+                    });
+                });
+            });
+        </script>
+    </td>
+</tr>
+
+            @if (allowedEdit) {
+                <tr>
+            <th>
+           
+            </th>
+            <td>
+            <input id='Published' name="Published" type="checkbox" @(Convert.ToBoolean(Model.Published)?"checked":"") value="true"/>
+                                    <input type="hidden" value="false" name="Published"/>
+            <label class="inline" for="Published">Published</label>
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Published"], null)
+            </td>          
+            </tr>
+            }
+    @Html.Action("Categories", ViewContext.RequestContext.AllRouteValues())
+    </table>   
+}

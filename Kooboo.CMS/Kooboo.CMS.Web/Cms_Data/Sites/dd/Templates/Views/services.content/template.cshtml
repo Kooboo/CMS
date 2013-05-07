@@ -1,0 +1,22 @@
+﻿
+     
+        
+        	<h2>Our Services</h2>
+            <p><em>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent aliquam velit a magna sodales quis elementum ipsum auctor. Ut at metus leo. Validate <a href="http://validator.w3.org/check?uri=referer" rel="nofollow">XHTML</a> &amp; <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="nofollow">CSS</a>.</em></p>
+            
+            <div class="cleaner_h30"></div>
+         @foreach (var item in ViewBag.services){
+            <div class="service_box"  @ViewHelper.Edit(item) >
+                
+                <img src=@item.image alt="image" />
+               	<div class="right">
+                	<h4>@item.title</h4>
+                    @Html.Raw(item.content)
+                </div>
+                
+                
+                <div class="cleaner"></div>
+            </div>
+          }
+           
+            

@@ -1,0 +1,38 @@
+﻿ 
+<div id="templatemo_header_wrapper">
+    <div id="templatemo_header">
+    
+        <div id="header_left">
+            
+            <div id="site_title">
+                
+                <a href=@Url.FrontUrl().PageUrl("home")><img src=@Url.FrontUrl().FileUrl("templatemo_logo.png") alt="logo" /><span>@("Welcome use Kooboo CMS".Label())</span></a>
+                
+            </div> <!-- end of site_title -->
+    
+        </div>
+        
+        <div id="header_right">
+        
+            <div id="templatemo_menu">
+               
+                <ul>
+                  @foreach (var item in MenuHelper.Top())
+                  {
+    				 	if (item.Navigation.Show)
+    					{
+                          <li  class ='@(MenuHelper.IsCurrent(item) ? "current" : "")'> 	
+                            @Html.FrontHtml().PageLink(item.LinkText, item.FullName)</li>
+   						 }
+                  }
+                </ul>    	
+            
+            </div> 
+            <!-- end of templatemo_menu -->
+            
+        </div>
+    
+        <div class="cleaner"></div>
+        
+    </div>
+</div>

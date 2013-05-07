@@ -1,0 +1,140 @@
+/*
+[Contents]
+
+	0- Global
+	1- Links
+	2- Content(For tinymce)
+	3- Form
+*/
+
+/* =0 Global
+---------------------------------------------------------------------------------------------------------------------*/
+body {
+	font: 12px/1.5 "Segoe UI", "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.hide {
+	display: none;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+/* Clearfix */
+.clearfix:after {
+	clear: both;
+	content: " ";
+	display: block;
+	font-size: 0;
+	height: 0;
+	visibility: hidden;
+}
+/* for IE6 */
+*html .clearfix {
+	zoom: 1;
+}
+/* for IE7 */
+* + html .clearfix {
+	zoom: 1;
+}
+/* =1 Links
+---------------------------------------------------------------------------------------------------------------------*/
+a {
+	text-decoration: none;
+	-moz-transition: all 0.2s ease-in-out 0s;
+	-webkit-transition: all 0.2s ease-in-out 0s;
+	transition: all 0.2s ease-in-out 0s;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a.button {
+	background: #808080;
+	color: #FFF;
+	display: inline-block;
+	height: 32px;
+	line-height: 32px;
+	min-width: 90px;
+	padding: 0 10px;
+	text-align: center;
+	text-decoration: none;
+}
+
+a.button:hover {
+	background: #0078B1;
+}
+/* =2 Content(For Tinymce)
+---------------------------------------------------------------------------------------------------------------------*/
+.content {
+	font-size: 14px;
+}
+
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+
+.content h1 {
+	font-size: 2em;
+}
+
+.content h2 {
+	font-size: 1.5em;
+}
+
+.content h3 {
+	font-size: 1.17em;
+}
+
+.content h4 {
+	font-size: 1em;
+}
+
+.content h5 {
+	font-size: 0.83em;
+}
+
+.content h6 {
+	font-size: 0.75em;
+}
+
+.content p {
+	margin-bottom: 10px;
+}
+
+.content pre {
+	padding: 8px;
+}
+
+.content ol, .content ul {
+	margin-bottom: 10px;
+	padding-left: 20px;
+}
+
+.content ol li {
+	list-style: decimal outside;
+}
+
+.content ul li {
+	list-style: disc outside;
+}
+/* =3 Form
+---------------------------------------------------------------------------------------------------------------------*/
+/* Global
+---------------------------------------------------------*/
+button, input[type="submit"], input[type="reset"], input[type="button"] {
+	cursor: pointer;
+}
+
+/* Common Form
+---------------------------------------------------------*/

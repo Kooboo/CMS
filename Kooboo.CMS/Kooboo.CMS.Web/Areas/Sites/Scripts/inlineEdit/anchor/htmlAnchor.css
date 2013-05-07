@@ -1,0 +1,78 @@
+﻿/*
+*   htmlAnchor
+*   author: ronglin
+*   create date: 2011.02.09
+*/
+
+.kb-htmlAnchor
+{
+    display: none;
+    position: absolute;
+    overflow: hidden;
+    height: 20px;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+    cursor: default;
+    line-height: 1;
+    background-color: #C7DAF8;
+    background: url("images/menu_bg.gif");
+    background-repeat: repeat-x;
+    border: 1px solid #4282C3;
+    -moz-user-select: none;
+    z-index: 4;
+}
+
+.kb-htmlAnchor .kb-con
+{
+    float: left;
+    cursor: default;
+}
+
+.kb-htmlAnchor .kb-name
+{
+    float: left;
+    margin-top: 2px;
+    margin-left: 4px;
+    margin-right: 4px;
+    line-height: 16px;
+}
+
+.kb-htmlAnchor .kb-sep
+{
+    float: left;
+    margin-top: 2px;
+    height: 16px;
+    width: 2px;
+    cursor: default;
+    background-repeat: repeat-y;
+    background-image: url("images/menu_split.gif");
+}
+
+.kb-htmlAnchor .kb-btn
+{
+    float: left;
+    margin-top: 1px;
+    margin-left: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.kb-htmlAnchor .kb-hover
+{
+    background-color: #ffffff;
+    border: 1px solid #4282c3;
+}
+
+/*
+* image buttons
+*/
+.kb-htmlAnchor .btnEdit{
+    background-image: url("images/menu_edit.gif");
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+}

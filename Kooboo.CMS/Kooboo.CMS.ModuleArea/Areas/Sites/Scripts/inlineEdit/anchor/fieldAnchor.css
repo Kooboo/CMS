@@ -1,0 +1,117 @@
+﻿/*
+*   fieldAnchor
+*   author: ronglin
+*   create date: 2010.06.11
+*/
+
+.kb-fieldAnchor
+{
+    display: none;
+    position: absolute;
+    overflow: hidden;
+    height: 20px;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+    cursor: default;
+    line-height: 1;
+    background-color: #C7DAF8;
+    background: url("images/menu_bg.gif");
+    background-repeat: repeat-x;
+    border: 1px solid #4282C3;
+    -moz-user-select: none;
+    z-index: 4;
+}
+
+.kb-fieldAnchor .kb-name
+{
+    float: left;
+    margin-top: 2px;
+    margin-left: 4px;
+    margin-right: 4px;
+    line-height: 16px;
+}
+
+.kb-fieldAnchor .kb-state
+{
+    float: left;
+    margin-top: 2px;
+    margin-left: 4px;
+    margin-right: 4px;
+    line-height: 16px;
+    color: Red;
+}
+
+.kb-fieldAnchor .kb-con
+{
+    float: left;
+    cursor: default;
+}
+
+.kb-fieldAnchor .kb-btn
+{
+    float: left;
+    margin-top: 1px;
+    margin-left: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.kb-fieldAnchor .kb-hover
+{
+    background-color: #ffffff;
+    border: 1px solid #4282c3;
+}
+
+.kb-fieldAnchor .kb-sep
+{
+    float: left;
+    margin-top: 2px;
+    height: 16px;
+    width: 2px;
+    cursor: default;
+    background-repeat: repeat-y;
+    background-image: url("images/menu_split.gif");
+}
+
+.kb-field
+{
+    border: 1px solid transparent;
+}
+
+.kb-field-hl
+{
+    /*border: 1px dashed #4282C3 !important;*/
+}
+
+.kb-field-empty
+{
+    min-width: 40px !important;
+    min-height: 20px !important;
+    line-height: 20px !important;
+    background-color: transparent !important;
+    color: #E1E5E2 !important;
+}
+
+.kb-field-mask
+{
+    position: absolute;
+    background-color: #4282C3;
+    filter: alpha(opacity=40);
+    -moz-opacity: 0.4;
+    opacity: 0.4;
+}
+
+/*
+* image buttons
+*/
+
+.kb-fieldAnchor .btnEdit{
+    background-image: url("images/menu_edit.gif");
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+}

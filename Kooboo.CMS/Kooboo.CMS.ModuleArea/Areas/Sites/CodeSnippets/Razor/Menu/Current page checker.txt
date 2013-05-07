@@ -1,0 +1,1 @@
+@{bool isCurrent =  MenuHelper.IsCurrent(page);}

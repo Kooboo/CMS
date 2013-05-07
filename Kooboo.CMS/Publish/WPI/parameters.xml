@@ -1,0 +1,78 @@
+<parameters>
+
+  <!-- Prompts where to copy the content files and takes a web site path (such as "contoso.com/app"). -->
+  <parameter name="Application Path" description="It is recommended that Kooboo CMS be installed as a web site root. Leave this parameter empty." tags="iisapp">
+    <parameterEntry type="ProviderPath" scope="iisapp" match="^Kooboo_CMS$" />
+  </parameter>
+
+
+  <parameter name="Local Application URL" description="The URL of the application on the target box such as http://www.myserver.com/myapp ." defaultValue="http://localhost/" tags="AppURL">
+    <parameterEntry kind="TextFile" scope="setting.config" match="http://localhost:?[0-9]*?" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs on the root site folder -->
+  <parameter name="SetAclParameter1" description="Sets the ACL on the root site folder" defaultValue="{Application Path}" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs on the app_code folder -->
+  <parameter name="SetAclParameter2" description="Sets the ACL on the Cms_Data folder" defaultValue="{Application Path}/Cms_Data" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS\\Cms_Data$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs on the app_browsers folder -->
+  <parameter name="SetAclParameter15" description="Sets the ACL on the Areas folder" defaultValue="{Application Path}/Areas" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS\\Areas$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs on the app_data folder -->
+  <parameter name="SetAclParameter16" description="Sets the ACL on the bin folder" defaultValue="{Application Path}/bin" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS\\bin$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs, on the bin folder -->
+  <parameter name="SetAclParameter3" description="Sets the ACL on the Images folder" defaultValue="{Application Path}/bin" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS\\Images$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs on the config folder -->
+  <parameter name="SetAclParameter4" description="Sets the ACL on the Scripts folder" defaultValue="{Application Path}/Scripts" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS\\Scripts$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs on the css folder -->
+  <parameter name="SetAclParameter5" description="Sets the ACL on the Styles folder" defaultValue="{Application Path}/Styles" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="Kooboo_CMS\\Styles$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs on the data folder -->
+  <parameter name="SetAclParameter6" description="Sets the ACL on the Views folder" defaultValue="{Application Path}/Views" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS\\Views$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs on the Kooboo_CMS folder -->
+  <parameter name="SetAclParameter11" description="Sets the ACL on the routes.config file" defaultValue="{Application Path}/routes.config" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS\\routes.config$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs, it's set to the application path filled in by the user -->
+  <parameter name="SetAclParameter12" description="Sets the ACL on the Global.asax file" defaultValue="{Application Path}/Global.asax" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS\\Global.asax$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs, it's set to the application path filled in by the user -->
+  <parameter name="SetAclParameter13" description="Sets the ACL on the Web.config file" defaultValue="{Application Path}/Web.config" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS\\Web.config$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs, it's set to the application path filled in by the user -->
+  <parameter name="SetAclParameter14" description="Sets the ACL on the WebResources.config file" defaultValue="{Application Path}/WebResources.config" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS\\WebResources.config$" />
+  </parameter>
+
+  <!-- This is the parameter that is used to set ACLs on the app_code folder -->
+  <parameter name="SetAclParameter17" description="Sets the ACL on the I18N folder" defaultValue="{Application Path}/I18N" tags="Hidden">
+    <parameterEntry type="ProviderPath" scope="setAcl" match="^Kooboo_CMS\\I18N$" />
+  </parameter>
+</parameters>
+

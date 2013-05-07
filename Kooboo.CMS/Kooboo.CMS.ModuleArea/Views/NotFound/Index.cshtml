@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="robots" content="noindex,nofllow" />
+    <title>@("Not Found - Kooboo CMS".Localize())</title>
+    @Html.ExternalResources("Sites", "siteStyles", null)
+<!--[if lte IE 8]>
+<script src="@Url.Content("~/Scripts/html5shiv.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/selectivizr-min.js")" type="text/javascript"></script>
+<![endif]-->    
+</head>
+<body class="blank">
+    <div id="body-container" class="no-sidebar">
+        <header id="header" class="clearfix">
+            <a class="logo" href="@Html.Raw(Url.Action("SiteMap", "Home", new { area = "Sites" }))" title="@("Back to site manager".Localize())">
+                <img src="@Html.Raw(Url.Content("~/Images/logo.png")) " alt="LOGO">
+            </a>
+        </header>
+        <div id="main-container">
+            <div class="wrap">
+                <h1 class="title">
+                    @("Not Found".Localize())</h1>
+                <article class="content">
+                    <p>
+                        @("If you see this page, it means that Kooboo CMS has been installed on this server.".Localize())
+                    </p>
+                    <p>
+                        @("The requested URL was not found on this server. These could be the following reasons.".Localize())
+                    </p>
+                    <ol>
+                        <li>@("You might have typed the URL incorrectly".Localize())</li>
+                        <li>@("Your page has been moved".Localize())</li>
+                        <li>@Html.Raw(string.Format("You haven't created your Kooboo website yet. Please <a href='{0}'>login</a> and create your first Kooboo website.".Localize().ToString(), Url.Content("~/Admin")))</li>
+                    </ol>
+                </article>
+            </div>
+        </div>
+        <footer id="footer">
+            @Html.Partial("Footer")
+        </footer>
+    </div>
+</body>
+</html>

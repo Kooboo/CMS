@@ -1,0 +1,11 @@
+﻿@model Kooboo.CMS.Sites.Models.Navigation
+<fieldset>
+    <table>
+        <tbody>
+            @Html.EditorFor(m => m.DisplayText, new {HtmlAttributes =new {  @class = "medium" }})
+            @Html.EditorFor(m => m.Order, new {HtmlAttributes =new {  @class = "medium" }})
+            @Html.EditorFor(m=>m.Show)
+            @Html.EditorFor(m => m.ShowInCrumb)
+        </tbody>
+    </table>
+</fieldset>

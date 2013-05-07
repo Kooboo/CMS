@@ -1,0 +1,43 @@
+﻿/*
+*   editor
+*   author: ronglin
+*   create date: 2010.11.23
+*/
+
+/* editor.js */
+.kb-editor
+{
+}
+
+.kb-editor-on
+{
+    -moz-user-modify: read-write;
+    -webkit-user-modify: read-write;
+}
+
+.kb-editor-off
+{
+    -moz-user-modify: read-only;
+    -webkit-user-modify: read-only;
+}
+
+/* editorDate.js */
+.kb-editorDate-pickerHolder
+{
+    position:absolute;
+}
+
+.kb-editorDate-pickerHolder > .kb-pickerHolder-mask
+{
+    position:absolute;
+    left:0px;
+    top:0px;
+    display:block;
+    width:100%;
+    height:100%;
+    background-color:#ccc;
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+    z-index:1;
+}

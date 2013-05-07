@@ -1,0 +1,100 @@
+﻿@model Kooboo.CMS.Web.Areas.Contents.Models.TextContentGrid
+@{    
+    Layout = "~/Views/Shared/Site.cshtml";
+    var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
+    var folder = (Kooboo.CMS.Content.Models.TextFolder)ViewData["Folder"];
+
+    if (folder != null)
+    {
+        ViewBag.Title = folder.FriendlyText;
+    }
+    var parentUUID = ViewContext.RequestContext.GetRequestValue("parentUUID") ?? "";
+    var folderPermission = Kooboo.CMS.Web.Authorizations.AuthorizationHelpers.Authorize(ViewContext.RequestContext, Kooboo.CMS.Account.Models.Permission.Contents_FolderPermission);
+
+    var pagedList = Model.ContentQuery.ToPageList(Model.PageIndex, Model.PageSize, folder.EnablePaging.HasValue ? folder.EnablePaging.Value : true);
+
+    var sortField = ViewContext.RequestContext.GetRequestValue("sortField");
+    var sortDir = ViewContext.RequestContext.GetRequestValue("sortDir");
+    var sortable = folder.Sortable.HasValue && folder.Sortable.Value == true;
+    var customSort = (!string.IsNullOrEmpty(sortField) && (!string.IsNullOrEmpty(sortDir)));
+
+    var enableSort = sortable && !customSort && ViewData["WhereClause"] == null;
+
+    var isTreeStyle = schema.IsTreeStyle;
+
+    var draggable = enableSort || isTreeStyle;
+
+    ViewBag.EnableSort = enableSort;
+    ViewBag.IsTreeStyle = isTreeStyle;
+    ViewBag.Draggable = draggable;
+    ViewBag.FolderPermission = folderPermission;
+    ViewBag.PagedList = pagedList;
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@(new HtmlString(Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))))">@Html.IconImage("add")@("Add content".Localize())</a></li>
+        @if (folderPermission && string.IsNullOrEmpty(parentUUID))
+        {
+            <li><a href="@Url.Action("Create", "TextFolder", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">@Html.IconImage("add-folder")@("New folder".Localize())</a></li>
+        }
+        <li><a href="@Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("Controller", "TextFolder").Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect" data-show-on-selector=".foldertr">
+            @Html.IconImage("setting") @("Settings".Localize())</a></li>
+        <li><a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
+            @Html.IconImage("delete") @("Delete".Localize())</a></li>
+        <li class="j_DropDown" data-show-on-check="Any">
+            <a>
+                @("More...".Localize())
+                @Html.IconImage("arrow small white-down")
+            </a>
+            <ul class="j_DropDownContent hide">
+                @if (ViewBag.AllowedEdit)
+                {
+                    <li><a href="@Url.Action("BatchPublish", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.unpublished"  data-command-type="AjaxPost" data-confirm="@("Are you sure you want to publish these items?".Localize())">
+                        @Html.IconImage("publish") @("Publish".Localize())</a></li>
+
+                    <li><a href="@Url.Action("BatchUnpublish", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.published" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to unpublish these items?".Localize())">
+                        @Html.IconImage("unpublish") @("Unpublish".Localize())</a></li>
+                }
+                <li><a href="@Url.Action("Localize", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".unlocalized" data-command-type="AjaxPost">
+                   @("Localize".Localize())</a></li>
+
+                <li><a href="@Url.Action("Copy", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized"  data-command-type="AjaxPost">
+                    @Html.IconImage("copy") @("Copy".Localize())</a></li>
+
+                <li><a href="@Url.Action("Rebroadcast", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.published"  data-command-type="AjaxPost">
+                    @Html.IconImage("re-broadcast") @("Re-broadcast".Localize())</a></li>
+
+                <li><a href="@Url.Action("Versions", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show page versions"))" data-show-on-check="Single" data-show-on-selector=".localized" data-command-type="Redirect">
+                    @Html.IconImage("version") @("Versions".Localize())</a></li>
+            </ul>
+        </li>
+    </ul>
+}
+
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+    @Html.Partial("_AdvancedSearch")
+</div>
+
+@*<ul class="table-desc">
+    <li><span class="red"></span>
+        @("Unlocalized item".Localize())</li>
+    <li><span class="blue"></span>
+        @("Workflow item".Localize())</li>
+</ul>*@
+
+
+@Html.Partial(ViewData["Template"].ToString(), Model)
+
+@if (folder.EnablePaging.HasValue && folder.EnablePaging.Value == true)
+{
+    <div class="pagination">
+        @Html.Pager(pagedList)
+    </div>
+}
+
+@Html.Partial("_Grid.Scripts")
+
+

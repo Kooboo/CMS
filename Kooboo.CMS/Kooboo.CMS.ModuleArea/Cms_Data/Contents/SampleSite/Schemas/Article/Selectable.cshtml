@@ -1,0 +1,127 @@
+﻿
+@model Kooboo.CMS.Web.Areas.Contents.Models.SelectableViewModel
+@using Kooboo.CMS.Content.Query
+@using Kooboo.CMS.Content.Models
+@using Kooboo.CMS.Web.Areas.Contents.Controllers
+@{
+    var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
+    var folder = (Kooboo.CMS.Content.Models.TextFolder)ViewData["Folder"];
+    var routes = ViewContext.RequestContext.AllRouteValues();
+
+    var parentUUID = routes["parentUUID"] ?? "";
+
+    var parent = folder.Parent;
+
+    var nameList = new List<string>() { folder.FriendlyText };
+
+    while (parent != null)
+    {
+        parent = Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(parent);
+        if (parent != null)
+        {
+            nameList.Add(parent.FriendlyText);
+            parent = parent.Parent;
+        }
+        
+    }
+
+    nameList.Reverse();   
+}
+<input type="hidden" name="FriendlyFolderName" value="@string.Join("/", nameList)"/>
+<form id="selectedForm" action="">
+
+<div class="common-table fixed">
+    <table class="datasource">
+        <thead>
+            <tr>
+                <th class="checkbox">
+                </th>
+                		<th class="">Title</th>
+		<th class="">Readings</th>
+		<th class="">Creation date</th>
+		<th class="">Published</th>
+
+            </tr>
+        </thead>
+ <tbody>
+ @if (Model.ChildFolders != null)
+        {
+            foreach (dynamic item in Model.ChildFolders)
+                {
+                    <tr class="folderTr">
+                        <td>                            
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.SchemaName))
+                            {
+                                <a href="@this.Url.Action("SelectCategories", ViewContext.RequestContext.AllRouteValues().Merge("FolderName", (object)(item.FullName)).Merge("FullName", (object)(item.FullName)))" >
+                                   @Html.IconImage("folder") @Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(item).FriendlyText</a>
+                            }
+                            else
+                            {
+                                <a href="@this.Url.Action("SelectCategories", ViewContext.RequestContext.AllRouteValues().Merge("controller", "TextFolder").Merge("FolderName", (object)(item.FullName)).Merge("FullName", (object)(item.FullName)))" >
+                                   @Html.IconImage("folder") @Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(item).FriendlyText</a>
+                            }
+                        </td>
+                        <td colspan="3">
+                        </td>                      
+                    </tr>
+                } 
+        }
+           @AddTreeItems(Model.Contents, schema, folder, true)
+        </tbody>
+    </table>
+</div>
+</form>
+@helper AddTreeItems(IEnumerable<TextContent> items, Schema schema, TextFolder folder, bool isRoot)
+    {
+            
+        if (items.Count() > 0)
+        {
+            foreach (dynamic item in items)
+            {
+    <tr id="@item.UUID" class= "doctr  @((item.IsLocalized != null && item.IsLocalized == false) ? "unlocalized" : "localized") @((item.Published == null || item.Published == false) ? "unpublished" : "published")">
+        <td class='checkbox'>
+            @if (Model.SingleChoice)
+            {
+                <input type="radio" value='@item["UUID"]' name="select" class="select docs"/> 
+            }
+            else
+            {
+                <input type="checkbox" value='@item["UUID"]' name="select" class="select docs"/>
+            }
+        </td>
+        		<td>@if(Model.ShowTreeStyle){
+		<span class="expander">@Html.IconImage("arrow")</span>}
+ @Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Title)</td>
+		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Readings)</td>
+		<td class="date">@(DateTime.Parse(item["UtcCreationDate"].ToString()).ToLocalTime().ToShortDateString())</td>
+		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Published)</td>		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Published)</td>
+
+    </tr>     
+            }
+        }
+}
+
+<table id="treeNode-template" style="display: none" data-model="JsonModel">
+    <tbody data-bind="foreach:{data:Model,as:'item'}">  
+           
+      <tr data-bind="attr:{id:item.UUID,parentChain:item._ParentChain_}">
+        <td class='checkbox'>
+            @if (Model.SingleChoice)
+            {
+                <input type="radio" name="select" data-bind="attr:{value:item.UUID}" class="select docs"/> 
+            }
+            else
+            {                
+               <input type="checkbox" name="select" class="select docs" data-bind="attr:{value:item.UUID}"/>
+            }
+        </td>
+		<td class="treeStyle">
+		<span class="expander">@Html.IconImage("arrow")</span>
+		@Html.IconImage("file document")<span data-bind="html:item.Title"></span></td>		<td data-bind="html:item.Readings"></td>		<td data-bind="html:item.Published"></td>
+        <td class="date" data-bind="html:item._LocalCreationDate_"></td>
+        <td><span data-bind="text : (item.Published == true?'YES': '-')"></span></td>
+    </tr>     
+    </tbody>
+</table>

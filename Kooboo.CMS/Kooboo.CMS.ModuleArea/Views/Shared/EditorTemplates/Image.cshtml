@@ -1,0 +1,30 @@
+﻿@model string
+@{
+    Layout = ViewBag.Layout ?? "_TR.cshtml";
+    ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
+    var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString();
+    var imageUrl = Url.Content(string.IsNullOrEmpty(Model) ? "~/Images/Default.png" : Model);
+    var fileInputName = propertyName + "_file";
+}
+<div>
+    <ul class="thumbnails clearfix">
+        <li><a href="@imageUrl"  rel="imageviewer[image]">
+            <img src='@imageUrl' alt='@propertyName' height="100" width="100" /></a>
+        </li>
+    </ul>
+
+    <div>
+        <input type="hidden" name="@propertyName" value="@Model" />
+        <input name="@fileInputName" type="file" data-val="true" data-val-regex="@("The image file is invalid.".Localize())" data-val-regex-pattern="(.+)\.(gif|jpg|jpeg|tiff|png|GIF|JPG|JPEG|TIFF|PNG)$" />
+        @if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+        {
+            <a href="#" class="tooltip-link" title="@ViewData.ModelMetadata.Description.Localize() "></a>
+        }
+        @Html.ValidationMessageForInput(fileInputName)
+        @if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+        {
+            <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
+        }
+    </div>
+
+</div>

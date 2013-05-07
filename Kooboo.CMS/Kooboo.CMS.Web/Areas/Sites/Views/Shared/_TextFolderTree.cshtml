@@ -1,0 +1,36 @@
+﻿@{
+    var folderTrees = Kooboo.CMS.Content.Services.ServiceFactory.TextFolderManager.FolderTrees(new Kooboo.CMS.Content.Models.Repository(Site.Current.Repository));
+}
+@helper RenderTreeNode(Kooboo.CMS.Content.Services.FolderTreeNode<Kooboo.CMS.Content.Models.TextFolder> treeNode)
+{
+    var inputId = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
+    <li class="tree-node active clearfix">
+        <span>
+            @Html.IconImage("folder")
+            <input id="@inputId" type="radio" name="FolderName" value="@treeNode.Folder.FullName">
+            <label for="@inputId">@treeNode.Folder.FriendlyName</label>
+        </span>
+        @Html.IconImage("tree-icon")
+        <ul>
+            @foreach (var child in treeNode.Children)
+            {
+                @RenderTreeNode(child)
+            }
+        </ul>
+    </li>
+}
+<div class="block treeview active">
+    <ul id="J_DataTree" class="">
+        @foreach (var item in folderTrees)
+        {
+            @RenderTreeNode(item)
+        }
+    </ul>
+</div>
+
+<script>
+    $(function () {
+        var $tree = $('#J_DataTree');
+        $tree.find('li.tree-node').treeNode();
+    })
+</script>

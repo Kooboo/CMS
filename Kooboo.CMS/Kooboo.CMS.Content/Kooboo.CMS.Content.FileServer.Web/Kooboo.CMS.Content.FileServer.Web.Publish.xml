@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="E:\Projects\Kooboo\src\trunk\Kooboo.CMS\Publish\FileServer.Web" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="Web.config" publishTime="03/08/2012 14:16:00" />
+    <file relUrl="bin/Kooboo.CMS.Content.FileServer.Web.pdb" publishTime="03/08/2012 14:15:59" />
+    <file relUrl="bin/Kooboo.CMS.Content.FileServer.Interfaces.pdb" publishTime="03/08/2012 14:15:58" />
+    <file relUrl="bin/Kooboo.CMS.Caching.dll" publishTime="03/08/2012 14:13:09" />
+    <file relUrl="bin/Kooboo.CMS.Content.FileServer.Interfaces.dll" publishTime="03/08/2012 14:15:58" />
+    <file relUrl="bin/Kooboo.CMS.Content.pdb" publishTime="03/08/2012 14:13:16" />
+    <file relUrl="bin/Kooboo.CMS.Caching.pdb" publishTime="03/08/2012 14:13:08" />
+    <file relUrl="bin/Kooboo.pdb" publishTime="03/08/2012 14:13:07" />
+    <file relUrl="bin/Kooboo.CMS.Content.FileServer.Web.dll" publishTime="03/08/2012 14:15:59" />
+    <file relUrl="bin/Ionic.Zip.Reduced.dll" publishTime="04/15/2010 12:05:24" />
+    <file relUrl="bin/Kooboo.CMS.Form.pdb" publishTime="03/08/2012 14:13:10" />
+    <file relUrl="bin/Kooboo.dll" publishTime="03/08/2012 14:13:07" />
+    <file relUrl="Global.asax" publishTime="02/20/2012 14:41:34" />
+    <file relUrl="bin/Kooboo.CMS.Form.dll" publishTime="03/08/2012 14:13:10" />
+    <file relUrl="bin/Kooboo.CMS.Content.dll" publishTime="03/08/2012 14:13:16" />
+  </publishProfile>
+</publishData>

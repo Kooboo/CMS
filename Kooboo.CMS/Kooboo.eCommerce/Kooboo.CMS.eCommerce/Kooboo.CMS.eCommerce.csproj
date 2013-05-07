@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{11B3D010-C342-42F5-8DDB-7904E343EC62}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kooboo.CMS.eCommerce</RootNamespace>
+    <AssemblyName>Kooboo.CMS.eCommerce</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API\IProductAPI.cs" />
+    <Compile Include="EventBus\Deleted.cs" />
+    <Compile Include="EventBus\EventPublisher.cs" />
+    <Compile Include="EventBus\IEventMessage.cs" />
+    <Compile Include="EventBus\IEventPublisher.cs" />
+    <Compile Include="EventBus\Added.cs" />
+    <Compile Include="EventBus\ISubscriber.cs" />
+    <Compile Include="EventBus\PreDelete.cs" />
+    <Compile Include="EventBus\PreAdd.cs" />
+    <Compile Include="EventBus\PreUpdate.cs" />
+    <Compile Include="EventBus\PublisherExtensions.cs" />
+    <Compile Include="EventBus\Updated.cs" />
+    <Compile Include="HttpFilePath.cs" />
+    <Compile Include="ICommerceDataDir.cs" />
+    <Compile Include="Models\Catalog\Brand.cs" />
+    <Compile Include="Models\Catalog\ImageType.cs" />
+    <Compile Include="Models\Catalog\Product.cs" />
+    <Compile Include="Models\Catalog\ProductBrand.cs" />
+    <Compile Include="Models\Catalog\Category.cs" />
+    <Compile Include="Models\Catalog\ProductCategory.cs" />
+    <Compile Include="Models\Catalog\ProductFields.cs" />
+    <Compile Include="Models\Catalog\ProductFieldType.cs" />
+    <Compile Include="Models\Catalog\ProductImage.cs" />
+    <Compile Include="Models\Catalog\ProductReview.cs" />
+    <Compile Include="Models\Catalog\ProductSortBy.cs" />
+    <Compile Include="Models\Catalog\ProductType.cs" />
+    <Compile Include="Models\Catalog\ProductVariant.cs" />
+    <Compile Include="Models\Catalog\RelatedProduct.cs" />
+    <Compile Include="Models\Customers\Customer.cs" />
+    <Compile Include="Models\Customers\CustomerComment.cs" />
+    <Compile Include="Models\Customers\Membership.cs" />
+    <Compile Include="Models\Discounts\Discount.cs" />
+    <Compile Include="Models\Discounts\DiscountLimitationType.cs" />
+    <Compile Include="Models\Discounts\DiscountRequirement.cs" />
+    <Compile Include="Models\Discounts\DiscountType.cs" />
+    <Compile Include="Models\Discounts\DiscountUsageHistory.cs" />
+    <Compile Include="Models\EntityFile.cs" />
+    <Compile Include="Models\INonRelationEntity.cs" />
+    <Compile Include="Models\IRelationEntity.cs" />
+    <Compile Include="Models\ISiteObject.cs" />
+    <Compile Include="Models\IValueObject.cs" />
+    <Compile Include="Models\Orders\Order.cs" />
+    <Compile Include="Models\Orders\OrderItem.cs" />
+    <Compile Include="Models\Orders\OrderStatus.cs" />
+    <Compile Include="Models\Orders\Payment.cs" />
+    <Compile Include="Models\Orders\PaymentStatus.cs" />
+    <Compile Include="Models\Orders\OrderAddress.cs" />
+    <Compile Include="Models\Orders\Shipment.cs" />
+    <Compile Include="Models\Orders\ShippingStatus.cs" />
+    <Compile Include="Models\Orders\ShoppingCart.cs" />
+    <Compile Include="Models\Orders\ShoppingCartItem.cs" />
+    <Compile Include="Persistence\Catalog\IBrandProvider.cs" />
+    <Compile Include="Persistence\Catalog\ICategoryProvider.cs" />
+    <Compile Include="Persistence\Catalog\IImageTypeProvider.cs" />
+    <Compile Include="Persistence\Catalog\IProductBrandProvider.cs" />
+    <Compile Include="Persistence\Catalog\IProductCategoryProvider.cs" />
+    <Compile Include="Persistence\Catalog\IProductImageProvider.cs" />
+    <Compile Include="Persistence\Catalog\IProductProvider.cs" />
+    <Compile Include="Persistence\Catalog\IProductQueryProvider.cs" />
+    <Compile Include="Persistence\Catalog\IProductReviewProvider.cs" />
+    <Compile Include="Persistence\Catalog\IProductTypeProvider.cs" />
+    <Compile Include="Persistence\Catalog\IProductVariantProvider.cs" />
+    <Compile Include="Persistence\Catalog\IRelatedProductProvider.cs" />
+    <Compile Include="Persistence\Catalog\ProductProviders.cs" />
+    <Compile Include="Persistence\Customers\ICustomerProvider.cs" />
+    <Compile Include="Persistence\EntityFileOperationResult.cs" />
+    <Compile Include="Persistence\EntityFileProvider.cs" />
+    <Compile Include="Persistence\IDbContext.cs" />
+    <Compile Include="Persistence\IDbContextFactory.cs" />
+    <Compile Include="Persistence\IEntityFileProvider.cs" />
+    <Compile Include="Persistence\Orders\IOrderProvider.cs" />
+    <Compile Include="Persistence\Orders\IShoppingCartProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Catalog\BrandService.cs" />
+    <Compile Include="Services\Catalog\CategoryService.cs" />
+    <Compile Include="Services\Catalog\IBrandService.cs" />
+    <Compile Include="Services\Catalog\ICategoryService.cs" />
+    <Compile Include="Services\Catalog\IImageTypeService.cs" />
+    <Compile Include="Services\Catalog\ImageTypeService.cs" />
+    <Compile Include="Services\Catalog\IProductBrandService.cs" />
+    <Compile Include="Services\Catalog\IProductCategoryService.cs" />
+    <Compile Include="Services\Catalog\IProductImageService.cs" />
+    <Compile Include="Services\Catalog\IProductReviewService.cs" />
+    <Compile Include="Services\Catalog\IProductService.cs" />
+    <Compile Include="Services\Catalog\IProductTypeService.cs" />
+    <Compile Include="Services\Catalog\IProductVariantService.cs" />
+    <Compile Include="Services\Catalog\IShoppingCartService.cs" />
+    <Compile Include="Services\Catalog\ProductBrandService.cs" />
+    <Compile Include="Services\Catalog\ProductCategoryService.cs" />
+    <Compile Include="Services\Catalog\ProductImageService.cs" />
+    <Compile Include="Services\Catalog\ProductReviewService.cs" />
+    <Compile Include="Services\Catalog\ProductService.cs" />
+    <Compile Include="Services\Catalog\ProductTypeService.cs" />
+    <Compile Include="Services\Catalog\ProductVariantService.cs" />
+    <Compile Include="Services\Catalog\Templates\ProductTypeTemplateGenerator.cs" />
+    <Compile Include="Services\Catalog\Templates\IProductTypeTemplateGenerator.cs" />
+    <Compile Include="Services\Customers\ChangePasswordRequest.cs" />
+    <Compile Include="Services\Customers\CustomerMembershipService.cs" />
+    <Compile Include="Services\Customers\CustomerService.cs" />
+    <Compile Include="Services\Customers\GenerateResetPasswordTokenResult.cs" />
+    <Compile Include="Services\Customers\ICustomerMembershipService.cs" />
+    <Compile Include="Services\Customers\ICustomerService.cs" />
+    <Compile Include="Services\Customers\IPasswordEncryptor.cs" />
+    <Compile Include="Services\Customers\PasswordEncryptor.cs" />
+    <Compile Include="Services\Customers\RegistrationRequest.cs" />
+    <Compile Include="Services\Customers\ResetPasswordRequest.cs" />
+    <Compile Include="Services\Customers\MembershipResult.cs" />
+    <Compile Include="Services\Non_RelationalServiceBase.cs" />
+    <Compile Include="Services\Orders\IShoppingCartService.cs" />
+    <Compile Include="Services\Orders\OrderService.cs" />
+    <Compile Include="Services\Orders\IOrderService.cs" />
+    <Compile Include="Services\RelationalServiceBase.cs" />
+    <Compile Include="Services\Catalog\Templates\ProductTypeTemplateExtensions.cs" />
+    <Compile Include="Services\Catalog\Templates\ProductTypeTemplatePath.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Kooboo\Kooboo.csproj">
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
+      <Name>Kooboo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
+      <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
+      <Name>Kooboo.CMS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo.CMS.Form\Kooboo.CMS.Form.csproj">
+      <Project>{c4f32215-efad-45c9-8276-6126681c3589}</Project>
+      <Name>Kooboo.CMS.Form</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,46 @@
+﻿@model Kooboo.CMS.Sites.Models.HtmlBlock
+@{
+    ViewBag.Title = "New HTML block".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+
+    @using (Html.BeginForm())
+    {
+        @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName")) 
+        @Html.ValidationSummary(true) 
+        <table>
+            <tbody>
+                @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.Body)
+            </tbody>
+        </table>
+    }
+
+    @if (ViewBag.ExternalCssSetting != null)
+    {
+        <script type="text/javascript">
+            (function () {
+                var old = tinymce.getKoobooConfig;
+                tinymce.getKoobooConfig = function () {
+                    var ret = old.apply(this, arguments);
+                    ret.content_css = '@Html.Raw(ViewBag.ExternalCssSetting) ';
+                    return ret;
+                };
+            }());
+        </script>
+    }
+</div>

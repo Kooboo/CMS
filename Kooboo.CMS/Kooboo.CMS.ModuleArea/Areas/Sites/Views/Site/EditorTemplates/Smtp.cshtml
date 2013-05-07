@@ -1,0 +1,14 @@
+﻿@model Kooboo.CMS.Sites.Models.Smtp
+<fieldset>
+    <table>
+        <tbody>
+            @Html.EditorFor(m => m.EnableSsl)
+            @Html.EditorFor(m => m.Port, new { HtmlAttributes = new { @class = "mini" } })
+            @Html.EditorFor(m => m.Host, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.UserName, new { HtmlAttributes = new { @class = "medium", autocomplete = "off" } })
+            @Html.EditorFor(m => m.Password, new { HtmlAttributes = new { @class = "medium", autocomplete = "off" } })
+            @Html.EditorFor(m => m.From, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.To, new { HtmlAttributes = new { @class = "medium" } })
+        </tbody>
+    </table>
+</fieldset>

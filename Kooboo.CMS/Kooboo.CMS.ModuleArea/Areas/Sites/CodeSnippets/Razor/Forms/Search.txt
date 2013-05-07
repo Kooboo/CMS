@@ -1,0 +1,39 @@
+﻿@using Kooboo.CMS.Search;
+@using Kooboo.CMS.Content.Models;
+
+ <form action="@Url.FrontUrl().PageUrl("search")" method="get">     
+        <input type="text" name="key" id="searchBox" />
+        <button type="submit">
+            Search</button>
+  </form>
+
+@{
+    var key = Page_Context.Current.PageRequestContext.AllQueryString["key"];
+    var strPageIndex = Page_Context.Current.PageRequestContext.AllQueryString["pageIndex"];
+    var pageIndex =1;
+    if (!string.IsNullOrEmpty(strPageIndex))
+	{
+        int.TryParse(strPageIndex,out pageIndex);
+	}
+    var results=  Repository.Current.Search(key,pageIndex,10);
+}
+@foreach (var item in results)
+{
+<div class="block">  
+  <h4 class="title">
+  <a href='@item.Url'>@Html.Raw(item.HighlightedTitle)</a></h4> 
+  <p>@Html.Raw(item.HighlightedBody)</p>
+</div>
+}
+@{
+    var pageOption = new PagerOptions
+    {
+        NextPageText = "Next »",
+        PrevPageText = "« Previous",
+        CssClass="pagination",
+		PageIndexParameterName="pageIndex",
+        CurrentPagerItemWrapperFormatString="<span class=\"current\">{0}</span>",
+        NavigationPagerItemWrapperFormatString="<span class=\"pagenavigation\">{0}</span>"
+    };
+}
+@Html.FrontHtml().Pager(results, pageOption)

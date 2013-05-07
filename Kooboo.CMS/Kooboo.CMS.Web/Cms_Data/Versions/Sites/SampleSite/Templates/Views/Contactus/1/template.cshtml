@@ -1,0 +1,32 @@
+﻿ <div class="common-form">
+    <h5 class="title">Contact us</h5>
+    <form method="post" action="@SubmissionHelper.EmailUrl()">
+        @Html.AntiForgeryToken()
+        <!-- this contact form will send an email to the email address defined in system/settings/smtp-->    
+        @*<input type="file" name="image"/>*@
+        @*<input type="hidden" name="SuccessedUrl" value='@Url.FrontUrl().PageUrl("Thankyou")'/>*@
+		@*<input type="hidden" name="FailedUrl" value='@Url.FrontUrl().PageUrl("Failed")'/>*@		
+        <table>
+            <tbody>              
+                <tr>
+                    <th><label for="subject">Subject:</label></th>
+                    <td>
+                        <input type="text" id="subject" name="Subject" data-val-required="Subject is required" data-val="true" />
+                        @Html.ValidationMessageForInput("Subject")
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="body">body:</label></th>
+                    <td>
+                        <textarea id="body" name="Body" cols="20" rows="10"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td><input type="submit" name="submit" value="submit" /></td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+    </div>
+</div>

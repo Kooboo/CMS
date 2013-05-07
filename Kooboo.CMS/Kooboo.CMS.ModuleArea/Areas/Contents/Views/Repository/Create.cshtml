@@ -1,0 +1,37 @@
+﻿@model Kooboo.CMS.Web.Areas.Contents.Models.CreateRepositoryModel
+@{
+    ViewBag.Title = "Create".Localize();
+   Layout = "~/Views/Shared/Site.cshtml";
+}
+    <div class="common-form">
+        @using (Html.BeginForm())
+        { 
+        @Html.Hidden("url", ViewData["url"])
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <table>
+                <tbody>
+                    @Html.EditorFor(m => m.Name)
+                    @Html.EditorFor(m=>m.Template)
+                </tbody>
+            </table>
+        </fieldset>
+        <p class="buttons">
+            <button type="submit">
+                @("Save".Localize())</button></p>
+        }
+    </div>
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            $("input:text:first").focus();
+            $("input:text").width(150);
+            //            var url = $("#url").val();
+            //            if (url.length && url.length > 0) {
+            //                top.setTimeout(function () {
+            //                    for (var i = 0; i < 3; i++) {
+            //                        this.parent.document.location.href = url;
+            //                    }
+            //                }, 10);
+            //            }
+        });
+    </script>

@@ -1,0 +1,20 @@
+﻿@model Kooboo.CMS.Sites.Models.View
+<div class="panel">
+    @if (!string.IsNullOrEmpty(Kooboo.CMS.Sites.Models.Site.Current.Repository))
+    {
+        @Html.Partial("DataRules", Model)
+    }
+    <div class="block views">
+        <h6 class="title active">
+            @Html.IconImage("arrow")
+            @("Views".Localize())</h6>
+        <div class="container list viewTools">
+            @Html.Partial("ViewList", Kooboo.CMS.Sites.Services.ServiceFactory.ViewManager.GetNamespace(Site.Current, ViewContext.RequestContext.GetRequestValue("name")))
+        </div>
+    </div>
+    @Html.Partial("CodeHelper")
+    @Html.EditorFor(o => o.Parameters)
+    <div class="block plugins">
+        @Html.EditorFor(m => m.Plugins)
+    </div>
+</div>

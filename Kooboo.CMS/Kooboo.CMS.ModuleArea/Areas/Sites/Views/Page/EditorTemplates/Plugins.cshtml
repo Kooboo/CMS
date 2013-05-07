@@ -1,0 +1,106 @@
+﻿@model IEnumerable<string>
+@{
+    var fullPropertyName = ViewData.TemplateInfo.HtmlFieldPrefix;
+    var elementId = fullPropertyName.Replace(".", "_");
+
+
+    var items = Model == null ? string.Empty : Newtonsoft.Json.JsonConvert.SerializeObject(
+            Model.Select(it => new
+            {
+                text = it.Split(',').First().Split('.').Last(),
+                value = it
+            }));
+
+    var koTemplateId = elementId + "_List";
+}
+<div id="@koTemplateId">
+    <div class="command">
+        @Html.DropDownList("PluginList", ViewData.ModelMetadata.GetDataSource().GetSelectListItems(ViewContext.RequestContext))
+        <a id="addPlugin" >@Html.IconImage("plus")</a>
+    </div>
+    <div class="common-table">
+        <table>
+            <thead>
+                <tr>
+                    <th class="draggable"></th>
+                    <th>
+                        @("Name".Localize())
+                    </th>
+                    <th class="action">@("Delete".Localize())</th>
+                </tr>
+            </thead>
+            <tbody id="plugin-tbody" data-bind="foreach: data">
+                <tr data-bind="{attr:{id:'@koTemplateId' + '_tr_' + $index()}}">
+                    <td class="draggable"><div>@Html.IconImage("drag")</div></td>
+                    <td><span class="left" data-bind="text: text"></span>
+                        <input type="hidden" data-bind="value: value, attr: {name: $parent.getName($index())}" />
+                    </td>
+                    <td class="action">
+                        <a class="action" data-bind="click: $parent.removeItem">@Html.IconImage("minus small")</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        function PluginsModel() {
+            var self = this;
+            self.data = ko.observableArray(@Html.Raw(items));
+            self.addItem = function (item) {
+                var index = -1;
+                var items = self.data();
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].value == item.value) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index == -1) {
+                    self.data.push(item);
+                }
+                else {
+                    $('#@koTemplateId' + '_tr_' + index).effect('highlight', { color: 'red' }, 3000);
+                }
+            };
+            self.removeItem = function () {
+                self.data.remove(this);
+            };
+            var namePrfix = '@fullPropertyName';
+            self.getName = function (index) {
+                return namePrfix + '[' + (index) + ']';
+            };
+        }
+        var pluginsModel = new PluginsModel();
+        var pluginList = $('#Plugins_PluginList');
+        $('#addPlugin').click(function () {
+            var text = pluginList.find('option:selected').text()
+            var value = pluginList.val();
+            pluginsModel.addItem({ text: text, value: value });
+        });
+
+        var pluginEditor = $("#@koTemplateId");
+        ko.applyBindings(pluginsModel, pluginEditor[0]);
+        var fixHelper = function (e, ui) {
+            ui.children().each(function () {
+                $(this).width($(this).width());
+            });
+            return ui;
+        };
+        pluginEditor.find('table tbody').sortable({
+            helper: fixHelper,
+            cursor: "move",
+            update: function (event, ui) {
+                var actualArray = pluginsModel.data(),
+                    item = ko.dataFor(ui.item[0]),
+                    newIndex = ko.utils.arrayIndexOf(ui.item.parent().children(), ui.item[0]);
+                if (newIndex >= actualArray.length) newIndex = list().length - 1;
+                if (newIndex < 0) newIndex = 0;
+                ko.utils.arrayRemoveItem(actualArray, item);
+                actualArray.splice(newIndex, 0, item);
+                pluginsModel.data(actualArray);
+            }
+        });
+    });
+</script>

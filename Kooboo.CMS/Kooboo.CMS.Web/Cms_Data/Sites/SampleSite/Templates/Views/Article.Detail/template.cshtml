@@ -1,0 +1,70 @@
+﻿@using Kooboo.CMS.Content.Query;
+@using Kooboo.CMS.Content.Models;
+@{
+    if (ViewBag.Article != null)
+    {
+        var textContent = (TextContent)ViewBag.Article;
+        var readings = 1;
+        if (textContent["Readings"] != null)
+        {
+            readings = (int)textContent["Readings"] + 1;
+        }
+        Kooboo.CMS.Content.Services.ServiceFactory.TextContentManager.Update(Repository.Current, textContent.GetSchema(),
+   textContent.UUID, "Readings", readings);
+
+    }
+ }
+<header>
+    <h2 class="title" @ViewHelper.Edit(ViewBag.Article, "Title")>@(ViewBag.Article.Title ?? "")</h2>
+    <span class="date">@ViewHelper.DateTimeToString(ViewBag.Article.UtcCreationDate, "yyyy-MM-dd")</span>
+</header>
+<section class="content" @ViewHelper.Edit(ViewBag.Article, "Description")>
+    @Html.Raw(ViewBag.Article.Description ?? "")
+</section>
+<footer>
+    <div id="comments" class="block comment">
+        <h6 class="title">Comments</h6>
+        @foreach (dynamic comment in ((Kooboo.CMS.Content.Models.TextContent)ViewBag.Article).Children("Comment"))
+        {
+
+            <div class="item">
+                <div class="clearfix">
+                    <h5 class="title">@comment.Title</h5>
+                    <span class="name">@comment.Name</span>
+                </div>
+                <p>@comment.Body</p>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form class="delete" action="@Url.FrontUrl().SubmissionUrl("DeleteComment", new { uuid = comment.UUID })" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit">@("Delete".Label())</button>
+                    </form>    
+                }
+            </div>
+        }
+        <h6 class="title">Post a comment</h6>
+        <div class="common-form">
+            <form method="post" action="@Url.FrontUrl().SubmissionUrl("PostComment")">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="ParentUUID" value="@ViewBag.Article.UUID" />
+                <p class="field">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" data-val-required="Title is required" data-val="true" />
+                    @Html.ValidationMessageForInput("title")
+                </p>
+                <p class="field">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" data-val-required="Name is required" data-val="true" />
+                    @Html.ValidationMessageForInput("name")
+                </p>
+                <p class="field">
+                    <label for="Body">Comment:</label>
+                    <textarea id="Summary" name="Body"></textarea>
+                </p>
+                <p class="buttons">
+                    <button type="submit">@("Submit".Label())</button>
+                </p>
+            </form>
+        </div>
+    </div>
+</footer>

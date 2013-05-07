@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "~/Views/Shared/Site.cshtml";   
+}
+@functions{
+    IDictionary<string, object> GetMenuItemAttributes(params string[] controllerNames)
+    {
+        Dictionary<string, object> dic = new Dictionary<string, object>();
+
+        if (controllerNames.Contains(ViewContext.RequestContext.RouteData.Values["Controller"].ToString().ToLower(), StringComparer.OrdinalIgnoreCase))
+        {
+            if (controllerNames.Length > 1)
+            {
+                dic["class"] = "active";
+            }
+            else
+            {
+                dic["class"] = "active current";
+            }
+        }
+        return dic;
+    }
+}
+
+@section Panel{
+    @RenderSection("Panel", false)
+}
+@section Sidebar{
+    @RenderSection("SideBar_Top", false)
+    <nav class="block menu">
+        <ul>
+            <li @Html.GenerateHtmlAttributes(GetMenuItemAttributes("SiteTemplate"))>
+                @Html.ActionLink("Site templates".Localize(), "Index", "SiteTemplate")
+            </li>
+            <li @Html.GenerateHtmlAttributes(GetMenuItemAttributes("ModuleManagement"))>
+                @Html.ActionLink("Modules".Localize(), "Index", "ModuleManagement")
+            </li>
+            <li @Html.GenerateHtmlAttributes(GetMenuItemAttributes("ABRuleSetting", "ABSiteSetting"))>
+                <span class="arrow">@Html.IconImage("arrow")</span>
+                <a class="action">@("A/B Test".Localize())</a>
+                <ul>
+                    <li @Html.GenerateHtmlAttributes(GetMenuItemAttributes("ABRuleSetting"))>
+                        @Html.ActionLink("A/B rules", "Index", "ABRuleSetting")
+                    </li>
+                    <li @Html.GenerateHtmlAttributes(GetMenuItemAttributes("ABSiteSetting"))>
+                        @Html.ActionLink("A/B sites", "Index", "ABSiteSetting") </li>
+                </ul>
+
+            </li>
+        </ul>
+    </nav>
+}
+@RenderBody()

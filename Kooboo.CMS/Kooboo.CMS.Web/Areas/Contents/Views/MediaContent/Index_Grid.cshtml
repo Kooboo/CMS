@@ -1,0 +1,161 @@
+﻿@model Kooboo.CMS.Web.Areas.Contents.Models.MediaContentGrid
+@using Kooboo.CMS.Content.Models
+@{
+    ViewBag.Title = "Media Library".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+
+
+    var fileType = ViewContext.RequestContext.GetRequestValue("fileType");
+
+    var fileTypeDic = new Dictionary<string, List<string>>();
+    fileTypeDic.Add("image", new List<string> { "jpg", "png", "gif", "jpeg", "bmp" });
+
+    var displayExtension = string.IsNullOrWhiteSpace(fileType) ? new List<string>() : fileTypeDic.ContainsKey(fileType) ? fileTypeDic[fileType.ToLower()] : new List<string>();
+
+    string action = ViewContext.RequestContext.GetRequestValue("action");
+    var folderPaths = (ViewContext.RequestContext.GetRequestValue("FolderName") != null ? FolderHelper.SplitFullName(ViewContext.RequestContext.GetRequestValue("FolderName")) : new string[] { }).ToArray();
+
+    var childFolders = Model.ChildFolders.ToArray();
+    var images = Model.Contents == null ? new MediaContent[0] : Model.Contents.Where(it => it.IsImage).ToArray();
+    var files = Model.Contents == null ? new MediaContent[0] : Model.Contents.Where(it => !it.IsImage).ToArray();
+}
+@section Panel{
+    <ul class="panel">
+
+        <li><a id="CreateFolder">@Html.IconImage("add-folder")@("New folder".Localize())</a></li>
+
+        @if (folderPaths.Length > 0)
+        {
+            <li>
+                <a class="upload-button">
+                    <span>
+                        <form action="@this.Url.Action("Upload", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" enctype="multipart/form-data"
+                                method="post"  class="no-stop">
+                            <input type="hidden" value="True" name="Overrided" />
+                            <input type="file" name="file" title="@("Upload".Localize())" />
+                        </form>
+                    </span>
+                    @Html.IconImage("upload")@("Upload".Localize())
+                </a>
+            </li>
+            <li><a href="@Url.Action("Html5Uploader", ViewContext.RequestContext.AllRouteValues().Merge("controller", "MediaContent").Merge("return", ViewContext.HttpContext.Request.RawUrl))">@Html.IconImage("uploads") @("Multi-file upload".Localize())</a></li>
+            <li>
+                <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("title", "Import media content").Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import media content"))">
+                    @Html.IconImage("import") @("Import".Localize())
+                </a>
+            </li>
+        }
+        <li>
+            <a href="@Html.Raw(this.Url.Action("Delete", ViewContext.RequestContext.AllRouteValues()))" data-show-on-check="Any" data-command-type="AjaxPost"  data-confirm="@("Are you sure you want to delete these items?".Localize())">@Html.IconImage("delete") @("Delete".Localize())</a>
+        </li>
+        <li class="j_DropDown" data-show-on-check="Any">
+            <a>
+                @("More...".Localize())
+                @Html.IconImage("arrow small white-down")
+            </a>
+            <ul class="j_DropDownContent hide">
+                <li>
+                    <a id="RenameButton" data-show-on-check="Single">@("Rename".Localize())</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any"  data-command-type="Download">
+                        @("Export".Localize())
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+
+}
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title <strong>@ViewContext.RequestContext.GetRequestValue("folderPath")</strong></h1>
+    @if (folderPaths.Length > 0)
+    {
+        <div class="breadcrumb">
+            <a href="@Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("FolderName", ""))">@("Root".Localize())</a>
+
+            @for (var i = 0; i < folderPaths.Length; i++)
+            {
+                if (i == folderPaths.Length - 1)
+                {
+                @Html.IconImage("arrow gray-right")
+                <span>@folderPaths[i]</span>
+                }
+                else
+                {
+                @Html.IconImage("arrow gray-right")
+                <a href="@Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("FolderName", FolderHelper.CombineFullName(folderPaths.Take(i + 1))))">@folderPaths[i]</a>
+                }
+            }
+        </div>
+    }
+
+    @(Html.Partial("_Search"))
+    <ul class="view-switch">
+        <li class="list"><a href="@Url.Action(ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.GetRequestValue("controller"), ViewContext.RequestContext.AllRouteValues().Merge("listType", null))">@Html.IconImage("list")</a></li>
+        <li class="grid active"><a href="@Url.Action(ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.GetRequestValue("controller"), ViewContext.RequestContext.AllRouteValues().Merge("listType", "Grid"))">@Html.IconImage("grid")</a></li>
+    </ul>
+</div>
+
+<div class="common-grid fixed">
+
+    @if (childFolders.Length == 0 && files.Length == 0 && images.Length == 0)
+    {
+        <p>@("This folder is empty.".Localize())</p>
+    }
+    @if (childFolders.Length > 0)
+    {
+        <ul class="folder clearfix">
+            @foreach (var folder in childFolders)
+            {
+                <li>
+                    <input type="checkbox" name="select" value="@Html.Raw(folder.FullName)" class="select folder" autocomplete="off"/>
+                    <a href="@this.Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("FolderName", folder.FullName))">
+                        <span class="info">@folder.Name</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+    @if (files.Length > 0)
+    {
+        <ul class="file clearfix">
+            @foreach (var file in files)
+            {
+                <li>
+                    <input type="checkbox" name="select" value="@Html.Raw(file.UUID)" class="select doc" autocomplete="off"/>
+                    <span class="checked"></span>
+                    <a href="@Url.Content(file.Url)">
+                        <span class="info">@Html.IconImage("file") @file.FileName</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+    @if (images.Length > 0)
+    {
+        <ul class="file image clearfix">
+            @foreach (var image in images)
+            {
+                <li>
+                    <input type="checkbox"  name="select" value="@Html.Raw(image.UUID)" class="select doc" autocomplete="off"/>
+                    <span class="checked"></span>
+                    <a href="@this.Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("UUID", image.UUID).Merge("return", ViewContext.HttpContext.Request.RawUrl))">
+                        <img src="@Url.Action("ResizeImage", "Resource", new { siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), url = image.VirtualPath, area = "", width = 0, height = 120, preserverAspectRatio = true, quality = 80, t = DateTime.Now.Ticks })" />
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+    <div class="pagination">
+        @(Html.Pager(Model.Contents, "", ViewContext.RequestContext.AllRouteValues(), null))
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.common-grid').checkableMetro();
+        $('.common-grid').mixedGrid();
+    });
+</script>

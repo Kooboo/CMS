@@ -1,0 +1,43 @@
+﻿ @foreach (var item in ViewBag.article){
+
+<div class="content_box_top" ></div>
+        <div class="content_box">
+        
+        	<div class="post_section" @ViewHelper.Edit(item)>
+            
+                <h2>@item.title </h2>
+
+                <div class="post_meta"><strong>Date:</strong> @item.date<span>|</span> <strong>Author:</strong> <a href="#">@item.author</a> | <a href="#"><span>@item.commentsCount</span> comments</a></div>
+               	<a href="blog_post.html" target="_parent"><img src=@item.image alt="image" /></a>
+                
+                <p>@Html.Raw(@item.content)</p>
+                    
+              <div class="cleaner"></div>
+                <div class="category"><strong>Category: </strong>
+       
+                  @{
+					var categories=new String[0];
+				  if (item.category!=null){
+  					 categories =item.category.Split(',');
+					}
+                  
+				}
+                  @{var index=0;}
+                 @foreach (var item2 in categories){
+                  if(index==0){
+                  <a href="#">@item2</a>
+                  
+                  }
+                  else{
+                   <span> , </span><a href="#">@item2</a>
+                  }
+                     
+                 index++;
+                  }
+                 </div> <div class="more float_r"><a href="blog_post.html" class="more">Read more <span>&raquo;</span></a></div>
+                <div class="cleaner"></div>
+    
+            </div>
+            
+       </div><div class="content_box_bottom"></div>
+}

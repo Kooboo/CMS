@@ -1,0 +1,31 @@
+﻿@model Kooboo.CMS.Content.Models.OrderSetting
+@Html.EditorFor(o => o.FieldName, new {HtmlAttributes =new {  @class = "medium" }})
+@Html.EditorFor(o => o.Direction, new {HtmlAttributes =new {  @class = "medium" }})
+<script type="text/javascript">
+    $(function () {
+        var fieldName = $('#OrderSetting_FieldName');
+        var schemaName = $('#SchemaName');
+        var loadSchemaFields = function (schemaName, selectedValue) {
+            $.ajax({
+                url: '@Html.Raw(Url.Action("GetSchemaFields", ViewContext.RequestContext.AllRouteValues()))',
+                data: { schemaName: schemaName },
+                success: function (responseData, textStatus, xhr) {
+                    fieldName.select2({
+                        data: responseData,
+                        initSelection: function (element, callback) {
+                            var data = { id: selectedValue, text: selectedValue };
+
+                            callback(data);
+                        }
+                    });
+                }
+            });
+        };
+        loadSchemaFields(schemaName.val(), fieldName.val());
+
+        schemaName.change(function () {
+            loadSchemaFields(schemaName.val(), 'Sequence');
+        });
+    });
+
+</script>

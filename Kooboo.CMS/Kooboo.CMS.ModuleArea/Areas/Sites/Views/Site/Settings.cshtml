@@ -1,0 +1,130 @@
+﻿@model Kooboo.CMS.Sites.Models.Site
+@{
+    ViewBag.Title = "Settings".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+    var isOnline = Kooboo.CMS.Sites.Services.ServiceFactory.SiteManager.IsOnline(Request["siteName"]);
+    var customTabs = Kooboo.CMS.Web.Areas.Sites.SiteCustomTabs.Tabs().ToArray();
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@Url.Action("TestSMTP", ViewContext.RequestContext.AllRouteValues())" data-ajaxform="" id="testSMTP" style="display:none">
+                @Html.IconImage("send") @("Test SMTP".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    @using (Html.BeginForm())
+    {
+        <div class="tabs">
+            <ul class="tab-index clearfix">
+                <li class="active"><a href="#basicInfo">
+                    @("Basic".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                <li><a href="#domain">
+                    @("Domain".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                <li><a href="#webresource">
+                    @("Web resource".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                <li><a href="#smtpInfo">
+                    @("SMTP".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                 <li><a href="#htmlmeta">
+                    @("HTML meta".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                <li><a href="#security">
+                    @("Security".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                @if (customTabs.Length == 0)
+                {
+                    <li><a href="#customFields">
+                        @("Custom fields".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                }
+                @foreach (var tab in customTabs)
+                {
+                    <li><a href="#@tab.Title">
+                        @tab.Title.Localize()</a>@Html.IconImage("arrow blue-down")</li>
+                }
+            </ul>
+            <div class="tab-content active" id="basicInfo">
+                <table>
+                    <tbody>
+                        @Html.HiddenFor(m => m.Name)
+                        @Html.DisplayFor(m => m.Name)
+                        @Html.EditorFor(m => m.DisplayName, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.Repository, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.Culture, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.TimeZoneId, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.ShowSitemap)
+                        @Html.EditorFor(m => m.EnableVersioning)
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-content" id="domain">
+                <table>
+                    <tbody>
+                        @Html.EditorFor(m => m.Domains, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.SitePath, new { HtmlAttributes = new { @class = "medium" } })
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-content" id="webresource">
+                <table>
+                    <tbody>
+                        @Html.EditorFor(m => m.Theme, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.Version, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.ResourceDomain, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.Mode)
+                        @Html.EditorFor(m => m.InlineEditing)
+                        @Html.EditorFor(m => m.EnableJquery)
+                        @*@Html.EditorFor(m => m.EnableStyleEdting)*@
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-content" id="smtpInfo">
+                @Html.EditorFor(m => m.Smtp)
+            </div>
+            <div class="tab-content" id="htmlmeta">
+                @Html.EditorFor(m => m.HtmlMeta)
+            </div>
+            <div class="tab-content" id="security">
+                @Html.EditorFor(m => m.Security)
+            </div>
+            @if (customTabs.Length == 0)
+            {
+                <div class="tab-content" id="customFields">
+                    <table>
+                        <tbody>
+                            @Html.EditorFor(m => m.CustomFields)
+                        </tbody>
+                    </table>
+                </div>
+            }
+            @foreach (var tab in customTabs)
+            {
+                <div class="tab-content " id="@tab.Title">
+                    @Html.Partial(tab.VirualPath, Model.CustomFields, new ViewDataDictionary())
+                </div>
+            }
+        </div>        
+    }
+</div>
+<script>
+    $(function () {
+        var $testSMTP = $('#testSMTP');
+        var tab = $('.tabs').koobooTab();
+        var resetTestSMTP = function () {
+            if ($('#smtpInfo').is(':hidden')) {
+                $testSMTP.hide();
+            }
+            else {
+                $testSMTP.show();
+            }
+        };
+        setTimeout(resetTestSMTP, 100);
+        $(window).on('hashchange', function () {
+            resetTestSMTP();
+        });
+    });
+</script>

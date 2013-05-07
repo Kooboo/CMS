@@ -37,7 +37,6 @@ Lib/Wcf/
 Lib/WebDev.WebHost/
 Lib/YuiCompressor/
 Lib/AutoMapper.dll
-Lib/HtmlAgilityPack.dll
 Lib/Migrator.Framework.dll
 Lib/NCMIS.dll
 Lib/Quartz.dll

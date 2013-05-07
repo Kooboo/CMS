@@ -20,6 +20,7 @@ namespace Kooboo.CMS.Sites.Models
     {
         Moved_Permanently_301 = 301,
         Found_Redirect_302 = 302,
+        [Description("Server transfer")]
         Transfer = 200
     }
     [DataContract]

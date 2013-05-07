@@ -1,6 +1,0 @@
-﻿ @{string str = "Hello";
-JavaScriptSerializer serializer = new JavaScriptSerializer();
-string jsStr = serializer.Serialize(str);
-Response.ContentType = "application/json";
-Response.Write(jsStr);
-Response.End();}

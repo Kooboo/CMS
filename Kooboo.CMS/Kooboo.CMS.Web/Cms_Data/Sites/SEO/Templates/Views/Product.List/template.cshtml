@@ -1,5 +1,0 @@
-﻿<ul>
-  @foreach (var item in ViewBag.Products)
-  {<li><a href='@Url.FrontUrl().PageUrl("Products/detail",new { UserKey = item.UserKey})'>@item.Name</a></li>
-  }
-</ul> 

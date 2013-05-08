@@ -596,18 +596,22 @@ namespace Kooboo.CMS.Sites.Services
         private Page GetPageByUrlIdentifier(Site site, Page page, string identifier)
         {
             var lastPage = page.LastVersion(site).AsActual();
-            if (lastPage.VirtualPath.EqualsOrNullEmpty(identifier, StringComparison.OrdinalIgnoreCase))
+            if (lastPage != null)
             {
-                return lastPage;
-            }
-            foreach (var item in Provider.ChildPages(page))
-            {
-                var found = GetPageByUrlIdentifier(site, item, identifier);
-                if (found != null)
+                if (lastPage.VirtualPath.EqualsOrNullEmpty(identifier, StringComparison.OrdinalIgnoreCase))
                 {
-                    return found;
+                    return lastPage;
+                }
+                foreach (var item in Provider.ChildPages(page))
+                {
+                    var found = GetPageByUrlIdentifier(site, item, identifier);
+                    if (found != null)
+                    {
+                        return found;
+                    }
                 }
             }
+
             return null;
         }
         #endregion

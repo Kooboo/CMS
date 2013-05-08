@@ -150,7 +150,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
         private string Decrypt(string s)
         {
-            return s;
+            return Kooboo.CMS.Sites.View.SecurityHelper.Decrypt(s);
         }
     }
 }

@@ -3,14 +3,7 @@
 _svn
 .svn
 
-ABRuleSettings/
-ABSiteSettings/
-ImageCaching/
-Versions/
-WebEvents/
-PageCaching/
-Contents/
-Sites/
+Cms_Data/
 I18N/
 Release/
 Modules/

@@ -49,5 +49,10 @@ namespace Kooboo.CMS.Sites.ABTest
             get { return "QueryString"; }
             set { }
         }
+        public override string DisplayText
+        {
+            get { return "return this.QueryName()  + '=' + this.QueryValue();"; }
+            set { }
+        }
     }
 }

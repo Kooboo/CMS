@@ -53,13 +53,21 @@
             },
         };
 
+        var RuleSettingWrapper = function(ruleSetting){
+            var self = this;
+            ko.mapping.fromJS(ruleSetting, {}, self);            
+            self.SettingValue = ko.computed(function(){                
+                return new Function(ruleSetting.DisplayText).call(self);
+            });
+        };
+
         var RuleSettingViewModel = function(){
             var self = this;
             var rawViewModelData = @Html.Raw(JsonConvert.SerializeObject(Model, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }))  ;
             var viewModelMappingOptions = {
                 'RuleItems': {
-                    key: function(item) {
-                        
+                    create: function(options) {
+                        return new RuleSettingWrapper(options.data);
                     }
                 }
             };    
@@ -114,9 +122,9 @@
                         var oldColumn = ko.utils.arrayFirst(ruleSettingModel.ruleSetting.RuleItems(), function(item) {
                             return item.Name() === self.RuleItem().Name();
                         });
-                        ruleSettingModel.ruleSetting.RuleItems.replace(oldColumn, Utilities.cloneObject(self.RuleItem()));
+                        ruleSettingModel.ruleSetting.RuleItems.replace(oldColumn, new RuleSettingWrapper(ko.toJS(self.RuleItem())));
                     } else {
-                        ruleSettingModel.ruleSetting.RuleItems.push(self.RuleItem());
+                        ruleSettingModel.ruleSetting.RuleItems.push(new RuleSettingWrapper(ko.toJS(self.RuleItem())));
                     }
                     window.leaveConfirm.stop();
                     $currentDialog.dialog("close");
@@ -124,7 +132,7 @@
             };
             self.cancel = function() {
                 $currentDialog.dialog("close");
-            };
+            };            
         };
 
         var ruleSettingModel = new RuleSettingViewModel();

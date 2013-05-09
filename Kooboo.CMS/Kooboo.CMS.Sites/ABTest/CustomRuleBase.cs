@@ -21,6 +21,11 @@ namespace Kooboo.CMS.Sites.ABTest
         /// The DataMember on this field is only used for the JSON.NET serializer.
         /// </summary>
         [DataMember]
+        public abstract string DisplayText { get; set; }
+        /// <summary>
+        /// The DataMember on this field is only used for the JSON.NET serializer.
+        /// </summary>
+        [DataMember]
         public virtual string TemplateVirtualPath
         {
             get

@@ -58,5 +58,11 @@ namespace Kooboo.CMS.Sites.ABTest
             get { return "Random"; }
             set { }
         }
+
+        public override string DisplayText
+        {
+            get { return "return this.Percent() + ' %';"; }
+            set { }
+        }
     }
 }

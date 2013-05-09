@@ -49,5 +49,11 @@ namespace Kooboo.CMS.Sites.ABTest
             get { return "IP"; }
             set { }
         }
+
+        public override string DisplayText
+        {
+            get { return "return this.RegexPattern();"; }
+            set { }
+        }
     }
 }

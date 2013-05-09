@@ -21,5 +21,7 @@ namespace Kooboo.CMS.Sites.Extension
     public interface ISubmissionPlugin
     {
         ActionResult Submit(Site site, ControllerContext controllerContext, SubmissionSetting submissionSetting);
+
+        Dictionary<string, object> Parameters { get; }
     }
 }

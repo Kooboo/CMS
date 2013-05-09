@@ -22,6 +22,7 @@ using Kooboo.Globalization;
 using Kooboo.Web;
 using Kooboo.Web.Mvc;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Extension;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
@@ -92,5 +93,23 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         #endregion
 
+        #region GetParameters
+        public ActionResult GetPluginParameters(string type)
+        {
+            JsonResultData resultData = new JsonResultData();
+            resultData.RunWithTry((data) =>
+            {
+                var t = Type.GetType(type);
+                if (t != null)
+                {
+                    var o = (ISubmissionPlugin)Activator.CreateInstance(t);
+                    resultData.Model = o.Parameters.ToList();
+                }
+            });
+
+            return Json(resultData);
+        }
+
+        #endregion
     }
 }

@@ -12,6 +12,19 @@ namespace Kooboo.CMS.Sites.Extension
 {
     public class EmailPlugin : ISubmissionPlugin
     {
+        #region Parameters
+        public Dictionary<string, object> Parameters
+        {
+            get
+            {
+                return new Dictionary<string, object>() { 
+                    {"Body","{Body}"},
+                    {"IsBodyHtml","true"}                   
+                };
+            }
+        }
+        #endregion
+
         #region ISubmissionPlugin
         public System.Web.Mvc.ActionResult Submit(Models.Site site, System.Web.Mvc.ControllerContext controllerContext, Models.SubmissionSetting submissionSetting)
         {
@@ -25,7 +38,7 @@ namespace Kooboo.CMS.Sites.Extension
                 var from = formValues["From"];
                 var subject = formValues["Subject"];
                 var body = formValues["Body"];
-                var isBodyHtml = !string.IsNullOrEmpty(formValues["isBodyHtml"]) && formValues["isBodyHtml"].ToLower() == "true";              
+                var isBodyHtml = !string.IsNullOrEmpty(formValues["isBodyHtml"]) && formValues["isBodyHtml"].ToLower() == "true";
                 SendMail(site, from, subject, body, isBodyHtml, controllerContext.HttpContext.Request.Files);
             }
             catch (Exception e)

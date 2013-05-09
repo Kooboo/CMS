@@ -128,6 +128,21 @@ namespace Kooboo.CMS.Sites.Extension
         }
         #endregion
 
+
+
+        #region Parameters
+        public Dictionary<string, object> Parameters
+        {
+            get
+            {
+                return new Dictionary<string, object>() { 
+                    {"FolderName","Articles"},
+                    {"Published","true"},
+                    {"ParentFolder",""}
+                };
+            }
+        }
+        #endregion
     }
     #endregion
 

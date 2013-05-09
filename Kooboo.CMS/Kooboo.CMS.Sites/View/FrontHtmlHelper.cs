@@ -374,7 +374,7 @@ namespace Kooboo.CMS.Sites.View
         /// <returns></returns>
         public virtual IHtmlString RenderView(string viewName, ViewDataDictionary viewData, object parameters, bool executeDataRule)
         {
-            return ViewRender.RenderView(this.Html, PageContext, viewName, viewData, parameters, false);
+            return ViewRender.RenderView(this.Html, PageContext, viewName, viewData, parameters, executeDataRule);
         }
 
         #endregion

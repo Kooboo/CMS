@@ -3180,13 +3180,15 @@ ul.site-tree {
 }
 .sortpages {
     margin: 20px 0 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 300px;
 }
 .sortpages li.current {
     background: #e7e7e7;
     color: #000;
 }
 .sortpages li{
-    width: 300px;
     cursor: pointer;
 }
 .sortpages li:hover{

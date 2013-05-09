@@ -15,7 +15,7 @@
     <td></td>
     <td>
         <input name="PageOrders" type="hidden" />
-        <h5 class="sortpages-header">Page Orders<em class="tip">Drag the page items below to re-organize the orders.</em></h5>
+        <h5 class="sortpages-header">@("Menu order".Localize())<em class="tip">@("The order of page in the menu API. Drag and drop to change them.".Localize())</em></h5>
         <ul class="sortpages">
             @foreach (var item in pages)
             {
@@ -23,7 +23,7 @@
             }
             @if (string.IsNullOrEmpty(page.Name))
             {
-                <li data-pagename="!NEWPAGE!" class="current"><img src="/Images/invis.gif" class="icon drag">@("THE NEW PAGE".Localize())</li>
+                <li data-pagename="!NEWPAGE!" class="current"><img src="/Images/invis.gif" class="icon drag">@("This new page".Localize())</li>
             }
         </ul>
         <script>

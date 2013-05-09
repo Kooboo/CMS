@@ -96,7 +96,28 @@ namespace Kooboo.CMS.Sites.Models
         }
         public override string ToString()
         {
-            return "View:" + this.ViewName;
+            StringBuilder sb = new StringBuilder();
+
+            if (parameters!=null)
+            {
+                foreach (var item in parameters)
+                {
+                    sb.AppendFormat("{0}:{1},", item.Name, item.Value);
+                }
+                if (sb.Length > 0)
+                {
+                    sb.Remove(sb.Length - 1, 1);
+                }
+            }          
+
+            var s = "View:" + this.ViewName;
+
+            if (sb.Length > 0)
+            {
+                s = s + "(" + sb + ")";
+            }
+
+            return s;
         }
 
         public IDictionary<string, object> ToParameterDictionary()

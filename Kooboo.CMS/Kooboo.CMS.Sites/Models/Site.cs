@@ -446,6 +446,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             this.EncryptKey = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(8);
         }
+        public bool TurnOnSubmissionAPI { get; set; }
         public string EncryptKey { get; set; }
     }
     #endregion

@@ -2183,7 +2183,6 @@
     <Content Include="Areas\Contents\Views\ContentType\Create.cshtml" />
     <Content Include="Areas\Contents\Views\ContentType\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\ContentType\Index.cshtml" />
-    <Content Include="Areas\Contents\Views\ContentType\_Nav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Contents\Views\ContentType\_EditColumn.cshtml" />
@@ -2337,9 +2336,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\UserAgent.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\ViewData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ABRuleSetting\Edit.cshtml" />

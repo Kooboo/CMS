@@ -24,5 +24,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [DisplayName("Encrypt key")]
         [StringLength(8, MinimumLength = 8)]
         public string EncryptKey { get; set; }
+
+        [Description(" Turn on/off the content submission API such as ContentService and SendEmail API")]
+        [DisplayName("Turn on submission api")]
+        public bool TurnOnSubmissionAPI { get; set; }
+
     }
 }

@@ -470,7 +470,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     site.InlineEditing = model.InlineEditing;
                     site.ShowSitemap = model.ShowSitemap;
                     site.Smtp = model.Smtp;
-                    //site.Security = model.Security;
+                    site.Security = model.Security;
                     site.ResourceDomain = model.ResourceDomain;
 
                     if (site.Smtp != null && site.Smtp.To != null)

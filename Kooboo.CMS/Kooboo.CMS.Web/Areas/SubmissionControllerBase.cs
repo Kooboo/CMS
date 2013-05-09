@@ -28,12 +28,11 @@ namespace Kooboo.CMS.Web.Areas
     {
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            base.OnActionExecuting(filterContext);
-
-            //if (!SecurityHelper.IsSubmissionServiceAvailable())
-            //{
-            //    throw new InvalidOperationException("The submission service is not available.".Localize());
-            //}
+            base.OnActionExecuting(filterContext);            
+            if (!Site.Security.TurnOnSubmissionAPI)
+            {
+                throw new InvalidOperationException("The submission service is not available.".Localize());
+            }
         }
         protected ActionResult ReturnActionResult(object model, Exception exception)
         {

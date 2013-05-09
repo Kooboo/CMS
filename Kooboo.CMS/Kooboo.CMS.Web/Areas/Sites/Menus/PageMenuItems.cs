@@ -34,7 +34,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Menus
 
             base.Visible = true;
             RouteValues = new System.Web.Routing.RouteValueDictionary();
-            RouteValues.Add("fullName", page.FullName);
+            RouteValues.Add("uuid", page.FullName);
 
             HtmlAttributes = new System.Web.Routing.RouteValueDictionary();
             if (page.IsDefault)

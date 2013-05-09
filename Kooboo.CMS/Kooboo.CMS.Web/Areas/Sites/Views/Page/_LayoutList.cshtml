@@ -12,7 +12,7 @@
         foreach (var l in layouts)
         {
         <li>
-            @Html.ActionLink(l.Name, "Create", "Page", ViewContext.RequestContext.AllRouteValues().Merge("FullName", "").Merge("Layout", l.Name).Merge("ParentPage", ViewContext.RequestContext.GetRequestValue("FullName")).Merge("return", ViewContext.HttpContext.Request.RawUrl), new RouteValueDictionary())
+            @Html.ActionLink(l.Name, "Create", "Page", ViewContext.RequestContext.AllRouteValues().Merge("FullName", "").Merge("Layout", l.Name).Merge("ParentPage", ViewContext.RequestContext.GetRequestValue("uuid")).Merge("return", ViewContext.HttpContext.Request.RawUrl), new RouteValueDictionary())
         </li>
         }
     }

@@ -2,9 +2,9 @@
 <fieldset>
     <table>
         <tbody>
-            @Html.EditorFor(m => m.DisplayText, new {HtmlAttributes =new {  @class = "medium" }})
-            @Html.EditorFor(m => m.Order, new {HtmlAttributes =new {  @class = "medium" }})
-            @Html.EditorFor(m=>m.Show)
+            @Html.EditorFor(m => m.DisplayText, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.Show)
+            @Html.EditorFor(m => m.Order)
             @Html.EditorFor(m => m.ShowInCrumb)
         </tbody>
     </table>

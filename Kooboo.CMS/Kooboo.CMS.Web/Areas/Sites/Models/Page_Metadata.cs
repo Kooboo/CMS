@@ -67,10 +67,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [DataSource(typeof(PluginsDataSource))]
         public List<string> Plugins { get; set; }
 
-        [GridColumn(Order = 2, GridColumnType = typeof(SortableGridColumn), HeaderText = "Display text")]
+        [GridColumn(Order = 2, GridItemColumnType = typeof(Page_Navigation_ShowInMenu_GridItemColumn), GridColumnType = typeof(Page_Navigation_ShowInMenu_SortableGridColumn), HeaderText = "Show in menu")]
+        [GridColumn(Order = 3, GridColumnType = typeof(SortableGridColumn), HeaderText = "Display text")]
         public Navigation Navigation { get; set; }
 
-        [GridColumn(Order = 3, GridColumnType = typeof(SortableGridColumn))]
+        [GridColumn(Order = 4, GridColumnType = typeof(SortableGridColumn))]
         public Site Site { get; set; }
 
         public HtmlMeta HtmlMeta { get; set; }
@@ -96,7 +97,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Required(ErrorMessage = "Required")]
         public bool? Published { get; set; }
 
-        [GridColumn(Order = 4, HeaderText = "Preview", GridItemColumnType = typeof(Page_Preview_GridItemColumn))]
+        [GridColumn(Order = 5, HeaderText = "Preview", GridItemColumnType = typeof(Page_Preview_GridItemColumn))]
         public string VirtualPath { get; set; }
 
         [UIHint("CustomFields")]
@@ -129,6 +130,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Display(Name = "Display text")]
         public string DisplayText { get; set; }
 
+        [UIHint("Naviation_Order")]
         public int Order { get; set; }
 
 

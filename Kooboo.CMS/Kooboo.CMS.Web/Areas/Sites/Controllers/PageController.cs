@@ -56,7 +56,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         protected override IEnumerable<Page> List(string search, string sortField, string sortDir)
         {
-            string fullName = Request["fullName"];
+            string fullName = this.ControllerContext.RequestContext.GetRequestValue("uuid");
 
             if (fullName != null)
             {
@@ -78,11 +78,18 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 GenerateFolderListDicViewData();
             }
-
+            var parentPage = ControllerContext.RequestContext.GetRequestValue("parentPage");
+            Page parent = null;
+            if (!string.IsNullOrEmpty(parentPage))
+            {
+                parent = new Page(parentPage);
+            }
             bool isDefault = false;
             bool.TryParse(ControllerContext.RequestContext.GetRequestValue("IsDefault"), out isDefault);
             var page = new Page()
             {
+                Parent = parent,
+                Site = Site,
                 Layout = ControllerContext.RequestContext.GetRequestValue("layout"),
                 IsDefault = isDefault
             };
@@ -91,7 +98,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
 
         [HttpPost]
-        public virtual ActionResult CreateEx(Page model, bool? setPublished, string @return)
+        public virtual ActionResult CreateEx(Page model, bool? setPublished, string @return, string PageOrders)
         {
             var data = new JsonResultData() { RedirectUrl = @return };
 
@@ -121,6 +128,19 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                         model.Published = false;
                     }
                     Manager.Add(Site, parentPage, model);
+
+                    if (!string.IsNullOrEmpty(PageOrders))
+                    {
+                        var pageOrders = PageOrders.Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < pageOrders.Length - 1; i++)
+                        {
+                            if (pageOrders[i] == "!NEWPAGE!")
+                            {
+                                pageOrders[i] = model.Name;
+                            }
+                        }
+                        Manager.SortPages(Site, parent == null ? "" : parent.FullName, pageOrders);
+                    }
 
                     resultData.RedirectUrl = @return;
                 });
@@ -154,7 +174,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return View(o);
         }
         [HttpPost]
-        public virtual ActionResult Save(Page newModel, string old_key, bool? saveAsDraft, bool? setPublished, string @return)
+        public virtual ActionResult Save(Page newModel, string old_key, bool? saveAsDraft, bool? setPublished, string @return, string PageOrders)
         {
             var data = new JsonResultData();
             data.RunWithTry((resultData) =>
@@ -187,7 +207,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
                     }
 
-
+                    if (!string.IsNullOrEmpty(PageOrders))
+                    {
+                        var pageOrders = PageOrders.Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                        Manager.SortPages(Site, old.Parent == null ? "" : old.Parent.FullName, pageOrders);
+                    }
 
                 });
             return Json(data);
@@ -355,7 +379,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         protected string GetZipFileName()
         {
-            var fullName = Request.RequestContext.GetRequestValue("FullName");
+            var fullName = Request.RequestContext.GetRequestValue("UUID");
 
             if (string.IsNullOrWhiteSpace(fullName))
             {
@@ -560,12 +584,12 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         /// <param name="fullName">The full name. The parent page name</param>
         /// <param name="pageNames">The page names order</param>
         /// <returns></returns>
-        public virtual ActionResult SortPages(string fullName, string[] pageNames)
+        public virtual ActionResult SortPages(string uuid, string[] pageNames)
         {
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
             {
-                Manager.SortPages(Site, fullName, pageNames);
+                Manager.SortPages(Site, uuid, pageNames);
             });
             return Json(data);
         }

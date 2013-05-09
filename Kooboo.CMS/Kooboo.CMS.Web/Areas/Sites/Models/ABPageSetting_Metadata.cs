@@ -15,6 +15,7 @@ using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Grid2.Design;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -31,7 +32,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Required]
         [UIHint("DropdownList")]
         [DataSource(typeof(PagesDataSource))]
-        [GridColumnAttribute(HeaderText = "Main page", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 1)]
+        [GridColumnAttribute(HeaderText = "Entry page", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 1)]
+        [Display(Name = "Entry page")]
+        [Description("The entry and default page that this rule will apply to.")]
         public string MainPage { get; set; }
 
         [Required]
@@ -42,11 +45,14 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         public string RuleName { get; set; }
 
         [UIHint("ABPageRuleItems")]
+        [Display(Name = "Alternative pages")]
+        [Description("The alternative pages to render based on defined A/B rules.")]
         public List<ABPageRuleItem> Items { get; set; }
 
         [UIHint("DropdownList")]
         [GridColumnAttribute(HeaderText = "Goal page", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 1)]
         [DataSource(typeof(PagesDataSource))]
+        [Description("The destnation page to measure the result of individual pages that come from A/B test.")]
         public string ABTestGoalPage { get; set; }
     }
 }

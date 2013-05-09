@@ -30,6 +30,16 @@
                     </tr>
                     <!-- /ko -->
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            @if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+                            {
+                                <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
+                            }
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>

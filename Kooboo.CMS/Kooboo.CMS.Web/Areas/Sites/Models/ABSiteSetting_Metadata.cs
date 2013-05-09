@@ -14,6 +14,7 @@ using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Grid2.Design;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -30,8 +31,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Required]
         [UIHint("DropdownList")]
         [DataSource(typeof(SitesDataSource))]
-        [GridColumnAttribute(HeaderText = "Default site", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 1)]
-        [Display(Name = "Default site")]
+        [GridColumnAttribute(HeaderText = "Entry site", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 1)]
+        [Display(Name = "Entry site")]
+        [Description("The entry and default website that this rule will apply to.")]
         public string MainSite { get; set; }
 
         [Required]
@@ -43,6 +45,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
 
         [UIHint("ABSiteRuleItems")]
         [Display(Name = "Alternative sites")]
+        [Description("The alternative sites to render based on defined A/B rules.")]
         public List<ABSiteRuleItem> Items { get; set; }
     }
 }

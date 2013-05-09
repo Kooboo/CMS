@@ -110,11 +110,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Description("Include this page content in the search index.")]
         public bool Searchable { get; set; }
         [Display(Name = "Require HTTPS")]
-        [Description("Forces an unsecured HTTP request to be re-sent over HTTPS. Similar with the RequireHttpsAttribute in ASP.NET MVC.")]
+        [Description("Force this page to use HTTPS, similar as the RequireHttpsAttribute in ASP.NET MVC.")]
         public bool RequireHttps { get; set; }
 
         [Display(Name = "Cache to disk")]
-        [Description("Will generate static html pages for each url serve by this page. Once the static html page eixsts, which will be returned without dynamic processing.")]
+        [Description("Generate static disk based html page for each individual requests. If a static page with the same URL exists, it will be servered directly from disk without rendering the dynamic page again.")]
         public bool CacheToDisk { get; set; }
     }
 

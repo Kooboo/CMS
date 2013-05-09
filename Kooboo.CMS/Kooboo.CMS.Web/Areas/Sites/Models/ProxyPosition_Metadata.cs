@@ -13,13 +13,15 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     public class ProxyPosition_Metadata
     {
         [Required(ErrorMessage = "Required")]
+        [DisplayName("Site base domain or URL")]
         public string Host { get; set; }
 
         [Required(ErrorMessage = "Required")]
+        [DisplayName("Start page")]
         public string RequestPath { get; set; }
 
-        [DisplayName("No proxy")]
-        [Description("No proxy for the content.")]
+        [DisplayName("Non proxy")]
+        [Description("Keep original base URL, without proxy redirect.")]
         public bool NoProxy { get; set; }
     }
 }

@@ -20,9 +20,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [GridColumnAttribute(HeaderText = "A/B test name", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(HitReport_GridItemColumn), Order = 1)]
         public string PageVisitRuleUUID { get; set; }
         public IList<ABPageTestHitsReport> PageHits { get; set; }
-        [GridColumnAttribute(HeaderText = "Total shows", GridColumnType = typeof(SortableGridColumn), Order = 2)]
+        [GridColumnAttribute(HeaderText = "Show times", GridColumnType = typeof(SortableGridColumn), Order = 2)]
         public int TotalShowTimes { get; set; }
-        [GridColumnAttribute(HeaderText = "Total hits", GridColumnType = typeof(SortableGridColumn), Order = 3)]
+        [GridColumnAttribute(HeaderText = "Goal reached", GridColumnType = typeof(SortableGridColumn), Order = 3)]
         public int TotalHitTimes { get; set; }
     }
 }

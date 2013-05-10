@@ -77,6 +77,7 @@
     <Content Include="lib\Kooboo.CMS.Account.dll" />
     <Content Include="lib\Kooboo.CMS.Caching.dll" />
     <Content Include="lib\Kooboo.CMS.Common.dll" />
+    <Content Include="lib\Kooboo.CMS.Common.Runtime.Dependency.Ninject.dll" />
     <Content Include="lib\Kooboo.CMS.Content.dll" />
     <Content Include="lib\Kooboo.CMS.Form.dll" />
     <Content Include="lib\Kooboo.CMS.Search.dll" />
@@ -88,6 +89,7 @@
     <Content Include="lib\Lucene.Net.dll" />
     <Content Include="lib\Microsoft.Web.Infrastructure.dll" />
     <Content Include="lib\Newtonsoft.Json.dll" />
+    <Content Include="lib\Ninject.dll" />
     <Content Include="lib\NuGet.Core.dll" />
     <Content Include="lib\System.Web.Helpers.dll" />
     <Content Include="lib\System.Web.Mvc.dll" />

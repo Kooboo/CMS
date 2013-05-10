@@ -45,7 +45,7 @@
                             { 
                     <tr>
                         <td class="checkbox">
-                            <input type="checkbox" value="@c.Category " name="Category" class="select category" />
+                            <input type="checkbox" value="@c.Category" class="select folder" />
                         </td>
                         <td colspan="2">
                             @Html.ActionLink(c.Category, "Index", ViewContext.RequestContext.AllRouteValues().Merge("Category", c.Category), new RouteValueDictionary(new { @class = "f-icon folder" }))
@@ -60,8 +60,8 @@
                         @if (Model.Checkable)
                         {
                             <td class="checkbox">
-                                <input type="checkbox"  class="select" name="select" value="@item.IdPropertyValue" data-id-property="@Model.IdPorperty"
-                                 @(item.IsCheckable == true ? "" : "disabled") autocomplete="off"/>
+                                <input type="checkbox"  class="select doc" value="@item.IdPropertyValue" data-id-property="@Model.IdPorperty"
+                                 @(item.IsCheckable == true ? "" : "disabled")/>
                             </td>
                         }
                         @foreach (var itemValue in item.GetItemColumns())
@@ -76,11 +76,4 @@
             </tbody>
         </table>
     </div>
-    <script>
-        $(function () {
-            var table = $('.common-table table');
-            table.checkableTable();
-            table.grid();
-        });
-    </script>
 </div>

@@ -26,8 +26,8 @@ namespace Kooboo.CMS.Sites.DataRule
         [DataMember(Order = 13)]
         public string CategoryFolderName { get; set; }
 
-        private WhereClause[] _categoryClauses;
-        [DataMember(Order = 15)]
+        //private WhereClause[] _categoryClauses;
+        //[DataMember(Order = 15)]
         //public WhereClause[] CategoryClauses
         //{
         //    get
@@ -39,6 +39,7 @@ namespace Kooboo.CMS.Sites.DataRule
         //        _categoryClauses = value;
         //    }
         //}
+        [DataMember(Order = 15)]
         public WhereClause[] CategoryClauses
         {
             get;

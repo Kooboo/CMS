@@ -97,7 +97,7 @@ namespace Kooboo.CMS.Form.Html
                     return new HtmlString(string.Format("<a href='{0}'>{0}</a>", url));
                 }
             }
-            catch ( Exception e)
+            catch
             {
                 return new HtmlString(item.Trim());
             }

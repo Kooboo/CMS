@@ -30,7 +30,7 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce
             {
                 SchemaManager.Update(@new, old);
             }
-            catch (SqlCeException e)
+            catch
             {
             }
         }

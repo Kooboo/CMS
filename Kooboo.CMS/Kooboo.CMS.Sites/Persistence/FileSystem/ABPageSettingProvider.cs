@@ -47,7 +47,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #endregion
 
         #region Import
-        public void Import(Site site, Stream zipStream, bool @override)
+        void IABPageSettingProvider.Import(Site site, Stream zipStream, bool @override)
         {
             base.Import(site, zipStream, @override);
         }

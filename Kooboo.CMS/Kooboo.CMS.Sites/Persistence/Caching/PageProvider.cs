@@ -170,7 +170,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region All
-        public IEnumerable<Page> All()
+        public override IEnumerable<Page> All()
         {
             return inner.All();
         }

@@ -55,7 +55,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region All
-        public IEnumerable<UrlKeyMap> All()
+        public override IEnumerable<UrlKeyMap> All()
         {
             return inner.All();
         }

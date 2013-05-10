@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -38,7 +39,7 @@ namespace Kooboo.CMS.Web
 
                 base.AreaPartialViewLocationFormats = base.AreaViewLocationFormats;
             }
-        } 
+        }
         #endregion
 
         #region RegisterRoutes
@@ -52,7 +53,7 @@ namespace Kooboo.CMS.Web
             ModelValidatorProviders.Providers.Insert(0, new KoobooDataAnnotationsModelValidatorProvider());
 
             //Job.Jobs.Instance.AttachJob("test", new Kooboo.Job.TestJob(), 1000, null, true);
-        } 
+        }
         #endregion
 
         #region Application_Start
@@ -65,9 +66,10 @@ namespace Kooboo.CMS.Web
 
             #region mono
 #if MONO
-			Kooboo.HealthMonitoring.Log.Logger = (e)=>{
-				
-				string msgFormat= @"
+            Kooboo.HealthMonitoring.Log.Logger = (exception) =>
+            {
+
+                string msgFormat = @"
 Event message: {0}
 Event time: {1}
 Event time {2}
@@ -84,23 +86,24 @@ Thread information:
     Thread ID: {8}    
     Stack trace: {9}
 ";
-				string[] args = new string[13];
-				args[0]= e.Message;
+                string[] args = new string[13];
+                args[0] = exception.Message;
                 args[1] = DateTime.Now.ToString(System.Globalization.CultureInfo.InstalledUICulture);
                 args[2] = DateTime.UtcNow.ToString(System.Globalization.CultureInfo.InstalledUICulture);
-				args[3]=e.GetType().ToString ();
-				if (System.Web.HttpContext.Current!=null) {
-					var request = HttpContext.Current.Request;
-					args[4]= request.RawUrl;
-						args[5]= request.UserHostAddress;
-					args[6]= HttpContext.Current.User.Identity.Name;
-					args[7]= HttpContext.Current.User.Identity.IsAuthenticated.ToString ();					
-				}
-				args[8]=System.Threading.Thread.CurrentThread.ManagedThreadId.ToString ();				
-				args[9] =e.StackTrace;
-				
-				Kooboo.CMS.Web.HealthMonitoring.TextFileLogger.Log(string.Format(msgFormat,args));
-			};
+                args[3] = e.GetType().ToString();
+                if (System.Web.HttpContext.Current != null)
+                {
+                    var request = HttpContext.Current.Request;
+                    args[4] = request.RawUrl;
+                    args[5] = request.UserHostAddress;
+                    args[6] = HttpContext.Current.User.Identity.Name;
+                    args[7] = HttpContext.Current.User.Identity.IsAuthenticated.ToString();
+                }
+                args[8] = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
+                args[9] = exception.StackTrace;
+
+                Kooboo.CMS.Web.HealthMonitoring.TextFileLogger.Log(string.Format(msgFormat, args));
+            };
 #endif
             #endregion
 
@@ -132,7 +135,7 @@ Thread information:
             RegisterRoutes(RouteTable.Routes);
 
             Kooboo.CMS.Content.Persistence.Providers.RepositoryProvider.TestDbConnection();
-        } 
+        }
         #endregion
     }
 }

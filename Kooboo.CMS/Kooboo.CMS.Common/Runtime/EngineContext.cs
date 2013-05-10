@@ -49,7 +49,7 @@ namespace Kooboo.CMS.Common.Runtime
         /// <returns>A new factory</returns>
         public static IEngine CreateEngineInstance()
         {
-            var typeFinder = new WebAppTypeFinder() { AssemblySkipLoadingPattern = "Kooboo," };
+            var typeFinder = new WebAppTypeFinder() { AssemblySkipLoadingPattern = "Kooboo,|System\\." };
             var engines = typeFinder.FindClassesOfType<IEngine>().ToArray();
             if (engines.Length > 0)
             {

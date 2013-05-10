@@ -188,17 +188,26 @@
     <Compile Include="Areas\Contents\Models\TextContentGrid.cs" />
     <Compile Include="Areas\Contents\Models\TextFolder_Metadata.cs" />
     <Compile Include="Areas\Contents\Models\VersionInfo_Metadata.cs" />
+    <Compile Include="Areas\Sites\Controllers\ABPageTestResultController.cs" />
     <Compile Include="Areas\Sites\Controllers\SubmissionSettingController.cs" />
-    <Compile Include="Areas\Sites\Controllers\PageVisitRuleController.cs" />
+    <Compile Include="Areas\Sites\Controllers\ABPageSettingController.cs" />
     <Compile Include="Areas\Sites\Controllers\SiteTemplateController.cs" />
-    <Compile Include="Areas\Sites\Controllers\SiteVisitRuleController.cs" />
-    <Compile Include="Areas\Sites\Controllers\VisitRuleSettingController.cs" />
+    <Compile Include="Areas\Sites\Controllers\ABSiteSettingController.cs" />
+    <Compile Include="Areas\Sites\Controllers\ABRuleSettingController.cs" />
+    <Compile Include="Areas\Sites\Models\ABPageTestHitsReport.cs" />
+    <Compile Include="Areas\Sites\Models\ABPageTestResult_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\SubmissionPluginsDataSource.cs" />
+    <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_HitTimes_GridItemColumn.cs" />
+    <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_ShowTimes_GridItemColumn.cs" />
+    <Compile Include="Areas\Sites\Models\Grid2\Page_Navigation_ShowInMenu_SortableGridColumn.cs" />
+    <Compile Include="Areas\Sites\Models\Grid2\Page_Navigation_ShowInMenu_GridItemColumn.cs" />
+    <Compile Include="Areas\Sites\Models\Grid2\HitReport_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\ProxyPosition_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\RandomVisitRule_Metadata.cs" />
-    <Compile Include="Areas\Sites\Models\PageVisitRule_Metadata.cs" />
-    <Compile Include="Areas\Sites\Models\DataSources\VisitRuleSettingDataSource.cs" />
-    <Compile Include="Areas\Sites\Models\SiteVisitRule_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\ABPageSetting_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\DataSources\ABRuleSettingDataSource.cs" />
+    <Compile Include="Areas\Sites\Models\Security_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\ABSiteSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\SubmissionSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\UserAgentVisitRule_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\CopySiteModel.cs" />
@@ -207,9 +216,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Sites\Models\IPVisitRule_Metadata.cs" />
-    <Compile Include="Areas\Sites\Models\VisitRuleSetting_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\ABRuleSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\SiteTemplate_ViewModel.cs" />
     <Compile Include="Areas\Sites\Models\QueryStringVisitRule_Metadata.cs" />
+    <Compile Include="KooboCMSHttpApplicationEvents.cs" />
     <Compile Include="Models\AllPropertiesResolver.cs" />
     <Compile Include="Models\ImportModel.cs" />
     <Compile Include="Models\RelationModel.cs" />
@@ -445,6 +455,7 @@
     <Content Include="Areas\Sites\Scripts\inlineEdit\combo\combo.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\combo\fontFamilyCombo.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\combo\fontSizeCombo.js" />
+    <Content Include="Areas\Sites\Scripts\inlineEdit\combo\headingCombo.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\combo\images\textfield_dropdown.gif" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\core\corebase.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\core\ellipsis.xml" />
@@ -506,6 +517,8 @@
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\colorPicker.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\fontFamilyPicker.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\fontSizePicker.js" />
+    <Content Include="Areas\Sites\Scripts\inlineEdit\picker\headingPicker.css" />
+    <Content Include="Areas\Sites\Scripts\inlineEdit\picker\headingPicker.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\images\tb_back_color.png" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\images\tb_default_color.gif" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\images\tb_font_color.png" />
@@ -978,8 +991,6 @@
     <Content Include="Areas\Sites\CodeSnippets\NVelocity\Link\Page Link.txt" />
     <Content Include="Areas\Sites\CodeSnippets\Razor\Link\Page Link.txt" />
     <Content Include="Areas\Sites\CodeSnippets\WebForm\Link\Page Link.txt" />
-    <Content Include="Areas\Sites\Templates\Site\SmallBusiness.png" />
-    <Content Include="Areas\Sites\Templates\Site\SampleSite.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Account\Views\Shared\_Sidebar.cshtml" />
@@ -1148,7 +1159,6 @@
     <Content Include="Areas\Sites\Styles\images\map-item.png" />
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Shared\_SitesNavTree.cshtml" />
-    <Content Include="Areas\Sites\Templates\Site\Empty.zip" />
     <Content Include="Areas\Account\Views\Users\ResetPassword.cshtml" />
     <Content Include="Areas\Account\Views\Shared\FrontLayout.cshtml" />
     <Content Include="Areas\Account\Views\Shared\CommonLayout.cshtml" />
@@ -2146,8 +2156,6 @@
     <Content Include="Areas\Sites\Templates\Layout\NVelocity\Default.zip" />
     <Content Include="Areas\Sites\Templates\Layout\Razor\Default.zip" />
     <Content Include="Areas\Sites\Templates\Layout\WebForm\Default.zip" />
-    <Content Include="Areas\Sites\Templates\Site\SmallBusiness.zip" />
-    <Content Include="Areas\Sites\Templates\Site\SampleSite.zip" />
     <Content Include="Areas\Sites\Templates\Layout\NVelocity\OneColumn.zip" />
     <Content Include="Areas\Sites\Templates\Layout\NVelocity\ThreeColumn.zip" />
     <Content Include="Areas\Sites\Templates\Layout\NVelocity\TwoColumn.zip" />
@@ -2178,7 +2186,6 @@
     <Content Include="Areas\Contents\Views\ContentType\Create.cshtml" />
     <Content Include="Areas\Contents\Views\ContentType\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\ContentType\Index.cshtml" />
-    <Content Include="Areas\Contents\Views\ContentType\_Nav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Contents\Views\ContentType\_EditColumn.cshtml" />
@@ -2307,7 +2314,7 @@
     <Content Include="Areas\Contents\Views\TextContent\ImageCrop.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\VisitRuleSetting\Index.cshtml" />
+    <Content Include="Areas\Sites\Views\ABRuleSetting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\Shared\Global.cshtml" />
@@ -2316,55 +2323,52 @@
     <Content Include="Areas\Sites\Views\Shared\_SidebarTopSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\VisitRuleSetting\Create.cshtml" />
+    <Content Include="Areas\Sites\Views\ABRuleSetting\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\VisitRuleSetting\_RuleSetting.cshtml" />
+    <Content Include="Areas\Sites\Views\ABRuleSetting\_RuleSetting.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\VisitRuleSetting\_RuleSetting.Scripts.cshtml" />
+    <Content Include="Areas\Sites\Views\ABRuleSetting\_RuleSetting.Scripts.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\VisitRuleSetting\RuleTemplates\IP.cshtml" />
+    <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\IP.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\VisitRuleSetting\RuleTemplates\QueryString.cshtml" />
+    <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\QueryString.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\VisitRuleSetting\RuleTemplates\UserAgent.cshtml" />
+    <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\UserAgent.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\VisitRuleSetting\RuleTemplates\ViewData.cshtml" />
+    <Content Include="Areas\Sites\Views\ABRuleSetting\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\VisitRuleSetting\Edit.cshtml" />
+    <Content Include="Areas\Sites\Views\ABSiteSetting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\SiteVisitRule\Index.cshtml" />
+    <Content Include="Areas\Sites\Views\ABSiteSetting\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\SiteVisitRule\Create.cshtml" />
+    <Content Include="Areas\Sites\Views\ABSiteSetting\EditorTemplates\ABSiteRuleItems.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\SiteVisitRule\EditorTemplates\SiteVisitRuleItems.cshtml" />
+    <Content Include="Areas\Sites\Views\ABSiteSetting\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\SiteVisitRule\Edit.cshtml" />
+    <Content Include="Areas\Sites\Views\ABPageSetting\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\PageVisitRule\Create.cshtml" />
+    <Content Include="Areas\Sites\Views\ABPageSetting\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\PageVisitRule\Edit.cshtml" />
+    <Content Include="Areas\Sites\Views\ABPageSetting\EditorTemplates\ABPageRuleItems.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\PageVisitRule\EditorTemplates\PageVisitRuleItems.cshtml" />
+    <Content Include="Areas\Sites\Views\ABPageSetting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\PageVisitRule\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Sites\Views\VisitRuleSetting\RuleTemplates\Random.cshtml" />
+    <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\Random.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\PageDesign\ProcessProxy.cshtml" />
@@ -2377,6 +2381,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\SubmissionSetting\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Page\_PageTabs.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Site\EditorTemplates\Security.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ABPageTestResult\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ABPageTestResult\HitReport.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\SubmissionSetting\_Scripts.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Page\EditorTemplates\Naviation_Order.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -2420,6 +2442,8 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>copy "..\..\..\Lib\MVC\4.0\*.dll"  "$(TargetDir)";
+copy "..\..\Kooboo.CMS.Common.Runtime.Dependency.Ninject\Bin\$(ConfigurationName)\Ninject.dll"  "$(TargetDir)";
+copy "..\..\Kooboo.CMS.Common.Runtime.Dependency.Ninject\Bin\$(ConfigurationName)\Kooboo.CMS.Common.Runtime.Dependency.Ninject.dll"  "$(TargetDir)";
 @echo copy "..\..\..\Lib\SQLCe\*.*" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

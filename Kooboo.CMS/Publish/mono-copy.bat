@@ -16,6 +16,8 @@ call Publish.bat
 cd..
 
 copy "TemplateEngines\Razor\*.*" "mono\Bin\*.*"
+copy "..\Kooboo.CMS.Web\bin\Ninject.dll" "mono\Bin\*.*"
+copy "..\Kooboo.CMS.Web\bin\Kooboo.CMS.Common.Runtime.Dependency.Ninject.dll" "mono\Bin\*.*"
 
 xcopy Default Mono /S /E /Y /H
 

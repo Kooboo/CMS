@@ -17,6 +17,8 @@ using System.Threading;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Common;
+using System.Web;
+using Kooboo.Globalization;
 namespace Kooboo.CMS.Sites
 {
     [ValidateInput(false)]
@@ -112,8 +114,9 @@ namespace Kooboo.CMS.Sites
                 filterContext.ExceptionHandled = true;
             }
         }
-        #endregion  
+        #endregion
 
+        #region Site
         public virtual Site Site
         {
             get
@@ -123,6 +126,20 @@ namespace Kooboo.CMS.Sites
             set
             {
                 Site.Current = value;
+            }
+        }
+        #endregion
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+
+            if (filterContext.HttpContext.Request.HttpMethod.ToUpper() == "POST")
+            {
+                if (filterContext.HttpContext.Request.UrlReferrer.Host != filterContext.HttpContext.Request.Url.Host)
+                {
+                    throw new HttpException("Invaid request.".Localize());
+                }
             }
         }
     }

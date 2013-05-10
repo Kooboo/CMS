@@ -2480,6 +2480,10 @@ body #diffBox .diffTable td.lineNumber {
 	line-height: 1;
 	margin-bottom: 26px;
 }
+
+#main a.title-tip {
+	font-size: 12px;
+}
 /* Wrap */
 #main-container > .wrap {
 	bottom: 30px;

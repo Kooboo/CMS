@@ -19,8 +19,8 @@
     </ul>
 }
 <div class="block">
-    <h1 class="title">@ViewBag.Title</h1>
-    <a href="http://sites.kooboo.com" target="_blank">@("Browse more templates online".Localize())</a>
+    <h1 class="title">@ViewBag.Title <a href="http://sites.kooboo.com" target="_blank" class="title-tip">@("Browse more templates online".Localize())</a></h1>
+    
     <ul class="site-list">
         @foreach (var item in Model)
         {

@@ -130,28 +130,29 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return Create(model);
         }
 
-        public virtual ActionResult Delete(Element[] model, ElementCategory[] categoryList)
+        public virtual ActionResult Delete(string[] docs, string[] folders)
         {
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
             {
                 var category = ControllerContext.RequestContext.GetRequestValue("Category");
 
-                if (model != null)
+                if (docs != null)
                 {
-                    foreach (var m in model)
+                    foreach (var name in docs)
                     {
+                        var m = new Element() { Name = name };
                         m.Category = category;
                         Remove(m);
                     }
                 }
 
 
-                if (categoryList != null)
+                if (folders != null)
                 {
-                    foreach (var c in categoryList)
-                    {
-                        Manager.RemoveCategory(Site, c.Category);
+                    foreach (var c in folders)
+                    {                        
+                        Manager.RemoveCategory(Site, c);
                     }
                 }
 

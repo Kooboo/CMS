@@ -37,8 +37,10 @@
 <script>
     $(function () {
         var $table = $('.common-table table');
+        console.log($table);
+        $table.checkableTable();
+        $table.mixedGrid();
         $table.gridInlineEdit();
-
         $('textarea').autosize();
 
         $('#editButton').click(function () {

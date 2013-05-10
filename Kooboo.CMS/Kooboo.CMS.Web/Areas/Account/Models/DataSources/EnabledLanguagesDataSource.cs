@@ -22,7 +22,8 @@ namespace Kooboo.CMS.Web.Areas.Account.Models.DataSources
             return Kooboo.Globalization.ElementRepository.DefaultRepository.EnabledLanguages().Select(it => new SelectListItem()
             {
                 Text = it.NativeName,
-                Value = it.Name
+                Value = it.Name,
+                Selected = it.Name == System.Globalization.CultureInfo.CurrentUICulture.Name
             });
         }
     }

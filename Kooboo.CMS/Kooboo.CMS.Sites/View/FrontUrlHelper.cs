@@ -58,13 +58,17 @@ namespace Kooboo.CMS.Sites.View
         #region WrapperUrl
         public virtual IHtmlString WrapperUrl(string url)
         {
-            return FrontUrlHelper.WrapperUrl(url, this.Site, this.RequestChannel);
+            return FrontUrlHelper.WrapperUrl(url, this.Site, this.RequestChannel, null);
+        }
+        public virtual IHtmlString WrapperUrl(string url, bool? requireSSL)
+        {
+            return FrontUrlHelper.WrapperUrl(url, this.Site, this.RequestChannel, requireSSL);
         }
         public static IHtmlString WrapperUrl(string url, Site site, FrontRequestChannel channel)
         {
             return WrapperUrl(url, site, channel, false);
         }
-        public static IHtmlString WrapperUrl(string url, Site site, FrontRequestChannel channel, bool requiredSSL)
+        public static IHtmlString WrapperUrl(string url, Site site, FrontRequestChannel channel, bool? requireSSL)
         {
             if (string.IsNullOrEmpty(url))
             {
@@ -99,20 +103,24 @@ namespace Kooboo.CMS.Sites.View
 
 
             #region SSL
-            if (channel == FrontRequestChannel.Host || channel == FrontRequestChannel.HostNPath)
+            if (requireSSL.HasValue)
             {
-                if (HttpContext.Current.Request.IsSecureConnection)
+                if (channel == FrontRequestChannel.Host || channel == FrontRequestChannel.HostNPath)
                 {
-                    if (!requiredSSL)
+                    if (HttpContext.Current.Request.IsSecureConnection)
                     {
-                        url = "http://" + HttpContext.Current.Request.Url.Host + url;
+                        if (!requireSSL.Value)
+                        {
+                            url = "http://" + HttpContext.Current.Request.Url.Host + url;
+                        }
+                    }
+                    else if (requireSSL.Value)
+                    {
+                        url = "https://" + HttpContext.Current.Request.Url.Host + url;
                     }
                 }
-                else if (requiredSSL)
-                {
-                    url = "https://" + HttpContext.Current.Request.Url.Host + url;
-                }
             }
+
 
             #endregion
 

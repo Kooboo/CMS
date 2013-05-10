@@ -47,8 +47,8 @@
 
             @(Html.Partial("_Search"))
             <ul class="view-switch">
-                <li class="list active"><a href="@Url.Action(ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.GetRequestValue("controller"), ViewContext.RequestContext.AllRouteValues().Merge("listType", null))">@Html.IconImage("list")</a></li>
-                <li class="grid"><a href="@Url.Action(ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.GetRequestValue("controller"), ViewContext.RequestContext.AllRouteValues().Merge("listType", "Grid"))">@Html.IconImage("grid")</a></li>
+                <li class="list active"><a title="@("Details view".Localize())" href="@Url.Action(ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.GetRequestValue("controller"), ViewContext.RequestContext.AllRouteValues().Merge("listType", null))">@Html.IconImage("list")</a></li>
+                <li class="grid"><a title="@("Thumbnails view".Localize())" href="@Url.Action(ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.GetRequestValue("controller"), ViewContext.RequestContext.AllRouteValues().Merge("listType", "Grid"))">@Html.IconImage("grid")</a></li>
             </ul>
         </div>
 

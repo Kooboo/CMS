@@ -223,6 +223,7 @@
     <Compile Include="Models\AllPropertiesResolver.cs" />
     <Compile Include="Models\ImportModel.cs" />
     <Compile Include="Models\RelationModel.cs" />
+    <Compile Include="ReferrerCheckingModule.cs" />
     <Compile Include="SortByExtension.cs" />
     <Content Include="Areas\Account\Menu.config">
       <SubType>Designer</SubType>
@@ -483,6 +484,7 @@
     <Content Include="Areas\Sites\Scripts\inlineEdit\editor\images\tb_italic_off.gif" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\editor\images\tb_numberlist_off.gif" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\editor\images\tb_outdent_off.gif" />
+    <Content Include="Areas\Sites\Scripts\inlineEdit\editor\images\tb_pasteplaintext_off.gif" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\editor\images\tb_redo_off.gif" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\editor\images\tb_underline_off.gif" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\editor\images\tb_undo_off.gif" />

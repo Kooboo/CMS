@@ -129,18 +129,5 @@ namespace Kooboo.CMS.Sites
             }
         }
         #endregion
-
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            base.OnActionExecuting(filterContext);
-
-            if (filterContext.HttpContext.Request.HttpMethod.ToUpper() == "POST")
-            {
-                if (filterContext.HttpContext.Request.UrlReferrer.Host != filterContext.HttpContext.Request.Url.Host)
-                {
-                    throw new HttpException("Invaid request.".Localize());
-                }
-            }
-        }
     }
 }

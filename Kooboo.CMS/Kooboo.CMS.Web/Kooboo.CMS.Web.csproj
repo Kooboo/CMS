@@ -455,6 +455,7 @@
     <Content Include="Areas\Sites\Scripts\inlineEdit\combo\combo.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\combo\fontFamilyCombo.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\combo\fontSizeCombo.js" />
+    <Content Include="Areas\Sites\Scripts\inlineEdit\combo\headingCombo.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\combo\images\textfield_dropdown.gif" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\core\corebase.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\core\ellipsis.xml" />
@@ -516,6 +517,8 @@
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\colorPicker.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\fontFamilyPicker.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\fontSizePicker.js" />
+    <Content Include="Areas\Sites\Scripts\inlineEdit\picker\headingPicker.css" />
+    <Content Include="Areas\Sites\Scripts\inlineEdit\picker\headingPicker.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\images\tb_back_color.png" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\images\tb_default_color.gif" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\picker\images\tb_font_color.png" />

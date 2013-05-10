@@ -474,35 +474,6 @@
     <Content Include="Areas\Sites\Styles\images\map-item-hover.png" />
     <Content Include="Areas\Sites\Styles\images\map-item.png" />
     <Content Include="Areas\Sites\Styles\sites.css" />
-    <Content Include="bin\CookComputing.XmlRpcV2.dll" />
-    <Content Include="bin\DiffPlex.dll" />
-    <Content Include="bin\HtmlAgilityPack.dll" />
-    <Content Include="bin\Ionic.Zip.Reduced.dll" />
-    <Content Include="bin\Kooboo.CMS.Account.dll" />
-    <Content Include="bin\Kooboo.CMS.Caching.dll" />
-    <Content Include="bin\Kooboo.CMS.Common.dll" />
-    <Content Include="bin\Kooboo.CMS.Common.Runtime.Dependency.Ninject.dll" />
-    <Content Include="bin\Kooboo.CMS.Content.dll" />
-    <Content Include="bin\Kooboo.CMS.Form.dll" />
-    <Content Include="bin\Kooboo.CMS.Search.dll" />
-    <Content Include="bin\Kooboo.CMS.Sites.dll" />
-    <Content Include="bin\Kooboo.CMS.Sites.TemplateEngines.Razor.dll" />
-    <Content Include="bin\Kooboo.CMS.Web.dll" />
-    <Content Include="bin\Kooboo.Connect.dll" />
-    <Content Include="bin\Kooboo.dll" />
-    <Content Include="bin\Lucene.Net.Contrib.Highlighter.dll" />
-    <Content Include="bin\Lucene.Net.dll" />
-    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
-    <Content Include="bin\Newtonsoft.Json.dll" />
-    <Content Include="bin\Ninject.dll" />
-    <Content Include="bin\NuGet.Core.dll" />
-    <Content Include="bin\System.Web.Helpers.dll" />
-    <Content Include="bin\System.Web.Mvc.dll" />
-    <Content Include="bin\System.Web.Razor.dll" />
-    <Content Include="bin\System.Web.WebPages.Administration.dll" />
-    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
-    <Content Include="bin\System.Web.WebPages.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.dll" />
     <Content Include="Cms_Data\Contents\SampleSite\Data\Article.xml" />
     <Content Include="Cms_Data\Contents\SampleSite\Data\Category.xml" />
     <Content Include="Cms_Data\Contents\SampleSite\Data\Comment.xml" />
@@ -561,6 +532,7 @@
     <Content Include="lib\System.Web.WebPages.Razor.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Empty\ModuleAction.cs" />
     <Compile Include="Areas\Empty\ModuleAreaRegistration.cs" />
     <Compile Include="Areas\SampleModule\AdminControllerBase.cs" />
     <Compile Include="Areas\SampleModule\Controllers\AdminController.cs" />
@@ -570,6 +542,7 @@
     <Compile Include="Areas\SampleModule\Models\EditGridActionItemColumn.cs" />
     <Compile Include="Areas\SampleModule\Models\ModuleInfo_Metadata.cs" />
     <Compile Include="Areas\SampleModule\Models\News.cs" />
+    <Compile Include="Areas\SampleModule\ModuleAction.cs" />
     <Compile Include="Areas\SampleModule\ModuleAreaRegistration.cs" />
     <Compile Include="Areas\SampleModule\Repositories\IRepository.cs" />
     <Compile Include="Areas\SampleModule\Repositories\NewsRepository.cs" />
@@ -714,7 +687,6 @@
     <Content Include="Areas\Contents\Views\ContentType\_ContentType.cshtml" />
     <Content Include="Areas\Contents\Views\ContentType\_ContentType.Scripts.cshtml" />
     <Content Include="Areas\Contents\Views\ContentType\_EditColumn.cshtml" />
-    <Content Include="Areas\Contents\Views\ContentType\_Nav.cshtml" />
     <Content Include="Areas\Contents\Views\Home\Index.cshtml" />
     <Content Include="Areas\Contents\Views\MediaContent\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\MediaContent\EditInDialog.cshtml" />
@@ -811,7 +783,6 @@
     <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\QueryString.cshtml" />
     <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\Random.cshtml" />
     <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\UserAgent.cshtml" />
-    <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\ViewData.cshtml" />
     <Content Include="Areas\Sites\Views\ABRuleSetting\_RuleSetting.cshtml" />
     <Content Include="Areas\Sites\Views\ABRuleSetting\_RuleSetting.Scripts.cshtml" />
     <Content Include="Areas\Sites\Views\ABSiteSetting\Create.cshtml" />
@@ -867,6 +838,7 @@
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\CustomFields.cshtml" />
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\DataRules.cshtml" />
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\Layout.cshtml" />
+    <Content Include="Areas\Sites\Views\Page\EditorTemplates\Naviation_Order.cshtml" />
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\Navigation.cshtml" />
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\OutputCache.cshtml" />
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\PagePermission.cshtml" />
@@ -920,6 +892,7 @@
     <Content Include="Areas\Sites\Views\SubmissionSetting\Create.cshtml" />
     <Content Include="Areas\Sites\Views\SubmissionSetting\Edit.cshtml" />
     <Content Include="Areas\Sites\Views\SubmissionSetting\Index.cshtml" />
+    <Content Include="Areas\Sites\Views\SubmissionSetting\_Scripts.cshtml" />
     <Content Include="Areas\Sites\Views\System\Diagnosis.cshtml" />
     <Content Include="Areas\Sites\Views\UrlKeyMap\Create.cshtml" />
     <Content Include="Areas\Sites\Views\UrlKeyMap\Edit.cshtml" />

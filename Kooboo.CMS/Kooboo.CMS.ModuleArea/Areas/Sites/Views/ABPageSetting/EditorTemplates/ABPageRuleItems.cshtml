@@ -33,7 +33,16 @@
             <td></td>
         </tr>
     </tbody>
-
+    <tfoot>
+        <tr>
+            <td colspan="2">
+                @if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+                {
+                    <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
+                }
+            </td>
+        </tr>
+    </tfoot>
 </table>
 
 <script type="text/javascript">

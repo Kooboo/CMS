@@ -74,13 +74,15 @@
                 });
                 $selfTR.data('collapse', function () {
                     var childNode = $selfTR.data('childNode');
-
-                    if (childNode && childNode.hide) {
-                        if (childNode.data('collapse')) {
-                            childNode.data('collapse')();
+                    _.each($(childNode),function(node){
+                       var  $node =$(node);                      
+                        if ($node && $node.hide) {
+                            if ($node.data('collapse')) {
+                                $node.data('collapse')();
+                            }
+                            $node.hide();
                         }
-                        childNode.hide();
-                    }
+                    });
                     $selfTR.find('.expander').removeClass('active');
                 });
 

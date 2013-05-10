@@ -25,9 +25,9 @@
             <li data-bind="{attr:{id:'@koTemplateId'+'_li_' + $index()}}">
                 <div class="clearfix">
                     <span data-bind="text: $data.Name"></span>
-                    <a class="right" data-bind="click: $parent.removeItem">@Html.IconImage("minus small")</a>
-                    <a class="o-icon edit right" data-bind="click:$parent.editItem"></a>
-                    <a class="o-icon csharp right" data-bind="click:$parent.insertCodeSnippet"></a>
+                    <a class="action" data-bind="click: $parent.removeItem">@Html.IconImage("minus small")</a>
+                    <a class="action" data-bind="click:$parent.editItem">@Html.IconImage("edit small")</a>
+                    <a class="action" data-bind="click:$parent.insertCodeSnippet">@Html.IconImage("csharp")</a>
 
                     <input type="hidden" data-bind="value: $data.Name, attr: {name: $parent.getPrefixFieldName($index()) + 'Name'}" />
                     <input type="hidden" data-bind="value: $data.DataType, attr: {name: $parent.getPrefixFieldName($index()) + 'DataType'}" />
@@ -58,7 +58,7 @@
                         @("DataType".Localize())</label>
                 </th>
                 <td>
-                    <select class="medium" data-bind="value:DataType">
+                    <select name="DataType" class="medium" data-bind="value:DataType">
                         @foreach (var d in Enum.GetNames(typeof(Kooboo.CMS.Common.DataType)))
                         { 
                             <option value="@((int)Enum.Parse(typeof(Kooboo.CMS.Common.DataType), d))">
@@ -73,7 +73,7 @@
                         @("Default Value".Localize())</label>
                 </th>
                 <td>
-                    <input type="text" class="medium" data-bind="value:Value" />
+                    <input name="Value" type="text" class="medium" data-bind="value:Value" />
                 </td>
             </tr>
             <tr class="value-input-bool">
@@ -209,7 +209,6 @@
             }
             ko.applyBindings(new ParamtersViewModel(), $('#@koTemplateId')[0]);
         })();
-
         editTemplate.find('[name=DataType]').change(function (element) {
             syncEditorForDataType();
         });

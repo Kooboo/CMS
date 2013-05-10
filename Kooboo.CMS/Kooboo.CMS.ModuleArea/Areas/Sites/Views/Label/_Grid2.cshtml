@@ -24,7 +24,7 @@
         <table>
             <tbody>
                 @{
-                    var categoryList = ((IEnumerable<ElementCategory>)ViewData["CategoryList"]).ToArray();
+                    var categoryList = ViewData["CategoryList"] == null ? new ElementCategory[0] : ((IEnumerable<ElementCategory>)ViewData["CategoryList"]).ToArray();
                     var items = Model.GetItems().ToArray();
                 }
                 @if (categoryList.Length == 0 && items.Length == 0)

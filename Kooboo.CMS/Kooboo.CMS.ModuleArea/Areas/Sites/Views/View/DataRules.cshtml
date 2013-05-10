@@ -13,10 +13,10 @@
             <ul data-bind="foreach:$root.DataRuleList">
                 <li class="clearfix">
                     <span class="left" data-bind="text:DataName"></span>
-                    <a  class="action" data-bind="click:$root.DeleteDataRule" title="Remove">@Html.IconImage("minus small")</a>
-                    <a  class="action" data-bind="click:$root.EditDataRule" title="Edit">@Html.IconImage("edit small")</a>
-                    <a  class="action" data-bind="click:$root.InsertCodeSnippet" title="Html code">@Html.IconImage("csharp")</a>
-                    <a  class="action" data-bind="click:$root.InsertCodeSnippet" title="Html With Inline editing">@Html.IconImage("inline-edit")</a>
+                    <a  class="action" data-bind="click:$root.DeleteDataRule" title="@("Remove".Localize())">@Html.IconImage("minus small")</a>
+                    <a  class="action" data-bind="click:$root.EditDataRule" title="@("Edit".Localize())">@Html.IconImage("edit small")</a>
+                    <a  class="action" data-bind="click:$root.InsertCodeSnippet" title="@("Html code".Localize())">@Html.IconImage("csharp")</a>
+                    <a  class="action" data-bind="click:$root.InsertCodeSnippet" title="@("Html With Inline editing".Localize())">@Html.IconImage("inline-edit")</a>
                 </li>
             </ul>
         </div>

@@ -230,12 +230,42 @@ namespace Kooboo.CMS.Sites.Services
                 list.Add(siteName);
                 ModuleData.SaveSitesInModule(moduleName, list);
             }
+            try
+            {
+                var moduleAction = ResolveModuleAction(moduleName);
+                if (moduleAction != null)
+                {
+                    moduleAction.OnIncluded(new Site(siteName));
+                }
+            }
+            catch (Exception e)
+            {
+                Kooboo.HealthMonitoring.Log.LogException(e);
+            }           
+        }
+        protected virtual IModuleAction ResolveModuleAction(string moduleName)
+        {
+            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleAction>(moduleName);
         }
         public virtual void RemoveSiteFromModule(string moduleName, string siteName)
         {
             var list = ModuleData.GetSitesInModule(moduleName);
             list.RemoveAll(s => s.EqualsOrNullEmpty(siteName, StringComparison.OrdinalIgnoreCase));
             ModuleData.SaveSitesInModule(moduleName, list);
+
+            try
+            {
+                var moduleAction = ResolveModuleAction(moduleName);
+                if (moduleAction != null)
+                {
+                    moduleAction.OnExcluded(new Site(siteName));
+                }
+            }
+            catch (Exception e)
+            {
+                Kooboo.HealthMonitoring.Log.LogException(e);
+            }
+            
         }
         public virtual IEnumerable<string> AllSitesInModule(string moduleName)
         {

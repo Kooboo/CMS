@@ -90,6 +90,7 @@
     <Compile Include="Extension\IHttpMethodPagePlugin.cs" />
     <Compile Include="Extension\IPageRequestModule.cs" />
     <Compile Include="Extension\ISubmissionPlugin.cs" />
+    <Compile Include="Extension\ModuleArea\IModuleAction.cs" />
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />
     <Compile Include="Extension\PluginHelper.cs" />
     <Compile Include="Models\HtmlMeta.cs" />

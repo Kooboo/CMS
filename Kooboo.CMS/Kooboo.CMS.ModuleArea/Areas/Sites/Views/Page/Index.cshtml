@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Pages".Localize();
     Layout = "~/Views/Shared/Site.cshtml";
+    var sortable = string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("sortField"));
 }
 @section Panel{
     <ul class="panel">
@@ -52,6 +53,9 @@
 </div>
 @Html.GridForModel2()
 <script>
+    @if (sortable)
+    {
+        <text>
     $(function () {
         var fixHelper = function (e, ui) {
             ui.children().each(function () {
@@ -84,4 +88,12 @@
             }
         }).disableSelection();
     });
+    </text>
+    }
+    else
+    {
+        <text>    
+    $('img.drag').remove();
+    </text>
+    }
 </script>

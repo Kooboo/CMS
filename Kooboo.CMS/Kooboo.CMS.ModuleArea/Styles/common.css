@@ -3172,6 +3172,41 @@ ul.site-tree {
 	margin-top: 111px;
 }
 
+/* sortpages 
+----------------------------------------------------------*/
+.sortpages-header {
+    font-weight: normal;
+    line-height: 10px;
+}
+.sortpages {
+    margin: 20px 0 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 300px;
+}
+.sortpages li.current {
+    background: #e7e7e7;
+    color: #000;
+}
+.sortpages li{
+    cursor: pointer;
+}
+.sortpages li:hover{
+    background: #0078b1;
+    color: #fff;
+}
+.sortpages li:active{
+    cursor: move;
+    background: #5ea8de;
+}
+.sortpages img.icon {
+    display: inline;
+    vertical-align: middle;
+    margin: 0 10px 0 5px;
+    position: relative;
+    top: -2px;
+}
+
 /* =4 Sidebar
 ---------------------------------------------------------------------------------------------------------------------*/
 #sidebar {

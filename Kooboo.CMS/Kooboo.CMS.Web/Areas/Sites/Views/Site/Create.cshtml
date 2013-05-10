@@ -25,7 +25,8 @@
         <table>
             <tbody>
                 <tr>
-                    <th>@("Template".Localize())</th>
+                    <th>@("Template".Localize()) (<a target="_blank" href="@Url.Action("Index", "SiteTemplate", ViewContext.RequestContext.AllRouteValues())">@Html.Raw("Manage".Localize())</a>)
+                    </th>
                     <td>
                         <ul class="site-list">
                             @{
@@ -52,7 +53,7 @@
                         @Html.ValidationMessageForInput("template")
                     </td>
                 </tr>
-                @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })               
+                @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.Repository, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.Culture, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.TimeZoneId, new { HtmlAttributes = new { @class = "medium" } })
@@ -63,7 +64,7 @@
 <script>
     $(function () {
         var $siteList = $('.site-list');
-        var $extend = $siteList.find('.extend a');     
+        var $extend = $siteList.find('.extend a');
         $extend.click(function () {
             var $self = $(this);
             $self.parent().toggleClass('active');

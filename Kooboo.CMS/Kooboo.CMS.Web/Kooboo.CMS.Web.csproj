@@ -418,6 +418,7 @@
     <Content Include="Areas\Sites\Menu.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Areas\Sites\Scripts\extension\jquery.innerLineEditor.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\anchor\anchor.css" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\anchor\anchor.js" />
     <Content Include="Areas\Sites\Scripts\inlineEdit\anchor\anchorFix.js" />
@@ -530,6 +531,7 @@
     <Content Include="Areas\Sites\Scripts\pageDesign\anchor\images\add_html.png" />
     <Content Include="Areas\Sites\Scripts\pageDesign\anchor\images\add_htmlBlock.png" />
     <Content Include="Areas\Sites\Scripts\pageDesign\anchor\images\add_module.gif" />
+    <Content Include="Areas\Sites\Scripts\pageDesign\anchor\images\add_proxy.png" />
     <Content Include="Areas\Sites\Scripts\pageDesign\anchor\images\add_view.png" />
     <Content Include="Areas\Sites\Scripts\pageDesign\anchor\images\menu_bg.gif" />
     <Content Include="Areas\Sites\Scripts\pageDesign\anchor\images\menu_split.gif" />
@@ -547,6 +549,7 @@
     <Content Include="Areas\Sites\Scripts\pageDesign\design\images\c_up.gif" />
     <Content Include="Areas\Sites\Scripts\pageDesign\design\images\drag.png" />
     <Content Include="Areas\Sites\Scripts\pageDesign\design\images\watermark.png" />
+    <Content Include="Areas\Sites\Scripts\pageDesign\design\images\watermark.psd" />
     <Content Include="Areas\Sites\Scripts\pageDesign\index.css" />
     <Content Include="Areas\Sites\Scripts\pageDesign\index.js" />
     <Content Include="Areas\Sites\Scripts\pageDesign\nest.js" />
@@ -601,6 +604,16 @@
     <Content Include="Areas\Sites\Scripts\visualStyle\utilities.js" />
     <Content Include="Areas\Sites\Scripts\visualStyle\visualStyle.css" />
     <Content Include="Areas\Sites\Scripts\visualStyle\visualStyle.js" />
+    <Content Include="Areas\Sites\Styles\images\arrow-down.png" />
+    <Content Include="Areas\Sites\Styles\images\arrow-right.png" />
+    <Content Include="Areas\Sites\Styles\images\arrow-up.png" />
+    <Content Include="Areas\Sites\Styles\images\arrow-white-up.png" />
+    <Content Include="Areas\Sites\Styles\images\arrow-white.png" />
+    <Content Include="Areas\Sites\Styles\images\arrow.png" />
+    <Content Include="Areas\Sites\Styles\images\map-item-dark.png" />
+    <Content Include="Areas\Sites\Styles\images\map-item-hover.png" />
+    <Content Include="Areas\Sites\Styles\images\map-item.png" />
+    <Content Include="Areas\Sites\Styles\sites.css" />
     <Content Include="Images\Default.png" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\loading.gif" />
@@ -1150,15 +1163,6 @@
     <Content Include="Areas\Sites\CodeSnippets\WebForm\MultiFilesField.txt" />
     <Content Include="Areas\Sites\CodeSnippets\WebForm\QueryString.txt" />
     <Content Include="Areas\Sites\CodeSnippets\WebForm\RenderHtmlBlock.txt" />
-    <Content Include="Areas\Sites\Styles\images\arrow-down.png" />
-    <Content Include="Areas\Sites\Styles\images\arrow-right.png" />
-    <Content Include="Areas\Sites\Styles\images\arrow-up.png" />
-    <Content Include="Areas\Sites\Styles\images\arrow-white-up.png" />
-    <Content Include="Areas\Sites\Styles\images\arrow-white.png" />
-    <Content Include="Areas\Sites\Styles\images\arrow.png" />
-    <Content Include="Areas\Sites\Styles\images\map-item-dark.png" />
-    <Content Include="Areas\Sites\Styles\images\map-item-hover.png" />
-    <Content Include="Areas\Sites\Styles\images\map-item.png" />
     <Content Include="Views\Shared\_Sidebar.cshtml" />
     <Content Include="Views\Shared\_SitesNavTree.cshtml" />
     <Content Include="Areas\Account\Views\Users\ResetPassword.cshtml" />
@@ -1880,8 +1884,6 @@
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\tiny_mce_extension.js" />
     <Content Include="Scripts\jquery.urldecoder.js" />
-    <Content Include="Areas\Sites\Scripts\extension\jquery.innerLineEditor.js" />
-    <Content Include="Areas\Sites\Styles\sites.css" />
     <Content Include="Images\logo.png" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.filestyle.js" />
@@ -2068,7 +2070,6 @@
     <Content Include="Areas\Contents\Views\MediaContent\Html5Uploader.cshtml" />
     <Content Include="Areas\Contents\Views\MediaContent\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\_Grid.Scripts.cshtml" />
-    <Content Include="Areas\Sites\Scripts\pageDesign\design\images\watermark.psd" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />

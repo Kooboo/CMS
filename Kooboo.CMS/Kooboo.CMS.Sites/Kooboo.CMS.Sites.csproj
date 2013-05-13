@@ -88,6 +88,7 @@
     <Compile Include="Controllers\SubmissionController.cs" />
     <Compile Include="Extension\EmailPlugin.cs" />
     <Compile Include="Extension\IHttpMethodPagePlugin.cs" />
+    <Compile Include="Extension\ICommonPagePlugin.cs" />
     <Compile Include="Extension\IPageRequestModule.cs" />
     <Compile Include="Extension\ISubmissionPlugin.cs" />
     <Compile Include="Extension\ModuleArea\IModuleAction.cs" />

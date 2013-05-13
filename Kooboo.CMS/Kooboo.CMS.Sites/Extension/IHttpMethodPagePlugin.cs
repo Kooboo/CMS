@@ -16,7 +16,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.Extension
 {
-    public interface IHttpMethodPagePlugin
+    public interface IHttpMethodPagePlugin : ICommonPagePlugin
     {
         /// <summary>
         /// Write the page plug-in code when the page doing the Get request.

@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
         public IEnumerable<System.Web.Mvc.SelectListItem> GetSelectListItems(RequestContext requestContext, string filter)
         {
             var site = Site.Current;
-            var types = ServiceFactory.GetService<AssemblyManager>().GetTypes(site, typeof(IPagePlugin));
+            var types = ServiceFactory.GetService<AssemblyManager>().GetTypes(site, typeof(ICommonPagePlugin));
             return types.Select(o => new SelectListItem { Text = o.Name, Value = o.AssemblyQualifiedNameWithoutVersion() });
         }
     }

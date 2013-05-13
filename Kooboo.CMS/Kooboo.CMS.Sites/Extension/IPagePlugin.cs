@@ -17,7 +17,7 @@ using System.Web;
 
 namespace Kooboo.CMS.Sites.Extension
 {
-    public interface IPagePlugin
+    public interface IPagePlugin : ICommonPagePlugin
     {
         /// <summary>
         /// Executes the specified page view context.

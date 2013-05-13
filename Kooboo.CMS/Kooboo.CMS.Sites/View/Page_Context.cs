@@ -308,8 +308,9 @@ namespace Kooboo.CMS.Sites.View
                 return null;
             }
             ActionResult result = null;
-            var plugin = (IPagePlugin)Kooboo.TypeActivator.CreateInstance(type);
+            var plugin = (ICommonPagePlugin)Kooboo.TypeActivator.CreateInstance(type);
             var httpMethodPlugin = plugin as IHttpMethodPagePlugin;
+            var pagePlugin = plugin as IPagePlugin;
             switch (httpMethod)
             {
                 case "POST":
@@ -317,9 +318,9 @@ namespace Kooboo.CMS.Sites.View
                     {
                         result = httpMethodPlugin.HttpPost(this, positionContext);
                     }
-                    if (result == null)
+                    if (result == null && pagePlugin != null)
                     {
-                        result = plugin.Execute(this, positionContext);
+                        result = pagePlugin.Execute(this, positionContext);
                     }
                     break;
                 case "GET":
@@ -327,13 +328,16 @@ namespace Kooboo.CMS.Sites.View
                     {
                         result = httpMethodPlugin.HttpGet(this, positionContext);
                     }
-                    if (result == null)
+                    if (result == null && pagePlugin != null)
                     {
-                        result = plugin.Execute(this, positionContext);
+                        result = pagePlugin.Execute(this, positionContext);
                     }
                     break;
                 default:
-                    result = plugin.Execute(this, positionContext);
+                    if (pagePlugin != null)
+                    {
+                        result = pagePlugin.Execute(this, positionContext);
+                    }
                     break;
             }
             return result;

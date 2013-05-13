@@ -23,7 +23,7 @@ using System.Text.RegularExpressions;
 namespace Kooboo.CMS.Content.Persistence.Default
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IRepositoryProvider))]
-    //[Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Repository>))]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Repository>))]
     public class RepositoryProvider : FileSystemProviderBase<Repository>, IRepositoryProvider
     {
         #region Static fields

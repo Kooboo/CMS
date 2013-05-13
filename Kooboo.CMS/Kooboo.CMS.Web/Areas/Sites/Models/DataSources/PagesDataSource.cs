@@ -20,17 +20,12 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
 {
     public class PagesDataSource : ISelectListDataSource
     {
-        #region inject Properties
-        [Kooboo.CMS.Common.Runtime.Dependency.Inject]
-        public PageManager PageManager { get; set; }
-        #endregion
-
-        #region Methods
+              #region Methods
         public IEnumerable<SelectListItem> GetSelectListItems(RequestContext requestContext, string filter = null)
         {
             List<SelectListItem> list = new List<SelectListItem>() { new SelectListItem() { } };
 
-            var rootPages = PageManager.All(Site.Current, null);
+            var rootPages = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<PageManager>().All(Site.Current, null);
 
             rootPages.ForEach((page, index) =>
             {

@@ -21,17 +21,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
 {
     public class ABRuleSettingDataSource : ISelectListDataSource
     {
-        #region Properties
-        [Inject]
-        public ABRuleSettingManager Manager { get; set; }
-        #endregion
 
         #region Methods
 
 
         public IEnumerable<System.Web.Mvc.SelectListItem> GetSelectListItems(System.Web.Routing.RequestContext requestContext, string filter = null)
         {
-            var list = Manager.All(Site.Current, "");
+            var list = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ABRuleSettingManager>().All(Site.Current, "");
             return list.Select(it => new SelectListItem() { Text = it.Name, Value = it.Name });
         }
         #endregion

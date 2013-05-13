@@ -21,11 +21,6 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
 {
     public class SitesDataSource : ISelectListDataSource
     {
-        #region Properties
-        [Inject]
-        public SiteManager SiteManager { get; set; }
-        #endregion
-
         #region Methods
 
         private static void CreateItem(SiteNode siteNode, RequestContext requestContext, List<SelectListItem> list)
@@ -47,7 +42,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
 
         public IEnumerable<System.Web.Mvc.SelectListItem> GetSelectListItems(System.Web.Routing.RequestContext requestContext, string filter = null)
         {
-            var sites = SiteManager.SiteTrees(requestContext.HttpContext.User.Identity.Name);
+            var sites = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<SiteManager>().SiteTrees(requestContext.HttpContext.User.Identity.Name);
             List<SelectListItem> list = new List<SelectListItem>();
             list.Add(new SelectListItem() { });
             foreach (var s in sites)

@@ -31,10 +31,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
         #endregion
 
         #region .ctor
-        IBaseDir baseDir;
-        public RepositoryProvider()
-            : this(Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>())
-        { }
+        IBaseDir baseDir;       
         public RepositoryProvider(IBaseDir baseDir)
         {
             this.baseDir = baseDir;

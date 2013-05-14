@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,12 @@ namespace Kooboo.CMS.Content.Persistence.Mysql
 {
     public class RepositoryProvider : Kooboo.CMS.Content.Persistence.Default.RepositoryProvider
     {
+        #region .ctor
+        public RepositoryProvider(IBaseDir baseDir)
+            : base(baseDir) { }
+
+        #endregion
+
         public override void Add(Models.Repository item)
         {
             base.Add(item);

@@ -177,7 +177,7 @@ namespace Kooboo.CMS.Form.Html
                                 s.EqualsOrNullEmpty(it.UUID, StringComparison.OrdinalIgnoreCase))).ToArray();}}
                         @if ({0}_values.Length > 0)
                         {{
-                            @string.Join("","", {0}_values.Select(it => it.GetSummary()))
+                            @(string.Join("","", {0}_values.Select(it => it.GetSummary())))
                         }}
                         else
                         {{
@@ -196,7 +196,7 @@ namespace Kooboo.CMS.Form.Html
                                 s.EqualsOrNullEmpty(it.Value, StringComparison.OrdinalIgnoreCase))).ToArray();}}
                         @if ({0}_values.Length > 0)
                         {{
-                            @string.Join("","", {0}_values.Select(it => it.Text))
+                            @(string.Join("","", {0}_values.Select(it => it.Text)))
                         }}
                         else
                         {{

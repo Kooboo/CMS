@@ -516,6 +516,7 @@
     <Compile Include="Areas\SampleModule\Controllers\NewsAdminController.cs" />
     <Compile Include="Areas\SampleModule\Controllers\NewsController.cs" />
     <Compile Include="Areas\SampleModule\Models\EditGridActionItemColumn.cs" />
+    <Compile Include="Areas\SampleModule\Models\InstallModel.cs" />
     <Compile Include="Areas\SampleModule\Models\ModuleInfo_Metadata.cs" />
     <Compile Include="Areas\SampleModule\Models\News.cs" />
     <Compile Include="Areas\SampleModule\ModuleAction.cs" />
@@ -611,7 +612,6 @@
     <Content Include="Areas\SampleModule\Sites.config" />
     <Content Include="Areas\SampleModule\Themes\Default\Theme.rule" />
     <Content Include="Areas\SampleModule\Views\Admin\EditorTemplates\Entry.cshtml" />
-    <Content Include="Areas\SampleModule\Views\Admin\EditorTemplates\ModuleSettings.cshtml" />
     <Content Include="Areas\SampleModule\Views\Admin\GenerateModuleInfo.cshtml" />
     <Content Include="Areas\SampleModule\Views\Admin\Index.cshtml" />
     <Content Include="Areas\SampleModule\Views\Admin\InitializeModule.cshtml" />
@@ -891,6 +891,8 @@
     <Content Include="Areas\Sites\Views\View\_Grid2.cshtml" />
     <Content Include="Areas\Sites\Views\Web.config" />
     <Content Include="Areas\Sites\WebResources.config" />
+    <Content Include="Areas\SampleModule\Views\Shared\_OnInstalling.cshtml" />
+    <Content Include="Areas\SampleModule\Views\Shared\_OnUninstalling.cshtml" />
     <None Include="Properties\PublishProfiles\Publish.pubxml" />
     <Content Include="lib\CookComputing.XmlRpcV2.dll" />
     <Content Include="lib\DiffPlex.dll" />

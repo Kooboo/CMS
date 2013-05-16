@@ -9,7 +9,7 @@
             <a href="@Url.Action("Install", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">
                 @Html.IconImage("add") @("Install".Localize())</a>
         </li>
-        <li><a href="@Url.Action("Uninstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single"  data-command-type="AjaxPost" data-confirm="@("Are you sure you want to uninstall this module?".Localize())">
+        <li><a href="@Url.Action("GoingToUninstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single"  data-command-type="Redirect">
             @Html.IconImage("delete") @("Uninstall".Localize())</a></li>
 
 

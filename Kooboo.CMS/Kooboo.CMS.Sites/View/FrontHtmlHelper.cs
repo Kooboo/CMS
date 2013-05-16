@@ -765,7 +765,7 @@ namespace Kooboo.CMS.Sites.View
                             }
                             else
                             {
-                                yield return this.Html.Script(this.PageContext.FrontUrl.
+                                yield return this.Html.Stylesheet(this.PageContext.FrontUrl.
                                     ModuleThemeUrl(moduleRequestContext.ModuleContext.ModuleName, moduleRequestContext.ModuleContext.ModuleSettings.ThemeName, baseUri)
                                     .ToString());
                             }

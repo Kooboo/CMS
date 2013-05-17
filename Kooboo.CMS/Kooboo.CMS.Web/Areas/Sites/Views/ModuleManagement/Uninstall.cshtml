@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Uninstall module".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="common-form">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+
+    @using (Html.BeginForm())
+    {               
+        <div class="block">
+            @Html.Raw("Click <b>Next</b> to remove module files.".Localize())
+        </div>
+    }
+
+</div>
+

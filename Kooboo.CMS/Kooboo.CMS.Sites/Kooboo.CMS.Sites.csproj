@@ -114,7 +114,7 @@
     <Compile Include="ABTest\ABPageTestResult.cs" />
     <Compile Include="ABTest\ABPageTestTrackingHelper.cs" />
     <Compile Include="ABTest\ISiteVisitRuleMatchedObserver.cs" />
-    <Compile Include="ABTest\IPageVisitRuleMatchedObserver.cs" />
+    <Compile Include="ABTest\IABPageMatchedObserver.cs" />
     <Compile Include="Web\OutputTextWriterWrapper.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\FrontControllerBase.cs" />

@@ -14,8 +14,8 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.ABTest
 {
-    [Dependency(typeof(IPageVisitRuleMatchedObserver), Key = "GoingPageObserver")]
-    public class ABPageTestMatchedObserver : IPageVisitRuleMatchedObserver
+    [Dependency(typeof(IABPageMatchedObserver), Key = "GoingPageObserver")]
+    public class ABPageTestMatchedObserver : IABPageMatchedObserver
     {
         public const string Track_CookieName = "A/B_TEST_TRACKING";
         public void OnMatched(PageMatchedContext matchedContext)

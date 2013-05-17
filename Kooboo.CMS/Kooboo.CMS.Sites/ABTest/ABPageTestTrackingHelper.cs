@@ -19,7 +19,7 @@ namespace Kooboo.CMS.Sites.ABTest
     {
         public static string ComposeTrackingToken(PageMatchedContext matchedContext)
         {
-            var trackingValue = string.Format("{0}||{1}", matchedContext.PageVisitRule.UUID, matchedContext.MatchedPage.FullName);
+            var trackingValue = string.Format("{0}||{1}", matchedContext.ABPageSetting.UUID, matchedContext.MatchedPage.FullName);
             var trackingToken = SecurityHelper.Encrypt(matchedContext.Site, trackingValue);
             return trackingToken;
         }

@@ -25,9 +25,9 @@ namespace Kooboo.CMS.Sites.Services
     {
         #region .ctor
         IABPageSettingProvider _provider;
-        IPageVisitRuleMatchedObserver[] _observers;
+        IABPageMatchedObserver[] _observers;
         ABPageTestResultManager _abPageTestResultManager;
-        public ABPageSettingManager(IABPageSettingProvider provider, IPageVisitRuleMatchedObserver[] observers, ABPageTestResultManager abPageTestResultManager)
+        public ABPageSettingManager(IABPageSettingProvider provider, IABPageMatchedObserver[] observers, ABPageTestResultManager abPageTestResultManager)
             : base(provider)
         {
             _provider = provider;
@@ -112,7 +112,7 @@ namespace Kooboo.CMS.Sites.Services
                         }
                     }
 
-                    OnRuleMatch(new PageMatchedContext() { HttpContext = httpContext, Site = site, RawPage = page, MatchedPage = matchedPage, PageVisitRule = visitRule, MatchedRuleItem = matchedRuleItem });
+                    OnRuleMatch(new PageMatchedContext() { HttpContext = httpContext, Site = site, RawPage = page, MatchedPage = matchedPage, ABPageSetting = visitRule, MatchedRuleItem = matchedRuleItem });
                 }
             }
             return matchedPage;
@@ -120,7 +120,7 @@ namespace Kooboo.CMS.Sites.Services
 
         protected virtual void OnRuleMatch(PageMatchedContext context)
         {
-            _abPageTestResultManager.IncreaseShowTime(context.Site, context.PageVisitRule.UUID, context.MatchedPage.FullName);
+            _abPageTestResultManager.IncreaseShowTime(context.Site, context.ABPageSetting.UUID, context.MatchedPage.FullName);
             if (this._observers != null)
             {
                 foreach (var item in this._observers)

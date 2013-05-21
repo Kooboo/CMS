@@ -75,6 +75,7 @@
     <Compile Include="..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
+    <Compile Include="ABTest\LanguageVisitRule.cs" />
     <Compile Include="AreaControllerBase.cs" />
     <Compile Include="Assemblies.cs" />
     <Compile Include="Caching\CacheExtensions.cs" />

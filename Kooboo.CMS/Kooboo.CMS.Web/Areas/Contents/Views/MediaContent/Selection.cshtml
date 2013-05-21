@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/Popup.cshtml";
 
-    ViewBag.Title = "Media content".Localize();
+    ViewBag.Title = "Media library".Localize();
 
     var routes = ViewContext.RequestContext.AllRouteValues();
 
@@ -93,8 +93,7 @@
                 <table>
                     <tbody>
                         <tr id="CreateFolderTemplate" class="hide">
-                            <td>
-
+                            <td></td>
                             <td>
                                 @using (Html.BeginForm(ViewContext.RequestContext.AllRouteValues().Merge("action", "CreateFolder").Merge("UUID", null).Merge("return", ViewContext.HttpContext.Request.RawUrl)))
                                 {
@@ -127,7 +126,7 @@
                             currentRoutes["folderName"] = folder.FullName;
                 
                             <tr class="foldertr">
-                                <td>
+                                <td class="checkbox">
                                     <input type="checkbox" disabled="disabled" /></td>
                                 <td>
                                     <a href="@this.Url.Action(action, currentRoutes)">@Html.IconImage("folder")@folder.Name</a>
@@ -136,7 +135,7 @@
                                     @Html.Raw("Folder".Localize())
                                 </td>
                                 <td class="date"></td>
-                                <td></td>
+                                <td class="size"></td>
                             </tr>
                         }
                         @if (Model != null && Model.Contents != null)

@@ -51,6 +51,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
 
         [UIHint("DropdownList")]
         [GridColumnAttribute(HeaderText = "Goal page", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 1)]
+        [DisplayName("Goal page")]
         [DataSource(typeof(PagesDataSource))]
         [Description("The destnation page to measure the result of individual pages that come from A/B test.")]
         public string ABTestGoalPage { get; set; }

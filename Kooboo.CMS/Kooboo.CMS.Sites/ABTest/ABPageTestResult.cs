@@ -32,7 +32,7 @@ namespace Kooboo.CMS.Sites.ABTest
         [DataMember]
         public string PageVisitRuleUUID { get { return ABPageUUID; } set { this.ABPageUUID = value; } }
         [DataMember]
-        public IList<ABPageTestHits> PageHits { get; set; }
+        public List<ABPageTestHits> PageHits { get; set; }
         [DataMember]
         public int TotalShowTimes { get; set; }
         [DataMember]

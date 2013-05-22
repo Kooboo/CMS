@@ -18,6 +18,8 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Account.Models;
 using Kooboo.Web.Mvc.Menu;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.Services
 {
@@ -25,13 +27,13 @@ namespace Kooboo.CMS.Sites.Services
     public class ModuleManager
     {
         #region Module Script & theme
-        private ModuleEntryPath GetThemesBasePath(string moduleName)
+        private ModuleItemPath GetThemesBasePath(string moduleName)
         {
-            return new ModuleEntryPath(moduleName, "Themes");
+            return new ModuleItemPath(moduleName, "Themes");
         }
-        private ModuleEntryPath GetThemePath(string moduleName, string themeName)
+        private ModuleItemPath GetThemePath(string moduleName, string themeName)
         {
-            return new ModuleEntryPath(GetThemesBasePath(moduleName), themeName);
+            return new ModuleItemPath(GetThemesBasePath(moduleName), themeName);
         }
         public virtual IEnumerable<string> AllThemes(string moduleName)
         {
@@ -44,27 +46,27 @@ namespace Kooboo.CMS.Sites.Services
                 }
             }
         }
-        public virtual IEnumerable<ModuleEntryPath> AllScripts(string moduleName)
+        public virtual IEnumerable<ModuleItemPath> AllScripts(string moduleName)
         {
-            ModuleEntryPath scriptsPath = new ModuleEntryPath(moduleName, "Scripts");
+            ModuleItemPath scriptsPath = new ModuleItemPath(moduleName, "Scripts");
             if (Directory.Exists(scriptsPath.PhysicalPath))
             {
                 foreach (var file in Directory.EnumerateFiles(scriptsPath.PhysicalPath, "*.js"))
                 {
-                    yield return new ModuleEntryPath(scriptsPath, Path.GetFileName(file));
+                    yield return new ModuleItemPath(scriptsPath, Path.GetFileName(file));
                 }
             }
         }
-        public virtual IEnumerable<ModuleEntryPath> AllThemeFiles(string moduleName, string themeName, out string themeRuleBody)
+        public virtual IEnumerable<ModuleItemPath> AllThemeFiles(string moduleName, string themeName, out string themeRuleBody)
         {
-            ModuleEntryPath themePath = GetThemePath(moduleName, themeName);
-            List<ModuleEntryPath> themeFiles = new List<ModuleEntryPath>();
+            ModuleItemPath themePath = GetThemePath(moduleName, themeName);
+            List<ModuleItemPath> themeFiles = new List<ModuleItemPath>();
             themeRuleBody = "";
             if (Directory.Exists(themePath.PhysicalPath))
             {
                 foreach (var file in Directory.EnumerateFiles(themePath.PhysicalPath, "*.css"))
                 {
-                    themeFiles.Add(new ModuleEntryPath(themePath, Path.GetFileName(file)));
+                    themeFiles.Add(new ModuleItemPath(themePath, Path.GetFileName(file)));
                 }
 
                 string themeBaseUrl = Kooboo.Web.Url.UrlUtility.ResolveUrl(themePath.VirtualPath);
@@ -74,13 +76,13 @@ namespace Kooboo.CMS.Sites.Services
 
                 return themeFiles.Where(it => !themeRuleFiles.Any(cf => cf.EqualsOrNullEmpty(it.EntryName, StringComparison.CurrentCultureIgnoreCase)));
             }
-            return new ModuleEntryPath[0];
+            return new ModuleItemPath[0];
 
         }
         private string ThemeRuleBody(string moduleName, string themeName)
         {
-            ModuleEntryPath themePath = GetThemePath(moduleName, themeName);
-            ModuleEntryPath themeRuleFile = new ModuleEntryPath(themePath, "Theme.rule");
+            ModuleItemPath themePath = GetThemePath(moduleName, themeName);
+            ModuleItemPath themeRuleFile = new ModuleItemPath(themePath, "Theme.rule");
             if (File.Exists(themeRuleFile.PhysicalPath))
             {
                 return File.ReadAllText(themeRuleFile.PhysicalPath);
@@ -91,52 +93,7 @@ namespace Kooboo.CMS.Sites.Services
 
         #region Management
 
-        //public bool Verify(string moduleName)
-        //{
-        //    if (!File.Exists(RouteTables.GetRoutesFilePath(moduleName).PhysicalPath))
-        //    {
-        //        return false;
-        //    }
-        //    if (!File.Exists(ModuleInfo.GetModuleInfoPath(moduleName).PhysicalPath))
-        //    {
-        //        return false;
-        //    }
-        //    return true;
-        //}
-        //public bool Verify(ZipFile zipFile)
-        //{
-        //    var moduleConfigEntry = zipFile[RouteTables.RouteFile];
-        //    var routesConfigEntry = zipFile[ModuleInfo.ModuleInfoFileName];
-        //    if (moduleConfigEntry == null || routesConfigEntry == null)
-        //    {
-        //        return false;
-        //    }
-        //    return true;
-        //}
-        //public void Upload(string moduleName, Stream zipStream, bool @override)
-        //{
-        //    if (!@override && All().Any(it => it.EqualsOrNullEmpty(moduleName, StringComparison.CurrentCultureIgnoreCase)))
-        //    {
-        //        throw new KoobooException(string.Format("The module '{0}' already exists.", moduleName));
-        //    }
-
-        //    ModulePath modulePath = new ModulePath(moduleName);
-        //    using (ZipFile zipFile = ZipFile.Read(zipStream))
-        //    {
-        //        if (!Verify(zipFile))
-        //        {
-        //            throw new KoobooException("The module is invalid.");
-        //        }
-        //        var webconfigEntry = zipFile["web.config"];
-        //        if (webconfigEntry != null)
-        //        {
-        //            zipFile.RemoveEntry(webconfigEntry);
-        //        }
-
-        //        zipFile.ExtractAll(modulePath.PhysicalPath, ExtractExistingFileAction.OverwriteSilently);
-        //    }
-        //}
-
+        #region All
         public virtual IEnumerable<string> All()
         {
             var baseDirectory = ModulePath.BaseDirectory;
@@ -146,7 +103,7 @@ namespace Kooboo.CMS.Sites.Services
                 {
                     var moduleName = dir.Name;
 
-                    var moduleConfigFile = new ModuleEntryPath(moduleName, ModuleInfo.ModuleInfoFileName);
+                    var moduleConfigFile = new ModuleItemPath(moduleName, ModuleInfo.ModuleInfoFileName);
 
                     if (File.Exists(moduleConfigFile.PhysicalPath))
                     {
@@ -155,7 +112,9 @@ namespace Kooboo.CMS.Sites.Services
                 }
             }
         }
+        #endregion
 
+        #region AllModuleInfo
         public virtual IEnumerable<ModuleInfo> AllModuleInfo()
         {
             foreach (var name in All())
@@ -163,22 +122,50 @@ namespace Kooboo.CMS.Sites.Services
                 yield return Get(name);
             }
         }
+        #endregion
 
+        #region Get
         public virtual ModuleInfo Get(string moduleName)
         {
             return ModuleInfo.Get(moduleName);
         }
+        #endregion
 
+        #region Install
         public virtual ModuleInfo Install(string moduleName, Stream moduleStream, ref StringBuilder log)
         {
             return ModuleInstaller.Install(moduleName, moduleStream, ref log);
         }
 
+        public virtual void OnInstalling(string moduleName, ControllerContext controllerContext)
+        {
+            var moduleAction = ResolveModuleAction(moduleName);
+
+            moduleAction.OnInstalling(controllerContext);
+        }
+        #endregion
+
+        #region Uninstall
         public virtual void Uninstall(string moduleName)
         {
             ModuleUninstaller.Uninstall(moduleName);
         }
 
+        public virtual void OnUnistalling(string moduleName, ControllerContext controllerContext)
+        {
+            var moduleAction = ResolveModuleAction(moduleName);
+
+            moduleAction.OnUninstalling(controllerContext);
+        }
+        #endregion
+
+        #endregion
+
+        #region ResolveModuleAction
+        protected virtual IModuleAction ResolveModuleAction(string moduleName)
+        {
+            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleAction>(moduleName);
+        }
         #endregion
 
         #region Site&Module relation
@@ -218,7 +205,7 @@ namespace Kooboo.CMS.Sites.Services
             }
             private static string GetSitesModuleRelationDataFile(string moduleName)
             {
-                ModuleEntryPath entryPath = new ModuleEntryPath(moduleName, "Sites.config");
+                ModuleItemPath entryPath = new ModuleItemPath(moduleName, "Sites.config");
                 return entryPath.PhysicalPath;
             }
         }
@@ -241,12 +228,9 @@ namespace Kooboo.CMS.Sites.Services
             catch (Exception e)
             {
                 Kooboo.HealthMonitoring.Log.LogException(e);
-            }           
+            }
         }
-        protected virtual IModuleAction ResolveModuleAction(string moduleName)
-        {
-            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleAction>(moduleName);
-        }
+
         public virtual void RemoveSiteFromModule(string moduleName, string siteName)
         {
             var list = ModuleData.GetSitesInModule(moduleName);
@@ -265,11 +249,11 @@ namespace Kooboo.CMS.Sites.Services
             {
                 Kooboo.HealthMonitoring.Log.LogException(e);
             }
-            
+
         }
         public virtual IEnumerable<string> AllSitesInModule(string moduleName)
         {
-            return ModuleData.GetSitesInModule(moduleName);
+            return ModuleData.GetSitesInModule(moduleName).Where(it => new Site(it).Exists());
         }
         public virtual bool SiteIsInModule(string moduleName, string siteName)
         {

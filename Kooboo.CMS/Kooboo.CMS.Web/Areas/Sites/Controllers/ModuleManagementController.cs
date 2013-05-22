@@ -69,34 +69,106 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     }
                     else
                     {
-                        data.RedirectUrl = @return;
+                        if (!string.IsNullOrEmpty(moduleInfo.InstallingTemplate))
+                        {
+                            data.RedirectUrl = Url.Action("OnInstalling", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleName));
+                        }
+                        else
+                        {
+                            data.RedirectUrl = @return;
+                        }
                     }
                 });
             }
 
             return Json(data);
         }
+
+        public virtual ActionResult OnInstalling(string moduleName)
+        {
+            ModuleInfo moduleInfo = ModuleInfo.Get(moduleName);
+            return View(moduleInfo);
+        }
+        [HttpPost]
+        public virtual ActionResult OnInstalling(string moduleName, FormCollection form)
+        {
+            var data = new JsonResultData(ModelState);
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    Manager.OnInstalling(moduleName, ControllerContext);
+                    resultData.RedirectUrl = Url.Action("InstallComplete", ControllerContext.RequestContext.AllRouteValues());
+                });
+            }
+
+            return Json(data);
+        }
+        public virtual ActionResult InstallComplete(string moduleName, string @return)
+        {
+            return View();
+        }
         #endregion
 
         #region Uninstall
+        public virtual ActionResult OnUninstalling(string uuid)
+        {
+            ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
+            return View(moduleInfo);
+        }
         [HttpPost]
-        public virtual ActionResult Uninstall(ModuleInfo[] model, string @return)
+        public virtual ActionResult OnUninstalling(string uuid, FormCollection form)
+        {
+            var data = new JsonResultData(ModelState);
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    Manager.OnUnistalling(uuid, ControllerContext);
+                    resultData.RedirectUrl = Url.Action("Uninstall", ControllerContext.RequestContext.AllRouteValues());
+                });
+            }
+
+            return Json(data);
+        }
+        public virtual ActionResult GoingToUninstall(string uuid)
+        {
+            ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
+
+            var sites = Manager.AllSitesInModule(uuid);
+            if (sites.Count() > 0)
+            {
+                return View();
+            }
+            if (!string.IsNullOrEmpty(moduleInfo.UninstallingTemplate))
+            {
+                return RedirectToAction("OnUninstalling", ControllerContext.RequestContext.AllRouteValues());
+            }
+            else
+            {
+                return RedirectToAction("Uninstall", ControllerContext.RequestContext.AllRouteValues());
+            }
+        }
+        public virtual ActionResult Uninstall(string uuid)
+        {
+            return View();
+        }
+        [HttpPost]
+        public virtual ActionResult Uninstall(string uuid, string @return)
         {
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
             {
-                foreach (var item in model)
+
+                if (!string.IsNullOrEmpty(uuid))
                 {
-                    if (!string.IsNullOrEmpty(item.ModuleName))
-                    {
-                        Manager.Uninstall(item.ModuleName);
-                    }
+                    Manager.Uninstall(uuid);
                 }
+
                 resultData.RedirectUrl = @return;
             });
             return Json(data);
         }
-        
         #endregion
 
         #region Relations

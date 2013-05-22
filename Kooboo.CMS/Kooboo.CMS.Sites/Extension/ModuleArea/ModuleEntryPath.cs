@@ -15,6 +15,7 @@ using Kooboo.Web.Url;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
+    [Obsolete("Use ModuleItemPath")]
     public class ModuleEntryPath : IPath
     {
         public ModuleEntryPath(string moduleName, string entryName)

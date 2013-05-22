@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Impossible to uninstall".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="common-form">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+    @(Html.Raw(string.Format("The module is being in used, <a href='{0}'>click here</a> to see the referencing.", Url.Action("Relations", ViewContext.RequestContext.AllRouteValues().Merge("title", "Show module relations".Localize())))))
+</div>
+

@@ -25,9 +25,9 @@ namespace Kooboo.CMS.Sites.Services
     {
         #region .ctor
         IABPageSettingProvider _provider;
-        IPageVisitRuleMatchedObserver[] _observers;
+        IABPageMatchedObserver[] _observers;
         ABPageTestResultManager _abPageTestResultManager;
-        public ABPageSettingManager(IABPageSettingProvider provider, IPageVisitRuleMatchedObserver[] observers, ABPageTestResultManager abPageTestResultManager)
+        public ABPageSettingManager(IABPageSettingProvider provider, IABPageMatchedObserver[] observers, ABPageTestResultManager abPageTestResultManager)
             : base(provider)
         {
             _provider = provider;
@@ -87,6 +87,16 @@ namespace Kooboo.CMS.Sites.Services
             var matchedPage = page;
             var ruleName = page.FullName;
 
+            string abpageRuleInCookie = null;
+            string abPageInCookie = null;
+
+            ABPageTestTrackingHelper.TryGetABTestPage(httpContext.Request, site, out abpageRuleInCookie, out abPageInCookie);
+            var matchedRuleInCookie = false;
+            if (!string.IsNullOrEmpty(abpageRuleInCookie))
+            {
+                matchedRuleInCookie = abpageRuleInCookie.EqualsOrNullEmpty(ruleName, StringComparison.OrdinalIgnoreCase);
+            }
+
             var visitRule = Get(site, ruleName);
             if (visitRule != null)
             {
@@ -96,23 +106,31 @@ namespace Kooboo.CMS.Sites.Services
                 {
                     foreach (var item in visitRule.Items)
                     {
-                        var ruleItem = ruleSetting.RuleItems.Where(it => it.Name.EqualsOrNullEmpty(item.RuleItemName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-                        if (ruleItem.IsMatch(httpContext.Request))
+                        var isMatched = false;
+                        if (matchedRuleInCookie && abPageInCookie.EqualsOrNullEmpty(item.PageName, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (!string.IsNullOrEmpty(item.PageName))
+                            isMatched = true;
+                        }
+                        else
+                        {
+                            var ruleItem = ruleSetting.RuleItems.Where(it => it.Name.EqualsOrNullEmpty(item.RuleItemName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                            isMatched = (ruleItem.IsMatch(httpContext.Request));
+                        }
+
+                        if (isMatched && !string.IsNullOrEmpty(item.PageName))
+                        {
+                            var rulePage = new Page(site, item.PageName).LastVersion().AsActual();
+                            if (rulePage != null)
                             {
-                                var rulePage = new Page(site, item.PageName).LastVersion().AsActual();
-                                if (rulePage != null)
-                                {
-                                    matchedPage = rulePage;
-                                    matchedRuleItem = item;
-                                    break;
-                                }
+                                matchedPage = rulePage;
+                                matchedRuleItem = item;
+                                break;
                             }
                         }
+
                     }
 
-                    OnRuleMatch(new PageMatchedContext() { HttpContext = httpContext, Site = site, RawPage = page, MatchedPage = matchedPage, PageVisitRule = visitRule, MatchedRuleItem = matchedRuleItem });
+                    OnRuleMatch(new PageMatchedContext() { HttpContext = httpContext, Site = site, RawPage = page, MatchedPage = matchedPage, ABPageSetting = visitRule, MatchedRuleItem = matchedRuleItem });
                 }
             }
             return matchedPage;
@@ -120,7 +138,7 @@ namespace Kooboo.CMS.Sites.Services
 
         protected virtual void OnRuleMatch(PageMatchedContext context)
         {
-            _abPageTestResultManager.IncreaseShowTime(context.Site, context.PageVisitRule.UUID, context.MatchedPage.FullName);
+            _abPageTestResultManager.IncreaseShowTime(context.Site, context.ABPageSetting.UUID, context.MatchedPage.FullName);
             if (this._observers != null)
             {
                 foreach (var item in this._observers)

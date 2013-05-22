@@ -29,25 +29,20 @@ namespace Kooboo.CMS.Sites.ABTest
         public override void OnResolvedPage(System.Web.Mvc.ControllerContext controllerContext, View.PageRequestContext pageRequestContext)
         {
 
-            var cookie = controllerContext.HttpContext.Request.Cookies[ABPageTestMatchedObserver.Track_CookieName];
-            if (cookie != null)
-            {
-                string pageVisitRuleName;
-                string matchedPage;
-                ABPageTestTrackingHelper.ParseTrackingToken(pageRequestContext.Site, cookie.Value, out pageVisitRuleName, out matchedPage);
+            string pageVisitRuleName;
+            string matchedPage;
+            ABPageTestTrackingHelper.TryGetABTestPage(controllerContext.HttpContext.Request, pageRequestContext.Site, out pageVisitRuleName, out matchedPage);
 
-                if (!string.IsNullOrEmpty(pageVisitRuleName) && !string.IsNullOrEmpty(matchedPage))
+            if (!string.IsNullOrEmpty(pageVisitRuleName) && !string.IsNullOrEmpty(matchedPage))
+            {
+                var pageVisitRule = _pageVisitRuleManager.Get(pageRequestContext.Site, pageVisitRuleName);
+                if (pageVisitRule != null && !string.IsNullOrEmpty(pageVisitRule.ABTestGoalPage))
                 {
-                    var pageVisitRule = _pageVisitRuleManager.Get(pageRequestContext.Site, pageVisitRuleName);
-                    if (pageVisitRule != null && !string.IsNullOrEmpty(pageVisitRule.ABTestGoalPage))
+                    if (pageVisitRule.ABTestGoalPage.EqualsOrNullEmpty(pageRequestContext.Page.FullName, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (pageVisitRule.ABTestGoalPage.EqualsOrNullEmpty(pageRequestContext.Page.FullName, StringComparison.OrdinalIgnoreCase))
-                        {
-                            _abPageTestResultManager.IncreaseHitTime(pageRequestContext.Site, pageVisitRuleName, matchedPage);
-                        }
+                        _abPageTestResultManager.IncreaseHitTime(pageRequestContext.Site, pageVisitRuleName, matchedPage);
                     }
                 }
-
             }
         }
     }

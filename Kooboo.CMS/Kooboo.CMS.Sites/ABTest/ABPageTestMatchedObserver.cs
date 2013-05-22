@@ -14,15 +14,12 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.ABTest
 {
-    [Dependency(typeof(IPageVisitRuleMatchedObserver), Key = "GoingPageObserver")]
-    public class ABPageTestMatchedObserver : IPageVisitRuleMatchedObserver
-    {
-        public const string Track_CookieName = "A/B_TEST_TRACKING";
+    [Dependency(typeof(IABPageMatchedObserver), Key = "GoingPageObserver")]
+    public class ABPageTestMatchedObserver : IABPageMatchedObserver
+    {     
         public void OnMatched(PageMatchedContext matchedContext)
         {
-            var trackingToken = ABPageTestTrackingHelper.ComposeTrackingToken(matchedContext);
-
-            matchedContext.HttpContext.Response.SetCookie(new System.Web.HttpCookie(Track_CookieName, trackingToken));
+            ABPageTestTrackingHelper.SetABTestPageCookie(matchedContext);
         }
     }
 }

@@ -75,6 +75,7 @@
     <Compile Include="..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
+    <Compile Include="ABTest\LanguageVisitRule.cs" />
     <Compile Include="AreaControllerBase.cs" />
     <Compile Include="Assemblies.cs" />
     <Compile Include="Caching\CacheExtensions.cs" />
@@ -114,7 +115,7 @@
     <Compile Include="ABTest\ABPageTestResult.cs" />
     <Compile Include="ABTest\ABPageTestTrackingHelper.cs" />
     <Compile Include="ABTest\ISiteVisitRuleMatchedObserver.cs" />
-    <Compile Include="ABTest\IPageVisitRuleMatchedObserver.cs" />
+    <Compile Include="ABTest\IABPageMatchedObserver.cs" />
     <Compile Include="Web\OutputTextWriterWrapper.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\FrontControllerBase.cs" />

@@ -23,9 +23,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     {
         [GridColumnAttribute(HeaderText = "Page name", GridColumnType = typeof(SortableGridColumn), Order = 1)]
         public string PageName { get; set; }
-        [GridColumnAttribute(HeaderText = "Show times", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(ABPageTestHitsReport_ShowTimes_GridItemColumn), Order = 1)]
+        [GridColumnAttribute(HeaderText = "Show times", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(ABPageTestHitsReport_ShowTimes_GridItemColumn), Order = 2)]
         public int ShowTimes { get; set; }
-        [GridColumnAttribute(HeaderText = "Hit times", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(ABPageTestHitsReport_HitTimes_GridItemColumn), Order = 1)]
+        [GridColumnAttribute(HeaderText = "Hit times", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(ABPageTestHitsReport_HitTimes_GridItemColumn), Order = 3)]
         public int HitTimes { get; set; }
 
         public double ShowRate { get; set; }

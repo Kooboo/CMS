@@ -2136,4 +2136,13 @@
   <data name="text panel" xml:space="preserve">
     <value>文字面板</value>
   </data>
+  <data name=" - Kooboo CMS" xml:space="preserve">
+    <value> - Kooboo CMS</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="Change language" xml:space="preserve">
+    <value>Change language</value>
+  </data>
 </root>

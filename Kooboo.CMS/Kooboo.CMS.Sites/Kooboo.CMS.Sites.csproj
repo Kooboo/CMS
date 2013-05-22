@@ -91,6 +91,7 @@
     <Compile Include="Extension\ICommonPagePlugin.cs" />
     <Compile Include="Extension\IPageRequestModule.cs" />
     <Compile Include="Extension\ISubmissionPlugin.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleItemPath.cs" />
     <Compile Include="Extension\ModuleArea\IModuleAction.cs" />
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />
     <Compile Include="Extension\PluginHelper.cs" />
@@ -151,7 +152,6 @@
     <Compile Include="Extension\ModuleArea\ModuleControllerActionInvoker.cs" />
     <Compile Include="Extension\ModuleArea\ModuleControllerBase.cs" />
     <Compile Include="Extension\ModuleArea\ModuleExecutor.cs" />
-    <Compile Include="Extension\ModuleArea\ModuleEntryPath.cs" />
     <Compile Include="Extension\ModuleArea\ModuleFormValueProvider.cs">
       <SubType>Code</SubType>
     </Compile>

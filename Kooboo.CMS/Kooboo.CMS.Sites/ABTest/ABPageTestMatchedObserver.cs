@@ -16,13 +16,10 @@ namespace Kooboo.CMS.Sites.ABTest
 {
     [Dependency(typeof(IABPageMatchedObserver), Key = "GoingPageObserver")]
     public class ABPageTestMatchedObserver : IABPageMatchedObserver
-    {
-        public const string Track_CookieName = "A/B_TEST_TRACKING";
+    {     
         public void OnMatched(PageMatchedContext matchedContext)
         {
-            var trackingToken = ABPageTestTrackingHelper.ComposeTrackingToken(matchedContext);
-
-            matchedContext.HttpContext.Response.SetCookie(new System.Web.HttpCookie(Track_CookieName, trackingToken));
+            ABPageTestTrackingHelper.SetABTestPageCookie(matchedContext);
         }
     }
 }

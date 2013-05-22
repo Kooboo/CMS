@@ -52,13 +52,7 @@
             var self = this;
             var sites = @Html.Raw(sitesJson);     
             var bindItem = function(item){
-                item.Sites = ko.computed(function() {                   
-                    return _.filter(sites,function(r){                       
-                        return (!_.any( self.data(),function(d){
-                            return r.Value == d.SiteName();
-                        }) || (r.Value == item.SiteName()));
-                    });
-                }, item);             
+                item.Sites = sites;      
             };
 
             self.data = ko.mapping.fromJS(@Html.Raw(modelJson));

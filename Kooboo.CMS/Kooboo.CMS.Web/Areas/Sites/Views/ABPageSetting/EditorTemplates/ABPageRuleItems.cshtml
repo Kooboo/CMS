@@ -51,13 +51,7 @@
             var self = this;
             var pages = @Html.Raw(pagesJson);           
             var bindItem = function(item){
-                item.Pages = ko.computed(function() {                   
-                    return _.filter(pages,function(r){                       
-                        return (!_.any( self.data(),function(d){
-                            return r.Value == d.PageName();
-                        }) || (r.Value == item.PageName()));
-                    });
-                }, item);               
+                item.Pages = pages;              
             };
 
             self.data = ko.mapping.fromJS(@Html.Raw(modelJson));

@@ -162,6 +162,12 @@ img.icon.cancel {
 	width: 26px;
 }
 
+img.icon.next {
+	background-position: -234px -52px;
+	height: 26px;
+	width: 26px;
+}
+
 img.icon.add-folder {
 	background-position: -182px 0;
 	height: 26px;
@@ -2479,10 +2485,6 @@ body #diffBox .diffTable td.lineNumber {
 	font-weight: normal;
 	line-height: 1;
 	margin-bottom: 26px;
-}
-
-#main a.title-tip {
-	font-size: 12px;
 }
 /* Wrap */
 #main-container > .wrap {

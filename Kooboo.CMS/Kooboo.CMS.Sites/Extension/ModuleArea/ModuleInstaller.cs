@@ -65,7 +65,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         private static void CopyAssembies(ModuleInfo moduleInfo, ref StringBuilder log)
         {
             ModulePath modulePath = new ModulePath(moduleInfo.ModuleName);
-            ModuleEntryPath moduleBinPath = new ModuleEntryPath(moduleInfo.ModuleName, "Bin");
+            ModuleItemPath moduleBinPath = new ModuleItemPath(moduleInfo.ModuleName, "Bin");
             var binPath = Settings.BinDirectory;
             if (Directory.Exists(moduleBinPath.PhysicalPath))
             {

@@ -202,6 +202,7 @@
     <Compile Include="Areas\Sites\Models\Grid2\Page_Navigation_ShowInMenu_SortableGridColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Page_Navigation_ShowInMenu_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\HitReport_GridItemColumn.cs" />
+    <Compile Include="Areas\Sites\Models\LanguageVisitRule_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ProxyPosition_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\RandomVisitRule_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ABPageSetting_Metadata.cs" />
@@ -2009,7 +2010,6 @@
     <Content Include="Areas\Sites\Views\Module\Index.cshtml" />
     <Content Include="Areas\Sites\Views\ModuleManagement\Index.cshtml" />
     <Content Include="Areas\Sites\Views\ModuleManagement\Install.cshtml" />
-    <Content Include="Areas\Sites\Views\ModuleManagement\UninstallModule.cshtml" />
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\DataRules.cshtml" />
     <Content Include="Areas\Sites\Views\Shared\EditorTemplates\HtmlMeta.cshtml" />
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\Layout.cshtml" />
@@ -2402,6 +2402,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\Naviation_Order.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\OnInstalling.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\InstallComplete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\OnUninstalling.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\Uninstall.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\GoingToUninstall.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\Language.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

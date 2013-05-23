@@ -31,7 +31,7 @@ namespace Kooboo.CMS.Sites.ABTest
             get
             {
                 var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
-                return UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "VisitRuleSettingTemplates", RuleType + ".cshtml");
+                return UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "ABRuleTemplates", RuleType + ".cshtml");
             }
             set { }
         }

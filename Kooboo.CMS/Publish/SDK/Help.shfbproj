@@ -29,9 +29,9 @@
       <DocumentationSource sourceFile="..\..\Kooboo.CMS.Web\Bin\Kooboo.xml" />
     </DocumentationSources>
     <HelpTitle>Kooboo CMS API Document</HelpTitle>
-    <HelpFileVersion>4.0.2.227</HelpFileVersion>
+    <HelpFileVersion>4.1.0.%2a</HelpFileVersion>
     <SandcastlePath>D:\Program Files\Sandcastle\</SandcastlePath>
-    <FrameworkVersion>.NET Framework 4.5</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in
        order for Visual Studio to perform the build.  The others are optional

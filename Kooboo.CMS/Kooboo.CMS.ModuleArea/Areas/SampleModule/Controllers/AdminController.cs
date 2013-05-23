@@ -17,6 +17,7 @@ using Kooboo.CMS.ModuleArea.Models;
 using Kooboo.Globalization;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Common;
+using Kooboo.Web.Url;
 namespace Kooboo.CMS.ModuleArea.Controllers
 {
     public class AdminController : AdminControllerBase
@@ -57,8 +58,10 @@ namespace Kooboo.CMS.ModuleArea.Controllers
         {
             ModuleInfo moduleInfo = new ModuleInfo();
             moduleInfo.ModuleName = "SampleModule";
-            moduleInfo.Version = "4.0.0.0";
-            moduleInfo.KoobooCMSVersion = "4.0.0.0";
+            moduleInfo.Version = "4.2.0.0";
+            moduleInfo.KoobooCMSVersion = "4.2.0.0";
+            moduleInfo.InstallingTemplate = UrlUtility.Combine("~/", "Areas", SampleAreaRegistration.ModuleName, "Views", "Shared", "_OnInstalling.cshtml");
+            moduleInfo.UninstallingTemplate = UrlUtility.Combine("~/", "Areas", SampleAreaRegistration.ModuleName, "Views", "Shared", "_OnUninstalling.cshtml");
             moduleInfo.DefaultSettings = new ModuleSettings()
             {
                 ThemeName = "Default",
@@ -78,7 +81,7 @@ namespace Kooboo.CMS.ModuleArea.Controllers
             moduleInfo.DefaultSettings.CustomSettings["Setting1"] = "Value1";
             ModuleInfo.Save(moduleInfo);
 
-            return View();
+            return Content("The module configuration file has been generated.");
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     public class ABPageTestResult_Metadata
     {
         [GridColumnAttribute(HeaderText = "A/B test name", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(HitReport_GridItemColumn), Order = 1)]
-        public string PageVisitRuleUUID { get; set; }
+        public string ABPageUUID { get; set; }
         public IList<ABPageTestHitsReport> PageHits { get; set; }
         [GridColumnAttribute(HeaderText = "Show times", GridColumnType = typeof(SortableGridColumn), Order = 2)]
         public int TotalShowTimes { get; set; }

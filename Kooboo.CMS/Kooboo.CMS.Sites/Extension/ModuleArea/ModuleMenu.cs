@@ -118,7 +118,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                 {
                     if (!MenuFactory.ContainsAreaMenu(areaName))
                     {
-                        ModuleEntryPath moduleMenuFile = new ModuleEntryPath(moduleName, "menu.config");
+                        ModuleItemPath moduleMenuFile = new ModuleItemPath(moduleName, "menu.config");
                         MenuFactory.RegisterAreaMenu(areaName, moduleMenuFile.PhysicalPath);
                     }
                 }

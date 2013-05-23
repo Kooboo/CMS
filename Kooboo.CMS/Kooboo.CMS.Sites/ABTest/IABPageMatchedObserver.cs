@@ -21,10 +21,10 @@ namespace Kooboo.CMS.Sites.ABTest
         public Site Site { get; set; }
         public Page RawPage { get; set; }
         public Page MatchedPage { get; set; }
-        public ABPageSetting PageVisitRule { get; set; }
+        public ABPageSetting ABPageSetting { get; set; }
         public ABPageRuleItem MatchedRuleItem { get; set; }
     }
-    public interface IPageVisitRuleMatchedObserver
+    public interface IABPageMatchedObserver
     {
         void OnMatched(PageMatchedContext matchedContext);
     }

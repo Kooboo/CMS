@@ -348,7 +348,20 @@ namespace Kooboo.CMS.Sites.Services
                 (EngineContext.Current).ContainerManager.AddComponentInstance<HeaderBackgroundManager>(value);
             }
         }
-        public static ABPageSettingManager PageVisitRuleManager
+        
+        public static SubmissionSettingManager SubmissionSettingManager
+        {
+            get
+            {
+                return EngineContext.Current.Resolve<SubmissionSettingManager>();
+            }
+            set
+            {
+                (EngineContext.Current).ContainerManager.AddComponentInstance<SubmissionSettingManager>(value);
+            }
+        }
+
+        public static ABPageSettingManager ABPageSettingManager
         {
             get
             {
@@ -357,6 +370,42 @@ namespace Kooboo.CMS.Sites.Services
             set
             {
                 (EngineContext.Current).ContainerManager.AddComponentInstance<ABPageSettingManager>(value);
+            }
+        }
+
+        public static ABRuleSettingManager ABRuleSettingManager
+        {
+            get
+            {
+                return EngineContext.Current.Resolve<ABRuleSettingManager>();
+            }
+            set
+            {
+                (EngineContext.Current).ContainerManager.AddComponentInstance<ABRuleSettingManager>(value);
+            }
+        }
+
+        public static ABSiteSettingManager ABSiteSettingManager
+        {
+            get
+            {
+                return EngineContext.Current.Resolve<ABSiteSettingManager>();
+            }
+            set
+            {
+                (EngineContext.Current).ContainerManager.AddComponentInstance<ABSiteSettingManager>(value);
+            }
+        }
+
+        public static ABPageTestResultManager ABPageTestResultManager
+        {
+            get
+            {
+                return EngineContext.Current.Resolve<ABPageTestResultManager>();
+            }
+            set
+            {
+                (EngineContext.Current).ContainerManager.AddComponentInstance<ABPageTestResultManager>(value);
             }
         }
         public static T GetService<T>()

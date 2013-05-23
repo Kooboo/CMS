@@ -70,7 +70,7 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
             {
                 requestUrl = pageUrl.Substring(rawPage.VirtualPath.TrimStart('/').Length).TrimStart('/');
             }
-            var page = Services.ServiceFactory.PageVisitRuleManager.MatchRule(frontController.Site, rawPage, controllerContext.HttpContext);
+            var page = Services.ServiceFactory.ABPageSettingManager.MatchRule(frontController.Site, rawPage, controllerContext.HttpContext);
 
 #if Page_Trace
             stopwatch.Stop();

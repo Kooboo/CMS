@@ -30,6 +30,7 @@
                 </li>
             </ul>
             <a class="action add" data-bind="click:$data.addFile">@@Html.IconImage("plus small")</a>
+            @Html.Raw(FormHelper.Tooltip(Model.Tooltip))
         </div>
         <script>
             $(function () {

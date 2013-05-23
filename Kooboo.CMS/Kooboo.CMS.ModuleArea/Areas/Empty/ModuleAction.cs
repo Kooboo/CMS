@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
 namespace Kooboo.CMS.ModuleArea.Areas.Empty
 {
@@ -19,12 +20,23 @@ namespace Kooboo.CMS.ModuleArea.Areas.Empty
     {
         public void OnExcluded(Sites.Models.Site site)
         {
-            // Add the logic here when the module was excluded from the site.
+            // Add code here that will be executed when the module was excluded to the site.
         }
 
         public void OnIncluded(Sites.Models.Site site)
         {
-            // Add the logic here when the module was included to the site.
+            // Add code here that will be executed when the module was included to the site.
+        }
+
+
+        public void OnInstalling(ControllerContext controllerContext)
+        {
+            // Add code here that will be executed when the module installing.
+        }
+
+        public void OnUninstalling(ControllerContext controllerContext)
+        {
+            // Add code here that will be executed when the module uninstalling.
         }
     }
 }

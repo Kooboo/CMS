@@ -1,6 +1,5 @@
-﻿@model Kooboo.CMS.Web.Areas.Sites.Models.InstallModuleModel
-@{
-    ViewBag.Title = "Install module".Localize();
+﻿@{
+    ViewBag.Title = "Uninstall module".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
@@ -18,15 +17,13 @@
 <div class="common-form">
     <h1 class="title">
         @ViewBag.Title</h1>
+
     @using (Html.BeginForm())
-    {
-               
-        <table>
-            <tbody>
-                @Html.EditorFor(m => m.ModuleFile, new { HtmlAttributes = new { @class = "medium" } })
-            </tbody>
-        </table>
-               
+    {               
+        <div class="block">
+            @Html.Raw("Click <b>Next</b> to remove module files.".Localize())
+        </div>
     }
+
 </div>
 

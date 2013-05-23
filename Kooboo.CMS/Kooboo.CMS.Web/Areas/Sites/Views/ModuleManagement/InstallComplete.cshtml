@@ -1,0 +1,30 @@
+﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo
+@{
+    ViewBag.Title = "Module installed".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="common-form">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+    @Html.Raw(string.Format("The module has been installed, will redirect to the module list page in 3 seconds OR you can click <a href='{0}'>[Back]</a> to return.", @ViewContext.RequestContext.GetRequestValue("return")))
+</div>
+<script>
+    $(function () {
+        setTimeout(function () {
+            location.href = '@Html.Raw(ViewContext.RequestContext.GetRequestValue("return"))'
+        }, 3000);
+    });
+</script>
+

@@ -10,7 +10,8 @@
         <input id="@Model.Name" name="@Model.Name" type="text" value="@valueGetter" @Kooboo.CMS.Form.Html.ValidationExtensions.GetUnobtrusiveValidationAttributeString(Model)  class='long' readonly="readonly"/>
         <a id="@uploadButton">@Html.IconImage("plus")</a>
         <input id="@paramInput" name="@paramInput" type="hidden" />
-           <input type="hidden" name="Kooboo-Image-Crop-Field" value="@Model.Name" />                
+           <input type="hidden" name="Kooboo-Image-Crop-Field" value="@Model.Name" />             
+        @Html.Raw(FormHelper.Tooltip(Model.Tooltip))
         <script>
             $(function () {
                 var $input = $('#@Model.Name');

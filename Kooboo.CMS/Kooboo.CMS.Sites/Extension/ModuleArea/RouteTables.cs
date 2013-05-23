@@ -39,9 +39,9 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
             return routeTables[moduleName];
         }
 
-        public static ModuleEntryPath GetRoutesFilePath(string moduleName)
+        public static ModuleItemPath GetRoutesFilePath(string moduleName)
         {
-            return new ModuleEntryPath(moduleName, RouteFile);
+            return new ModuleItemPath(moduleName, RouteFile);
         }
     }
 }

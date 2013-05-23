@@ -1,0 +1,12 @@
+﻿@model Kooboo.CMS.Sites.ABTest.LanguageVisitRule
+<form class="common-form">
+    <h3 class="title">@("Query string".Localize())</h3>
+    <table>
+        @Html.EditorFor(it => it.Name, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-val-uniquerulename", "This name is being used by other items.".Localize() }, { "data-bind", "value:RuleItem().Name,attr:{disabled:RuleItem().isEdit}" } } })
+        @Html.EditorFor(it => it.LanguageName, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:RuleItem().LanguageName" } } })
+    </table>
+    <p class="buttons">
+        <input type="button" class="button" data-bind="click:save" value="@("Save".Localize())">
+        <a class="button gray" data-bind="click:cancel">@("Cancel".Localize())</a>
+    </p>
+</form>

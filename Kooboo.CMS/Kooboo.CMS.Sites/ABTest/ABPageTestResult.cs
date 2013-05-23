@@ -26,9 +26,13 @@ namespace Kooboo.CMS.Sites.ABTest
     public partial class ABPageTestResult
     {
         [DataMember]
-        public string PageVisitRuleUUID { get; set; }
+        public string ABPageUUID { get; set; }
+
+        [Obsolete("Use ABPageUUID")]
         [DataMember]
-        public IList<ABPageTestHits> PageHits { get; set; }
+        public string PageVisitRuleUUID { get { return ABPageUUID; } set { this.ABPageUUID = value; } }
+        [DataMember]
+        public List<ABPageTestHits> PageHits { get; set; }
         [DataMember]
         public int TotalShowTimes { get; set; }
         [DataMember]
@@ -65,11 +69,11 @@ namespace Kooboo.CMS.Sites.ABTest
         {
             get
             {
-                return this.PageVisitRuleUUID;
+                return this.ABPageUUID;
             }
             set
             {
-                this.PageVisitRuleUUID = value;
+                this.ABPageUUID = value;
             }
         }
         #endregion

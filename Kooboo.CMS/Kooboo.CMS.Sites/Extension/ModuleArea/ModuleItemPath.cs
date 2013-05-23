@@ -15,10 +15,10 @@ using Kooboo.Web.Url;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
-    [Obsolete("Use ModuleItemPath")]
-    public class ModuleEntryPath : IPath
+    public class ModuleItemPath : IPath
     {
-        public ModuleEntryPath(string moduleName, string entryName)
+        #region .ctor
+        public ModuleItemPath(string moduleName, string entryName)
         {
             ModulePath modulePath = new ModulePath(moduleName);
 
@@ -26,15 +26,18 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
             PhysicalPath = Path.Combine(modulePath.PhysicalPath, EntryName);
             VirtualPath = UrlUtility.Combine(modulePath.VirtualPath, EntryName);
         }
-        public ModuleEntryPath(ModuleEntryPath parent, string entryName)
+        public ModuleItemPath(ModuleItemPath parent, string entryName)
         {
             EntryName = entryName;
             PhysicalPath = Path.Combine(parent.PhysicalPath, EntryName);
             VirtualPath = UrlUtility.Combine(parent.VirtualPath, EntryName);
         }
+        #endregion
+
+        #region Properties
         public string EntryName { get; private set; }
         public string PhysicalPath { get; private set; }
         public string VirtualPath { get; private set; }
-
+        #endregion
     }
 }

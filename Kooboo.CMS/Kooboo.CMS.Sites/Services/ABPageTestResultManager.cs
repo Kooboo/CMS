@@ -94,7 +94,7 @@ namespace Kooboo.CMS.Sites.Services
                  abPageTestResult = Get(site, key);
                  if (abPageTestResult == null)
                  {
-                     abPageTestResult = new ABPageTestResult() { Site = site, PageVisitRuleUUID = key, PageHits = new List<ABPageTestHits>() };
+                     abPageTestResult = new ABPageTestResult() { Site = site, ABPageUUID = key, PageHits = new List<ABPageTestHits>() };
 
                      this.Add(site, abPageTestResult);
                  }

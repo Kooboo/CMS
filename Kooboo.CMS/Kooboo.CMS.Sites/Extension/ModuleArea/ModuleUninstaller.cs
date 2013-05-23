@@ -29,7 +29,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         private static void RemoveAssemblies(string moduleName)
         {
             ModulePath modulePath = new ModulePath(moduleName);
-            ModuleEntryPath moduleBinPath = new ModuleEntryPath(moduleName, "Bin");
+            ModuleItemPath moduleBinPath = new ModuleItemPath(moduleName, "Bin");
             var binPath = Settings.BinDirectory;
             if (Directory.Exists(moduleBinPath.PhysicalPath))
             {

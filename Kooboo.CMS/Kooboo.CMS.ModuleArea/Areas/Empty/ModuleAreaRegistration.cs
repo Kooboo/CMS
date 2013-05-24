@@ -14,7 +14,7 @@ using Kooboo.Web.Mvc;
 
 namespace Kooboo.CMS.ModuleArea.Areas.Empty
 {
-    public class AreaRegistration1 : AreaRegistration
+    public class ModuleAreaRegistration : AreaRegistration
     {
         public const string ModuleName = "Empty";
         public override string AreaName

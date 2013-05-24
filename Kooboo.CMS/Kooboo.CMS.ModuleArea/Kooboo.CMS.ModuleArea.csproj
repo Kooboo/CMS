@@ -97,8 +97,13 @@
     <Content Include="Areas\Contents\Styles\images\map-item-done.png" />
     <Content Include="Areas\Contents\Styles\images\map-item-hover.png" />
     <Content Include="Areas\Contents\Styles\images\map-item.png" />
+    <Content Include="Areas\Empty\Themes\Default\Order.txt" />
     <Content Include="Areas\SampleModule\Scripts\app.js" />
-    <Content Include="Areas\SampleModule\Themes\Default\1_style.css" />
+    <Content Include="Areas\SampleModule\Scripts\Order.txt" />
+    <Content Include="Areas\SampleModule\Scripts\script1.js" />
+    <Content Include="Areas\SampleModule\Themes\Default\style1.css" />
+    <Content Include="Areas\SampleModule\Themes\Default\Order.txt" />
+    <Content Include="Areas\SampleModule\Themes\Default\style.css" />
     <Content Include="Areas\SampleModule\Themes\Default\Images\arrow-down-white.png" />
     <Content Include="Areas\SampleModule\Themes\Default\Images\arrow-down.png" />
     <Content Include="Areas\SampleModule\Themes\Default\Images\arrow-up.png" />
@@ -526,6 +531,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Empty\Controllers\" />
     <Folder Include="Areas\Empty\Scripts\" />
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Article\~contents\" />
   </ItemGroup>
@@ -893,6 +899,8 @@
     <Content Include="Areas\Sites\WebResources.config" />
     <Content Include="Areas\SampleModule\Views\Shared\_OnInstalling.cshtml" />
     <Content Include="Areas\SampleModule\Views\Shared\_OnUninstalling.cshtml" />
+    <Content Include="Areas\Empty\Views\Shared\_OnInstalling.cshtml" />
+    <Content Include="Areas\Empty\Views\Shared\_OnUninstalling.cshtml" />
     <None Include="Properties\PublishProfiles\Publish.pubxml" />
     <Content Include="lib\CookComputing.XmlRpcV2.dll" />
     <Content Include="lib\DiffPlex.dll" />

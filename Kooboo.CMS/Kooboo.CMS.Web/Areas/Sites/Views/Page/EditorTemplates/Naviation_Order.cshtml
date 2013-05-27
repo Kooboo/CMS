@@ -19,7 +19,7 @@
         <ul class="sortpages">
             @foreach (var item in pages)
             {
-                <li data-pagename="@item.Name" class='@(item.FullName == page.FullName ? "current" : "")'><img src="/Images/invis.gif" class="icon drag">@item.LinkText</li>
+                <li data-pagename="@item.FullName" class='@(item.FullName == page.FullName ? "current" : "")'><img src="/Images/invis.gif" class="icon drag">@item.LinkText</li>
             }
             @if (string.IsNullOrEmpty(page.Name))
             {

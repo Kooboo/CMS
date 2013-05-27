@@ -16,7 +16,7 @@ using Kooboo.CMS.Sites.Extension;
 using Kooboo.CMS.ModuleArea.Areas.SampleModule.Models;
 namespace Kooboo.CMS.ModuleArea.Areas.Empty
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleAction), Key = SampleAreaRegistration.ModuleName)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleAction), Key = ModuleAreaRegistration.ModuleName)]
     public class ModuleAction : IModuleAction
     {
         public void OnExcluded(Sites.Models.Site site)
@@ -31,16 +31,7 @@ namespace Kooboo.CMS.ModuleArea.Areas.Empty
 
 
         public void OnInstalling(ControllerContext controllerContext)
-        {
-            var moduleInfo = ModuleInfo.Get(SampleAreaRegistration.ModuleName);
-            var installModel = new InstallModel();
-            Kooboo.CMS.Sites.Extension.PagePluginHelper.BindModel<InstallModel>(installModel, controllerContext);
-
-            moduleInfo.DefaultSettings.CustomSettings["DatabaseServer"] = installModel.DatabaseServer;
-            moduleInfo.DefaultSettings.CustomSettings["UserName"] = installModel.UserName;
-            moduleInfo.DefaultSettings.CustomSettings["Password"] = installModel.Password;
-            ModuleInfo.Save(moduleInfo);
-
+        {        
             // Add code here that will be executed when the module installing.
         }
 

@@ -370,7 +370,7 @@ namespace Kooboo.CMS.Sites.Services
         {
             for (int i = 0; i < orderedPageNames.Length; i++)
             {
-                var page = new Page(site, PageHelper.CombineFullName(new[] { parentPage, orderedPageNames[i] }));
+                var page = new Page(site, orderedPageNames[i]);
                 page = page.AsActual();
                 if (page != null)
                 {

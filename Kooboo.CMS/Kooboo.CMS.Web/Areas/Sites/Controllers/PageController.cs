@@ -136,7 +136,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                         {
                             if (pageOrders[i] == "!NEWPAGE!")
                             {
-                                pageOrders[i] = model.Name;
+                                pageOrders[i] = model.FullName;
                             }
                         }
                         Manager.SortPages(Site, parent == null ? "" : parent.FullName, pageOrders);

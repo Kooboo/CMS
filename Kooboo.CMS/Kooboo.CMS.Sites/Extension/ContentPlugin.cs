@@ -22,6 +22,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Formula;
+using System.Web.Helpers;
 namespace Kooboo.CMS.Sites.Extension
 {
     #region ContentPlugin
@@ -106,7 +107,7 @@ namespace Kooboo.CMS.Sites.Extension
         {
             object model = null;
             Exception exception = null;
-            var formValues = new NameValueCollection(controllerContext.HttpContext.Request.Form);
+            var formValues = new NameValueCollection(controllerContext.HttpContext.Request.Unvalidated().Form);
             try
             {
                 var repository = site.GetRepository();

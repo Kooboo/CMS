@@ -87,6 +87,7 @@ namespace Kooboo.CMS.Sites.Models
     #region Site
     public partial class Site : DirectoryResource, ISiteObject, IFilePersistable, IPersistable, IIdentifiable, IComparable
     {
+        #region Current
         public static Site Current
         {
             get
@@ -98,6 +99,7 @@ namespace Kooboo.CMS.Sites.Models
                 CallContext.Current.RegisterObject("Current_Site", value);
             }
         }
+        #endregion
 
         #region .ctor
         public Site()
@@ -188,15 +190,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                if (Parent == null)
-                {
-                    return Path.Combine(RootBasePhysicalPath, this.Name);
-                }
-                else
-                {
-                    return Path.Combine(Parent.ChildSitesBasePhysicalPath, this.Name);
-                }
-
+                return Path.Combine(BasePhysicalPath, this.Name);
             }
         }
 
@@ -204,14 +198,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                if (Parent == null)
-                {
-                    return Kooboo.Web.Url.UrlUtility.Combine(BaseVirutalPath, this.Name);
-                }
-                else
-                {
-                    return Kooboo.Web.Url.UrlUtility.Combine(Parent.ChildSitesBaseVirualPath, this.Name);
-                }
+                return Kooboo.Web.Url.UrlUtility.Combine(BaseVirtualPath, this.Name);
             }
         }
 
@@ -232,7 +219,7 @@ namespace Kooboo.CMS.Sites.Models
 
 
         #region static
-        public static readonly string PATH_NAME = "Sites";
+
         public static string RootBasePhysicalPath
         {
             get
@@ -240,11 +227,35 @@ namespace Kooboo.CMS.Sites.Models
                 return Path.Combine(Settings.BaseDirectory, PathEx.BasePath, PATH_NAME);
             }
         }
-        public static string BaseVirutalPath
+        public static readonly string PATH_NAME = "Sites";
+
+        public override string BasePhysicalPath
         {
             get
             {
-                return Kooboo.Web.Url.UrlUtility.Combine("~/", PathEx.BasePath, PATH_NAME);
+                if (Parent == null)
+                {
+                    return RootBasePhysicalPath;
+                }
+                else
+                {
+                    return Path.Combine(Parent.PhysicalPath, PATH_NAME);
+                }
+            }
+        }
+        public override string BaseVirtualPath
+        {
+            get
+            {
+                if (Parent == null)
+                {
+                    return Kooboo.Web.Url.UrlUtility.Combine("~/", PathEx.BasePath, PATH_NAME);
+                }
+                else
+                {
+                    return UrlUtility.Combine(Parent.VirtualPath, PATH_NAME);
+                }
+
             }
         }
 
@@ -412,7 +423,7 @@ namespace Kooboo.CMS.Sites.Models
 
         #endregion
 
-        #region override base
+        #region override base       
         public override bool Exists()
         {
             return File.Exists(this.DataFile);

@@ -195,7 +195,7 @@ namespace Kooboo.CMS.Content.Query
 
         public IContentQuery<T> WhereIsNullOrEmpty(string fieldName)
         {
-            var expression = (new OrElseExpression(new WhereEqualsExpression(null, "fieldName", null), new WhereEqualsExpression(null, "fieldName", "")));
+            var expression = (new OrElseExpression(new WhereEqualsExpression(null, fieldName, null), new WhereEqualsExpression(null, fieldName, "")));
             return this.Create(expression);
         }
         public int Count()

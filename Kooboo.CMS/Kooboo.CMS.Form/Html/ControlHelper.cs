@@ -89,13 +89,13 @@ namespace Kooboo.CMS.Form.Html
             var controlNames = controls.Keys.AsEnumerable();
 
 
-            if (Kooboo.Web.TrustLevelUtility.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted)
-            {
-                var controlViews = ResolveFromViews();
-                controlNames = controlNames.Concat(controlViews)
-                   .Distinct(StringComparer.CurrentCultureIgnoreCase);
+            //if (Kooboo.Web.TrustLevelUtility.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted)
+            //{
+            var controlViews = ResolveFromViews();
+            controlNames = controlNames.Concat(controlViews)
+               .Distinct(StringComparer.CurrentCultureIgnoreCase);
 
-            }
+            //}
             return controlNames;
         }
         private static IEnumerable<string> ResolveFromViews()

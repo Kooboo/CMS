@@ -47,7 +47,7 @@ namespace Kooboo.CMS.Form.Html.Controls
                         <ul class=""checkbox-list"">
                         @foreach (var item in query_{0})
                         {{                            
-                            var id = ""{1}"" + index_{0}.ToString();
+                            var id = ""{0}"" + index_{0}.ToString();
                             <li>
                              <input id=""@id"" name=""{0}"" type=""checkbox"" value=""@item.UUID""  @((Model.{0} == null && checkBoxListDefaultValue_{0}.Contains(@item.UUID, StringComparer.OrdinalIgnoreCase)) || (Model.{0} != null && values_{0}.Contains(@item.UUID, StringComparer.OrdinalIgnoreCase)) ? ""checked"" : """")/><label
                             for=""@id"" class=""inline"">@item.GetSummary()</label>

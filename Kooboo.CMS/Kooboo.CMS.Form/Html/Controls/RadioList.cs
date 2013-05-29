@@ -35,13 +35,16 @@ namespace Kooboo.CMS.Form.Html.Controls
                         @{{
                             var textFolder_{0} = new TextFolder(Repository.Current, ""{1}"");
                             var query_{0} = textFolder_{0}.CreateQuery().DefaultOrder();
+                            var index_{0} = 0;
                         }}
                         <ul class=""radio-list"">
                         @foreach (var item in query_{0})
-                        {{                            
+                        {{
+                        var id = ""{0}"" + index_{0}.ToString();                                              
                          <li>
-                           <input id=""{0}"" name=""{0}"" type=""radio"" value=""@item.UUID""  @((Model.{0} != null && Model.{0}.ToString().ToLower() == @item.UUID.ToLower()) || (Model.{0} == null && radioDefaultValue_{0}.ToLower() == @item.UUID.ToLower()) ? ""checked"" : """")/><label for=""{0}""  class=""inline"">@item.GetSummary()</label>
+                           <input id=""@id"" name=""{0}"" type=""radio"" value=""@item.UUID""  @((Model.{0} != null && Model.{0}.ToString().ToLower() == @item.UUID.ToLower()) || (Model.{0} == null && radioDefaultValue_{0}.ToLower() == @item.UUID.ToLower()) ? ""checked"" : """")/><label for=""@id""  class=""inline"">@item.GetSummary()</label>
                          </li>
+                        index_{0}++;
                         }}
                         </ul>
                         ", column.Name, column.SelectionFolder);

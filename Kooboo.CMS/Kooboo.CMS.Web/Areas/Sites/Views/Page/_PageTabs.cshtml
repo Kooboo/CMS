@@ -93,7 +93,7 @@
     }
     @foreach (var tab in customTabs)
     {
-        <div class="tab-content " id="@tab.Title ">
+        <div class="tab-content " id="@tab.Title">
             @Html.Partial(tab.VirualPath, Model.CustomFields, new ViewDataDictionary())
         </div>
     }

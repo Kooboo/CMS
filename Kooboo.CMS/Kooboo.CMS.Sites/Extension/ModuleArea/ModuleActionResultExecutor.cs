@@ -134,6 +134,13 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                 {
                     actionResult = new RedirectToRouteResultWrapper((RedirectToRouteResult)actionResult, ((ModuleRequestContext)controllerContext.RequestContext).ModuleContext.RouteTable);
                 }
+                if (actionResult is FileResult)
+                {
+                    if (controllerContext.HttpContext.Response.Output is OutputTextWriterWrapper)
+                    {
+                        controllerContext.HttpContext.Response.Output = ((OutputTextWriterWrapper)controllerContext.HttpContext.Response.Output).GetResponse_Output_TextWriter();
+                    }
+                }
                 controllerContext.HttpContext.Response.Clear();
                 controllerContext.HttpContext.Response.ClearContent();
                 actionResult.ExecuteResult(controllerContext);

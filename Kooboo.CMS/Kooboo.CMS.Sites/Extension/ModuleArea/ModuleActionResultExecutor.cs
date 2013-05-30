@@ -15,6 +15,7 @@ using Kooboo.Web;
 using System.Web;
 using System.IO;
 using System.Web.Routing;
+using Kooboo.CMS.Sites.Web;
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
     public static class ModuleActionResultExecutor
@@ -138,7 +139,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                 {
                     if (controllerContext.HttpContext.Response.Output is OutputTextWriterWrapper)
                     {
-                        controllerContext.HttpContext.Response.Output = ((OutputTextWriterWrapper)controllerContext.HttpContext.Response.Output).GetResponse_Output_TextWriter();
+                        controllerContext.HttpContext.Response.Output = ((OutputTextWriterWrapper)controllerContext.HttpContext.Response.Output).GetRawOuputWriter();
                     }
                 }
                 controllerContext.HttpContext.Response.Clear();

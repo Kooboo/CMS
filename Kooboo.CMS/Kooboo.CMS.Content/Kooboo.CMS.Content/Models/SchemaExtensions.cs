@@ -26,7 +26,7 @@ namespace Kooboo.CMS.Content.Models
     public static class SchemaExtensions
     {
         public static string CUSTOM_TEMPLATES = "CustomTemplates";
-        
+
         /// <summary>
         /// 生成Schema模板
         /// </summary>
@@ -58,9 +58,8 @@ namespace Kooboo.CMS.Content.Models
         /// <param name="formType">Type of the form.</param>
         /// <returns></returns>
         public static string GetFormTemplate(this Schema schema, FormType formType)
-        {
-            var schemaPath = new SchemaPath(schema);
-            var virtualPath = GetCustomTemplateFileVirtualPath(schemaPath, formType);
+        {        
+            var virtualPath = GetCustomTemplateFileVirtualPath(schema, formType);
             if (string.IsNullOrEmpty(virtualPath))
             {
                 virtualPath = GetFormFileVirtualPath(schema, formType);
@@ -89,10 +88,17 @@ namespace Kooboo.CMS.Content.Models
             var schemaPath = new SchemaPath(schema);
             return Path.Combine(schemaPath.PhysicalPath, string.Format("{0}.cshtml", type));
         }
-        private static string GetCustomTemplateFileVirtualPath(SchemaPath schemaPath, FormType type)
+        public static string GetCustomTemplatePhysicalPath(this Schema schema, FormType type)
         {
-            string fileVirtualPath = "";
+            var schemaPath = new SchemaPath(schema);
             string filePhysicalPath = Path.Combine(schemaPath.PhysicalPath, CUSTOM_TEMPLATES, string.Format("{0}.cshtml", type));
+            return filePhysicalPath;
+        }
+        private static string GetCustomTemplateFileVirtualPath(Schema schema, FormType type)
+        {
+            var schemaPath = new SchemaPath(schema);
+            string fileVirtualPath = "";
+            var filePhysicalPath = GetCustomTemplatePhysicalPath(schema, type);
             if (System.IO.File.Exists(filePhysicalPath))
             {
                 fileVirtualPath = UrlUtility.Combine(schemaPath.VirtualPath, CUSTOM_TEMPLATES, string.Format("{0}.cshtml", type));

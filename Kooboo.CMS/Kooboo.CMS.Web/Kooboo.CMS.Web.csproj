@@ -2422,6 +2422,9 @@
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\Language.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Contents\Views\ContentType\EditTemplate.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

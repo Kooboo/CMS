@@ -231,5 +231,29 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
         #endregion
 
+        #region EditTemplate
+        public virtual ActionResult EditTemplate(string uuid, FormType formType)
+        {
+            var schema = new Schema(Repository, uuid);
+            var templateBody = Manager.GetForm(Repository, uuid, formType);
+
+            return View((object)templateBody);
+        }
+        [HttpPost]
+        public virtual ActionResult EditTemplate(string uuid, FormType formType, string body, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    Manager.SaveForm(Repository, uuid, body, formType);
+                    resultData.RedirectUrl = @return;
+                });
+            }
+            return Json(data);
+        }
+        #endregion
+
     }
 }

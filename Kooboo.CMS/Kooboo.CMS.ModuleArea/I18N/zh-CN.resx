@@ -2145,4 +2145,16 @@
   <data name="Change language" xml:space="preserve">
     <value>Change language</value>
   </data>
+  <data name="Redirect to home page 字段是必需的。" xml:space="preserve">
+    <value>Redirect to home page 字段是必需的。</value>
+  </data>
+  <data name="Back to home page" xml:space="preserve">
+    <value>Back to home page</value>
+  </data>
+  <data name="For a list of newly added features and a quick start guide,&lt;br /&gt;See: &lt;a href=&quot;http://www.kooboo.com/documents&quot; target=&quot;_blank&quot;&gt;http://www.kooboo.com/documents&lt;/a&gt;" xml:space="preserve">
+    <value>For a list of newly added features and a quick start guide,&lt;br /&gt;See: &lt;a href="http://www.kooboo.com/documents" target="_blank"&gt;http://www.kooboo.com/documents&lt;/a&gt;</value>
+  </data>
+  <data name="Sign in to the CMS and create your first Kooboo website, the default login is: &lt;strong&gt;admin/admin&lt;/strong&gt;" xml:space="preserve">
+    <value>Sign in to the CMS and create your first Kooboo website, the default login is: &lt;strong&gt;admin/admin&lt;/strong&gt;</value>
+  </data>
 </root>

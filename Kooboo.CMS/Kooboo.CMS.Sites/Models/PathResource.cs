@@ -21,6 +21,7 @@ namespace Kooboo.CMS.Sites.Models
     {
         public static string SettingFileName = "setting.config";
 
+        #region .ctor
         protected PathResource()
         {
         }
@@ -31,12 +32,14 @@ namespace Kooboo.CMS.Sites.Models
         }
         public PathResource(Site site, string name)
         {
-            if (site!=null)
+            if (site != null)
             {
                 this.Site = new Site(site.FullName);
-            }            
+            }
             this.Name = name;
-        }
+        } 
+        #endregion
+
         //[DataMember(Name = "Name", Order = 1)]
         public virtual string Name { get; set; }
 
@@ -47,13 +50,7 @@ namespace Kooboo.CMS.Sites.Models
         /// <value>The relative paths.</value>
         public abstract IEnumerable<string> RelativePaths { get; }
 
-        public virtual string BasePhysicalPath
-        {
-            get
-            {
-                return Path.Combine(Site.PhysicalPath, Path.Combine(RelativePaths.ToArray()));
-            }
-        }
+       
         public virtual string PhysicalPath
         {
             get
@@ -66,13 +63,6 @@ namespace Kooboo.CMS.Sites.Models
             }
         }
 
-        public virtual string BaseVirtualPath
-        {
-            get
-            {
-                return UrlUtility.Combine(Site.VirtualPath, UrlUtility.Combine(RelativePaths.ToArray()));
-            }
-        }
         public virtual string VirtualPath
         {
             get
@@ -80,6 +70,23 @@ namespace Kooboo.CMS.Sites.Models
                 return UrlUtility.Combine(BaseVirtualPath, this.Name);
             }
         }
+
+        public virtual string BasePhysicalPath
+        {
+            get
+            {
+                return Path.Combine(Site.PhysicalPath, Path.Combine(RelativePaths.ToArray()));
+            }
+        }
+
+        public virtual string BaseVirtualPath
+        {
+            get
+            {
+                return UrlUtility.Combine(Site.VirtualPath, UrlUtility.Combine(RelativePaths.ToArray()));
+            }
+        }
+      
         #endregion
 
 

@@ -51,9 +51,15 @@ namespace Kooboo.CMS.Sites.Services
             ModuleItemPath scriptsPath = new ModuleItemPath(moduleName, "Scripts");
             if (Directory.Exists(scriptsPath.PhysicalPath))
             {
-                foreach (var file in Directory.EnumerateFiles(scriptsPath.PhysicalPath, "*.js"))
+                var files = Directory.EnumerateFiles(scriptsPath.PhysicalPath, "*.js").Select(it => Path.GetFileName(it));
+                var orderFilePath = Path.Combine(scriptsPath.PhysicalPath, FileOrderHelper.OrderFileName);
+                if (File.Exists(orderFilePath))
                 {
-                    yield return new ModuleItemPath(scriptsPath, Path.GetFileName(file));
+                    files = FileOrderHelper.OrderFiles(orderFilePath, files);
+                }
+                foreach (var file in files)
+                {
+                    yield return new ModuleItemPath(scriptsPath, file);
                 }
             }
         }
@@ -64,9 +70,16 @@ namespace Kooboo.CMS.Sites.Services
             themeRuleBody = "";
             if (Directory.Exists(themePath.PhysicalPath))
             {
-                foreach (var file in Directory.EnumerateFiles(themePath.PhysicalPath, "*.css"))
+                var files = Directory.EnumerateFiles(themePath.PhysicalPath, "*.css").Select(it => Path.GetFileName(it));
+                var orderFilePath = Path.Combine(themePath.PhysicalPath, FileOrderHelper.OrderFileName);
+                if (File.Exists(orderFilePath))
                 {
-                    themeFiles.Add(new ModuleItemPath(themePath, Path.GetFileName(file)));
+                    files = FileOrderHelper.OrderFiles(orderFilePath, files);
+                }
+
+                foreach (var file in files)
+                {
+                    themeFiles.Add(new ModuleItemPath(themePath, file));
                 }
 
                 string themeBaseUrl = Kooboo.Web.Url.UrlUtility.ResolveUrl(themePath.VirtualPath);

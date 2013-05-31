@@ -10,9 +10,18 @@
     {
         tinymceLang = culture.Name.ToLower();
     }
+    string tinymceContentStyle = null;
+    if (Kooboo.CMS.Sites.Models.Site.Current != null)
+    {
+        tinymceContentStyle = (new FrontUrlHelper(Url, Site.Current, Kooboo.CMS.Sites.Web.FrontRequestChannel.Debug)).FileUrl("tinymce_content.css").ToString();
+        if (!File.Exists(Server.MapPath(tinymceContentStyle)))
+        {
+            tinymceContentStyle = null;
+        }
+    }
 }
 <script type="text/javascript">
-   @* (function ($) {
+@* (function ($) {
         $.fn.numberic = function () {
             var $self = $(this)
             $self.find('input[data-value-type=float]').numeric('@Html.Raw(culture.NumberFormat.NumberDecimalSeparator)');
@@ -27,6 +36,8 @@
         Globalize.culture('@Html.Raw(culture.Name)');
 
 
+
+
         //#endregion
         var hasTinymce = false;
         $('textarea.tinymce').each(function () {
@@ -34,8 +45,12 @@
             var tinyMCEConfig = $.extend({}, tinymce.getKoobooConfig(), {
                 '$textarea': textarea,
                 'elements': textarea.attr('id'),
-                'media_library_url': '@Html.Raw(Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType","grid"))) ',
+                'media_library_url': '@Html.Raw(Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType", "grid"))) ',
                 'media_library_title': '@("Select Files".Localize())',
+                @if (!string.IsNullOrEmpty(tinymceContentStyle))
+                {
+                    <text>content_css : '@(tinymceContentStyle)',</text>
+                }
                 language: '@tinymceLang',
                 setup: function (ed) {
                     ed.onChange.add(function (ed, l) {
@@ -51,9 +66,9 @@
         if (hasTinymce) {
             window.ajaxFormParam = {
                 beforeSerialize: function ($form, options) {
-                    tinyMCE.triggerSave();                               
+                    tinyMCE.triggerSave();
                 }
-            };           
-        }      
+            };
+        }
     });
 </script>

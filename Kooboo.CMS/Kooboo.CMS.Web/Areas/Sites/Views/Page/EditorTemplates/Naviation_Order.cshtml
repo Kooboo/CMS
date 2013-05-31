@@ -1,4 +1,5 @@
-﻿@{
+﻿@model int
+@{
     var page = (Kooboo.CMS.Sites.Models.Page)ViewContext.Controller.ViewData.Model;
 
     IEnumerable<Kooboo.CMS.Sites.Models.Page> pages = null;
@@ -14,16 +15,19 @@
 <tr id="sortPagesTr">
     <td></td>
     <td>
+        <input type="hidden" name="@ViewData.TemplateInfo.HtmlFieldPrefix" value="@Model" />
         <input name="PageOrders" type="hidden" />
         <h5 class="sortpages-header">@("Menu order".Localize())<em class="tip">@("The order of page in the menu API. Drag and drop to change them.".Localize())</em></h5>
         <ul class="sortpages">
             @foreach (var item in pages)
             {
-                <li data-pagename="@item.Name" class='@(item.FullName == page.FullName ? "current" : "")'><img src="/Images/invis.gif" class="icon drag">@item.LinkText</li>
+                <li data-pagename="@item.FullName" class='@(item.FullName == page.FullName ? "current" : "")'>
+                    <img src="/Images/invis.gif" class="icon drag">@item.LinkText</li>
             }
             @if (string.IsNullOrEmpty(page.Name))
             {
-                <li data-pagename="!NEWPAGE!" class="current"><img src="/Images/invis.gif" class="icon drag">@("This new page".Localize())</li>
+                <li data-pagename="!NEWPAGE!" class="current">
+                    <img src="/Images/invis.gif" class="icon drag">@("This new page".Localize())</li>
             }
         </ul>
         <script>

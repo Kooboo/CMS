@@ -12,10 +12,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-
+using Kooboo.CMS.Sites.Extension;
+using Kooboo.CMS.ModuleArea.Areas.SampleModule.Models;
 namespace Kooboo.CMS.ModuleArea.Areas.Empty
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleAction), Key = AreaRegistration1.ModuleName)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleAction), Key = ModuleAreaRegistration.ModuleName)]
     public class ModuleAction : IModuleAction
     {
         public void OnExcluded(Sites.Models.Site site)
@@ -30,7 +31,7 @@ namespace Kooboo.CMS.ModuleArea.Areas.Empty
 
 
         public void OnInstalling(ControllerContext controllerContext)
-        {
+        {        
             // Add code here that will be executed when the module installing.
         }
 

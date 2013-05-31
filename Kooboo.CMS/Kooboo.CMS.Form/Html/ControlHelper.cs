@@ -26,15 +26,15 @@ namespace Kooboo.CMS.Form.Html
     public static class ControlHelper
     {
         #region Static
-        static string TemplateDir = "";
-        static string TemplateVirtualPath = "";
+        static KeyValuePair<string, string>[] TemplateDirs = new KeyValuePair<string, string>[0];
+
         static IDictionary<string, Controls.IControl> controls = new Dictionary<string, IControl>(StringComparer.CurrentCultureIgnoreCase);
 
         static ControlHelper()
         {
             var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
-            TemplateDir = Path.Combine(baseDir.Cms_DataPhysicalPath, "ContentType_Templates", "Controls");
-            TemplateVirtualPath = Kooboo.Web.Url.UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "ContentType_Templates", "Controls");
+            TemplateDirs = new[] { new KeyValuePair<string,string>(Path.Combine(baseDir.Cms_DataPhysicalPath, "Views", "ControlTypes"),Kooboo.Web.Url.UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "Views", "ControlTypes")),
+                new KeyValuePair<string,string>(Path.Combine(baseDir.Cms_DataPhysicalPath, "ContentType_Templates", "Controls"),Kooboo.Web.Url.UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "ContentType_Templates", "Controls")) };
 
             RegisterControl(new TextBox());
             RegisterControl(new InputInt32());
@@ -89,16 +89,33 @@ namespace Kooboo.CMS.Form.Html
             var controlNames = controls.Keys.AsEnumerable();
 
 
-            if (Kooboo.Web.TrustLevelUtility.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted)
+            //if (Kooboo.Web.TrustLevelUtility.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted)
+            //{
+            var controlViews = ResolveFromViews();
+            controlNames = controlNames.Concat(controlViews)
+               .Distinct(StringComparer.CurrentCultureIgnoreCase);
+
+            //}
+            return controlNames;
+        }
+        private static IEnumerable<string> ResolveFromViews()
+        {
+            var controls = new List<string>();
+            foreach (var dir in TemplateDirs)
             {
-                if (Directory.Exists(TemplateDir))
+                if (Directory.Exists(dir.Key))
                 {
-                    var files = Directory.EnumerateFiles(TemplateDir, "*.cshtml");
-                    controlNames = controlNames.Concat(files.Select(it => Path.GetFileNameWithoutExtension(it)))
-                       .Distinct(StringComparer.CurrentCultureIgnoreCase);
+                    foreach (var file in Directory.EnumerateFiles(dir.Key, "*.cshtml"))
+                    {
+                        var name = Path.GetFileNameWithoutExtension(file);
+                        if (controls.Count(it => it.EqualsOrNullEmpty(name, StringComparison.OrdinalIgnoreCase)) == 0)
+                        {
+                            controls.Add(name);
+                        }
+                    }
                 }
             }
-            return controlNames;
+            return controls;
         }
         #endregion
 
@@ -146,19 +163,35 @@ namespace Kooboo.CMS.Form.Html
         #endregion
 
         #region Razor view
-        private static string GetControlView(string controlType)
+        private static string GetControlViewPhysicalPath(string controlType)
         {
-            return Path.Combine(TemplateDir, controlType + ".cshtml");
+            foreach (var dir in TemplateDirs)
+            {
+                var path = Path.Combine(dir.Key, controlType + ".cshtml");
+                if (System.IO.File.Exists(path))
+                {
+                    return path;
+                }
+            }
+            return null;
         }
         private static string GetControlViewVirtualPath(string controlType)
         {
-            return Kooboo.Web.Url.UrlUtility.Combine(TemplateVirtualPath, controlType + ".cshtml");
+            foreach (var dir in TemplateDirs)
+            {
+                var path = Path.Combine(dir.Key, controlType + ".cshtml");
+                if (System.IO.File.Exists(path))
+                {
+                    return Kooboo.Web.Url.UrlUtility.Combine(dir.Value, controlType + ".cshtml");
+                }
+            }
+            return null;
         }
         public static string ProcessRazorView(ISchema schema, IColumn column, out bool rendered)
         {
-            string controlFile = GetControlView(column.ControlType);
+            string controlFileVirutalPath = GetControlViewVirtualPath(column.ControlType);
             rendered = false;
-            if (System.IO.File.Exists(controlFile))
+            if (!string.IsNullOrEmpty(controlFileVirutalPath))
             {
                 if (HttpContext.Current != null && HttpContext.Current.Items["ControllerContext"] != null)
                 {
@@ -166,7 +199,7 @@ namespace Kooboo.CMS.Form.Html
                     var viewData = new ViewDataDictionary() { Model = column };
                     viewData["Schema"] = schema;
                     rendered = true;
-                    return RazorViewHelper.RenderView(GetControlViewVirtualPath(column.ControlType), controllerContext, viewData);
+                    return RazorViewHelper.RenderView(controlFileVirutalPath, controllerContext, viewData);
                 }
             }
 

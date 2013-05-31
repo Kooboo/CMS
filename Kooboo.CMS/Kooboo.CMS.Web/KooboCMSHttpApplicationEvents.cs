@@ -33,9 +33,11 @@ namespace Kooboo.CMS.Web
             public CustomRazorViewEngine()
                 : base()
             {
-                base.AreaMasterLocationFormats = new string[] { "~/Areas/{2}/Views/{1}/{0}.cshtml", "~/Areas/{2}/Views/Shared/{0}.cshtml", "~/Views/Shared/{0}.cshtml" };
+                var baseDir = EngineContext.Current.Resolve<Kooboo.CMS.Common.IBaseDir>();
 
-                base.AreaViewLocationFormats = new string[] { "~/Areas/{2}/Views/{1}/{0}.cshtml", "~/Areas/{2}/Views/Shared/{0}.cshtml", "~/Views/Shared/{0}.cshtml" };
+                base.AreaMasterLocationFormats = new string[] { "~/Areas/{2}/Views/{1}/{0}.cshtml", "~/" + baseDir.Cms_DataPathName + "/Views/Shared/{0}.cshtml", "~/Areas/{2}/Views/Shared/{0}.cshtml", "~/Views/Shared/{0}.cshtml" }; //add: "~/Views/Shared/{0}.cshtml" 
+
+                base.AreaViewLocationFormats = new string[] { "~/Areas/{2}/Views/{1}/{0}.cshtml", "~/" + baseDir.Cms_DataPathName + "/Views/Shared/{0}.cshtml", "~/Areas/{2}/Views/Shared/{0}.cshtml", "~/Views/Shared/{0}.cshtml" };//add: "~/Views/Shared/{0}.cshtml"
 
                 base.AreaPartialViewLocationFormats = base.AreaViewLocationFormats;
             }

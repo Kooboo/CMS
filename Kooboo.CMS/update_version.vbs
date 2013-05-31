@@ -2,7 +2,6 @@ dim fso
 dim version
 dim file
 dim content
-dim stream
 dim revision
 
 year1 = right(Year(Date),2)
@@ -29,8 +28,10 @@ version = file.ReadLine() & "." & revision
 file.Close()
 
 
+Function UpdateVersion(ByVal fileName,ByVal version)
+
 'remove file readonly attribute
-set file = fso.GetFile("CMSAssemblyInfoGlobal.cs")
+set file = fso.GetFile(fileName)
 file.Attributes =  file.Attributes or 1
 
 'get old content
@@ -38,7 +39,7 @@ set stream =  CreateObject("ADODB.Stream")
 stream.Type = 2
 stream.Charset = "UTF-8"
 stream.Open() 
-stream.LoadFromFile("CMSAssemblyInfoGlobal.cs") 
+stream.LoadFromFile(fileName) 
 content = stream.ReadText()
 stream.Close()   
     
@@ -53,5 +54,14 @@ file.Delete(true)
 'save back
 stream.Open()
 stream.WriteText(content) 
-stream.SaveToFile "CMSAssemblyInfoGlobal.cs", 2
+stream.SaveToFile fileName, 2
 stream.Close() 
+
+End Function
+
+UpdateVersion "CMSAssemblyInfoGlobal.cs", version
+
+
+UpdateVersion "Publish\Default\Properties\AssemblyInfo.cs", version
+
+

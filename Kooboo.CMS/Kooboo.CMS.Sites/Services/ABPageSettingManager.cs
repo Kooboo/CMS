@@ -138,7 +138,10 @@ namespace Kooboo.CMS.Sites.Services
 
         protected virtual void OnRuleMatch(PageMatchedContext context)
         {
-            _abPageTestResultManager.IncreaseShowTime(context.Site, context.ABPageSetting.UUID, context.MatchedPage.FullName);
+            if (!string.IsNullOrEmpty(context.ABPageSetting.ABTestGoalPage))
+            {
+                _abPageTestResultManager.IncreaseShowTime(context.Site, context.ABPageSetting.UUID, context.MatchedPage.FullName);
+            }
             if (this._observers != null)
             {
                 foreach (var item in this._observers)

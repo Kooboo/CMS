@@ -20,6 +20,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
@@ -453,11 +454,17 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             {
                 //zipFile.ZipError += new EventHandler<ZipErrorEventArgs>(zipFile_ZipError);
                 var ignores = "name != *\\~versions\\*.* and name != *\\.svn\\*.* and name != *\\_svn\\*.*";
+                var dirs = Directory.EnumerateDirectories(site.PhysicalPath);
                 if (!includeSubSites)
                 {
-                    ignores += "and name != " + site.PhysicalPath + "*\\Sites\\*.*";
+                    dirs = dirs.Where(it => !Path.GetFileName(it).EqualsOrNullEmpty("Sites", StringComparison.OrdinalIgnoreCase));
                 }
-                zipFile.AddSelectedFiles(ignores, site.PhysicalPath, "", true);
+                foreach (var dir in dirs)
+                {
+                    zipFile.AddSelectedFiles(ignores, dir, Path.GetFileName(dir), true);
+                }
+                zipFile.AddFiles(Directory.EnumerateFiles(site.PhysicalPath), "");
+
                 if (includeDatabase)
                 {
                     ExportSiteRepository(site, site, zipFile, includeSubSites);

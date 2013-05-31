@@ -2735,6 +2735,10 @@ body #diffBox .diffTable td.lineNumber {
 	top: 111px;
 }
 
+#main-container > .wrap .common-form.fixed.fullscreen .CodeMirror-wrap {
+	right: 0;
+}
+
 .CodeMirror-wrap.CodeMirror-fullscreen {
 	background: #FFF !important;
 	bottom: 0 !important;

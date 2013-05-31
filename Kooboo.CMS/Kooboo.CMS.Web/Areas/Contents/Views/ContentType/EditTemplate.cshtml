@@ -20,7 +20,7 @@
     <h1 class="title">@ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
 </div>
 
-<div class="common-form fixed">
+<div class="common-form fixed fullscreen">
     @using (Html.BeginForm())
     { 
         @Html.TextArea("Body", Model, new { rows = 30, cols = 20 })

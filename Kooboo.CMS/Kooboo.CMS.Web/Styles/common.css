@@ -1578,6 +1578,7 @@ body .select2-results .select2-result-label {
 .common-table th.action,
 .common-table td.action {
 	text-align: center;
+	white-space: nowrap;
 	width: 16px;
 }
 

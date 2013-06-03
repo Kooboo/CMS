@@ -484,62 +484,14 @@
     <Content Include="Areas\Sites\Styles\images\map-item-hover.png" />
     <Content Include="Areas\Sites\Styles\images\map-item.png" />
     <Content Include="Areas\Sites\Styles\sites.css" />
-    <Content Include="Cms_Data\Contents\SampleSite\Data\Article.xml" />
-    <Content Include="Cms_Data\Contents\SampleSite\Data\Category.xml" />
-    <Content Include="Cms_Data\Contents\SampleSite\Data\Comment.xml" />
-    <Content Include="Cms_Data\Contents\SampleSite\Data\_category_.xml" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\LastActions.xml" />
-    <Content Include="Cms_Data\ContentType_Templates\Controls\MediaFiles.cshtml" />
-    <Content Include="Cms_Data\Sites\SampleSite\Files\favicon.ico" />
-    <Content Include="Cms_Data\Sites\SampleSite\Files\logo.png" />
-    <Content Include="Cms_Data\Sites\SampleSite\Scripts\app.js" />
-    <Content Include="Cms_Data\Sites\SampleSite\Scripts\jquery.fancybox-1.3.4.pack.js" />
-    <Content Include="Cms_Data\Sites\SampleSite\Scripts\Order.txt" />
-    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\base.css" />
-    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\common.css" />
-    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\ie.css" />
-    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\images\icon-back.png" />
-    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\images\icon-search.png" />
-    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\Order.txt" />
-    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\reset.css" />
-    <Content Include="Cms_Data\SiteTemplates\SampleSite.png" />
-    <Content Include="Cms_Data\SiteTemplates\SmallBusiness.png" />
-    <Content Include="favicon.ico" />
-    <Content Include="Global.asax" />
-    <Content Include="Images\Default.png" />
-    <Content Include="Images\favicon.ico" />
-    <Content Include="Images\invis.gif" />
-    <Content Include="Images\loading.gif" />
-    <Content Include="Images\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Areas\Empty\ModuleAction.cs" />
-    <Compile Include="Areas\Empty\ModuleAreaRegistration.cs" />
-    <Compile Include="Areas\SampleModule\AdminControllerBase.cs" />
-    <Compile Include="Areas\SampleModule\Controllers\AdminController.cs" />
-    <Compile Include="Areas\SampleModule\Controllers\ArticleController.cs" />
-    <Compile Include="Areas\SampleModule\Controllers\NewsAdminController.cs" />
-    <Compile Include="Areas\SampleModule\Controllers\NewsController.cs" />
-    <Compile Include="Areas\SampleModule\Models\EditGridActionItemColumn.cs" />
-    <Compile Include="Areas\SampleModule\Models\InstallModel.cs" />
-    <Compile Include="Areas\SampleModule\Models\ModuleInfo_Metadata.cs" />
-    <Compile Include="Areas\SampleModule\Models\News.cs" />
-    <Compile Include="Areas\SampleModule\ModuleAction.cs" />
-    <Compile Include="Areas\SampleModule\ModuleAreaRegistration.cs" />
-    <Compile Include="Areas\SampleModule\Repositories\IRepository.cs" />
-    <Compile Include="Areas\SampleModule\Repositories\NewsRepository.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\Empty\Controllers\" />
-    <Folder Include="Areas\Empty\Scripts\" />
-    <Folder Include="Cms_Data\Contents\SampleSite\Folders\Article\~contents\" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Cms_Data\Account\Roles\Content manager.config" />
     <Content Include="Cms_Data\Account\Roles\Developer.config" />
     <Content Include="Cms_Data\Account\Users\admin.config" />
     <Content Include="Cms_Data\Connect\Users\admin.config" />
+    <Content Include="Cms_Data\Contents\SampleSite\Data\Article.xml" />
+    <Content Include="Cms_Data\Contents\SampleSite\Data\Category.xml" />
+    <Content Include="Cms_Data\Contents\SampleSite\Data\Comment.xml" />
+    <Content Include="Cms_Data\Contents\SampleSite\Data\_category_.xml" />
     <Content Include="Cms_Data\Contents\SampleSite\Folders\Article\setting.config" />
     <Content Include="Cms_Data\Contents\SampleSite\Folders\Category\setting.config" />
     <Content Include="Cms_Data\Contents\SampleSite\Folders\Comment\setting.config" />
@@ -574,12 +526,21 @@
     <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.prx" />
     <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.tii" />
     <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.tis" />
+    <Content Include="Cms_Data\Contents\SampleSite\Search\LastActions.xml" />
     <Content Include="Cms_Data\Contents\SampleSite\Search\Settings\Article.config" />
     <Content Include="Cms_Data\Contents\SampleSite\setting.config" />
+    <Content Include="Cms_Data\ContentType_Templates\Controls\MediaFiles.cshtml" />
+    <Content Include="Cms_Data\ContentType_Templates\Controls\MultiFiles.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleSite\Files\favicon.ico" />
+    <Content Include="Cms_Data\Sites\SampleSite\Files\logo.png" />
     <Content Include="Cms_Data\Sites\SampleSite\Pages\about\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Pages\Articles\Detail\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Pages\Articles\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Pages\News\Setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Pages\Search\setting.config" />
+    <Content Include="Cms_Data\Sites\SampleSite\Scripts\app.js" />
+    <Content Include="Cms_Data\Sites\SampleSite\Scripts\jquery.fancybox-1.3.4.pack.js" />
+    <Content Include="Cms_Data\Sites\SampleSite\Scripts\Order.txt" />
     <Content Include="Cms_Data\Sites\SampleSite\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Layouts\one_column\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Layouts\one_column\template.cshtml" />
@@ -600,10 +561,54 @@
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\LoginForm\template.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Menu\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Templates\Views\Menu\template.cshtml" />
+    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\base.css" />
+    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\common.css" />
+    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\ie.css" />
+    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\images\icon-back.png" />
+    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\images\icon-search.png" />
+    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\Order.txt" />
+    <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\reset.css" />
     <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\Theme.rule" />
     <Content Include="Cms_Data\Sites\SampleSite\UrlKeyMaps.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Users\admin.config" />
+    <Content Include="Cms_Data\SiteTemplates\Empty.zip" />
+    <Content Include="Cms_Data\SiteTemplates\SampleSite.png" />
+    <Content Include="Cms_Data\SiteTemplates\SampleSite.zip" />
+    <Content Include="Cms_Data\SiteTemplates\SmallBusiness.png" />
+    <Content Include="Cms_Data\SiteTemplates\SmallBusiness.zip" />
     <Content Include="Cms_Data\Web.config" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\Default.png" />
+    <Content Include="Images\favicon.ico" />
+    <Content Include="Images\invis.gif" />
+    <Content Include="Images\loading.gif" />
+    <Content Include="Images\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Areas\Empty\ModuleAction.cs" />
+    <Compile Include="Areas\Empty\ModuleAreaRegistration.cs" />
+    <Compile Include="Areas\SampleModule\AdminControllerBase.cs" />
+    <Compile Include="Areas\SampleModule\Controllers\AdminController.cs" />
+    <Compile Include="Areas\SampleModule\Controllers\ArticleController.cs" />
+    <Compile Include="Areas\SampleModule\Controllers\NewsAdminController.cs" />
+    <Compile Include="Areas\SampleModule\Controllers\NewsController.cs" />
+    <Compile Include="Areas\SampleModule\Models\EditGridActionItemColumn.cs" />
+    <Compile Include="Areas\SampleModule\Models\InstallModel.cs" />
+    <Compile Include="Areas\SampleModule\Models\ModuleInfo_Metadata.cs" />
+    <Compile Include="Areas\SampleModule\Models\News.cs" />
+    <Compile Include="Areas\SampleModule\ModuleAction.cs" />
+    <Compile Include="Areas\SampleModule\ModuleAreaRegistration.cs" />
+    <Compile Include="Areas\SampleModule\Repositories\IRepository.cs" />
+    <Compile Include="Areas\SampleModule\Repositories\NewsRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\Empty\Controllers\" />
+    <Folder Include="Areas\Empty\Scripts\" />
+    <Folder Include="Cms_Data\Contents\SampleSite\Folders\Article\~contents\" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Areas\Empty\Menu.config" />
     <Content Include="Areas\Empty\module.config" />
     <Content Include="Areas\Empty\routes.config" />
@@ -635,10 +640,6 @@
     <Content Include="Areas\SampleModule\Views\Shared\Front.cshtml" />
     <Content Include="Areas\SampleModule\Views\Web.config" />
     <Content Include="Areas\SampleModule\WebResources.config" />
-    <Content Include="Cms_Data\SiteTemplates\Empty.zip" />
-    <Content Include="Cms_Data\SiteTemplates\SampleSite.zip" />
-    <Content Include="Cms_Data\SiteTemplates\SmallBusiness.zip" />
-    <Content Include="Cms_Data\ContentType_Templates\Controls\MultiFiles.cshtml" />
     <Content Include="Areas\Account\Menu.config" />
     <Content Include="Areas\Account\Views\LogOn\ForgotPassword.cshtml" />
     <Content Include="Areas\Account\Views\LogOn\Index.cshtml" />

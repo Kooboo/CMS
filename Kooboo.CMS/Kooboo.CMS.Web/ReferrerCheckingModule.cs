@@ -25,7 +25,7 @@ namespace Kooboo.CMS.Web
             var httpContext = HttpContext.Current;
             if (httpContext.Request.HttpMethod.ToUpper() == "POST")
             {
-                if (httpContext.Request.UrlReferrer.Host != httpContext.Request.Url.Host)
+                if (httpContext.Request.UrlReferrer != null && httpContext.Request.UrlReferrer.Host != httpContext.Request.Url.Host)
                 {
                     throw new HttpException("The cross-domain POST request is not allowed.".Localize());
                 }

@@ -86,13 +86,12 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
             bool isDefault = false;
             bool.TryParse(ControllerContext.RequestContext.GetRequestValue("IsDefault"), out isDefault);
-            var page = new Page()
-            {
-                Parent = parent,
-                Site = Site,
-                Layout = ControllerContext.RequestContext.GetRequestValue("layout"),
-                IsDefault = isDefault
-            };
+            var page = Page.Activator();
+
+            page.Parent = parent;
+            page.Site = Site;
+            page.Layout = ControllerContext.RequestContext.GetRequestValue("layout");
+            page.IsDefault = isDefault;
 
             return View(page);
         }

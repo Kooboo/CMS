@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{862C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TemplateEngines", "TemplateEngines", "{44C0F9F4-CAB8-4C8A-B82A-20770EDBB2A7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kooboo.CMS.Sites.Providers", "Kooboo.CMS.Sites.Providers", "{CA99D0ED-3593-4B9C-BAF3-4C660881610E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Site_Providers", "Site_Providers", "{CA99D0ED-3593-4B9C-BAF3-4C660881610E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Caching", "Caching", "{1EE97803-37FD-4A45-A62B-4B004AAB9E7E}"
 EndProject

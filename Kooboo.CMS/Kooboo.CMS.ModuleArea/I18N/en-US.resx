@@ -1049,4 +1049,133 @@ Are you sure you want to use this size?</value>
   <data name="The item has been saved." xml:space="preserve">
     <value>The item has been saved.</value>
   </data>
+  <data name="Site" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="Are you sure you want to delete these items?" xml:space="preserve">
+    <value>Are you sure you want to delete these items?</value>
+  </data>
+  <data name="Localize" xml:space="preserve">
+    <value>Localize</value>
+  </data>
+  <data name="More..." xml:space="preserve">
+    <value>More...</value>
+  </data>
+  <data name="Versions" xml:space="preserve">
+    <value>Versions</value>
+  </data>
+  <data name="Relations" xml:space="preserve">
+    <value>Relations</value>
+  </data>
+  <data name="Edit layout" xml:space="preserve">
+    <value>Edit layout</value>
+  </data>
+  <data name="Positions" xml:space="preserve">
+    <value>Positions</value>
+  </data>
+  <data name="Layout helper" xml:space="preserve">
+    <value>Layout helper</value>
+  </data>
+  <data name="HTML header" xml:space="preserve">
+    <value>HTML header</value>
+  </data>
+  <data name="Register HtmlMeta" xml:space="preserve">
+    <value>Register HtmlMeta</value>
+  </data>
+  <data name="Register Style" xml:space="preserve">
+    <value>Register Style</value>
+  </data>
+  <data name="Register Script" xml:space="preserve">
+    <value>Register Script</value>
+  </data>
+  <data name="Register Title" xml:space="preserve">
+    <value>Register Title</value>
+  </data>
+  <data name="Add views" xml:space="preserve">
+    <value>Add views</value>
+  </data>
+  <data name="Code helper" xml:space="preserve">
+    <value>Code helper</value>
+  </data>
+  <data name="Plugins" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="Position Name" xml:space="preserve">
+    <value>Position Name</value>
+  </data>
+  <data name="Please input a new position name." xml:space="preserve">
+    <value>Please input a new position name.</value>
+  </data>
+  <data name="The position name already exists." xml:space="preserve">
+    <value>The position name already exists.</value>
+  </data>
+  <data name="Are you sure you want to replace this template?" xml:space="preserve">
+    <value>Are you sure you want to replace this template?</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="-" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>YES</value>
+  </data>
+  <data name="Create New" xml:space="preserve">
+    <value>Create New</value>
+  </data>
+  <data name="Are you sure you want to publish these items?" xml:space="preserve">
+    <value>Are you sure you want to publish these items?</value>
+  </data>
+  <data name="Are you sure you want to unpublish these items?" xml:space="preserve">
+    <value>Are you sure you want to unpublish these items?</value>
+  </data>
+  <data name="Cache Settings" xml:space="preserve">
+    <value>Cache Settings</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>Second</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="network error" xml:space="preserve">
+    <value>network error</value>
+  </data>
+  <data name="Please select a view" xml:space="preserve">
+    <value>Please select a view</value>
+  </data>
+  <data name="Please select a data folder" xml:space="preserve">
+    <value>Please select a data folder</value>
+  </data>
+  <data name="Please select a module" xml:space="preserve">
+    <value>Please select a module</value>
+  </data>
+  <data name="Please select a HTML block" xml:space="preserve">
+    <value>Please select a HTML block</value>
+  </data>
+  <data name="Exclusive" xml:space="preserve">
+    <value>Exclusive</value>
+  </data>
+  <data name="If checked, links within this module will not contains URL parameters of other modules in the same page." xml:space="preserve">
+    <value>If checked, links within this module will not contains URL parameters of other modules in the same page.</value>
+  </data>
+  <data name="Entry Options" xml:space="preserve">
+    <value>Entry Options</value>
+  </data>
+  <data name="Entry Controller" xml:space="preserve">
+    <value>Entry Controller</value>
+  </data>
+  <data name="Initial MVC controller when this module first loaded on a page" xml:space="preserve">
+    <value>Initial MVC controller when this module first loaded on a page</value>
+  </data>
+  <data name="Entry Action" xml:space="preserve">
+    <value>Entry Action</value>
+  </data>
+  <data name="Initial MVC action when this module first loaded on a page" xml:space="preserve">
+    <value>Initial MVC action when this module first loaded on a page</value>
+  </data>
 </root>

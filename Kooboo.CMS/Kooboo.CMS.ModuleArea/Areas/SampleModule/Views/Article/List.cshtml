@@ -1,4 +1,14 @@
-﻿<div class="block list">
+﻿<div class="topbar">
+    <h1 class="title">@MenuHelper.Current().LinkText.Label()</h1>
+    <div class="searchbox">
+        <form action="@Url.ModuleUrl().Action("search")" method="get">
+            <input type="text" name="key" value="@Page_Context.Current.PageRequestContext.AllQueryString["key"]"/>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+<div class="block list">
     @foreach (var item in Model)
     {
         <div class="item" @ViewHelper.Edit(item)>

@@ -65,6 +65,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Kooboo.CMS.Form.dll</HintPath>
     </Reference>
+    <Reference Include="Kooboo.CMS.Search, Version=4.1.0.514, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Kooboo.CMS.Search.dll</HintPath>
+    </Reference>
     <Reference Include="Kooboo.CMS.Sites, Version=4.0.0.827, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Kooboo.CMS.Sites.dll</HintPath>
@@ -902,6 +906,7 @@
     <Content Include="Areas\SampleModule\Views\Shared\_OnUninstalling.cshtml" />
     <Content Include="Areas\Empty\Views\Shared\_OnInstalling.cshtml" />
     <Content Include="Areas\Empty\Views\Shared\_OnUninstalling.cshtml" />
+    <Content Include="Areas\SampleModule\Views\Article\Search.cshtml" />
     <None Include="Properties\PublishProfiles\Publish.pubxml" />
     <Content Include="lib\CookComputing.XmlRpcV2.dll" />
     <Content Include="lib\DiffPlex.dll" />

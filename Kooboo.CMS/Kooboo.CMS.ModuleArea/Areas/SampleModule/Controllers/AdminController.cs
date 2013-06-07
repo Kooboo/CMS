@@ -76,6 +76,7 @@ namespace Kooboo.CMS.ModuleArea.Controllers
                 new EntryOption(){ Name="NewsCategories",Entry = new Entry{ Controller="News",Action ="Categories"}},
                 new EntryOption(){Name="ArticleCategories",Entry=new Entry{Controller="Article",Action="Categories"}},
                 new EntryOption(){Name="ArticleList",Entry=new Entry{Controller="Article",Action="List"}},
+                 new EntryOption(){Name="ArticleSearch",Entry=new Entry{Controller="Article",Action="Search"}},
             };
             moduleInfo.DefaultSettings.CustomSettings = new Dictionary<string, string>();
             moduleInfo.DefaultSettings.CustomSettings["Setting1"] = "Value1";

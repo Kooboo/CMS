@@ -30,15 +30,17 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         {
             var virtualPath = base.GetVirtualPath(requestContext, values);
 
-            if (requestContext.HttpContext is ModuleHttpContext)
+            if (requestContext.HttpContext is ModuleHttpContext && virtualPath != null)
             {
                 var moduleUrl = virtualPath.VirtualPath;
 
                 ModuleHttpContext httpContext = (ModuleHttpContext)(requestContext.HttpContext);
                 var moduleContext = httpContext.ModuleContext;
+
+                var mergedValues = Kooboo.Web.Mvc.RouteValuesHelpers.MergeRouteValues(null, null, this.Defaults, values, true);
                 if (Page_Context.Current.Initialized)
                 {
-                    var modulePositionId = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetModulePositionIdForUrl(moduleContext.ModulePosition.ModuleName, moduleContext.ModulePosition.PagePositionId, values);
+                    var modulePositionId = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetModulePositionIdForUrl(moduleContext.ModulePosition.ModuleName, moduleContext.ModulePosition.PagePositionId, mergedValues);
 
                     var encodedModuleUrl = ModuleUrlHelper.Encode(moduleUrl);
 

@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using Kooboo.Web.Script.Serialization;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [Authorization(AreaName = "Sites", Group = "Page", Name = "Publish", Order = 1)]
@@ -161,7 +161,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         [RequiredLogOn(Exclusive = true, Order = 0)]
         public virtual ActionResult Variables(string pageName, string _draft_)
         {
-            var vars = PageDesignController.jsSerializer.Serialize(new
+            var vars = (new
             {
                 #region urls
                 CopyContent = Url.Action("CopyContent", new { controller = "InlineEditing", repositoryName = Repository.Current.Name, siteName = Site.Current.FullName, area = "Sites" }),
@@ -319,7 +319,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     btnCancel = "Cancel".Localize()
                 }
                 #endregion
-            });
+            }).ToJSON();
 
             // ret
             return JavaScript(string.Format("var __inlineEditVars = {0};", vars));

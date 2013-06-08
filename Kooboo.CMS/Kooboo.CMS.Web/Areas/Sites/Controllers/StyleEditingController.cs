@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using Kooboo.Web.Script.Serialization;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     using Kooboo.Globalization;
@@ -75,7 +75,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         public virtual ActionResult Localization()
         {
-            var json = PageDesignController.jsSerializer.Serialize(new
+            var json = (new
             {
                 selectors_js = new
                 {
@@ -137,7 +137,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                         unitTitle = "Unit".Localize()
                     }
                 }
-            });
+            }).ToJSON();
 
             // ret
             return JavaScript(string.Format("var __localization = {0};", json));
@@ -145,7 +145,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         public virtual ActionResult FrontVariables(string siteName, bool? _draft_)
         {
-            var json = PageDesignController.jsSerializer.Serialize(new
+            var json = (new
             {
                 front_js = new
                 {
@@ -153,7 +153,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     dialogTitle = "Style Editor".Localize(),
                     btnAbleTitle = "Open Style Editor".Localize()
                 }
-            });
+            }).ToJSON();
 
             // ret
             return JavaScript(string.Format("var __localization = {0};", json));

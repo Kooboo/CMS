@@ -74,7 +74,8 @@ namespace Kooboo.Web.Mvc.WebResourceLoader
             /* Remove the spaces before the things that should not have spaces before them.
                But, be careful not to turn "p :link {...}" into "p:link{...}"
             */
-            cssContent = Regex.Replace(cssContent, @"(?#no preceding space needed)\s+((?:[!{};>+()\],])|(?<={[^{}]*):(?=[^}]*}))", "$1");
+            // comment this line to fix this issue: https://github.com/Kooboo/CMS/issues/70
+            //cssContent = Regex.Replace(cssContent, @"(?#no preceding space needed)\s+((?:[!{};>+()\],])|(?<={[^{}]*):(?=[^}]*}))", "$1");
             cssContent = Regex.Replace(cssContent, @"([!{}:;>+([,])\s+", "$1");  // Remove the spaces after the things that should not have spaces after them.
             cssContent = Regex.Replace(cssContent, @"([^;}])}", "$1;}");    // Add the semicolon where it's missing.
             cssContent = Regex.Replace(cssContent, @"(\d+)\.0+(p(?:[xct])|(?:[cem])m|%|in|ex)\b", "$1$2"); // Remove .0 from size units x.0em becomes xem

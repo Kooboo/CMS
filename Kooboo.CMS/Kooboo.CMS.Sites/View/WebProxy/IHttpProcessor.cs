@@ -30,7 +30,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
     public class HttpProcessor : IHttpProcessor
     {
         public virtual string ProcessRequest(HttpContextBase httpContext, string url, string httpMethod)
-        {          
+        {
             var httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
 
             httpWebRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
@@ -128,6 +128,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 case "USER-AGENT":
                 case "CONTENT-LENGTH":
                 case "CONTENT-TYPE":
+                case "If-Modified-Since":
                     return false;
                 default:
                     return true;

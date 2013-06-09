@@ -36,11 +36,6 @@ namespace Kooboo.CMS.Sites.View.WebProxy
 
         public IHtmlString ProcessRequest(HttpContextBase httpContext, string url, string httpMethod, Func<string, bool, string> proxyUrlFunc)
         {
-            if (!url.StartsWith("http://"))
-            {
-                url = "http://" + url;
-            }
-
             IHtmlString htmlString = new HtmlString("");
             var html = _httpProcessor.ProcessRequest(httpContext, url, httpMethod);
             if (!string.IsNullOrEmpty(html))

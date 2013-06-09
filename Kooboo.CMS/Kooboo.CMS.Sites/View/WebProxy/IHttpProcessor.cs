@@ -128,7 +128,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 case "USER-AGENT":
                 case "CONTENT-LENGTH":
                 case "CONTENT-TYPE":
-                case "If-Modified-Since":
+                case "IF-MODIFIED-SINCE":
                     return false;
                 default:
                     return true;

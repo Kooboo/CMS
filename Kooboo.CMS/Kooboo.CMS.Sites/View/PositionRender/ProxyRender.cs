@@ -41,6 +41,12 @@ namespace Kooboo.CMS.Sites.View.PositionRender
                 defaultRequestPath = moduleURL.Trim('~');
             }
             var httpMethod = pageContext.ControllerContext.HttpContext.Request.HttpMethod;
+
+            if (!defaultHost.StartsWith("http://"))
+            {
+                defaultHost = "http://" + defaultHost;
+            }
+
             var requestUrl = UrlUtility.Combine(defaultHost, defaultRequestPath);
 
             Func<IHtmlString> getHtml = () =>
@@ -85,7 +91,7 @@ namespace Kooboo.CMS.Sites.View.PositionRender
                 return "";
             }
 
-            if (!url.StartsWith("#") && !url.StartsWith("javascript:"))
+            if (!url.StartsWith("#") && !url.StartsWith("javascript:") && !Uri.IsWellFormedUriString(url, UriKind.Absolute))
             {
                 var encodedModuleUrl = ModuleUrlHelper.Encode(url);
                 var routeValues = pageContext.PageRequestContext.ModuleUrlContext.GetRouteValuesWithModuleUrl(positionId, encodedModuleUrl, false);

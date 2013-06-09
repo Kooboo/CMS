@@ -29,7 +29,7 @@ namespace Kooboo.CMS.Form.Html.Controls
         protected override string RenderInput(IColumn column)
         {
             StringBuilder sb = new StringBuilder(string.Format(@"@{{ var radioDefaultValue_{0} = @""{1}"";}}", column.Name, column.DefaultValue.EscapeQuote()));
-            if (!string.IsNullOrEmpty(column.SelectionFolder))
+            if (column.SelectionSource == SelectionSource.TextFolder)
             {
                 sb.AppendFormat(@"
                         @{{

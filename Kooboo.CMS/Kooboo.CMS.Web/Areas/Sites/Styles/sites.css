@@ -152,6 +152,17 @@
 .map-item.dynamic div.action > a.active {
 	background-image: url(images/arrow-white-up.png);
 }
+.map-item.abpage:after{
+    content: 'ab';
+    display: block;
+    width: 20px;
+    height: 14px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0 3px;
+    color: #fff;
+}
 .map-item ul {
 	background: #FFF;
 	border: 2px solid #0CA6DD;

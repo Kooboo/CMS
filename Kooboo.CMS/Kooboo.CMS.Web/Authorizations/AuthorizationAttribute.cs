@@ -64,13 +64,19 @@ namespace Kooboo.CMS.Web.Authorizations
 
         protected virtual bool AuthorizeCore(RequestContext requestContext)
         {
+            var userName = requestContext.HttpContext.User.Identity.Name;
             var authenticated = requestContext.HttpContext.User.Identity.IsAuthenticated;
             if (authenticated && RequiredAdministrator)
             {
-                return Kooboo.CMS.Sites.Services.ServiceFactory.UserManager.IsAdministrator(requestContext.HttpContext.User.Identity.Name);
+                return Kooboo.CMS.Sites.Services.ServiceFactory.UserManager.IsAdministrator(userName);
             }
             else
             {
+                if (Site.Current != null)
+                {
+                    authenticated = Kooboo.CMS.Sites.Services.ServiceFactory.UserManager.Authorize(Site.Current, userName);
+                }
+
                 return authenticated;
             }
         }

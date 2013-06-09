@@ -2947,6 +2947,16 @@ ul.site-tree {
 	color: #666;
 }
 
+.sitemap-description li span.abpage {
+	background: none;
+	color: #000;
+	border: 1px solid #000;
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
+	padding-right: 1px;
+}
+
 /* Map item
 ----------------------------------------------------------*/
 .map-item {

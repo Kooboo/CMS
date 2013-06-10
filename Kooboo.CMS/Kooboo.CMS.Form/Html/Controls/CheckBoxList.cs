@@ -36,7 +36,7 @@ namespace Kooboo.CMS.Form.Html.Controls
                         }}
                         }}", column.Name, column.DefaultValue.EscapeQuote()));
 
-            if (!string.IsNullOrEmpty(column.SelectionFolder))
+            if (column.SelectionSource == SelectionSource.TextFolder)
             {
                 sb.AppendFormat(@"
                         @{{
@@ -44,6 +44,7 @@ namespace Kooboo.CMS.Form.Html.Controls
                            var query_{0} = textFolder_{0}.CreateQuery().DefaultOrder(); 
                            var index_{0} = 0;
                         }}
+                        <input type='hidden' name='{0}'/>
                         <ul class=""checkbox-list"">
                         @foreach (var item in query_{0})
                         {{                            
@@ -62,7 +63,9 @@ namespace Kooboo.CMS.Form.Html.Controls
                 if (column.SelectionItems != null)
                 {
                     var index = 0;
-                    sb.Append(@"<ul class=""checkbox-list"">");
+                    sb.AppendFormat(@"
+<input type='hidden' name='{0}'/>
+<ul class=""checkbox-list"">", column.Name);
                     foreach (var item in column.SelectionItems)
                     {
                         var id = column.Name + "_" + index.ToString();

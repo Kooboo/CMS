@@ -13,7 +13,7 @@ using System.Text;
 using System.Web;
 using System.Collections.Specialized;
 using System.Web.Script.Serialization;
-
+using Kooboo.Web.Script.Serialization;
 namespace Kooboo.CMS.Sites.View
 {
     using Kooboo.Extensions;
@@ -129,6 +129,7 @@ namespace Kooboo.CMS.Sites.View
             {
                 this.Parameter.Add("EntryAction", pos.Entry.Action);
                 this.Parameter.Add("EntryController", pos.Entry.Controller);
+                this.Parameter.Add("Values", pos.Entry.Values == null ? "[]" : pos.Entry.Values.ToList().ToJSON());
             }
         }
 

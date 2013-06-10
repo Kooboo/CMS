@@ -16,6 +16,7 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Sites.View;
 using Kooboo.CMS.Sites.DataRule;
+using Kooboo.CMS.Search;
 namespace Kooboo.CMS.ModuleArea.Controllers
 {
     public class ArticleController : ModuleControllerBase
@@ -28,8 +29,8 @@ namespace Kooboo.CMS.ModuleArea.Controllers
             return View(categoryFolder.CreateQuery());
         }
 
-        public ActionResult List(string userKey,int? pageIndex, int? pageSize)
-        {   
+        public ActionResult List(string userKey, int? pageIndex, int? pageSize)
+        {
             var repository = Repository.Current;
             var categoryFolder = new TextFolder(repository, "Category");
             var articleFolder = new TextFolder(repository, "Article");
@@ -38,7 +39,7 @@ namespace Kooboo.CMS.ModuleArea.Controllers
 
             //var userKey = Page_Context.Current.PageRequestContext.AllQueryString["UserKey"];
 
-            if (!string.IsNullOrEmpty(userKey))
+            if (!string.IsNullOrEmpty(userKey) && userKey != "--")
             {
                 articleQuery = articleQuery.WhereCategory(categoryFolder.CreateQuery().WhereEquals("UserKey", userKey));
             }
@@ -56,6 +57,22 @@ namespace Kooboo.CMS.ModuleArea.Controllers
             DataRulePagedList pagedList = new DataRulePagedList(pageData,
                 pageIndex.Value, pageSize.Value, articleQuery.Count());
             return View(pagedList);
+        }
+
+
+        public ActionResult Search(string key, int? pageIndex, int? pageSize)
+        {
+            if (!pageIndex.HasValue)
+            {
+                pageIndex = 1;
+            }
+            if (!pageSize.HasValue)
+            {
+                pageSize = 10;
+            }
+            var results = Repository.Current.Search(key, pageIndex.Value, pageSize.Value);
+
+            return View(results);
         }
     }
 }

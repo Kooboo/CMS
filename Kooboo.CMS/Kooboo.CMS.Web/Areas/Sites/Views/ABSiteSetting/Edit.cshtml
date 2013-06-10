@@ -25,9 +25,8 @@
         @Html.ValidationSummary(true)      
         <table>
             <tbody>
-                 @Html.DisplayFor(o => o.RuleName)
-                @Html.HiddenFor(o => o.RuleName)
-                @Html.DisplayFor(o => o.MainSite)               
+                @Html.EditorFor(o => o.RuleName)
+                @Html.DisplayFor(o => o.MainSite)
                 @Html.EditorFor(o => o.Items)
             </tbody>
         </table>

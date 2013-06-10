@@ -26,6 +26,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Kooboo.Web.Script.Serialization;
 using System.Web.Script.Serialization;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
@@ -196,18 +197,33 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return parameters;
         }
 
-        private static Entry ParseModuleEntry(string action, string controller)
+        private static Entry ParseModuleEntry(Dictionary<string, object> item)
         {
+            var action = item.Str("EntryAction");
+            var controller = item.Str("EntryController");
+
             if (string.IsNullOrWhiteSpace(action) ||
                 string.IsNullOrWhiteSpace(controller))
             {
                 return null;
             }
 
+            var values = new RouteValueDictionary();
+            var valuesString = item.Str("Values");
+            if (!string.IsNullOrEmpty(valuesString))
+            {
+                var keyValues = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyValuePair<string, object>[]>(valuesString);
+                foreach (var kv in keyValues)
+                {
+                    values[kv.Key] = kv.Value;
+                }
+            }
+
             return new Entry()
             {
                 Action = action,
-                Controller = controller
+                Controller = controller,
+                Values = values
             };
         }
 
@@ -238,7 +254,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     {
                         ModuleName = item.Str("ModuleName"),
                         Exclusive = (item.Str("Exclusive") == "true"),
-                        Entry = ParseModuleEntry(item.Str("EntryAction"), item.Str("EntryController"))
+                        Entry = ParseModuleEntry(item)
                     };
                 }
                 else if (t == PageDesignFolderContent.TypeKey)
@@ -320,8 +336,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         public virtual ActionResult ProcessModule(ModulePosition pos)
         {
+            this.ValueProvider.GetValue("q");
+
             if (IsGet())
             {
+                var serializer = new JavaScriptSerializer();
                 var manager = ServiceFactory.GetService<ModuleManager>();
                 var modules = manager.AllModulesForSite(Site.FullName);
                 var model = new List<NameValueCollection>();
@@ -330,26 +349,28 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     var item = new NameValueCollection();
                     item.Add("ModuleName", name);
                     model.Add(item);
-                    var setting = ModuleInfo.GetSiteModuleSettings(name, Site.FullName);
+                    var moduleInfo = ModuleInfo.Get(name);
+                    var setting = moduleInfo.GetModuleSettings(Site);
                     if (setting.Entry != null)
                     {
                         item.Add("EntryAction", setting.Entry.Action);
                         item.Add("EntryController", setting.Entry.Controller);
+                        item.Add("Values", setting.Entry.Values == null ? "[]" : serializer.Serialize(setting.Entry.Values.ToList()));
                     }
-                    var info = ModuleInfo.Get(name);
-                    if (info.EntryOptions != null)
+                    if (moduleInfo.EntryOptions != null)
                     {
                         var options = new List<object>();
-                        foreach (var op in info.EntryOptions)
+                        foreach (var op in moduleInfo.EntryOptions)
                         {
                             options.Add(new
                             {
                                 Name = op.Name,
                                 EntryAction = op.Entry.Action,
-                                EntryController = op.Entry.Controller
+                                EntryController = op.Entry.Controller,
+                                Values = op.Entry.Values == null ? new List<KeyValuePair<string, object>>() : op.Entry.Values.ToList()
                             });
                         }
-                        var serializer = new JavaScriptSerializer();
+
                         var optionsJson = serializer.Serialize(options);
                         item.Add("EntryOptions", optionsJson);
                     }
@@ -357,11 +378,23 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 return View(model);
             }
 
-            if (string.IsNullOrWhiteSpace(pos.Entry.Action) ||
-                string.IsNullOrWhiteSpace(pos.Entry.Controller))
+            if (pos.Entry != null && pos.Entry.Values != null)
             {
-                pos.Entry = null;
+                var newValues = new RouteValueDictionary();
+                foreach (var item in pos.Entry.Values)
+                {
+                    if (item.Value is string[])
+                    {
+                        newValues[item.Key] = ((string[])item.Value).FirstOrDefault();
+                    }
+                    else
+                    {
+                        newValues[item.Key] = item.Value;
+                    }
+                }
+                pos.Entry.Values = newValues;
             }
+
             return Json(new { html = new PageDesignModuleContent(pos).ToHtmlString() });
         }
 

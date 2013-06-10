@@ -14,6 +14,8 @@ using Kooboo.CMS.Sites.Extension;
 using Kooboo.CMS.Sites.View;
 using System.Web;
 using System.ComponentModel;
+using System.IO;
+using System.Web.Mvc;
 
 namespace Kooboo.CMS.PluginTemplate
 {
@@ -30,23 +32,17 @@ namespace Kooboo.CMS.PluginTemplate
         }
     }
     [Description("Sample plugin")]
-    public class PagePluginSample : IPagePlugin
+    public class PagePluginSample : IHttpMethodPagePlugin
     {
         IResponseManager _responseManager;
         public PagePluginSample(IResponseManager responseManager)
         {
             _responseManager = responseManager;
         }
-        #region IPagePlugin Members
-
-        public System.Web.Mvc.ActionResult Execute(Page_Context pageViewContext, PagePositionContext positionContext)
-        {
-            //pageViewContext.ControllerContext.HttpContext.Response.Write("Sample plugin executed.<br/>");
-            return null;
-        }
+       
         public System.Web.Mvc.ActionResult HttpGet(Page_Context context, PagePositionContext positionContext)
         {
-            _responseManager.SetHeader("SamplePlugin", "GET");
+            _responseManager.SetHeader("SamplePlugin", "GET");     
             return null;
         }
 
@@ -54,13 +50,6 @@ namespace Kooboo.CMS.PluginTemplate
         {
             _responseManager.SetHeader("SamplePlugin", "POST");
             return null;
-        }
-        #endregion
-
-        [Obsolete]
-        public string Description
-        {
-            get { return "Sample plugin"; }
-        }
+        }       
     }
 }

@@ -13,7 +13,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     public class ProxyPosition_Metadata
     {
         [Required(ErrorMessage = "Required")]
-        [DisplayName("Site base domain or URL")]
+        [DisplayName("Site base domain or URL")]        
         public string Host { get; set; }
 
         [Required(ErrorMessage = "Required")]

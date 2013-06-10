@@ -23,8 +23,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     {
         [Required(ErrorMessage = "Required")]
         public string Name { get; set; }
+
         [Required]
         [Display(Name = "Regex pattern")]
+        [UIHint("UserAgentPattern")]
         [Description("The UserAgent regular expression pattern.")]
         public string RegexPattern { get; set; }
     }

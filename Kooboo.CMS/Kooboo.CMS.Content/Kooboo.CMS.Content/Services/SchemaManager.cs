@@ -23,10 +23,14 @@ namespace Kooboo.CMS.Content.Services
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(SchemaManager))]
     public class SchemaManager : ManagerBase<Schema, ISchemaProvider>, IManager<Schema, ISchemaProvider>
     {
+        #region .ctor
         public SchemaManager(ISchemaProvider provider)
             : base(provider)
         {
         }
+        #endregion
+
+        #region Create
         public virtual Schema Create(Repository repository, string schemaName, string templateName)
         {
             var template = ServiceFactory.RepositoryTemplateManager.GetItemTemplate(templateName);
@@ -44,13 +48,18 @@ namespace Kooboo.CMS.Content.Services
         {
             return Provider.Create(repository, schemaName, templateStream);
         }
+        #endregion
 
+        #region Get
         public override Schema Get(Repository repository, string name)
         {
             var dummy = new Schema(repository, name);
             return Provider.Get(dummy);
         }
 
+        #endregion
+
+        #region Remove
         public new void Remove(Repository repository, Schema schema)
         {
             if (GetRelationFolders(schema).Count() > 0)
@@ -59,6 +68,7 @@ namespace Kooboo.CMS.Content.Services
             }
             base.Remove(repository, schema);
         }
+        #endregion
 
         #region Import & Export Schema
         public virtual void Export(Repository repository, Stream stream, IEnumerable<Schema> exports)
@@ -76,45 +86,44 @@ namespace Kooboo.CMS.Content.Services
         }
         #endregion
 
+        //public virtual Column GetColumn(Repository repository, string schemaName, string name)
+        //{
+        //    var schema = Get(repository, schemaName);
+        //    return schema.Columns.Where(o => o.Name == name).FirstOrDefault();
+        //}
 
-        public virtual Column GetColumn(Repository repository, string schemaName, string name)
-        {
-            var schema = Get(repository, schemaName);
-            return schema.Columns.Where(o => o.Name == name).FirstOrDefault();
-        }
+        //public virtual void AddColumn(Repository repository, string schemaName, Column column)
+        //{
+        //    var schema = Get(repository, schemaName);
+        //    var old = (Schema)schema.DeepClone();
+        //    if (schema.Columns.Where(o => o.Name == column.Name).Count() > 0)
+        //    {
+        //        throw new ItemAlreadyExistsException();
+        //    }
+        //    schema.AddColumn(column);
+        //    this.Update(repository, schema, old);
+        //}
 
-        public virtual void AddColumn(Repository repository, string schemaName, Column column)
-        {
-            var schema = Get(repository, schemaName);
-            var old = (Schema)schema.DeepClone();
-            if (schema.Columns.Where(o => o.Name == column.Name).Count() > 0)
-            {
-                throw new ItemAlreadyExistsException();
-            }
-            schema.AddColumn(column);
-            this.Update(repository, schema, old);
-        }
+        //public virtual void UpdateColumn(Repository repository, string schemaName, Column @new, string oldName)
+        //{
+        //    var schema = Get(repository, schemaName);
+        //    var old = (Schema)schema.DeepClone();
+        //    if (@new.Name != oldName &&
+        //        schema.Columns.Where(o => o.Name == @new.Name).Count() > 0)
+        //    {
+        //        throw new ItemAlreadyExistsException();
+        //    }
+        //    schema.UpdateColumn(new Column() { Name = oldName }, @new);
+        //    this.Update(repository, schema, old);
+        //}
 
-        public virtual void UpdateColumn(Repository repository, string schemaName, Column @new, string oldName)
-        {
-            var schema = Get(repository, schemaName);
-            var old = (Schema)schema.DeepClone();
-            if (@new.Name != oldName &&
-                schema.Columns.Where(o => o.Name == @new.Name).Count() > 0)
-            {
-                throw new ItemAlreadyExistsException();
-            }
-            schema.UpdateColumn(new Column() { Name = oldName }, @new);
-            this.Update(repository, schema, old);
-        }
-
-        public virtual void DeleteColumn(Repository repository, string schemaName, string name)
-        {
-            var schema = Get(repository, schemaName);
-            var old = (Schema)schema.DeepClone();
-            schema.RemoveColumn(new Column() { Name = name });
-            this.Update(repository, schema, old);
-        }
+        //public virtual void DeleteColumn(Repository repository, string schemaName, string name)
+        //{
+        //    var schema = Get(repository, schemaName);
+        //    var old = (Schema)schema.DeepClone();
+        //    schema.RemoveColumn(new Column() { Name = name });
+        //    this.Update(repository, schema, old);
+        //}
 
 
 
@@ -148,7 +157,7 @@ namespace Kooboo.CMS.Content.Services
                 ResetForm(schema, path, FormType.Update);
             }
 
-            schema.TemplateBuildByMachine = true;
+            //schema.TemplateBuildByMachine = true;
 
             Update(repository, schema, schema);
         }
@@ -159,30 +168,43 @@ namespace Kooboo.CMS.Content.Services
             string form = schema.GenerateForm(formType);
             IO.IOUtility.SaveStringToFile(formFilePhysicalPath, form);
         }
+
+        /// <summary>
+        /// Gets the form.
+        /// </summary>
+        /// <param name="repository">The repository.</param>
+        /// <param name="schemaName">Name of the schema.</param>
+        /// <param name="formType">Type of the form.</param>
+        /// <returns></returns>
         public virtual string GetForm(Repository repository, string schemaName, FormType formType)
         {
             Schema schema = new Schema(repository, schemaName);
-            var formFilePhysicalPath = schema.GetFormFilePhysicalPath(formType);
+            var formFilePhysicalPath = schema.GetCustomTemplatePhysicalPath(formType);
             if (!File.Exists(formFilePhysicalPath))
             {
-                ResetForm(repository, schemaName, formType);
+                formFilePhysicalPath = schema.GetFormFilePhysicalPath(formType);
+                if (!File.Exists(formFilePhysicalPath))
+                {
+                    formFilePhysicalPath = schema.GetCustomTemplatePhysicalPath(formType);
+                }
             }
+
             return IO.IOUtility.ReadAsString(formFilePhysicalPath);
         }
-        public virtual void SaveForm(Repository repository, string schemaName, string body, FormType formType, bool maunallyChanged)
+        /// <summary>
+        /// Saves the form into custom template
+        /// </summary>
+        /// <param name="repository">The repository.</param>
+        /// <param name="schemaName">Name of the schema.</param>
+        /// <param name="body">The body.</param>
+        /// <param name="formType">Type of the form.</param>
+        public virtual void SaveForm(Repository repository, string schemaName, string body, FormType formType)
         {
             Schema schema = new Schema(repository, schemaName);
 
-            var formFilePhysicalPath = schema.GetFormFilePhysicalPath(formType);
+            var formFilePhysicalPath = schema.GetCustomTemplatePhysicalPath(formType);
 
             IO.IOUtility.SaveStringToFile(formFilePhysicalPath, body);
-
-            schema = schema.AsActual();
-
-            schema.TemplateBuildByMachine = maunallyChanged;
-
-            Update(repository, schema, schema);
-
         }
         #endregion
 

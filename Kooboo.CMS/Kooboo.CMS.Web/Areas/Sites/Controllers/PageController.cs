@@ -56,15 +56,15 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         protected override IEnumerable<Page> List(string search, string sortField, string sortDir)
         {
-            string fullName = this.ControllerContext.RequestContext.GetRequestValue("uuid");
+            string parentPage = this.ControllerContext.RequestContext.GetRequestValue("parentPage");
 
-            if (fullName != null)
+            if (parentPage != null)
             {
-                ViewData["page"] = Manager.Get(Site, fullName);
+                ViewData["page"] = Manager.Get(Site, parentPage);
             }
 
 
-            var list = Manager.All(Site, fullName, search);
+            var list = Manager.All(Site, parentPage, search);
 
             return list.AsQueryable().SortBy(sortField, sortDir);
         }
@@ -86,13 +86,12 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
             bool isDefault = false;
             bool.TryParse(ControllerContext.RequestContext.GetRequestValue("IsDefault"), out isDefault);
-            var page = new Page()
-            {
-                Parent = parent,
-                Site = Site,
-                Layout = ControllerContext.RequestContext.GetRequestValue("layout"),
-                IsDefault = isDefault
-            };
+            var page = Page.Activator();
+
+            page.Parent = parent;
+            page.Site = Site;
+            page.Layout = ControllerContext.RequestContext.GetRequestValue("layout");
+            page.IsDefault = isDefault;
 
             return View(page);
         }

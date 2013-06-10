@@ -64,7 +64,7 @@ namespace Kooboo.CMS.Sites.View
 
         private static void Attr(StringBuilder builder, string name, object value)
         {
-            builder.AppendFormat(" {0}=\"{1}\"", name, value);
+            builder.AppendFormat(" {0}='{1}'", name, value);
         }
 
         public string ToHtmlString()

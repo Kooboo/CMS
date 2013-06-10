@@ -430,6 +430,9 @@ namespace Kooboo.CMS.Sites.Models
 
     public partial class Page : DirectoryResource, IInheritable<Page>, Kooboo.CMS.Sites.Versioning.IVersionable
     {
+        #region EmptyPage
+        public static Func<Page> Activator = () => new Page();
+        #endregion
         #region override PathResource
 
         string _fullName = null;

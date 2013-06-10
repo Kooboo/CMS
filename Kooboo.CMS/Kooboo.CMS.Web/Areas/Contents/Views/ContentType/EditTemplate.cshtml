@@ -1,0 +1,42 @@
+﻿@model string
+@{
+    ViewBag.Title = "Edit content type template".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="topbar">
+    <h1 class="title">@ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+</div>
+
+<div class="common-form fixed fullscreen">
+    @using (Html.BeginForm())
+    { 
+        @Html.TextArea("Body", Model, new { rows = 30, cols = 20 })
+    }
+</div>
+<script>
+    $(function () {
+        var textArea = $('#Body').codeMirror();
+
+        window.ajaxFormParam = {
+            beforeSerialize: function ($form, options) {
+                window.leaveConfirm.pass();
+                var codeMirrorAPI = textArea.data("codeMirror");
+                var text = codeMirrorAPI.getText();
+                textArea.val(text);
+            }
+        };
+    });
+</script>

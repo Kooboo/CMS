@@ -188,7 +188,7 @@ CREATE TABLE `{0}` (
 
         private static bool CheckTableExists(Schema schema)
         {
-            string sql = string.Format(@"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{0}.{1}'", schema.Repository.Name, schema.GetTableName());
+            string sql = string.Format(@"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{0}'", schema.GetTableName());
 
             MySqlCommand command = new MySqlCommand() { CommandText = sql };
 

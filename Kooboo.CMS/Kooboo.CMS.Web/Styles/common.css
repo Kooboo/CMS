@@ -963,6 +963,11 @@ input, button, select, textarea {
 	width: 280px;
 }
 
+.common-form select.long,
+.common-form .select2-container.long {
+	width: 420px;
+}
+
 .common-form textarea.autoresize.medium,
 .autoresizeMedium {
 	-moz-box-sizing: border-box;

@@ -57,9 +57,6 @@ namespace Kooboo.CMS.Content.Models
             {
                 return (T)((object)new MediaFolder(repository, names));
             }
-
-
-
         }
     }
 }

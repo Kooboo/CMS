@@ -51,22 +51,10 @@ namespace Kooboo.CMS.Content.Models
             var names = SplitFullName(fullName);
             if (typeof(T) == typeof(CMS.Content.Models.TextFolder))
             {
-                if (names == null || !names.Any())
-                {
-                    var defaultFolder = new List<string>();
-                    defaultFolder.Add(Paths.FolderPath.GetBaseDir<TextFolder>(repository));
-                    names = names.Concat(defaultFolder);
-                }
                 return (T)((object)new TextFolder(repository, names));
             }
             else
             {
-                if (names == null || !names.Any())
-                {
-                    var defaultFolder = new List<string>();
-                    defaultFolder.Add(Paths.FolderPath.GetBaseDir<MediaFolder>(repository));
-                    names = names.Concat(defaultFolder);
-                }
                 return (T)((object)new MediaFolder(repository, names));
             }
         }

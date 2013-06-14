@@ -65,7 +65,10 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             try
             {
                 var o = Deserialize(dummy, filePath);
-                o.Init(dummy);
+                if (o!=null)
+                {
+                    o.Init(dummy);
+                }                
                 return o;
             }
             finally

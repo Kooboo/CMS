@@ -57,7 +57,17 @@ namespace Kooboo.CMS.Sites.Persistence
             {
                 if (stream.Length > 0)
                 {
-                    return ser.ReadObject(stream);
+                    try
+                    {
+                        return ser.ReadObject(stream);
+                    }
+                    catch (Exception e)
+                    {
+                        Kooboo.HealthMonitoring.Log.LogException(e);
+
+                        return null;
+                    }
+
                 }
                 else
                 {

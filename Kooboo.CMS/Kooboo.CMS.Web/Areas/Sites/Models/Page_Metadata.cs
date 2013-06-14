@@ -91,7 +91,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         public PageType PageType { get; set; }
 
         [Description("Cache your rendered pages for quicker response time in the next page request")]
-        [UIHint("OutputCache")]
+        //[UIHint("OutputCache")]
         public CacheSettings OutputCache { get; set; }
 
         [Required(ErrorMessage = "Required")]
@@ -168,7 +168,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Display(Name = "External URL")]
         public string ExternalUrl { get; set; }
     }
-       
+
     [MetadataFor(typeof(CacheSettings))]
     public class CacheSettings_Metadata
     {

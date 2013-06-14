@@ -76,10 +76,7 @@
         @Html.EditorFor(o => o.Plugins)
     </div>
     <div class="tab-content" id="outputCache">
-        <table>
-            @Html.EditorFor(m => m.CacheToDisk)
-            @Html.EditorFor(m => m.OutputCache)
-        </table>
+        @Html.Partial("_OutputCache",Model)
     </div>
     @if (customTabs.Length == 0)
     {

@@ -23,7 +23,7 @@ namespace Kooboo.CMS.Sites.View.HtmlParsing
         {
             this.Parsers = parsers;
         }
-        static Regex syntaxRegex = new Regex("\\[\\[(.+):(.+)\\]\\]");
+        static Regex syntaxRegex = new Regex("\\[\\[([^\\[\\[]+):([^\\[\\[]+)\\]\\]");
         public string Parse(string html)
         {
             if (string.IsNullOrEmpty(html))

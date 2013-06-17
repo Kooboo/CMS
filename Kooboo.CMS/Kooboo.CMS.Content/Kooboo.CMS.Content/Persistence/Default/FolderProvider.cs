@@ -33,7 +33,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
                 typeof(MediaFolder)
                 };
             }
-        } 
+        }
         #endregion
 
         #region IRepository<Folder> Members
@@ -105,14 +105,19 @@ namespace Kooboo.CMS.Content.Persistence.Default
             GetLocker().EnterWriteLock();
             try
             {
-                ImportHelper.Import(new FolderPath(folder).PhysicalPath, zipStream, @override);
+                string basePath = FolderPath.GetBaseDir<T>(repository);
+                if (null != folder)
+                {
+                    basePath = new FolderPath(folder).PhysicalPath;
+                }
+                ImportHelper.Import(basePath, zipStream, @override);
             }
             finally
             {
                 GetLocker().ExitWriteLock();
             }
         }
-        #endregion        
+        #endregion
     }
 
 }

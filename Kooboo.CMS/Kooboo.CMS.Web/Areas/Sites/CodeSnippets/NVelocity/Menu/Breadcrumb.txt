@@ -4,7 +4,7 @@
     <li>$Html.FrontHtml().PageLink($item.LinkText, $item.FullName)</li>
     <li class="separator">|</li>
 #end
-<li>#set($title=$Page_Context.Current.GetFieldValue("Title"))
+<li>#set($title=$Page_Context.Current.ContentTitle)
 #if($title)
     $title
 #else

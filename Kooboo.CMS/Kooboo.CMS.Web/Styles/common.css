@@ -963,6 +963,11 @@ input, button, select, textarea {
 	width: 280px;
 }
 
+.common-form select.long,
+.common-form .select2-container.long {
+	width: 420px;
+}
+
 .common-form textarea.autoresize.medium,
 .autoresizeMedium {
 	-moz-box-sizing: border-box;
@@ -1895,7 +1900,7 @@ body .select2-results .select2-result-label {
 	padding: 20px 0;
 }
 
-.in-dialog .common-grid a {
+.in-dialog .common-grid ul a {
 	width: 200px;
 }
 

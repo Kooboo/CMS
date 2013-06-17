@@ -900,7 +900,7 @@ namespace Kooboo.Drawing
 
             try
             {
-                oResampled = new Bitmap(oSize.Width, oSize.Height, PixelFormat.Format24bppRgb);
+                oResampled = new Bitmap(oSize.Width, oSize.Height, PixelFormat.Format32bppArgb);
 
                 // Creates a Graphics for the oResampled image
                 oGraphics = Graphics.FromImage(oResampled);
@@ -920,7 +920,7 @@ namespace Kooboo.Drawing
                     oRectangle = new Rectangle(0, 0, oSize.Width, oSize.Height);
 
                 // Place a white background (for transparent images).
-                oGraphics.FillRectangle(new SolidBrush(Color.White), oRectangle);
+                //oGraphics.FillRectangle(new SolidBrush(Color.White), oRectangle);
 
                 // Draws over the oResampled image the resampled Image
                 oGraphics.DrawImage(sourceImage, oRectangle);
@@ -1027,7 +1027,7 @@ namespace Kooboo.Drawing
             Graphics oGraphics = null;
             try
             {
-                oResampled = new Bitmap(oSize.Width, oSize.Height, PixelFormat.Format24bppRgb);
+                oResampled = new Bitmap(oSize.Width, oSize.Height, PixelFormat.Format32bppArgb);
 
                 // Creates a Graphics for the oResampled image
                 oGraphics = Graphics.FromImage(oResampled);
@@ -1047,7 +1047,7 @@ namespace Kooboo.Drawing
                     oRectangle = new Rectangle(0, 0, oSize.Width, oSize.Height);
 
                 // Place a white background (for transparent images).
-                oGraphics.FillRectangle(new SolidBrush(Color.White), oRectangle);
+                //oGraphics.FillRectangle(new SolidBrush(Color.White), oRectangle);
 
                 // Draws over the oResampled image the resampled Image
                 oGraphics.DrawImage(sourceImage, oRectangle);

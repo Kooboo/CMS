@@ -15,33 +15,44 @@ using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Sites.Versioning;
 using Kooboo.CMS.Sites.Models;
 using System.Data.Entity;
-[assembly: System.Web.PreApplicationStartMethod(typeof(Kooboo.CMS.Sites.Providers.SqlServer.AssemblyInitializer), "Initialize")]
+using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.CMS.Common.Runtime;
 namespace Kooboo.CMS.Sites.Providers.SqlServer
 {
-    public static class AssemblyInitializer
+    public class AssemblyInitializer : Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
     {
-        public static void Initialize()
+       
+        //public static void ResetProviders()
+        //{
+        //    var dbContext = SiteDbContext.CreateDbContext();
+        //    dbContext.Database.CreateIfNotExists();
+
+        //    Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance = new LabelProvider.RepositoryFactory();
+
+        //    var providerFactory = Kooboo.CMS.Sites.Persistence.Providers.ProviderFactory;
+        //    providerFactory.RegisterProvider<IPageProvider>(new PageProvider.PageProvider());
+        //    providerFactory.RegisterProvider<IHtmlBlockProvider>(new HtmlBlockProvider.HtmlBlockProvider());
+        //    providerFactory.RegisterProvider<IUserProvider>(new UserProvider.UserProvider());
+
+        //    // VersionManager.RegisterVersionLogger<Page>(new PageProvider.PageProvider.PageVersionLogger());
+        //    //VersionManager.RegisterVersionLogger<HtmlBlock>(new HtmlBlockProvider.HtmlBlockProvider.HtmlBlockVersionLogger());
+        //}
+
+        public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
         {
-            ApplicationInitialization.RegisterInitializerMethod(delegate()
-            {
-                ResetProviders();
-            }, 1);
+            Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance = new LabelProvider.RepositoryFactory();
+            containerManager.AddComponent<IPageProvider, PageProvider.PageProvider>();
+            containerManager.AddComponent<IHtmlBlockProvider, HtmlBlockProvider.HtmlBlockProvider>();
+            containerManager.AddComponent<IUserProvider, UserProvider.UserProvider>();
+
+            var dbContext = SiteDbContext.CreateDbContext();
+            dbContext.Database.CreateIfNotExists();       
+
         }
 
-        public static void ResetProviders()
+        public int Order
         {
-            var dbContext = SiteDbContext.CreateDbContext();
-            dbContext.Database.CreateIfNotExists();
-
-            Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance = new LabelProvider.RepositoryFactory();
-
-            var providerFactory = Kooboo.CMS.Sites.Persistence.Providers.ProviderFactory;
-            providerFactory.RegisterProvider<IPageProvider>(new PageProvider.PageProvider());
-            providerFactory.RegisterProvider<IHtmlBlockProvider>(new HtmlBlockProvider.HtmlBlockProvider());
-            providerFactory.RegisterProvider<IUserProvider>(new UserProvider.UserProvider());
-
-           // VersionManager.RegisterVersionLogger<Page>(new PageProvider.PageProvider.PageVersionLogger());
-            //VersionManager.RegisterVersionLogger<HtmlBlock>(new HtmlBlockProvider.HtmlBlockProvider.HtmlBlockVersionLogger());
+            get { return 1; }
         }
     }
 }

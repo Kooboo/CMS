@@ -33,6 +33,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
         {
             var httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
 
+            httpWebRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
             FillHttpRequest(httpWebRequest, httpContext, url);
             httpWebRequest.Method = httpMethod;
             if (httpMethod.ToUpper() == "POST")
@@ -69,11 +70,21 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 // or else will output the response stream directly.
                 if (string.IsNullOrEmpty(contentType) || contentType.ToLower().Contains("text/html"))
                 {
-                    using (StreamReader loResponseStream = new StreamReader(responseStream))
+                    string Charset = httpWebResponse.CharacterSet;
+                    Encoding encoding = Encoding.GetEncoding(Charset);
+                    // read response
+                    using (StreamReader sr =
+                           new StreamReader(responseStream, encoding))
                     {
-                        string html = loResponseStream.ReadToEnd();
+                        var html = sr.ReadToEnd();
                         return html;
                     }
+
+                    //using (StreamReader loResponseStream = new StreamReader(responseStream))
+                    //{
+                    //    string html = loResponseStream.ReadToEnd();
+                    //    return html;
+                    //}
                 }
                 else
                 {
@@ -117,6 +128,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 case "USER-AGENT":
                 case "CONTENT-LENGTH":
                 case "CONTENT-TYPE":
+                case "IF-MODIFIED-SINCE":
                     return false;
                 default:
                     return true;

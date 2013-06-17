@@ -2015,7 +2015,6 @@
     <Content Include="Areas\Sites\Views\Shared\EditorTemplates\HtmlMeta.cshtml" />
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\Layout.cshtml" />
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\Navigation.cshtml" />
-    <Content Include="Areas\Sites\Views\Page\EditorTemplates\OutputCache.cshtml" />
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\PagePermission.cshtml" />
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\PageRoute.cshtml" />
     <Content Include="Areas\Sites\Views\Page\Copy.cshtml" />

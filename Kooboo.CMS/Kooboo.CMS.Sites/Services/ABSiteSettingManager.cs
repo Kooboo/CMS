@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Sites.Services
         }
         public virtual IEnumerable<ABSiteSetting> All(string filterName)
         {
-            var list = _provider.All();
+            var list = _provider.All().Select(it => it.AsActual());
             if (!string.IsNullOrEmpty(filterName))
             {
                 list = list.Where(it => it.MainSite.Contains(filterName));
@@ -98,12 +98,12 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region Match site
-        public virtual Site MatchRule(Site site, HttpContextBase httpContext)
+        public virtual Site MatchRule(Site site, HttpContextBase httpContext, out ABSiteSetting abSiteSetting)
         {
             var matchedSite = site;
             var ruleName = site.FullName;
 
-            var visitRule = Get(ruleName);
+            var visitRule = abSiteSetting = Get(ruleName);
             if (visitRule != null)
             {
                 ABSiteRuleItem matchedRuleItem = null;

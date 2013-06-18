@@ -19,6 +19,7 @@ using System.Threading;
 using System.Web.Mvc;
 using System.Globalization;
 using Kooboo.Web.Url;
+using Kooboo.CMS.Sites.ABTest;
 
 namespace Kooboo.CMS.Sites.Web
 {
@@ -111,9 +112,14 @@ namespace Kooboo.CMS.Sites.Web
         {
             return appRelativeCurrentExecutionFilePath.ToLower().Contains("/cms_data/");
         }
-        private static string GetRawHostWithoutPort(HttpRequest request)
+        private static string GetRawHost(HttpRequest request)
         {
-            return request.Url.Host;
+            var host = request.Url.Host;
+            if (!(HttpContext.Current.Request.Url.Port == 80 || HttpContext.Current.Request.Url.Port == 443))
+            {
+                host = host + ":" + HttpContext.Current.Request.Url.Port;
+            }
+            return host;
         }
         internal void ResolveSite()
         {
@@ -135,7 +141,7 @@ namespace Kooboo.CMS.Sites.Web
             if (!trimedPath.StartsWith(SiteHelper.PREFIX_FRONT_DEBUG_URL, StringComparison.InvariantCultureIgnoreCase))
             {
                 #region RequestByHostName
-                var host = GetRawHostWithoutPort(_request);
+                var host = GetRawHost(_request);
                 RawSite = siteProvider.GetSiteByHostNameNPath(host, trimedPath);
                 if (RawSite != null)
                 {
@@ -178,7 +184,10 @@ namespace Kooboo.CMS.Sites.Web
 
             if (RawSite != null)
             {
-                Site = MatchSiteByVisitRule(RawSite);
+                if (RequestChannel == FrontRequestChannel.Debug || RequestChannel == FrontRequestChannel.Host || RequestChannel == FrontRequestChannel.HostNPath)
+                {
+                    Site = MatchSiteByVisitRule(RawSite);
+                }
 
                 //set current site repository
                 Kooboo.CMS.Content.Models.Repository.Current = Site.GetRepository();
@@ -197,7 +206,43 @@ namespace Kooboo.CMS.Sites.Web
 
         protected virtual Site MatchSiteByVisitRule(Site site)
         {
-            return Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Sites.Services.ABSiteSettingManager>().MatchRule(site, new HttpContextWrapper(HttpContext.Current));
+            ABSiteSetting abSiteSetting = null;
+            var httpContext = new HttpContextWrapper(HttpContext.Current);
+            var matchedSite = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Sites.Services.ABSiteSettingManager>().MatchRule(site, httpContext, out abSiteSetting);
+            if (matchedSite != site && abSiteSetting != null && abSiteSetting.RedirectType != null && abSiteSetting.RedirectType.Value != RedirectType.Transfer)
+            {
+                string url = null;
+                var rawUrl = RequestUrl;
+                if (!string.IsNullOrEmpty(httpContext.Request.Url.Query))
+                {
+                    rawUrl = rawUrl + httpContext.Request.Url.Query;
+                }
+                if (this.RequestChannel == FrontRequestChannel.Debug)
+                {
+                    url = FrontUrlHelper.WrapperUrl(rawUrl, matchedSite, FrontRequestChannel.Debug).ToString();
+                }
+                else
+                {
+                    var domain = matchedSite.FullDomains.FirstOrDefault();
+                    if (!string.IsNullOrEmpty(domain))
+                    {
+                        var baseUri = httpContext.Request.Url.Scheme + "://" + domain;
+                        url = new Uri(new Uri(baseUri), rawUrl).ToString();
+                    }
+                }
+                if (!string.IsNullOrEmpty(url))
+                {
+                    if (abSiteSetting.RedirectType.Value == RedirectType.Found_Redirect_302)
+                    {
+                        httpContext.Response.Redirect(url);
+                    }
+                    else if (abSiteSetting.RedirectType.Value == RedirectType.Moved_Permanently_301)
+                    {
+                        httpContext.Response.RedirectPermanent(url);
+                    }
+                }
+            }
+            return matchedSite;
         }
         #endregion
     }

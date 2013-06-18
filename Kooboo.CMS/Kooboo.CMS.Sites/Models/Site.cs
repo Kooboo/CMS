@@ -22,6 +22,7 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using System.Text.RegularExpressions;
 using System.Net.Mail;
 using System.Net;
+using System.Web;
 
 namespace Kooboo.CMS.Sites.Models
 {
@@ -176,7 +177,15 @@ namespace Kooboo.CMS.Sites.Models
             {
                 var domains = this.Domains ?? new string[0];
                 var sitePath = this.SitePath == null ? "" : this.SitePath.Trim().Trim('/');
-                return domains.Where(it => !string.IsNullOrEmpty(it)).Select(it => (it.Trim('/') + "/" + sitePath).TrimEnd('/') + "/");
+                var portSegment = "";
+                if (HttpContext.Current != null)
+                {
+                    if (!(HttpContext.Current.Request.Url.Port == 80 || HttpContext.Current.Request.Url.Port == 443))
+                    {
+                        portSegment = ":" + HttpContext.Current.Request.Url.Port;
+                    }
+                }
+                return domains.Where(it => !string.IsNullOrEmpty(it)).Select(it => (it.Trim('/') + portSegment + "/" + sitePath).TrimEnd('/') + "/");
             }
         }
         #endregion
@@ -423,7 +432,7 @@ namespace Kooboo.CMS.Sites.Models
 
         #endregion
 
-        #region override base       
+        #region override base
         public override bool Exists()
         {
             return File.Exists(this.DataFile);

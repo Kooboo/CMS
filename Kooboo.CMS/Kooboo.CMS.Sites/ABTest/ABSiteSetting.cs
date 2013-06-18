@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace Kooboo.CMS.Sites.ABTest
         public string RuleName { get; set; }
         [DataMember]
         public List<ABSiteRuleItem> Items { get; set; }
+        [DataMember]
+        public RedirectType? RedirectType { get; set; }
     }
     public partial class ABSiteSetting : IPersistable, IIdentifiable
     {

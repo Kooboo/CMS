@@ -21,7 +21,7 @@ namespace Kooboo.CMS.Content.Models
     /// UUID生成器
     /// </summary>
     public class UUIDGenerator
-    {       
+    {
         static UUIDGenerator()
         {
             DefaultGenerator = new UUIDGenerator();
@@ -46,16 +46,9 @@ namespace Kooboo.CMS.Content.Models
         public virtual string Generate(ContentBase content)
         {
             string userKey = content.UserKey;
-            //#warning sqlce test...
-            //            return userKey;
             if (string.IsNullOrEmpty(userKey))
             {
                 userKey = GetColumnValueForUserKey(content);
-                if (!string.IsNullOrEmpty(userKey))
-                {
-                    Repository repository = content.GetRepository().AsActual();
-                    userKey = TrimUserKey(userKey, repository.UserKeyReplacePattern, repository.UserKeyHyphens);
-                }
             }
             if (string.IsNullOrEmpty(userKey))
             {
@@ -67,8 +60,10 @@ namespace Kooboo.CMS.Content.Models
                 {
                     userKey = userKey.Substring(0, 90);
                 }
+
+                var tmpUserKey = EscapeUserKey(content, userKey);
+
                 int tries = 0;
-                string tmpUserKey = userKey.StripAllTags();
                 while (IfUserKeyExists(content, tmpUserKey))
                 {
                     tries++;
@@ -79,10 +74,40 @@ namespace Kooboo.CMS.Content.Models
 
             return userKey;
         }
-        protected virtual string TrimUserKey(string userKey, string replacePattern, string hyphens)
+        protected virtual string EscapeUserKey(ContentBase content, string userKey)
         {
-            userKey = Regex.Replace(userKey, replacePattern, hyphens);
-            return userKey;
+            string tmpUserKey = userKey.StripAllTags();
+
+            //http://stackoverflow.com/questions/9565360/how-to-convert-utf-8-characters-to-ascii-for-use-in-a-url/9628594#9628594
+            tmpUserKey = RemoveDiacritics(tmpUserKey);
+
+            Repository repository = content.GetRepository().AsActual();
+            tmpUserKey = Regex.Replace(tmpUserKey, repository.UserKeyReplacePattern, repository.UserKeyHyphens);
+
+            return tmpUserKey;
+        }
+        protected virtual string RemoveDiacritics(string value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return value;
+
+            string normalized = value.Normalize(NormalizationForm.FormD);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in normalized)
+            {
+                if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark)
+                    sb.Append(c);
+            }
+
+            Encoding nonunicode = Encoding.GetEncoding(850);
+            Encoding unicode = Encoding.Unicode;
+
+            byte[] nonunicodeBytes = Encoding.Convert(unicode, nonunicode, unicode.GetBytes(sb.ToString()));
+            char[] nonunicodeChars = new char[nonunicode.GetCharCount(nonunicodeBytes, 0, nonunicodeBytes.Length)];
+            nonunicode.GetChars(nonunicodeBytes, 0, nonunicodeBytes.Length, nonunicodeChars, 0);
+
+            return new string(nonunicodeChars);
         }
         protected virtual string GetColumnValueForUserKey(ContentBase content)
         {

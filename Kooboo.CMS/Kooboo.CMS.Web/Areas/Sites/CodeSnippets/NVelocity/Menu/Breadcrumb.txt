@@ -8,7 +8,7 @@
 #if($title)
     $title
 #else
-    $MenuHelper.Current().Name
+    $MenuHelper.Current().LinkText
 #end
 </li>
 </ul>

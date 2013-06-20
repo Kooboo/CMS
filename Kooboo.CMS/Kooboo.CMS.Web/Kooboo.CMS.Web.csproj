@@ -666,10 +666,8 @@
     <Content Include="Scripts\tiny_mce\plugins\hr\plugin.min.js" />
     <Content Include="Scripts\tiny_mce\plugins\image\plugin.min.js" />
     <Content Include="Scripts\tiny_mce\plugins\insertdatetime\plugin.min.js" />
-    <Content Include="Scripts\tiny_mce\plugins\insertPage\editor_plugin.min.js" />
-    <Content Include="Scripts\tiny_mce\plugins\insertPage\editor_plugin_src.js" />
-    <Content Include="Scripts\tiny_mce\plugins\KoobooMediaLibrary\editor_plugin.min.js" />
-    <Content Include="Scripts\tiny_mce\plugins\KoobooMediaLibrary\editor_plugin_src.js" />
+    <Content Include="Scripts\tiny_mce\plugins\insertPage\plugin.min.js" />
+    <Content Include="Scripts\tiny_mce\plugins\KoobooMediaLibrary\plugin.min.js" />
     <Content Include="Scripts\tiny_mce\plugins\layer\plugin.min.js" />
     <Content Include="Scripts\tiny_mce\plugins\legacyoutput\plugin.min.js" />
     <Content Include="Scripts\tiny_mce\plugins\link\plugin.min.js" />
@@ -2290,8 +2288,6 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>copy "..\..\..\Lib\MVC\4.0\*.dll"  "$(TargetDir)";
-copy "..\..\Kooboo.CMS.Common.Runtime.Dependency.Ninject\Bin\$(ConfigurationName)\Ninject.dll"  "$(TargetDir)";
-copy "..\..\Kooboo.CMS.Common.Runtime.Dependency.Ninject\Bin\$(ConfigurationName)\Kooboo.CMS.Common.Runtime.Dependency.Ninject.dll"  "$(TargetDir)";
 @echo copy "..\..\..\Lib\SQLCe\*.*" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

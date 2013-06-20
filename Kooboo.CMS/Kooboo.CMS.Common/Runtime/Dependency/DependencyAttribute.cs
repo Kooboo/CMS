@@ -37,5 +37,13 @@ namespace Kooboo.CMS.Common.Runtime.Dependency
 
         /// <summary>Configurations for which this service is registered.</summary>
         public string Configuration { get; set; }
+
+        /// <summary>
+        /// The order to add the component into IoC container.
+        /// </summary>
+        /// <value>
+        /// The order.
+        /// </value>
+        public int Order { get; set; }
     }
 }

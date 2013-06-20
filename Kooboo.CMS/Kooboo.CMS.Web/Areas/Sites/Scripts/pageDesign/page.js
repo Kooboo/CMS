@@ -390,7 +390,14 @@
                                             this.checked = false;
                                         }
                                     });
-                                } else {
+                                }
+                                else if (valueInput.get(0).tagName.toLowerCase() == 'select' && (!!valueInput.attr("multiple"))) {
+                                    var val = (dataItem.Value ? dataItem.Value.toString() : '').split(',');
+                                    $.each(val, function (idx, item) {
+                                        $(valueInput).find("option:contains('" + item + "')").attr("selected", "selected");
+                                    });
+                                }
+                                else {
                                     var strval = dataItem.Value ? dataItem.Value.toString() : '';
                                     if (dataItem.DataType == 'DateTime') { strval = strval.replace(/\+/g, ' '); }
                                     valueInput.val(strval);

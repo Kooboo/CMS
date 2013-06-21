@@ -29,33 +29,30 @@
     $(function () {
         var $cacheInMemory = $('#radio_CacheInMemory');
         var $memorySetting = $cacheInMemory.parent().parent().nextAll();
-        function syncCacheInMemorySetting() {
-            if ($cacheInMemory.is(':checked')) {
-                $memorySetting.show();
-            }
-            else {
-                $memorySetting.hide();
-            }
-        }
+               
         $('[name=cacheType]').change(function () {
-            syncCacheInMemorySetting();
-            var $self = $(this);
+            var $self = $(this);            
             switch ($self.val()) {
                 case '0':
+                    $memorySetting.hide();
+                
                     $('#CacheToDisk').val('False');
                     $('#OutputCache_EnableCaching').val('False');
                     break;
                 case '1':
+                    $memorySetting.show();                   
                     $('#CacheToDisk').val('True');
                     $('#OutputCache_EnableCaching').val('False');
                     break;
                 case '2':
+                    $memorySetting.show();                  
+
                     $('#CacheToDisk').val('False');
                     $('#OutputCache_EnableCaching').val('True');
                     break;
 
             }
         });
-        syncCacheInMemorySetting();
+        $('[name=cacheType]:checked').trigger('change');
     });
 </script>

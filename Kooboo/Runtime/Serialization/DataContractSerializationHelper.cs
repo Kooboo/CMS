@@ -47,6 +47,7 @@ namespace Kooboo.Runtime.Serialization
             DataContractSerializer ser = new DataContractSerializer(typeof(T));
             var settings = new XmlWriterSettings()
                {
+                   CheckCharacters = false,
                    Indent = true,
                    IndentChars = "\t"
                };

@@ -14,12 +14,15 @@
         return {
             mode: "exact",
             theme: "modern",
+            menubar: false,
+            toolbar_items_size: 'small',
+            resize: false,
             plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
+                "advlist autolink lists link image charmap anchor",
                 "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table contextmenu paste insertPage"
+                "media table contextmenu paste insertPage textcolor"
             ],
-            toolbar: "undo redo | insertPage | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            toolbar: "searchreplace undo redo | bold italic forecolor formatselect | indent outdent | alignleft aligncenter alignright alignjustify | bullist numlist | image link unlink insertPage | code fullscreen",
             relative_urls: false,
             convert_urls: false,
             extended_valid_elements: "style[type],script[type|src],iframe[src|style|width|height|scrolling|marginwidth|marginheight|frameborder]",
@@ -130,6 +133,6 @@
                 $(this).val(val);
             });
         }
-    };  
+    };
 
 }(jQuery, window.tinymce || window.tinyMCE));

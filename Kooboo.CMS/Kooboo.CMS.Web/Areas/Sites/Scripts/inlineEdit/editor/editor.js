@@ -51,8 +51,8 @@
         //新增的
         onSave: null,
         onCancel: null,
-        tooltip:null,
-        eidtorInstance:null,
+        tooltip: null,
+        eidtorInstance: null,
         remove: function () {
             if (this.initialized) {
                 this._onBeforeExit();
@@ -60,7 +60,7 @@
                 this.editorInstance && this.editorInstance.remove();
             }
         },
-        _onBeforeExit:function(){
+        _onBeforeExit: function () {
             this.tooltip && this.tooltip.remove();
             this.tooltip = null;
         },
@@ -70,7 +70,7 @@
         message: function (msg, ref) {
             if (!msg) {
                 this.tooltip && this.tooltip.hide();
-            }else {
+            } else {
                 if (!this.tooltip) {
                     this.tooltip = new tinyMCE.ui.Tooltip({ type: 'tooltip' });
                     $(document).bind('mouseup', function () {
@@ -165,13 +165,15 @@
             tinymce.init({
                 selector: selector,
                 plugins: [
-                    ["advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker"],
-                    ["searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking"],
+                    ["advlist autolink link image lists charmap hr anchor pagebreak spellchecker"],
+                    ["searchreplace wordcount visualblocks visualchars code media nonbreaking"],
                     ["exit table contextmenu directionality emoticons template paste"]
                 ],
                 schema: "html5",
                 inline: true,
-                toolbar: "save exit | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media",
+                menubar: false,
+                toolbar_items_size: 'small',
+                toolbar: "save exit | searchreplace undo redo | bold italic forecolor formatselect | indent outdent | alignleft aligncenter alignright alignjustify | bullist numlist | image link unlink | code",
                 init_instance_callback: function (ed) {
                     self.editorInstance = ed;
                     setTimeout(function () {
@@ -189,7 +191,7 @@
                 }
             });
         },
-        
+
         editable: function (edit) {
             edit = (edit !== false);
             // prop

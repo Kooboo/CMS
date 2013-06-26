@@ -500,3 +500,9 @@ body.in-dialog .mce-foot {
 	right: 0;
 	width: auto !important;
 }
+
+/* Icons
+----------------------------------------------------------*/
+.mce-ico.mce-i-insertPage {
+	background-image: url(images/icon-insert-page.png);
+}

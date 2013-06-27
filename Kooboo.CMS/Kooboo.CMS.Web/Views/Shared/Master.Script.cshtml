@@ -86,6 +86,9 @@
                     ed.on('change', function (ed, l) {
                         window.leaveConfirm.stop();
                     });
+                    ed.on('FullscreenStateChanged', function (e) {
+                        $(window.parent.document).find('iframe').toggleClass('fullscreen');
+                    });
                 }
             });
 

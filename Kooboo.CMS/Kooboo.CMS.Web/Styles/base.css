@@ -267,7 +267,12 @@ a.button.upload input {
 /* =4 Tinymce
 ---------------------------------------------------------------------------------------------------------------------*/
 body div.mce-fullscreen {
+	top: 40px;
 	z-index: 99999;
+}
+
+body.in-dialog div.mce-fullscreen {
+	top: 0;
 }
 
 body .mce-panel {

@@ -185,9 +185,12 @@
                     self.onSave && self.onSave();
                 },
                 exit_onbeforeexit: function (ed) {
-                    self.onCancel && self.onCancel();
-                    self._onBeforeExit();
-                    return false;
+                    //Need to delay for a while,otherwise, 
+                    //immediately remove the tinymce editor instance, there was an error will be
+                    setTimeout(function () {
+                        self.onCancel && self.onCancel();
+                        self._onBeforeExit();
+                    }, 100);
                 }
             });
         },

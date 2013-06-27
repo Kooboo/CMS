@@ -128,9 +128,10 @@
             // ensure firefox use DIV as editor element, 
             // in firefox there ara some problems in other element types.
             // eg: SPAN within A will cause the content can not be removed.
-            var markup = $.browser.mozilla ? '<div></div>' : '<span></span>';
+            //Modified by Raoh in 2013-06-27: The tinyMCE inline edit need a block-level elements.
+            var markup = '<div></div>';//$.browser.mozilla ? '<div></div>' : '<span></span>';
             var wrapper = $(markup).insertAfter(this.startNode);
-            if (displayBlock) { wrapper.css('display', 'block'); }
+            if (displayBlock) { wrapper.css('display', 'inline-block'); }
             if (floatValue) { wrapper.css('float', floatValue); }
             // append content
             var wrapperDom = wrapper.get(0);

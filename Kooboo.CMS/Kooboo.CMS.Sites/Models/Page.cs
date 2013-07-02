@@ -433,6 +433,7 @@ namespace Kooboo.CMS.Sites.Models
         #region EmptyPage
         public static Func<Page> Activator = () => new Page();
         #endregion
+
         #region override PathResource
 
         string _fullName = null;

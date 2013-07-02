@@ -26,7 +26,7 @@ using System.Web.Routing;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
-   
+
     [MetadataFor(typeof(Site))]
     public class Site_Metadata
     {
@@ -80,6 +80,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
         public string Repository { get; set; }
 
+
+        [Description("Select a membership data source for the site.")]
+        [UIHint("DropDownList")]
+        [DataSource(typeof(MembershipDataSource))]
+        public string Membership { get; set; }
 
         [Display(Name = "Enable inline editing")]
         [Description("Enables you to edit content from the front end of your website.")]

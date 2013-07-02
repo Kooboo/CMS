@@ -18,7 +18,7 @@ namespace Kooboo.CMS.Web.Areas.Sites
 {
     public static class MenuExtensions
     {
-        public static Menu SetCurrentSite(this Menu menu, ViewContext viewContext)
+        public static Kooboo.Web.Mvc.Menu.Menu SetCurrentSite(this Kooboo.Web.Mvc.Menu.Menu menu, ViewContext viewContext)
         {
             var siteName = viewContext.RequestContext.GetRequestValue("siteName");
             if (siteName != null)

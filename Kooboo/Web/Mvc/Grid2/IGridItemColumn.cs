@@ -71,7 +71,7 @@ namespace Kooboo.Web.Mvc.Grid2
         }
 
         public virtual IHtmlString RenderItemColumnContainerAtts(ViewContext viewContext)
-        {
+        {          
             return new HtmlString("");
         }
 

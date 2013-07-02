@@ -137,16 +137,16 @@
     <Compile Include="Areas\Contents\Controllers\TextFolderController.cs" />
     <Compile Include="Areas\Contents\Controllers\WorkflowController.cs" />
     <Compile Include="Areas\Contents\MenuExtensions.cs" />
-    <Compile Include="Areas\Contents\Menus\ContentAuthorizeMenuItemInitializer.cs" />
-    <Compile Include="Areas\Contents\Menus\BroadcastingMenuInitializer.cs" />
-    <Compile Include="Areas\Contents\Menus\ContentMenuItems.cs">
+    <Compile Include="Areas\Contents\Menu\ContentAuthorizeMenuItemInitializer.cs" />
+    <Compile Include="Areas\Contents\Menu\BroadcastingMenuInitializer.cs" />
+    <Compile Include="Areas\Contents\Menu\ContentMenuItems.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Areas\Contents\Menus\WorkflowMenuInitializer.cs" />
-    <Compile Include="Areas\Contents\Menus\FolderMenuItem.cs" />
-    <Compile Include="Areas\Contents\Menus\MediaMenuItems.cs" />
-    <Compile Include="Areas\Contents\Menus\ReceivedMessageGroupMenuItems.cs" />
-    <Compile Include="Areas\Contents\Menus\RepositoriesMenu.cs">
+    <Compile Include="Areas\Contents\Menu\WorkflowMenuInitializer.cs" />
+    <Compile Include="Areas\Contents\Menu\FolderMenuItem.cs" />
+    <Compile Include="Areas\Contents\Menu\MediaMenuItems.cs" />
+    <Compile Include="Areas\Contents\Menu\ReceivedMessageGroupMenuItems.cs" />
+    <Compile Include="Areas\Contents\Menu\RepositoriesMenu.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Contents\Models\CreateRepositoryModel.cs" />
@@ -188,14 +188,33 @@
     <Compile Include="Areas\Contents\Models\TextContentGrid.cs" />
     <Compile Include="Areas\Contents\Models\TextFolder_Metadata.cs" />
     <Compile Include="Areas\Contents\Models\VersionInfo_Metadata.cs" />
+    <Compile Include="Areas\Member\Controllers\ControllerBase.cs" />
+    <Compile Include="Areas\Member\Controllers\MembershipConnectController.cs" />
+    <Compile Include="Areas\Member\Controllers\MembershipController.cs" />
+    <Compile Include="Areas\Member\Controllers\MembershipGroupController.cs" />
+    <Compile Include="Areas\Member\Controllers\MembershipUserController.cs" />
+    <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
+    <Compile Include="Areas\Member\MenuExtensions.cs" />
+    <Compile Include="Areas\Member\Models\ChangePasswordModel.cs" />
+    <Compile Include="Areas\Member\Models\CreateMembershipUserModel.cs" />
+    <Compile Include="Areas\Member\Models\DataSources\AuthClientDataSource.cs" />
+    <Compile Include="Areas\Member\Models\DataSources\MembershipGroupDataSource.cs" />
+    <Compile Include="Areas\Member\Models\EditMembershipUserModel.cs" />
+    <Compile Include="Areas\Member\Models\DataSources\HashAlgorithmTypeDataSource.cs" />
+    <Compile Include="Areas\Member\Models\MembershipConnect_Metadata.cs" />
+    <Compile Include="Areas\Member\Models\MembershipGroup_Metadata.cs" />
+    <Compile Include="Areas\Member\Models\MembershipUser_Metadata.cs" />
+    <Compile Include="Areas\Member\Models\Membership_Metadata.cs" />
     <Compile Include="Areas\Sites\Controllers\ABPageTestResultController.cs" />
     <Compile Include="Areas\Sites\Controllers\SubmissionSettingController.cs" />
     <Compile Include="Areas\Sites\Controllers\ABPageSettingController.cs" />
     <Compile Include="Areas\Sites\Controllers\SiteTemplateController.cs" />
     <Compile Include="Areas\Sites\Controllers\ABSiteSettingController.cs" />
     <Compile Include="Areas\Sites\Controllers\ABRuleSettingController.cs" />
+    <Compile Include="Areas\Sites\Menu\MembershipMenuItems.cs" />
     <Compile Include="Areas\Sites\Models\ABPageTestHitsReport.cs" />
     <Compile Include="Areas\Sites\Models\ABPageTestResult_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\DataSources\MembershipDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\SubmissionPluginsDataSource.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_HitTimes_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_ShowTimes_GridItemColumn.cs" />
@@ -292,23 +311,22 @@
     <Compile Include="Areas\Sites\Controllers\UsersController.cs" />
     <Compile Include="Areas\Sites\Controllers\ViewController.cs" />
     <Compile Include="Areas\Sites\MenuExtensions.cs" />
-    <Compile Include="Areas\Sites\Menus\ContentFolderMenuItemInitializer.cs" />
-    <Compile Include="Areas\Sites\Menus\ContentFolderMenuItems.cs" />
-    <Compile Include="Areas\Sites\Menus\CustomFileFolderMenuItems.cs" />
-    <Compile Include="Areas\Sites\Menus\DataRuleMenuItemInitializer.cs" />
-    <Compile Include="Areas\Sites\Menus\FileFolderItemInitializer.cs" />
-    <Compile Include="Areas\Sites\Menus\FileFolderMenuItems.cs" />
-    <Compile Include="Areas\Sites\Menus\LabelMenuItems.cs" />
-    <Compile Include="Areas\Sites\Menus\ModuleAreaMenuItems.cs" />
-    <Compile Include="Areas\Sites\Menus\PageMenuItemInitializer.cs" />
-    <Compile Include="Areas\Sites\Menus\PageMenuItems.cs" />
-    <Compile Include="Areas\Sites\Menus\ScriptFolderMenuItems.cs" />
-    <Compile Include="Areas\Sites\Menus\SiteAuthorizeMenuItemInitializer.cs" />
-    <Compile Include="Areas\Sites\Menus\SitesMenu.cs" />
-    <Compile Include="Areas\Sites\Menus\StartMenuItemInitializer.cs" />
-    <Compile Include="Areas\Sites\Menus\ThemeFolderMenuItems.cs" />
-    <Compile Include="Areas\Sites\Menus\ViewMenuItemInitializer.cs" />
-    <Compile Include="Areas\Sites\Menus\ViewNamespaceMenuItems.cs" />
+    <Compile Include="Areas\Sites\Menu\ContentFolderMenuItemInitializer.cs" />
+    <Compile Include="Areas\Sites\Menu\ContentFolderMenuItems.cs" />
+    <Compile Include="Areas\Sites\Menu\CustomFileFolderMenuItems.cs" />
+    <Compile Include="Areas\Sites\Menu\DataRuleMenuItemInitializer.cs" />
+    <Compile Include="Areas\Sites\Menu\FileFolderItemInitializer.cs" />
+    <Compile Include="Areas\Sites\Menu\FileFolderMenuItems.cs" />
+    <Compile Include="Areas\Sites\Menu\LabelMenuItems.cs" />
+    <Compile Include="Areas\Sites\Menu\ModuleAreaMenuItems.cs" />
+    <Compile Include="Areas\Sites\Menu\PageMenuItemInitializer.cs" />
+    <Compile Include="Areas\Sites\Menu\PageMenuItems.cs" />
+    <Compile Include="Areas\Sites\Menu\ScriptFolderMenuItems.cs" />
+    <Compile Include="Areas\Sites\Menu\SiteAuthorizeMenuItemInitializer.cs" />
+    <Compile Include="Areas\Sites\Menu\StartMenuItemInitializer.cs" />
+    <Compile Include="Areas\Sites\Menu\ThemeFolderMenuItems.cs" />
+    <Compile Include="Areas\Sites\Menu\ViewMenuItemInitializer.cs" />
+    <Compile Include="Areas\Sites\Menu\ViewNamespaceMenuItems.cs" />
     <Compile Include="Areas\Sites\ModelBinders\DataRuleBinder.cs" />
     <Compile Include="Areas\Sites\ModelBinders\PagePositionBinder.cs" />
     <Compile Include="Areas\Sites\ModelBinders\ParameterBinder.cs" />
@@ -332,7 +350,7 @@
     <Compile Include="Areas\Sites\Models\DataSources\SitePackagesDatasource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\SiteTemplatesDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\ThemesDataSource.cs" />
-    <Compile Include="Areas\Sites\Models\DataSources\TimeZonesDataSource.cs" />
+    <Compile Include="Models\TimeZonesDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\UrlRedirectTypesDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\PagesDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\SitesDataSource.cs" />
@@ -1947,6 +1965,10 @@
       <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
       <Name>Kooboo.CMS.Form</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Member\Kooboo.CMS.Member.csproj">
+      <Project>{3df23643-4bd1-4564-82b9-9ec594ad05b6}</Project>
+      <Name>Kooboo.CMS.Member</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Search\Kooboo.CMS.Search.csproj">
       <Project>{C7B73E67-D226-41CB-A86D-410276B265A1}</Project>
       <Name>Kooboo.CMS.Search</Name>
@@ -2133,7 +2155,7 @@
     <Content Include="Areas\Sites\Views\Shared\Global.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\Shared\_SidebarTopSearch.cshtml" />
+    <Content Include="Views\Shared\_SidebarTopSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ABRuleSetting\Create.cshtml" />
@@ -2250,6 +2272,64 @@
     <Content Include="Areas\Sites\Views\Page\_OutputCache.cshtml">
       <SubType>Code</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\Shared\MenuItem.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\Membership\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Menu.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\WebResources.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\Membership\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\Membership\_MembershipNode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\MembershipGroup\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\Shared\__Sidebar.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\MembershipGroup\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\MembershipUser\ChangePassword.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\MembershipUser\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\MembershipUser\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\MembershipUser\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\MembershipConnect\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\MembershipConnect\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\MembershipConnect\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Member\Views\Shared\Site.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

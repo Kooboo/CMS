@@ -1654,7 +1654,7 @@ body .select2-results .select2-result-label {
 .common-table td.common {
 	width: 300px;
 }
-
+.common-table td.short,
 .common-table td.type,
 .common-table td.date,
 .common-table td.size {

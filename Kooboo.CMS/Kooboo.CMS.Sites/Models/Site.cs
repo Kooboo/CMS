@@ -708,6 +708,9 @@ namespace Kooboo.CMS.Sites.Models
         }
         [DataMember()]//
         public HtmlMeta HtmlMeta { get; set; }
+
+        [DataMember]
+        public string Membership { get; set; }
     }
     #endregion
 }

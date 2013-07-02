@@ -2029,6 +2029,14 @@ body .select2-results .select2-result-label {
 	top: 0;
 }
 
+.iframe-dialog .ui-dialog-content > iframe.fullscreen {
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+
 .ui-dialog.warning-dialog,
 .ui-dialog.warning-dialog .ui-dialog-content {
 	background: #FF0045;
@@ -2989,7 +2997,7 @@ ul.site-tree {
 	font-weight: bold;
 }
 
-.map-item.abpage:after{
+.map-item.abpage:after {
 	content: 'ab';
 	display: block;
 	width: 20px;
@@ -3013,6 +3021,10 @@ ul.site-tree {
 	width: 107px;
 }
 
+.sitemap-panel .map-item > a {
+	cursor: default;
+}
+
 .map-item .arrow {
 	border-left: 1px solid #FFF;
 	display: block;
@@ -3021,6 +3033,10 @@ ul.site-tree {
 	padding: 8px;
 	text-indent: -9999px;
 	width: 16px;
+}
+
+.sitemap-panel .map-item .arrow {
+	cursor: pointer;
 }
 
 .map-item ul {

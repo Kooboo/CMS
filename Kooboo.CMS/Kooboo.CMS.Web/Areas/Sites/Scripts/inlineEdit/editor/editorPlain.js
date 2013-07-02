@@ -64,11 +64,11 @@
                 plugins: [
                     "exit"
                 ],
-                schema: "html5",
                 inline: true,
                 menubar: false,
                 force_p_newlines: false,
-                forced_root_block:false,
+                forced_root_block: false,
+                toolbar_items_size: 'small',
                 toolbar: "save exit | undo redo |",
                 init_instance_callback: function (ed) {
                     self.editorInstance = ed;

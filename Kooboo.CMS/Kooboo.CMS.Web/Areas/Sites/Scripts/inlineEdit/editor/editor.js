@@ -191,6 +191,47 @@
                         self.onCancel && self.onCancel();
                         self._onBeforeExit();
                     }, 100);
+                },
+                /*added by Raoh in 2013-07-05*/
+                file_browser_callback: function (inputId, value, fileType, window) {
+
+                    // execute popup
+                    var topJQ = top._jQuery || top.jQuery;
+                    var id = new Date().getTime();
+                    topJQ.pop({
+                        id: id,
+                        url: __inlineEditVars.MediaLibrary,
+                        width: 900,
+                        height: 500,
+                        dialogClass: 'iframe-dialog',
+                        frameHeight: '100%',
+                        beforeLoad: function () {
+                        },
+                        onload: function (handle, pop, config) {
+                            top.onFileSelected = function (src, text, option) {
+                                var $srcInput = topJQ('#' + inputId);
+                                $srcInput.val(src);
+                                var $descriptionInput = $srcInput.parent().parent().parent().next().find('input');
+                                $descriptionInput.val(text);
+                            };
+                            top.fileSelectPop = pop;
+                        },
+                        onclose: function (handle, pop, config) {
+
+                        }
+                    });
+                    var contentCon = topJQ('#' + id);
+                    if (contentCon.length > 0) {
+                        var dialogCon = contentCon.parent('.ui-dialog').first();
+                        var maskCon = dialogCon.next('.ui-widget-overlay').first();
+                    }
+                    var win = yardi.zindexCenter.getDomOwner(maskCon);
+                    var zix = yardi.zindexCenter.queryWinZMax(win);
+                    maskCon.css("z-index", parseInt(zix) + 1);
+                    win = yardi.zindexCenter.getDomOwner(dialogCon);
+                    zix = yardi.zindexCenter.queryWinZMax(win);
+                    dialogCon.css("z-index", parseInt(zix) + 1);
+                    //tinymce.ztopKoobooDialog(id);
                 }
             });
         },

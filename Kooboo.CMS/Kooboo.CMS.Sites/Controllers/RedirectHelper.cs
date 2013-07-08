@@ -33,16 +33,16 @@ namespace Kooboo.CMS.Sites.Controllers
                     redirectUrl = FrontUrlHelper.WrapperUrl(redirectUrl, site, channel).ToString();
                 }
             }
-            if (appendErrorPath==true)
+            if (appendErrorPath == true)
             {
                 if (!string.IsNullOrEmpty(rawUrl))
                 {
-                    redirectUrl = redirectUrl.AddQueryParam("errorpath", rawUrl);
+                    redirectUrl = redirectUrl.AddQueryParam("returnUrl", rawUrl);
                 }
-                if (statusCode != null)
-                {
-                    redirectUrl = redirectUrl.AddQueryParam("statusCode", statusCode.ToString());
-                }
+                //if (statusCode != null)
+                //{
+                //    redirectUrl = redirectUrl.AddQueryParam("statusCode", statusCode.ToString());
+                //}
             }
             switch (redirectType)
             {

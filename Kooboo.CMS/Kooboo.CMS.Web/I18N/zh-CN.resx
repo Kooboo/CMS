@@ -2460,4 +2460,7 @@
   <data name="Password changed date" xml:space="preserve">
     <value>Password changed date</value>
   </data>
+  <data name="Could not find a property named Password." xml:space="preserve">
+    <value>Could not find a property named Password.</value>
+  </data>
 </root>

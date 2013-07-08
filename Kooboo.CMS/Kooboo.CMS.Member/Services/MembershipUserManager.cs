@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Kooboo.CMS.Common.DataViolation;
 
 
 namespace Kooboo.CMS.Member.Services
@@ -60,14 +61,18 @@ namespace Kooboo.CMS.Member.Services
 
             MembershipUser membershipUser = new MembershipUser() { Membership = membership };
             membershipUser.UserName = userName;
-
+            List<DataViolationItem> violations = new List<DataViolationItem>();
             if (membershipUser.AsActual() != null)
             {
-                throw new ArgumentException("DuplicateUserName");
+                violations.Add(new DataViolationItem("UserName", userName, "DuplicateUserName"));
             }
             if (_provider.QueryUserByEmail(membership, email) != null)
             {
-                throw new ArgumentException("DuplicateEmail");
+                violations.Add(new DataViolationItem("Email", email, "DuplicateEmail"));
+            }
+            if (violations.Count > 0)
+            {
+                throw new DataViolationException(violations);
             }
 
             membershipUser.Email = email;
@@ -105,7 +110,7 @@ namespace Kooboo.CMS.Member.Services
         #region Update
         public override void Update(MembershipUser @new, MembershipUser old)
         {
-            throw new NotSupportedException("Using 'Edit' to update a membership user instead of 'Update'.");
+            _provider.Update(@new, old);
         }
         #endregion
 
@@ -152,7 +157,94 @@ namespace Kooboo.CMS.Member.Services
 
             _provider.Update(membershipUser, membershipUser);
         }
+        
         #endregion
 
+        #region Validate
+        public virtual bool Validate(Membership membership, string userName, string password)
+        {
+            var membershipUser = new MembershipUser() { Membership = membership, UserName = userName }.AsActual();
+            List<DataViolationItem> violations = new List<DataViolationItem>();
+            if (membershipUser == null)
+            {
+                return false;
+            }
+            if (!membershipUser.IsApproved)
+            {
+                violations.Add(new DataViolationItem("UserName", userName, "The member still not actived."));
+            }
+            if (membershipUser.IsLockedOut)
+            {
+                violations.Add(new DataViolationItem("UserName", userName, "The member was locked out."));
+            }
+            if (violations.Count > 0)
+            {
+                throw new DataViolationException(violations);
+            }
+            var encodedPassword = _passwordProvider.EncodePassword(membership, password, membershipUser.PasswordSalt);
+            return encodedPassword == membershipUser.Password;
+        }
+        #endregion
+
+        #region Active
+        public virtual bool Activate(Membership membership, string userName, string code)
+        {
+            var membershipUser = new MembershipUser() { Membership = membership, UserName = userName }.AsActual();
+            List<DataViolationItem> violations = new List<DataViolationItem>();
+            if (membershipUser == null)
+            {
+                violations.Add(new DataViolationItem("UserName", userName, "The member does not exists."));
+            }
+            if (membershipUser.IsApproved)
+            {
+                return true;
+            }
+            if (violations.Count > 0)
+            {
+                throw new DataViolationException(violations);
+            }
+
+            var isApproved = false;
+
+            if (membershipUser.Profiles != null)
+            {
+                var activeCode = membershipUser.Profiles.ContainsKey("ActivateCode") ? membershipUser.Profiles["ActivateCode"] : "";
+                isApproved = activeCode == code;
+            }
+
+            if (isApproved == true)
+            {
+                membershipUser.IsApproved = true;
+                membershipUser.Profiles.Remove("ActivateCode");
+                Update(membershipUser, membershipUser);
+            }
+            return isApproved;
+        }
+        #endregion
+
+        #region EditMemberProfile
+        public virtual void EditMemberProfile(Membership membership, string userName, string culture, string timeZoneId, string passwordQuestion = null,
+         string passwordAnswer = null, Dictionary<string, string> profiles = null)
+        {
+            membership = membership.AsActual();
+
+            MembershipUser membershipUser = new MembershipUser() { Membership = membership, UserName = userName }.AsActual();
+
+            if (membershipUser == null)
+            {
+                throw new ArgumentException("The member doest not exists.");
+            }
+
+            membershipUser.Culture = culture;
+            membershipUser.TimeZoneId = timeZoneId;
+            membershipUser.PasswordQuestion = passwordQuestion;
+            membershipUser.PasswordAnswer = passwordAnswer;
+            membershipUser.Profiles = profiles;
+
+
+            _provider.Update(membershipUser, membershipUser);
+
+        }
+        #endregion
     }
 }

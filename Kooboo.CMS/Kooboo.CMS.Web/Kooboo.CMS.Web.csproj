@@ -188,23 +188,23 @@
     <Compile Include="Areas\Contents\Models\TextContentGrid.cs" />
     <Compile Include="Areas\Contents\Models\TextFolder_Metadata.cs" />
     <Compile Include="Areas\Contents\Models\VersionInfo_Metadata.cs" />
-    <Compile Include="Areas\Member\Controllers\ControllerBase.cs" />
-    <Compile Include="Areas\Member\Controllers\MembershipConnectController.cs" />
-    <Compile Include="Areas\Member\Controllers\MembershipController.cs" />
-    <Compile Include="Areas\Member\Controllers\MembershipGroupController.cs" />
-    <Compile Include="Areas\Member\Controllers\MembershipUserController.cs" />
-    <Compile Include="Areas\Member\MemberAreaRegistration.cs" />
-    <Compile Include="Areas\Member\MenuExtensions.cs" />
-    <Compile Include="Areas\Member\Models\ChangePasswordModel.cs" />
-    <Compile Include="Areas\Member\Models\CreateMembershipUserModel.cs" />
-    <Compile Include="Areas\Member\Models\DataSources\AuthClientDataSource.cs" />
-    <Compile Include="Areas\Member\Models\DataSources\MembershipGroupDataSource.cs" />
-    <Compile Include="Areas\Member\Models\EditMembershipUserModel.cs" />
-    <Compile Include="Areas\Member\Models\DataSources\HashAlgorithmTypeDataSource.cs" />
-    <Compile Include="Areas\Member\Models\MembershipConnect_Metadata.cs" />
-    <Compile Include="Areas\Member\Models\MembershipGroup_Metadata.cs" />
-    <Compile Include="Areas\Member\Models\MembershipUser_Metadata.cs" />
-    <Compile Include="Areas\Member\Models\Membership_Metadata.cs" />
+    <Compile Include="Areas\Membership\Controllers\ControllerBase.cs" />
+    <Compile Include="Areas\Membership\Controllers\MembershipConnectController.cs" />
+    <Compile Include="Areas\Membership\Controllers\MembershipController.cs" />
+    <Compile Include="Areas\Membership\Controllers\MembershipGroupController.cs" />
+    <Compile Include="Areas\Membership\Controllers\MembershipUserController.cs" />
+    <Compile Include="Areas\Membership\MembershipRegistration.cs" />
+    <Compile Include="Areas\Membership\MenuExtensions.cs" />
+    <Compile Include="Areas\Membership\Models\ChangePasswordModel.cs" />
+    <Compile Include="Areas\Membership\Models\CreateMembershipUserModel.cs" />
+    <Compile Include="Areas\Membership\Models\DataSources\AuthClientDataSource.cs" />
+    <Compile Include="Areas\Membership\Models\DataSources\MembershipGroupDataSource.cs" />
+    <Compile Include="Areas\Membership\Models\EditMembershipUserModel.cs" />
+    <Compile Include="Areas\Membership\Models\DataSources\HashAlgorithmTypeDataSource.cs" />
+    <Compile Include="Areas\Membership\Models\MembershipConnect_Metadata.cs" />
+    <Compile Include="Areas\Membership\Models\MembershipGroup_Metadata.cs" />
+    <Compile Include="Areas\Membership\Models\MembershipUser_Metadata.cs" />
+    <Compile Include="Areas\Membership\Models\Membership_Metadata.cs" />
     <Compile Include="Areas\Sites\Controllers\ABPageTestResultController.cs" />
     <Compile Include="Areas\Sites\Controllers\SubmissionSettingController.cs" />
     <Compile Include="Areas\Sites\Controllers\ABPageSettingController.cs" />
@@ -215,6 +215,7 @@
     <Compile Include="Areas\Sites\Models\ABPageTestHitsReport.cs" />
     <Compile Include="Areas\Sites\Models\ABPageTestResult_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\MembershipDataSource.cs" />
+    <Compile Include="Areas\Sites\Models\DataSources\SiteMembershipGroupDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\SubmissionPluginsDataSource.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_HitTimes_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_ShowTimes_GridItemColumn.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Areas\Sites\Models\Grid2\HitReport_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\HtmlMeta_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\LanguageVisitRule_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\PagePermission_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ProxyPosition_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\RandomVisitRule_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ABPageSetting_Metadata.cs" />
@@ -240,7 +242,7 @@
     <Compile Include="Areas\Sites\Models\ABRuleSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\SiteTemplate_ViewModel.cs" />
     <Compile Include="Areas\Sites\Models\QueryStringVisitRule_Metadata.cs" />
-    <Compile Include="KooboCMSHttpApplicationEvents.cs" />
+    <Compile Include="KoobooCMSHttpApplicationEvents.cs" />
     <Compile Include="Models\AllPropertiesResolver.cs" />
     <Compile Include="Models\ImportModel.cs" />
     <Compile Include="Models\RelationModel.cs" />
@@ -2272,62 +2274,65 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\Web.config" />
+    <Content Include="Areas\Membership\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\Shared\MenuItem.cshtml" />
+    <Content Include="Areas\Membership\Views\Shared\MenuItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\Membership\Index.cshtml" />
+    <Content Include="Areas\Membership\Views\Membership\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Menu.config">
+    <Content Include="Areas\Membership\Menu.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\WebResources.config">
+    <Content Include="Areas\Membership\WebResources.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\Membership\Create.cshtml" />
+    <Content Include="Areas\Membership\Views\Membership\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\Membership\_MembershipNode.cshtml" />
+    <Content Include="Areas\Membership\Views\Membership\_MembershipNode.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\MembershipGroup\Index.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipGroup\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\Shared\__Sidebar.cshtml" />
+    <Content Include="Areas\Membership\Views\Shared\__Sidebar.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\MembershipGroup\Create.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipGroup\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\MembershipUser\ChangePassword.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipUser\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\MembershipUser\Create.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipUser\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\MembershipUser\Edit.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipUser\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\MembershipUser\Index.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipUser\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\MembershipConnect\Create.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipConnect\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\MembershipConnect\Edit.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipConnect\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\MembershipConnect\Index.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipConnect\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Member\Views\Shared\Site.cshtml" />
+    <Content Include="Areas\Membership\Views\Shared\Site.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Membership\Views\Membership\Edit.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

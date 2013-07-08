@@ -99,7 +99,7 @@ namespace Kooboo.CMS.Sites.Controllers
         protected virtual ActionResult RedirectTo404()
         {
             var notFoundUrl = Url.Action("Index", "NotFound");
-            notFoundUrl = notFoundUrl.AddQueryParam("errorpath", this.Request.RawUrl);
+            notFoundUrl = notFoundUrl.AddQueryParam("returnUrl", this.Request.RawUrl);
 
             return new RedirectResult(notFoundUrl);
         }

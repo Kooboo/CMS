@@ -10,10 +10,11 @@
 using System.Web.Mvc;
 using System.IO;
 using Kooboo.Web.Mvc;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Web.Areas.Account
 {
-    public class AccountAreaRegistration : AreaRegistration
+    public class AccountAreaRegistration : AreaRegistrationEx
     {
         public override string AreaName
         {
@@ -24,7 +25,7 @@ namespace Kooboo.CMS.Web.Areas.Account
         }
 
         public override void RegisterArea(AreaRegistrationContext context)
-        {            
+        {     
             context.MapRoute(
                 "Account_default",
                 "Account/{controller}/{action}/{id}",
@@ -35,6 +36,9 @@ namespace Kooboo.CMS.Web.Areas.Account
 
             Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu(AreaName, AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "Menu.config"));
             Kooboo.Web.Mvc.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, Path.Combine(Settings.BaseDirectory, "Areas", AreaName, "WebResources.config"));
+
+
+            base.RegisterArea(context);
         }
     }
 }

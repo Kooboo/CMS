@@ -55,7 +55,11 @@
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
     <Compile Include="AggregateHtmlString.cs" />
+    <Compile Include="AreaRegistrationEx.cs" />
     <Compile Include="DataType.cs" />
+    <Compile Include="DataViolation\DataViolationException.cs" />
+    <Compile Include="DataViolation\DataViolationItem.cs" />
+    <Compile Include="DataViolation\ModelStateExtension.cs" />
     <Compile Include="DependencyResolver.cs" />
     <Compile Include="EntityModelBinder.cs" />
     <Compile Include="Formula\FormulaParser.cs" />

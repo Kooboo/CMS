@@ -25,7 +25,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
         {
             var site = Site.Current;
             var types = ServiceFactory.GetService<AssemblyManager>().GetTypes(site, typeof(ISubmissionPlugin));
-            return types.Select(o => new SelectListItem { Text = o.Name, Value = o.AssemblyQualifiedNameWithoutVersion() });
+            return types.Select(o => new SelectListItem { Text = o.Name, Value = o.AssemblyQualifiedNameWithoutVersion() }).EmptyItem("");
         }
     }
 }

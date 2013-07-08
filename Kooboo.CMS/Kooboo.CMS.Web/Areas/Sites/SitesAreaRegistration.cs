@@ -8,10 +8,11 @@
 #endregion
 using System.Web.Mvc;
 using System.IO;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Web.Areas.Sites
 {
-    public class SitesAreaRegistration : AreaRegistration
+    public class SitesAreaRegistration : AreaRegistrationEx
     {
         public static string SiteAreaName = "Sites";
         public override string AreaName
@@ -35,6 +36,8 @@ namespace Kooboo.CMS.Web.Areas.Sites
 
             Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu(AreaName, Path.Combine(Settings.BaseDirectory, "Areas", AreaName, "Menu.config"));
             Kooboo.Web.Mvc.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, Path.Combine(Settings.BaseDirectory, "Areas", AreaName, "WebResources.config"));
+
+            base.RegisterArea(context);
         }
     }
 }

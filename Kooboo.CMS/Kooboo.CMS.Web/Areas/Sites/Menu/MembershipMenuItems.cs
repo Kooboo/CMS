@@ -34,7 +34,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Menu
                     var membershipName = site.Membership;
                     if (!string.IsNullOrEmpty(membershipName))
                     {
-                        areaName = "Member";
+                        areaName = "Membership";
                         var items = MenuFactory.BuildMenu(controllerContext, areaName, false).Items;
                         ResetRouteValues(siteName, membershipName, areaName, items);
                         return items;

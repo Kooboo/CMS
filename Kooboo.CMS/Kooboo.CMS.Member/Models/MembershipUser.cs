@@ -113,6 +113,14 @@ namespace Kooboo.CMS.Member.Models
             set;
         }
         #endregion
+
+
+        #region GetProfile
+        public string GetProfile(string profileName)
+        {
+            return (this.Profiles != null && this.Profiles.ContainsKey(profileName)) ? this.Profiles[profileName] : null;
+        }
+        #endregion
     }
     #endregion
 

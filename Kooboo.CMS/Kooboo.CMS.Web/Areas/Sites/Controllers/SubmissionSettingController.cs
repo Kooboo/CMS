@@ -102,8 +102,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 var t = Type.GetType(type);
                 if (t != null)
                 {
-                    var o = (ISubmissionPlugin)Activator.CreateInstance(t);
-                    resultData.Model = o.Parameters.ToList();
+                    var o = (ISubmissionPlugin)Kooboo.TypeActivator.CreateInstance(t);
+                    if (o.Parameters != null)
+                    {
+                        resultData.Model = o.Parameters.ToList();
+                    }
                 }
             });
 

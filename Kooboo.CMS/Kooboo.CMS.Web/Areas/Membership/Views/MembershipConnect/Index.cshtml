@@ -1,0 +1,31 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Member.Models.MembershipConnect>
+@{
+    ViewBag.Title = "Membership connects".Localize();
+    Layout = "~/Areas/Membership/Views/Shared/Site.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">
+                @Html.IconImage("add") @("Create".Localize())</a>
+        </li>
+        @* <li>
+            <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import visit rules"))">
+                @Html.IconImage("import") @("Import".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-command-type="Download">
+                @Html.IconImage("export") @("Export".Localize())
+            </a>
+        </li>*@
+        <li><a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
+            @Html.IconImage("delete") @("Delete".Localize())</a></li>
+    </ul>
+}
+
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+</div>
+@Html.GridForModel2()

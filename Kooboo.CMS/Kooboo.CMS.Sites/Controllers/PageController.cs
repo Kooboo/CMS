@@ -44,11 +44,12 @@ namespace Kooboo.CMS.Sites.Controllers
         #region Page Entry
         [CustomRedirectFilter(Order = 5)]
         [PageExecutionFilter(Order = 10)]
-        [CheckRequireHttps(Order = 11)]
-        [CustomOutputTextWriterFilter(Order = 12)]
-        [OutputCacheFilter(Order = 13)]
-        [CacheToDisk(Order = 14)]
-        [PageHtmlParserActionFilter(Order = 15)]
+        [MemberAuthorize(Order=15)]
+        [CheckRequireHttps(Order = 20)]
+        [CustomOutputTextWriterFilter(Order = 25)]
+        [OutputCacheFilter(Order = 30)]
+        [CacheToDisk(Order = 35)]
+        [PageHtmlParserActionFilter(Order = 40)]
         public virtual ActionResult Entry()
         {
 #if Page_Trace

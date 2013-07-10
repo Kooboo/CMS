@@ -14,8 +14,8 @@ using System.Text;
 namespace Kooboo.CMS.Sites.Member
 {
     public class EditMemberProfileModel
-    {       
-      
+    {
+        public virtual string Email { get; set; }
         public virtual string PasswordQuestion { get; set; }
 
         public virtual string PasswordAnswer { get; set; }

@@ -189,6 +189,7 @@
     <Compile Include="Areas\Contents\Models\TextFolder_Metadata.cs" />
     <Compile Include="Areas\Contents\Models\VersionInfo_Metadata.cs" />
     <Compile Include="Areas\Membership\Controllers\ControllerBase.cs" />
+    <Compile Include="Areas\Membership\Controllers\ExternalLoginController.cs" />
     <Compile Include="Areas\Membership\Controllers\MembershipConnectController.cs" />
     <Compile Include="Areas\Membership\Controllers\MembershipController.cs" />
     <Compile Include="Areas\Membership\Controllers\MembershipGroupController.cs" />
@@ -2333,6 +2334,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Membership\Views\Membership\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Membership\Views\ExternalLogin\ExternalLoginFailure.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

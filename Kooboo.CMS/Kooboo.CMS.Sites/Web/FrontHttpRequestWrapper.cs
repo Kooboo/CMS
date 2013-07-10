@@ -145,7 +145,6 @@ namespace Kooboo.CMS.Sites.Web
                 RawSite = siteProvider.GetSiteByHostNameNPath(host, trimedPath);
                 if (RawSite != null)
                 {
-
                     sitePath = RawSite.SitePath;
                     var sitePathLength = 0;
                     if (!string.IsNullOrEmpty(sitePath))

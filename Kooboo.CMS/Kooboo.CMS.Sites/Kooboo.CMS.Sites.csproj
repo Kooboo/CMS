@@ -105,9 +105,10 @@
     <Compile Include="Member\ChangeMemberPasswordModel.cs" />
     <Compile Include="Member\EditMemberProfilePlugin.cs" />
     <Compile Include="Member\EditMemberProfileModel.cs" />
+    <Compile Include="Member\ExternalLoginHelper.cs" />
     <Compile Include="Member\MemberAuthentication.cs" />
     <Compile Include="Member\MemberExtensionMethods.cs" />
-    <Compile Include="Member\LoginMemberModel.cs" />
+    <Compile Include="Member\ValidateMemberModel.cs" />
     <Compile Include="Member\RegisterMemberModel.cs" />
     <Compile Include="Member\RegisterMemberPlugin.cs" />
     <Compile Include="Member\SignOutMemberPlugin.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Persistence\IABPageTestResultProvider.cs" />
     <Compile Include="Persistence\ISubmissionSettingProvider.cs" />
     <Compile Include="Persistence\FileSystem\SubmissionSettingProvider.cs" />
+    <Compile Include="RequiresSiteContextException.cs" />
     <Compile Include="Services\ABPageTestResultManager.cs" />
     <Compile Include="Services\PageCachingManager.cs" />
     <Compile Include="Services\SubmissionSettingManager.cs" />

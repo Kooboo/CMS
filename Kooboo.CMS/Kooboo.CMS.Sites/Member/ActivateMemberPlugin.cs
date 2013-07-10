@@ -74,11 +74,11 @@ namespace Kooboo.CMS.Sites.Member
                     valid = _manager.Activate(membership, model.Member, model.Code);
                     if (valid)
                     {
-                        redirectUrl = model.ActivateSuccessUrl;
+                        redirectUrl = ContextHelper.ResolveSiteUrl(controllerContext, model.ActivateSuccessUrl);
                     }
                     else
                     {
-                        redirectUrl = model.ActivateFailedUrl;
+                        redirectUrl = ContextHelper.ResolveSiteUrl(controllerContext, model.ActivateFailedUrl);
                     }
                 }
                 catch (DataViolationException e)

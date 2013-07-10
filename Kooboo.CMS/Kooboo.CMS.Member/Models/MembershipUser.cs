@@ -160,9 +160,20 @@ namespace Kooboo.CMS.Member.Models
         public virtual string Comment { get; set; }
         [DataMember]
         public virtual Dictionary<string, string> Profiles { get; set; }
-
         [DataMember]
         public virtual string[] MembershipGroups { get; set; }
+        /// <summary>
+        /// Gets or sets the type of the OAuth provider.
+        /// </summary>
+        /// <value>
+        /// The type of the provider.
+        /// </value>
+        [DataMember]
+        public virtual string ProviderType { get; set; }
+        [DataMember]
+        public virtual string ProviderUserId { get; set; }
+        [DataMember]
+        public virtual Dictionary<string, string> ProviderExtraData { get; set; }
     }
     #endregion
 }

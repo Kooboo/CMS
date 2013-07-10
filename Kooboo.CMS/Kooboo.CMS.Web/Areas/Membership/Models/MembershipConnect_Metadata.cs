@@ -33,16 +33,20 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         [DataSource(typeof(AuthClientDataSource))]
         public virtual string Name { get; set; }
 
-        [GridColumn(Order = 2, HeaderText = "App id", GridColumnType = typeof(SortableGridColumn))]
+
+        [GridColumn(Order = 2, HeaderText = "Display name", GridColumnType = typeof(SortableGridColumn))]
+        public virtual string DisplayName { get; set; }
+
+        [GridColumn(Order = 3, HeaderText = "App id", GridColumnType = typeof(SortableGridColumn))]
         public virtual string AppId { get; set; }
 
-        [GridColumn(Order = 3, HeaderText = "App secret", GridColumnType = typeof(SortableGridColumn))]
+        [GridColumn(Order = 4, HeaderText = "App secret", GridColumnType = typeof(SortableGridColumn))]
         public virtual string AppSecret { get; set; }
 
         [UIHint("Dictionary")]
         public virtual Dictionary<string, string> Options { get; set; }
 
-        
+
         [DisplayName("Membership groups")]
         [UIHint("Multiple_DropDownList")]
         [DataSource(typeof(MembershipGroupDataSource))]

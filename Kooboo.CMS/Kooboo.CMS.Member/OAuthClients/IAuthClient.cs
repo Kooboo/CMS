@@ -6,13 +6,15 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using DotNetOpenAuth.AspNet;
+using Kooboo.CMS.Member.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace Kooboo.CMS.Member.Models.AuthClients
+namespace Kooboo.CMS.Member.OAuthClients
 {
     public interface IAuthClient
     {
@@ -33,8 +35,9 @@ namespace Kooboo.CMS.Member.Models.AuthClients
 
         MembershipConnect MembershipConnect { get; set; }
 
-        void RequestAuthentication(HttpContextBase context, Uri returnUrl);
+        IAuthenticationClient GetOpenAuthClient();
+        //void RequestAuthentication(HttpContextBase context, Uri returnUrl);
 
-        AuthResult VerifyAuthentication(HttpContextBase context);
+        //AuthResult VerifyAuthentication(HttpContextBase context);
     }
 }

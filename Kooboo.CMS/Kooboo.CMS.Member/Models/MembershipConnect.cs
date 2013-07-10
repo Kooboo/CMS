@@ -121,6 +121,25 @@ namespace Kooboo.CMS.Member.Models
     {
         [DataMember]
         public virtual string Name { get; set; }
+
+        private string _displayName;
+        [DataMember]
+        public virtual string DisplayName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_displayName))
+                {
+                    return this.Name;
+                }
+                return _displayName;
+            }
+            set
+            {
+                this._displayName = value;
+            }
+        }
+
         [DataMember]
         public virtual string AppId { get; set; }
         [DataMember]

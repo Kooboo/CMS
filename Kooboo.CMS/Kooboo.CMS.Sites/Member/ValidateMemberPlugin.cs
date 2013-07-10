@@ -18,7 +18,9 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Member.Models;
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Sites.Globalization;
-
+using Kooboo.CMS.Common.DataViolation;
+using Kooboo.CMS.Sites.View;
+using Kooboo.Web.Mvc;
 namespace Kooboo.CMS.Sites.Member
 {
     public class ValidateMemberPlugin : IHttpMethodPagePlugin, ISubmissionPlugin
@@ -62,27 +64,41 @@ namespace Kooboo.CMS.Sites.Member
             redirectUrl = null;
             var membership = ContextHelper.GetMembership();
 
-            var model = new LoginMemberModel();
+            var model = new ValidateMemberModel();
             bool valid = ModelBindHelper.BindModel(model, "", controllerContext, submissionSetting);
             if (valid)
             {
-                valid = _manager.Validate(membership, model.UserName, model.Password);
-                if (valid)
+                try
                 {
-                    controllerContext.HttpContext.MemberAuthentication().SetAuthCookie(model.UserName, model.RememberMe == null ? false : model.RememberMe.Value);
+                    valid = _manager.Validate(membership, model.UserName, model.Password);
+                    if (valid)
+                    {
+                        controllerContext.HttpContext.MemberAuthentication().SetAuthCookie(model.UserName, model.RememberMe == null ? false : model.RememberMe.Value);
 
-                    if (!string.IsNullOrEmpty(model.RedirectUrl))
-                    {
-                        redirectUrl = UrlHelper.GenerateContentUrl(model.RedirectUrl, controllerContext.HttpContext);
+                        if (!string.IsNullOrEmpty(model.RedirectUrl))
+                        {
+                            redirectUrl = ContextHelper.ResolveSiteUrl(controllerContext, model.RedirectUrl);
+                        }
+                        if (!string.IsNullOrEmpty(ContextHelper.GetReturnUrl(controllerContext)))
+                        {
+                            redirectUrl = ContextHelper.GetReturnUrl(controllerContext);
+                        }
                     }
-                    if (!string.IsNullOrEmpty(ContextHelper.GetReturnUrl(controllerContext)))
+                    else
                     {
-                        redirectUrl = ContextHelper.GetReturnUrl(controllerContext);
+                        controllerContext.Controller.ViewData.ModelState.AddModelError("", "Username and/or password are incorrect.".RawLabel().ToString());
                     }
                 }
-                else
+                catch (DataViolationException e)
                 {
-                    controllerContext.Controller.ViewData.ModelState.AddModelError("", "Username and/or password are incorrect.".RawLabel().ToString());
+                    controllerContext.Controller.ViewData.ModelState.FillDataViolation(e.Violations);
+                    valid = false;
+                }
+                catch (Exception e)
+                {
+                    controllerContext.Controller.ViewData.ModelState.AddModelError("", e.Message);
+                    Kooboo.HealthMonitoring.Log.LogException(e);
+                    valid = false;
                 }
             }
             return valid;

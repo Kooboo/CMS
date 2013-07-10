@@ -85,7 +85,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
             {
                 data.RunWithTry((resultData) =>
                 {
-                    _manager.Edit(Membership, model.UserName, model.IsApproved, model.IsLockedOut, model.Culture, model.TimeZoneId, model.PasswordQuestion, model.PasswordAnswer
+                    _manager.Edit(Membership, model.UserName, model.Email, model.IsApproved, model.IsLockedOut, model.Culture, model.TimeZoneId, model.PasswordQuestion, model.PasswordAnswer
                         , model.MembershipGroups, model.Profiles, model.Comment);
                     resultData.RedirectUrl = @return;
                 });

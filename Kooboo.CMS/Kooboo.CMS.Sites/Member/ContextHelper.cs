@@ -8,6 +8,9 @@
 #endregion
 using Kooboo.CMS.Member.Models;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.View;
+using Kooboo.Web.Mvc;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +39,16 @@ namespace Kooboo.CMS.Sites.Member
         {
             var redirectUrl = controllerContext.HttpContext.Request.QueryString["ReturnUrl"];
             return redirectUrl;
+        }
+
+        public static string ResolveSiteUrl(ControllerContext controllerContext, string url)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                return url;
+            }
+            url = UrlHelper.GenerateContentUrl(url, controllerContext.HttpContext);
+            return controllerContext.RequestContext.UrlHelper().FrontUrl().WrapperUrl(url).ToString();
         }
     }
 }

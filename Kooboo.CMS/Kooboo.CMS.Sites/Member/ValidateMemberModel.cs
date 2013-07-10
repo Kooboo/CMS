@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Member
 {
-    public class LoginMemberModel
+    public class ValidateMemberModel
     {
         [Required]
         public string UserName { get; set; }

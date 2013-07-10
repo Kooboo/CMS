@@ -26,15 +26,25 @@
             <tbody>
                 @Html.DisplayFor(m => m.UserName, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.DisplayFor(m => m.Email, new { HtmlAttributes = new { @class = "medium" } })
-                @Html.EditorFor(m => m.PasswordQuestion, new { HtmlAttributes = new { @class = "medium" } })
-                @Html.EditorFor(m => m.PasswordAnswer, new { HtmlAttributes = new { @class = "medium" } })
+                @if (string.IsNullOrEmpty(Model.ProviderType))
+                {
+                    @Html.EditorFor(m => m.PasswordQuestion, new { HtmlAttributes = new { @class = "medium" } })
+                    @Html.EditorFor(m => m.PasswordAnswer, new { HtmlAttributes = new { @class = "medium" } })                   
+                }
                 @Html.EditorFor(m => m.IsApproved)
                 @Html.EditorFor(m => m.IsLockedOut)
                 @Html.EditorFor(m => m.Culture, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.TimeZoneId, new { HtmlAttributes = new { @class = "medium" } })
-                 @Html.EditorFor(m => m.MembershipGroups, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.MembershipGroups, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.Profiles)
                 @Html.EditorFor(m => m.Comment, new { HtmlAttributes = new { @class = "large" } })
+
+                @if (!string.IsNullOrEmpty(Model.ProviderType))
+                {
+                    @Html.DisplayFor(m => m.ProviderType, new { HtmlAttributes = new { @class = "medium" } })
+                    @Html.DisplayFor(m => m.ProviderUserId, new { HtmlAttributes = new { @class = "medium" } })
+                    @Html.EditorFor(m => m.ProviderExtraData)
+                }
             </tbody>
         </table>
     }

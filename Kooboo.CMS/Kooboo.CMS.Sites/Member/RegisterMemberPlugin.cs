@@ -13,6 +13,8 @@ using Kooboo.CMS.Member.Services;
 using Kooboo.CMS.Sites.Extension;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.Web.Url;
+using Kooboo.CMS.Sites.View;
+using Kooboo.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,7 +96,7 @@ namespace Kooboo.CMS.Sites.Member
                 redirectUrl = registerMemberModel.RedirectUrl;
                 if (!string.IsNullOrEmpty(redirectUrl))
                 {
-                    redirectUrl = UrlHelper.GenerateContentUrl(redirectUrl, controllerContext.HttpContext);
+                    redirectUrl = ContextHelper.ResolveSiteUrl(controllerContext, redirectUrl);
                 }
                 try
                 {
@@ -143,7 +145,10 @@ namespace Kooboo.CMS.Sites.Member
             {
                 throw new ArgumentNullException("ActivateUrl is required.");
             }
-            activateUrl = UrlUtility.ToHttpAbsolute(UrlHelper.GenerateContentUrl(string.Format(activateUrl, memberUser.UserName, activateCode), controllerContext.HttpContext));
+
+            activateUrl = string.Format(ContextHelper.ResolveSiteUrl(controllerContext, activateUrl)
+                , memberUser.UserName, activateCode);
+            activateUrl = UrlUtility.ToHttpAbsolute(activateUrl);
 
             MailMessage message = new MailMessage() { From = new MailAddress(smtp.From) };
             message.To.Add(registerMemberModel.Email);

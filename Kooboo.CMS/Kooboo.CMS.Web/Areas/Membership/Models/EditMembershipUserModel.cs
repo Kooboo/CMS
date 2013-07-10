@@ -37,6 +37,10 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
             this.Comment = membershipUser.Comment;
             this.Profiles = membershipUser.Profiles;
             this.MembershipGroups = membershipUser.MembershipGroups;
+
+            this.ProviderType = membershipUser.ProviderType;
+            this.ProviderUserId = membershipUser.ProviderUserId;
+            this.ProviderExtraData = membershipUser.ProviderExtraData;
         }
         [RemoteEx("IsUserNameAvailable", "MembershipUser", RouteFields = "MembershipName")]
         [Required(ErrorMessage = "Required")]
@@ -86,5 +90,18 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         [UIHint("Multiple_DropDownList")]
         [DataSource(typeof(MembershipGroupDataSource))]
         public virtual string[] MembershipGroups { get; set; }
+
+        [DisplayName("Provider type")]
+        [Description("")]
+        public virtual string ProviderType { get; set; }
+
+        [DisplayName("Provider user id")]
+        [Description("")]
+        public virtual string ProviderUserId { get; set; }
+
+        [UIHint("Dictionary")]
+        [DisplayName("Provider extra data")]
+        [Description("")]
+        public virtual Dictionary<string, string> ProviderExtraData { get; set; }
     }
 }

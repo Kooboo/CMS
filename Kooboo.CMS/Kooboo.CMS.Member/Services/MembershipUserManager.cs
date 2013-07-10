@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Kooboo.CMS.Common.DataViolation;
+using Kooboo.CMS.Member.OAuthClients;
 
 
 namespace Kooboo.CMS.Member.Services
@@ -23,13 +24,15 @@ namespace Kooboo.CMS.Member.Services
     public class MembershipUserManager : ManagerBase<MembershipUser>
     {
         #region .ctor
+        IOAuthMembershipProvider _oauthMembershipProvider;
         IMembershipUserProvider _provider;
         MembershipPasswordProvider _passwordProvider;
-        public MembershipUserManager(IMembershipUserProvider provider, MembershipPasswordProvider passwordProvider)
+        public MembershipUserManager(IMembershipUserProvider provider, MembershipPasswordProvider passwordProvider, IOAuthMembershipProvider oauthMembershipProvider)
             : base(provider)
         {
             _provider = provider;
             _passwordProvider = passwordProvider;
+            _oauthMembershipProvider = oauthMembershipProvider;
         }
         #endregion
 
@@ -75,7 +78,10 @@ namespace Kooboo.CMS.Member.Services
                 throw new DataViolationException(violations);
             }
 
-            membershipUser.Email = email;
+            if (!string.IsNullOrEmpty(email))
+            {
+                membershipUser.Email = email;
+            }
             membershipUser.Culture = culture;
             membershipUser.TimeZoneId = timeZoneId;
             membershipUser.PasswordQuestion = passwordQuestion;
@@ -107,6 +113,47 @@ namespace Kooboo.CMS.Member.Services
         }
         #endregion
 
+        #region CreateOrUpdateOAuthMember
+        public virtual MembershipUser CreateOrUpdateOAuthMember(Membership membership, MembershipConnect membershipConnect, AuthResult authResult, Dictionary<string, string> profiles)
+        {
+            membership = membership.AsActual();
+
+            var userName = _oauthMembershipProvider.GetUserName(authResult);
+            var email = _oauthMembershipProvider.GetEmail(authResult);
+            MembershipUser membershipUser = new MembershipUser() { Membership = membership, UserName = userName }.AsActual();
+            Dictionary<string, string> extraData = null;
+            if (authResult.ExtraData != null)
+            {
+                extraData = new Dictionary<string, string>(authResult.ExtraData);
+            }
+            if (membershipUser != null)
+            {
+                if (membershipUser.ProviderUserId == authResult.ProviderUserId)
+                {
+                    membershipUser.ProviderExtraData = extraData;
+                    membershipUser.Profiles = profiles;
+                    membershipUser.MembershipGroups = membershipConnect.MembershipGroups;
+                    _provider.Update(membershipUser, membershipUser);
+                }
+            }
+            else
+            {
+                membershipUser.Email = email;
+                membershipUser.IsApproved = true;
+                membershipUser.UtcCreationDate = DateTime.UtcNow;
+                membershipUser.Profiles = profiles;
+                membershipUser.MembershipGroups = membershipConnect.MembershipGroups;
+                membershipUser.ProviderType = authResult.Provider;
+                membershipUser.ProviderUserId = authResult.ProviderUserId;
+                membershipUser.ProviderExtraData = extraData;
+                _provider.Add(membershipUser);
+            }
+
+            return _provider.Get(membershipUser);
+        }
+
+        #endregion
+
         #region Update
         public override void Update(MembershipUser @new, MembershipUser old)
         {
@@ -115,7 +162,7 @@ namespace Kooboo.CMS.Member.Services
         #endregion
 
         #region Edit
-        public virtual void Edit(Membership membership, string userName, bool isApproved, bool isLockedOut, string culture, string timeZoneId, string passwordQuestion = null,
+        public virtual void Edit(Membership membership, string userName, string email, bool isApproved, bool isLockedOut, string culture, string timeZoneId, string passwordQuestion = null,
             string passwordAnswer = null, string[] membershipGroups = null, Dictionary<string, string> profiles = null, string comment = null)
         {
             membership = membership.AsActual();
@@ -126,7 +173,7 @@ namespace Kooboo.CMS.Member.Services
             {
                 throw new ArgumentException("The member doest not exists.");
             }
-
+            membershipUser.Email = email;
             membershipUser.Culture = culture;
             membershipUser.TimeZoneId = timeZoneId;
             membershipUser.PasswordQuestion = passwordQuestion;
@@ -157,7 +204,7 @@ namespace Kooboo.CMS.Member.Services
 
             _provider.Update(membershipUser, membershipUser);
         }
-        
+
         #endregion
 
         #region Validate
@@ -223,7 +270,7 @@ namespace Kooboo.CMS.Member.Services
         #endregion
 
         #region EditMemberProfile
-        public virtual void EditMemberProfile(Membership membership, string userName, string culture, string timeZoneId, string passwordQuestion = null,
+        public virtual void EditMemberProfile(Membership membership, string userName, string email, string culture, string timeZoneId, string passwordQuestion = null,
          string passwordAnswer = null, Dictionary<string, string> profiles = null)
         {
             membership = membership.AsActual();
@@ -234,13 +281,12 @@ namespace Kooboo.CMS.Member.Services
             {
                 throw new ArgumentException("The member doest not exists.");
             }
-
+            membershipUser.Email = email;
             membershipUser.Culture = culture;
             membershipUser.TimeZoneId = timeZoneId;
             membershipUser.PasswordQuestion = passwordQuestion;
             membershipUser.PasswordAnswer = passwordAnswer;
             membershipUser.Profiles = profiles;
-
 
             _provider.Update(membershipUser, membershipUser);
 

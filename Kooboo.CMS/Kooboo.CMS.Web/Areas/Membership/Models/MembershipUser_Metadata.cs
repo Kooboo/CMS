@@ -29,18 +29,24 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         [GridColumn(Order = 2, GridColumnType = typeof(SortableGridColumn))]
         public virtual string Email { get; set; }
 
-        [GridColumn(Order = 3, HeaderText = "Create date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
+        [GridColumn(Order = 3, GridColumnType = typeof(SortableGridColumn))]
+        public virtual string ProviderType { get; set; }
+
+        [GridColumn(Order = 4, GridColumnType = typeof(SortableGridColumn))]
+        public virtual string ProviderUserId { get; set; }
+
+        [GridColumn(Order = 5, HeaderText = "Create date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         public virtual DateTime UtcCreationDate { get; set; }
 
-        [GridColumn(Order = 4, HeaderText = "Is approved", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
+        [GridColumn(Order = 6, HeaderText = "Is approved", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
         public virtual bool IsApproved { get; set; }
 
-        [GridColumn(Order = 5, HeaderText = "Is locked out", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
+        [GridColumn(Order = 7, HeaderText = "Is locked out", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
         public virtual bool IsLockedOut { get; set; }
 
         public virtual DateTime UtcLastLockoutDate { get; set; }
 
-        [GridColumn(Order = 7, HeaderText = "Login date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
+        [GridColumn(Order = 8, HeaderText = "Login date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         public virtual DateTime UtcLastLoginDate { get; set; }
 
         public virtual DateTime UtcLastPasswordChangedDate { get; set; }
@@ -56,6 +62,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         public virtual string Comment { get; set; }
 
         public virtual Dictionary<string, string> Profiles { get; set; }
-
+        
+        public virtual Dictionary<string, string> ProviderExtraData { get; set; }
     }
 }

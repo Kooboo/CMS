@@ -63,11 +63,19 @@ namespace Kooboo.CMS.Form.Html
 </div>
 <div class=""tbody"">
     <table>
+		<thead>
+            <tr>
+                <th class=""checkbox"">
+                    <input type=""checkbox"" class=""select-all"" />
+                </th>
+                {0}
+            </tr>
+        </thead>
         <tbody>
         @if (childFolders.Length == 0 && Model.Contents.TotalItemCount == 0)
         {{
             <tr class=""empty"">
-                <td>
+                <td colspan=""100"">
                     @(""Empty"".Localize())
                 </td>
             </tr>

@@ -25,6 +25,22 @@
     </div>
     <div class="tbody">
         <table>
+			<thead>
+                <tr>
+                    @if (Model.Checkable)
+                    {
+                        <th class="checkbox">
+                            <input type="checkbox" class="select-all" />
+                        </th>
+                    }
+                    @foreach (var column in Model.Columns)
+                    {
+                        <th @column.RenderHeaderContainerAtts(ViewContext)>
+                            @column.RenderHeader(ViewContext)
+                        </th>
+                    }
+                </tr>
+            </thead>
             <tbody>
                 @{
                     var subNsList = ns.ChildNamespaces.ToArray();
@@ -33,7 +49,7 @@
                 @if (subNsList.Length == 0 && items.Length == 0)
                 { 
                     <tr class="empty">
-                        <td>
+                        <td colspan="100">
                             @("Empty".Localize())
                         </td>
                     </tr>

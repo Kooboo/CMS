@@ -63,7 +63,7 @@ namespace Kooboo.CMS.Form.Html
 </div>
 <div class=""tbody"">
     <table>
-		<thead>
+        <thead>
             <tr>
                 <th class=""checkbox"">
                     <input type=""checkbox"" class=""select-all"" />

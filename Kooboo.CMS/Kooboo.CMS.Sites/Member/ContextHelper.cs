@@ -25,12 +25,12 @@ namespace Kooboo.CMS.Sites.Member
         {
             if (Site.Current == null)
             {
-                throw new InvalidOperationException("The site can not be found.");
+                throw new NullSiteContextException();
             }
             var membership = Site.Current.GetMembership();
             if (membership == null)
             {
-                throw new InvalidOperationException("The site does not relate to any membership.");
+                throw new NullMembershipException();
             }
             return membership;
         }

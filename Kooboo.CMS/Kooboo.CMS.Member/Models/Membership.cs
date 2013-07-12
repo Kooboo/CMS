@@ -120,6 +120,8 @@ namespace Kooboo.CMS.Member.Models
         [DataMember]
         public string AuthCookieName { get; set; }
         [DataMember]
+        public string AuthCookieDomain { get; set; }
+        [DataMember]
         public string HashAlgorithmType { get; set; }
         [DataMember]
         public int MaxInvalidPasswordAttempts { get; set; }

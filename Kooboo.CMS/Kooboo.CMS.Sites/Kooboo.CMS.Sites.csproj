@@ -115,6 +115,7 @@
     <Compile Include="Member\ValidateMemberPlugin.cs" />
     <Compile Include="Models\HtmlMeta.cs" />
     <Compile Include="Models\SubmissionSetting.cs" />
+    <Compile Include="NullMembershipException.cs" />
     <Compile Include="Persistence\Caching\ABPageSettingProvider.cs" />
     <Compile Include="Persistence\Caching\ABSiteSettingProvider.cs" />
     <Compile Include="Persistence\Caching\ABRuleSettingProvider.cs" />
@@ -122,7 +123,7 @@
     <Compile Include="Persistence\IABPageTestResultProvider.cs" />
     <Compile Include="Persistence\ISubmissionSettingProvider.cs" />
     <Compile Include="Persistence\FileSystem\SubmissionSettingProvider.cs" />
-    <Compile Include="RequiresSiteContextException.cs" />
+    <Compile Include="NullSiteContextException.cs" />
     <Compile Include="Services\ABPageTestResultManager.cs" />
     <Compile Include="Services\PageCachingManager.cs" />
     <Compile Include="Services\SubmissionSettingManager.cs" />

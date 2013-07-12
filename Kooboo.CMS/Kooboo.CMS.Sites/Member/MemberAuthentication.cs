@@ -24,6 +24,7 @@ namespace Kooboo.CMS.Sites.Member
         #region .ctor
         Site _site = null;
         HttpContextBase _httpContext = null;
+        Kooboo.CMS.Member.Models.Membership _membership;
 
         public MemberAuthentication(Site site, HttpContextBase httpContextBase)
         {
@@ -36,6 +37,12 @@ namespace Kooboo.CMS.Sites.Member
                 throw new ArgumentNullException("httpContextBase");
             }
             this._site = site;
+            this._membership = site.GetMembership();
+            if (_membership == null)
+            {
+                throw new NullMembershipException();
+            }
+
             this._httpContext = httpContextBase;
         }
         #endregion
@@ -50,6 +57,11 @@ namespace Kooboo.CMS.Sites.Member
         {
             HttpCookie cookie = FormsAuthentication.GetAuthCookie(userName, createPersistentCookie);
             cookie.Name = GetCookieName(_site);
+
+            if (!string.IsNullOrEmpty(_membership.AuthCookieDomain))
+            {
+                cookie.Domain = _membership.AuthCookieDomain;
+            }
 
             HttpContext.Current.Response.SetCookie(cookie);
         }

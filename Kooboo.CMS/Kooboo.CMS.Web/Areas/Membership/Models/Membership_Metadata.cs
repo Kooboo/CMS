@@ -28,8 +28,11 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         public string Name { get; set; }
 
         [Display(Name = "Auth cookie name")]
-        [Description("The cookie name form authentication. If it is empty, will use the site name as the cookie name.")]
+        [Description("The cookie name of form authentication. If it is empty, will use the site name as the cookie name.")]
         public string AuthCookieName { get; set; }
+        [Display(Name = "Auth cookie domain")]
+        [Description("The cookie domain form authentication. You can set the cookie domain to share the auth cookie between the sites have a common sub-domain. for example: domain.com")]
+        public string AuthCookieDomain { get; set; }
 
         [Display(Name = "Hash algorithm type")]
         [UIHint("DropDownList")]

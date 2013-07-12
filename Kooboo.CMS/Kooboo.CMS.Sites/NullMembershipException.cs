@@ -13,10 +13,10 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites
 {
-    public class RequiresSiteContextException : InvalidOperationException
+    public class NullMembershipException : InvalidOperationException
     {
-        public RequiresSiteContextException()
-            : base("Requires the site context, Site.Current can not be null.")
+        public NullMembershipException()
+            : base("The membership is null in the context.")
         {
         }
     }

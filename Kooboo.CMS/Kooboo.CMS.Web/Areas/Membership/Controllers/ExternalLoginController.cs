@@ -135,7 +135,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
         {
             if (Site.Current == null)
             {
-                throw new RequiresSiteContextException();
+                throw new NullSiteContextException();
             }
 
             var membership = Site.Current.GetMembership();

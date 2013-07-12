@@ -8,6 +8,7 @@
 #endregion
 using Kooboo.CMS.Member.Models;
 using Kooboo.CMS.Web.Areas.Membership.Models.DataSources;
+using Kooboo.CMS.Web.Models;
 using Kooboo.ComponentModel;
 using Kooboo.Web.Mvc;
 using System;
@@ -23,7 +24,12 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
     public class Membership_Metadata
     {
         [Required(ErrorMessage = "Required")]
+        [RemoteEx("IsNameAvailable", "Membership")]
         public string Name { get; set; }
+
+        [Display(Name = "Auth cookie name")]
+        [Description("The cookie name form authentication. If it is empty, will use the site name as the cookie name.")]
+        public string AuthCookieName { get; set; }
 
         [Display(Name = "Hash algorithm type")]
         [UIHint("DropDownList")]

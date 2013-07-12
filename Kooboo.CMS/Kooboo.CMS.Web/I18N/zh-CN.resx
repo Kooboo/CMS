@@ -2463,4 +2463,7 @@
   <data name="Could not find a property named Password." xml:space="preserve">
     <value>Could not find a property named Password.</value>
   </data>
+  <data name="Post a comment" xml:space="preserve">
+    <value>Post a comment</value>
+  </data>
 </root>

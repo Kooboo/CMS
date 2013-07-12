@@ -38,15 +38,16 @@ namespace Kooboo.CMS.Sites.Member
         public System.Web.Mvc.ActionResult Submit(Models.Site site, System.Web.Mvc.ControllerContext controllerContext, Models.SubmissionSetting submissionSetting)
         {
             JsonResultData resultData = new JsonResultData();
-            string redirectUrl;
-            if (!LoginCore(controllerContext, submissionSetting, out redirectUrl))
+            ValidateMemberModel model;
+            if (!LoginCore(controllerContext, submissionSetting, out model))
             {
                 resultData.AddModelState(controllerContext.Controller.ViewData.ModelState);
                 resultData.Success = false;
             }
             else
             {
-                resultData.RedirectUrl = redirectUrl;
+                resultData.RedirectUrl = model.RedirectUrl;
+                resultData.Model = model.UserName;
                 resultData.Success = true;
             }
             return new JsonResult() { Data = resultData };
@@ -59,12 +60,12 @@ namespace Kooboo.CMS.Sites.Member
         #endregion
 
         #region LoginCore
-        protected virtual bool LoginCore(ControllerContext controllerContext, SubmissionSetting submissionSetting, out string redirectUrl)
+        protected virtual bool LoginCore(ControllerContext controllerContext, SubmissionSetting submissionSetting, out ValidateMemberModel model)
         {
-            redirectUrl = null;
+
             var membership = ContextHelper.GetMembership();
 
-            var model = new ValidateMemberModel();
+            model = new ValidateMemberModel();
             bool valid = ModelBindHelper.BindModel(model, "", controllerContext, submissionSetting);
             if (valid)
             {
@@ -77,11 +78,11 @@ namespace Kooboo.CMS.Sites.Member
 
                         if (!string.IsNullOrEmpty(model.RedirectUrl))
                         {
-                            redirectUrl = ContextHelper.ResolveSiteUrl(controllerContext, model.RedirectUrl);
+                            model.RedirectUrl = ContextHelper.ResolveSiteUrl(controllerContext, model.RedirectUrl);
                         }
                         if (!string.IsNullOrEmpty(ContextHelper.GetReturnUrl(controllerContext)))
                         {
-                            redirectUrl = ContextHelper.GetReturnUrl(controllerContext);
+                            model.RedirectUrl = ContextHelper.GetReturnUrl(controllerContext);
                         }
                     }
                     else
@@ -116,13 +117,13 @@ namespace Kooboo.CMS.Sites.Member
         public System.Web.Mvc.ActionResult HttpPost(View.Page_Context context, View.PagePositionContext positionContext)
         {
             System.Web.Helpers.AntiForgery.Validate();
-            string redirectUrl;
+            ValidateMemberModel model;
 
-            var isValid = LoginCore(context.ControllerContext, null, out redirectUrl);
+            var isValid = LoginCore(context.ControllerContext, null, out model);
 
-            if (isValid && !string.IsNullOrEmpty(redirectUrl))
+            if (isValid && !string.IsNullOrEmpty(model.RedirectUrl))
             {
-                return new RedirectResult(redirectUrl);
+                return new RedirectResult(model.RedirectUrl);
             }
             context.ControllerContext.Controller.ViewBag.MembershipSuccess = isValid;
             return null;

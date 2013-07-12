@@ -12,7 +12,7 @@
         </li>
 
         <li>
-            @Html.ActionLink("Export".Localize(), "Export", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary())
+            @Html.ActionLink("Export".Localize(), "Export", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "Download" } })
         </li>
         <li>
             @Html.ActionLink("Delete".Localize(), "Delete", "Membership", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete the membership?".Localize() } })

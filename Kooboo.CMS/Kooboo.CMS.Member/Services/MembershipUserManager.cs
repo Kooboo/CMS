@@ -138,6 +138,7 @@ namespace Kooboo.CMS.Member.Services
             }
             else
             {
+                membershipUser = new MembershipUser() { Membership = membership, UserName = userName };
                 membershipUser.Email = email;
                 membershipUser.IsApproved = true;
                 membershipUser.UtcCreationDate = DateTime.UtcNow;

@@ -29,10 +29,10 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         [GridColumn(Order = 2, GridColumnType = typeof(SortableGridColumn))]
         public virtual string Email { get; set; }
 
-        [GridColumn(Order = 3, GridColumnType = typeof(SortableGridColumn))]
+        [GridColumn(Order = 3, HeaderText = "Provider type", GridColumnType = typeof(SortableGridColumn))]
         public virtual string ProviderType { get; set; }
 
-        [GridColumn(Order = 4, GridColumnType = typeof(SortableGridColumn))]
+        [GridColumn(Order = 4, HeaderText = "Provider user id", GridColumnType = typeof(SortableGridColumn))]
         public virtual string ProviderUserId { get; set; }
 
         [GridColumn(Order = 5, HeaderText = "Create date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]

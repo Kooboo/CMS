@@ -12,11 +12,15 @@ using Kooboo.CMS.Member.Services;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Web.Authorizations;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Globalization;
+using Kooboo.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.CMS.Member.Persistence;
+using Kooboo.CMS.Web.Areas.Membership.Models;
 
 namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 {
@@ -25,9 +29,11 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
     {
         #region .ctor
         MembershipManager _manager = null;
-        public MembershipController(MembershipManager manager)
+        IMembershipProvider _provider = null;
+        public MembershipController(MembershipManager manager, IMembershipProvider provider)
         {
             this._manager = manager;
+            this._provider = provider;
         }
         #endregion
 
@@ -58,6 +64,18 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
             }
 
             return Json(data);
+        }
+        #endregion
+
+        #region IsUserNameAvailable
+        public virtual ActionResult IsNameAvailable(string name)
+        {
+            var membership = new Kooboo.CMS.Member.Models.Membership(name).AsActual();
+            if (membership != null)
+            {
+                return Json("The name is duplicate.".Localize(), JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -99,6 +117,48 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 
             return Json(data);
 
+        }
+        #endregion
+
+        #region Export
+        [HttpPost]
+        public virtual ActionResult Export(string membershipName, string @return)
+        {
+            string fileName = membershipName + ".zip";
+            Response.AttachmentHeader(fileName);
+            var membership = new Kooboo.CMS.Member.Models.Membership(membershipName).AsActual();
+            if (membership != null)
+            {
+                _provider.Export(membership, Response.OutputStream);
+                return null;
+            }
+            else
+            {
+                return Redirect(@return);
+            }
+
+        }
+
+        #endregion
+
+        #region Import
+        public ActionResult Import()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Import(string name, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+            {
+                if (Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
+                {
+                    _provider.Import(name, Request.Files[0].InputStream);
+                }
+                data.RedirectUrl = @return;
+            });
+            return Json(data, "text/plain", System.Text.Encoding.UTF8);
         }
         #endregion
 

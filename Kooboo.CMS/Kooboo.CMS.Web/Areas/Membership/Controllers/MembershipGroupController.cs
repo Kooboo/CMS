@@ -66,7 +66,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
             var membershipGroup = new MembershipGroup() { Membership = Membership, Name = name }.AsActual();
             if (membershipGroup != null)
             {
-                return Json(string.Format("{0} is duplicate.".Localize(), name), JsonRequestBehavior.AllowGet);
+                return Json("The name is duplicate.".Localize(), JsonRequestBehavior.AllowGet);
             }
             return Json(true, JsonRequestBehavior.AllowGet);
         }

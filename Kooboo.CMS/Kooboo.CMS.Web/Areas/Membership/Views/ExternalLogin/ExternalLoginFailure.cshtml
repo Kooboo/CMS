@@ -6,11 +6,12 @@
 
 <html>
 <head>
-    <title>ExternalLoginFailure</title>
+    <title>@("External login failure".Label()</title>
 </head>
 <body>
     <div>
-        
+        @("Unsuccessful login with service.The reason is:".Label()) @Model
+        <a href="@ViewBag.ReturnUrl">@("Back".Label())</a>
     </div>
 </body>
 </html>

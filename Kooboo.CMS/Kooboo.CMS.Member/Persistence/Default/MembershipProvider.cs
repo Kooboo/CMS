@@ -1,4 +1,5 @@
-﻿using Kooboo.CMS.Common;
+﻿using Ionic.Zip;
+using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Member.Models;
 using System;
@@ -54,6 +55,39 @@ namespace Kooboo.CMS.Member.Persistence.Default
         protected override string GetDataFilePath(Membership o)
         {
             return _membershipPath.GetMembershipSettingFilePath(o);
+        }
+        #endregion
+
+        #region Export
+        public Membership Import(string membershipName, Stream stream)
+        {
+            var membership = new Membership(membershipName);
+            if (Get(membership) != null)
+            {
+                return membership;
+            }
+            var path = _membershipPath.GetMembershipPath(membership);
+            using (ZipFile zipFile = ZipFile.Read(stream))
+            {
+                ExtractExistingFileAction action = ExtractExistingFileAction.OverwriteSilently;
+                zipFile.ExtractAll(path, action);
+            }
+            return membership;
+        }
+        public void Export(Membership membership, Stream outputStream)
+        {
+            var physicalPath = _membershipPath.GetMembershipPath(membership);
+            using (ZipFile zipFile = new ZipFile(Encoding.UTF8))
+            {
+                //zipFile.ZipError += new EventHandler<ZipErrorEventArgs>(zipFile_ZipError);
+
+                zipFile.ZipErrorAction = ZipErrorAction.Skip;
+
+
+                zipFile.AddSelectedFiles("name != *\\~versions\\*.* and name != *\\.svn\\*.* and name != *\\_svn\\*.*", physicalPath, "", true);
+
+                zipFile.Save(outputStream);
+            }
         }
         #endregion
     }

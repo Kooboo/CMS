@@ -89,7 +89,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
             var membershipConnect = new MembershipConnect() { Membership = Membership, Name = name }.AsActual();
             if (membershipConnect != null)
             {
-                return Json(string.Format("{0} is duplicate.".Localize(), name), JsonRequestBehavior.AllowGet);
+                return Json("The name is duplicate.".Localize(), JsonRequestBehavior.AllowGet);
             }
             return Json(true, JsonRequestBehavior.AllowGet);
         }

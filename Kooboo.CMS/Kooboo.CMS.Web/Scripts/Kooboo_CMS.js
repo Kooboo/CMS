@@ -135,14 +135,20 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         return this.find('a[data-ajax]').click(function (e) {
             e.preventDefault();
             var $self = $(this), url = $self.attr('href'), post = function () {
-
-                $.ajax({
-                    url: url,
-                    success: function (response, statusText, xhr) {
-                        parse_JsonResultData(response, statusText, xhr);
-                    },
-                    type: $self.data('ajax')
-                });
+                var type = $self.data('ajax');
+                if (type.toLowerCase() == "download") {
+                    $.fileDownload(url, {
+                        httpMethod: "POST"
+                    });
+                } else {
+                    $.ajax({
+                        url: url,
+                        success: function (response, statusText, xhr) {
+                            parse_JsonResultData(response, statusText, xhr);
+                        },
+                        type: type
+                    });
+                }
             };
             if ($self.data('confirm')) {
                 if (confirm($self.data('confirm'))) {

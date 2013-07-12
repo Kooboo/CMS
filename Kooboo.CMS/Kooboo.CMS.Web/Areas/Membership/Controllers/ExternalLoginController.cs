@@ -80,7 +80,13 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
             var result = OAuthWebSecurity.VerifyAuthentication(membership, this.HttpContext, callbackUrl);
             if (!result.IsSuccessful)
             {
-                return RedirectToAction("ExternalLoginFailure");
+                var reason = "";
+                if (result.Error != null)
+                {
+                    reason = result.Error.Message;
+                    Kooboo.HealthMonitoring.Log.LogException(result.Error);
+                }
+                return RedirectToAction("ExternalLoginFailure", new { returnUrl = returnUrl, reason = reason });
             }
             else
             {
@@ -95,7 +101,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("ExternalLoginFailure", new { reason = "LockedOut" });
+                        return RedirectToAction("ExternalLoginFailure", new { returnUrl = returnUrl, reason = "The member was locked out." });
                     }
                 }
 
@@ -105,9 +111,10 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ExternalLoginFailure(string reason)
+        public ActionResult ExternalLoginFailure(string reason, string returnUrl)
         {
             ViewData.Model = reason;
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
         private ActionResult RedirectToLocal(string returnUrl)

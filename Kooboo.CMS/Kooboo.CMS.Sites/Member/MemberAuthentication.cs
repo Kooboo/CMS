@@ -157,10 +157,20 @@ namespace Kooboo.CMS.Sites.Member
         #region GetCookieName
         private static string GetCookieName(Site site)
         {
+            var membership = site.GetMembership().AsActual();
+            if (!string.IsNullOrEmpty(membership.AuthCookieName))
+            {
+                return membership.AuthCookieName;
+            }
             return string.Format(AuthCookieName, site.FullName);
         }
         private static string GetPrincipalName(Site site)
         {
+            var membership = site.GetMembership().AsActual();
+            if (!string.IsNullOrEmpty(membership.AuthCookieName))
+            {
+                return membership.AuthCookieName;
+            }
             return string.Format(MemberPrincipalName, site.FullName);
         }
         #endregion

@@ -24,6 +24,7 @@
         <table>
             <tbody>
                 @Html.DisplayFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.AuthCookieName, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.HashAlgorithmType, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.PasswordStrengthRegularExpression, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.MaxInvalidPasswordAttempts, new { HtmlAttributes = new { @class = "medium" } })

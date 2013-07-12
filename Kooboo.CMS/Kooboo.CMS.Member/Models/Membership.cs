@@ -51,7 +51,7 @@ namespace Kooboo.CMS.Member.Models
                 {
                     return true;
                 }
-            }           
+            }
             return this.GetHashCode() == obj.GetHashCode();
         }
         public override int GetHashCode()
@@ -117,6 +117,8 @@ namespace Kooboo.CMS.Member.Models
         }
         [DataMember]
         public string Name { get; set; }
+        [DataMember]
+        public string AuthCookieName { get; set; }
         [DataMember]
         public string HashAlgorithmType { get; set; }
         [DataMember]

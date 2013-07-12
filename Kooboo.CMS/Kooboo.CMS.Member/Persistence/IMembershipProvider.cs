@@ -10,6 +10,7 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Member.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -17,5 +18,7 @@ namespace Kooboo.CMS.Member.Persistence
 {
     public interface IMembershipProvider : IProvider<Membership>
     {
+        Membership Import(string membershipName, Stream stream);
+        void Export(Membership membership, Stream outputStream);
     }
 }

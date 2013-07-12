@@ -202,6 +202,7 @@
     <Compile Include="Areas\Membership\Models\DataSources\MembershipGroupDataSource.cs" />
     <Compile Include="Areas\Membership\Models\EditMembershipUserModel.cs" />
     <Compile Include="Areas\Membership\Models\DataSources\HashAlgorithmTypeDataSource.cs" />
+    <Compile Include="Areas\Membership\Models\ImportModel.cs" />
     <Compile Include="Areas\Membership\Models\MembershipConnect_Metadata.cs" />
     <Compile Include="Areas\Membership\Models\MembershipGroup_Metadata.cs" />
     <Compile Include="Areas\Membership\Models\MembershipUser_Metadata.cs" />
@@ -2337,6 +2338,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Membership\Views\ExternalLogin\ExternalLoginFailure.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Membership\Views\Membership\Import.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

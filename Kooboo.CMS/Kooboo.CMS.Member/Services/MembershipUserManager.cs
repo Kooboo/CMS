@@ -88,6 +88,11 @@ namespace Kooboo.CMS.Member.Services
             membershipUser.PasswordAnswer = passwordAnswer;
             membershipUser.Comment = comment;
             membershipUser.IsApproved = isApproved;
+            if (!membershipUser.IsApproved)
+            {
+                string activateCode = UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
+                membershipUser.ActivateCode = activateCode;
+            }
             membershipUser.UtcCreationDate = DateTime.UtcNow;
             membershipUser.Profiles = profiles;
             membershipUser.MembershipGroups = membershipGroups;
@@ -230,18 +235,32 @@ namespace Kooboo.CMS.Member.Services
                 throw new DataViolationException(violations);
             }
             var encodedPassword = _passwordProvider.EncodePassword(membership, password, membershipUser.PasswordSalt);
-            return encodedPassword == membershipUser.Password;
+            var valid = encodedPassword == membershipUser.Password;
+            if (valid == false)
+            {
+                membershipUser.InvalidPasswordAttempts++;
+                if (membershipUser.InvalidPasswordAttempts >= membership.MaxInvalidPasswordAttempts)
+                {
+                    membershipUser.IsLockedOut = true;
+                }
+            }
+            return valid;
         }
         #endregion
 
         #region Active
-        public virtual bool Activate(Membership membership, string userName, string code)
+        public virtual bool Activate(Membership membership, string userName, string activateCode)
         {
             var membershipUser = new MembershipUser() { Membership = membership, UserName = userName }.AsActual();
+
             List<DataViolationItem> violations = new List<DataViolationItem>();
             if (membershipUser == null)
             {
                 violations.Add(new DataViolationItem("UserName", userName, "The member does not exists."));
+            }
+            if (string.IsNullOrEmpty(activateCode))
+            {
+                violations.Add(new DataViolationItem("ActivateCode", userName, "Activate code is null."));
             }
             if (membershipUser.IsApproved)
             {
@@ -254,18 +273,16 @@ namespace Kooboo.CMS.Member.Services
 
             var isApproved = false;
 
-            if (membershipUser.Profiles != null)
+            if (!string.IsNullOrEmpty(membershipUser.ActivateCode))
             {
-                var activeCode = membershipUser.Profiles.ContainsKey("ActivateCode") ? membershipUser.Profiles["ActivateCode"] : "";
-                isApproved = activeCode == code;
+                isApproved = membershipUser.ActivateCode == activateCode;
             }
-
+            membershipUser.ActivateCode = null;
             if (isApproved == true)
             {
                 membershipUser.IsApproved = true;
-                membershipUser.Profiles.Remove("ActivateCode");
-                Update(membershipUser, membershipUser);
             }
+            Update(membershipUser, membershipUser);
             return isApproved;
         }
         #endregion
@@ -291,6 +308,69 @@ namespace Kooboo.CMS.Member.Services
 
             _provider.Update(membershipUser, membershipUser);
 
+        }
+        #endregion
+
+        #region ForgotPassword
+        public MembershipUser ForgotPassword(Membership membership, string userName)
+        {
+            var membershipUser = new MembershipUser() { Membership = membership, UserName = userName }.AsActual();
+            List<DataViolationItem> violations = new List<DataViolationItem>();
+            if (membershipUser == null)
+            {
+                violations.Add(new DataViolationItem("UserName", userName, "The member does not exists."));
+            }
+            if (violations.Count > 0)
+            {
+                throw new DataViolationException(violations);
+            }
+
+            var activateCode = UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
+            membershipUser.ActivateCode = activateCode;
+
+            _provider.Update(membershipUser, membershipUser);
+
+            return membershipUser;
+        }
+        #endregion
+
+        #region ResetPassword
+        public bool ResetPassword(Membership membership, string userName, string activateCode, string password)
+        {
+            var membershipUser = new MembershipUser() { Membership = membership, UserName = userName }.AsActual();
+
+            List<DataViolationItem> violations = new List<DataViolationItem>();
+            if (membershipUser == null)
+            {
+                violations.Add(new DataViolationItem("UserName", userName, "The member does not exists."));
+            }
+            if (string.IsNullOrEmpty(activateCode))
+            {
+                violations.Add(new DataViolationItem("ActivateCode", userName, "Activate code is null."));
+            }
+
+            var valid = !string.IsNullOrEmpty(membershipUser.ActivateCode) && membershipUser.ActivateCode == activateCode;
+            if (valid)
+            {
+                SetPassword(membership, membershipUser, password);
+                membershipUser.IsLockedOut = false;
+                membershipUser.IsApproved = true;
+            }
+            else
+            {
+                violations.Add(new DataViolationItem("ActivateCode", userName, "Activate code is invalid."));
+            }
+            if (violations.Count > 0)
+            {
+                throw new DataViolationException(violations);
+            }
+
+
+            membershipUser.ActivateCode = null;
+
+            Update(membershipUser, membershipUser);
+
+            return valid;
         }
         #endregion
     }

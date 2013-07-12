@@ -63,7 +63,7 @@ namespace Kooboo.CMS.Sites.Member
         protected virtual bool LoginCore(ControllerContext controllerContext, SubmissionSetting submissionSetting, out ValidateMemberModel model)
         {
 
-            var membership = ContextHelper.GetMembership();
+            var membership = MemberPluginHelper.GetMembership();
 
             model = new ValidateMemberModel();
             bool valid = ModelBindHelper.BindModel(model, "", controllerContext, submissionSetting);
@@ -78,11 +78,11 @@ namespace Kooboo.CMS.Sites.Member
 
                         if (!string.IsNullOrEmpty(model.RedirectUrl))
                         {
-                            model.RedirectUrl = ContextHelper.ResolveSiteUrl(controllerContext, model.RedirectUrl);
+                            model.RedirectUrl = MemberPluginHelper.ResolveSiteUrl(controllerContext, model.RedirectUrl);
                         }
-                        if (!string.IsNullOrEmpty(ContextHelper.GetReturnUrl(controllerContext)))
+                        if (!string.IsNullOrEmpty(MemberPluginHelper.GetReturnUrl(controllerContext)))
                         {
-                            model.RedirectUrl = ContextHelper.GetReturnUrl(controllerContext);
+                            model.RedirectUrl = MemberPluginHelper.GetReturnUrl(controllerContext);
                         }
                     }
                     else

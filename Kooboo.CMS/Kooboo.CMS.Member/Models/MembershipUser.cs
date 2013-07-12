@@ -143,6 +143,10 @@ namespace Kooboo.CMS.Member.Models
         [DataMember]
         public virtual bool IsLockedOut { get; set; }
         [DataMember]
+        public virtual int InvalidPasswordAttempts { get; set; }
+        [DataMember]
+        public virtual string ActivateCode { get; set; }
+        [DataMember]
         public virtual DateTime UtcLastLockoutDate { get; set; }
         [DataMember]
         public virtual DateTime UtcLastLoginDate { get; set; }

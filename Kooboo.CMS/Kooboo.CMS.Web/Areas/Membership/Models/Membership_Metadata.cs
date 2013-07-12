@@ -23,6 +23,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
     [MetadataFor(typeof(Kooboo.CMS.Member.Models.Membership))]
     public class Membership_Metadata
     {
+        [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
         [Required(ErrorMessage = "Required")]
         [RemoteEx("IsNameAvailable", "Membership")]
         public string Name { get; set; }

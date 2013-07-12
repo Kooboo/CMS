@@ -307,7 +307,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 }
 
                 site = CreateSiteRepository(site, repositoryName);
-                CreateSiteRepository(site);
+                CreateMembership(site);
             }
             return site;
         }
@@ -321,7 +321,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 if (CMS.Content.Services.ServiceFactory.RepositoryManager.Get(newRepositoryName) == null)
                 {
                     var repositoryFile = GetSiteRelatedFile(site, new[] { ContentDatabaseFileName, site.Repository });
-                    if (File.Exists(repositoryFile))
+                    if (!string.IsNullOrEmpty(repositoryFile) && File.Exists(repositoryFile))
                     {
                         using (FileStream fs = new FileStream(repositoryFile, FileMode.Open, FileAccess.Read))
                         {
@@ -351,7 +351,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             return site;
         }
-        private Site CreateSiteRepository(Site site)
+        private Site CreateMembership(Site site)
         {
             //Create the repository if the repository does not exists.
             site = site.AsActual();
@@ -360,16 +360,16 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             {
                 if (site.GetMembership() == null)
                 {
-                    var repositoryFile = GetSiteRelatedFile(site, MembershipFileName);
-                    if (!string.IsNullOrEmpty(repositoryFile) && File.Exists(repositoryFile))
+                    var membershipFile = GetSiteRelatedFile(site, MembershipFileName);
+                    if (!string.IsNullOrEmpty(membershipFile) && File.Exists(membershipFile))
                     {
-                        using (FileStream fs = new FileStream(repositoryFile, FileMode.Open, FileAccess.Read))
+                        using (FileStream fs = new FileStream(membershipFile, FileMode.Open, FileAccess.Read))
                         {
                             _membershipProvider.Import(site.Membership, fs);
                         }
                         try
                         {
-                            File.Delete(repositoryFile);
+                            File.Delete(membershipFile);
                         }
                         catch (Exception e)
                         {
@@ -389,7 +389,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             Save(site);
             foreach (var childSite in ChildSites(site))
             {
-                CreateSiteRepository(childSite);
+                CreateMembership(childSite);
             }
 
             return site;
@@ -616,7 +616,10 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 {
                     var entryName = name + ".zip";
                     entryName = Path.Combine(site.PhysicalPath, entryName);
-                    return entryName;
+                    if (File.Exists(entryName))
+                    {
+                        return entryName;
+                    }
                 }
             }
             return null;

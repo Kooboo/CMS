@@ -45,9 +45,9 @@ namespace Kooboo.CMS.Sites.Member
 
         public virtual string RedirectUrl { get; set; }
 
-        public virtual string ActivateEmailSubject { get; set; }
+        public virtual string EmailSubject { get; set; }
 
-        public virtual string ActivateEmailBody { get; set; }
+        public virtual string EmailBody { get; set; }
 
         public virtual string ActivateUrl { get; set; }
     }

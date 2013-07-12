@@ -111,8 +111,8 @@ namespace Kooboo.CMS.Sites.Extension
             try
             {
                 var repository = site.GetRepository();
-                var valueProvider = new NameValueCollectionProvider(formValues);
-                formValues = PluginHelper.ApplySubmissionSettings(submissionSetting, formValues);
+                var valueProvider = new MvcValueProvider(controllerContext.Controller.ValueProvider);
+                formValues = PluginHelper.ApplySubmissionSettings(submissionSetting, formValues, valueProvider);
                 var folderName = formValues["FolderName"];
                 if (!string.IsNullOrEmpty(folderName))
                 {

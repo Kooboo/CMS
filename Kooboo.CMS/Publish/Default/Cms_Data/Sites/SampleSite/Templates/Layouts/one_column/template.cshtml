@@ -12,23 +12,11 @@
     <div id="body-container">
         <header id="header" class="clearfix">
             <h1 class="logo">
-                <a href='@Url.FrontUrl().PageUrl("Articles")'><img src="@Url.FrontUrl().FileUrl("logo.png")" alt="Logo">@("Sample site".Label())</a></h1>
+                <a href='@Url.FrontUrl().PageUrl("Articles")'>
+                    <img src="@Url.FrontUrl().FileUrl("logo.png")" alt="Logo">@("Sample site".Label())</a></h1>
             @Html.FrontHtml().RenderView("Menu", ViewData)
             <ul class="quicklinks right">
-                @if (User.Identity.IsAuthenticated)
-                {
-
-                    <li>[ <strong>@User.Identity.Name</strong> ]</li>
-
-                    <li>[ <a href="@Url.Action("SignOut", "LogOn", new { area = "Account", returnUrl = Request.RawUrl })">@("Sign Out".Label())</a>]</li>
-                }
-                else
-                { 
-
-
-
-                    <li>[ <a id="login-link" href="#loginForm">@("LogOn".Label())</a> ]</li>
-                }
+                @Html.FrontHtml().RenderView("LoginStatus")
             </ul>
         </header>
         <div id="main-container" class="clearfix">

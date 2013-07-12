@@ -65,6 +65,7 @@
     <Compile Include="Formula\FormulaParser.cs" />
     <Compile Include="Formula\IValueProvider.cs" />
     <Compile Include="Formula\IFormulaParser.cs" />
+    <Compile Include="Formula\MvcValueProvider.cs" />
     <Compile Include="Formula\NameValueCollectionProvider.cs" />
     <Compile Include="HttpApplicationHooker.cs" />
     <Compile Include="IBaseDir.cs" />

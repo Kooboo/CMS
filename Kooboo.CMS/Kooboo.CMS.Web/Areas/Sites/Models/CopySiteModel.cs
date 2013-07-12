@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Remote("IsRepositoryAvaliable", "Site", AdditionalFields = "CreateNew")]
         [Required(ErrorMessage = "Required")]
         [Description("Create a new database or select the database where <br/> your content is stored.")]
-        [UIHint("ChooseRepository")]
+        [UIHint("CreateOrSelect")]
         [DataSource(typeof(RepositoriesDataSource))]
         [Display(Name = "Content database")]
         [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]

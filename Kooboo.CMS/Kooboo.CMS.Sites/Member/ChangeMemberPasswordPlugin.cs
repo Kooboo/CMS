@@ -45,7 +45,7 @@ namespace Kooboo.CMS.Sites.Member
             }
             else
             {
-                resultData.RedirectUrl = ContextHelper.GetReturnUrl(controllerContext);
+                resultData.RedirectUrl = MemberPluginHelper.GetReturnUrl(controllerContext);
                 resultData.Success = true;
             }
             return new JsonResult() { Data = resultData };
@@ -66,7 +66,7 @@ namespace Kooboo.CMS.Sites.Member
                 throw new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "");
             }
 
-            var membership = ContextHelper.GetMembership();
+            var membership = MemberPluginHelper.GetMembership();
 
             var model = new ChangeMemberPasswordModel();
             bool valid = ModelBindHelper.BindModel(model, "", controllerContext, submissionSetting);
@@ -101,7 +101,7 @@ namespace Kooboo.CMS.Sites.Member
             System.Web.Helpers.AntiForgery.Validate();
 
             var isValid = ChangePasswordCore(context.ControllerContext);
-            var redirectUrl = ContextHelper.GetReturnUrl(context.ControllerContext);
+            var redirectUrl = MemberPluginHelper.GetReturnUrl(context.ControllerContext);
 
             if (isValid && !string.IsNullOrEmpty(redirectUrl))
             {

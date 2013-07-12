@@ -14,18 +14,18 @@ namespace Kooboo.CMS.Sites.Extension
 {
     public static class PluginHelper
     {
-        public static NameValueCollection ApplySubmissionSettings(SubmissionSetting submissionSetting, NameValueCollection formValues)
+        public static NameValueCollection ApplySubmissionSettings(SubmissionSetting submissionSetting, NameValueCollection defaultValues, Kooboo.CMS.Common.Formula.IValueProvider valueProvider)
         {
             IFormulaParser formulaParser = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IFormulaParser>();
-            var valueProvider = new NameValueCollectionProvider(formValues);
+          
             if (submissionSetting.Settings != null)
             {
                 foreach (var item in submissionSetting.Settings)
                 {
-                    formValues[item.Key] = formulaParser.Populate(item.Value, valueProvider);
+                    defaultValues[item.Key] = formulaParser.Populate(item.Value, valueProvider);
                 }
             }
-            return formValues;
+            return defaultValues;
         }
         public static ActionResult ReturnActionResult(ControllerContext controllerContext, object model, Exception exception)
         {

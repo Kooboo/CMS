@@ -71,11 +71,11 @@ namespace Kooboo.CMS.Sites.Member
                     { "Profiles[0].Value", "{FirstName}" },
                     { "Profiles[1].Key", "LastName" },
                     { "Profiles[1].Value", "{LastName}" },
-                    {"RedirectUrl", "{RedirectUrl}"},
+                    {"RedirectUrl", "~/Member/ConfirmMail"},
                     {"IsApproved","false"},
-                    {"ActivateEmailSubject","Kooboo CMS SampleSite"},
-                    {"ActivateEmailBody","You created Kooboo CMS samplesite account, please click <a href='{0}'>here</a> to activate your account."},
-                    {"ActivateUrl","Member/Activate?member={0}&code={1}"}
+                    {"EmailSubject","Kooboo CMS SampleSite"},
+                    {"EmailBody","You created Kooboo CMS samplesite account, please click <a href='{0}'>here</a> to activate your account."},
+                    {"ActivateUrl","~/Member/Activate?member={0}&code={1}"}
                 };
             }
         }
@@ -85,7 +85,7 @@ namespace Kooboo.CMS.Sites.Member
         protected virtual bool RegisterCore(ControllerContext controllerContext, SubmissionSetting submissionSetting, out string redirectUrl)
         {
             redirectUrl = "";
-            var membership = ContextHelper.GetMembership();
+            var membership = MemberPluginHelper.GetMembership();
 
             var registerMemberModel = new RegisterMemberModel();
 
@@ -96,25 +96,16 @@ namespace Kooboo.CMS.Sites.Member
                 redirectUrl = registerMemberModel.RedirectUrl;
                 if (!string.IsNullOrEmpty(redirectUrl))
                 {
-                    redirectUrl = ContextHelper.ResolveSiteUrl(controllerContext, redirectUrl);
+                    redirectUrl = MemberPluginHelper.ResolveSiteUrl(controllerContext, redirectUrl);
                 }
                 try
                 {
-                    if (registerMemberModel.Profiles == null)
-                    {
-                        registerMemberModel.Profiles = new Dictionary<string, string>();
-                    }
-                    string activateCode = UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
-                    if (registerMemberModel.IsApproved == false)
-                    {
-                        registerMemberModel.Profiles["ActivateCode"] = activateCode;
-                    }
                     var membershipUser = _manager.Create(membership, registerMemberModel.UserName, registerMemberModel.Email, registerMemberModel.Password, registerMemberModel.IsApproved, registerMemberModel.Culture
                     , registerMemberModel.TimeZoneId, registerMemberModel.PasswordQuestion, registerMemberModel.PasswordAnswer, null, registerMemberModel.Profiles, null);
 
                     if (registerMemberModel.IsApproved == false)
                     {
-                        SendActivateMail(controllerContext, Site.Current, membershipUser, registerMemberModel, activateCode);
+                        SendActivateMail(controllerContext, Site.Current, membershipUser, registerMemberModel, membershipUser.ActivateCode);
                     }
                 }
                 catch (DataViolationException e)
@@ -134,30 +125,20 @@ namespace Kooboo.CMS.Sites.Member
 
         protected virtual void SendActivateMail(ControllerContext controllerContext, Site site, MembershipUser memberUser, RegisterMemberModel registerMemberModel, string activateCode)
         {
-            var smtp = site.Smtp;
-            if (smtp == null)
-            {
-                throw new ArgumentNullException("smtp");
-            }
-
             var activateUrl = registerMemberModel.ActivateUrl;
             if (string.IsNullOrEmpty(activateUrl))
             {
                 throw new ArgumentNullException("ActivateUrl is required.");
             }
 
-            activateUrl = string.Format(ContextHelper.ResolveSiteUrl(controllerContext, activateUrl)
+            activateUrl = string.Format(MemberPluginHelper.ResolveSiteUrl(controllerContext, activateUrl)
                 , memberUser.UserName, activateCode);
             activateUrl = UrlUtility.ToHttpAbsolute(activateUrl);
 
-            MailMessage message = new MailMessage() { From = new MailAddress(smtp.From) };
-            message.To.Add(registerMemberModel.Email);
-            message.Subject = registerMemberModel.ActivateEmailSubject;
-            message.Body = string.Format(registerMemberModel.ActivateEmailBody, activateUrl);
-            message.IsBodyHtml = true;
-            SmtpClient smtpClient = smtp.ToSmtpClient();
+            var subject = registerMemberModel.EmailSubject;
+            var body = string.Format(registerMemberModel.EmailBody, activateUrl);
 
-            smtpClient.Send(message);
+            site.SendMailToCustomer(registerMemberModel.Email, subject, body, true, null);
         }
         #endregion
         #region IHttpMethodPagePlugin

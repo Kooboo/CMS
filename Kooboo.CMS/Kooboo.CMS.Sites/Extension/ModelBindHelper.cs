@@ -14,6 +14,7 @@ using System.Web.Mvc;
 using Kooboo.CMS.Sites.View;
 using Kooboo.CMS.Sites.Models;
 using System.Collections.Specialized;
+using Kooboo.CMS.Common.Formula;
 
 namespace Kooboo.CMS.Sites.Extension
 {
@@ -47,8 +48,8 @@ namespace Kooboo.CMS.Sites.Extension
             else
             {
                 var formValues = new NameValueCollection(controllerContext.HttpContext.Request.Form);
-
-                formValues = PluginHelper.ApplySubmissionSettings(submissionSetting, formValues);
+                var formulaValueProvider = new MvcValueProvider(controllerContext.Controller.ValueProvider);
+                formValues = PluginHelper.ApplySubmissionSettings(submissionSetting, formValues, formulaValueProvider);
                 ValueProviderCollection valueProvider = new ValueProviderCollection();
                 valueProvider.Add(new NameValueCollectionValueProvider(formValues, System.Globalization.CultureInfo.CurrentCulture));
                 valueProvider.Add(controllerContext.Controller.ValueProvider);

@@ -89,6 +89,7 @@
     <Compile Include="Controllers\ActionFilters\MemberAuthorizeAttribute.cs" />
     <Compile Include="Controllers\ActionFilters\OutputCacheFilterAttribute.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />
+    <Compile Include="Extension\ContactUsPlugin.cs" />
     <Compile Include="Extension\EmailPlugin.cs" />
     <Compile Include="Extension\IHttpMethodPagePlugin.cs" />
     <Compile Include="Extension\ICommonPagePlugin.cs" />
@@ -99,7 +100,11 @@
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />
     <Compile Include="Extension\PluginHelper.cs" />
     <Compile Include="Member\ActivateMemberModel.cs" />
-    <Compile Include="Member\ContextHelper.cs" />
+    <Compile Include="Member\ResetPasswordModel.cs" />
+    <Compile Include="Member\ResetPasswordPlugin.cs" />
+    <Compile Include="Member\ForgotPasswordModel.cs" />
+    <Compile Include="Member\ForgotPasswordPlugin.cs" />
+    <Compile Include="Member\MemberPluginHelper.cs" />
     <Compile Include="Member\ActivateMemberPlugin.cs" />
     <Compile Include="Member\ChangeMemberPasswordPlugin.cs" />
     <Compile Include="Member\ChangeMemberPasswordModel.cs" />

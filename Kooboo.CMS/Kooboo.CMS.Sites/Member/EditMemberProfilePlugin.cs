@@ -81,7 +81,7 @@ namespace Kooboo.CMS.Sites.Member
             {
                 throw new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "");
             }
-            var membership = ContextHelper.GetMembership();
+            var membership = MemberPluginHelper.GetMembership();
 
             var membershipUser = controllerContext.HttpContext.MemberAuthentication().GetMembershipUser();
 

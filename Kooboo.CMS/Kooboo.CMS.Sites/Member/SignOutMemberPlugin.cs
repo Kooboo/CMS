@@ -23,7 +23,7 @@ namespace Kooboo.CMS.Sites.Member
         public System.Web.Mvc.ActionResult Submit(Models.Site site, System.Web.Mvc.ControllerContext controllerContext, Models.SubmissionSetting submissionSetting)
         {
             SingOutCore(controllerContext);
-            var redirectUrl = ContextHelper.GetReturnUrl(controllerContext);
+            var redirectUrl = MemberPluginHelper.GetReturnUrl(controllerContext);
 
             if (string.IsNullOrEmpty(redirectUrl))
             {
@@ -69,7 +69,7 @@ namespace Kooboo.CMS.Sites.Member
         {
             SingOutCore(context.ControllerContext);
 
-            var redirectUrl = ContextHelper.GetReturnUrl(context.ControllerContext);
+            var redirectUrl = MemberPluginHelper.GetReturnUrl(context.ControllerContext);
             if (string.IsNullOrEmpty(redirectUrl))
             {
                 redirectUrl = context.ControllerContext.HttpContext.Request.UrlReferrer.ToString();

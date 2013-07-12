@@ -54,7 +54,7 @@ namespace Kooboo.CMS.Sites.Member
 
         public Dictionary<string, object> Parameters
         {
-            get { return new Dictionary<string, object>() { { "ActivateSuccessUrl", "" }, { "ActivateFailedUrl", "" } }; }
+            get { return new Dictionary<string, object>() { { "Member", "{Member}" }, { "Code", "{Code}" }, { "SuccessUrl", "" }, { "FailedUrl", "" } }; }
         }
         #endregion
 
@@ -63,7 +63,7 @@ namespace Kooboo.CMS.Sites.Member
         {
             redirectUrl = "";
 
-            var membership = ContextHelper.GetMembership();
+            var membership = MemberPluginHelper.GetMembership();
 
             var model = new ActivateMemberModel();
             bool valid = ModelBindHelper.BindModel(model, "", controllerContext, submissionSetting);
@@ -74,11 +74,11 @@ namespace Kooboo.CMS.Sites.Member
                     valid = _manager.Activate(membership, model.Member, model.Code);
                     if (valid)
                     {
-                        redirectUrl = ContextHelper.ResolveSiteUrl(controllerContext, model.ActivateSuccessUrl);
+                        redirectUrl = MemberPluginHelper.ResolveSiteUrl(controllerContext, model.SuccessUrl);
                     }
                     else
                     {
-                        redirectUrl = ContextHelper.ResolveSiteUrl(controllerContext, model.ActivateFailedUrl);
+                        redirectUrl = MemberPluginHelper.ResolveSiteUrl(controllerContext, model.FailedUrl);
                     }
                 }
                 catch (DataViolationException e)

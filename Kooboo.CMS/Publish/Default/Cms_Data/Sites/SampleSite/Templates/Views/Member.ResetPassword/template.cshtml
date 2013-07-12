@@ -1,0 +1,33 @@
+﻿<div class="block member-form common-form">
+    <form class="ajaxForm" action="@Url.FrontUrl().SubmissionUrl("ResetPassword",ViewContext.RequestContext.AllRouteValues())" method="post">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <table class="member-form-main single">           
+            <tr class="field">
+                <th>
+                    <label for="NewPassword">@("New password".Label()):</label>
+                </th>
+                <td>
+                    <input id="NewPassword" name="NewPassword" type="password" @((new[] { Validator.Required("Required".RawLabel().ToString()).ClientValidationRule }).GenerateHtmlAttributes())>
+                    @Html.ValidationMessageForInput("NewPassword")
+                </td>
+            </tr>
+            <tr class="field">
+                <th>
+                    <label for="ConfirmPassword">@("Confirm password".Label()):</label>
+                </th>
+                <td>
+                    <input id="ConfirmPassword" name="ConfirmPassword"  type="password" @((new[] { Validator.Required("Required".RawLabel().ToString()).ClientValidationRule }).GenerateHtmlAttributes())
+                         data-val-equalto="@("'Confirm password' and 'New password' do not match.".RawLabel())" data-val-equalto-other="*.NewPassword" >
+                    @Html.ValidationMessageForInput("ConfirmPassword")
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <button type="submit">@("Submit".Label())</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

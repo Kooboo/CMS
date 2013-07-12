@@ -177,6 +177,7 @@ namespace Kooboo.CMS.Sites.Services
                 siteSetting.InlineEditing = parent.InlineEditing;
                 siteSetting.CustomFields = parent.CustomFields;
                 siteSetting.Smtp = parent.Smtp;
+                siteSetting.Membership = parent.Membership;
 
                 Add(parent, siteSetting);
 
@@ -207,6 +208,7 @@ namespace Kooboo.CMS.Sites.Services
                 site.SitePath = siteSetting.SitePath;
                 site.Version = siteSetting.Version;
                 site.Mode = siteSetting.Mode;
+                site.Membership = siteSetting.Membership;
                 Update(site);
 
                 return site;

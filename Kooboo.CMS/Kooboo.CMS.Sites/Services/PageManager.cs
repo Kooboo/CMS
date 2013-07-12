@@ -79,7 +79,7 @@ namespace Kooboo.CMS.Sites.Services
         {
             List<Page> list = new List<Page>();
             var parentPage = new Page(site, PageHelper.SplitFullName(parentPageName).ToArray());
-            var pages = Provider.ChildPages(parentPage.LastVersion());
+            var pages = ((IPageProvider)this.Provider).ChildPages(parentPage.LastVersion(site)).Select(it => it.LastVersion(site));
 
             if (!string.IsNullOrEmpty(filterName))
             {

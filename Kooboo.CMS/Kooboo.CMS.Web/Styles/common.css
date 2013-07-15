@@ -246,6 +246,12 @@ img.icon.changepassword {
 	width: 26px;
 }
 
+img.icon.trash {
+	background-position: -260px 0;
+	height: 26px;
+	width: 26px;
+}
+
 img.icon.plus.small {
 	background-position: -33px -64px;
 	height: 16px;

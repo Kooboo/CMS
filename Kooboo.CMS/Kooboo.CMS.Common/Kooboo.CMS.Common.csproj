@@ -72,6 +72,7 @@
     <Compile Include="IHttpApplicationEvents.cs" />
     <Compile Include="ITimeZoneHelper.cs" />
     <Compile Include="ITypeActivtorStartupTask.cs" />
+    <Compile Include="KeyValue.cs" />
     <Compile Include="Persistence\ISaveObservable.cs" />
     <Compile Include="Persistence\Non_Relational\IIdentifiable.cs" />
     <Compile Include="Persistence\Relational\IEntity.cs" />

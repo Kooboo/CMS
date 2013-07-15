@@ -128,11 +128,33 @@ namespace Kooboo.Web.Url
                 return url;
             }
 
-            if (HttpContext.Current != null)
+            if (!baseUri.StartsWith("http://") && !baseUri.StartsWith("https://"))
             {
-                if (!baseUri.StartsWith("http://") && !baseUri.StartsWith("https://"))
+                if (HttpContext.Current != null)
                 {
                     baseUri = HttpContext.Current.Request.Url.Scheme + "://" + baseUri;
+
+                    var _baseUri = new Uri(baseUri);
+
+                    var isSSL = (bool?)HttpContext.Current.Items["IsSSL"];
+                    if (isSSL != null)
+                    {
+                        UriBuilder uriBuilder = new UriBuilder(baseUri);
+                        if (isSSL == true)
+                        {
+                            uriBuilder.Scheme = "https";
+                            uriBuilder.Port = 443;
+                        }
+                        else
+                        {
+                            uriBuilder.Scheme = "http";
+                        }
+                        baseUri = uriBuilder.Uri.ToString();
+                    }
+                }
+                else
+                {
+                    baseUri = "http://" + baseUri;
                 }
             }
 

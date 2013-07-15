@@ -31,7 +31,7 @@
                     @("Web resource".Localize())</a>@Html.IconImage("arrow blue-down")</li>
                 <li><a href="#smtpInfo">
                     @("SMTP".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-                 <li><a href="#htmlmeta">
+                <li><a href="#htmlmeta">
                     @("HTML meta".Localize())</a>@Html.IconImage("arrow blue-down")</li>
                 <li><a href="#security">
                     @("Security".Localize())</a>@Html.IconImage("arrow blue-down")</li>
@@ -66,7 +66,7 @@
                     <tbody>
                         @Html.EditorFor(m => m.Domains, new { HtmlAttributes = new { @class = "medium" } })
                         @Html.EditorFor(m => m.SitePath, new { HtmlAttributes = new { @class = "medium" } })
-
+                        @Html.EditorFor(m => m.SSLDetection)
                     </tbody>
                 </table>
             </div>

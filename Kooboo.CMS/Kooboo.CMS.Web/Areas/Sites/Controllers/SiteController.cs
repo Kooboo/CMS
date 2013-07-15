@@ -482,6 +482,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     site.TimeZoneId = model.TimeZoneId;
                     site.HtmlMeta = model.HtmlMeta;
                     site.Membership = model.Membership;
+                    site.SSLDetection = model.SSLDetection;
 
                     ServiceFactory.SiteManager.Update(site);
                     resultData.AddMessage("Site setting has been changed.".Localize());

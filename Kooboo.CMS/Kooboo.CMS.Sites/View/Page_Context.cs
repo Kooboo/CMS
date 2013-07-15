@@ -494,14 +494,16 @@ namespace Kooboo.CMS.Sites.View
         }
 
         public IDictionary<string, ModuleActionInvokedContext> ModuleResults { get; private set; }
-        #endregion
+        #endregion        
 
+        #region CheckContext
         public void CheckContext()
         {
             if (this.Initialized == false)
             {
                 throw new NotSupportedException();
             }
-        }
+        } 
+        #endregion
     }
 }

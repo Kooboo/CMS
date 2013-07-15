@@ -51,6 +51,14 @@ namespace Kooboo.CMS.Sites.Web
                 return appRelativeCurrentExecutionFilePath;
             }
         }
+
+        public override bool IsSecureConnection
+        {
+            get
+            {
+                return IsSSL;
+            }
+        }
         #endregion
 
         #region Properties
@@ -104,10 +112,24 @@ namespace Kooboo.CMS.Sites.Web
                 return sitePath;
             }
         }
+
+        #region IsSSL
+        public virtual bool IsSSL
+        {
+            get
+            {
+                return (bool)HttpContext.Current.Items["IsSSL"];
+            }
+            set
+            {
+                HttpContext.Current.Items["IsSSL"] = value;
+            }
+        }
+        #endregion
+
         #endregion
 
         #region ResolveSite
-
         private static bool IgnoreResolveSite(string appRelativeCurrentExecutionFilePath)
         {
             return appRelativeCurrentExecutionFilePath.ToLower().Contains("/cms_data/");
@@ -197,12 +219,31 @@ namespace Kooboo.CMS.Sites.Web
                     Thread.CurrentThread.CurrentCulture = culture;
                     Thread.CurrentThread.CurrentUICulture = culture;
                 }
+
+                IsSSL = DetectSSLRequest(Site, _request);
             }
 
             //decode the request url. for chinese character
             this.RequestUrl = HttpUtility.UrlDecode(this.RequestUrl);
         }
-
+        protected bool DetectSSLRequest(Site site, HttpRequest httpRequest)
+        {
+            var isSSL = httpRequest.IsSecureConnection;
+            if (isSSL == false)
+            {
+                var sslDetection = site.SSLDetection;
+                if (sslDetection != null && !string.IsNullOrEmpty(sslDetection.Key))
+                {
+                    var value = httpRequest.Headers[sslDetection.Key];
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        value = httpRequest.QueryString[sslDetection.Key];
+                    }
+                    isSSL = sslDetection.Value.EqualsOrNullEmpty(value, StringComparison.OrdinalIgnoreCase);
+                }
+            }
+            return isSSL;
+        }
         protected virtual Site MatchSiteByVisitRule(Site site)
         {
             ABSiteSetting abSiteSetting = null;

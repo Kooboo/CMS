@@ -680,6 +680,7 @@
     <Content Include="Scripts\tiny_mce\plugins\emoticons\plugin.min.js" />
     <Content Include="Scripts\tiny_mce\plugins\example\plugin.min.js" />
     <Content Include="Scripts\tiny_mce\plugins\example_dependency\plugin.min.js" />
+    <Content Include="Scripts\tiny_mce\plugins\exit\plugin.min.js" />
     <Content Include="Scripts\tiny_mce\plugins\fullpage\plugin.min.js" />
     <Content Include="Scripts\tiny_mce\plugins\fullscreen\plugin.min.js" />
     <Content Include="Scripts\tiny_mce\plugins\hr\plugin.min.js" />
@@ -712,8 +713,15 @@
     <Content Include="Scripts\tiny_mce\plugins\wordcount\plugin.min.js" />
     <Content Include="Scripts\tiny_mce\skins\lightgray\content.inline.min.css" />
     <Content Include="Scripts\tiny_mce\skins\lightgray\content.min.css" />
+    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon-small.eot" />
     <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon-small.svg" />
+    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon-small.ttf" />
+    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon-small.woff" />
+    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon.eot" />
     <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon.svg" />
+    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon.ttf" />
+    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon.woff" />
+    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tiny_mce\skins\lightgray\img\anchor.gif" />
     <Content Include="Scripts\tiny_mce\skins\lightgray\img\loader.gif" />
     <Content Include="Scripts\tiny_mce\skins\lightgray\img\object.gif" />
@@ -2260,15 +2268,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ABRuleSetting\EditorTemplates\UserAgentPattern.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon-small.eot" />
-    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon-small.ttf" />
-    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon-small.woff" />
-    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon.eot" />
-    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon.ttf" />
-    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\icomoon.woff" />
-    <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\readme.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\Page\_OutputCache.cshtml">

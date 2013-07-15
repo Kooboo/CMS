@@ -176,9 +176,9 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region Create
-        public Site Create(Site parentSite, string siteName, Stream packageStream, string repositoryName)
+        public Site Create(Site parentSite, string siteName, Stream packageStream, CreateSiteSetting siteSetting)
         {
-            var site = inner.Create(parentSite, siteName, packageStream, repositoryName);
+            var site = inner.Create(parentSite, siteName, packageStream, siteSetting);
             CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
             return site;
         }
@@ -196,6 +196,6 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         {
             inner.Export(site, outputStream, includeDatabase, includeSubSites);
         }
-        #endregion        
+        #endregion
     }
 }

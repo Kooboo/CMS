@@ -9,6 +9,7 @@
 using Ionic.Zip;
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Member.Models;
 using Kooboo.CMS.Member.Persistence;
 using Kooboo.CMS.Sites.Globalization;
 using Kooboo.CMS.Sites.Models;
@@ -289,7 +290,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         /// <param name="siteName"></param>
         /// <param name="packageStream"></param>
         /// <returns></returns>
-        public Site Create(Site parentSite, string siteName, System.IO.Stream packageStream, string repositoryName)
+        public Site Create(Site parentSite, string siteName, System.IO.Stream packageStream, CreateSiteSetting createSitSetting)
         {
             Site site = new Site(parentSite, siteName);
             if (site.Exists())
@@ -303,11 +304,11 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
                 if (parentSite == null)
                 {
-                    baseDir.UpdateFileLink(site.PhysicalPath, siteName, repositoryName);
+                    baseDir.UpdateFileLink(site.PhysicalPath, siteName, createSitSetting.Repository);
                 }
 
-                site = CreateSiteRepository(site, repositoryName);
-                CreateMembership(site);
+                site = CreateSiteRepository(site, createSitSetting.Repository);
+                CreateMembership(site, createSitSetting.Membership);
             }
             return site;
         }
@@ -351,22 +352,24 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             return site;
         }
-        private Site CreateMembership(Site site)
+        private Site CreateMembership(Site site, string membershipName)
         {
             //Create the repository if the repository does not exists.
             site = site.AsActual();
 
-            if (!string.IsNullOrEmpty(site.Membership))
+            if (!string.IsNullOrEmpty(membershipName))
             {
-                if (site.GetMembership() == null)
+                var membership = new Membership(membershipName).AsActual();
+                if (membership == null)
                 {
                     var membershipFile = GetSiteRelatedFile(site, MembershipFileName);
                     if (!string.IsNullOrEmpty(membershipFile) && File.Exists(membershipFile))
                     {
                         using (FileStream fs = new FileStream(membershipFile, FileMode.Open, FileAccess.Read))
                         {
-                            _membershipProvider.Import(site.Membership, fs);
+                            _membershipProvider.Import(membershipName, fs);
                         }
+                        site.Membership = membershipName;
                         try
                         {
                             File.Delete(membershipFile);
@@ -378,7 +381,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                     }
                     else if (site.Parent != null)
                     {
-                        site.Repository = site.Parent.AsActual().Repository;
+                        site.Membership = site.Parent.AsActual().Membership;
                     }
                     else
                     {
@@ -389,7 +392,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             Save(site);
             foreach (var childSite in ChildSites(site))
             {
-                CreateMembership(childSite);
+                CreateMembership(childSite, membershipName);
             }
 
             return site;

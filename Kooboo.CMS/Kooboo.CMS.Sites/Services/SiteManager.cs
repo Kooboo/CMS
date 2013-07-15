@@ -198,7 +198,7 @@ namespace Kooboo.CMS.Sites.Services
                 Site site = null;
                 using (FileStream fs = new FileStream(itemTemplate.TemplateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    site = Create(parent, siteName, siteSetting.Repository, fs, userName);
+                    site = Create(parent, siteName, fs, siteSetting);
                 }
                 //copy site setting...
                 site.Repository = siteSetting.Repository;
@@ -214,7 +214,7 @@ namespace Kooboo.CMS.Sites.Services
                 return site;
             }
         }
-        public virtual Site Import(Site parent, string siteName, string repositoryName, string importedSiteName, string userName = null)
+        public virtual Site Import(Site parent, string siteName, string importedSiteName, Site siteSetting, string userName = null)
         {
             var template = new ItemTemplate(importedSiteName);
             var itemTemplate = ServiceFactory.ImportedSiteManager.GetItemTemplate(template.Category, template.TemplateName);
@@ -225,19 +225,20 @@ namespace Kooboo.CMS.Sites.Services
             Site site = null;
             using (FileStream fs = new FileStream(itemTemplate.TemplateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                site = Import(parent, siteName, repositoryName, fs, userName);
+                site = Import(parent, siteName, fs, siteSetting);
             }
             return site;
         }
-        public virtual Site Import(Site parent, string siteName, string repositoryName, Stream siteStream, string userName = null)
+        public virtual Site Import(Site parent, string siteName, Stream siteStream, Site siteSetting, string userName = null)
         {
-            return Create(parent, siteName, repositoryName, siteStream, userName);
+            return Create(parent, siteName, siteStream, siteSetting);
         }
 
-        public virtual Site Create(Site parent, string siteName, string repositoryName, Stream siteStream, string userName = null)
+        public virtual Site Create(Site parent, string siteName, Stream siteStream, Site siteSetting, string userName = null)
         {
-            var site = Provider.Create(parent, siteName, siteStream, repositoryName);
-            site.Repository = repositoryName;
+            var site = Provider.Create(parent, siteName, siteStream, new CreateSiteSetting() { Repository = siteSetting.Repository, Membership = siteSetting.Membership });
+            site.Repository = siteSetting.Repository;
+            site.Membership = siteSetting.Membership;
             site.DisplayName = "";
             site.Domains = null;
             Update(site);
@@ -273,13 +274,13 @@ namespace Kooboo.CMS.Sites.Services
 
         #region Copy
 
-        public virtual Site Copy(Site sourceSite, string siteName, string repositoryName)
+        public virtual Site Copy(Site sourceSite, string siteName, Site siteSetting)
         {
             MemoryStream ms = new MemoryStream();
-            var exportReposiotry = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager.Get(repositoryName) == null;
+            var exportReposiotry = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager.Get(siteSetting.Repository) == null;
             Export(sourceSite.FullName, ms, exportReposiotry, true);
             ms.Position = 0;
-            return Create(sourceSite.Parent, siteName, repositoryName, ms);
+            return Create(sourceSite.Parent, siteName, ms, siteSetting);
         }
         #endregion
         #region UseSharedDB

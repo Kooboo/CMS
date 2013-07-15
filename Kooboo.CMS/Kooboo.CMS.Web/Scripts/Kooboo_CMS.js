@@ -377,13 +377,15 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         };
         selectOptional();
 
-        table.find('tbody tr').checkableTR();
+        var trCollection = table.find('tbody tr');
+        trCollection.checkableTR(trCollection);
 
         return table;
     };
-    $.fn.checkableTR = function () {
+    $.fn.checkableTR = function (trCollection) {
         var $tr = $(this);
         var $check_relateds = $('[data-show-on-check]');
+        var trCollection = trCollection;
         function reset_check_relateds() {
             var $all_checkeds = $tr.closest('tbody').find('input:checkbox.select:checked');
             $check_relateds.hide();
@@ -417,7 +419,10 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         }
         $tr.click(function () {
             var $self = $(this);
-            var $checkbox = $self.find('input:checkbox');
+            var $checkbox = $self.find('input:checkbox,input:radio');
+            if ($checkbox.is("input:radio")) {
+                trCollection.removeClass('active');
+            }
             if ($checkbox.attr('disabled') != 'disabled') {
                 $self.toggleClass('active');
                 if ($self.hasClass('active')) {

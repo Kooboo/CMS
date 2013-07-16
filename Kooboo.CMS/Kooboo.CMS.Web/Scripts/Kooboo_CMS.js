@@ -1118,23 +1118,6 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             }
             window.leaveConfirm = { bind: bind, stop: stop, pass: pass };
         })();
-        if (typeof (ko) != 'undefined') {
-            ko.bindingHandlers.uniqueId = {
-                init: function (element) {
-                    element.id = ko.bindingHandlers.uniqueId.prefix + (++ko.bindingHandlers.uniqueId.counter);
-                },
-                counter: 0,
-                prefix: "unique"
-            };
-
-            ko.bindingHandlers.uniqueFor = {
-                init: function (element, valueAccessor) {
-                    var after = ko.bindingHandlers.uniqueId.counter + (ko.utils.unwrapObservable(valueAccessor()) === "after" ? 0 : 1);
-                    element.setAttribute("for", ko.bindingHandlers.uniqueId.prefix + after);
-                }
-            };
-
-        }
 
         //$.validator.methods.number = function (value, element) {
         //    return value == "" || !isNaN(Globalize.parseFloat(value));
@@ -1310,6 +1293,37 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                 }, 100);
             }
         });
+    });
+
+    //knockout extension
+    $(function () {
+        if (typeof (ko) != 'undefined') {
+            ko.bindingHandlers.uniqueId = {
+                init: function (element) {
+                    element.id = ko.bindingHandlers.uniqueId.prefix + (++ko.bindingHandlers.uniqueId.counter);
+                },
+                counter: 0,
+                prefix: "unique"
+            };
+
+            ko.bindingHandlers.uniqueFor = {
+                init: function (element, valueAccessor) {
+                    var after = ko.bindingHandlers.uniqueId.counter + (ko.utils.unwrapObservable(valueAccessor()) === "after" ? 0 : 1);
+                    element.setAttribute("for", ko.bindingHandlers.uniqueId.prefix + after);
+                }
+            };
+
+            if (!ko.bindingHandlers.stopBinding) {
+                ko.bindingHandlers.stopBinding = {
+                    init: function (element, valueAccessor) {
+                        var stop = ko.utils.unwrapObservable(valueAccessor());
+                        return { controlsDescendantBindings: stop !== false };
+                    }
+                };
+                //
+                ko.virtualElements.allowedBindings.stopBinding = true;
+            }
+        }
     });
 })(jQuery);
 

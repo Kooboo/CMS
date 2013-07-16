@@ -1,6 +1,7 @@
 ﻿@model Kooboo.CMS.Sites.Models.Site
 @{    
     Layout = "~/Views/Shared/Popup.cshtml";
+    var siteName = Request["SiteName"];
 }
 
 <div class="block common-form in-warning-dialog">
@@ -9,11 +10,11 @@
         @("Warning".Localize())
     </h1>
     <article class="content">
-        <p class="clearfix"><strong>@("This site will be permanently deleted and cannot be recovered. Are you sure?".Localize())</strong></p>
+        <p class="clearfix"><strong>@Html.Raw(string.Format("The <strong>{0}</strong> will be permanently deleted and cannot be recovered. Are you sure?".Localize(), siteName))</strong></p>
     </article>
     @using (Html.BeginForm(ViewContext.RequestContext.GetRequestValue("Action"), ViewContext.RequestContext.GetRequestValue("Controller"), ViewContext.RequestContext.AllRouteValues(), FormMethod.Post, new RouteValueDictionary() { { "class", "no-stop" } }))
     { 
-        @Html.Hidden("SiteName", Request["SiteName"])
+        @Html.Hidden("SiteName", siteName)
         if (!ServiceFactory.SiteManager.UseSharedDB(Model))
         {  
         <p class="clearfix">

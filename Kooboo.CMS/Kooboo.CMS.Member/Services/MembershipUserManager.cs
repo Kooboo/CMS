@@ -135,6 +135,7 @@ namespace Kooboo.CMS.Member.Services
             {
                 if (membershipUser.ProviderUserId == authResult.ProviderUserId)
                 {
+                    membershipUser.UtcLastLoginDate = DateTime.UtcNow;
                     membershipUser.ProviderExtraData = extraData;
                     membershipUser.Profiles = profiles;
                     membershipUser.MembershipGroups = membershipConnect.MembershipGroups;
@@ -147,6 +148,7 @@ namespace Kooboo.CMS.Member.Services
                 membershipUser.Email = email;
                 membershipUser.IsApproved = true;
                 membershipUser.UtcCreationDate = DateTime.UtcNow;
+                membershipUser.UtcLastLoginDate = DateTime.UtcNow;
                 membershipUser.Profiles = profiles;
                 membershipUser.MembershipGroups = membershipConnect.MembershipGroups;
                 membershipUser.ProviderType = authResult.Provider;
@@ -207,6 +209,7 @@ namespace Kooboo.CMS.Member.Services
             }
 
             SetPassword(membership, membershipUser, newPassword);
+            membershipUser.UtcLastPasswordChangedDate = DateTime.UtcNow;
 
             _provider.Update(membershipUser, membershipUser);
         }
@@ -236,14 +239,20 @@ namespace Kooboo.CMS.Member.Services
             }
             var encodedPassword = _passwordProvider.EncodePassword(membership, password, membershipUser.PasswordSalt);
             var valid = encodedPassword == membershipUser.Password;
-            if (valid == false)
+            if (valid == false && membership.MaxInvalidPasswordAttempts > 0)
             {
                 membershipUser.InvalidPasswordAttempts++;
                 if (membershipUser.InvalidPasswordAttempts >= membership.MaxInvalidPasswordAttempts)
                 {
                     membershipUser.IsLockedOut = true;
+                    membershipUser.UtcLastLockoutDate = DateTime.UtcNow;
                 }
             }
+            else
+            {
+                membershipUser.UtcLastLoginDate = DateTime.UtcNow;
+            }
+            Update(membershipUser, membershipUser);
             return valid;
         }
         #endregion
@@ -367,6 +376,7 @@ namespace Kooboo.CMS.Member.Services
 
 
             membershipUser.ActivateCode = null;
+            membershipUser.UtcLastPasswordChangedDate = DateTime.UtcNow;
 
             Update(membershipUser, membershipUser);
 

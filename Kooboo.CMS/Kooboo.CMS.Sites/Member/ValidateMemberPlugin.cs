@@ -87,7 +87,7 @@ namespace Kooboo.CMS.Sites.Member
                     }
                     else
                     {
-                        controllerContext.Controller.ViewData.ModelState.AddModelError("", "Username and/or password are incorrect.".RawLabel().ToString());
+                        controllerContext.Controller.ViewData.ModelState.AddModelError("UserName", "Username and/or password are incorrect.".RawLabel().ToString());
                     }
                 }
                 catch (DataViolationException e)

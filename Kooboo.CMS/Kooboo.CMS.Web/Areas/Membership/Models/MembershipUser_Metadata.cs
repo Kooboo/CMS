@@ -44,12 +44,15 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         [GridColumn(Order = 7, HeaderText = "Is locked out", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
         public virtual bool IsLockedOut { get; set; }
 
-        public virtual DateTime UtcLastLockoutDate { get; set; }
 
         [GridColumn(Order = 8, HeaderText = "Login date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         public virtual DateTime UtcLastLoginDate { get; set; }
 
+        [GridColumn(Order = 9, HeaderText = "Password change date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         public virtual DateTime UtcLastPasswordChangedDate { get; set; }
+
+        [GridColumn(Order = 10, HeaderText = "Lock out date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
+        public virtual DateTime UtcLastLockoutDate { get; set; }
 
         public virtual string PasswordQuestion { get; set; }
 
@@ -62,7 +65,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         public virtual string Comment { get; set; }
 
         public virtual Dictionary<string, string> Profiles { get; set; }
-        
+
         public virtual Dictionary<string, string> ProviderExtraData { get; set; }
     }
 }

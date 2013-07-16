@@ -67,13 +67,21 @@ namespace Kooboo.CMS.Web.Areas.Sites.Menu
         }
         private MenuItem GetModuleMenuItem(string moduleName, ControllerContext controllerContext)
         {
-            MenuItem moduleMenuItem = new MenuItem() { Text = moduleName, Action = "", Controller = "", HtmlAttributes = new System.Web.Routing.RouteValueDictionary(), RouteValues = new System.Web.Routing.RouteValueDictionary() };
+            MenuItem root;
             var items = MenuFactory.BuildMenu(controllerContext, moduleName, false).Items;
-            moduleMenuItem.Items = items;
+            if (items.Count == 1 && items.First().Name.ToLower() == "root")
+            {
+                root = items.First();
+            }
+            else
+            {
+                root = new MenuItem() { Text = moduleName, Action = "", Controller = "", HtmlAttributes = new System.Web.Routing.RouteValueDictionary(), RouteValues = new System.Web.Routing.RouteValueDictionary() };
+                root.Items = items;
+            }
 
-            Initialize(moduleName, moduleMenuItem);
+            Initialize(moduleName, root);
 
-            return moduleMenuItem;
+            return root;
         }
     }
 }

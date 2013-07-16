@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.Globalization;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kooboo.CMS.Sites.Providers.SqlServer.LabelProvider
 {

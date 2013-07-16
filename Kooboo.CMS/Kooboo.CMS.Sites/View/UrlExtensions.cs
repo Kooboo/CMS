@@ -21,7 +21,7 @@ namespace Kooboo.CMS.Sites.View
         public static FrontUrlHelper FrontUrl(this UrlHelper url)
         {
             var frontHttpRequest = (FrontHttpRequestWrapper)url.RequestContext.HttpContext.Request;
-            return new FrontUrlHelper(url, frontHttpRequest.Site, frontHttpRequest.RequestChannel);
+            return new FrontUrlHelper(url, Site.Current, frontHttpRequest.RequestChannel);
         }
         public static FrontUrlHelper FrontUrl(this UrlHelper url, Site site, FrontRequestChannel requestChannel = FrontRequestChannel.Host)
         {

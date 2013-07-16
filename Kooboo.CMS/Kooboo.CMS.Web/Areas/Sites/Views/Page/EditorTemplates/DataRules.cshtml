@@ -7,7 +7,7 @@
     </div>
     <div class="common-table">
         <table>
-            <thead>
+            <thead data-bind="visible: $root.DataRuleList().length > 0">
                 <tr>
                     <th>@("DataName".Localize())</th>
                     <th class="action">@("Edit".Localize())</th>

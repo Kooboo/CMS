@@ -58,6 +58,7 @@ namespace Kooboo.CMS.Sites.Member
             get
             {
                 return new Dictionary<string, object>() {                
+                    { "Email", "{Email}" },
                     { "PasswordQuestion", "{PasswordQuestion}" },
                     { "PasswordAnswer", "{PasswordAnswer}" },
                     { "Culture", "{Culture}" },
@@ -93,7 +94,7 @@ namespace Kooboo.CMS.Sites.Member
             {
                 try
                 {
-                    _manager.EditMemberProfile(membership, memberAuth.GetMember().Identity.Name,editMemberModel.Email, editMemberModel.Culture,
+                    _manager.EditMemberProfile(membership, memberAuth.GetMember().Identity.Name, editMemberModel.Email, editMemberModel.Culture,
                         editMemberModel.TimeZoneId, editMemberModel.PasswordQuestion, editMemberModel.PasswordAnswer, editMemberModel.Profiles);
                     valid = true;
                 }

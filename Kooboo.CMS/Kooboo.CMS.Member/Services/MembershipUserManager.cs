@@ -308,7 +308,10 @@ namespace Kooboo.CMS.Member.Services
             {
                 throw new ArgumentException("The member doest not exists.");
             }
-            membershipUser.Email = email;
+            if (!string.IsNullOrEmpty(email))
+            {
+                membershipUser.Email = email;
+            }
             membershipUser.Culture = culture;
             membershipUser.TimeZoneId = timeZoneId;
             membershipUser.PasswordQuestion = passwordQuestion;

@@ -2221,7 +2221,7 @@ body .select2-results .select2-result-label {
 ---------------------------------------------------------*/
 .pagination {
 	font-size: 14px;
-	margin: 20px;
+	margin: 20px 20px 60px;
 	text-align: center;
 }
 

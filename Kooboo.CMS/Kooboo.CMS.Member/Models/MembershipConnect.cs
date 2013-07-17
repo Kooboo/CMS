@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Runtime.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,9 +147,59 @@ namespace Kooboo.CMS.Member.Models
         public virtual string AppSecret { get; set; }
         [DataMember]
         public virtual Dictionary<string, string> Options { get; set; }
-
         [DataMember]
         public virtual string[] MembershipGroups { get; set; }
+        [DataMember]
+        public virtual bool Enabled { get; set; }
+
+        #region O/R mapping fields
+
+        public string OptionsXml
+        {
+            get
+            {
+                if (this.Options != null)
+                {
+                    return DataContractSerializationHelper.SerializeAsXml(this.Options);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    this.Options = DataContractSerializationHelper.DeserializeFromXml<Dictionary<string, string>>(value);
+                }
+            }
+        }
+
+        public string MembershipGroupsXml
+        {
+            get
+            {
+                if (this.MembershipGroups != null)
+                {
+                    return DataContractSerializationHelper.SerializeAsXml(this.MembershipGroups);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    this.MembershipGroups = DataContractSerializationHelper.DeserializeFromXml<string[]>(value);
+                }
+            }
+        }
+        #endregion
     }
     #endregion
 }

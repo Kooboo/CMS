@@ -51,6 +51,6 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
 
         [Display(Name = "Password strength regular expression")]
         [Description("Gets the regular expression used to evaluate a password.")]
-        public string PasswordStrengthRegularExpression { get; set; }
+        public string PasswordStrengthRegularExpression { get; set; }       
     }
 }

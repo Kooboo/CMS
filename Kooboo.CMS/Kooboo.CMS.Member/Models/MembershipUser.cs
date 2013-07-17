@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Runtime.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -147,11 +148,11 @@ namespace Kooboo.CMS.Member.Models
         [DataMember]
         public virtual string ActivateCode { get; set; }
         [DataMember]
-        public virtual DateTime UtcLastLockoutDate { get; set; }
+        public virtual DateTime? UtcLastLockoutDate { get; set; }
         [DataMember]
-        public virtual DateTime UtcLastLoginDate { get; set; }
+        public virtual DateTime? UtcLastLoginDate { get; set; }
         [DataMember]
-        public virtual DateTime UtcLastPasswordChangedDate { get; set; }
+        public virtual DateTime? UtcLastPasswordChangedDate { get; set; }
         [DataMember]
         public virtual string PasswordQuestion { get; set; }
         [DataMember]
@@ -178,6 +179,79 @@ namespace Kooboo.CMS.Member.Models
         public virtual string ProviderUserId { get; set; }
         [DataMember]
         public virtual Dictionary<string, string> ProviderExtraData { get; set; }
+
+
+        #region O/R mapping fields
+
+        public string ProfileXml
+        {
+            get
+            {
+                if (this.Profiles != null)
+                {
+                    return DataContractSerializationHelper.SerializeAsXml(this.Profiles);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    this.Profiles = DataContractSerializationHelper.DeserializeFromXml<Dictionary<string, string>>(value);
+                }
+            }
+        }
+
+        public string ProviderExtraDataXml
+        {
+            get
+            {
+                if (this.ProviderExtraData != null)
+                {
+                    return DataContractSerializationHelper.SerializeAsXml(this.ProviderExtraData);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    this.ProviderExtraData = DataContractSerializationHelper.DeserializeFromXml<Dictionary<string, string>>(value);
+                }
+            }
+        }
+
+        public string MembershipGroupsXml
+        {
+            get
+            {
+                if (this.MembershipGroups != null)
+                {
+                    return DataContractSerializationHelper.SerializeAsXml(this.MembershipGroups);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    this.MembershipGroups = DataContractSerializationHelper.DeserializeFromXml<string[]>(value);
+                }
+            }
+        }
+        #endregion
     }
     #endregion
 }

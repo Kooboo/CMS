@@ -51,5 +51,8 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         [UIHint("Multiple_DropDownList")]
         [DataSource(typeof(MembershipGroupDataSource))]
         public virtual string[] MembershipGroups { get; set; }
+
+        [GridColumn(Order = 5, HeaderText = "Enabled", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
+        public string Enabled { get; set; }
     }
 }

@@ -16,12 +16,12 @@ namespace Kooboo.CMS.Common.Runtime.Dependency
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class DependencyAttribute : Attribute
     {
-        public DependencyAttribute(ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton)
+        public DependencyAttribute(ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient)
         {
             LifeStyle = lifeStyle;
         }
 
-        public DependencyAttribute(Type serviceType, ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton)
+        public DependencyAttribute(Type serviceType, ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient)
         {
             LifeStyle = lifeStyle;
             ServiceType = serviceType;

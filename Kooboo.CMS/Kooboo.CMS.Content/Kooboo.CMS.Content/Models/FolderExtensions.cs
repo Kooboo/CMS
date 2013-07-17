@@ -52,6 +52,14 @@ namespace Kooboo.CMS.Content.Models
             {
                 folderTemplate = GetSchema(folder).GetFormTemplate(formType);
             }
+            if (!string.IsNullOrEmpty(folderTemplate))
+            {
+                var physical = UrlUtility.MapPath(folderTemplate);
+                if (!File.Exists(physical))
+                {
+                    folderTemplate = null;
+                }
+            }
             return folderTemplate;
         }
 

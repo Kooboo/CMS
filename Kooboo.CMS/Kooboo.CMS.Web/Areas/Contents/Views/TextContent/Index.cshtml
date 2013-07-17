@@ -57,7 +57,7 @@
                         @Html.IconImage("unpublish") @("Unpublish".Localize())</a></li>
                 }
                 <li><a href="@Url.Action("Localize", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".unlocalized" data-command-type="AjaxPost">
-                   @("Localize".Localize())</a></li>
+                    @("Localize".Localize())</a></li>
 
                 <li><a href="@Url.Action("Copy", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized"  data-command-type="AjaxPost">
                     @Html.IconImage("copy") @("Copy".Localize())</a></li>
@@ -69,6 +69,11 @@
                     @Html.IconImage("version") @("Versions".Localize())</a></li>
             </ul>
         </li>
+
+        @if (!string.IsNullOrEmpty(ViewBag.Menu))
+        {
+            @Html.Partial(ViewData["Menu"].ToString(), Model)
+        }
     </ul>
 }
 

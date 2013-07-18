@@ -240,6 +240,18 @@ img.icon.switch {
 	width: 26px;
 }
 
+img.icon.changepassword {
+	background-position: -208px -52px;
+	height: 26px;
+	width: 26px;
+}
+
+img.icon.trash {
+	background-position: -260px 0;
+	height: 26px;
+	width: 26px;
+}
+
 img.icon.plus.small {
 	background-position: -33px -64px;
 	height: 16px;
@@ -292,6 +304,12 @@ img.icon.users-roles {
 	background-position: -12px -52px;
 	height: 12px;
 	width: 16px;
+}
+
+img.icon.Membership {
+	background-position: -90px -52px;
+	height: 12px;
+	width: 20px;
 }
 
 img.icon.modules {
@@ -1654,7 +1672,7 @@ body .select2-results .select2-result-label {
 .common-table td.common {
 	width: 300px;
 }
-
+.common-table td.short,
 .common-table td.type,
 .common-table td.date,
 .common-table td.size {
@@ -1777,7 +1795,7 @@ body .select2-results .select2-result-label {
 /* Simple table
 ----------------------------------------------------------*/
 .simple-table {
-	margin-bottom: 20px;
+	margin-bottom: 60px;
 }
 
 .simple-table .title {
@@ -1900,7 +1918,7 @@ body .select2-results .select2-result-label {
 	padding: 20px 0;
 }
 
-.in-dialog .common-grid a {
+.in-dialog .common-grid ul a {
 	width: 200px;
 }
 
@@ -2026,6 +2044,14 @@ body .select2-results .select2-result-label {
 .iframe-dialog .ui-dialog-content iframe {
 	left: 0;
 	position: absolute;
+	top: 0;
+}
+
+.iframe-dialog .ui-dialog-content > iframe.fullscreen {
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	right: 0;
 	top: 0;
 }
 
@@ -2195,7 +2221,7 @@ body .select2-results .select2-result-label {
 ---------------------------------------------------------*/
 .pagination {
 	font-size: 14px;
-	margin: 20px;
+	margin: 20px 20px 60px;
 	text-align: center;
 }
 
@@ -2651,6 +2677,15 @@ body #diffBox .diffTable td.lineNumber {
 	float: left;
 }
 
+#main-container .topbar .name-title {
+	font-family: "Segoe UI Light", "Helvetica Neue", openSansLight, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	line-height: 30px;
+	display: block;
+	background: #fff;
+	padding: 0 10px;
+}
+
 #main-container .topbar .field {
 	line-height: 36px;
 }
@@ -2989,6 +3024,18 @@ ul.site-tree {
 	font-weight: bold;
 }
 
+.map-item.abpage:after {
+	content: 'ab';
+	display: block;
+	width: 20px;
+	height: 14px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	padding: 0 3px;
+	color: #fff;
+}
+
 .map-item > a {
 	color: #FFF;
 	display: block;
@@ -3001,6 +3048,10 @@ ul.site-tree {
 	width: 107px;
 }
 
+.sitemap-panel .map-item > a {
+	cursor: default;
+}
+
 .map-item .arrow {
 	border-left: 1px solid #FFF;
 	display: block;
@@ -3009,6 +3060,10 @@ ul.site-tree {
 	padding: 8px;
 	text-indent: -9999px;
 	width: 16px;
+}
+
+.sitemap-panel .map-item .arrow {
+	cursor: pointer;
 }
 
 .map-item ul {
@@ -3200,7 +3255,7 @@ ul.site-tree {
 }
 
 #main .common-table.fixed .tbody {
-	margin-top: 142px;
+	margin-top: 112px;
 }
 
 /* Common grid

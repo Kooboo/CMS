@@ -34,13 +34,13 @@ namespace Kooboo.CMS.Sites.Persistence
             Kooboo.IO.IOUtility.EnsureDirectoryExists(folderPath);
             var settings = new XmlWriterSettings()
             {
+                CheckCharacters = false,
                 Indent = true,
                 IndentChars = "\t"
             };
             using (FileStream stream = new FileStream(filePath, FileMode.Create))
             {
-                XmlWriter xmlWriter = XmlWriter.Create(stream, settings);
-                using (var writer = XmlWriter.Create(xmlWriter, settings))
+                using (var writer = XmlWriter.Create(stream, settings))
                 {
                     ser.WriteObject(writer, o);
                 }
@@ -57,7 +57,17 @@ namespace Kooboo.CMS.Sites.Persistence
             {
                 if (stream.Length > 0)
                 {
-                    return ser.ReadObject(stream);
+                    try
+                    {
+                        return ser.ReadObject(stream);
+                    }
+                    catch (Exception e)
+                    {
+                        Kooboo.HealthMonitoring.Log.LogException(e);
+
+                        return null;
+                    }
+
                 }
                 else
                 {

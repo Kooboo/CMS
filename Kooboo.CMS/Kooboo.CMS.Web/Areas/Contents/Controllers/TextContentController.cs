@@ -38,7 +38,7 @@ using System.Web;
 using System.Web.Mvc;
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {
-     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
+    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
     [ValidateInput(false)]
     public class TextContentController : ContentControllerBase
     {
@@ -84,6 +84,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             SchemaPath schemaPath = new SchemaPath(schema);
             ViewData["Folder"] = textFolder;
             ViewData["Schema"] = schema;
+            ViewData["Menu"] = textFolder.GetFormTemplate(FormType.Grid_Menu);
             ViewData["Template"] = textFolder.GetFormTemplate(FormType.Grid);
             ViewData["WhereClause"] = whereClause;
 
@@ -210,6 +211,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             SchemaPath schemaPath = new SchemaPath(schema);
             ViewData["Folder"] = textFolder;
             ViewData["Schema"] = schema;
+            ViewData["Menu"] = textFolder.GetFormTemplate(FormType.Create_Menu);
             ViewData["Template"] = textFolder.GetFormTemplate(FormType.Create);
             SetPermissionData(textFolder);
 
@@ -271,6 +273,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             SchemaPath schemaPath = new SchemaPath(schema);
             ViewData["Folder"] = textFolder;
             ViewData["Schema"] = schema;
+            ViewData["Menu"] = textFolder.GetFormTemplate(FormType.Update_Menu);
             ViewData["Template"] = textFolder.GetFormTemplate(FormType.Update);
             SetPermissionData(textFolder);
             var content = schema.CreateQuery().WhereEquals("UUID", uuid).FirstOrDefault();

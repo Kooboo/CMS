@@ -17,6 +17,10 @@
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
                 @Html.IconImage("cancel") @("Back".Localize())</a>
         </li>
+        @if (!string.IsNullOrEmpty(ViewBag.Menu))
+        {
+            @Html.Partial(ViewData["Menu"].ToString(), Model)
+        }
     </ul>
 }
 <div class="block common-form">

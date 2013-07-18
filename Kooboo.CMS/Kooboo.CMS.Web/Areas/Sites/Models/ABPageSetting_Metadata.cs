@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Required]
         [UIHint("DropdownList")]
         [DataSource(typeof(ABRuleSettingDataSource))]
-        [GridColumnAttribute(HeaderText = "Rule name", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 2)]
+        [GridColumnAttribute(HeaderText = "Rule name", GridColumnType = typeof(SortableGridColumn), Order = 2)]
         [Display(Name = "Rule name")]
         public string RuleName { get; set; }
 
@@ -50,7 +50,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         public List<ABPageRuleItem> Items { get; set; }
 
         [UIHint("DropdownList")]
-        [GridColumnAttribute(HeaderText = "Goal page", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 1)]
+        [GridColumnAttribute(HeaderText = "Goal page", GridColumnType = typeof(SortableGridColumn), Order = 3)]
         [DisplayName("Goal page")]
         [DataSource(typeof(PagesDataSource))]
         [Description("The destnation page to measure the result of individual pages that come from A/B test.")]

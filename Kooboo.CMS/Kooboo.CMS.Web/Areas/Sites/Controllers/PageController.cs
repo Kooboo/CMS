@@ -464,6 +464,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #region IsNameAvailable
         public virtual ActionResult IsNameAvailable(string name, string parentPage, string old_Key)
         {
+            if (AreaRegistrationEx.AllAreas.Contains(name, StringComparer.OrdinalIgnoreCase))
+            {
+                return Json("The name is unavailable for page, it is already used as a MVC area name.", JsonRequestBehavior.AllowGet);
+            }
+
             if (old_Key == null || !name.EqualsOrNullEmpty(old_Key, StringComparison.CurrentCultureIgnoreCase))
             {
                 string fullName = PageHelper.CombineFullName(new[]

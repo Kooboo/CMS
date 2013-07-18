@@ -81,7 +81,7 @@ namespace Kooboo.CMS.Sites.Controllers
 
                     if (!string.IsNullOrEmpty(errorUrl) && !errorUrl.TrimStart('~').TrimStart('/').TrimEnd('/').EqualsOrNullEmpty(this.Request.AppRelativeCurrentExecutionFilePath.TrimStart('~').TrimStart('/').TrimEnd('/'), StringComparison.OrdinalIgnoreCase))
                     {
-                        filterContext.Result = RedirectHelper.CreateRedirectResult(Site, FrontHttpRequest.RequestChannel, errorUrl, Request.RawUrl, (int)statusCode, customError.RedirectType);
+                        filterContext.Result = RedirectHelper.CreateRedirectResult(Site, FrontHttpRequest.RequestChannel, errorUrl, Request.RawUrl, (int)statusCode, customError.RedirectType, customError.ShowErrorPath);
                         filterContext.ExceptionHandled = true;
                     }
                 }
@@ -99,7 +99,7 @@ namespace Kooboo.CMS.Sites.Controllers
         protected virtual ActionResult RedirectTo404()
         {
             var notFoundUrl = Url.Action("Index", "NotFound");
-            notFoundUrl = notFoundUrl.AddQueryParam("errorpath", this.Request.RawUrl);
+            notFoundUrl = notFoundUrl.AddQueryParam("returnUrl", this.Request.RawUrl);
 
             return new RedirectResult(notFoundUrl);
         }

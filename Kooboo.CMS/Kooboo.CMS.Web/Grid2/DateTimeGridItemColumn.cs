@@ -27,7 +27,15 @@ namespace Kooboo.CMS.Web.Grid2
             string s = "";
             if (PropertyValue != null)
             {
-                s = ((DateTime)PropertyValue).ToLocalTime().ToString();
+                var dateTime = ((DateTime)PropertyValue);
+                if (dateTime == DateTime.MinValue)
+                {
+                    s = "-";
+                }
+                else
+                {
+                    s = dateTime.ToLocalTime().ToString();
+                }
             }
             return new HtmlString(s);
         }

@@ -127,7 +127,11 @@ namespace Kooboo.CMS.Content.Services
         /// <param name="override">if set to <c>true</c> [@override].</param>
         public virtual void Import(Repository repository, Stream stream, string fullName, bool @override)
         {
-            var folder = FolderHelper.Parse<T>(repository, fullName);
+            T folder = null;
+            if (!String.IsNullOrEmpty(fullName))
+            {
+                folder = FolderHelper.Parse<T>(repository, fullName);
+            }
             Provider.Import(repository, folder, stream, @override);
         }
 

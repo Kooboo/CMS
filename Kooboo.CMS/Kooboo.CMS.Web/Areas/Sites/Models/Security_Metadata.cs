@@ -25,7 +25,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [StringLength(8, MinimumLength = 8)]
         public string EncryptKey { get; set; }
 
-        [Description(" Turn on/off the content submission API such as ContentService and SendEmail API")]
+        [Description(" Turn on/off the content submission API such as ContentService and SendEmail API. The 'ContentService' was obsolete in 4.1 verion, it is recommended to trun off for security reason.")]
         [DisplayName("Turn on submission api")]
         public bool TurnOnSubmissionAPI { get; set; }
 

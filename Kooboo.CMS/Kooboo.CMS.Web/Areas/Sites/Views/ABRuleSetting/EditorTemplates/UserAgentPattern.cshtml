@@ -37,8 +37,8 @@
 </em>
 <script>
     $(function () {
-        $('#sampleRule a').click(function () {
+        $('#sampleRule a').live("click", function () {
             $('[name=@propertyName]').val($(this).data('regex')).change();
-                });
-            });
+        });
+    });
 </script>

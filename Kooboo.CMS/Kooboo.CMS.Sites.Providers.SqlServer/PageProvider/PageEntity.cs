@@ -16,6 +16,7 @@ using Kooboo.CMS.Sites.DataRule;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace Kooboo.CMS.Sites.Providers.SqlServer.PageProvider
 {
     public interface IPageEntity

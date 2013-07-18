@@ -5,6 +5,7 @@
 	<div class="content">
 		<div @ViewHelper.Edit(Model,"Body")>@Html.Raw(Model.Body ?? "")</div>
 		<div @ViewHelper.Edit(Model,"Name")>@Html.Raw(Model.Name ?? "")</div>
+		<div @ViewHelper.Edit(Model,"Member")>@Html.Raw(Model.Member ?? "")</div>
 	</div>
 </div>
 }

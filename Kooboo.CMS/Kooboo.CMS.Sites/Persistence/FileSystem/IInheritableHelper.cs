@@ -13,13 +13,14 @@ using System.Text;
 using Kooboo.CMS.Sites.Models;
 
 using System.IO;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
     public static class IInheritableHelper
     {
         public static IEnumerable<T> All<T>(Site site)
-            where T : PathResource, IInheritable<T>
+            where T : PathResource, IInheritable<T>, IPersistable
         {
             List<T> results = new List<T>();
 
@@ -46,7 +47,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
 
         private static IEnumerable<T> AllInternal<T>(Site site)
-             where T : PathResource, IInheritable<T>
+             where T : PathResource, IInheritable<T>, IPersistable
         {
             string baseDir = ModelActivatorFactory<T>.GetActivator().CreateDummy(site).BasePhysicalPath;
             if (Directory.Exists(baseDir))
@@ -61,6 +62,14 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                             continue;
                         }
                     }
+
+                    // The provider used in AsActual is possibly different with the current provider.
+                    // the AsActual method is not recommended used in Provider level.
+                    //if (o.AsActual() == null)
+                    //{
+                    //    continue;
+                    //}
+
                     yield return o;
                 }
             }

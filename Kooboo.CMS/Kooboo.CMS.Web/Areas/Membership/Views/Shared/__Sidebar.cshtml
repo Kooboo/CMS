@@ -1,0 +1,11 @@
+﻿@using Kooboo.CMS.Web.Areas.Membership
+<div class="topbar block sitemanager clearfix">
+	<a href="@Url.Action("Index", new { controller = "Membership", area = "Membership" })" title="@("Memberships".Localize())">
+		<h6 class="title">@("Memberships".Localize())</h6>
+	</a>
+	<span class="name-title clear">@(ViewContext.RequestContext.GetRequestValue("MembershipName"))</span>
+</div>
+
+<nav class="container block menu">
+	@Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Membership").SetMembership(this.ViewContext))
+</nav>

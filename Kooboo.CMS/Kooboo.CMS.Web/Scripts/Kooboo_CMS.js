@@ -135,14 +135,20 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         return this.find('a[data-ajax]').click(function (e) {
             e.preventDefault();
             var $self = $(this), url = $self.attr('href'), post = function () {
-
-                $.ajax({
-                    url: url,
-                    success: function (response, statusText, xhr) {
-                        parse_JsonResultData(response, statusText, xhr);
-                    },
-                    type: $self.data('ajax')
-                });
+                var type = $self.data('ajax');
+                if (type.toLowerCase() == "download") {
+                    $.fileDownload(url, {
+                        httpMethod: "POST"
+                    });
+                } else {
+                    $.ajax({
+                        url: url,
+                        success: function (response, statusText, xhr) {
+                            parse_JsonResultData(response, statusText, xhr);
+                        },
+                        type: type
+                    });
+                }
             };
             if ($self.data('confirm')) {
                 if (confirm($self.data('confirm'))) {
@@ -371,13 +377,15 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         };
         selectOptional();
 
-        table.find('tbody tr').checkableTR();
+        var trCollection = table.find('tbody tr');
+        trCollection.checkableTR(trCollection);
 
         return table;
     };
-    $.fn.checkableTR = function () {
+    $.fn.checkableTR = function (trCollection) {
         var $tr = $(this);
         var $check_relateds = $('[data-show-on-check]');
+        var trCollection = trCollection;
         function reset_check_relateds() {
             var $all_checkeds = $tr.closest('tbody').find('input:checkbox.select:checked');
             $check_relateds.hide();
@@ -411,7 +419,10 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         }
         $tr.click(function () {
             var $self = $(this);
-            var $checkbox = $self.find('input:checkbox');
+            var $checkbox = $self.find('input:checkbox,input:radio');
+            if ($checkbox.is("input:radio")) {
+                trCollection.removeClass('active');
+            }
             if ($checkbox.attr('disabled') != 'disabled') {
                 $self.toggleClass('active');
                 if ($self.hasClass('active')) {
@@ -1107,23 +1118,6 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             }
             window.leaveConfirm = { bind: bind, stop: stop, pass: pass };
         })();
-        if (typeof (ko) != 'undefined') {
-            ko.bindingHandlers.uniqueId = {
-                init: function (element) {
-                    element.id = ko.bindingHandlers.uniqueId.prefix + (++ko.bindingHandlers.uniqueId.counter);
-                },
-                counter: 0,
-                prefix: "unique"
-            };
-
-            ko.bindingHandlers.uniqueFor = {
-                init: function (element, valueAccessor) {
-                    var after = ko.bindingHandlers.uniqueId.counter + (ko.utils.unwrapObservable(valueAccessor()) === "after" ? 0 : 1);
-                    element.setAttribute("for", ko.bindingHandlers.uniqueId.prefix + after);
-                }
-            };
-
-        }
 
         //$.validator.methods.number = function (value, element) {
         //    return value == "" || !isNaN(Globalize.parseFloat(value));
@@ -1299,6 +1293,37 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                 }, 100);
             }
         });
+    });
+
+    //knockout extension
+    $(function () {
+        if (typeof (ko) != 'undefined') {
+            ko.bindingHandlers.uniqueId = {
+                init: function (element) {
+                    element.id = ko.bindingHandlers.uniqueId.prefix + (++ko.bindingHandlers.uniqueId.counter);
+                },
+                counter: 0,
+                prefix: "unique"
+            };
+
+            ko.bindingHandlers.uniqueFor = {
+                init: function (element, valueAccessor) {
+                    var after = ko.bindingHandlers.uniqueId.counter + (ko.utils.unwrapObservable(valueAccessor()) === "after" ? 0 : 1);
+                    element.setAttribute("for", ko.bindingHandlers.uniqueId.prefix + after);
+                }
+            };
+
+            if (!ko.bindingHandlers.stopBinding) {
+                ko.bindingHandlers.stopBinding = {
+                    init: function (element, valueAccessor) {
+                        var stop = ko.utils.unwrapObservable(valueAccessor());
+                        return { controlsDescendantBindings: stop !== false };
+                    }
+                };
+                //
+                ko.virtualElements.allowedBindings.stopBinding = true;
+            }
+        }
     });
 })(jQuery);
 

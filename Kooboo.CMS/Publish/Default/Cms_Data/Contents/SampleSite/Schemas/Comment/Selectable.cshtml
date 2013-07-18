@@ -39,6 +39,7 @@
                     <input type="checkbox" class="select-all" />
                 </th>
                 		<th class="Title @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Title",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Title", "Title", -1)</th>
+		<th class="Member @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Member",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Member", "Member", -1)</th>
 		<th class="UtcCreationDate @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "UtcCreationDate",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Creation date", "UtcCreationDate", -1)</th>
 		<th class="Published @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Published",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Published", "Published", -1)</th>
 
@@ -75,7 +76,7 @@
                                    @Html.IconImage("folder") @Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(item).FriendlyText</a>
                             }
                         </td>
-                        <td colspan="2">
+                        <td colspan="3">
                         </td>                      
                     </tr>
                 } 
@@ -106,6 +107,7 @@
         		<td>@if(Model.ShowTreeStyle){
 		<span class="expander">@Html.IconImage("arrow")</span>}
  @Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Title)</td>
+		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Member)</td>
 		<td class="date">@(DateTime.Parse(item["UtcCreationDate"].ToString()).ToLocalTime().ToShortDateString())</td>
 		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Published)</td>
     </tr>     
@@ -129,7 +131,7 @@
         </td>
 		<td class="treeStyle">
 		<span class="expander">@Html.IconImage("arrow")</span>
-		@Html.IconImage("file document")<span data-bind="html:item.Title"></span></td>
+		@Html.IconImage("file document")<span data-bind="html:item.Title"></span></td>		<td data-bind="html:item.Member"></td>
         <td class="date" data-bind="html:item._LocalCreationDate_"></td>
         <td><span data-bind="text : (item.Published == true?'YES': '-')"></span></td>
     </tr>     

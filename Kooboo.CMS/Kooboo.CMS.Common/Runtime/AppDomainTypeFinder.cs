@@ -28,7 +28,7 @@ namespace Kooboo.CMS.Common.Runtime
 
         private bool loadAppDomainAssemblies = true;
 
-        private string assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^CppCodeProvider|^VJSharpCodeProvider|^WebDev|^Castle|^Iesi|^log4net|^NHibernate|^nunit|^TestDriven|^MbUnit|^Rhino|^QuickGraph|^TestFu|^Telerik|^ComponentArt|^MvcContrib|^AjaxControlToolkit|^Antlr3|^Remotion|^Recaptcha";
+        private string assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^CppCodeProvider|^VJSharpCodeProvider|^WebDev|^Castle|^Iesi|^log4net|^NHibernate|^nunit|^TestDriven|^MbUnit|^Rhino|^QuickGraph|^TestFu|^Telerik|^ComponentArt|^MvcContrib|^AjaxControlToolkit|^Antlr3|^Remotion|^Recaptcha|^DotNetOpenAuth|^Kooboo,";
 
         private string assemblyRestrictToLoadingPattern = ".*";
         private IList<string> assemblyNames = new List<string>();
@@ -107,7 +107,7 @@ namespace Kooboo.CMS.Common.Runtime
 
         public IEnumerable<Type> FindClassesOfType<T>(IEnumerable<Assembly> assemblies, bool onlyConcreteClasses = true)
         {
-            return FindClassesOfType(typeof (T), assemblies, onlyConcreteClasses);
+            return FindClassesOfType(typeof(T), assemblies, onlyConcreteClasses);
         }
 
         public IEnumerable<Type> FindClassesOfType(Type assignTypeFrom, IEnumerable<Assembly> assemblies, bool onlyConcreteClasses = true)
@@ -137,7 +137,6 @@ namespace Kooboo.CMS.Common.Runtime
                             }
                         }
                     }
-
                 }
             }
             catch (ReflectionTypeLoadException ex)
@@ -181,9 +180,9 @@ namespace Kooboo.CMS.Common.Runtime
             if (!_assemblyAttributesSearched.Contains(typeof(T)))
             {
                 var foundAssemblies = (from assembly in assemblies
-                                      let customAttributes = assembly.GetCustomAttributes(typeof(T), false)
-                                      where customAttributes.Any()
-                                      select assembly).ToList();
+                                       let customAttributes = assembly.GetCustomAttributes(typeof(T), false)
+                                       where customAttributes.Any()
+                                       select assembly).ToList();
                 //now update the cache
                 _assemblyAttributesSearched.Add(typeof(T));
                 foreach (var a in foundAssemblies)
@@ -300,7 +299,7 @@ namespace Kooboo.CMS.Common.Runtime
                     {
                         App.Load(an);
                     }
-                    
+
                     //old loading stuff
                     //Assembly a = Assembly.ReflectionOnlyLoadFrom(dllPath);
                     //if (Matches(a.FullName) && !loadedAssemblyNames.Contains(a.FullName))
@@ -329,11 +328,12 @@ namespace Kooboo.CMS.Common.Runtime
                     return isMatch;
                 }
                 return false;
-            }catch
+            }
+            catch
             {
                 return false;
             }
         }
-        
+
     }
 }

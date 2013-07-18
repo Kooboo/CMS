@@ -39,13 +39,11 @@
                 }, 0);
             });
         },
-
         positionPicker: function () {
             var css = this.el.offset();
             css.left += this.el.outerWidth();
             this.pickerHolder.css(css);
         },
-
         setEnable: function (enable) {
             editorDate.superclass.setEnable.call(this, enable);
             // set datepicker mask
@@ -62,9 +60,8 @@
             editorDate.superclass.setHtml.call(this, str);
             this.positionPicker();
         },
-
         remove: function () {
-            editorDate.superclass.initialize.call(this);
+            editorDate.superclass.remove.call(this);
             this.el.unbind('keydown', this._posKeydown);
             this.positionMonitor.stop();
             this.pickerHolder.remove();

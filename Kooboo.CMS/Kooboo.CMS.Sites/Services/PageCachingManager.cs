@@ -33,7 +33,43 @@ namespace Kooboo.CMS.Sites.Services
             var filePath = GetFilePath(page, httpContext.Request.Path);
             if (File.Exists(filePath))
             {
-                html = IOUtility.ReadAsString(filePath);
+                var expired = false;
+                if (page.OutputCache != null && page.OutputCache.Duration != 0)
+                {
+                    DateTime cacheTime = DateTime.Now;
+                    switch (page.OutputCache.ExpirationPolicy)
+                    {
+                        case ExpirationPolicy.AbsoluteExpiration:
+                            cacheTime = File.GetCreationTime(filePath);
+                            break;
+                        case ExpirationPolicy.SlidingExpiration:
+                            cacheTime = File.GetLastAccessTime(filePath);
+                            break;
+                    }
+
+                    expired = (DateTime.Now - cacheTime).TotalSeconds > page.OutputCache.Duration;
+                }
+
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
+                        if (expired == true)
+                        {
+
+                            File.Delete(filePath);
+                        }
+                        else
+                        {
+                            html = IOUtility.ReadAsString(filePath);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Kooboo.HealthMonitoring.Log.LogException(e);
+                }
+
             }
             return html;
         }

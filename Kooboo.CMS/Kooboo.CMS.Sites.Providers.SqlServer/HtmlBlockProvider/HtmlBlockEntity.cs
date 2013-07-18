@@ -13,6 +13,7 @@ using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.ComponentModel.DataAnnotations;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace Kooboo.CMS.Sites.Providers.SqlServer.HtmlBlockProvider
 {
     [Table("HtmlBlocks")]

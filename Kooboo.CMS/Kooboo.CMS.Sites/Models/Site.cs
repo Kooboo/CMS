@@ -22,6 +22,8 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using System.Text.RegularExpressions;
 using System.Net.Mail;
 using System.Net;
+using System.Web;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Models
 {
@@ -176,7 +178,15 @@ namespace Kooboo.CMS.Sites.Models
             {
                 var domains = this.Domains ?? new string[0];
                 var sitePath = this.SitePath == null ? "" : this.SitePath.Trim().Trim('/');
-                return domains.Where(it => !string.IsNullOrEmpty(it)).Select(it => (it.Trim('/') + "/" + sitePath).TrimEnd('/') + "/");
+                var portSegment = "";
+                if (HttpContext.Current != null)
+                {
+                    if (!(HttpContext.Current.Request.Url.Port == 80 || HttpContext.Current.Request.Url.Port == 443))
+                    {
+                        portSegment = ":" + HttpContext.Current.Request.Url.Port;
+                    }
+                }
+                return domains.Where(it => !string.IsNullOrEmpty(it)).Select(it => (it.Trim('/') + portSegment + "/" + sitePath).TrimEnd('/') + "/");
             }
         }
         #endregion
@@ -423,7 +433,7 @@ namespace Kooboo.CMS.Sites.Models
 
         #endregion
 
-        #region override base       
+        #region override base
         public override bool Exists()
         {
             return File.Exists(this.DataFile);
@@ -699,6 +709,21 @@ namespace Kooboo.CMS.Sites.Models
         }
         [DataMember()]//
         public HtmlMeta HtmlMeta { get; set; }
+
+        [DataMember]
+        public string Membership { get; set; }
+
+        /// <summary>
+        /// Gets or sets the SSL detection.
+        /// To detect the request if is a SSL request accoding to the HTTP header/Querystring.
+        /// It is because in the master/slave mode, the slave server will only get HTTP request even the user sending a HTTPS request. The master server will send the HTTPS flag via HTTP header or querystring. 
+        /// see:https://github.com/plack/Plack/wiki/How-to-detect-reverse-proxy-and-SSL-frontend
+        /// </summary>
+        /// <value>
+        /// The SSL detection.
+        /// </value>
+        [DataMember]
+        public KeyValue<string, string> SSLDetection { get; set; }
     }
     #endregion
 }

@@ -13,12 +13,13 @@
     ctx.extend(editorPlain, ctx.editor, {
 
         richText: false, _plainBlur: null, _plainPaste: null, _plainKeydown: null, _timeoutId: null,
-
+        
         initialize: function () {
             var self = this;
             editorPlain.superclass.initialize.call(this);
-            this.Sniffer.destroy();
-            // events
+            this.el.addClass("kb-editor-hl");
+            //this.Sniffer.destroy();
+            //// events
             this.el.blur(this._plainBlur = function () { self.stripHtml(false); });
             if (this.el.get(0).onpaste === null) { // test if support paste event
                 this.el.bind('paste', self._plainPaste = function () {
@@ -53,6 +54,40 @@
                 }
             });
         },
+        getSelector: function () {
+            return this.el.get(0).tagName + '.kb-editor-on';
+        },
+        buildEditor: function (selector) {
+            var self = this;
+            tinymce.init({
+                selector: selector,
+                plugins: [
+                    "exit"
+                ],
+                inline: true,
+                menubar: false,
+                force_p_newlines: false,
+                forced_root_block: false,
+                toolbar_items_size: 'small',
+                toolbar: "save exit | undo redo |",
+                init_instance_callback: function (ed) {
+                    self.editorInstance = ed;
+                    setTimeout(function () {
+                        ed.focus();
+                        ed.off('blur');
+                    }, 500);
+                },
+                exit_onsavecallback: function (ed) {
+                    self.onSave && self.onSave();
+                    self.stripHtml(false);
+                },
+                exit_onbeforeexit: function (ed) {
+                    self.onCancel && self.onCancel();
+                    self._onBeforeExit();
+                    return false;
+                }
+            });
+        },
 
         stripHtml: function (timeout) {
             clearTimeout(this._timeoutId);
@@ -66,21 +101,21 @@
             }
         },
 
-        _firstFocus: function () {
-            // override with a empty implement
-        },
+        //_firstFocus: function () {
+        //    // override with a empty implement
+        //},
 
-        _unifyInputs: function (ev) {
-            // enter
-            if (ev.which == 13) {
-                return false;
-            }
-            // tab
-            if (ev.which == 9) {
-                this.pasteHtml('    ');
-                return false;
-            }
-        },
+        //_unifyInputs: function (ev) {
+        //    // enter
+        //    if (ev.which == 13) {
+        //        return false;
+        //    }
+        //    // tab
+        //    if (ev.which == 9) {
+        //        this.pasteHtml('    ');
+        //        return false;
+        //    }
+        //},
 
         getHtml: function () {
             return this.el.text();
@@ -91,10 +126,10 @@
         },
 
         remove: function () {
+            editorPlain.superclass.remove.call(this);
             if (this._plainBlur) { this.el.unbind('blur', this._plainBlur); }
             if (this._plainPaste) { this.el.unbind('paste', this._plainPaste); }
             if (this._plainKeydown) { this.el.unbind('keydown', this._plainKeydown); }
-            editorPlain.superclass.remove.call(this);
         }
 
     });

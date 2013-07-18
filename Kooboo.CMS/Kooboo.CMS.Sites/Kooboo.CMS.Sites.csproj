@@ -86,8 +86,10 @@
     <Compile Include="Controllers\ActionFilters\CacheToDiskAttribute.cs" />
     <Compile Include="Controllers\ActionFilters\CustomOutputTextWriterFilter.cs" />
     <Compile Include="Controllers\ActionFilters\CustomRedirectFilterAttribute.cs" />
+    <Compile Include="Controllers\ActionFilters\MemberAuthorizeAttribute.cs" />
     <Compile Include="Controllers\ActionFilters\OutputCacheFilterAttribute.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />
+    <Compile Include="Extension\ContactUsPlugin.cs" />
     <Compile Include="Extension\EmailPlugin.cs" />
     <Compile Include="Extension\IHttpMethodPagePlugin.cs" />
     <Compile Include="Extension\ICommonPagePlugin.cs" />
@@ -97,8 +99,28 @@
     <Compile Include="Extension\ModuleArea\IModuleAction.cs" />
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />
     <Compile Include="Extension\PluginHelper.cs" />
+    <Compile Include="Member\ActivateMemberModel.cs" />
+    <Compile Include="Member\ResetPasswordModel.cs" />
+    <Compile Include="Member\ResetPasswordPlugin.cs" />
+    <Compile Include="Member\ForgotPasswordModel.cs" />
+    <Compile Include="Member\ForgotPasswordPlugin.cs" />
+    <Compile Include="Member\MemberPluginHelper.cs" />
+    <Compile Include="Member\ActivateMemberPlugin.cs" />
+    <Compile Include="Member\ChangeMemberPasswordPlugin.cs" />
+    <Compile Include="Member\ChangeMemberPasswordModel.cs" />
+    <Compile Include="Member\EditMemberProfilePlugin.cs" />
+    <Compile Include="Member\EditMemberProfileModel.cs" />
+    <Compile Include="Member\ExternalLoginHelper.cs" />
+    <Compile Include="Member\MemberAuthentication.cs" />
+    <Compile Include="Member\MemberExtensionMethods.cs" />
+    <Compile Include="Member\ValidateMemberModel.cs" />
+    <Compile Include="Member\RegisterMemberModel.cs" />
+    <Compile Include="Member\RegisterMemberPlugin.cs" />
+    <Compile Include="Member\SignOutMemberPlugin.cs" />
+    <Compile Include="Member\ValidateMemberPlugin.cs" />
     <Compile Include="Models\HtmlMeta.cs" />
     <Compile Include="Models\SubmissionSetting.cs" />
+    <Compile Include="NullMembershipException.cs" />
     <Compile Include="Persistence\Caching\ABPageSettingProvider.cs" />
     <Compile Include="Persistence\Caching\ABSiteSettingProvider.cs" />
     <Compile Include="Persistence\Caching\ABRuleSettingProvider.cs" />
@@ -106,6 +128,7 @@
     <Compile Include="Persistence\IABPageTestResultProvider.cs" />
     <Compile Include="Persistence\ISubmissionSettingProvider.cs" />
     <Compile Include="Persistence\FileSystem\SubmissionSettingProvider.cs" />
+    <Compile Include="NullSiteContextException.cs" />
     <Compile Include="Services\ABPageTestResultManager.cs" />
     <Compile Include="Services\PageCachingManager.cs" />
     <Compile Include="Services\SubmissionSettingManager.cs" />
@@ -174,7 +197,7 @@
     <Compile Include="Extension\ModuleArea\ModuleSessionStateTempDataProvider.cs" />
     <Compile Include="Extension\ModuleArea\ModuleViewEngine.cs" />
     <Compile Include="Extension\ModuleArea\RouteTables.cs" />
-    <Compile Include="Extension\PagePluginHelper.cs" />
+    <Compile Include="Extension\ModelBindHelper.cs" />
     <Compile Include="Globalization\IRepositoryFactory.cs" />
     <Compile Include="Globalization\SiteLabelRepository.cs" />
     <Compile Include="LocalizationHtmlExtensions.cs" />
@@ -481,6 +504,10 @@
     <ProjectReference Include="..\Kooboo.CMS.Form\Kooboo.CMS.Form.csproj">
       <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
       <Name>Kooboo.CMS.Form</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Member\Kooboo.CMS.Member.csproj">
+      <Project>{3df23643-4bd1-4564-82b9-9ec594ad05b6}</Project>
+      <Name>Kooboo.CMS.Member</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Search\Kooboo.CMS.Search.csproj">
       <Project>{c7b73e67-d226-41cb-a86d-410276b265a1}</Project>

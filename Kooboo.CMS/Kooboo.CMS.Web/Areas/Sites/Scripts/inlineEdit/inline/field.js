@@ -99,16 +99,19 @@
 
         wrap: function () {
             var dom = this.el.get(0), wrapper;
-            if ($.browser.mozilla) {
-                // ensure firefox use DIV as editor element, 
-                // in firefox there ara some problems in other element types.
-                // eg: SPAN within A will cause the content can not be removed.
-                if (dom.tagName == 'DIV') { return this.el; }
-                wrapper = $('<div></div>').appendTo(this.el);
-            } else {
-                if (dom.tagName == 'DIV' || dom.tagName == 'SPAN') { return this.el; }
-                wrapper = $('<span></span>').appendTo(this.el);
-            }
+            //Modified by Raoh in 2013-06-20
+            //if ($.browser.mozilla) {
+            //    // ensure firefox use DIV as editor element, 
+            //    // in firefox there ara some problems in other element types.
+            //    // eg: SPAN within A will cause the content can not be removed.
+            //    if (dom.tagName == 'DIV') { return this.el; }
+            //    wrapper = $('<div></div>').appendTo(this.el);
+            //} else {
+            //    if (dom.tagName == 'DIV' || dom.tagName == 'SPAN') { return this.el; }
+            //    wrapper = $('<span></span>').appendTo(this.el);
+            //}
+            if (dom.tagName == 'DIV') { return this.el; }
+            wrapper = $('<div></div>').appendTo(this.el);
             // content
             var wrapperDom = wrapper.get(0);
             while (dom.childNodes.length > 1)

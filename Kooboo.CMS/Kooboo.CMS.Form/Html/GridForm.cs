@@ -83,11 +83,52 @@ namespace Kooboo.CMS.Form.Html
 </div>
 <div class=""tbody"">
     <table>
+        <thead>
+            <tr>
+                <th class=""checkbox mutiple"">
+                    <div>
+                        <input type=""checkbox"" class="" select-all"" />
+                        @Html.IconImage(""arrow"")
+                        <ul class=""hide"">
+                            <li>Select:</li>
+                            <li class=""all""><a href=""javascript:;"">All Elements</a></li>
+                            <li class=""docs""><a href=""javascript:;"">Only Documents</a></li>
+                            @if (ViewBag.FolderPermission)
+                            {{
+                                <li class=""folders""><a href=""javascript:;"">Only Folders</a></li>
+                            }}
+                            <li class=""none""><a href=""javascript:;"">None</a></li>
+                        </ul>
+                    </div>
+                </th>
+                {0}
+                @if (folder.EmbeddedFolders != null)
+                {{
+                    foreach (var s in folder.EmbeddedFolders)
+                    {{
+                    <th>@Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(new TextFolder(Repository.Current, s)).FriendlyText
+                    </th>
+                    }}
+                }}
+                @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)
+                {{
+                    <th class=""action"">
+                        @(""Workflow"".Localize())
+                    </th>
+                }}
+                               
+                @if (schema.IsTreeStyle)
+                {{
+                    <th class=""action"">
+                    </th> 
+                }}
+            </tr>
+        </thead>
         <tbody>
         @if (childFolders.Length == 0 && ViewBag.PagedList.TotalItemCount == 0)
         {{
             <tr class=""empty"">
-                <td>
+                <td colspan=""100"">
                     @(""Empty"".Localize())
                 </td>
             </tr>

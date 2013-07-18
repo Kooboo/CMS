@@ -23,8 +23,9 @@
     
         <table>
             @Html.EditorFor(o => o.Parent, new { HtmlAttributes = new { @class = "medium" } })
-            @Html.EditorFor(o => o.Name, new { HtmlAttributes = new { @class = "medium" } })            
+            @Html.EditorFor(o => o.Name, new { HtmlAttributes = new { @class = "medium" } })
             @Html.EditorFor(o => o.Repository, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(o => o.Membership, new { HtmlAttributes = new { @class = "medium" } })
             @Html.EditorFor(o => o.File)
         </table>
       

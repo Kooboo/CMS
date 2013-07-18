@@ -42,6 +42,10 @@ namespace Kooboo.CMS.Content.Models
         /// <summary>
         /// 用于前台的内容详细显示
         /// </summary>
-        Detail = 32
+        Detail = 32,
+
+        Grid_Menu = 64,
+        Create_Menu = 128,
+        Update_Menu = 256
     }
 }

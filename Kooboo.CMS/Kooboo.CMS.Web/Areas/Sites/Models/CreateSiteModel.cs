@@ -52,11 +52,19 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Remote("IsRepositoryAvaliable", "Site", AdditionalFields = "CreateNew")]
         [Required(ErrorMessage = "Required")]
         [Description("Create a new database or select the database where <br/> your content is stored.")]
-        [UIHint("ChooseRepository")]
+        [UIHint("CreateOrSelect")]
         [DataSource(typeof(RepositoriesDataSource))]
         [Display(Name = "Content database")]
         [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
         public string Repository { get; set; }
+
+        [Description("Create a new membership or select the membership.")]
+        [UIHint("CreateOrSelect")]
+        [DataSource(typeof(MembershipDataSource))]
+        [Display(Name = "Membership")]
+        [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
+        public string Membership { get; set; }
+
 
         [Required(ErrorMessage = "Required")]
         [UIHint("DropDownList")]
@@ -87,13 +95,21 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Description("The parent website which this new website will be based on.")]
         public string Parent { get; set; }
 
-        [Remote("IsRepositoryAvaliable", "Site")]
+        //[Remote("IsRepositoryAvaliable", "Site")]
         [Required(ErrorMessage = "Required")]
         [Description("The name of your database to be created")]
+        [UIHint("CreateOrSelect")]
         [DataSource(typeof(RepositoriesDataSource))]
         [Display(Name = "Content database")]
         [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
         public string Repository { get; set; }
+
+        [Description("Create a new membership or select the membership.")]
+        [UIHint("CreateOrSelect")]
+        [DataSource(typeof(MembershipDataSource))]
+        [Display(Name = "Membership")]
+        [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
+        public string Membership { get; set; }
 
         [Required(ErrorMessage = "Required")]
         [UIHint("UploadOrSelect")]
@@ -103,6 +119,17 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [AdditionalMetadata("data-val-filesize-value", 4194304)]
         public string File { get; set; }
 
+        public Site ToSiteSetting()
+        {
+            var site = new Site()
+            {
+                Repository = Repository,
+                Membership = Membership,
+                Domains = null
+            };
+
+            return site;
+        }
     }
 
     public class ImportRepositoryModel

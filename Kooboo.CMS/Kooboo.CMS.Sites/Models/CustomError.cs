@@ -43,6 +43,20 @@ namespace Kooboo.CMS.Sites.Models
         [DataMember(Order = 12)]
         public RedirectType RedirectType { get; set; }
 
+        private bool? _showErrorPath = true;
+        [DataMember]
+        public bool ShowErrorPath
+        {
+            get
+            {
+                if (_showErrorPath == null)
+                {
+                    _showErrorPath = true;
+                }
+                return _showErrorPath.Value;
+            }
+            set { _showErrorPath = value; }
+        }
     }
 
     public partial class CustomError : ISiteObject, IFilePersistable, IPersistable, IIdentifiable
@@ -86,6 +100,8 @@ namespace Kooboo.CMS.Sites.Models
         }
         #endregion
 
+        #region IPersistable,IIdentifiable
+
         public string UUID
         {
             get
@@ -124,5 +140,6 @@ namespace Kooboo.CMS.Sites.Models
         {
             get { return new CustomErrorsFile(Site).PhysicalPath; }
         }
+        #endregion
     }
 }

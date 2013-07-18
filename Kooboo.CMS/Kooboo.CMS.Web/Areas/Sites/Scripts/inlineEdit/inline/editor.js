@@ -233,15 +233,18 @@
         },
 
         message: function (msg) {
-            if (!currentEditorToolbar) { return; }
-            currentEditorToolbar.message(msg, currentEditorToolbar.components.btnSave.el);
+            //if (!currentEditorToolbar) { return; }
+            //currentEditorToolbar.message(msg, currentEditorToolbar.components.btnSave.el);
+            currentEditor && currentEditor.message(msg, currentEditor.getSaveEl());
         },
 
         disabled: function (disable) {
             if (!currentEditor) { return; }
             disable = (disable === true);
+            //Modified by Raoh in 2013-06-20
+            //currentEditor.setEnable(!disable);
+            //currentEditorToolbar.disableBtns(disable);
             currentEditor.setEnable(!disable);
-            currentEditorToolbar.disableBtns(disable);
         },
 
         value: function () {
@@ -350,11 +353,18 @@
             // new editor
             currentEditor = new (editorTypes[this.dataType])({
                 el: this.el,
+                onSave:function(){
+                    self.onSave();
+                },
+                onCancel: function () {
+                    self.onCancel();
+                },
                 onInitialized: function () {
                     // cache widget html
                     originalContent = this.getHtml();
                     // current editor anchor
-                    currentEditorToolbar = new ctx.editorAnchor({
+                    //Commented by Raoh in 2013-06-20
+                    /*currentEditorToolbar = new ctx.editorAnchor({
                         alignTo: this.el,
                         renderTo: ctx.cacheCon,
                         editor: this,
@@ -365,7 +375,7 @@
                     currentEditorToolbar.fix(true);
                     // add mouseup hander
                     this.onMouseup.add(self.mouseupHandler, self);
-                    this.onMousedown.add(self.mousedownHandler, self);
+                    this.onMousedown.add(self.mousedownHandler, self);*/
                 }
             });
             // status
@@ -374,10 +384,9 @@
             ctx.anchor.fixAll(true);
             showMask(this.el);
         },
-
         cancel: function (revert) {
             if (!currentEditor) { return; }
-            this.clearDynamicPos();
+            //this.clearDynamicPos();//Commented by Raoh in 2013-06-20
             // unvalids
             unvalidActions.revert(this.el);
             // cancel events
@@ -387,9 +396,10 @@
             if (revert !== false) { currentEditor.setHtml(originalContent, { processScript: false }); }
             currentEditor.remove();
             currentEditor = null;
+            //Commented by Raoh in 2013-06-20
             // editor toolbar
-            currentEditorToolbar.remove();
-            currentEditorToolbar = null;
+            //currentEditorToolbar.remove();
+            //currentEditorToolbar = null;
             // reset status
             ctx.zOld(this.el);
             ctx.anchor.overel = false;

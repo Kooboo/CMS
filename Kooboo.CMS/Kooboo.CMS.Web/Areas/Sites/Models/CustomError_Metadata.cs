@@ -33,21 +33,25 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     public class CustomError_Metadata
     {
         [DisplayName("Status code")]
-        [GridColumnAttribute(HeaderText="Status code", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 1)]
+        [GridColumnAttribute(HeaderText = "Status code", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 1)]
         [EnumDataType(typeof(HttpErrorStatusCode))]
         [UIHintAttribute("DropDownList")]
         [Remote("IsStatusCodeAvailable", "CustomError", AdditionalFields = "SiteName,old_Key")]
         public HttpErrorStatusCode StatusCode { get; set; }
 
-        [GridColumnAttribute(HeaderText="Redirect URL", GridColumnType = typeof(SortableGridColumn), Order = 2)]
+        [GridColumnAttribute(HeaderText = "Redirect URL", GridColumnType = typeof(SortableGridColumn), Order = 2)]
         [Required(ErrorMessage = "Required")]
         [DisplayName("Redirect URL")]
         public string RedirectUrl { get; set; }
 
-        [GridColumn(HeaderText="Redirect type", GridColumnType = typeof(SortableGridColumn), Order = 3)]
+        [GridColumn(HeaderText = "Redirect type", GridColumnType = typeof(SortableGridColumn), Order = 3)]
         [UIHint("DropDownList")]
         [EnumDataType(typeof(RedirectType))]
         [Display(Name = "Redirect type")]
         public RedirectType RedirectType { get; set; }
+
+        [GridColumn(HeaderText = "Show error path", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn), Order = 4)]
+        [Display(Name = "Show error path")]
+        public bool ShowErrorPath { get; set; }
     }
 }

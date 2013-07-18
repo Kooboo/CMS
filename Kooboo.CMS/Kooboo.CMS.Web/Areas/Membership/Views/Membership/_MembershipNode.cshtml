@@ -1,0 +1,24 @@
+﻿@model Kooboo.CMS.Member.Models.Membership
+@{
+    var routeValues = ViewContext.RequestContext.AllRouteValues().Merge("membershipName", Model.Name);
+}
+<div class="map-item">
+    @Html.ActionLink(Model.Name, "Index", "MembershipUser", routeValues, new RouteValueDictionary(new { title = Model.Name }))
+    <span class="arrow">
+        @Html.IconImage("arrow-right")</span>
+    <ul>
+        <li>
+            @Html.ActionLink("Edit".Localize(), "Edit", "Membership", routeValues.Merge("return", Request.RawUrl), null)
+        </li>
+
+        <li>
+            @Html.ActionLink("Export".Localize(), "Export", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "Download" } })
+        </li>
+        <li>
+            @Html.ActionLink("Delete".Localize(), "Delete", "Membership", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete the membership?".Localize() } })
+        </li>
+
+
+
+    </ul>
+</div>

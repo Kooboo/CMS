@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Sites.ABTest;
+using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Web.Areas.Sites.Models.DataSources;
 using Kooboo.CMS.Web.Grid2;
 using Kooboo.ComponentModel;
@@ -47,5 +48,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Display(Name = "Alternative sites")]
         [Description("The alternative sites to render based on defined A/B rules.")]
         public List<ABSiteRuleItem> Items { get; set; }
+
+        [GridColumn(HeaderText = "Redirect type", GridColumnType = typeof(SortableGridColumn), Order = 3)]
+        [UIHint("DropDownList")]
+        [EnumDataType(typeof(RedirectType))]
+        [Display(Name = "Redirect type")]
+        public RedirectType? RedirectType { get; set; }
     }
 }

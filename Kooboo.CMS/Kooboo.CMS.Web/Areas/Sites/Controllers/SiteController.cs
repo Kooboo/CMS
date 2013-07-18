@@ -58,12 +58,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         protected virtual ActionResult CreateSite([Bind(Exclude = "Parent")]Site site, string parent, string template)
         {
-
             var data = new JsonResultData(ViewData.ModelState);
 
             if (ModelState.IsValid)
             {
-
                 data.RunWithTry((resultData) =>
                 {
                     Site parentSite = null;
@@ -317,11 +315,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     Site createdSite = null;
                     if (Request.Files.Count > 0)
                     {
-                        createdSite = ServiceFactory.SiteManager.Create(parent, model.Name, model.Repository, Request.Files[0].InputStream, User.Identity.Name);
+                        createdSite = ServiceFactory.SiteManager.Create(parent, model.Name, Request.Files[0].InputStream, model.ToSiteSetting(), User.Identity.Name);
                     }
                     else
                     {
-                        createdSite = ServiceFactory.SiteManager.Import(parent, model.Name, model.Repository, model.File, User.Identity.Name);
+                        createdSite = ServiceFactory.SiteManager.Import(parent, model.Name, model.File, model.ToSiteSetting(), User.Identity.Name);
                     }
 
                     resultData.RedirectUrl = Url.Action("SiteMap", new { controller = "Home", siteName = createdSite.FullName });
@@ -483,6 +481,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     site.EnableStyleEdting = model.EnableStyleEdting;
                     site.TimeZoneId = model.TimeZoneId;
                     site.HtmlMeta = model.HtmlMeta;
+                    site.Membership = model.Membership;
+                    site.SSLDetection = model.SSLDetection;
 
                     ServiceFactory.SiteManager.Update(site);
                     resultData.AddMessage("Site setting has been changed.".Localize());
@@ -554,7 +554,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 data.RunWithTry((resultData) =>
                 {
-                    var createdSite = Kooboo.CMS.Sites.Services.ServiceFactory.SiteManager.Copy(Site, model.Name, model.Repository);
+                    if (string.IsNullOrEmpty(model.Membership))
+                    {
+                        model.Membership = Site.AsActual().Membership;
+                    }
+                    var createdSite = Kooboo.CMS.Sites.Services.ServiceFactory.SiteManager.Copy(Site, model.Name, model.ToSiteSetting());
 
                     resultData.RedirectUrl = Url.Action("SiteMap", new { controller = "Home", siteName = createdSite.FullName });
                 });

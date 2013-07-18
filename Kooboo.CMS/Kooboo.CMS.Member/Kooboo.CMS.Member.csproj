@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3DF23643-4BD1-4564-82B9-9EC594AD05B6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kooboo.CMS.Member</RootNamespace>
+    <AssemblyName>Kooboo.CMS.Member</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotNetOpenAuth.AspNet">
+      <HintPath>..\..\Lib\DotNetOpenAuth\DotNetOpenAuth.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip.Reduced">
+      <HintPath>..\..\Lib\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OAuthClients\LinkedInClient.cs" />
+    <Compile Include="OAuthClients\YahooClient.cs" />
+    <Compile Include="OAuthClients\MicrosoftClient.cs" />
+    <Compile Include="OAuthClients\GoogleClient.cs" />
+    <Compile Include="OAuthClients\MembershipOpenAuthDataProvider.cs" />
+    <Compile Include="OAuthClients\OAuthWebSecurity.cs" />
+    <Compile Include="OAuthClients\OpenAuthClient.cs" />
+    <Compile Include="OAuthClients\AuthResult.cs" />
+    <Compile Include="OAuthClients\FacebookClient.cs" />
+    <Compile Include="OAuthClients\IAuthClient.cs" />
+    <Compile Include="Models\IMemberElement.cs" />
+    <Compile Include="Models\Membership.cs" />
+    <Compile Include="Models\MembershipConnect.cs" />
+    <Compile Include="Models\MembershipGroup.cs" />
+    <Compile Include="Models\MembershipUser.cs" />
+    <Compile Include="OAuthClients\TwitterClient.cs" />
+    <Compile Include="Persistence\Default\ListProviderBase.cs" />
+    <Compile Include="Persistence\Default\MembershipConnectProvider.cs" />
+    <Compile Include="Persistence\Default\MembershipGroupProvider.cs" />
+    <Compile Include="Persistence\Default\MembershipProvider.cs" />
+    <Compile Include="Persistence\Default\MembershipUserProvider.cs" />
+    <Compile Include="Persistence\Default\SettingFileProviderBase.cs" />
+    <Compile Include="Persistence\IMemberElementProvider.cs" />
+    <Compile Include="Persistence\IMembershipConnectProvider.cs" />
+    <Compile Include="Persistence\IMembershipGroupProvider.cs" />
+    <Compile Include="Persistence\IMembershipProvider.cs" />
+    <Compile Include="Persistence\IMembershipUserProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IManagerBase.cs" />
+    <Compile Include="OAuthClients\IOAuthMembershipProvider.cs" />
+    <Compile Include="Services\MembershipConnectManager.cs" />
+    <Compile Include="Services\MembershipGroupManager.cs" />
+    <Compile Include="Services\MembershipManager.cs" />
+    <Compile Include="Services\MembershipPasswordProvider.cs" />
+    <Compile Include="Services\MembershipUserManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
+      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
+      <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
+      <Name>Kooboo.CMS.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

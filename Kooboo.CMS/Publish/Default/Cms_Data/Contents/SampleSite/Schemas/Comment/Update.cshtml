@@ -41,6 +41,15 @@
             @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Name"], null)
             
             </td>          
+            </tr><tr>
+            <th>
+            <label for="Member">Member</label>
+            </th>
+            <td>
+            <input class='long' id="Member" name="Member" type="text" value="@(Model.Member ?? "")" />            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Member"], null)
+            
+            </td>          
             </tr>
             @if (allowedEdit) {
                 <tr>

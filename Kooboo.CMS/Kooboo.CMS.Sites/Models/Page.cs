@@ -196,14 +196,10 @@ namespace Kooboo.CMS.Sites.Models
     [DataContract]
     public class PagePermission
     {
-        /// <summary>
-        /// <example>?,*,User1,Role1</example>
-        /// </summary>
-        /// <value>The allowed.</value>
-        [DataMember(Order = 1)]
-        public string Allowed { get; set; }
-        [DataMember(Order = 3)]
-        public string Denied { get; set; }
+        [DataMember]
+        public bool RequireMember { get; set; }
+        [DataMember]
+        public string[] AllowGroups { get; set; }
     }
 
     public static class PageHelper
@@ -433,6 +429,7 @@ namespace Kooboo.CMS.Sites.Models
         #region EmptyPage
         public static Func<Page> Activator = () => new Page();
         #endregion
+
         #region override PathResource
 
         string _fullName = null;

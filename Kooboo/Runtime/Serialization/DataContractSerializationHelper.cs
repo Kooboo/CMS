@@ -27,13 +27,13 @@ namespace Kooboo.Runtime.Serialization
         /// <typeparam name="T"></typeparam>
         /// <param name="o">The o.</param>
         /// <param name="filePath">The file path.</param>
-        public static void Serialize<T>(T o, string filePath)
+        public static void Serialize<T>(T o, string filePath, IEnumerable<Type> knownTypes = null)
         {
             string folderPath = Path.GetDirectoryName(filePath);
             Kooboo.IO.IOUtility.EnsureDirectoryExists(folderPath);
             using (FileStream stream = new FileStream(filePath, FileMode.Create))
             {
-                Serialize(o, stream);
+                Serialize(o, stream, knownTypes);
             }
         }
         /// <summary>
@@ -42,16 +42,16 @@ namespace Kooboo.Runtime.Serialization
         /// <typeparam name="T"></typeparam>
         /// <param name="o">The o.</param>
         /// <param name="stream">The stream.</param>
-        public static void Serialize<T>(T o, Stream stream)
+        public static void Serialize<T>(T o, Stream stream, IEnumerable<Type> knownTypes = null)
         {
             DataContractSerializer ser = new DataContractSerializer(typeof(T));
             var settings = new XmlWriterSettings()
                {
+                   CheckCharacters = false,
                    Indent = true,
                    IndentChars = "\t"
                };
-            XmlWriter xmlWriter = XmlWriter.Create(stream, settings);
-            using (var writer = XmlWriter.Create(xmlWriter, settings))
+            using (var writer = XmlWriter.Create(stream, settings))
             {
                 ser.WriteObject(writer, o);
             }

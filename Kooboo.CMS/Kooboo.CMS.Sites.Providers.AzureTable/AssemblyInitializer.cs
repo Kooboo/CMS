@@ -14,32 +14,24 @@ using System.IO;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Sites.Versioning;
 using Kooboo.CMS.Sites.Models;
-[assembly: System.Web.PreApplicationStartMethod(typeof(Kooboo.CMS.Sites.Providers.AzureTable.AssemblyInitializer), "Initialize")]
+using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.CMS.Common.Runtime;
 namespace Kooboo.CMS.Sites.Providers.AzureTable
 {
-    public static class AssemblyInitializer
+    public class AssemblyInitializer : Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
     {
-        public static void Initialize()
-        {
-            ApplicationInitialization.RegisterInitializerMethod(delegate()
-            {
-                ResetProviders();
-            }, 1);
-        }
 
-        public static void ResetProviders()
+        public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
         {
             Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance = new LabelProvider.RepositoryFactory();
+            containerManager.AddComponent<IPageProvider, PageProvider.PageProvider>();
+            containerManager.AddComponent<IHtmlBlockProvider, HtmlBlockProvider.HtmlBlockProvider>();
+            containerManager.AddComponent<IUserProvider, UserProvider.UserProvider>();
+        }
 
-            var providerFactory = Kooboo.CMS.Sites.Persistence.Providers.ProviderFactory;
-            providerFactory.RegisterProvider<IPageProvider>(new PageProvider.PageProvider());
-            providerFactory.RegisterProvider<IHtmlBlockProvider>(new HtmlBlockProvider.HtmlBlockProvider());
-            providerFactory.RegisterProvider<IUserProvider>(new UserProvider.UserProvider());
-
-            //VersionManager.RegisterVersionLogger<Page>(new PageProvider.PageProvider.PageVersionLogger());
-            //VersionManager.RegisterVersionLogger<HtmlBlock>(new HtmlBlockProvider.HtmlBlockProvider.HtmlBlockVersionLogger());
-
-
+        public int Order
+        {
+            get { return 1; }
         }
     }
 }

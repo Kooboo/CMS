@@ -2400,4 +2400,70 @@
   <data name="Page visit rule" xml:space="preserve">
     <value>Page visit rule</value>
   </data>
+  <data name="Membership users" xml:space="preserve">
+    <value>Membership users</value>
+  </data>
+  <data name="UtcCreationDate" xml:space="preserve">
+    <value>UtcCreationDate</value>
+  </data>
+  <data name="IsApproved" xml:space="preserve">
+    <value>IsApproved</value>
+  </data>
+  <data name="IsLockedOut" xml:space="preserve">
+    <value>IsLockedOut</value>
+  </data>
+  <data name="LastLockoutDate" xml:space="preserve">
+    <value>LastLockoutDate</value>
+  </data>
+  <data name="LastLoginDate" xml:space="preserve">
+    <value>LastLoginDate</value>
+  </data>
+  <data name="LastPasswordChangedDate" xml:space="preserve">
+    <value>LastPasswordChangedDate</value>
+  </data>
+  <data name="Site master" xml:space="preserve">
+    <value>Site master</value>
+  </data>
+  <data name="Membership groups" xml:space="preserve">
+    <value>Membership groups</value>
+  </data>
+  <data name="Membership connects" xml:space="preserve">
+    <value>Membership connects</value>
+  </data>
+  <data name="Members" xml:space="preserve">
+    <value>Members</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="Connects" xml:space="preserve">
+    <value>Connects</value>
+  </data>
+  <data name="Memberships" xml:space="preserve">
+    <value>Memberships</value>
+  </data>
+  <data name="Create date" xml:space="preserve">
+    <value>Create date</value>
+  </data>
+  <data name="Is approved" xml:space="preserve">
+    <value>Is approved</value>
+  </data>
+  <data name="Is locked out" xml:space="preserve">
+    <value>Is locked out</value>
+  </data>
+  <data name="Lockout date" xml:space="preserve">
+    <value>Lockout date</value>
+  </data>
+  <data name="Login date" xml:space="preserve">
+    <value>Login date</value>
+  </data>
+  <data name="Password changed date" xml:space="preserve">
+    <value>Password changed date</value>
+  </data>
+  <data name="Could not find a property named Password." xml:space="preserve">
+    <value>Could not find a property named Password.</value>
+  </data>
+  <data name="Post a comment" xml:space="preserve">
+    <value>Post a comment</value>
+  </data>
 </root>

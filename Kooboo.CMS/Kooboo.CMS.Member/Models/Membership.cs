@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Common.Persistence.Relational;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace Kooboo.CMS.Member.Models
     #endregion
 
     #region Interfaces
-    public partial class Membership : IPersistable, IIdentifiable
+    public partial class Membership : IPersistable, IIdentifiable, IEntity
     {
         #region IPersistable
         private bool _isDummy = true;
@@ -102,6 +103,15 @@ namespace Kooboo.CMS.Member.Models
             }
         }
         #endregion
+
+        #region IEntity
+        public int Id
+        {
+            get;
+            set;
+        }
+        #endregion
+
     }
     #endregion
 

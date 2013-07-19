@@ -9,6 +9,7 @@
 using Kooboo.CMS.Member.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
@@ -18,8 +19,8 @@ namespace Kooboo.CMS.Member.Persistence.EntityFramework.Mappings
     {
         public MembershipMapping()
         {
-            this.HasKey(it => it.Name);
-
+            this.Ignore(it => it.UUID);
+     
             this.Property(it => it.Name).HasColumnType("nvarchar").HasMaxLength(256);
             this.Property(it => it.AuthCookieName).HasColumnType("nvarchar").HasMaxLength(256);
             this.Property(it => it.AuthCookieDomain).HasColumnType("nvarchar").HasMaxLength(256);

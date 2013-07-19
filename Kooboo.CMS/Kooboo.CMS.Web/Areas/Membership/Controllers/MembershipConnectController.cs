@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
         #region Create
         public virtual ActionResult Create()
         {
-            return View();
+            return View(new MembershipConnect() { Enabled = true });
         }
         [HttpPost]
         public virtual ActionResult Create(MembershipConnect model, string @return)

@@ -9,6 +9,7 @@
 using Kooboo.CMS.Member.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
@@ -18,8 +19,7 @@ namespace Kooboo.CMS.Member.Persistence.EntityFramework.Mappings
     {
         public MembershipConnectMapping()
         {
-            this.HasKey(it => it.Name);
-
+            this.Ignore(it => it.UUID);
             this.Property(it => it.Name).HasColumnType("nvarchar").HasMaxLength(256);
             this.Property(it => it.DisplayName).HasColumnType("nvarchar").HasMaxLength(256);
             this.Property(it => it.AppId).HasColumnType("nvarchar").HasMaxLength(256);
@@ -29,7 +29,8 @@ namespace Kooboo.CMS.Member.Persistence.EntityFramework.Mappings
             this.Property(it => it.OptionsXml).HasColumnType("nvarchar").HasMaxLength(1024);
             this.Property(it => it.MembershipGroupsXml).HasColumnType("nvarchar").HasMaxLength(1024);
 
-            this.HasRequired(it => it.Membership);
+            this.HasRequired(it => it.Membership)
+                .WithMany();
 
             this.ToTable("Kooboo_CMS_Member_MembershipConnect");
         }

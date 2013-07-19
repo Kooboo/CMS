@@ -25,6 +25,14 @@ namespace Kooboo.CMS.Form.Html.Controls
                 return "Int32";
             }
         }
+        public override string DataType
+        {
+            get
+            {
+                return "Int";
+            }
+        }
+
         protected override string RenderInput(IColumn column)
         {
             return string.Format(@"<input class=""long"" id=""{0}"" name=""{0}"" type=""text"" value=""@(Model.{0} ?? """")"" {1}/>", column.Name, Kooboo.CMS.Form.Html.ValidationExtensions.GetUnobtrusiveValidationAttributeString(column));

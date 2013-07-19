@@ -25,6 +25,13 @@ namespace Kooboo.CMS.Form.Html.Controls
                 return "Float";
             }
         }
+        public override string DataType
+        {
+            get
+            {
+                return "Decimal";
+            }
+        }
         protected override string RenderInput(IColumn column)
         {
 

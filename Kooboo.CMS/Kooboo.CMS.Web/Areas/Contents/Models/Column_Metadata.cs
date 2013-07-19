@@ -39,12 +39,14 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
         [UIHint("DropDownList")]
         [EnumDataType(typeof(Kooboo.CMS.Common.DataType))]
         [Required(ErrorMessage = "Required")]
+        [DisplayName("Data type")]
         public DataType DataType { get; set; }
 
 
         [UIHint("DropDownList")]
         [DataSource(typeof(Kooboo.CMS.Web.Areas.Contents.Models.DataSources.ControlTypesDataSource))]
         [Description("The way that you would like to input your content.")]
+        [DisplayName("Control type")]
         public string ControlType { get; set; }
 
         [DisplayName("Allow null")]

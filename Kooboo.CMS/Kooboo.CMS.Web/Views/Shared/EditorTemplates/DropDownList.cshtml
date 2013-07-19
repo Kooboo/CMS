@@ -17,10 +17,24 @@
             editorHtmlAttributes.Merge(new RouteValueDictionary(htmlAttributes));
         }
     }
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName);
+
+    var items = ViewData.ModelMetadata.GetDataSource().GetSelectListItems(ViewContext.RequestContext, "").SetActiveItem(Model).ToArray();
 }
 
-@Html.DropDownList(propertyName, ViewData.ModelMetadata.GetDataSource()
-                    .GetSelectListItems(ViewContext.RequestContext, "").SetActiveItem(Model), editorHtmlAttributes)
+<select name="@propertyName" id="@id" @Html.GenerateHtmlAttributes(editorHtmlAttributes)>
+    @foreach (var item in items)
+    {
+        IDictionary<string, object> htmlAttribute = null;
+        var selecteListEx = item as SelectListItemEx;
+        if (selecteListEx != null)
+        {
+            htmlAttribute = selecteListEx.HtmlAttributes;
+        }
+        <option value="@item.Value" @(item.Selected ? "selected=selected" : "") @Html.GenerateHtmlAttributes(htmlAttribute)>@item.Text</option>
+    }
+</select>
+
 
 @Html.ValidationMessage(ViewData.ModelMetadata, new { name = ViewData["name"] })
 
@@ -32,7 +46,7 @@
 {
     <script>
         jQuery(function ($) {
-            $("#@ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName)").select2({ minimumResultsForSearch: 20 });
-    });
+            $("#id").select2({ minimumResultsForSearch: 20 });
+        });
     </script>
 }

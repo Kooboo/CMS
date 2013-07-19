@@ -2347,6 +2347,11 @@
   <ItemGroup>
     <Content Include="Views\Shared\DisplayTemplates\Dictionary.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Contents\Views\MediaContent\TextFile.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

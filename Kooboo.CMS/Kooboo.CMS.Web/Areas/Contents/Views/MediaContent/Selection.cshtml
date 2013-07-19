@@ -17,6 +17,7 @@
     string action = routes["action"].ToString();
     var folderPaths = (ViewContext.RequestContext.GetRequestValue("FolderName") != null ? FolderHelper.SplitFullName(ViewContext.RequestContext.GetRequestValue("FolderName")) : new string[] { }).ToArray();
 
+    var singleChoice = !string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("SingleChoice"));
 }
 <div id="main-container">
     <div class="wrap">
@@ -58,20 +59,23 @@
                     <thead>
                         <tr>
                             <th class="checkbox optional-selector ">
-                                <div>
-                                    <input type="checkbox" class="select-all" />
-                                    <ul class="hide">
-                                        <li>Select:</li>
-                                        <li class="all"><a>
-                                            @Html.Raw("All Elements".Localize())</a></li>
-                                        <li class="docs"><a>
-                                            @Html.Raw("Only Documents".Localize())</a></li>
-                                        <li class="folders"><a>
-                                            @Html.Raw("Only Folders".Localize())</a></li>
-                                        <li class="none"><a>
-                                            @Html.Raw("None".Localize())</a></li>
-                                    </ul>
-                                </div>
+                                @if (singleChoice == false)
+                                {
+                                    <div>
+                                        <input type="checkbox" class="select-all" />
+                                        <ul class="hide">
+                                            <li>Select:</li>
+                                            <li class="all"><a>
+                                                @Html.Raw("All Elements".Localize())</a></li>
+                                            <li class="docs"><a>
+                                                @Html.Raw("Only Documents".Localize())</a></li>
+                                            <li class="folders"><a>
+                                                @Html.Raw("Only Folders".Localize())</a></li>
+                                            <li class="none"><a>
+                                                @Html.Raw("None".Localize())</a></li>
+                                        </ul>
+                                    </div>
+                                }
                             </th>
                             <th>
                                 @Html.Raw("Title".Localize())
@@ -127,7 +131,9 @@
                 
                             <tr class="foldertr">
                                 <td class="checkbox">
-                                    <input type="checkbox" disabled="disabled" /></td>
+                                    <input type="@(singleChoice ? "radio" : "checkbox")" disabled="disabled" />
+
+                                </td>
                                 <td>
                                     <a href="@this.Url.Action(action, currentRoutes)">@Html.IconImage("folder")@folder.Name</a>
                                 </td>
@@ -150,7 +156,7 @@
                                 {
                             <tr class="doctr">
                                 <td class="checkbox">
-                                    <input type="checkbox" name="select" value="@Html.Raw(content.UUID)" class="select doc" 
+                                    <input  type="@(singleChoice ? "radio" : "checkbox")" name="select" value="@Html.Raw(content.UUID)" class="select doc" 
                             data-alt-text="@Html.Raw((content.Metadata == null || string.IsNullOrEmpty(content.Metadata.AlternateText)) ? content.FileName : content.Metadata.AlternateText)" 
                             data-is-image="@content.IsImage"
                             data-url="@Html.Raw(content.Url)" autocomplete="off"/>

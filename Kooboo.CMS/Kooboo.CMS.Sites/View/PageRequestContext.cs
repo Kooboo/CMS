@@ -239,7 +239,12 @@ namespace Kooboo.CMS.Sites.View
             this.Page = page.AsActual();
             this.RequestChannel = requestChannel;
 
-            this.AllQueryString = new NameValueCollection(httpContext.Request.QueryString);
+            this.AllQueryString = new NameValueCollection();
+            var queryString = httpContext.Request.QueryString;
+            foreach (var key in queryString.AllKeys)
+            {
+                AllQueryString[HttpUtility.HtmlEncode(key)] = queryString[key];
+            }
 
 
             HttpContextBase pageContext = new PageHttpContenxt(httpContext, new PageHttpRequest(httpContext.Request, "~/" + pageRequestUrl, ""));

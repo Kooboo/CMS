@@ -140,11 +140,4 @@ Thread information:
         }
         #endregion
     }
-
-
-    [Dependency(typeof(Kooboo.CMS.Common.IHttpApplicationEvents), Key = "MyApplicationEvents", Order = 1)]
-    public class MyApplicationEvents : Kooboo.CMS.Common.HttpApplicationEvents
-    {
-    }
-
 }

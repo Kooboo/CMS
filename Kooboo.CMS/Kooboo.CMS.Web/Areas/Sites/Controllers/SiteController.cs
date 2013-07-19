@@ -315,11 +315,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     Site createdSite = null;
                     if (Request.Files.Count > 0)
                     {
-                        createdSite = ServiceFactory.SiteManager.Create(parent, model.Name, Request.Files[0].InputStream, model.ToSiteSetting(), User.Identity.Name);
+                        createdSite = ServiceFactory.SiteManager.Import(parent, model.Name, Request.Files[0].InputStream, model.ToSiteSetting(), User.Identity.Name, model.KeepSiteSetting);
                     }
                     else
                     {
-                        createdSite = ServiceFactory.SiteManager.Import(parent, model.Name, model.File, model.ToSiteSetting(), User.Identity.Name);
+                        createdSite = ServiceFactory.SiteManager.Import(parent, model.Name, model.File, model.ToSiteSetting(), User.Identity.Name, model.KeepSiteSetting);
                     }
 
                     resultData.RedirectUrl = Url.Action("SiteMap", new { controller = "Home", siteName = createdSite.FullName });

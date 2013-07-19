@@ -70,6 +70,7 @@ namespace Kooboo.CMS.Member.Persistence.EntityFramework
         }
 
         private void TransferData<T, TSource, TTarget>(Membership membership)
+            where T : IMemberElement, IIdentifiable
             where TSource : class,IMemberElementProvider<T>
             where TTarget : class,IMemberElementProvider<T>
         {
@@ -77,6 +78,7 @@ namespace Kooboo.CMS.Member.Persistence.EntityFramework
             var fileSystemProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<TTarget>();
             foreach (var item in efProvider.All(membership))
             {
+                item.Membership = membership;
                 fileSystemProvider.Add(item);
             }
         }
@@ -85,21 +87,21 @@ namespace Kooboo.CMS.Member.Persistence.EntityFramework
         #region All
         public IEnumerable<Membership> All()
         {
-            return _dbContext.Memberships;
+            return _dbContext.Set<Membership>();
         }
         #endregion
 
         #region Get
         public Membership Get(Models.Membership dummy)
         {
-            return _dbContext.Memberships.Where(it => it.Name == dummy.Name).FirstOrDefault();
+            return _dbContext.Set<Membership>().Where(it => it.Name == dummy.Name).FirstOrDefault();
         }
         #endregion
 
         #region Add
         public void Add(Models.Membership item)
         {
-            _dbContext.Memberships.Add(item);
+            _dbContext.Set<Membership>().Add(item);
             _dbContext.SaveChanges();
         }
         #endregion
@@ -124,9 +126,13 @@ namespace Kooboo.CMS.Member.Persistence.EntityFramework
         #region Remove
         public void Remove(Models.Membership item)
         {
-            _dbContext.Memberships.Attach(item);
-            _dbContext.Memberships.Remove(item);
-            _dbContext.SaveChanges();
+            var entity = Get(item);
+            if (entity != null)
+            {
+                _dbContext.Set<Membership>().Remove(entity);
+                _dbContext.SaveChanges();
+            }
+
         }
         #endregion
     }

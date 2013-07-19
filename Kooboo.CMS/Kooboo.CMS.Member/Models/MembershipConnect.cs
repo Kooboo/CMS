@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Common.Persistence.Relational;
 using Kooboo.Runtime.Serialization;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ namespace Kooboo.CMS.Member.Models
     #endregion
 
     #region Interfaces
-    public partial class MembershipConnect : IMemberElement, IPersistable, IIdentifiable
+    public partial class MembershipConnect : IMemberElement, IPersistable, IIdentifiable, IEntity
     {
         #region IPersistable
         private bool _isDummy = true;
@@ -113,6 +114,14 @@ namespace Kooboo.CMS.Member.Models
             set;
         }
         #endregion
+
+        #region IEntity
+        public int Id
+        {
+            get;
+            set;
+        } 
+        #endregion
     }
     #endregion
 
@@ -152,8 +161,7 @@ namespace Kooboo.CMS.Member.Models
         [DataMember]
         public virtual bool Enabled { get; set; }
 
-        #region O/R mapping fields
-
+        #region O/R mapping fields        
         public string OptionsXml
         {
             get
@@ -168,7 +176,7 @@ namespace Kooboo.CMS.Member.Models
                 }
             }
 
-            set
+            protected set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
@@ -191,7 +199,7 @@ namespace Kooboo.CMS.Member.Models
                 }
             }
 
-            set
+            protected set
             {
                 if (!string.IsNullOrEmpty(value))
                 {

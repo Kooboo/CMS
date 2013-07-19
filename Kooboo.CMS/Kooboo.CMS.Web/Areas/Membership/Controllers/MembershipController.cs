@@ -110,7 +110,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
             {
-                _manager.Delete(new Kooboo.CMS.Member.Models.Membership() { Name = membershipName });
+                _manager.Delete(new Kooboo.CMS.Member.Models.Membership(membershipName));
 
                 data.ReloadPage = true;
             });

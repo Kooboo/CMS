@@ -214,7 +214,7 @@ namespace Kooboo.CMS.Sites.Services
                 return site;
             }
         }
-        public virtual Site Import(Site parent, string siteName, string importedSiteName, Site siteSetting, string userName = null)
+        public virtual Site Import(Site parent, string siteName, string importedSiteName, Site siteSetting, string userName = null, bool keepSiteSetting = false)
         {
             var template = new ItemTemplate(importedSiteName);
             var itemTemplate = ServiceFactory.ImportedSiteManager.GetItemTemplate(template.Category, template.TemplateName);
@@ -225,22 +225,25 @@ namespace Kooboo.CMS.Sites.Services
             Site site = null;
             using (FileStream fs = new FileStream(itemTemplate.TemplateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                site = Import(parent, siteName, fs, siteSetting);
+                site = Import(parent, siteName, fs, siteSetting, userName, keepSiteSetting);
             }
             return site;
         }
-        public virtual Site Import(Site parent, string siteName, Stream siteStream, Site siteSetting, string userName = null)
+        public virtual Site Import(Site parent, string siteName, Stream siteStream, Site siteSetting, string userName = null, bool keepSiteSetting = false)
         {
-            return Create(parent, siteName, siteStream, siteSetting);
+            return Create(parent, siteName, siteStream, siteSetting, userName, keepSiteSetting);
         }
 
-        public virtual Site Create(Site parent, string siteName, Stream siteStream, Site siteSetting, string userName = null)
+        public virtual Site Create(Site parent, string siteName, Stream siteStream, Site siteSetting, string userName = null, bool keepSiteSetting = false)
         {
             var site = Provider.Create(parent, siteName, siteStream, new CreateSiteSetting() { Repository = siteSetting.Repository, Membership = siteSetting.Membership });
             site.Repository = siteSetting.Repository;
             site.Membership = siteSetting.Membership;
-            site.DisplayName = "";
-            site.Domains = null;
+            if (keepSiteSetting == false)
+            {
+                site.DisplayName = "";
+                site.Domains = null;
+            }
             Update(site);
             Provider.Initialize(site);
             Provider.Online(site);

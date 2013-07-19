@@ -9,6 +9,7 @@
 using Kooboo.CMS.Member.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
@@ -18,8 +19,13 @@ namespace Kooboo.CMS.Member.Persistence.EntityFramework.Mappings
     {
         public MembershipUserMapping()
         {
-            this.HasKey(it => it.UserName);
+            //this.HasKey(it => it.Id);
 
+            //this.Property(it => it.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);          
+
+            this.Ignore(it => it.UUID);
+
+            this.Property(it => it.UserName).HasColumnType("nvarchar").HasMaxLength(256);
             this.Property(it => it.Email).HasColumnType("nvarchar").HasMaxLength(256);
             this.Property(it => it.Password).HasColumnType("nvarchar").HasMaxLength(256);
             this.Property(it => it.PasswordSalt).HasColumnType("nvarchar").HasMaxLength(256);
@@ -38,12 +44,12 @@ namespace Kooboo.CMS.Member.Persistence.EntityFramework.Mappings
             this.Property(it => it.Comment).HasColumnType("nvarchar").HasMaxLength(1024);
             this.Property(it => it.ProviderType).HasColumnType("nvarchar").HasMaxLength(256);
             this.Property(it => it.ProviderUserId).HasColumnType("nvarchar").HasMaxLength(256);
-
             this.Property(it => it.ProfileXml).HasColumnType("nvarchar").HasMaxLength(1024);
             this.Property(it => it.ProviderExtraDataXml).HasColumnType("nvarchar").HasMaxLength(1024);
             this.Property(it => it.MembershipGroupsXml).HasColumnType("nvarchar").HasMaxLength(1024);
 
-            this.HasRequired(it => it.Membership);
+            this.HasRequired(it => it.Membership)
+                .WithMany();
 
             this.ToTable("Kooboo_CMS_Member_MembershipUser");
         }

@@ -67,7 +67,7 @@ namespace Kooboo.CMS.Form.Html
 
         public static bool Contains(string controlType)
         {
-            return ResolveAll().Where(it => string.Compare(it, controlType, true) == 0).Count() > 0;
+            return ResolveAll().Where(it => string.Compare(it.Name, controlType, true) == 0).Count() > 0;
         }
         #endregion
 
@@ -84,21 +84,17 @@ namespace Kooboo.CMS.Form.Html
         #endregion
 
         #region ResolveAll
-        public static IEnumerable<string> ResolveAll()
+        public static IEnumerable<ControlMetadata> ResolveAll()
         {
-            var controlNames = controls.Keys.AsEnumerable();
+            var controlNames = controls.Values.Select(it => new ControlMetadata() { Name = it.Name, DataType = it.DataType });
 
-
-            //if (Kooboo.Web.TrustLevelUtility.CurrentTrustLevel == AspNetHostingPermissionLevel.Unrestricted)
-            //{
             var controlViews = ResolveFromViews();
             controlNames = controlNames.Concat(controlViews)
-               .Distinct(StringComparer.CurrentCultureIgnoreCase);
+               .Distinct(new ControlMetadataComparer());
 
-            //}
             return controlNames;
         }
-        private static IEnumerable<string> ResolveFromViews()
+        private static IEnumerable<ControlMetadata> ResolveFromViews()
         {
             var controls = new List<string>();
             foreach (var dir in TemplateDirs)
@@ -115,7 +111,7 @@ namespace Kooboo.CMS.Form.Html
                     }
                 }
             }
-            return controls;
+            return controls.Select(it => new ControlMetadata() { Name = it, DataType = null }); ;
         }
         #endregion
 

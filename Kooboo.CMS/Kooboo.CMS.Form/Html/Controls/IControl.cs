@@ -25,5 +25,7 @@ namespace Kooboo.CMS.Form.Html.Controls
         bool HasDataSource { get; }
 
         string GetValue(object oldValue, string newValue);
+
+        string DataType { get; }
     }
 }

@@ -73,7 +73,7 @@ namespace Kooboo.Web.Mvc.Html
             foreach (KeyValuePair<string, object> pair in htmlAttributes)
             {
                 string key = pair.Key;
-                if (!string.Equals(key, "id", StringComparison.Ordinal) || pair.Value != null)
+                if (!string.Equals(key, "id", StringComparison.Ordinal) && pair.Value != null)
                 {
                     string str2 = HttpUtility.HtmlAttributeEncode(pair.Value.ToString());
                     sb.Append(' ').Append(key).Append("=\"").Append(str2).Append('"');

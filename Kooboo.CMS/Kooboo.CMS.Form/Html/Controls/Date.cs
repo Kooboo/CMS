@@ -24,6 +24,13 @@ namespace Kooboo.CMS.Form.Html.Controls
         {
             get { return "text"; }
         }
+        public override string DataType
+        {
+            get
+            {
+                return "DateTime";
+            }
+        }
 
         protected override string RenderInput(IColumn column)
         {

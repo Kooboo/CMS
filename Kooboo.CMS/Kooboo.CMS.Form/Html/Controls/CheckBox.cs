@@ -29,7 +29,13 @@ namespace Kooboo.CMS.Form.Html.Controls
         {
             get { return "CheckBox"; }
         }
-
+        public override string DataType
+        {
+            get
+            {
+                return "Bool";
+            }
+        }
         protected override string RenderInput(IColumn column)
         {
             return string.Format(@"<input id='{0}' name=""{0}"" type=""checkbox"" @(Convert.ToBoolean(Model.{0})?""checked"":"""") value=""true""/>

@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="ColumnValidation.cs" />
     <Compile Include="Html\ControlHelper.cs" />
+    <Compile Include="Html\ControlMetadata.cs" />
     <Compile Include="Html\Controls\CheckBox.cs" />
     <Compile Include="Html\Controls\ControlBase.cs" />
     <Compile Include="Html\Controls\CLEditor.cs" />

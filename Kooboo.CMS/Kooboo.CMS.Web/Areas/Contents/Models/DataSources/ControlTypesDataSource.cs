@@ -23,7 +23,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models.DataSources
             var controls = Kooboo.CMS.Form.Html.ControlHelper.ResolveAll();
             foreach (var c in controls)
             {
-                yield return new System.Web.Mvc.SelectListItem() { Text = c, Value = c };
+                yield return new Kooboo.Web.Mvc.SelectListItemEx() { Text = c.Name, Value = c.Name, HtmlAttributes = new Dictionary<string, object>() { { "data-datatype", c.DataType } } };
             }
         }
     }

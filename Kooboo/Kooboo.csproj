@@ -253,6 +253,7 @@
     <Compile Include="Web\Mvc\RequestContextExtensions.cs" />
     <Compile Include="Web\Mvc\RouteValuesHelpers.cs" />
     <Compile Include="Web\Mvc\SelectableList.cs" />
+    <Compile Include="Web\Mvc\SelectListItemEx.cs" />
     <Compile Include="Web\Mvc\SelectListItemTree.cs" />
     <Compile Include="Web\Mvc\ViewDataDictionaryExtensions.cs" />
     <Compile Include="Web\Routing\BoundUrl.cs" />

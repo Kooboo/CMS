@@ -243,7 +243,16 @@ namespace Kooboo.CMS.Sites.View
             var queryString = httpContext.Request.QueryString;
             foreach (var key in queryString.AllKeys)
             {
-                AllQueryString[HttpUtility.HtmlEncode(key)] = queryString[key];
+                var value = queryString[key];
+                if (!string.IsNullOrEmpty(value))
+                {
+                    AllQueryString[HttpUtility.HtmlEncode(key)] = HttpUtility.HtmlEncode(value);
+                }
+                else
+                {
+                    AllQueryString[HttpUtility.HtmlEncode(key)] = value;
+                }
+
             }
 
 

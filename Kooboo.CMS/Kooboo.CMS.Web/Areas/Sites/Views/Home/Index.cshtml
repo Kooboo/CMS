@@ -4,9 +4,6 @@
     Layout = "~/Views/Shared/Site.cshtml";
 }
 
-@section Sidebar{
-    @Html.Partial("_SidebarTopSearch")
-}
 @section Panel{
     @if (ServiceFactory.UserManager.AllowCreatingSite(User.Identity.Name))
     {

@@ -119,9 +119,6 @@
     </Compile>
     <Compile Include="Areas\Contents\Controllers\ContentTypeController.cs" />
     <Compile Include="Areas\Contents\Controllers\ControllerBase.cs" />
-    <Compile Include="Areas\Contents\Controllers\HomeController.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Areas\Contents\Controllers\ManagerControllerBase.cs" />
     <Compile Include="Areas\Contents\Controllers\MediaContentController.cs" />
     <Compile Include="Areas\Contents\Controllers\MediaFolderController.cs" />
@@ -1768,7 +1765,7 @@
     <Content Include="Areas\Account\Views\Users\ChangePassword.cshtml" />
     <Content Include="Areas\Account\Views\Users\Create.cshtml" />
     <Content Include="Areas\Account\Views\Users\Edit.cshtml" />
-    <Content Include="Areas\Contents\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Contents\Views\Repository\Guide.cshtml" />
     <Content Include="Areas\Contents\Views\Shared\FolderNavigation.cshtml" />
     <Content Include="Areas\Contents\Views\Shared\FolderTree.cshtml" />
     <Content Include="Areas\Contents\Views\Shared\FolderTreeNode.cshtml" />
@@ -2164,9 +2161,6 @@
     <Content Include="Areas\Sites\Views\ABRuleSetting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\Shared\Global.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_SidebarTopSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -2353,6 +2347,20 @@
     <Content Include="Areas\Contents\Views\MediaContent\TextFile.cshtml">
       <SubType>Code</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Menu.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Contents\Views\Repository\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Contents\Views\Repository\_DatabaseNode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\Contents\Views\Home\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

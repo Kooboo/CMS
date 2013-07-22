@@ -1,24 +1,25 @@
 ﻿<ul class="quicklinks">
     @if (ServiceFactory.UserManager.IsAdministrator(Html.ViewContext.HttpContext.User.Identity.Name))
     {
-        <li>
+ @*       <li>
             <a href="@Url.Action("Index", new { controller = "SiteTemplate", area = "Sites" })">
                 @Html.IconImage("modules")
                 @("Site master".Localize())
             </a>
         </li>
-@*<li>
+<li>
             <a href="@Url.Action("Index", new { controller = "ModuleManagement", area = "Sites" })">
                 @Html.IconImage("modules")
                 @("Modules".Localize())
             </a>
-        </li>*@
-        <li>
+        </li>
+    
+     <li>
             <a href="@Url.Action("index", new { controller = "Membership", area = "Membership" })">
                 @Html.IconImage("Membership")
                 @("Membership".Localize())
             </a>
-        </li>
+        </li>*@
         <li>
             <a href="@Url.Action("index", new { controller = "Users", area = "account" })">
                 @Html.IconImage("users-roles")

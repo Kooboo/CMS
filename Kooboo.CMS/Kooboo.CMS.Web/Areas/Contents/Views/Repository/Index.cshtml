@@ -1,6 +1,6 @@
-﻿@model IEnumerable<Kooboo.CMS.Member.Models.Membership>
+﻿@model IEnumerable<Kooboo.CMS.Content.Models.Repository>
 @{
-    ViewBag.Title = "Memberships".Localize();
+    ViewBag.Title = "Content databases".Localize();
     Layout = "~/Views/Shared/Site.cshtml";
 }
 
@@ -13,11 +13,11 @@
 @section Panel{
     <ul class="panel">
         <li>
-            <a href="@Url.Action("Create", "Membership", new { @return = ViewContext.HttpContext.Request.RawUrl })">
+            <a href="@Url.Action("Create", "Repository", new { @return = ViewContext.HttpContext.Request.RawUrl })">
                 @Html.IconImage("add") @("Create".Localize())</a>
         </li>
         <li>
-            <a href="@Url.Action("Import", "Membership", new { @return = ViewContext.HttpContext.Request.RawUrl })">
+            <a href="@Url.Action("Import", "Repository", new { @return = ViewContext.HttpContext.Request.RawUrl })">
                 @Html.IconImage("import")
                 @("Import".Localize())</a>
         </li>
@@ -28,13 +28,13 @@
 @if (Model.Count() == 0)
 {
     <div class="block">
-        <h1 class="title">@("Memberships".Localize())</h1>
+        <h1 class="title">@ViewBag.Title </h1>
         <div class="sitemap-panel clearfix">
             <div class="blank">
                 <p>
-                    @("You do not have any membership yet, click the button below to create a membership.".Localize())
+                    @("You do not have any content database yet, click the button below to create a content database.".Localize())
                 </p>
-                @Html.ActionLink("Create a membership", "Create", "Membership", new { @return = ViewContext.HttpContext.Request.RawUrl }, new { @class = "button" })
+                @Html.ActionLink("Create a database", "Create", "Repository", new { @return = ViewContext.HttpContext.Request.RawUrl }, new { @class = "button" })
             </div>
         </div>
     </div>
@@ -42,12 +42,12 @@
 else
 {
     <div class="block">
-        <h1 class="title">@("Memberships".Localize())</h1>
+        <h1 class="title">@ViewBag.Title</h1>
 
-        @foreach (var membership in Model)
+        @foreach (var item in Model)
         {        
             <div class="site-tree">
-                @Html.Partial("_MembershipNode", membership)
+                @Html.Partial("_DatabaseNode", item)
             </div>
         }
     </div>

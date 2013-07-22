@@ -13,6 +13,7 @@ using Kooboo.Collections;
 using Kooboo.Web.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -135,6 +136,9 @@ Thread information:
             #endregion
 
             RegisterRoutes(RouteTable.Routes);
+
+
+            Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu("AreasMenu", Path.Combine(Settings.BaseDirectory, "Menu.config"));
 
             Kooboo.CMS.Content.Persistence.Providers.RepositoryProvider.TestDbConnection();
         }

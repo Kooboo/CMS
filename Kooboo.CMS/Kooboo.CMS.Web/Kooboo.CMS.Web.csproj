@@ -1795,7 +1795,7 @@
     <Content Include="Areas\Contents\Views\SendingSetting\Create.cshtml" />
     <Content Include="Areas\Contents\Views\SendingSetting\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\SendingSetting\Index.cshtml" />
-    <Content Include="Areas\Contents\Views\Setting\Index.cshtml" />
+    <Content Include="Areas\Contents\Views\Repository\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\EditorTemplates\Category.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\Categories.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\Create.cshtml" />
@@ -1907,7 +1907,6 @@
     <Content Include="Areas\Sites\Views\View\TemplateEditor.cshtml" />
     <Content Include="Areas\Sites\Views\View\View.Script.cshtml" />
     <Content Include="Areas\Account\Views\Users\Index.cshtml" />
-    <Content Include="Areas\Contents\Views\Setting\Basic.cshtml" />
     <Content Include="Areas\Contents\Views\MediaContent\Html5Uploader.cshtml" />
     <Content Include="Areas\Contents\Views\MediaContent\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\_Grid.Scripts.cshtml" />
@@ -2354,14 +2353,15 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Contents\Views\Repository\Index.cshtml" />
+    <Content Include="Areas\Contents\Views\Repository\Index.cshtml">
+      <SubType>
+      </SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Contents\Views\Repository\_DatabaseNode.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\Contents\Views\Home\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

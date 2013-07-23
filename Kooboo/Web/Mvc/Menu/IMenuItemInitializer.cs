@@ -87,7 +87,16 @@ namespace Kooboo.Web.Mvc.Menu
                     return false;
                 }
             }
-            return string.Compare(controllerContext.RouteData.Values["controller"].ToString(), menuItem.Controller, true) == 0;
+            var active = string.Compare(controllerContext.RouteData.Values["controller"].ToString(), menuItem.Controller, true) == 0;
+            if (active && menuItem.ReadOnlyProperties != null)
+            {
+                var activeByAction = menuItem.ReadOnlyProperties["activeByAction"];
+                if (!string.IsNullOrEmpty(activeByAction) && activeByAction.ToLower() == "true")
+                {
+                    active = string.Compare(controllerContext.RouteData.Values["action"].ToString(), menuItem.Action, true) == 0;
+                }
+            }
+            return active;
         }
 
         protected virtual bool GetIsVisible(MenuItem menuItem, ControllerContext controllerContext)

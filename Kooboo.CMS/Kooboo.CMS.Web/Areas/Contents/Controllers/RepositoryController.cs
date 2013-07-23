@@ -20,6 +20,7 @@ using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Common;
 using Kooboo.Web.Mvc;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.RequiredLogOnAttribute(RequiredAdministrator = true, Order = 1)]
@@ -30,7 +31,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         public RepositoryController(RepositoryManager manager)
         {
             Manager = manager;
-        } 
+        }
         #endregion
 
         #region Guide
@@ -191,43 +192,85 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         #endregion
 
         #region Index
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            var list = Manager.All();
+            var list = Manager.All().Select(it => it.AsActual());
+            if (!string.IsNullOrEmpty(search))
+            {
+                list = list.Where(it => it.Name.Contains(search, StringComparison.OrdinalIgnoreCase) || (!string.IsNullOrEmpty(it.DisplayName) && it.DisplayName.Contains(search, StringComparison.OrdinalIgnoreCase))); ;
+            }
             return View(list);
         }
         #endregion
 
+        #region Edit
         [HttpGet]
-        public virtual ActionResult Create()
+        public virtual ActionResult Edit(string repositoryName)
         {
-            return View();
+            return View(new Repository(repositoryName).AsActual());
         }
-        [HttpPost]
-        public virtual ActionResult Create(CreateRepositoryModel model)
+        public virtual ActionResult Edit(Repository model, string @return)
         {
             JsonResultData data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
             {
                 if (ModelState.IsValid)
                 {
-                    Manager.Create(model.Name, model.Template);
-                    resultData.RedirectUrl = Url.Action("Index", new { controller = "home", repositoryName = model.Name });
+                    Manager.Update(model, Manager.Get(model.Name));
+                    if (!string.IsNullOrEmpty(@return))
+                    {
+                        data.RedirectUrl = @return;
+                    }
+                    else
+                    {
+                        data.ReloadPage = true;
+                    }
                 }
             });
             return Json(data);
         }
+        #endregion
 
-        public virtual ActionResult Delete(string repositoryName)
+        #region Create
+        [HttpGet]
+        public virtual ActionResult Create()
         {
-            if (!string.IsNullOrEmpty(repositoryName))
-            {
-                var repository = new Repository(repositoryName);
-                Manager.Remove(repository);
-            }
-            return RedirectToAction("Index", "Home");
+            return View(new Repository());
         }
+        [HttpPost]
+        public virtual ActionResult Create(Repository repository)
+        {
+            JsonResultData data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+            {
+                if (ModelState.IsValid)
+                {
+                    Manager.Add(repository);
+                    resultData.RedirectUrl = Url.Action("Guide", new { controller = "Repository", repositoryName = repository.Name });
+                }
+            });
+            return Json(data);
+        }
+        #endregion
 
+        #region Delete
+        public virtual ActionResult Delete(string repositoryName, string @return)
+        {
+            JsonResultData data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+            {
+                if (ModelState.IsValid)
+                {
+                    var repository = new Repository(repositoryName);
+                    Manager.Remove(repository);
+                    resultData.RedirectUrl = @return;
+                }
+            });
+            return Json(data);
+        }
+        #endregion
+
+        #region Export
         public virtual ActionResult Export(string repositoryName)
         {
             string fileName = repositoryName + ".zip";
@@ -235,6 +278,9 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             Manager.Export(repositoryName, Response.OutputStream);
             return null;
         }
+        #endregion
+
+        #region IsNameAvailable
 
         /// <summary>
         /// Remote attribute
@@ -255,8 +301,9 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                 repository = new Repository(name + i.ToString());
                 path = new RepositoryPath(repository);
             }
-            return Json(string.Format("{0} is not available. Try {1}.", name, repository.Name), JsonRequestBehavior.AllowGet);
+            return Json(string.Format("Duplicate name. Try {1}.", name, repository.Name), JsonRequestBehavior.AllowGet);
         }
+        #endregion
 
     }
 }

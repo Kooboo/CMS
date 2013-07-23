@@ -19,6 +19,7 @@ namespace Kooboo.CMS.Content.Services
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(RepositoryManager))]
     public class RepositoryManager
     {
+        #region .ctor
         IRepositoryProvider Provider
         {
             get;
@@ -29,11 +30,18 @@ namespace Kooboo.CMS.Content.Services
         {
             this.Provider = provider;
         }
+        #endregion
+
+        #region All
+
         public virtual IEnumerable<Repository> All()
         {
             return Provider.All();
         }
 
+        #endregion
+
+        #region Add
         public virtual void Add(Repository repository)
         {
             if (string.IsNullOrEmpty(repository.Name))
@@ -47,6 +55,9 @@ namespace Kooboo.CMS.Content.Services
             Provider.Add(repository);
         }
 
+        #endregion
+
+        #region Update
         public virtual void Update(Repository repository, Repository old)
         {
             if (string.IsNullOrEmpty(repository.Name))
@@ -60,6 +71,9 @@ namespace Kooboo.CMS.Content.Services
             Provider.Update(repository, old);
         }
 
+        #endregion
+
+        #region Remove
         public virtual void Remove(Repository repository)
         {
             if (string.IsNullOrEmpty(repository.Name))
@@ -72,11 +86,18 @@ namespace Kooboo.CMS.Content.Services
             }
         }
 
+        #endregion
+
+        #region Get
+
         public virtual Repository Get(string name)
         {
             return Provider.Get(new Repository(name));
         }
 
+        #endregion
+
+        #region Create
         public virtual Repository Create(string repositoryName, string templateName)
         {
             if (string.IsNullOrEmpty(templateName))
@@ -106,12 +127,18 @@ namespace Kooboo.CMS.Content.Services
 
             return repository;
         }
+        #endregion
+
+        #region Copy
         public virtual Repository Copy(Repository sourceRepository, string destRepositoryName)
         {
             var repository = Provider.Copy(sourceRepository, destRepositoryName);
 
             return repository;
         }
+        #endregion
+
+        #region Export
         public virtual void Export(string repositoryName, Stream outputStream)
         {
             Repository repository = new Repository(repositoryName);
@@ -121,7 +148,9 @@ namespace Kooboo.CMS.Content.Services
             }
             Provider.Export(repository, outputStream);
         }
+        #endregion
 
+        #region Offline/Online/IsOnline
         public virtual void Offline(string repositoryName)
         {
             Provider.Offline(new Repository(repositoryName));
@@ -134,5 +163,6 @@ namespace Kooboo.CMS.Content.Services
         {
             return Provider.IsOnline(new Repository(repositoryName));
         }
+        #endregion
     }
 }

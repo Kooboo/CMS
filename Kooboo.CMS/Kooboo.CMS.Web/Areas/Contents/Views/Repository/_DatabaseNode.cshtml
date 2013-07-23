@@ -3,7 +3,7 @@
     var routeValues = ViewContext.RequestContext.AllRouteValues().Merge("repositoryName", Model.Name);
 }
 <div class="map-item">
-    @Html.ActionLink(Model.Name, "Guide", "Repository", routeValues, new RouteValueDictionary(new { title = Model.Name }))
+    @Html.ActionLink(string.IsNullOrEmpty(Model.DisplayName) ? Model.Name : Model.DisplayName, "Guide", "Repository", routeValues, new RouteValueDictionary(new { title = Model.Name }))
     <span class="arrow">
         @Html.IconImage("arrow-right")</span>
     <ul>

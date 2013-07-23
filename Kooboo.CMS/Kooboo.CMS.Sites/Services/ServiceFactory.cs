@@ -33,6 +33,10 @@ namespace Kooboo.CMS.Sites.Services
         }
         protected override string[] GetRoles(string userName)
         {
+            if (Site.Current == null)
+            {
+                return new string[0];
+            }
             var user = ServiceFactory.UserManager.Get(Models.Site.Current, userName);
             if (user == null || user.Roles == null)
             {
@@ -348,7 +352,7 @@ namespace Kooboo.CMS.Sites.Services
                 (EngineContext.Current).ContainerManager.AddComponentInstance<HeaderBackgroundManager>(value);
             }
         }
-        
+
         public static SubmissionSettingManager SubmissionSettingManager
         {
             get

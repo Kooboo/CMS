@@ -46,7 +46,7 @@ else
 
         @foreach (var item in Model)
         {        
-            <div class="site-tree">
+            <div class="content-block">
                 @Html.Partial("_DatabaseNode", item.AsActual())
             </div>
         }

@@ -2838,7 +2838,7 @@ body #diffBox .diffTable td.lineNumber {
 }
 
 .blank.in-dialog .common-table.fixed .tbody {
-	margin-top: 30px;
+	margin-top: 0;
 }
 
 /* =3 Main

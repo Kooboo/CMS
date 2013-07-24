@@ -28,5 +28,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [UIHint("Multiple_DropDownList")]
         [DataSource(typeof(SiteMembershipGroupDataSource))]
         public string[] AllowGroups { get; set; }
+
+        [DisplayName("Authorize menu")]
+        public bool AuthorizeMenu { get; set; }
+
+        [DisplayName("Unauthorized URL")]
+        [UIHint("AutoComplete")]
+        [DataSource(typeof(AutoCompletePageListDataSouce))]
+        public string UnauthorizedUrl { get; set; }
     }
 }

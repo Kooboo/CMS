@@ -26,9 +26,10 @@
                 @Html.EditorFor(m => m.AuthCookieName, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.AuthCookieDomain, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.HashAlgorithmType, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.MinRequiredPasswordLength, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.PasswordStrengthRegularExpression, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.MaxInvalidPasswordAttempts, new { HtmlAttributes = new { @class = "medium" } })
-                @Html.EditorFor(m => m.MinRequiredPasswordLength, new { HtmlAttributes = new { @class = "medium" } })
+
             </tbody>
         </table>
     }

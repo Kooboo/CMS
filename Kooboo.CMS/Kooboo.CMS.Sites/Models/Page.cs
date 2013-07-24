@@ -21,6 +21,7 @@ using System.Collections.Specialized;
 using System.Collections;
 using Kooboo.Dynamic;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using System.Security.Principal;
 namespace Kooboo.CMS.Sites.Models
 {
     public enum PageType
@@ -200,6 +201,31 @@ namespace Kooboo.CMS.Sites.Models
         public bool RequireMember { get; set; }
         [DataMember]
         public string[] AllowGroups { get; set; }
+        [DataMember]
+        public bool AuthorizeMenu { get; set; }
+        [DataMember]
+        public string UnauthorizedUrl { get; set; }
+
+        public bool Authorize(IPrincipal principal)
+        {
+            var allow = true;
+            if (this.RequireMember)
+            {
+                if (!principal.Identity.IsAuthenticated)
+                {
+                    allow = false;
+                }
+                else
+                {
+                    var groups = this.AllowGroups;
+                    if (groups != null && groups.Length > 0 && !groups.Any<string>(new Func<string, bool>(principal.IsInRole)))
+                    {
+                        allow = false;
+                    }
+                }
+            }
+            return allow;
+        }
     }
 
     public static class PageHelper

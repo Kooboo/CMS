@@ -97,7 +97,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 
                     if (membershipUser.IsApproved && !membershipUser.IsLockedOut)
                     {
-                        HttpContext.MemberAuthentication().SetAuthCookie(membershipUser.UserName, false);
+                        HttpContext.Member().SetAuthCookie(membershipUser.UserName, false);
                     }
                     else
                     {

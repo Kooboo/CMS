@@ -10,12 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.CMS.Sites.Member;
 using System.Security.Principal;
+using Kooboo.CMS.Sites.Member;
 using Kooboo.CMS.Sites.View;
-using System.Net;
+using Kooboo.Web.Url;
 namespace Kooboo.CMS.Sites.Controllers.ActionFilters
 {
     public class MemberAuthorizeAttribute : ActionFilterAttribute
@@ -38,18 +39,10 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
                 throw new InvalidOperationException();
             }
             var permission = Page_Context.Current.PageRequestContext.Page.Permission;
-            if (permission.RequireMember)
+            if (permission != null)
             {
-                IPrincipal member = httpContext.MemberAuthentication().GetMember();
-                if (!member.Identity.IsAuthenticated)
-                {
-                    return false;
-                }
-                var groups = permission.AllowGroups;
-                if (groups != null && groups.Length > 0 && !groups.Any<string>(new Func<string, bool>(member.IsInRole)))
-                {
-                    return false;
-                }
+                IPrincipal member = httpContext.Member().GetMember();
+                return permission.Authorize(member);
             }
 
             return true;
@@ -57,7 +50,17 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
 
         protected virtual void HandleUnauthorizedRequest(ActionExecutingContext filterContext)
         {
-            throw new HttpException((int)HttpStatusCode.Unauthorized, "The page available for member only.");
+            var permission = Page_Context.Current.PageRequestContext.Page.Permission;
+            if (permission != null && !string.IsNullOrEmpty(permission.UnauthorizedUrl))
+            {
+                var unauthorizedUrl = permission.UnauthorizedUrl.AddQueryParam("returnUrl", filterContext.HttpContext.Request.RawUrl);
+                filterContext.Result = new RedirectResult(unauthorizedUrl);
+            }
+            else
+            {
+                throw new HttpException((int)HttpStatusCode.Unauthorized, "The page available for member only.");
+            }
+
         }
     }
 }

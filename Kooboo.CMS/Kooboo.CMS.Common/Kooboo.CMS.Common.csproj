@@ -83,6 +83,7 @@
     <Compile Include="Runtime\Dependency\IContainerManager.cs" />
     <Compile Include="Runtime\Dependency\IDependencyRegistrar.cs" />
     <Compile Include="Runtime\Dependency\InjectAttribute.cs" />
+    <Compile Include="Runtime\Dependency\IResolvingObserver.cs" />
     <Compile Include="Runtime\EngineContext.cs" />
     <Compile Include="Runtime\IEngine.cs" />
     <Compile Include="Runtime\IStartupTask.cs" />

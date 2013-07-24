@@ -16,6 +16,10 @@ namespace Kooboo.CMS.Common.Runtime.Dependency
 {
     public interface IContainerManager : IDisposable
     {
+        #region AddResolvingObserver
+        void AddResolvingObserver(IResolvingObserver observer);
+        #endregion
+
         #region AddComponent
         /// <summary>
         /// Adds the component.
@@ -48,13 +52,13 @@ namespace Kooboo.CMS.Common.Runtime.Dependency
 
         void AddComponentInstance(object instance, string key = "");
 
-        void AddComponentInstance(Type service, object instance, string key = ""); 
+        void AddComponentInstance(Type service, object instance, string key = "");
         #endregion
 
         #region Resolve
         T Resolve<T>(string key = "") where T : class;
 
-        object Resolve(Type type, string key = ""); 
+        object Resolve(Type type, string key = "");
         #endregion
 
         #region ResolveAll
@@ -72,7 +76,7 @@ namespace Kooboo.CMS.Common.Runtime.Dependency
         #region ResolveUnregistered
         T ResolveUnregistered<T>() where T : class;
 
-        object ResolveUnregistered(Type type); 
+        object ResolveUnregistered(Type type);
         #endregion
     }
 }

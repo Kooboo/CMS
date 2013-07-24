@@ -21,12 +21,41 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
     /// </summary>
     public class ContainerManager : IContainerManager
     {
+        private class KernelWrapper : StandardKernel
+        {
+
+            #region AddResolvingObserver
+            private IList<IResolvingObserver> _resolvingObjservers = new List<IResolvingObserver>();
+            public void AddResolvingObserver(IResolvingObserver observer)
+            {
+                _resolvingObjservers.Add(observer);
+                _resolvingObjservers = _resolvingObjservers.OrderBy(it => it.Order).ToList();
+            }
+
+            private object OnResolved(object resolvedObject)
+            {
+                if (_resolvingObjservers.Count > 0)
+                {
+                    foreach (var item in _resolvingObjservers)
+                    {
+                        resolvedObject = item.OnResolved(resolvedObject);
+                    }
+                }
+                return resolvedObject;
+            }
+            #endregion
+            public override IEnumerable<object> Resolve(global::Ninject.Activation.IRequest request)
+            {
+                return base.Resolve(request).Select(it => OnResolved(it));
+            }
+        }
+
         #region .ctor
-        private IKernel _container;
+        private KernelWrapper _container;
 
         public ContainerManager()
         {
-            _container = new StandardKernel();
+            _container = new KernelWrapper();
 
             _container.Settings.Set("InjectAttribute", typeof(InjectAttribute));
         }
@@ -193,6 +222,13 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
 
             this._container = null;
         }
+        #endregion
+
+        #region AddResolvingObserver
+        public void AddResolvingObserver(IResolvingObserver observer)
+        {
+            _container.AddResolvingObserver(observer);
+        } 
         #endregion
     }
 

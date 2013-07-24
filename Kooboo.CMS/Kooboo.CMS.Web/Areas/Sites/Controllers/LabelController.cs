@@ -27,14 +27,15 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
     public class LabelController : Kooboo.CMS.Sites.AreaControllerBase
     {
         #region Manager
-        private LabelManager manager = new LabelManager();
+
         public LabelManager Manager
         {
-            get
-            {
-                return manager;
-            }
-            set { this.manager = value; }
+            get;
+            set;
+        }
+        public LabelController(LabelManager manager)
+        {
+            Manager = manager;
         }
 
         #endregion
@@ -151,7 +152,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 if (folders != null)
                 {
                     foreach (var c in folders)
-                    {                        
+                    {
                         Manager.RemoveCategory(Site, c);
                     }
                 }

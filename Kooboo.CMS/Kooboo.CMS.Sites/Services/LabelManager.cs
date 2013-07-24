@@ -18,13 +18,24 @@ using Ionic.Zip;
 
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(LabelManager))]
     public class LabelManager
     {
+        #region .ctor
+        IElementRepositoryFactory _elementRepositoryFactory = null;
+        public LabelManager(IElementRepositoryFactory elementRepositoryFactory)
+        {
+            this._elementRepositoryFactory = elementRepositoryFactory;
+        }
+        #endregion
+
+        #region GetCategories
         public virtual IEnumerable<ElementCategory> GetCategories(Site site)
         {
             return SiteLabel.GetElementRepository(site).Categories();
         }
+        #endregion
+
+        #region GetLabels
         public virtual IQueryable<Element> GetLabels(Site site, string category)
         {
             var query = SiteLabel.GetElementRepository(site).Elements();
@@ -38,7 +49,9 @@ namespace Kooboo.CMS.Sites.Services
             }
             return query;
         }
+        #endregion
 
+        #region Add
         public virtual void Add(Site site, Element element)
         {
             var oldElement = Get(site, element.Category, element.Name, element.Culture);
@@ -48,10 +61,16 @@ namespace Kooboo.CMS.Sites.Services
             }
             SiteLabel.GetElementRepository(site).Add(element);
         }
+        #endregion
+
+        #region Get
         public virtual Element Get(Site site, string category, string name, string culture)
         {
             return SiteLabel.GetElementRepository(site).Get(name, category, culture);
         }
+        #endregion
+
+        #region Update
         public virtual void Update(Site site, Element element)
         {
             element.Culture = null;
@@ -59,21 +78,31 @@ namespace Kooboo.CMS.Sites.Services
 
             SiteLabel.ClearCache(site);
         }
+        #endregion
+
+        #region Remove
         public virtual void Remove(Site site, Element element)
         {
             element.Culture = null;
             SiteLabel.GetElementRepository(site).Remove(element);
             SiteLabel.ClearCache(site);
         }
+        #endregion
+
+        #region RemoveCategory
         public virtual void RemoveCategory(Site site, string category)
         {
             SiteLabel.GetElementRepository(site).RemoveCategory(category, null);
             SiteLabel.ClearCache(site);
         }
+        #endregion
+
+        #region AddCategory
         public virtual void AddCategory(Site site, string category)
         {
             SiteLabel.GetElementRepository(site).AddCategory(category, null);
         }
+        #endregion
 
         #region Export
 
@@ -82,7 +111,7 @@ namespace Kooboo.CMS.Sites.Services
             ExportLabels(site);
             using (ZipFile zipFile = new ZipFile())
             {
-                zipFile.AddSelectedFiles("*.*", new Label(site).PhysicalPath,"");
+                zipFile.AddSelectedFiles("*.*", new Label(site).PhysicalPath, "");
 
                 zipFile.Save(outputStream);
             }
@@ -100,7 +129,7 @@ namespace Kooboo.CMS.Sites.Services
 
         private void InitializeLabels(Site site)
         {
-            var labelRepository = Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance.CreateRepository(site);
+            var labelRepository = _elementRepositoryFactory.CreateRepository(site);
             if (labelRepository.GetType() != typeof(SiteLabelRepository))
             {
                 labelRepository.Clear();
@@ -114,7 +143,7 @@ namespace Kooboo.CMS.Sites.Services
 
         private void ExportLabels(Site site)
         {
-            var labelRepository = Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance.CreateRepository(site);
+            var labelRepository = _elementRepositoryFactory.CreateRepository(site);
             if (labelRepository.GetType() != typeof(SiteLabelRepository))
             {
                 SiteLabelRepository fileRepository = new SiteLabelRepository(site);
@@ -126,7 +155,6 @@ namespace Kooboo.CMS.Sites.Services
             }
         }
         #endregion
-
 
     }
 }

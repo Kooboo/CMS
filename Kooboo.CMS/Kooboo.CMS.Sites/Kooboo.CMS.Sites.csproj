@@ -198,7 +198,7 @@
     <Compile Include="Extension\ModuleArea\ModuleViewEngine.cs" />
     <Compile Include="Extension\ModuleArea\RouteTables.cs" />
     <Compile Include="Extension\ModelBindHelper.cs" />
-    <Compile Include="Globalization\IRepositoryFactory.cs" />
+    <Compile Include="Globalization\IElementRepositoryFactory.cs" />
     <Compile Include="Globalization\SiteLabelRepository.cs" />
     <Compile Include="LocalizationHtmlExtensions.cs" />
     <Compile Include="IEnumerableStringExtension.cs" />

@@ -18,6 +18,6 @@ namespace Kooboo.Globalization
         /// <summary>
         /// 
         /// </summary>
-        public static IElementRepository DefaultRepository = new CacheElementRepository(new XmlElementRepository());
+        public static IElementRepository DefaultRepository = new CacheElementRepository(() => new XmlElementRepository());
     }
 }

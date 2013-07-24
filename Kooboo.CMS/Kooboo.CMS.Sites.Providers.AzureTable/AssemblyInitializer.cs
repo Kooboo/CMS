@@ -16,6 +16,7 @@ using Kooboo.CMS.Sites.Versioning;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Common.Runtime;
+using Kooboo.CMS.Sites.Globalization;
 namespace Kooboo.CMS.Sites.Providers.AzureTable
 {
     public class AssemblyInitializer : Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
@@ -23,7 +24,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable
 
         public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
         {
-            Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance = new LabelProvider.RepositoryFactory();
+            containerManager.AddComponent<IElementRepositoryFactory, LabelProvider.RepositoryFactory>();
             containerManager.AddComponent<IPageProvider, PageProvider.PageProvider>();
             containerManager.AddComponent<IHtmlBlockProvider, HtmlBlockProvider.HtmlBlockProvider>();
             containerManager.AddComponent<IUserProvider, UserProvider.UserProvider>();

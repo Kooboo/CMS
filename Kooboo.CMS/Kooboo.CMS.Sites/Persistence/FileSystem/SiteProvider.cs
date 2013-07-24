@@ -40,10 +40,12 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region .ctor
         IBaseDir baseDir;
         IMembershipProvider _membershipProvider;
-        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider)
+        IElementRepositoryFactory _elementRepositoryFactory;
+        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, IElementRepositoryFactory elementRepositoryFactory)
         {
             this.baseDir = baseDir;
             this._membershipProvider = membershipProvider;
+            this._elementRepositoryFactory = elementRepositoryFactory;
         }
         #endregion
 
@@ -94,11 +96,12 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 locker.ExitWriteLock();
             }
         }
+
         private void ClearSiteData(Site site)
         {
             try
             {
-                Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance.CreateRepository(site).Clear();
+                _elementRepositoryFactory.CreateRepository(site).Clear();
             }
             catch
             {
@@ -424,7 +427,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         private void InitializeLabels(Site site)
         {
-            var labelRepository = Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance.CreateRepository(site);
+            var labelRepository = _elementRepositoryFactory.CreateRepository(site);
             if (labelRepository.GetType() != typeof(SiteLabelRepository))
             {
                 labelRepository.Clear();
@@ -441,7 +444,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         private void ExportLabels(Site site, bool includeSubSites)
         {
-            var labelRepository = Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance.CreateRepository(site);
+            var labelRepository = _elementRepositoryFactory.CreateRepository(site);
             if (labelRepository.GetType() != typeof(SiteLabelRepository))
             {
                 SiteLabelRepository fileRepository = new SiteLabelRepository(site);

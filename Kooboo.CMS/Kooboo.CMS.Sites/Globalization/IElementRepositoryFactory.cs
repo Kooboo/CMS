@@ -16,26 +16,16 @@ using Kooboo.Globalization.Repository;
 
 namespace Kooboo.CMS.Sites.Globalization
 {
-    public interface IRepositoryFactory
+    public interface IElementRepositoryFactory
     {
         IElementRepository CreateRepository(Site site);
     }
-    public class DefaultRepositoryFactory : IRepositoryFactory
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IElementRepositoryFactory))]
+    public class DefaultElementRepositoryFactory : IElementRepositoryFactory
     {
         public IElementRepository CreateRepository(Site site)
         {
             return new SiteLabelRepository(site);
-        }
-        private DefaultRepositoryFactory() { }
-
-        static DefaultRepositoryFactory()
-        {
-            Instance = new DefaultRepositoryFactory();
-        }
-        public static IRepositoryFactory Instance
-        {
-            get;
-            set;
         }
     }
 }

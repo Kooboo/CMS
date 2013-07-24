@@ -18,58 +18,66 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.Caching
 {
-    /// <summary>
-    /// 用于注册包装Provider的 CacheProvider
-    /// 执行时序会相对较晚，因为需要对任何人的注册进行包装。
-    /// 如果开发人员不希望被包装的话，那就装注册时序设置为大于100
+    /// <summary>    
     /// </summary>
     public class DependencyRegistrar : IDependencyRegistrar
     {
+        private class ResolvingObserver : IResolvingObserver
+        {
+            public int Order
+            {
+                get { return 1; }
+            }
 
+            public object OnResolved(object resolvedObject)
+            {
+                if (resolvedObject is IHtmlBlockProvider)
+                {
+                    return new HtmlBlockProvider((IHtmlBlockProvider)resolvedObject);
+                }
+                if (resolvedObject is ILayoutProvider)
+                {
+                    return new LayoutProvider((ILayoutProvider)resolvedObject);
+                }
+                if (resolvedObject is IPageProvider)
+                {
+                    return new PageProvider((IPageProvider)resolvedObject);
+                }
+                if (resolvedObject is ISiteProvider)
+                {
+                    return new SiteProvider((ISiteProvider)resolvedObject);
+                }
+                if (resolvedObject is IUrlKeyMapProvider)
+                {
+                    return new UrlKeyMapProvider((IUrlKeyMapProvider)resolvedObject);
+                }
+                if (resolvedObject is IViewProvider)
+                {
+                    return new ViewProvider((IViewProvider)resolvedObject);
+                }
+                if (resolvedObject is IABRuleSettingProvider)
+                {
+                    return new ABRuleSettingProvider((IABRuleSettingProvider)resolvedObject);
+                }
+                if (resolvedObject is IABSiteSettingProvider)
+                {
+                    return new ABSiteSettingProvider((IABSiteSettingProvider)resolvedObject);
+                }
+                if (resolvedObject is IABPageSettingProvider)
+                {
+                    return new ABPageSettingProvider((IABPageSettingProvider)resolvedObject);
+                }
+                return resolvedObject;
+            }
+        }
         public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
         {
-            var htmlBlockProvider = new HtmlBlockProvider(containerManager.Resolve<IHtmlBlockProvider>());
-            containerManager.AddComponentInstance(typeof(IHtmlBlockProvider), htmlBlockProvider);
-            containerManager.AddComponentInstance(typeof(IProvider<HtmlBlock>), htmlBlockProvider);
-
-            var layoutProvider = new LayoutProvider(containerManager.Resolve<ILayoutProvider>());
-            containerManager.AddComponentInstance(typeof(ILayoutProvider), layoutProvider);
-            containerManager.AddComponentInstance(typeof(IProvider<Layout>), layoutProvider);
-
-            var pageProvider = new PageProvider(containerManager.Resolve<IPageProvider>());
-            containerManager.AddComponentInstance(typeof(IPageProvider), pageProvider);
-            containerManager.AddComponentInstance(typeof(IProvider<Page>), pageProvider);
-
-            var siteProvider = new SiteProvider(containerManager.Resolve<ISiteProvider>());
-            containerManager.AddComponentInstance(typeof(ISiteProvider), siteProvider);
-            containerManager.AddComponentInstance(typeof(IProvider<Site>), siteProvider);
-
-            var urlKeyMapProvider = new UrlKeyMapProvider(containerManager.Resolve<IUrlKeyMapProvider>());
-            containerManager.AddComponentInstance(typeof(IUrlKeyMapProvider), urlKeyMapProvider);
-            containerManager.AddComponentInstance(typeof(IProvider<UrlKeyMap>), urlKeyMapProvider);
-
-            var viewProvider = new ViewProvider(containerManager.Resolve<IViewProvider>());
-            containerManager.AddComponentInstance(typeof(IViewProvider), viewProvider);
-            containerManager.AddComponentInstance(typeof(IProvider<Kooboo.CMS.Sites.Models.View>), viewProvider);
-
-
-            var visitRuleSettingProvider = new ABRuleSettingProvider(containerManager.Resolve<IABRuleSettingProvider>());
-            containerManager.AddComponentInstance(typeof(IABRuleSettingProvider), visitRuleSettingProvider);
-            containerManager.AddComponentInstance(typeof(IProvider<Kooboo.CMS.Sites.ABTest.ABRuleSetting>), visitRuleSettingProvider);
-
-            var siteVisitRuleProvider = new ABSiteSettingProvider(containerManager.Resolve<IABSiteSettingProvider>());
-            containerManager.AddComponentInstance(typeof(IABSiteSettingProvider), siteVisitRuleProvider);
-            containerManager.AddComponentInstance(typeof(IProvider<Kooboo.CMS.Sites.ABTest.ABSiteSetting>), siteVisitRuleProvider);
-
-            var pageVisitRuleProvider = new ABPageSettingProvider(containerManager.Resolve<IABPageSettingProvider>());
-            containerManager.AddComponentInstance(typeof(IABPageSettingProvider), pageVisitRuleProvider);
-            containerManager.AddComponentInstance(typeof(IProvider<Kooboo.CMS.Sites.ABTest.ABPageSetting>), pageVisitRuleProvider);
-
+            containerManager.AddResolvingObserver(new ResolvingObserver());
         }
 
         public int Order
         {
-            get { return 100; }
+            get { return 1; }
         }
     }
 }

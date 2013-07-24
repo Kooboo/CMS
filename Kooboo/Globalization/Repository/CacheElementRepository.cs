@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using System;
 using System.Linq;
 
 namespace Kooboo.Globalization.Repository
@@ -17,7 +18,7 @@ namespace Kooboo.Globalization.Repository
     {
         #region Fields
         System.Collections.Hashtable CachedElements = new System.Collections.Hashtable(new ElementCacheKeyEqualityComparer());
-        private IElementRepository inner;
+        private Func<IElementRepository> inner;
         #endregion
 
         #region .ctor
@@ -25,7 +26,7 @@ namespace Kooboo.Globalization.Repository
         /// Initializes a new instance of the <see cref="CacheElementRepository" /> class.
         /// </summary>
         /// <param name="innerRepository">The inner repository.</param>
-        public CacheElementRepository(IElementRepository innerRepository)
+        public CacheElementRepository(Func<IElementRepository> innerRepository)
         {
             inner = innerRepository;
         }
@@ -38,7 +39,7 @@ namespace Kooboo.Globalization.Repository
         /// <returns></returns>
         public IQueryable<System.Globalization.CultureInfo> EnabledLanguages()
         {
-            return inner.EnabledLanguages();
+            return inner().EnabledLanguages();
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace Kooboo.Globalization.Repository
         /// <returns></returns>
         public IQueryable<Element> Elements()
         {
-            return inner.Elements();
+            return inner().Elements();
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace Kooboo.Globalization.Repository
             //.FirstOrDefault(i => i.Name == key && i.Category == category && i.Culture == culture.Name);
             if (element == null)
             {
-                element = inner.Get(name, category, culture);
+                element = inner().Get(name, category, culture);
 
                 if (element != null)
                 {
@@ -116,7 +117,7 @@ namespace Kooboo.Globalization.Repository
         /// <returns></returns>
         public IQueryable<ElementCategory> Categories()
         {
-            return inner.Categories();
+            return inner().Categories();
         }
 
         /// <summary>
@@ -126,7 +127,7 @@ namespace Kooboo.Globalization.Repository
         /// <returns></returns>
         public bool Add(Element element)
         {
-            var r = inner.Add(element);
+            var r = inner().Add(element);
             if (r)
             {
                 AddCache(element);
@@ -141,7 +142,7 @@ namespace Kooboo.Globalization.Repository
         /// <returns></returns>
         public bool Update(Element element)
         {
-            var r = inner.Update(element);
+            var r = inner().Update(element);
             if (r)
             {
                 RemoveCache(element);
@@ -156,7 +157,7 @@ namespace Kooboo.Globalization.Repository
         /// <returns></returns>
         public bool Remove(Element element)
         {
-            var r = inner.Remove(element);
+            var r = inner().Remove(element);
             if (r)
             {
                 RemoveCache(element);
@@ -171,7 +172,7 @@ namespace Kooboo.Globalization.Repository
         /// <param name="culture">The culture.</param>
         public void AddCategory(string category, string culture)
         {
-            inner.AddCategory(category, culture);
+            inner().AddCategory(category, culture);
         }
 
         /// <summary>
@@ -182,7 +183,7 @@ namespace Kooboo.Globalization.Repository
         /// <returns></returns>
         public bool RemoveCategory(string category, string culture)
         {
-            var r = inner.RemoveCategory(category, culture);
+            var r = inner().RemoveCategory(category, culture);
             ClearCache();
             return r;
         }
@@ -192,7 +193,7 @@ namespace Kooboo.Globalization.Repository
         /// </summary>
         public void Clear()
         {
-            inner.Clear();
+            inner().Clear();
             CachedElements.Clear();
         }
         #endregion

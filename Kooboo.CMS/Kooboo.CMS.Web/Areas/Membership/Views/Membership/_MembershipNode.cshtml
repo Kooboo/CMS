@@ -2,17 +2,19 @@
 @{
     var routeValues = ViewContext.RequestContext.AllRouteValues().Merge("membershipName", Model.Name);
 }
-
-    @Html.ActionLink(Model.Name, "Index", "MembershipUser", routeValues, new RouteValueDictionary(new { title = Model.Name }))
+	<div class="content-block-header">
+		@Html.IconImage("member-block")@Html.ActionLink(Model.Name, "Index", "MembershipUser", routeValues, new RouteValueDictionary(new { title = Model.Name }))
+	</div>
+    
     <ul>
         <li>
-            @Html.ActionLink("Delete".Localize(), "Delete", "Membership", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete the membership?".Localize() } })
+            @Html.ActionLink("Edit".Localize(), "Edit", "Membership", routeValues.Merge("return", Request.RawUrl), null)
         </li>
 
         <li>
             @Html.ActionLink("Export".Localize(), "Export", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "Download" } })
         </li>
         <li>
-            @Html.ActionLink("Edit".Localize(), "Edit", "Membership", routeValues.Merge("return", Request.RawUrl), null)
+            @Html.ActionLink("Delete".Localize(), "Delete", "Membership", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete the membership?".Localize() } })
         </li>
 	 </ul>

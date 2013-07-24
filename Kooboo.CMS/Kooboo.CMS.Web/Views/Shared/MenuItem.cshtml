@@ -19,7 +19,12 @@
             folderClass = "folder";
         }
         var subMenuCount = menuItem.Items == null ? 0 : menuItem.Items.Where(it => it.Visible == true).Count();
+        
     <li class="@Html.Raw(menuItem.Name) @(menuItem.IsActive ? " active " : " ") @((menuItem.IsCurrent) ? "current" : "")  @Html.Raw(folderClass)">
+        @if (menuItem.ReadOnlyProperties != null && !string.IsNullOrEmpty(menuItem.ReadOnlyProperties["iconClass"]))
+        {
+    @Html.IconImage(menuItem.ReadOnlyProperties["iconClass"]);
+        }
         @if (subMenuCount > 0)
         {
             <span class="arrow">@Html.IconImage("arrow")</span>

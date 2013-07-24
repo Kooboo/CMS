@@ -3102,6 +3102,61 @@ ul.site-tree {
 	display: block;
 }
 
+/* Content block
+----------------------------------------------------------*/
+.content-block{
+	float: left;
+	width: 232px;
+	height: 128px;
+	position: relative;
+	margin: 0 20px 20px 0;
+	background: #3ca8db;
+	overflow: hidden;
+}
+
+.content-block > a{
+	color: #fff;
+	display: block;
+	width: 100%;
+	padding: 42px 0 62px;
+	text-align: center;
+	font-size: 16px;
+}
+
+.content-block > ul{
+	position: absolute;
+	bottom: -32px;
+	left: 0;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.3);
+	-moz-transition: all 0.2s ease-in-out 0s;
+	-webkit-transition: all 0.2s ease-in-out 0s;
+	transition: all 0.2s ease-in-out 0s;
+}
+
+.content-block:hover > ul{
+	bottom: 0;
+}
+
+.content-block > ul li{
+	display: inline-block;
+	width: 32%;
+	height: 32px;
+}
+
+.content-block > ul a{
+	color: #fff;
+	display: block;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	line-height: 32px;
+}
+
+.content-block > ul a:hover{
+	color: #3ca8db;
+}
+
 /* Process block
 ----------------------------------------------------------*/
 .block.process {

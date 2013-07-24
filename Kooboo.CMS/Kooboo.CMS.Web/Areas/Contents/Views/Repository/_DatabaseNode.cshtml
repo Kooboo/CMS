@@ -2,20 +2,19 @@
 @{
     var routeValues = ViewContext.RequestContext.AllRouteValues().Merge("repositoryName", Model.Name);
 }
-<div class="map-item">
+
     @Html.ActionLink(string.IsNullOrEmpty(Model.DisplayName) ? Model.Name : Model.DisplayName, "Guide", "Repository", routeValues, new RouteValueDictionary(new { title = Model.Name }))
-    <span class="arrow">
-        @Html.IconImage("arrow-right")</span>
+
     <ul>
         <li>
-            @Html.ActionLink("Edit".Localize(), "Edit", "Repository", routeValues.Merge("return", Request.RawUrl), null)
+            @Html.ActionLink("Delete".Localize(), "Delete", "Repository", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete the content database?".Localize() } })
         </li>
 
         <li>
             @Html.ActionLink("Export".Localize(), "Export", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "Download" } })
         </li>
         <li>
-            @Html.ActionLink("Delete".Localize(), "Delete", "Repository", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete the content database?".Localize() } })
+            @Html.ActionLink("Edit".Localize(), "Edit", "Repository", routeValues.Merge("return", Request.RawUrl), null)
         </li>
     </ul>
-</div>
+

@@ -1970,10 +1970,6 @@
     <Content Include="routes.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Kooboo.Connect\Kooboo.Connect.csproj">
-      <Project>{7389239B-564D-4398-87B7-99D9999ABECB}</Project>
-      <Name>Kooboo.Connect</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
       <Project>{347E47E5-3132-4BAD-B935-8282A2B16CF5}</Project>
       <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>

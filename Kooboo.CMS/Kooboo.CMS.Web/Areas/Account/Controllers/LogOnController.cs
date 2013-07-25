@@ -92,7 +92,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Controllers
             {
                 data.RunWithTry((resultData) =>
                 {
-                    if (UserServices.ValidateUser(loginModel.UserName, loginModel.Password) != null)
+                    if (UserManager.ValidateUser(loginModel.UserName, loginModel.Password) != null)
                     {
                         System.Web.Security.FormsAuthentication.SetAuthCookie(loginModel.UserName, loginModel.RememberMe);
                         if (redirect == 0)

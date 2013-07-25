@@ -77,7 +77,7 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         /// <typeparam name="TService">The type of the service.</typeparam>
         /// <param name="key">The key.</param>
         /// <param name="lifeStyle">The life style.</param>
-        public virtual void AddComponent<TService>(string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton)
+        public virtual void AddComponent<TService>(string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient)
         {
             AddComponent<TService, TService>(key, lifeStyle);
         }
@@ -88,7 +88,7 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         /// <param name="service">The service.</param>
         /// <param name="key">The key.</param>
         /// <param name="lifeStyle">The life style.</param>
-        public virtual void AddComponent(Type service, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton)
+        public virtual void AddComponent(Type service, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient)
         {
             AddComponent(service, service, key, lifeStyle);
         }
@@ -100,12 +100,12 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         /// <typeparam name="TImplementation">The type of the implementation.</typeparam>
         /// <param name="key">The key.</param>
         /// <param name="lifeStyle">The life style.</param>
-        public virtual void AddComponent<TService, TImplementation>(string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton)
+        public virtual void AddComponent<TService, TImplementation>(string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient)
         {
             AddComponent(typeof(TService), typeof(TImplementation), key, lifeStyle);
         }
 
-        public virtual void AddComponent(Type service, Type implementation, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton)
+        public virtual void AddComponent(Type service, Type implementation, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient)
         {
             _container.Bind(service).To(implementation).PerLifeStyle(lifeStyle).MapKey(key).ReplaceExisting(service);
         }

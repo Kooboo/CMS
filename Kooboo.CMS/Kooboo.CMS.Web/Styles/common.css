@@ -7,6 +7,7 @@
 	3- Main
 	4- Sidebar
 	5- Footer
+	6- Other(plugin rewriter)
 */
 
 /* =0 Global
@@ -594,6 +595,12 @@ img.icon.ABtest{
 	width: 24px;
 	height: 24px;
 	background-position: -120px -184px;
+}
+
+img.icon.Relation{
+	width: 24px;
+	height: 24px;
+	background-position: -144px -184px;
 }
 
 /* Form elements
@@ -3159,6 +3166,11 @@ ul.site-tree {
 	margin: 0 20px 20px 0;
 	border: 1px solid #ccc;
 	overflow: hidden;
+	position: relative;
+}
+
+.content-block.checked{
+	border-color: #0078b1;
 }
 
 .content-block .content-block-header{
@@ -3173,12 +3185,33 @@ ul.site-tree {
 	margin-right: 5px;
 }
 
+.content-block input[type="checkbox"]{
+	position: absolute;
+	right: 10px;
+	top: 20px;
+}
+
+.content-block input[type="checkbox"] ~ label{
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	border: 1px solid red;
+}
+
+.content-block input[type="checkbox"]:checked ~ label{
+
+}
+
 .content-block > ul{
 	margin: 10px 0 10px 28px;
 }
 
 .content-block > ul li{
 	height: 32px;
+	overflow: hidden;
 }
 
 .content-block > ul a{
@@ -3670,4 +3703,38 @@ ul.site-tree {
 
 .no-sidebar #footer {
 	left: 0;
+}
+
+/* =6 Other
+---------------------------------------------------------------------------------------------------------------------*/
+/* relation svg */
+svg text:hover{
+    cursor:pointer;
+}
+
+svg text.titles:hover{
+    cursor:default;
+}
+
+svg image:hover{
+    cursor:pointer;
+}
+
+#showRelation p{
+	width: 1000px;
+	text-align: center;
+}
+/* jquery-ui autocomplete */
+.ui-autocomplete{
+	padding: 1px;
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
+	border-bottom: 1px solid #666;
+	background: #fff;
+}
+
+.ui-menu .ui-menu-item a.ui-state-focus{
+	margin: 0;
+	background: #0078b1;
+	color: #fff;
 }

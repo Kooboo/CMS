@@ -46,7 +46,7 @@ else
 
         @foreach (var item in Model)
         {        
-            <div class="content-block">
+            <div class="content-block checked">
                 @Html.Partial("_DatabaseNode", item.AsActual())
             </div>
         }

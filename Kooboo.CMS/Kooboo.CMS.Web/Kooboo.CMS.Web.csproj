@@ -1857,7 +1857,7 @@
     <Content Include="Areas\Sites\Views\CustomError\Index.cshtml" />
     <Content Include="Areas\Sites\Views\File\Index.cshtml" />
     <Content Include="Areas\Sites\Views\Home\ImportSite.cshtml" />
-    <Content Include="Areas\Sites\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Sites\Views\Home\Cluster.cshtml" />
     <Content Include="Areas\Sites\Views\Home\_LayoutList.cshtml" />
     <Content Include="Areas\Sites\Views\Home\SiteMap.cshtml" />
     <Content Include="Areas\Sites\Views\Home\SiteMapNode.cshtml" />
@@ -2386,7 +2386,9 @@
   <ItemGroup>
     <Content Include="Areas\Contents\Views\Repository\_DatabaseNode.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Home\Index.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

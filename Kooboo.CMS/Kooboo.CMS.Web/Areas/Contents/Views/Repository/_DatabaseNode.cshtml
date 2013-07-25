@@ -5,6 +5,7 @@
 
 	<div class="content-block-header">
 		@Html.IconImage("database-block")@Html.ActionLink(string.IsNullOrEmpty(Model.DisplayName) ? Model.Name : Model.DisplayName, "Guide", "Repository", routeValues, new RouteValueDictionary(new { title = Model.Name }))
+		<input type="checkbox">
 	</div>
 
     <ul>

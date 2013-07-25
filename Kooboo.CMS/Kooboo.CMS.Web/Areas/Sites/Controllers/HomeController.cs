@@ -21,54 +21,65 @@ using System.Web.Mvc;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
-    [RequiredLogOn]
-    public class HomeController : Kooboo.CMS.Sites.AreaControllerBase
-    {
-        public virtual ActionResult Index(string search, int? page, int? pageSize)
-        {
-            var sites = ServiceFactory.SiteManager.SiteTrees(User.Identity.Name);
-            if (!string.IsNullOrEmpty(search))
-            {
-                sites = sites.Where(it => it.Root.Site.Name.ToLower().Contains(search.ToLower())
-                    || (!string.IsNullOrEmpty(it.Root.Site.AsActual().DisplayName) && it.Root.Site.AsActual().DisplayName.ToLower().Contains(search.ToLower())));
-            }
+	[RequiredLogOn]
+	public class HomeController : Kooboo.CMS.Sites.AreaControllerBase
+	{
+		#region Index
+		public ActionResult Index()
+		{
+			return View();
+		}
+		#endregion
+		#region Cluster
+		public virtual ActionResult Cluster(string search, int? page, int? pageSize)
+		{
+			var sites = ServiceFactory.SiteManager.SiteTrees(User.Identity.Name);
+			if (!string.IsNullOrEmpty(search))
+			{
+				sites = sites.Where(it => it.Root.Site.Name.ToLower().Contains(search.ToLower())
+					|| (!string.IsNullOrEmpty(it.Root.Site.AsActual().DisplayName) && it.Root.Site.AsActual().DisplayName.ToLower().Contains(search.ToLower())));
+			}
 
-            var model = sites.ToPagedList<SiteTree>(page ?? 1, pageSize ?? 20);
-            return View(model);
-        }
-        public virtual ActionResult SiteMap()
-        {
-            var siteName = ControllerContext.RequestContext.GetRequestValue("siteName");
-            if (string.IsNullOrEmpty(siteName))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            var site = SiteHelper.Parse(siteName).AsActual();
-            if (site == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            if (site.ShowSitemap.HasValue && site.ShowSitemap.Value == false)
-            {
-                if (ServiceFactory.UserManager.Authorize(site, User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_EditPermission))
-                {
-                    return RedirectToAction("Index", this.ControllerContext.RequestContext.AllRouteValues().Merge("Controller", "Page"));
-                }
-                else
-                {
-                    return RedirectToAction("Index", this.ControllerContext.RequestContext.AllRouteValues().Merge("Controller", "Home").Merge("Area", "Contents"));
-                }
-            }
+			var model = sites.ToPagedList<SiteTree>(page ?? 1, pageSize ?? 20);
+			return View(model);
+		}
+		#endregion
 
-            Site.Current = site;
+		#region SiteMap
+		public virtual ActionResult SiteMap()
+		{
+			var siteName = ControllerContext.RequestContext.GetRequestValue("siteName");
+			if (string.IsNullOrEmpty(siteName))
+			{
+				return RedirectToAction("Index", "Home");
+			}
+			var site = SiteHelper.Parse(siteName).AsActual();
+			if (site == null)
+			{
+				return RedirectToAction("Index", "Home");
+			}
+			if (site.ShowSitemap.HasValue && site.ShowSitemap.Value == false)
+			{
+				if (ServiceFactory.UserManager.Authorize(site, User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_EditPermission))
+				{
+					return RedirectToAction("Index", this.ControllerContext.RequestContext.AllRouteValues().Merge("Controller", "Page"));
+				}
+				else
+				{
+					return RedirectToAction("Index", this.ControllerContext.RequestContext.AllRouteValues().Merge("Controller", "Home").Merge("Area", "Contents"));
+				}
+			}
 
-            var siteMap = ServiceFactory.PageManager.GetSiteMap(site);
+			Site.Current = site;
 
-            var layoutList = ServiceFactory.LayoutManager.All(site, "");
+			var siteMap = ServiceFactory.PageManager.GetSiteMap(site);
 
-            ViewData["LayoutList"] = layoutList;
+			var layoutList = ServiceFactory.LayoutManager.All(site, "");
 
-            return View(siteMap);
-        }
-    }
+			ViewData["LayoutList"] = layoutList;
+
+			return View(siteMap);
+		}
+		#endregion
+	}
 }

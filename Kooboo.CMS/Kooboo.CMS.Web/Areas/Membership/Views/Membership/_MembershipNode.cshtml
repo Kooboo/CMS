@@ -2,8 +2,10 @@
 @{
     var routeValues = ViewContext.RequestContext.AllRouteValues().Merge("membershipName", Model.Name);
 }
+	<input type="checkbox" id="asdf">
 	<div class="content-block-header">
 		@Html.IconImage("member-block")@Html.ActionLink(Model.Name, "Index", "MembershipUser", routeValues, new RouteValueDictionary(new { title = Model.Name }))
+		
 	</div>
     
     <ul>

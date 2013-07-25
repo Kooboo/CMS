@@ -31,50 +31,54 @@
     ViewBag.PagedList = pagedList;
 }
 @section Panel{
-    <ul class="panel">
-        <li>
-            <a href="@(new HtmlString(Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))))">@Html.IconImage("add")@("Add content".Localize())</a></li>
-        @if (folderPermission && string.IsNullOrEmpty(parentUUID))
-        {
-            <li><a href="@Url.Action("Create", "TextFolder", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">@Html.IconImage("add-folder")@("New folder".Localize())</a></li>
-        }
-        <li><a href="@Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("Controller", "TextFolder").Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect" data-show-on-selector=".foldertr">
-            @Html.IconImage("setting") @("Settings".Localize())</a></li>
-        <li><a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
-            @Html.IconImage("delete") @("Delete".Localize())</a></li>
-        <li class="j_DropDown" data-show-on-check="Any">
-            <a>
-                @("More...".Localize())
-                @Html.IconImage("arrow small white-down")
-            </a>
-            <ul class="j_DropDownContent hide">
-                @if (ViewBag.AllowedEdit)
-                {
-                    <li><a href="@Url.Action("BatchPublish", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.unpublished"  data-command-type="AjaxPost" data-confirm="@("Are you sure you want to publish these items?".Localize())">
-                        @Html.IconImage("publish") @("Publish".Localize())</a></li>
+    @if (!string.IsNullOrEmpty(ViewBag.Menu))
+    {
+        @Html.Partial(ViewData["Menu"].ToString(), Model)
+    }
+    else
+    {
+        <ul class="panel">
+            <li>
+                <a href="@(new HtmlString(Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))))">@Html.IconImage("add")@("Add content".Localize())</a></li>
+            @if (folderPermission && string.IsNullOrEmpty(parentUUID))
+            {
+                <li><a href="@Url.Action("Create", "TextFolder", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">@Html.IconImage("add-folder")@("New folder".Localize())</a></li>
+            }
+            <li><a href="@Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("Controller", "TextFolder").Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect" data-show-on-selector=".foldertr">
+                @Html.IconImage("setting") @("Settings".Localize())</a></li>
+            <li><a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
+                @Html.IconImage("delete") @("Delete".Localize())</a></li>
+            <li class="j_DropDown" data-show-on-check="Any">
+                <a>
+                    @("More...".Localize())
+                    @Html.IconImage("arrow small white-down")
+                </a>
+                <ul class="j_DropDownContent hide">
+                    @if (ViewBag.AllowedEdit)
+                    {
+                        <li><a href="@Url.Action("BatchPublish", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.unpublished"  data-command-type="AjaxPost" data-confirm="@("Are you sure you want to publish these items?".Localize())">
+                            @Html.IconImage("publish") @("Publish".Localize())</a></li>
 
-                    <li><a href="@Url.Action("BatchUnpublish", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.published" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to unpublish these items?".Localize())">
-                        @Html.IconImage("unpublish") @("Unpublish".Localize())</a></li>
-                }
-                <li><a href="@Url.Action("Localize", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".unlocalized" data-command-type="AjaxPost">
-                    @("Localize".Localize())</a></li>
+                        <li><a href="@Url.Action("BatchUnpublish", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.published" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to unpublish these items?".Localize())">
+                            @Html.IconImage("unpublish") @("Unpublish".Localize())</a></li>
+                    }
+                    <li><a href="@Url.Action("Localize", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".unlocalized" data-command-type="AjaxPost">
+                        @("Localize".Localize())</a></li>
 
-                <li><a href="@Url.Action("Copy", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized"  data-command-type="AjaxPost">
-                    @Html.IconImage("copy") @("Copy".Localize())</a></li>
+                    <li><a href="@Url.Action("Copy", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized"  data-command-type="AjaxPost">
+                        @Html.IconImage("copy") @("Copy".Localize())</a></li>
 
-                <li><a href="@Url.Action("Rebroadcast", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.published"  data-command-type="AjaxPost">
-                    @Html.IconImage("re-broadcast") @("Re-broadcast".Localize())</a></li>
+                    <li><a href="@Url.Action("Rebroadcast", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.published"  data-command-type="AjaxPost">
+                        @Html.IconImage("re-broadcast") @("Re-broadcast".Localize())</a></li>
 
-                <li><a href="@Url.Action("Versions", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show page versions"))" data-show-on-check="Single" data-show-on-selector=".localized" data-command-type="Redirect">
-                    @Html.IconImage("version") @("Versions".Localize())</a></li>
-            </ul>
-        </li>
+                    <li><a href="@Url.Action("Versions", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show page versions"))" data-show-on-check="Single" data-show-on-selector=".localized" data-command-type="Redirect">
+                        @Html.IconImage("version") @("Versions".Localize())</a></li>
+                </ul>
+            </li>
 
-        @if (!string.IsNullOrEmpty(ViewBag.Menu))
-        {
-            @Html.Partial(ViewData["Menu"].ToString(), Model)
-        }
-    </ul>
+
+        </ul>
+    }
 }
 
 <div class="topbar clearfix">

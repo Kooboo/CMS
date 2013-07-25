@@ -14,24 +14,26 @@
 }
 
 @section Panel{
-    <ul class="panel">
-        @if (availableEdit)
-        {
+    @if (!string.IsNullOrEmpty(ViewBag.Menu))
+    {
+        @Html.Partial(ViewData["Menu"].ToString(), Model)
+    }
+    else
+    {
+        <ul class="panel">
+            @if (availableEdit)
+            {
+                <li>
+                    <a data-ajaxform="">
+                        @Html.IconImage("save") @("Save".Localize())</a>
+                </li>
+            }
             <li>
-                <a data-ajaxform="">
-                    @Html.IconImage("save") @("Save".Localize())</a>
+                <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                    @Html.IconImage("cancel") @("Back".Localize())</a>
             </li>
-        }
-        <li>
-            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
-        </li>
-
-        @if (!string.IsNullOrEmpty(ViewBag.Menu))
-        {
-            @Html.Partial(ViewData["Menu"].ToString(), Model)
-        }
-    </ul>
+        </ul>
+    }
 }
 <div class="block common-form">
     <h1 class="title">@ViewBag.Title</h1>

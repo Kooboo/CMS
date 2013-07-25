@@ -17,6 +17,7 @@ using Kooboo.CMS.Sites;
 using Kooboo.Globalization;
 using Kooboo.CMS.Account.Services;
 using Kooboo.CMS.Common;
+using Kooboo.CMS.Common.DataViolation;
 namespace Kooboo.CMS.Web.Areas.Account.Controllers
 {
     public class LogOnController : ControllerBase
@@ -40,38 +41,45 @@ namespace Kooboo.CMS.Web.Areas.Account.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isLockout = false;
-                if (UserManager.ValidateUser(loginModel.UserName, loginModel.Password, out isLockout) != null)
+                try
                 {
-                    System.Web.Security.FormsAuthentication.SetAuthCookie(loginModel.UserName, loginModel.RememberMe);
+                    var isLockout = false;
+                    if (UserManager.ValidateUser(loginModel.UserName, loginModel.Password, out isLockout) != false)
+                    {
+                        System.Web.Security.FormsAuthentication.SetAuthCookie(loginModel.UserName, loginModel.RememberMe);
 
-                    if (loginModel.RedirectToHome)
-                    {
-                        return Redirect(Url.Content("~/"));
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(returnUrl))
+                        if (loginModel.RedirectToHome)
                         {
-                            return Redirect(returnUrl);
+                            return Redirect(Url.Content("~/"));
                         }
                         else
                         {
-                            return Redirect(System.Web.Security.FormsAuthentication.DefaultUrl);
+                            if (!string.IsNullOrEmpty(returnUrl))
+                            {
+                                return Redirect(returnUrl);
+                            }
+                            else
+                            {
+                                return Redirect(System.Web.Security.FormsAuthentication.DefaultUrl);
+                            }
                         }
-                    }
-                }
-                else
-                {
-                    if (isLockout)
-                    {
-                        ModelState.AddModelError("", "Your account has been locked for security reasons, please contact the admin.".Localize());
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Username and/or password are incorrect.".Localize());
-                    }
+                        if (isLockout)
+                        {
+                            ModelState.AddModelError("", "Your account has been locked for security reasons, please contact the admin.".Localize());
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Username and/or password are incorrect.".Localize());
+                        }
 
+                    }
+                }
+                catch (DataViolationException e)
+                {
+                    ModelState.FillDataViolation(e.Violations);                    
                 }
             }
             return View();

@@ -6,31 +6,33 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.Runtime.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Data.Entity.Infrastructure;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
-using Kooboo.Runtime.Serialization;
-namespace Kooboo.CMS.Sites.Persistence.EntityFramework
+using System.Text;
+
+namespace Kooboo.CMS.Account.Persistence.EntityFramework
 {
     [DataContract]
-    public class SiteEntitySetting
+    public class AccountEntitySetting
     {
         #region static
         [System.Xml.Serialization.XmlIgnoreAttribute]
-        private static SiteEntitySetting instance = null;
-        static SiteEntitySetting()
+        private static AccountEntitySetting instance = null;
+        static AccountEntitySetting()
         {
             string settingFile = GetSettingFile();
             if (File.Exists(settingFile))
             {
-                instance = DataContractSerializationHelper.Deserialize<SiteEntitySetting>(settingFile);
+                instance = DataContractSerializationHelper.Deserialize<AccountEntitySetting>(settingFile);
             }
             else
             {
-                instance = new SiteEntitySetting()
+                instance = new AccountEntitySetting()
                 {
                     ConnectionString = "Server=.\\SQLExpress;Database=Kooboo_CMS; Trusted_Connection=Yes;",
                     ProviderInvariantName = "System.Data.SqlClient",
@@ -39,16 +41,16 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework
                 Save(instance);
             }
         }
-        public static void Save(SiteEntitySetting instance)
+        public static void Save(AccountEntitySetting instance)
         {
             string settingFile = GetSettingFile();
             DataContractSerializationHelper.Serialize(instance, settingFile);
         }
         private static string GetSettingFile()
         {
-            return Path.Combine(Kooboo.Settings.BinDirectory, "SiteEFProviderSetting.config");
+            return Path.Combine(Kooboo.Settings.BinDirectory, "AccountEFProviderSetting.config");
         }
-        public static SiteEntitySetting Instance
+        public static AccountEntitySetting Instance
         {
             get
             {
@@ -59,7 +61,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework
                 instance = value;
                 Save(instance);
             }
-        } 
+        }
         #endregion
 
         [DataMember]

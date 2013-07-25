@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Member.Persistence.EntityFramework
         }
         private static string GetSettingFile()
         {
-            return Path.Combine(Kooboo.Settings.BinDirectory, "MemberEntitySetting.config");
+            return Path.Combine(Kooboo.Settings.BinDirectory, "MemberEFProviderSetting.config");
         }
         public static MemberEntitySetting Instance
         {

@@ -17,8 +17,6 @@ namespace Kooboo.CMS.Account.Persistence
 {
     public interface IUserProvider : IProvider<User>
     {
-        bool ValidateUser(string userName, string password);
-        bool ChangePassword(string userName, string oldPassword, string newPassword);
-        bool ChangePassword(string userName, string newPassword);
+        User FindUserByEmail(string email);   
     }
 }

@@ -24,18 +24,31 @@ namespace Kooboo.CMS.Account.Persistence.Caching
     /// </summary>
     public class DependencyRegistrar : IDependencyRegistrar
     {
+        private class ResolvingObserver : IResolvingObserver
+        {
+            public int Order
+            {
+                get { return 1; }
+            }
+
+            public object OnResolved(object resolvedObject)
+            {
+                if (resolvedObject is IUserProvider)
+                {
+                    return new UserProvider((IUserProvider)resolvedObject);
+                }
+                
+                return resolvedObject;
+            }
+        }
         public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
         {
-            //
-            var cacheProvider = new UserProvider(containerManager.Resolve<IUserProvider>());
-            containerManager.AddComponentInstance(typeof(IUserProvider), cacheProvider);
-            containerManager.AddComponentInstance(typeof(IProvider<User>), cacheProvider);
-
+            containerManager.AddResolvingObserver(new ResolvingObserver());
         }
 
         public int Order
         {
-            get { return 100; }
+            get { return 1; }
         }
     }
 }

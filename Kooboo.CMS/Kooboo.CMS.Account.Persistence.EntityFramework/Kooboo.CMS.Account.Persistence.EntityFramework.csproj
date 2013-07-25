@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{61ED004C-9E20-4680-AF2B-0723FE7648BB}</ProjectGuid>
+    <ProjectGuid>{CCDA69D1-D0A7-49F1-BA97-940F1C291643}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kooboo.CMS.Account</RootNamespace>
-    <AssemblyName>Kooboo.CMS.Account</AssemblyName>
+    <RootNamespace>Kooboo.CMS.Account.Persistence.EntityFramework</RootNamespace>
+    <AssemblyName>Kooboo.CMS.Account.Persistence.EntityFramework</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile />
@@ -34,17 +34,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\MVC\4.0\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\..\Lib\EntityFramework\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,38 +54,24 @@
     <Compile Include="..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
-    <Compile Include="IAccountBaseDir.cs" />
-    <Compile Include="Models\Permission.cs" />
-    <Compile Include="Models\Setting.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Persistence\Caching\CacheObjectProviderBase.cs" />
-    <Compile Include="Persistence\Caching\DependencyRegistrar.cs" />
-    <Compile Include="Persistence\Caching\UserProvider.cs" />
-    <Compile Include="Persistence\FileSystem\ConnectBridge\FileProvider.cs" />
-    <Compile Include="Persistence\FileSystem\ConnectBridge\Membership.cs" />
-    <Compile Include="Persistence\FileSystem\ConnectBridge\User.cs" />
-    <Compile Include="Persistence\FileSystem\ObjectFileProvider.cs" />
-    <Compile Include="Persistence\FileSystem\RoleProvider.cs" />
-    <Compile Include="Persistence\FileSystem\SettingProvider.cs" />
-    <Compile Include="Persistence\FileSystem\UserProvider.cs" />
-    <Compile Include="Models\Role.cs" />
-    <Compile Include="Persistence\IRoleProvider.cs" />
-    <Compile Include="Persistence\ISettingProvider.cs" />
-    <Compile Include="Persistence\IUserProvider.cs" />
+    <Compile Include="AccountDBContext.cs" />
+    <Compile Include="Mapping\PermissionMapping.cs" />
+    <Compile Include="Mapping\RoleMapping.cs" />
+    <Compile Include="Mapping\UserMapping.cs" />
+    <Compile Include="AccountEntitySetting.cs" />
+    <Compile Include="ProviderBase.cs" />
+    <Compile Include="RoleProvider.cs" />
+    <Compile Include="UserProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\PasswordProvider.cs" />
-    <Compile Include="Services\RoleManager.cs" />
-    <Compile Include="Services\ServiceFactory.cs" />
-    <Compile Include="Services\UserManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
-      <Project>{347E47E5-3132-4BAD-B935-8282A2B16CF5}</Project>
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
       <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
-      <Project>{570CD9D3-75D2-468A-8245-45BDCA57432E}</Project>
-      <Name>Kooboo.CMS.Caching</Name>
+    <ProjectReference Include="..\Kooboo.CMS.Account\Kooboo.CMS.Account.csproj">
+      <Project>{61ED004C-9E20-4680-AF2B-0723FE7648BB}</Project>
+      <Name>Kooboo.CMS.Account</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
@@ -95,6 +80,15 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>echo copy "$(TargetDir)\$(TargetFileName)" "..\..\..\Kooboo.CMS.Web\Bin\"
+echo copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\Kooboo.CMS.Web\Bin\"
+echo copy "..\..\..\..\Lib\EntityFramework\*.*" "..\..\..\Kooboo.CMS.Web\Bin\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Account.Models;
 
-namespace Kooboo.CMS.Account.Persistence.SqlSever.Mapping
+namespace Kooboo.CMS.Account.Persistence.EntityFramework.Mapping
 {
     public class UserMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<User>
     {
@@ -25,13 +25,16 @@ namespace Kooboo.CMS.Account.Persistence.SqlSever.Mapping
             this.Property(it => it.UICulture).HasColumnType("nvarchar").HasMaxLength(50);
             this.Property(it => it.CustomFieldsXml).HasColumnType("text");
 
-            this.Ignore(it => it.Password);
-            this.Ignore(it => it.IsDummy);
-            this.Ignore(it => it.FailedPasswordAttemptCount);
-            this.Ignore(it => it.IsLockedOut);
-            this.Ignore(it => it.UtcLastLockoutDate);
+            this.Property(it => it.Password).HasColumnType("nvarchar").HasMaxLength(256);
+            this.Property(it => it.PasswordSalt).HasColumnType("nvarchar").HasMaxLength(256);
+            this.Property(it => it.FailedPasswordAttemptCount);
+            this.Property(it => it.IsLockedOut);
+            this.Property(it => it.UtcLastLockoutDate);
+            this.Property(it => it.ActivateCode).HasColumnType("nvarchar").HasMaxLength(256);
+            
+            this.Ignore(it => it.IsDummy);          
             this.Ignore(it => it.UUID);
-            this.ToTable("CMS_Account_Users");
+            this.ToTable("Kooboo_CMS_Account_Users");
         }
     }
 }

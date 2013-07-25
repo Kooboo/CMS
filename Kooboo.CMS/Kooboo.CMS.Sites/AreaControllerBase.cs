@@ -59,8 +59,10 @@ namespace Kooboo.CMS.Sites
                     Repository.Current = (new Repository(name)).AsActual();
                 }
             }
-
-            SetUICulture();
+            if (User.Identity.IsAuthenticated == true)
+            {
+                SetUICulture();
+            }
         }
         #endregion
 

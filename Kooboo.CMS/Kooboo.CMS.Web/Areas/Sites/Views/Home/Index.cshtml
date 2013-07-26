@@ -72,7 +72,7 @@
 				.attr('height', rect_h)
 				.attr('class', 'site-rect')
 				.attr('data-name', function (d) { return d.name })
-				.attr('fill', '#1076a6')
+				.attr('fill', '#3ca8db')
 	site_texts.attr('x', w / 100 * 40 + 8)
 				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 19 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
@@ -86,7 +86,7 @@
 				.attr('height', rect_h)
 				.attr('class', 'content-rect')
 				.attr('data-name', function (d) { return d })
-				.attr('fill', '#3ca8db')
+				.attr('fill', '#1076a6')
 	content_texts.attr('x', w / 100 * 70 + 8)
 				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 19 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
@@ -100,7 +100,7 @@
 				.attr('height', rect_h)
 				.attr('class', 'membership-rect')
 				.attr('data-name', function (d) { return d })
-				.attr('fill', '#c1c1c1')
+				.attr('fill', '#3cbabb')
 	membership_texts.attr('x', w / 100 * 10 + 8)
 				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 19 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
@@ -134,21 +134,21 @@
 	var membership_export_imgs = svg.selectAll('image.export').data(membership).enter().append('image');
 
 	site_export_imgs.attr('x', w / 100 * 60 - 24)
-				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 5 })
+				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 3 })
 				.attr('width', 20)
 				.attr('height', 20)
 				.attr('class', 'export')
 				.attr('data-name', function (d) { return d.name })
 				.attr('xlink:href', '/Images/svg-export.png');
 	content_export_imgs.attr('x', w / 100 * 90 - 24)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 5 })
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 3 })
 				.attr('width', 20)
 				.attr('height', 20)
 				.attr('class', 'export')
 				.attr('data-name', function (d) { return d })
 				.attr('xlink:href', '/Images/svg-export.png');
 	membership_export_imgs.attr('x', w / 100 * 30 - 24)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 5 })
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 3 })
 				.attr('width', 20)
 				.attr('height', 20)
 				.attr('class', 'export')
@@ -160,32 +160,18 @@
 	var membership_edit_imgs = svg.selectAll('image.edit').data(membership).enter().append('image');
 
 	site_preview_imgs.attr('x', w / 100 * 60 - 24)
-				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 26 })
+				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 27 })
 				.attr('width', 20)
 				.attr('height', 20)
 				.attr('class', 'preview')
 				.attr('data-name', function (d) { return d.name })
 				.attr('xlink:href', '/Images/svg-preview.png');
-	content_edit_imgs.attr('x', w / 100 * 90 - 24)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
-				.attr('width', 20)
-				.attr('height', 20)
-				.attr('class', 'edit')
-				.attr('data-name', function (d) { return d })
-				.attr('xlink:href', '/Images/svg-edit.png');
-	membership_edit_imgs.attr('x', w / 100 * 30 - 24)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
-				.attr('width', 20)
-				.attr('height', 20)
-				.attr('class', 'edit')
-				.attr('data-name', function (d) { return d })
-				.attr('xlink:href', '/Images/svg-edit.png');
 
 	// Show relation
 	$('.site-rect').on('click', function (e) {
-		$('.content-rect').attr('fill', '#3ca8db');
-		$('.site-rect').attr('fill', '#1076a6');
-		$('.membership-rect').attr('fill', '#c1c1c1');
+		$('.content-rect').attr('fill', '#1076a6');
+		$('.site-rect').attr('fill', '#3ca8db');
+		$('.membership-rect').attr('fill', '#3cbabb');
 		$(this).attr('fill', '#d24726');
 		var site_name = $(this).data('name');
 		for (var i = 0; i < site.length; i++) {
@@ -202,26 +188,34 @@
 		$('.membership-rect').eq(membership_index).attr('fill', '#d24726');
 	});
 	$('.content-rect').on('click', function (e) {
-		$('.content-rect').attr('fill', '#3ca8db');
-		$('.site-rect').attr('fill', '#1076a6');
-		$('.membership-rect').attr('fill', '#c1c1c1');
+		$('.content-rect').attr('fill', '#1076a6');
+		$('.site-rect').attr('fill', '#3ca8db');
+		$('.membership-rect').attr('fill', '#3cbabb');
 		$(this).attr('fill', '#d24726');
 		var index = content.indexOf($(this).data('name'));
 		for (var i = 0; i < site.length; i++) {
 			if (site[i]['content'] == index) {
 				$('.site-rect').eq(site[i]['num']).attr('fill', '#d24726');
+				var content_index = site[i]['content'];
+				var membership_index = site[i]['membership'];
+				$('.content-rect').eq(content_index).attr('fill', '#d24726');
+				$('.membership-rect').eq(membership_index).attr('fill', '#d24726');
 			}
 		}
 	});
 	$('.membership-rect').on('click', function (e) {
-		$('.content-rect').attr('fill', '#3ca8db');
-		$('.site-rect').attr('fill', '#1076a6');
-		$('.membership-rect').attr('fill', '#c1c1c1');
+		$('.content-rect').attr('fill', '#1076a6');
+		$('.site-rect').attr('fill', '#3ca8db');
+		$('.membership-rect').attr('fill', '#3cbabb');
 		$(this).attr('fill', '#d24726');
 		var index = membership.indexOf($(this).data('name'));
 		for (var i = 0; i < site.length; i++) {
 			if (site[i]['membership'] == index) {
 				$('.site-rect').eq(site[i]['num']).attr('fill', '#d24726');
+				var content_index = site[i]['content'];
+				var membership_index = site[i]['membership'];
+				$('.content-rect').eq(content_index).attr('fill', '#d24726');
+				$('.membership-rect').eq(membership_index).attr('fill', '#d24726');
 			}
 		}
 	})
@@ -235,9 +229,6 @@
 	});
 	$('image.export').on('click', function () {
 		alert('export ' + $(this).data('name'));
-	});
-	$('image.edit').on('click', function () {
-		alert('edit ' + $(this).data('name'));
 	});
 	$('image.preview').on('click', function () {
 		alert('preview ' + $(this).data('name'));

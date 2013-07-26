@@ -18,6 +18,7 @@ namespace Kooboo.Web.Mvc.WebResourceLoader.Configuration
         private static ConfigurationProperty fileName;
         private static ConfigurationProperty @if;
         private static ConfigurationPropertyCollection properties;
+        private static ConfigurationProperty compact;
 
         internal FileInfoElement()
         {
@@ -30,11 +31,12 @@ namespace Kooboo.Web.Mvc.WebResourceLoader.Configuration
             {
                 fileName = new ConfigurationProperty("filename", typeof(string), null, null, new StringValidator(1), ConfigurationPropertyOptions.IsKey | ConfigurationPropertyOptions.IsRequired);
                 @if = new ConfigurationProperty("if", typeof(string), string.Empty, ConfigurationPropertyOptions.None);
-
+                compact = new ConfigurationProperty("compact", typeof(bool), true, ConfigurationPropertyOptions.None);
                 properties = new ConfigurationPropertyCollection
                                   {
                                       fileName,
-                                      @if
+                                      @if,
+                                      compact
                                   };
             }
             return properties;
@@ -70,6 +72,13 @@ namespace Kooboo.Web.Mvc.WebResourceLoader.Configuration
         {
             get { return (string)base[@if]; }
             set { base[@if] = value; }
+        }
+
+        [ConfigurationProperty("compact", DefaultValue = true, IsRequired = false)]
+        public bool Compact
+        {
+            get { return (bool)base[compact]; }
+            set { base[compact] = value; }
         }
 
         protected override ConfigurationPropertyCollection Properties

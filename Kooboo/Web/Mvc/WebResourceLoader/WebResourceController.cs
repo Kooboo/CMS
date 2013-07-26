@@ -117,7 +117,7 @@ namespace Kooboo.Web.Mvc.WebResourceLoader
                         case "text/x-javascript":
                         case "text/javascript":
                         case "text/ecmascript":
-                            if (section.Compact)
+                            if (section.Compact && fileInfo.Compact)
                             {
                                 content = JSMinify.Minify(content);
                             }

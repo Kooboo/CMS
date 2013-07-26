@@ -28,7 +28,7 @@
 
 	var w = 1000;
 	var rect_w = w / 100 * 20;
-	var rect_h = 50;
+	var rect_h = 44;
 	var rect_margin_h = w / 100 * 2;
 	var h = max_length * (rect_h + rect_margin_h) + 100;
 
@@ -74,7 +74,7 @@
 				.attr('data-name', function (d) { return d.name })
 				.attr('fill', '#3ca8db')
 	site_texts.attr('x', w / 100 * 40 + 8)
-				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 19 })
+				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 26 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
 				.attr('fill', '#fff')
 				.attr('data-name', function (d) { return d.name })
@@ -88,7 +88,7 @@
 				.attr('data-name', function (d) { return d })
 				.attr('fill', '#1076a6')
 	content_texts.attr('x', w / 100 * 70 + 8)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 19 })
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
 				.attr('fill', '#fff')
 				.attr('data-name', function (d) { return d })
@@ -102,7 +102,7 @@
 				.attr('data-name', function (d) { return d })
 				.attr('fill', '#3cbabb')
 	membership_texts.attr('x', w / 100 * 10 + 8)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 19 })
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
 				.attr('fill', '#fff')
 				.attr('data-name', function (d) { return d })
@@ -129,43 +129,33 @@
 					.attr('marker-start', 'url(#the_marker)')
 					.attr('stroke', '#999');
 
+	
 	var site_export_imgs = svg.selectAll('image.export').data(site).enter().append('image');
 	var content_export_imgs = svg.selectAll('image.export').data(content).enter().append('image');
 	var membership_export_imgs = svg.selectAll('image.export').data(membership).enter().append('image');
 
-	site_export_imgs.attr('x', w / 100 * 60 - 24)
-				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 3 })
-				.attr('width', 20)
-				.attr('height', 20)
-				.attr('class', 'export')
+	site_export_imgs.attr('x', w / 100 * 60 - 30)
+				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 10 })
+				.attr('width', 24)
+				.attr('height', 24)
+				.attr('class', 'view')
 				.attr('data-name', function (d) { return d.name })
-				.attr('xlink:href', '/Images/svg-export.png');
-	content_export_imgs.attr('x', w / 100 * 90 - 24)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 3 })
-				.attr('width', 20)
-				.attr('height', 20)
-				.attr('class', 'export')
+				.attr('xlink:href', '/Images/svg-view.png');
+	content_export_imgs.attr('x', w / 100 * 90 - 30)
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
+				.attr('width', 24)
+				.attr('height', 24)
+				.attr('class', 'view')
 				.attr('data-name', function (d) { return d })
-				.attr('xlink:href', '/Images/svg-export.png');
-	membership_export_imgs.attr('x', w / 100 * 30 - 24)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 3 })
-				.attr('width', 20)
-				.attr('height', 20)
-				.attr('class', 'export')
+				.attr('xlink:href', '/Images/svg-view.png');
+	membership_export_imgs.attr('x', w / 100 * 30 - 30)
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
+				.attr('width', 24)
+				.attr('height', 24)
+				.attr('class', 'view')
 				.attr('data-name', function (d) { return d })
-				.attr('xlink:href', '/Images/svg-export.png');
-
-	var site_preview_imgs = svg.selectAll('image.edit').data(site).enter().append('image');
-	var content_edit_imgs = svg.selectAll('image.edit').data(content).enter().append('image');
-	var membership_edit_imgs = svg.selectAll('image.edit').data(membership).enter().append('image');
-
-	site_preview_imgs.attr('x', w / 100 * 60 - 24)
-				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 27 })
-				.attr('width', 20)
-				.attr('height', 20)
-				.attr('class', 'preview')
-				.attr('data-name', function (d) { return d.name })
-				.attr('xlink:href', '/Images/svg-preview.png');
+				.attr('xlink:href', '/Images/svg-view.png');
+	
 
 	// Show relation
 	$('.site-rect').on('click', function (e) {
@@ -224,14 +214,8 @@
 	$('.site-text, .content-text, .membership-text').on('click', function () {
 		alert('jump to ' + $(this).data('name'));
 	});
-	$('image.delete').on('click', function () {
-		alert('delete ' + $(this).data('name'));
-	});
-	$('image.export').on('click', function () {
-		alert('export ' + $(this).data('name'));
-	});
-	$('image.preview').on('click', function () {
-		alert('preview ' + $(this).data('name'));
+	$('image.view').on('click', function () {
+		alert('jump to ' + $(this).data('name'));
 	});
 </script>
 

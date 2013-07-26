@@ -3162,6 +3162,7 @@ ul.site-tree {
 .content-block{
 	float: left;
 	width: 160px;
+    min-height: 150px;
 	margin: 0 11px 32px 21px;
 	overflow: hidden;
 	position: relative;

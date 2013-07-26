@@ -24,8 +24,8 @@
 
         <li>
             <a href="@Url.Action("Guide", "Repository", new RouteValueDictionary(new { @return = ViewContext.HttpContext.Request.RawUrl }))" data-show-on-check="Single" data-command-type="Redirect">
-                @Html.IconImage("browse")
-                @("Browse".Localize())
+                @Html.IconImage("setting")
+                @("Manage".Localize())
             </a>
         </li>
 
@@ -76,7 +76,6 @@ else
 <script>
     $(function () {
         var $database_list = $('#database_list').find('.database');
-        console.log($database_list);
         var $check_relateds = $('[data-show-on-check]');
         var selector = 'input:radio.select:checked';
         function reset() {

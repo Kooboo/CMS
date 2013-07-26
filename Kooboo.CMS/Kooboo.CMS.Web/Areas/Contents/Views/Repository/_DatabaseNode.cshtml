@@ -1,6 +1,16 @@
 ﻿@model Kooboo.CMS.Content.Models.Repository
+@using Kooboo.CMS.Content.Services;
+@using Kooboo.CMS.Common.Runtime;
 @{
     var routeValues = ViewContext.RequestContext.AllRouteValues().Merge("repositoryName", Model.Name);
+
+    var schemaManager = EngineContext.Current.Resolve<SchemaManager>();
+    var textFolderManager = EngineContext.Current.Resolve<TextFolderManager>();
+    var siteManager = EngineContext.Current.Resolve<SiteManager>();
+
+    var contentTypes = schemaManager.All(Model, "").Count();
+    var textFolders = textFolderManager.All(Model, "").Count();
+    var sites = siteManager.All().Select(it => it.AsActual()).Where(it => it.Repository.EqualsOrNullEmpty(Model.Name, StringComparison.OrdinalIgnoreCase)).Count();
 }
 
 <div class="content-block-header">
@@ -10,14 +20,14 @@
 
 <ul>
     <li>
-        @Html.ActionLink("Edit".Localize(), "Edit", "Repository", routeValues.Merge("return", Request.RawUrl), null)
+        @("Content types:") @(contentTypes)
     </li>
 
     <li>
-        @Html.ActionLink("Export".Localize(), "Export", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "Download" } })
+        @("Text folders:") @(textFolders)
     </li>
     <li>
-        @Html.ActionLink("Delete".Localize(), "Delete", "Repository", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete the content database?".Localize() } })
+        @("Sites in use:") @sites
     </li>
 </ul>
 

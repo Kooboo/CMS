@@ -110,7 +110,8 @@ namespace Kooboo.CMS.Sites.View.PositionRender
             StringWriter writer = new StringWriter(CultureInfo.CurrentCulture);
 
             ViewContext viewContext = new ViewContext(htmlHelper.ViewContext, htmlHelper.ViewContext.View, dictionary, htmlHelper.ViewContext.TempData, writer);
-            TemplateEngines.GetEngineByFileExtension(Path.GetExtension(viewPath)).CreateView(htmlHelper.ViewContext.Controller.ControllerContext, viewPath, null).Render(viewContext, writer);
+            
+			TemplateEngines.GetEngineByFileExtension(Path.GetExtension(viewPath)).CreateView(htmlHelper.ViewContext.Controller.ControllerContext, viewPath, null).Render(viewContext, writer);
 
             return new HtmlString(writer.ToString());
         }

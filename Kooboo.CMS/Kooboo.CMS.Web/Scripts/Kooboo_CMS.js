@@ -274,7 +274,11 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
 
         return api;
     }
-    $.fn.reset_check_relateds = function ($check_relateds, checkedSelector, action) {
+    $.fn.reset_check_relateds = function (options) {
+        var $check_relateds = options.check_relateds;
+        var checkedSelector = options.selector;
+        var action = options.action;
+
         var $items = $(this);
         var $all_checkeds = $items.find(checkedSelector);
         if (typeof (action) == 'function') {
@@ -334,7 +338,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         // var all_checkboxes = table.find("input:checkbox.select");
         var $selectAll = table.find("input:checkbox.select-all");
         var selector = 'input:checkbox.select:checked';
-        table.reset_check_relateds($check_relateds,selector);
+        table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
 
         $selectAll.change(function () {
             if ($(this).attr("checked")) {
@@ -342,7 +346,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             } else {
                 table.find("input:checkbox.select").attr("checked", false).parents('tr').removeClass('active');
             }
-            table.reset_check_relateds($check_relateds, selector);
+            table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
         });
 
         var selectOptional = function () {
@@ -357,26 +361,26 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             optionUl.find("li.none").click(function () {
                 $("input:checkbox").attr("checked", false);
                 $("input:checkbox").parents('tbody tr').removeClass('active');
-                table.reset_check_relateds($check_relateds, selector);
+                table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
             });
             optionUl.find("li.all").click(function () {
                 $("input:checkbox").attr("checked", true);
                 $("input:checkbox").parents('tbody tr').addClass('active');
-                table.reset_check_relateds($check_relateds, selector);
+                table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
             });
             optionUl.find("li.docs").click(function () {
                 $("input:checkbox").attr("checked", false);
                 $("input:checkbox").parents('tbody tr').removeClass('active');
                 $("input:checkbox.doc").attr("checked", true);
                 $("input:checkbox.doc").parents('tbody tr').addClass('active');
-                table.reset_check_relateds($check_relateds, selector);
+                table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
             });
             optionUl.find("li.folders").click(function () {
                 $("input:checkbox").attr("checked", false);
                 $("input:checkbox").parents('tbody tr').removeClass('active');
                 $("input:checkbox.folder").attr("checked", true);
                 $("input:checkbox.folder").parents('tbody tr').addClass('active');
-                table.reset_check_relateds($check_relateds, selector);
+                table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
             });
         };
         selectOptional();
@@ -405,15 +409,19 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                 } else {
                     $checkbox.removeAttr('checked');
                 }
-                $tbody.reset_check_relateds($check_relateds, selector);
+                table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
             }
         });
     }
-    $.fn.grid = function () {
+    $.fn.grid = function (options) {
+        options = $.extend({
+            checkSelector: "input:checkbox[name=select][checked],input:radio[name=select][checked]"
+        }, options);
+
         var $table = $(this);
         var getSelecteds = function () {
             var selectedData = {};
-            var selected = $table.find("input:checkbox[name=select][checked]");
+            var selected = $table.find(options.checkSelector);
 
             selected.each(function (i) {
                 var current = $(this);
@@ -461,7 +469,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
 
         $('[data-command-type="Redirect"]').click(function () {
             var $self = $(this);
-            var $selected = $table.find("input:checkbox[name=select][checked]");
+            var $selected = $table.find(options.checkSelector);
             var id = $selected.data("id-property");
             var selectedValues = [];
             $selected.each(function () {
@@ -613,12 +621,12 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                 grid.removeClass('active');
             }
         }
-        grid.reset_check_relateds($check_relateds, selector, checkedAction);
+        grid.reset_check_relateds({ check_relateds: $check_relateds, selector: selector, action: checkedAction });
 
         grid.find('input:checkbox[name="select"]').click(function (e) {
             e.stopPropagation();
             $(this).parents('li').toggleClass('active');
-            grid.reset_check_relateds($check_relateds, selector, checkedAction);
+            grid.reset_check_relateds({ check_relateds: $check_relateds, selector: selector, action: checkedAction });
         });
     };
     (function popup_ext() {

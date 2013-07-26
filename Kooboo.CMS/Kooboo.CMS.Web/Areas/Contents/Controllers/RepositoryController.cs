@@ -116,9 +116,13 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             private ContentEditStep mediaContent = new ContentEditStep();
         }
 
-        public virtual ActionResult Guide()
+        public virtual ActionResult Guide(string repositoryName, string uuid)
         {
-            var repositoryName = this.Request.RequestContext.GetRequestValue("repositoryName");//ControllerContext.RouteData.Values["repositoryName"];
+            if (string.IsNullOrEmpty(repositoryName) && !string.IsNullOrEmpty(uuid))
+            {
+                return RedirectToAction("Guide", new { repositoryName = uuid });
+            }
+
 
             ContentMapModel mapModel = new ContentMapModel();
 
@@ -254,15 +258,19 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         #endregion
 
         #region Delete
-        public virtual ActionResult Delete(string repositoryName, string @return)
+
+        [HttpPost]
+        public virtual ActionResult Delete(Repository[] model, string @return)
         {
-            JsonResultData data = new JsonResultData(ModelState);
+            var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
             {
-                if (ModelState.IsValid)
+                if (model != null)
                 {
-                    var repository = new Repository(repositoryName);
-                    Manager.Remove(repository);
+                    foreach (var item in model)
+                    {
+                        Manager.Remove(item);
+                    }
                     resultData.RedirectUrl = @return;
                 }
             });
@@ -271,11 +279,16 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         #endregion
 
         #region Export
-        public virtual ActionResult Export(string repositoryName)
+        [HttpPost]
+        public virtual ActionResult Export(Repository[] model)
         {
-            string fileName = repositoryName + ".zip";
-            Response.AttachmentHeader(fileName);
-            Manager.Export(repositoryName, Response.OutputStream);
+            if (model != null || model.Length >1)
+            {
+                string fileName = model.First().Name + ".zip";
+                Response.AttachmentHeader(fileName);
+                Manager.Export(model.First().Name, Response.OutputStream);
+              
+            }
             return null;
         }
         #endregion

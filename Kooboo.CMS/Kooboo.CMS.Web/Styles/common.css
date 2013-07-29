@@ -3182,10 +3182,18 @@ ul.site-tree {
 	border-bottom: 2px solid #3cbabb;
 }
 
+.content-block.module.checked > ul{
+	padding-left: 22px;
+	border-left: 2px solid #5a0b86;
+	border-right: 2px solid #5a0b86;
+	border-bottom: 2px solid #5a0b86;
+}
+
 .content-block .content-block-header{
 	height: 32px;
 	line-height: 32px;
 	padding-left: 18px;
+	color: #fff;
 }
 
 .content-block .content-block-header a{
@@ -3200,6 +3208,10 @@ ul.site-tree {
 
 .content-block.membership .content-block-header{
 	background: #3cbabb;
+}
+
+.content-block.module .content-block-header{
+	background: #5a0b86;
 }
 
 .content-block .content-block-header img.icon{

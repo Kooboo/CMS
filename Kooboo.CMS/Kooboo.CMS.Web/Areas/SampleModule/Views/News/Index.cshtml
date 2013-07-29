@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Kooboo.CMS.ModuleArea.Models.News>
+@{
+    Layout = "~/Areas/" + Kooboo.CMS.ModuleArea.SampleAreaRegistration.ModuleName + "/Views/Shared/Front.cshtml";
+}
+@if (Model != null)
+{
+    <div class="block list">
+        @foreach (var item in Model)
+        {
+            <div class="item">
+                <h6 class="title">@Html.ModuleHtml().ActionLink(item.Title, "Detail", new { id = item.Id })</h6>
+                <p>@item.Body</p>
+            </div>
+        }
+    </div>
+}

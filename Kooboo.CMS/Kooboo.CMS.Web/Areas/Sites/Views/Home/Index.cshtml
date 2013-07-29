@@ -12,8 +12,7 @@
 }
 
 <div class="block" id="showRelation">
-    <h1 class="title">Relation </h1>
-    <p>Click on rectangles to see the specific relationships.</p>
+    <h1 class="title">Relation</h1>
 </div>
 
 
@@ -21,9 +20,6 @@
     var site =  @Html.Raw(JsonConvert.SerializeObject(ViewBag.Sites, Formatting.Indented))
     var content = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Databases, Formatting.Indented))
     var membership = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Memberships, Formatting.Indented))
-
-	console.log(site);
-	console.log(content);
 
     var max_length = Math.max(site.length, content.length, membership.length);
 
@@ -175,7 +171,7 @@
 
 
     // Show relation
-    $('.site-rect').on('click', function (e) {
+    $('.site-rect').on('click mouseover', function (e) {
         $('.content-rect').attr('fill', '#1076a6');
         $('.site-rect').attr('fill', '#3ca8db');
         $('.membership-rect').attr('fill', '#3cbabb');
@@ -198,7 +194,7 @@
         	$('.membership-rect').eq(membership_index).attr('fill', '#d24726');
         }
     });
-    $('.content-rect').on('click', function (e) {
+    $('.content-rect').on('click mouseover', function (e) {
         $('.content-rect').attr('fill', '#1076a6');
         $('.site-rect').attr('fill', '#3ca8db');
         $('.membership-rect').attr('fill', '#3cbabb');
@@ -226,7 +222,7 @@
             }
         }
     });
-    $('.membership-rect').on('click', function (e) {
+    $('.membership-rect').on('click mouseover', function (e) {
         $('.content-rect').attr('fill', '#1076a6');
         $('.site-rect').attr('fill', '#3ca8db');
         $('.membership-rect').attr('fill', '#3cbabb');

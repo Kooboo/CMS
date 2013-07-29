@@ -38,11 +38,72 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Index
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            var databases = _repositoryManager.All().Select(it => it).ToArray();
-            var memberships = _membershipManager.All(null).Select(it => it).ToArray();
-            var sites = _siteManager.All().Select(it => it.AsActual()).ToArray();
+            if (!string.IsNullOrEmpty(search))
+            {
+                if (!SearchSite(search))
+                {
+                    if (!SearchDatabase(search))
+                    {
+                        if (!SearchMembership(search))
+                        {
+                            FillData(new Kooboo.CMS.Content.Models.Repository[0],
+                                new Kooboo.CMS.Member.Models.Membership[0],
+                                new Kooboo.CMS.Sites.Models.Site[0]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var databases = _repositoryManager.All().Select(it => it).ToArray();
+                var memberships = _membershipManager.All(null).Select(it => it).ToArray();
+                var sites = _siteManager.All().Select(it => it.AsActual()).ToArray();
+                FillData(databases, memberships, sites);
+            }
+            return View();
+        }
+        protected virtual bool SearchSite(string search)
+        {
+            var sites = _siteManager.All().Where(it => it.FullName.Contains(search, StringComparison.OrdinalIgnoreCase)).Select(it=>it.AsActual()).ToArray();
+            if (sites.Length == 0)
+            {
+                return false;
+            }
+            var databases = sites.Select(it => it.GetRepository()).Select(it => it.AsActual()).Where(it => it != null).ToArray();
+            var memberships = sites.Select(it => it.GetMembership()).Select(it => it.AsActual()).Where(it => it != null).ToArray();
+            FillData(databases, memberships, sites);
+            return true;
+        }
+        protected virtual bool SearchDatabase(string search)
+        {
+            var databases = _repositoryManager.All().Where(it => it.Name.Contains(search, StringComparison.OrdinalIgnoreCase)).Select(it => it.AsActual()).ToArray();
+            if (databases.Length == 0)
+            {
+                return false;
+            }
+            var allSites = _siteManager.All();
+            var sites = allSites.Where(it => databases.Any(db => db.Name.EqualsOrNullEmpty(it.Repository, StringComparison.OrdinalIgnoreCase))).Select(it => it.AsActual()).Where(it => it != null).ToArray();
+            var memberships = sites.Select(it => it.GetMembership()).Where(it => it != null).ToArray();
+            FillData(databases, memberships, sites);
+            return true;
+        }
+        protected virtual bool SearchMembership(string search)
+        {
+            var memberships = _membershipManager.All(search).Select(it => it.AsActual()).ToArray();
+            if (memberships.Length == 0)
+            {
+                return false;
+            }
+            var allSites = _siteManager.All();
+            var sites = allSites.Where(it => memberships.Any(mb => mb.Name.EqualsOrNullEmpty(it.Membership, StringComparison.OrdinalIgnoreCase))).Select(it => it.AsActual()).Where(it => it != null).ToArray();
+            var databases = sites.Select(it => it.GetRepository()).Select(it => it.AsActual()).Where(it => it != null).ToArray();
+            FillData(databases, memberships, sites);
+            return true;
+        }
+        protected virtual void FillData(CMS.Content.Models.Repository[] databases, Member.Models.Membership[] memberships, CMS.Sites.Models.Site[] sites)
+        {
 
             var index = 0;
             ViewBag.Sites = sites.Select(it => new
@@ -68,7 +129,6 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 text = it.Name,
                 url = Url.Action("Go", new { controller = "Membership", area = "Membership", membershipName = it.Name })
             }).ToArray();
-            return View();
         }
         public static int FindIndex<T>(IEnumerable<T> items, Func<T, bool> predicate)
         {

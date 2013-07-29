@@ -638,6 +638,7 @@
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\loading.gif" />
     <Content Include="LICENSE.txt" />
+    <Content Include="Scripts\aight.js" />
     <Content Include="Scripts\codemirror\addon\comment\comment.js" />
     <Content Include="Scripts\codemirror\addon\dialog\dialog.css" />
     <Content Include="Scripts\codemirror\addon\dialog\dialog.js" />
@@ -728,6 +729,7 @@
     <Content Include="Scripts\codemirror\theme\vibrant-ink.css" />
     <Content Include="Scripts\codemirror\theme\xq-dark.css" />
     <Content Include="Scripts\codemirror\theme\xq-light.css" />
+    <Content Include="Scripts\d3.v3.min.js" />
     <Content Include="Scripts\jquery.autosize.js" />
     <Content Include="Scripts\jquery.fileDownload.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />

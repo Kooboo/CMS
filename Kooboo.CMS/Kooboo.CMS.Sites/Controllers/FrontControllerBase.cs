@@ -108,42 +108,6 @@ namespace Kooboo.CMS.Sites.Controllers
         {
             base.OnResultExecuted(filterContext);
         }
-        #endregion
-
-        #region Cache setting
-        protected virtual void CacheThisRequest()
-        {
-            SetCache(HttpContext.Response, 2592000, "*");
-        }
-        protected virtual void SetCache(HttpResponseBase response, int cacheDuration, params string[] varyByParams)
-        {
-            // Cache
-            if (cacheDuration > 0)
-            {
-                response.AddHeader("Cache-Control", string.Format("public, max-age={0}", cacheDuration));
-                //DateTime timestamp = httpContext.Timestamp;
-
-                //HttpCachePolicyBase cache = response.Cache;
-                //int duration = cacheDuration;
-
-                //cache.SetCacheability(HttpCacheability.Public);
-                //cache.SetAllowResponseInBrowserHistory(true);
-                //cache.SetExpires(timestamp.AddSeconds(duration));
-                //cache.SetMaxAge(new TimeSpan(0, 0, duration));
-                //cache.SetValidUntilExpires(true);
-                //cache.SetLastModified(timestamp);
-                //cache.VaryByHeaders["Accept-Encoding"] = true;
-                //if (varyByParams != null)
-                //{
-                //    foreach (var p in varyByParams)
-                //    {
-                //        cache.VaryByParams[p] = true;
-                //    }
-                //}
-
-                //cache.SetOmitVaryStar(true);
-            }
-        }
-        #endregion
+        #endregion        
     }
 }

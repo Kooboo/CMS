@@ -12,6 +12,7 @@ using System.Linq;
 using System.Web;
 using Ninject;
 using Ninject.Syntax;
+using NinjectParameters = Ninject.Parameters;
 using Kooboo.CMS.Common.Runtime.Dependency.Ninject.InRequestScope;
 namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
 {
@@ -124,23 +125,33 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         }
         #endregion
 
+        #region ConvertParameters
+        private static NinjectParameters.IParameter[] ConvertParameters(Parameter[] parameters)
+        {
+            if (parameters == null)
+            {
+                return null;
+            }
+            return parameters.Select(it => new NinjectParameters.ConstructorArgument(it.Name, it.Value)).ToArray();
+        }
+        #endregion
         #region Resolve
-        public virtual T Resolve<T>(string key = "") where T : class
+        public virtual T Resolve<T>(string key = "", params Parameter[] parameters) where T : class
         {
             if (string.IsNullOrEmpty(key))
             {
-                return _container.Get<T>();
+                return _container.Get<T>(ConvertParameters(parameters));
             }
-            return _container.Get<T>(key);
+            return _container.Get<T>(key, ConvertParameters(parameters));
         }
 
-        public virtual object Resolve(Type type, string key = "")
+        public virtual object Resolve(Type type, string key = "", params Parameter[] parameters)
         {
             if (string.IsNullOrEmpty(key))
             {
-                return _container.Get(type);
+                return _container.Get(type, ConvertParameters(parameters));
             }
-            return _container.Get(type, key);
+            return _container.Get(type, key, ConvertParameters(parameters));
         }
         #endregion
 
@@ -164,22 +175,22 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         #endregion
 
         #region TryResolve
-        public virtual T TryResolve<T>(string key = "")
+        public virtual T TryResolve<T>(string key = "", params Parameter[] parameters)
         {
             if (string.IsNullOrEmpty(key))
             {
-                return _container.TryGet<T>();
+                return _container.TryGet<T>(ConvertParameters(parameters));
             }
-            return _container.TryGet<T>(key);
+            return _container.TryGet<T>(key, ConvertParameters(parameters));
         }
 
-        public virtual object TryResolve(Type type, string key = "")
+        public virtual object TryResolve(Type type, string key = "", params Parameter[] parameters)
         {
             if (string.IsNullOrEmpty(key))
             {
-                return _container.TryGet(type);
+                return _container.TryGet(type, ConvertParameters(parameters));
             }
-            return _container.TryGet(type, key);
+            return _container.TryGet(type, key, ConvertParameters(parameters));
         }
 
         #endregion
@@ -228,7 +239,7 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         public void AddResolvingObserver(IResolvingObserver observer)
         {
             _container.AddResolvingObserver(observer);
-        } 
+        }
         #endregion
     }
 

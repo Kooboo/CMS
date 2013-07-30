@@ -56,9 +56,9 @@ namespace Kooboo.CMS.Common.Runtime.Dependency
         #endregion
 
         #region Resolve
-        T Resolve<T>(string key = "") where T : class;
+        T Resolve<T>(string key = "", params Parameter[] parameters) where T : class;
 
-        object Resolve(Type type, string key = "");
+        object Resolve(Type type, string key = "", params Parameter[] parameters);
         #endregion
 
         #region ResolveAll
@@ -67,9 +67,9 @@ namespace Kooboo.CMS.Common.Runtime.Dependency
         #endregion
 
         #region TryResolve
-        T TryResolve<T>(string key = "");
+        T TryResolve<T>(string key = "", params Parameter[] parameters);
 
-        object TryResolve(Type type, string key = "");
+        object TryResolve(Type type, string key = "", params Parameter[] parameters);
 
         #endregion
 

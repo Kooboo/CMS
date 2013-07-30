@@ -51,10 +51,6 @@
 	.attr('y', 70)
 	.text(function (d) { return d });
 
-    svg.selectAll('rect').__proto__.OOOKKK = function () {
-        alert(123);
-    }
-
     // rects and texts
     var site_rects = svg.selectAll('rect.site').data(site).enter().append('rect');
     var site_texts = svg.selectAll('text.site').data(site).enter().append('text').attr('class', 'site-text');

@@ -14,6 +14,8 @@ del ContentProviders\SQLCe\Kooboo.CMS.Content.Persistence.SQLCe.dll /Q /S
 del ContentProviders\SQLServer\Kooboo.CMS.Content.Persistence.SQLServer.dll /Q /S
 del SiteProviders\AzureTable\Kooboo.CMS.Sites.Providers.AzureTable.dll /Q /S
 del SiteProviders\SQLServer\Kooboo.CMS.Sites.Providers.SqlServer.dll /Q /S
+del SiteProviders\EntityFramework\Kooboo.CMS.Sites.Persistence.EntityFramework.dll /Q /S
+del MembershipProviders\EntityFramework\Kooboo.CMS.Account.Persistence.EntityFramework.dll /Q /S
 rd mono /Q /S
 md mono
 del Default\bin\Kooboo.CMS.Sites.TemplateEngines.Razor.dll /Q /S
@@ -21,8 +23,8 @@ del Default\bin\Kooboo.CMS.Sites.TemplateEngines.WebForm.dll /Q /S
 del TemplateEngines\NVelocity\Kooboo.CMS.Sites.TemplateEngines.NVelocity.dll /Q /S
 del TemplateEngines\Razor\Kooboo.CMS.Sites.TemplateEngines.Razor.dll /Q /S
 del TemplateEngines\WebForm\Kooboo.CMS.Sites.TemplateEngines.WebForm.dll /Q /S
-del UserProviders\SQLServer\Kooboo.CMS.Account.Persistence.SqlSever.dll /Q /S
-del UserProviders\SQLServer\Kooboo.Connect.Providers.SqlServer.dll /Q /S
+del AccountProviders\EntityFramework\Kooboo.CMS.Account.Persistence.EntityFramework.dll /Q /S
+
 rd Web /Q /S
 md Web
 rd WPI\Kooboo_CMS /Q /S

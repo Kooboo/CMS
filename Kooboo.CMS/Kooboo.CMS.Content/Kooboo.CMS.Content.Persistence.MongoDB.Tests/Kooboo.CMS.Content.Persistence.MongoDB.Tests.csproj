@@ -66,10 +66,6 @@
     <Compile Include="TimeZoneHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Kooboo\Kooboo.csproj">
-      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
-      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>
@@ -77,6 +73,10 @@
     <ProjectReference Include="..\..\Kooboo.CMS.Form\Kooboo.CMS.Form.csproj">
       <Project>{c4f32215-efad-45c9-8276-6126681c3589}</Project>
       <Name>Kooboo.CMS.Form</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
+      <Name>Kooboo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Content.Persistence.MongoDB\Kooboo.CMS.Content.Persistence.MongoDB.csproj">
       <Project>{1099e7a5-d54f-4c03-958f-bf835f6a8e96}</Project>

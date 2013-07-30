@@ -101,9 +101,9 @@
     <Compile Include="UriHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
       <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
-      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
+      <Name>Kooboo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,265 @@
+﻿@using Kooboo.CMS.Common.Runtime;
+@using Kooboo.CMS.Content.Services;
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "Start".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+
+}
+
+@section Panel{
+
+}
+
+<div class="block" id="showRelation">
+    <h1 class="title">Relation</h1>
+</div>
+
+
+<script>
+    var site =  @Html.Raw(JsonConvert.SerializeObject(ViewBag.Sites, Formatting.Indented))
+    var content = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Databases, Formatting.Indented))
+    var membership = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Memberships, Formatting.Indented))
+
+    var max_length = Math.max(site.length, content.length, membership.length);
+
+    var w = 1000;
+    var rect_w = w / 100 * 20;
+    var rect_h = 44;
+    var rect_margin_h = w / 100 * 2;
+    var h = max_length * (rect_h + rect_margin_h) + 100;
+
+    var svg = d3.select('#showRelation').append('svg').attr('width', w).attr('height', h);
+
+    var marker = svg.append('defs').append('marker')
+				.attr('id', 'the_marker')
+				.attr('markerWidth', 8)
+				.attr('markerHeight', 8)
+				.attr('refX', 5)
+				.attr('refY', 5)
+				.append('circle')
+				.attr('cx', 5)
+				.attr('cy', 5)
+				.attr('r', 2)
+				.attr('fill', '#666');
+
+    var titles = svg.selectAll('text.titles').data(['Membership', 'Site', 'Database'])
+	.enter().append('text')
+	.attr('class', 'titles')
+	.attr('style', 'font-family: Arial; font-size: 16px; text-anchor: middle')
+	.attr('x', function (d, i) { return i * w / 100 * 30 + w / 100 * 20 })
+	.attr('y', 70)
+	.text(function (d) { return d });
+
+    svg.selectAll('rect').__proto__.OOOKKK = function () {
+        alert(123);
+    }
+
+    // rects and texts
+    var site_rects = svg.selectAll('rect.site').data(site).enter().append('rect');
+    var site_texts = svg.selectAll('text.site').data(site).enter().append('text').attr('class', 'site-text');
+    var content_rects = svg.selectAll('rect.content').data(content).enter().append('rect');
+    var content_texts = svg.selectAll('text.content').data(content).enter().append('text').attr('class', 'content-text');
+    var membership_rects = svg.selectAll('rect.membership').data(membership).enter().append('rect');
+    var membership_texts = svg.selectAll('text.membership').data(membership).enter().append('text').attr('class', 'membership-text');
+
+    site_rects.attr('x', w / 100 * 40)
+				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) })
+				.attr('width', rect_w)
+				.attr('height', rect_h)
+				.attr('class', 'site-rect')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.attr('fill', '#3ca8db')
+    site_texts.attr('x', w / 100 * 40 + 8)
+				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 26 })
+				.attr('style', 'font-family: Arial; font-size: 14px')
+				.attr('fill', '#fff')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.text(function (d) { return d.text });
+
+    content_rects.attr('x', w / 100 * 70)
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) })
+				.attr('width', rect_w)
+				.attr('height', rect_h)
+				.attr('class', 'content-rect')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.attr('fill', '#1076a6')
+    content_texts.attr('x', w / 100 * 70 + 8)
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
+				.attr('style', 'font-family: Arial; font-size: 14px')
+				.attr('fill', '#fff')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.text(function (d) { return d.text });
+
+    membership_rects.attr('x', w / 100 * 10)
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) })
+				.attr('width', rect_w)
+				.attr('height', rect_h)
+				.attr('class', 'membership-rect')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.attr('fill', '#3cbabb')
+    membership_texts.attr('x', w / 100 * 10 + 8)
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
+				.attr('style', 'font-family: Arial; font-size: 14px')
+				.attr('fill', '#fff')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.text(function (d) { return d.text });
+
+    var hasMemberships = _.filter(site,function(d){
+        return d.membership > -1;
+    });
+    var hasContents = _.filter(site,function(d){
+        return d.content > -1;
+    });
+
+    // lines
+    var site_member_lines = svg.selectAll('line.site_member').data(hasMemberships).enter().append('line');
+    var site_content_lines = svg.selectAll('line.site_content').data(hasContents).enter().append('line');
+
+    site_member_lines.attr('x1', w / 100 * 40)
+					.attr('y1', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
+					.attr('x2', w / 100 * 30)
+					.attr('y2', function (d) { return 100 + d.membership * (rect_h + rect_margin_h) + rect_h / 2 })
+					.attr('class', 'member-line')
+					.attr('marker-end', 'url(#the_marker)')
+					.attr('marker-start', 'url(#the_marker)')
+					.attr('stroke', '#999');
+    site_content_lines.attr('x1', w / 100 * 60)
+					.attr('y1', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
+					.attr('x2', w / 100 * 70)
+					.attr('y2', function (d) { return 100 + d.content * (rect_h + rect_margin_h) + rect_h / 2 })
+					.attr('class', 'content-line')
+					.attr('marker-end', 'url(#the_marker)')
+					.attr('marker-start', 'url(#the_marker)')
+					.attr('stroke', '#999');
+
+
+    var site_export_imgs = svg.selectAll('image.export').data(site).enter().append('image');
+    var content_export_imgs = svg.selectAll('image.export').data(content).enter().append('image');
+    var membership_export_imgs = svg.selectAll('image.export').data(membership).enter().append('image');
+
+    site_export_imgs.attr('x', w / 100 * 60 - 30)
+				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 10 })
+				.attr('width', 24)
+				.attr('height', 24)
+				.attr('class', 'view')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+					content_export_imgs.attr('x', w / 100 * 90 - 30)
+                                .attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
+                                .attr('width', 24)
+                                .attr('height', 24)
+                                .attr('class', 'view')
+                                .attr('data-name', function (d) { return d.name })
+                                .attr('data-url', function (d) { return d.url })
+                                .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+    membership_export_imgs.attr('x', w / 100 * 30 - 30)
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
+				.attr('width', 24)
+				.attr('height', 24)
+				.attr('class', 'view')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+
+
+    // Show relation
+    $('.site-rect').on('click mouseover', function (e) {
+        $('.content-rect').attr('fill', '#1076a6');
+        $('.site-rect').attr('fill', '#3ca8db');
+        $('.membership-rect').attr('fill', '#3cbabb');
+        $(this).attr('fill', '#d24726');
+        var site_name = $(this).data('name');
+        for (var i = 0; i < site.length; i++) {
+            if (site[i]['name'] == site_name) {
+                var index = i;
+                break;
+            } else {
+                continue;
+            }
+        }
+        var content_index = site[index]['content'];
+        var membership_index = site[index]['membership'];
+        if(content_index > -1){
+            $('.content-rect').eq(content_index).attr('fill', '#d24726');
+        }
+        if(membership_index > -1){
+            $('.membership-rect').eq(membership_index).attr('fill', '#d24726');
+        }
+    });
+    $('.content-rect').on('click mouseover', function (e) {
+        $('.content-rect').attr('fill', '#1076a6');
+        $('.site-rect').attr('fill', '#3ca8db');
+        $('.membership-rect').attr('fill', '#3cbabb');
+        $(this).attr('fill', '#d24726');
+        var click_name = $(this).data('name');
+        for(var i=0;i<content.length;i++){
+            if(content[i].name==click_name){
+                var index = i;
+                break;
+            } else {
+                continue;
+            }
+        }
+        for (var i = 0; i < site.length; i++) {
+            if (site[i]['content'] == index) {
+                $('.site-rect').eq(site[i]['num']).attr('fill', '#d24726');
+                var content_index = site[i]['content'];
+                var membership_index = site[i]['membership'];
+                if(content_index > -1){
+                    $('.content-rect').eq(content_index).attr('fill', '#d24726');
+                }
+                if(membership_index > -1){
+                    $('.membership-rect').eq(membership_index).attr('fill', '#d24726');
+                }
+            }
+        }
+    });
+    $('.membership-rect').on('click mouseover', function (e) {
+        $('.content-rect').attr('fill', '#1076a6');
+        $('.site-rect').attr('fill', '#3ca8db');
+        $('.membership-rect').attr('fill', '#3cbabb');
+        $(this).attr('fill', '#d24726');
+        var click_name = $(this).data('name');
+        for(var i=0;i<membership.length;i++){
+            if(membership[i].name==click_name){
+                var index = i;
+                break;
+            } else {
+                continue;
+            }
+        }
+        for (var i = 0; i < site.length; i++) {
+            if (site[i]['membership'] == index) {
+                $('.site-rect').eq(site[i]['num']).attr('fill', '#d24726');
+                var content_index = site[i]['content'];
+                var membership_index = site[i]['membership'];
+                if(content_index > -1){
+                    $('.content-rect').eq(content_index).attr('fill', '#d24726');
+                }
+                if(membership_index > -1){
+                    $('.membership-rect').eq(membership_index).attr('fill', '#d24726');
+                }
+            }
+        }
+    })
+
+    // Icon action
+    $('.site-text, .content-text, .membership-text').on('click', function () {
+        location.href= $(this).data('url');
+    });
+    $('image.view').on('click', function () {
+        location.href= $(this).data('url');
+    });
+</script>
+
+
+
+

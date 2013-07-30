@@ -38,7 +38,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Index
-        public ActionResult Index(string search)
+        public ActionResult Index()
+        {
+            return RedirectToAction("Cluster");
+        }
+        #endregion
+        #region Relation
+        public ActionResult Relation(string search)
         {
             if (!string.IsNullOrEmpty(search))
             {
@@ -66,7 +72,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         protected virtual bool SearchSite(string search)
         {
-            var sites = _siteManager.All().Where(it => it.FullName.Contains(search, StringComparison.OrdinalIgnoreCase)).Select(it=>it.AsActual()).ToArray();
+            var sites = _siteManager.All().Where(it => it.FullName.Contains(search, StringComparison.OrdinalIgnoreCase)).Select(it => it.AsActual()).ToArray();
             if (sites.Length == 0)
             {
                 return false;

@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Account.Persistence.EntityFramework
         }
         private static string GetSettingFile()
         {
-            return Path.Combine(Kooboo.Settings.BinDirectory, "AccountEFProviderSetting.config");
+            return Path.Combine(Kooboo.Settings.BinDirectory, "Kooboo.CMS.Account.Persistence.EntityFramework-DbContext.config");
         }
         public static AccountEntitySetting Instance
         {

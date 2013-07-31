@@ -2298,19 +2298,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Membership\Views\Web.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Membership\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Membership\Menu.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -2319,84 +2315,52 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Create.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Membership\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\_MembershipNode.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Membership\_MembershipNode.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipGroup\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipGroup\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Shared\__Sidebar.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Shared\__Sidebar.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipGroup\Create.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipGroup\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\ChangePassword.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipUser\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\Create.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipUser\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\Edit.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipUser\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipUser\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipConnect\Create.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipConnect\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipConnect\Edit.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipConnect\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipConnect\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipConnect\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Shared\Site.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Shared\Site.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Edit.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Membership\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\ExternalLogin\ExternalLoginFailure.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\ExternalLogin\ExternalLoginFailure.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Import.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Membership\Import.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\KeyValueEquality.cshtml" />

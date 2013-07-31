@@ -63,8 +63,11 @@ namespace Kooboo.CMS.Account.Persistence.FileSystem
             if (user != null && (string.IsNullOrEmpty(user.Password) || user.Password == "******"))
             {
                 var connectUser = (new Kooboo.Connect.FileProvider()).LoadUser(user.UserName);
-                user.Password = connectUser.Membership.Password;
-                user.PasswordSalt = connectUser.Membership.PasswordSalt;
+                if (connectUser != null)
+                {
+                    user.Password = connectUser.Membership.Password;
+                    user.PasswordSalt = connectUser.Membership.PasswordSalt;
+                }
             }
             return user;
         }

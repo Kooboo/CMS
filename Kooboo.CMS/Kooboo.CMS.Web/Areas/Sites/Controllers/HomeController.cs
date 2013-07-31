@@ -110,9 +110,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         protected virtual void FillData(CMS.Content.Models.Repository[] databases, Member.Models.Membership[] memberships, CMS.Sites.Models.Site[] sites)
         {
-
             var index = 0;
-            ViewBag.Sites = sites.Select(it => new
+
+            ViewBag.Sites = sites.OrderBy(it => it.FullName).Select(it => new
             {
                 num = index++,
                 name = it.FullName,

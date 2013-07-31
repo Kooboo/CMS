@@ -6,19 +6,19 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Member.Models;
-using Kooboo.CMS.Member.Services;
+using Kooboo.CMS.Membership.Models;
+using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.View;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Sites.Member;
+using Kooboo.CMS.Sites.Membership;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using Kooboo.CMS.Member.OAuthClients;
+using Kooboo.CMS.Membership.OAuthClients;
 using System.Net;
 
 namespace Kooboo.CMS.Web.Areas.Membership.Controllers
@@ -38,14 +38,14 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
         #region ExternalLoginResult
         internal class ExternalLoginResult : ActionResult
         {
-            public ExternalLoginResult(Kooboo.CMS.Member.Models.Membership membership, string membershipConnectName, string returnUrl)
+            public ExternalLoginResult(Kooboo.CMS.Membership.Models.Membership membership, string membershipConnectName, string returnUrl)
             {
                 this.Membership = membership;
                 this.MembershipConnnectName = membershipConnectName;
                 ReturnUrl = returnUrl;
             }
 
-            public Kooboo.CMS.Member.Models.Membership Membership { get; private set; }
+            public Kooboo.CMS.Membership.Models.Membership Membership { get; private set; }
             public string MembershipConnnectName { get; private set; }
             public string ReturnUrl { get; private set; }
 
@@ -131,7 +131,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
         #endregion
 
         #region GetMembership
-        private static Kooboo.CMS.Member.Models.Membership GetMembership()
+        private static Kooboo.CMS.Membership.Models.Membership GetMembership()
         {
             if (Site.Current == null)
             {

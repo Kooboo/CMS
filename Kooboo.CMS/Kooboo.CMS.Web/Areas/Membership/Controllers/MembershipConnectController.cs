@@ -7,8 +7,8 @@
 // 
 #endregion
 using Kooboo.CMS.Common;
-using Kooboo.CMS.Member.Models;
-using Kooboo.CMS.Member.Services;
+using Kooboo.CMS.Membership.Models;
+using Kooboo.CMS.Membership.Services;
 using Kooboo.Globalization;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using System;

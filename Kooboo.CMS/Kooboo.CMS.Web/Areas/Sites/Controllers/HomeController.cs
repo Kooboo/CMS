@@ -26,10 +26,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
     {
         #region .ctor
         Kooboo.CMS.Content.Services.RepositoryManager _repositoryManager = null;
-        Kooboo.CMS.Member.Services.MembershipManager _membershipManager = null;
+        Kooboo.CMS.Membership.Services.MembershipManager _membershipManager = null;
         Kooboo.CMS.Sites.Services.SiteManager _siteManager = null;
 
-        public HomeController(Kooboo.CMS.Content.Services.RepositoryManager repositoryManager, Kooboo.CMS.Member.Services.MembershipManager membershipManager, Kooboo.CMS.Sites.Services.SiteManager siteManager)
+        public HomeController(Kooboo.CMS.Content.Services.RepositoryManager repositoryManager, Kooboo.CMS.Membership.Services.MembershipManager membershipManager, Kooboo.CMS.Sites.Services.SiteManager siteManager)
         {
             this._repositoryManager = repositoryManager;
             this._membershipManager = membershipManager;
@@ -55,7 +55,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                         if (!SearchMembership(search))
                         {
                             FillData(new Kooboo.CMS.Content.Models.Repository[0],
-                                new Kooboo.CMS.Member.Models.Membership[0],
+                                new Kooboo.CMS.Membership.Models.Membership[0],
                                 new Kooboo.CMS.Sites.Models.Site[0]);
                         }
                     }
@@ -108,7 +108,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             FillData(databases, memberships, sites);
             return true;
         }
-        protected virtual void FillData(CMS.Content.Models.Repository[] databases, Member.Models.Membership[] memberships, CMS.Sites.Models.Site[] sites)
+        protected virtual void FillData(CMS.Content.Models.Repository[] databases, Kooboo.CMS.Membership.Models.Membership[] memberships, CMS.Sites.Models.Site[] sites)
         {
             var index = 0;
 

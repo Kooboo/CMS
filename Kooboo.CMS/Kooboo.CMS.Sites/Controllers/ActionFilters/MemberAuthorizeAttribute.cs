@@ -14,7 +14,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Security.Principal;
-using Kooboo.CMS.Sites.Member;
+using Kooboo.CMS.Sites.Membership;
 using Kooboo.CMS.Sites.View;
 using Kooboo.Web.Url;
 namespace Kooboo.CMS.Sites.Controllers.ActionFilters

@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Member.Models;
+using Kooboo.CMS.Membership.Models;
 using Kooboo.CMS.Web.Areas.Membership.Models.DataSources;
 using Kooboo.CMS.Web.Models;
 using Kooboo.ComponentModel;
@@ -20,7 +20,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Web.Areas.Membership.Models
 {
-    [MetadataFor(typeof(Kooboo.CMS.Member.Models.Membership))]
+    [MetadataFor(typeof(Kooboo.CMS.Membership.Models.Membership))]
     public class Membership_Metadata
     {
         [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]

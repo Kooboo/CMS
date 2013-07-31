@@ -1996,9 +1996,9 @@
       <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
       <Name>Kooboo.CMS.Form</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Member\Kooboo.CMS.Member.csproj">
+    <ProjectReference Include="..\Kooboo.CMS.Membership\Kooboo.CMS.Membership.csproj">
       <Project>{3df23643-4bd1-4564-82b9-9ec594ad05b6}</Project>
-      <Name>Kooboo.CMS.Member</Name>
+      <Name>Kooboo.CMS.Membership</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Search\Kooboo.CMS.Search.csproj">
       <Project>{C7B73E67-D226-41CB-A86D-410276B265A1}</Project>

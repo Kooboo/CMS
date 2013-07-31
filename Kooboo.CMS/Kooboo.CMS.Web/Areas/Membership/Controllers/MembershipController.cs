@@ -7,8 +7,8 @@
 // 
 #endregion
 using Kooboo.CMS.Common;
-using Kooboo.CMS.Member.Models;
-using Kooboo.CMS.Member.Services;
+using Kooboo.CMS.Membership.Models;
+using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Web.Authorizations;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.CMS.Member.Persistence;
+using Kooboo.CMS.Membership.Persistence;
 using Kooboo.CMS.Web.Areas.Membership.Models;
 
 namespace Kooboo.CMS.Web.Areas.Membership.Controllers
@@ -51,7 +51,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(Kooboo.CMS.Member.Models.Membership membership, string @return)
+        public ActionResult Create(Kooboo.CMS.Membership.Models.Membership membership, string @return)
         {
             JsonResultData data = new JsonResultData(ModelState);
             if (ModelState.IsValid)
@@ -70,7 +70,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
         #region IsUserNameAvailable
         public virtual ActionResult IsNameAvailable(string name)
         {
-            var membership = new Kooboo.CMS.Member.Models.Membership(name).AsActual();
+            var membership = new Kooboo.CMS.Membership.Models.Membership(name).AsActual();
             if (membership != null)
             {
                 return Json("The name is duplicate.".Localize(), JsonRequestBehavior.AllowGet);
@@ -82,12 +82,12 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
         #region Edit
         public virtual ActionResult Edit(string membershipName)
         {
-            var membership = new Kooboo.CMS.Member.Models.Membership() { Name = membershipName }.AsActual();
+            var membership = new Kooboo.CMS.Membership.Models.Membership() { Name = membershipName }.AsActual();
 
             return View(membership);
         }
         [HttpPost]
-        public virtual ActionResult Edit(Kooboo.CMS.Member.Models.Membership model, string @return)
+        public virtual ActionResult Edit(Kooboo.CMS.Membership.Models.Membership model, string @return)
         {
             JsonResultData data = new JsonResultData(ModelState);
             if (ModelState.IsValid)
@@ -104,7 +104,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 
         #region Delete
         [HttpPost]
-        public virtual ActionResult Delete(Kooboo.CMS.Member.Models.Membership[] model, string @return)
+        public virtual ActionResult Delete(Kooboo.CMS.Membership.Models.Membership[] model, string @return)
         {
             ModelState.Clear();
             var data = new JsonResultData(ModelState);
@@ -126,7 +126,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 
         #region Export
         [HttpPost]
-        public virtual ActionResult Export(Kooboo.CMS.Member.Models.Membership[] model)
+        public virtual ActionResult Export(Kooboo.CMS.Membership.Models.Membership[] model)
         {
 
             if (model != null || model.Length > 1)

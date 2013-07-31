@@ -87,21 +87,22 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         public virtual Dictionary<string, string> Profiles { get; set; }
 
         [DisplayName("Membership groups")]
+        [Description("Group can be used for access control of site pages or others.")]
         [UIHint("Multiple_DropDownList")]
         [DataSource(typeof(MembershipGroupDataSource))]
         public virtual string[] MembershipGroups { get; set; }
 
         [DisplayName("Provider type")]
-        [Description("")]
+        [Description("The name of third party authentication provider")]
         public virtual string ProviderType { get; set; }
 
         [DisplayName("Provider user id")]
-        [Description("")]
+        [Description("The user ID of that third party")]
         public virtual string ProviderUserId { get; set; }
 
         [UIHint("Dictionary")]
         [DisplayName("Provider extra data")]
-        [Description("")]
+        [Description("Extra information from third party")]
         public virtual Dictionary<string, string> ProviderExtraData { get; set; }
     }
 }

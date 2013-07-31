@@ -26,13 +26,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
             {
                 var membershipGroupManager = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<MembershipGroupManager>();
                 var membership = Site.Current.GetMembership();
-                return membershipGroupManager.All(membership, "").Select(it => new SelectListItem() { Text = it.Name, Value = it.Name });
-            }
-            else
-            {
-                return new SelectListItem[0];
-            }
+                if (membership != null)
+                {
+                    return membershipGroupManager.All(membership, "").Select(it => new SelectListItem() { Text = it.Name, Value = it.Name });
+                }
 
+            }
+            return new SelectListItem[0];
         }
     }
 }

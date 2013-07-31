@@ -58,7 +58,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
                     filter = filter.Substring(slashIndex + 1);
                 }
             }
-            
+            if (string.IsNullOrEmpty(prefix))
+            {
+                prefix = "~/";
+            }
+
             var result = pageList.Where(o => o.VirtualPath.Contains(filter, StringComparison.OrdinalIgnoreCase))
                 .Select(o => new SelectListItem { Text = prefix + o.VirtualPath.TrimStart('/'), Value = prefix + o.VirtualPath.TrimStart('/') });
 

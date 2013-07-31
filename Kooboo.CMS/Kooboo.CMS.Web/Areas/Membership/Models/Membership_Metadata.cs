@@ -29,10 +29,10 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         public string Name { get; set; }
 
         [Display(Name = "Auth cookie name")]
-        [Description("The cookie name of form authentication. If it is empty, will use the site name as the cookie name.")]
+        [Description("The form authentication cookie name. If it is empty, it will use the site name as the cookie name. <br >If you want to share the same cookie name and value across different websites, you need to use the same cookie name.")]
         public string AuthCookieName { get; set; }
         [Display(Name = "Auth cookie domain")]
-        [Description("The cookie domain form authentication. You can set the cookie domain to share the auth cookie between the sites have a common sub-domain. for example: domain.com")]
+        [Description("The form authentication cookie domain. You can set cookies from sub-domains to use the top domain, in order to share the cookie values across sub domain sites.")]
         public string AuthCookieDomain { get; set; }
 
         [Display(Name = "Hash algorithm type")]
@@ -42,15 +42,15 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         public string HashAlgorithmType { get; set; }
 
         [Display(Name = "Max invalid password attempts")]
-        [Description("Gets the number of invalid password or password-answer attempts allowed before the membership user is locked out.")]
+        [Description("Set the number of invalid password attempts allowed before the membership user is locked out.")]
         public int MaxInvalidPasswordAttempts { get; set; }
 
         [Display(Name = "Min required password length")]
-        [Description("Gets the minimum length required for a password.")]
+        [Description("Set the minimum length required for a password.")]
         public int MinRequiredPasswordLength { get; set; }
 
         [Display(Name = "Password strength regular expression")]
-        [Description("Gets the regular expression used to evaluate a password.")]
+        [Description("Set the regular expression used to evaluate a password. Let it blank if you do not want to use it")]
         public string PasswordStrengthRegularExpression { get; set; }       
     }
 }

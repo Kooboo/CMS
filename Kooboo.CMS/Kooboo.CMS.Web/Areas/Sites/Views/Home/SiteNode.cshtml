@@ -16,7 +16,7 @@
         @if (ServiceFactory.UserManager.AllowCreatingSite(Html.ViewContext.HttpContext.User.Identity.Name))
         {
             <li>
-                @Html.ActionLink("Create a subsite".Localize(), "CreateSubSite", new { controller = "Site", parent = Model.Site.FullName, @return = Request.RawUrl })
+                @Html.ActionLink("Create a subsite".Localize(), "CreateSubSite", new { controller = "Site", parent = Model.Site.FullName, @return = Request.RawUrl }, new { title = "New sub site".Localize() })
             </li>
         }
         @if (Kooboo.CMS.Sites.Services.ServiceFactory.UserManager.Authorize(Model.Site, Html.ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Settings_SystemPermission))

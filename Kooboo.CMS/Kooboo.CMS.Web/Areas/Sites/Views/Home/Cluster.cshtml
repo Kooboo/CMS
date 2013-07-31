@@ -17,7 +17,7 @@
 				<ul class="j_DropDownContent hide">
 					<li><a href="@Url.Action("Create", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl })">
 						@("A new site".Localize())</a></li>
-					<li><a href="@Html.Raw(Url.Action("CreateSubSite", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl })) ">
+					<li><a href="@Html.Raw(Url.Action("CreateSubSite", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl }))" title="@("New sub site".Localize())">
 						@("A new subsite".Localize())</a></li>
 				</ul>
 			</li>

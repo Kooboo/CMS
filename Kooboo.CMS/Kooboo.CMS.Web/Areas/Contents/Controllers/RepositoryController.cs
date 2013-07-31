@@ -143,7 +143,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
                 mapModel.Repository.Status = ContentEditStatus.Disable;
 
-                if (CMS.Sites.Services.ServiceFactory.UserManager.Authorize(CMS.Sites.Models.Site.Current, User.Identity.Name, CMS.Account.Models.Permission.Contents_SchemaPermission))
+                if (CMS.Sites.Services.ServiceFactory.UserManager.Authorize(CMS.Sites.Models.Site.Current, User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Contents_ContentPermission))
                 {
                     mapModel.ContentType.Status = ContentEditStatus.Done;
 

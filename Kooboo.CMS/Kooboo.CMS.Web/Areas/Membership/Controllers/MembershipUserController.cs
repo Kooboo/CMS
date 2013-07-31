@@ -15,7 +15,7 @@ using Kooboo.CMS.Common.DataViolation;
 
 namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 {
-    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Member", Group = "", Name = "Membership", Order = 1)]
+    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Membership", Group = "", Name = "Member", Order = 1)]
     public class MembershipUserController : ControllerBase
     {
         #region .ctor

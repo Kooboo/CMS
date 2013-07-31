@@ -19,7 +19,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 {
-    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Member", Group = "", Name = "Membership", Order = 1)]
+    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Membership", Group = "", Name = "Connect", Order = 1)]
     public class MembershipConnectController : ControllerBase
     {
         #region .ctor

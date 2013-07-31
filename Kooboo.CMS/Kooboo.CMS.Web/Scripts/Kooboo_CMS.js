@@ -409,7 +409,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                 } else {
                     $checkbox.removeAttr('checked');
                 }
-                table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
+                $tbody.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
             }
         });
     }

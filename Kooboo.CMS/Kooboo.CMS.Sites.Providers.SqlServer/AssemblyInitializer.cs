@@ -17,11 +17,12 @@ using Kooboo.CMS.Sites.Models;
 using System.Data.Entity;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Common.Runtime;
+using Kooboo.CMS.Sites.Globalization;
 namespace Kooboo.CMS.Sites.Providers.SqlServer
 {
     public class AssemblyInitializer : Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
     {
-       
+
         //public static void ResetProviders()
         //{
         //    var dbContext = SiteDbContext.CreateDbContext();
@@ -40,19 +41,20 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer
 
         public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
         {
-            Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance = new LabelProvider.RepositoryFactory();
+            //Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance = new LabelProvider.RepositoryFactory();
+            containerManager.AddComponent<IElementRepositoryFactory, LabelProvider.RepositoryFactory>();
             containerManager.AddComponent<IPageProvider, PageProvider.PageProvider>();
             containerManager.AddComponent<IHtmlBlockProvider, HtmlBlockProvider.HtmlBlockProvider>();
             containerManager.AddComponent<IUserProvider, UserProvider.UserProvider>();
 
             var dbContext = SiteDbContext.CreateDbContext();
-            dbContext.Database.CreateIfNotExists();       
+            dbContext.Database.CreateIfNotExists();
 
         }
 
         public int Order
         {
-            get { return 1; }
+            get { return 101; }
         }
     }
 }

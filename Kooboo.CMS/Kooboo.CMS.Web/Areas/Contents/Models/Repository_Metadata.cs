@@ -24,6 +24,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
     public class Repository_Metadata
     {
         [Required(ErrorMessage = "Required")]
+        [Remote("IsNameAvailable", "Repository")]
         [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
         public string Name { get; set; }
 
@@ -35,9 +36,9 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
         [Description("Enable content broadcasting and sharing between content repositories.")]
         public bool EnableBroadcasting { get; set; }
 
-        [Description("Customize the CMS content editing page and the default front site content display")]
-        [DisplayName("Custom template")]
-        public bool EnableCustomTemplate { get; set; }
+        //[Description("Customize the CMS content editing page and the default front site content display")]
+        //[DisplayName("Custom template")]
+        //public bool EnableCustomTemplate { get; set; }
 
         [Description("Disallowed userkey chars. Replace chars that match this regular expression into hyphens")]
         [DisplayName("Userkey escape chars")]
@@ -63,5 +64,5 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
         [Description("Show the all folders including the hidden folders.")]
         public bool ShowHiddenFolders { get; set; }
     }
-  
+
 }

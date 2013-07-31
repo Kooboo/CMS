@@ -86,46 +86,46 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         }
 
         #region Resolve
-        public T Resolve<T>() where T : class
+        public T Resolve<T>(params Parameter[] parameters) where T : class
         {
-            return ContainerManager.Resolve<T>();
+            return ContainerManager.Resolve<T>(null, parameters);
         }
 
-        public T Resolve<T>(string name) where T : class
+        public T Resolve<T>(string name, params Parameter[] parameters) where T : class
         {
-            return ContainerManager.Resolve<T>(name);
+            return ContainerManager.Resolve<T>(name, parameters);
         }
 
-        public object Resolve(Type type, string name)
+        public object Resolve(Type type, string name, params Parameter[] parameters)
         {
-            return ContainerManager.Resolve(type, name);
+            return ContainerManager.Resolve(type, name, parameters);
         }
 
-        public object Resolve(Type type)
+        public object Resolve(Type type, params Parameter[] parameters)
         {
-            return ContainerManager.Resolve(type);
+            return ContainerManager.Resolve(type, null, parameters);
         }
         #endregion
 
         #region TryResolve
-        public T TryResolve<T>() where T : class
+        public T TryResolve<T>(params Parameter[] parameters) where T : class
         {
-            return ContainerManager.TryResolve<T>();
+            return ContainerManager.TryResolve<T>(null, parameters);
         }
 
-        public T TryResolve<T>(string name) where T : class
+        public T TryResolve<T>(string name, params Parameter[] parameters) where T : class
         {
-            return ContainerManager.TryResolve<T>(name);
+            return ContainerManager.TryResolve<T>(name, parameters);
         }
 
-        public object TryResolve(Type type, string name)
+        public object TryResolve(Type type, string name, params Parameter[] parameters)
         {
-            return ContainerManager.TryResolve(type, name);
+            return ContainerManager.TryResolve(type, name, parameters);
         }
 
-        public object TryResolve(Type type)
+        public object TryResolve(Type type, params Parameter[] parameters)
         {
-            return ContainerManager.TryResolve(type);
+            return ContainerManager.TryResolve(type, null, parameters);
         }
         #endregion
 

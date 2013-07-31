@@ -119,7 +119,7 @@
         this.each(function () {
             var handle = $(this);
             if (!handle.data('codeMirror')) {
-                try {
+                try {                 
                     var codemirror = $codeMirror(handle, option);
                     handle.data('codeMirror', codemirror);
                     handle.codeMirrorAPI = codemirror;

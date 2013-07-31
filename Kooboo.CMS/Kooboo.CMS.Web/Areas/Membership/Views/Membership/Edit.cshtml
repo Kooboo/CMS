@@ -9,10 +9,13 @@
             <a data-ajaxform="">
                 @Html.IconImage("save") @("Save".Localize())</a>
         </li>
-        <li>
-            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
-        </li>
+        @if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("return")))
+        {        
+            <li>
+                <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                    @Html.IconImage("cancel") @("Back".Localize())</a>
+            </li>
+        }
     </ul>
 }
 <div class="common-form">
@@ -27,9 +30,9 @@
                 @Html.EditorFor(m => m.AuthCookieName, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.AuthCookieDomain, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.HashAlgorithmType, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.MinRequiredPasswordLength, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.PasswordStrengthRegularExpression, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.MaxInvalidPasswordAttempts, new { HtmlAttributes = new { @class = "medium" } })
-                @Html.EditorFor(m => m.MinRequiredPasswordLength, new { HtmlAttributes = new { @class = "medium" } })
             </tbody>
         </table>
     }

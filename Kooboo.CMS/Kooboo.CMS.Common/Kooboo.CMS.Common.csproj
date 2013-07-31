@@ -83,10 +83,12 @@
     <Compile Include="Runtime\Dependency\IContainerManager.cs" />
     <Compile Include="Runtime\Dependency\IDependencyRegistrar.cs" />
     <Compile Include="Runtime\Dependency\InjectAttribute.cs" />
+    <Compile Include="Runtime\Dependency\IResolvingObserver.cs" />
     <Compile Include="Runtime\EngineContext.cs" />
     <Compile Include="Runtime\IEngine.cs" />
     <Compile Include="Runtime\IStartupTask.cs" />
     <Compile Include="Runtime\ITypeFinder.cs" />
+    <Compile Include="Runtime\Parameter.cs" />
     <Compile Include="Runtime\Singleton.cs" />
     <Compile Include="Runtime\WebAppTypeFinder.cs" />
     <Compile Include="JsonResultData.cs" />
@@ -100,9 +102,9 @@
     <Compile Include="UriHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
       <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
-      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
+      <Name>Kooboo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

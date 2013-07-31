@@ -30,11 +30,11 @@ namespace Kooboo.CMS.Content.Tests.Persistence
         {
             contentRepository = new Repository(repositoryName) { DisplayName = "DisplayName" };
         }
-        
+
         [TestMethod]
         public void Test1()
         {
-            RepositoryProvider repository = new RepositoryProvider();
+            RepositoryProvider repository = new RepositoryProvider(new Common.BaseDir());
             repository.Add(contentRepository);
             var item = repository.Get(contentRepository);
             Assert.AreEqual(contentRepository.Name, item.Name);

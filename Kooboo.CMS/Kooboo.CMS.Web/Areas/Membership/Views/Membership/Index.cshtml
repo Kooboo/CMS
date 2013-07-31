@@ -6,6 +6,9 @@
 
 @section Sidebar{
     @Html.Partial("_SidebarTopSearch")
+    <nav class="container block menu">
+        @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))
+    </nav>
 }
 @section Panel{
     <ul class="panel">
@@ -18,6 +21,25 @@
                 @Html.IconImage("import")
                 @("Import".Localize())</a>
         </li>
+        <li>
+            <a href="@Url.Action("Go", "Membership", new RouteValueDictionary(new { @return = ViewContext.HttpContext.Request.RawUrl }))" data-show-on-check="Single" data-command-type="Redirect">
+                @Html.IconImage("setting")
+                @("Manage".Localize())
+            </a>
+        </li>
+
+        <li>
+            <a href="@Url.Action("Export", "Membership", new RouteValueDictionary(new { @return = ViewContext.HttpContext.Request.RawUrl }))" data-show-on-check="Single" data-command-type="Download">
+                @Html.IconImage("export")
+                @("Export".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Delete", "Membership", new RouteValueDictionary(new { @return = ViewContext.HttpContext.Request.RawUrl }))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete the content database?".Localize())">
+                @Html.IconImage("delete")
+                @("Delete".Localize())
+            </a>
+        </li>
     </ul>
 }
 
@@ -25,7 +47,7 @@
 @if (Model.Count() == 0)
 {
     <div class="block">
-        <h1 class="title">@("Memberships".Localize())</h1>
+        <h1 class="title">@(ViewBag.Title)</h1>
         <div class="sitemap-panel clearfix">
             <div class="blank">
                 <p>
@@ -38,14 +60,43 @@
 }
 else
 {
-    <div class="block">
-        <h1 class="title">@("Memberships".Localize())</h1>
+    <div id="membership_list" class="block">
+        <h1 class="title">@(ViewBag.Title)</h1>
 
         @foreach (var membership in Model)
         {        
-            <div class="site-tree">
+            <div class="content-block membership">
                 @Html.Partial("_MembershipNode", membership)
             </div>
         }
     </div>
 }
+
+<script>
+    $(function () {
+        var $membership_list = $('#membership_list').find('.membership');
+        var $check_relateds = $('[data-show-on-check]');
+        var selector = 'input:radio.select:checked';
+        function reset() {
+            $membership_list.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
+        }
+        function clear() {
+            $membership_list.removeClass('checked');
+            $membership_list.find('input:radio.select').attr('checked', false);
+            reset();
+        }
+        reset();
+        $membership_list.live('click', function () {
+            var $self = $(this);
+            clear();
+            $self.addClass('checked');
+            $self.find('input:radio.select').attr('checked', true);
+            reset();
+            return false;
+        });
+        $membership_list.grid();
+        $(document).click(function () {
+            clear();
+        });
+    });
+</script>

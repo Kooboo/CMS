@@ -38,12 +38,29 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
                 this.GenerateList(site, r, ref pageList);
             }
 
-            if (filter == null)
+
+            if (string.IsNullOrEmpty(filter))
             {
                 return null;
             }
-
-            var result = pageList.Where(o => o.VirtualPath.Contains(filter, StringComparison.OrdinalIgnoreCase)).Select(o => new SelectListItem { Text = o.VirtualPath, Value = o.VirtualPath });
+            var prefix = "";
+            var slashIndex = filter.IndexOf('/');
+            if (slashIndex != -1)
+            {
+                if (slashIndex == filter.Length - 1)
+                {
+                    prefix = filter.Substring(0, slashIndex + 1);
+                    filter = "";
+                }
+                else
+                {
+                    prefix = filter.Substring(0, slashIndex + 1);
+                    filter = filter.Substring(slashIndex + 1);
+                }
+            }
+            
+            var result = pageList.Where(o => o.VirtualPath.Contains(filter, StringComparison.OrdinalIgnoreCase))
+                .Select(o => new SelectListItem { Text = prefix + o.VirtualPath.TrimStart('/'), Value = prefix + o.VirtualPath.TrimStart('/') });
 
             return result;
 

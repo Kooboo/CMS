@@ -119,9 +119,6 @@
     </Compile>
     <Compile Include="Areas\Contents\Controllers\ContentTypeController.cs" />
     <Compile Include="Areas\Contents\Controllers\ControllerBase.cs" />
-    <Compile Include="Areas\Contents\Controllers\HomeController.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Areas\Contents\Controllers\ManagerControllerBase.cs" />
     <Compile Include="Areas\Contents\Controllers\MediaContentController.cs" />
     <Compile Include="Areas\Contents\Controllers\MediaFolderController.cs" />
@@ -640,7 +637,103 @@
     <Content Include="Images\Default.png" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\loading.gif" />
+    <Content Include="Images\svg-edit.png" />
+    <Content Include="Images\svg-export.png" />
+    <Content Include="Images\svg-preview.png" />
+    <Content Include="Images\svg-view.png" />
     <Content Include="LICENSE.txt" />
+    <Content Include="Scripts\aight.js" />
+    <Content Include="Scripts\codemirror\addon\comment\comment.js" />
+    <Content Include="Scripts\codemirror\addon\dialog\dialog.css" />
+    <Content Include="Scripts\codemirror\addon\dialog\dialog.js" />
+    <Content Include="Scripts\codemirror\addon\display\placeholder.js" />
+    <Content Include="Scripts\codemirror\addon\edit\closebrackets.js" />
+    <Content Include="Scripts\codemirror\addon\edit\closetag.js" />
+    <Content Include="Scripts\codemirror\addon\edit\continuecomment.js" />
+    <Content Include="Scripts\codemirror\addon\edit\continuelist.js" />
+    <Content Include="Scripts\codemirror\addon\edit\matchbrackets.js" />
+    <Content Include="Scripts\codemirror\addon\edit\trailingspace.js" />
+    <Content Include="Scripts\codemirror\addon\fold\brace-fold.js" />
+    <Content Include="Scripts\codemirror\addon\fold\foldcode.js" />
+    <Content Include="Scripts\codemirror\addon\fold\indent-fold.js" />
+    <Content Include="Scripts\codemirror\addon\fold\xml-fold.js" />
+    <Content Include="Scripts\codemirror\addon\hint\html-hint.js" />
+    <Content Include="Scripts\codemirror\addon\hint\javascript-hint.js" />
+    <Content Include="Scripts\codemirror\addon\hint\pig-hint.js" />
+    <Content Include="Scripts\codemirror\addon\hint\python-hint.js" />
+    <Content Include="Scripts\codemirror\addon\hint\show-hint.css" />
+    <Content Include="Scripts\codemirror\addon\hint\show-hint.js" />
+    <Content Include="Scripts\codemirror\addon\hint\xml-hint.js" />
+    <Content Include="Scripts\codemirror\addon\lint\coffeescript-lint.js" />
+    <Content Include="Scripts\codemirror\addon\lint\javascript-lint.js" />
+    <Content Include="Scripts\codemirror\addon\lint\json-lint.js" />
+    <Content Include="Scripts\codemirror\addon\lint\lint.css" />
+    <Content Include="Scripts\codemirror\addon\lint\lint.js" />
+    <Content Include="Scripts\codemirror\addon\merge\dep\diff_match_patch.js" />
+    <Content Include="Scripts\codemirror\addon\merge\merge.css" />
+    <Content Include="Scripts\codemirror\addon\merge\merge.js" />
+    <Content Include="Scripts\codemirror\addon\mode\loadmode.js" />
+    <Content Include="Scripts\codemirror\addon\mode\multiplex.js" />
+    <Content Include="Scripts\codemirror\addon\mode\multiplex_test.js" />
+    <Content Include="Scripts\codemirror\addon\mode\overlay.js" />
+    <Content Include="Scripts\codemirror\addon\runmode\colorize.js" />
+    <Content Include="Scripts\codemirror\addon\runmode\runmode-standalone.js" />
+    <Content Include="Scripts\codemirror\addon\runmode\runmode.js" />
+    <Content Include="Scripts\codemirror\addon\runmode\runmode.node.js" />
+    <Content Include="Scripts\codemirror\addon\search\match-highlighter.js" />
+    <Content Include="Scripts\codemirror\addon\search\search.js" />
+    <Content Include="Scripts\codemirror\addon\search\searchcursor.js" />
+    <Content Include="Scripts\codemirror\addon\selection\active-line.js" />
+    <Content Include="Scripts\codemirror\addon\selection\mark-selection.js" />
+    <Content Include="Scripts\codemirror\jquery.codeMirrorBridge.js" />
+    <Content Include="Scripts\codemirror\keymap\emacs.js" />
+    <Content Include="Scripts\codemirror\keymap\extra.js" />
+    <Content Include="Scripts\codemirror\keymap\vim.js" />
+    <Content Include="Scripts\codemirror\lib\codemirror.css" />
+    <Content Include="Scripts\codemirror\lib\codemirror.js" />
+    <Content Include="Scripts\codemirror\mode\css\css.js" />
+    <Content Include="Scripts\codemirror\mode\css\index.html" />
+    <Content Include="Scripts\codemirror\mode\css\scss.html" />
+    <Content Include="Scripts\codemirror\mode\css\scss_test.js" />
+    <Content Include="Scripts\codemirror\mode\css\test.js" />
+    <Content Include="Scripts\codemirror\mode\diff\diff.js" />
+    <Content Include="Scripts\codemirror\mode\diff\index.html" />
+    <Content Include="Scripts\codemirror\mode\htmlembedded\htmlembedded.js" />
+    <Content Include="Scripts\codemirror\mode\htmlembedded\index.html" />
+    <Content Include="Scripts\codemirror\mode\htmlmixed\htmlmixed.js" />
+    <Content Include="Scripts\codemirror\mode\htmlmixed\index.html" />
+    <Content Include="Scripts\codemirror\mode\http\http.js" />
+    <Content Include="Scripts\codemirror\mode\http\index.html" />
+    <Content Include="Scripts\codemirror\mode\javascript\index.html" />
+    <Content Include="Scripts\codemirror\mode\javascript\javascript.js" />
+    <Content Include="Scripts\codemirror\mode\javascript\typescript.html" />
+    <Content Include="Scripts\codemirror\mode\properties\index.html" />
+    <Content Include="Scripts\codemirror\mode\properties\properties.js" />
+    <Content Include="Scripts\codemirror\mode\scheme\index.html" />
+    <Content Include="Scripts\codemirror\mode\scheme\scheme.js" />
+    <Content Include="Scripts\codemirror\mode\velocity\index.html" />
+    <Content Include="Scripts\codemirror\mode\velocity\velocity.js" />
+    <Content Include="Scripts\codemirror\mode\xml\index.html" />
+    <Content Include="Scripts\codemirror\mode\xml\xml.js" />
+    <Content Include="Scripts\codemirror\theme\ambiance-mobile.css" />
+    <Content Include="Scripts\codemirror\theme\ambiance.css" />
+    <Content Include="Scripts\codemirror\theme\blackboard.css" />
+    <Content Include="Scripts\codemirror\theme\cobalt.css" />
+    <Content Include="Scripts\codemirror\theme\eclipse.css" />
+    <Content Include="Scripts\codemirror\theme\elegant.css" />
+    <Content Include="Scripts\codemirror\theme\erlang-dark.css" />
+    <Content Include="Scripts\codemirror\theme\lesser-dark.css" />
+    <Content Include="Scripts\codemirror\theme\midnight.css" />
+    <Content Include="Scripts\codemirror\theme\monokai.css" />
+    <Content Include="Scripts\codemirror\theme\neat.css" />
+    <Content Include="Scripts\codemirror\theme\night.css" />
+    <Content Include="Scripts\codemirror\theme\rubyblue.css" />
+    <Content Include="Scripts\codemirror\theme\solarized.css" />
+    <Content Include="Scripts\codemirror\theme\twilight.css" />
+    <Content Include="Scripts\codemirror\theme\vibrant-ink.css" />
+    <Content Include="Scripts\codemirror\theme\xq-dark.css" />
+    <Content Include="Scripts\codemirror\theme\xq-light.css" />
+    <Content Include="Scripts\d3.v3.min.js" />
     <Content Include="Scripts\jquery.autosize.js" />
     <Content Include="Scripts\jquery.fileDownload.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
@@ -750,71 +843,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Images\invis.gif" />
-    <Content Include="Scripts\codemirror\jquery.codeMirrorBridge.js" />
-    <Content Include="Scripts\codemirror\keymap\emacs.js" />
-    <Content Include="Scripts\codemirror\keymap\vim.js" />
-    <Content Include="Scripts\codemirror\lib\codemirror.css" />
-    <Content Include="Scripts\codemirror\lib\codemirror.js" />
-    <Content Include="Scripts\codemirror\lib\util\closetag.js" />
-    <Content Include="Scripts\codemirror\lib\util\colorize.js" />
-    <Content Include="Scripts\codemirror\lib\util\continuecomment.js" />
-    <Content Include="Scripts\codemirror\lib\util\continuelist.js" />
-    <Content Include="Scripts\codemirror\lib\util\dialog.css" />
-    <Content Include="Scripts\codemirror\lib\util\dialog.js" />
-    <Content Include="Scripts\codemirror\lib\util\foldcode.js" />
-    <Content Include="Scripts\codemirror\lib\util\formatting.js" />
-    <Content Include="Scripts\codemirror\lib\util\javascript-hint.js" />
-    <Content Include="Scripts\codemirror\lib\util\loadmode.js" />
-    <Content Include="Scripts\codemirror\lib\util\match-highlighter.js" />
-    <Content Include="Scripts\codemirror\lib\util\matchbrackets.js" />
-    <Content Include="Scripts\codemirror\lib\util\multiplex.js" />
-    <Content Include="Scripts\codemirror\lib\util\overlay.js" />
-    <Content Include="Scripts\codemirror\lib\util\pig-hint.js" />
-    <Content Include="Scripts\codemirror\lib\util\runmode-standalone.js" />
-    <Content Include="Scripts\codemirror\lib\util\runmode.js" />
-    <Content Include="Scripts\codemirror\lib\util\search.js" />
-    <Content Include="Scripts\codemirror\lib\util\searchcursor.js" />
-    <Content Include="Scripts\codemirror\lib\util\simple-hint.css" />
-    <Content Include="Scripts\codemirror\lib\util\simple-hint.js" />
-    <Content Include="Scripts\codemirror\lib\util\xml-hint.js" />
-    <Content Include="Scripts\codemirror\mode\css\css.js" />
-    <Content Include="Scripts\codemirror\mode\css\index.html" />
-    <Content Include="Scripts\codemirror\mode\css\test.js" />
-    <Content Include="Scripts\codemirror\mode\diff\diff.js" />
-    <Content Include="Scripts\codemirror\mode\diff\index.html" />
-    <Content Include="Scripts\codemirror\mode\htmlembedded\htmlembedded.js" />
-    <Content Include="Scripts\codemirror\mode\htmlembedded\index.html" />
-    <Content Include="Scripts\codemirror\mode\htmlmixed\htmlmixed.js" />
-    <Content Include="Scripts\codemirror\mode\htmlmixed\index.html" />
-    <Content Include="Scripts\codemirror\mode\http\http.js" />
-    <Content Include="Scripts\codemirror\mode\http\index.html" />
-    <Content Include="Scripts\codemirror\mode\javascript\index.html" />
-    <Content Include="Scripts\codemirror\mode\javascript\javascript.js" />
-    <Content Include="Scripts\codemirror\mode\javascript\typescript.html" />
-    <Content Include="Scripts\codemirror\mode\properties\index.html" />
-    <Content Include="Scripts\codemirror\mode\properties\properties.js" />
-    <Content Include="Scripts\codemirror\mode\scheme\index.html" />
-    <Content Include="Scripts\codemirror\mode\scheme\scheme.js" />
-    <Content Include="Scripts\codemirror\mode\velocity\index.html" />
-    <Content Include="Scripts\codemirror\mode\velocity\velocity.js" />
-    <Content Include="Scripts\codemirror\mode\xml\index.html" />
-    <Content Include="Scripts\codemirror\mode\xml\xml.js" />
-    <Content Include="Scripts\codemirror\theme\ambiance-mobile.css" />
-    <Content Include="Scripts\codemirror\theme\ambiance.css" />
-    <Content Include="Scripts\codemirror\theme\blackboard.css" />
-    <Content Include="Scripts\codemirror\theme\cobalt.css" />
-    <Content Include="Scripts\codemirror\theme\eclipse.css" />
-    <Content Include="Scripts\codemirror\theme\elegant.css" />
-    <Content Include="Scripts\codemirror\theme\erlang-dark.css" />
-    <Content Include="Scripts\codemirror\theme\lesser-dark.css" />
-    <Content Include="Scripts\codemirror\theme\monokai.css" />
-    <Content Include="Scripts\codemirror\theme\neat.css" />
-    <Content Include="Scripts\codemirror\theme\night.css" />
-    <Content Include="Scripts\codemirror\theme\rubyblue.css" />
-    <Content Include="Scripts\codemirror\theme\solarized.css" />
-    <Content Include="Scripts\codemirror\theme\twilight.css" />
-    <Content Include="Scripts\codemirror\theme\vibrant-ink.css" />
-    <Content Include="Scripts\codemirror\theme\xq-dark.css" />
     <Content Include="Scripts\html5shiv.js" />
     <Content Include="Scripts\html5uploader\cors\jquery.postmessage-transport.js" />
     <Content Include="Scripts\html5uploader\cors\jquery.xdr-transport.js" />
@@ -1768,7 +1796,7 @@
     <Content Include="Areas\Account\Views\Users\ChangePassword.cshtml" />
     <Content Include="Areas\Account\Views\Users\Create.cshtml" />
     <Content Include="Areas\Account\Views\Users\Edit.cshtml" />
-    <Content Include="Areas\Contents\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Contents\Views\Repository\Guide.cshtml" />
     <Content Include="Areas\Contents\Views\Shared\FolderNavigation.cshtml" />
     <Content Include="Areas\Contents\Views\Shared\FolderTree.cshtml" />
     <Content Include="Areas\Contents\Views\Shared\FolderTreeNode.cshtml" />
@@ -1798,7 +1826,7 @@
     <Content Include="Areas\Contents\Views\SendingSetting\Create.cshtml" />
     <Content Include="Areas\Contents\Views\SendingSetting\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\SendingSetting\Index.cshtml" />
-    <Content Include="Areas\Contents\Views\Setting\Index.cshtml" />
+    <Content Include="Areas\Contents\Views\Repository\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\EditorTemplates\Category.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\Categories.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\Create.cshtml" />
@@ -1835,7 +1863,7 @@
     <Content Include="Areas\Sites\Views\CustomError\Index.cshtml" />
     <Content Include="Areas\Sites\Views\File\Index.cshtml" />
     <Content Include="Areas\Sites\Views\Home\ImportSite.cshtml" />
-    <Content Include="Areas\Sites\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Sites\Views\Home\Cluster.cshtml" />
     <Content Include="Areas\Sites\Views\Home\_LayoutList.cshtml" />
     <Content Include="Areas\Sites\Views\Home\SiteMap.cshtml" />
     <Content Include="Areas\Sites\Views\Home\SiteMapNode.cshtml" />
@@ -1910,7 +1938,6 @@
     <Content Include="Areas\Sites\Views\View\TemplateEditor.cshtml" />
     <Content Include="Areas\Sites\Views\View\View.Script.cshtml" />
     <Content Include="Areas\Account\Views\Users\Index.cshtml" />
-    <Content Include="Areas\Contents\Views\Setting\Basic.cshtml" />
     <Content Include="Areas\Contents\Views\MediaContent\Html5Uploader.cshtml" />
     <Content Include="Areas\Contents\Views\MediaContent\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\_Grid.Scripts.cshtml" />
@@ -1949,14 +1976,6 @@
     <Content Include="routes.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Kooboo.Connect\Kooboo.Connect.csproj">
-      <Project>{7389239B-564D-4398-87B7-99D9999ABECB}</Project>
-      <Name>Kooboo.Connect</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
-      <Project>{347E47E5-3132-4BAD-B935-8282A2B16CF5}</Project>
-      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Account\Kooboo.CMS.Account.csproj">
       <Project>{61ed004c-9e20-4680-af2b-0723fe7648bb}</Project>
       <Name>Kooboo.CMS.Account</Name>
@@ -1988,6 +2007,10 @@
     <ProjectReference Include="..\Kooboo.CMS.Sites\Kooboo.CMS.Sites.csproj">
       <Project>{ffd8e9f0-61b6-4b0d-a803-5beccd2a6578}</Project>
       <Name>Kooboo.CMS.Sites</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
+      <Name>Kooboo</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -2164,9 +2187,6 @@
     <Content Include="Areas\Sites\Views\ABRuleSetting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\Shared\Global.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_SidebarTopSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -2277,17 +2297,20 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Web.config" />
+    <Content Include="Areas\Membership\Views\Web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Shared\MenuItem.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Index.cshtml" />
+    <Content Include="Areas\Membership\Views\Membership\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Membership\Menu.config">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -2296,52 +2319,84 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Create.cshtml" />
+    <Content Include="Areas\Membership\Views\Membership\Create.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\_MembershipNode.cshtml" />
+    <Content Include="Areas\Membership\Views\Membership\_MembershipNode.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipGroup\Index.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipGroup\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Shared\__Sidebar.cshtml" />
+    <Content Include="Areas\Membership\Views\Shared\__Sidebar.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipGroup\Create.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipGroup\Create.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\ChangePassword.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipUser\ChangePassword.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\Create.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipUser\Create.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\Edit.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipUser\Edit.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\Index.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipUser\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipConnect\Create.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipConnect\Create.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipConnect\Edit.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipConnect\Edit.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipConnect\Index.cshtml" />
+    <Content Include="Areas\Membership\Views\MembershipConnect\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Shared\Site.cshtml" />
+    <Content Include="Areas\Membership\Views\Shared\Site.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Edit.cshtml" />
+    <Content Include="Areas\Membership\Views\Membership\Edit.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\ExternalLogin\ExternalLoginFailure.cshtml" />
+    <Content Include="Areas\Membership\Views\ExternalLogin\ExternalLoginFailure.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Import.cshtml" />
+    <Content Include="Areas\Membership\Views\Membership\Import.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\KeyValueEquality.cshtml" />
@@ -2353,6 +2408,26 @@
     <Content Include="Areas\Contents\Views\MediaContent\TextFile.cshtml">
       <SubType>Code</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Menu.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Contents\Views\Repository\Index.cshtml">
+      <SubType>
+      </SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Contents\Views\Repository\_DatabaseNode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Home\Relation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\_ModuleNode.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

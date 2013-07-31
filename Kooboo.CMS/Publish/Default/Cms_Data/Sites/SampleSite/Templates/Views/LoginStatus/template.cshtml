@@ -1,7 +1,7 @@
-﻿@if (ViewContext.HttpContext.MemberAuthentication().GetMember().Identity.IsAuthenticated)
+﻿@if (ViewContext.HttpContext.Member().GetMember().Identity.IsAuthenticated)
 {
 
-    <li><a href="@Url.FrontUrl().PageUrl("Member/Profile")"><strong>[@ViewContext.HttpContext.MemberAuthentication().GetMember().Identity.Name]</strong></a></li>
+    <li><a href="@Url.FrontUrl().PageUrl("Member/Profile")"><strong>[@ViewContext.HttpContext.Member().GetMember().Identity.Name]</strong></a></li>
 
     <li>
         <form action="@Url.FrontUrl().SubmissionUrl("SignOutMember")" method="post">

@@ -18,7 +18,7 @@ namespace Kooboo.CMS.Sites.Member
 {
     public static class MemberExtensionMethods
     {
-        public static MemberAuthentication MemberAuthentication(this HttpContextBase httpContext)
+        public static MemberAuthentication Member(this HttpContextBase httpContext)
         {
             var site = Site.Current;
             return new MemberAuthentication(site, httpContext);

@@ -1,24 +1,34 @@
 ﻿@model Kooboo.CMS.Member.Models.Membership
+@using Kooboo.CMS.Member.Services;
+@using Kooboo.CMS.Common.Runtime;
+
 @{
     var routeValues = ViewContext.RequestContext.AllRouteValues().Merge("membershipName", Model.Name);
+
+
+    var userManager = EngineContext.Current.Resolve<MembershipUserManager>();
+    var connectManager = EngineContext.Current.Resolve<MembershipConnectManager>();
+    var siteManager = EngineContext.Current.Resolve<SiteManager>();
+
+    var users = userManager.All(Model, "").Count();
+    var connects = connectManager.All(Model, "").Count();
+    var sites = siteManager.All().Select(it => it.AsActual()).Where(it => it.Repository.EqualsOrNullEmpty(Model.Name, StringComparison.OrdinalIgnoreCase)).Count();
 }
-<div class="map-item">
-    @Html.ActionLink(Model.Name, "Index", "MembershipUser", routeValues, new RouteValueDictionary(new { title = Model.Name }))
-    <span class="arrow">
-        @Html.IconImage("arrow-right")</span>
-    <ul>
-        <li>
-            @Html.ActionLink("Edit".Localize(), "Edit", "Membership", routeValues.Merge("return", Request.RawUrl), null)
-        </li>
 
-        <li>
-            @Html.ActionLink("Export".Localize(), "Export", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "Download" } })
-        </li>
-        <li>
-            @Html.ActionLink("Delete".Localize(), "Delete", "Membership", routeValues.Merge("return", Request.RawUrl), new RouteValueDictionary() { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete the membership?".Localize() } })
-        </li>
-
-
-
-    </ul>
+<div class="content-block-header">
+    @Html.ActionLink(Model.Name, "Go", "Membership", routeValues, new RouteValueDictionary(new { title = Model.Name }))
+    <input type="radio" name="select" class="select" value="@Model.UUID" id="@Model.UUID"  data-id-property="UUID"><label for="@Model.UUID"></label>
 </div>
+
+<ul>
+    <li>
+        @("Users:") @(users)
+    </li>
+
+    <li>
+        @("Connects:") @(connects)
+    </li>
+    <li>
+        @("Sites in use:") @sites
+    </li>
+</ul>

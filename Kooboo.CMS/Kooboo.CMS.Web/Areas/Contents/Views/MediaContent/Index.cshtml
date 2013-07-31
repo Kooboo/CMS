@@ -94,47 +94,51 @@
         <li class="grid"><a title="@("Thumbnails view".Localize())"  href="@Url.Action(ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.GetRequestValue("controller"), ViewContext.RequestContext.AllRouteValues().Merge("listType", "Grid"))">@Html.IconImage("grid")</a></li>
     </ul>
 </div>
+@helper RenderHeader()
+{
+    <thead>
+        <tr>
+            <th class="checkbox mutiple">
+                <div>
+                    <input type="checkbox" class="select-all" />
+                    @Html.IconImage("arrow")
+                    <ul class="hide">
+                        <li>Select:</li>
+                        <li class="all"><a>
+                            @Html.Raw("All Elements".Localize())</a></li>
+                        <li class="docs"><a>
+                            @Html.Raw("Only Documents".Localize())</a></li>
+                        <li class="folders"><a>
+                            @Html.Raw("Only Folders".Localize())</a></li>
+                        <li class="none"><a>
+                            @Html.Raw("None".Localize())</a></li>
+                    </ul>
+                </div>
+            </th>
+            <th class="common @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "FileName", 1)">
+                @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Title".Localize(), "FileName", 1)
+            </th>
+            <th class="type @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Type", 2)">
+                @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Type".Localize(), "Type", 2)
+            </th>
+            <th class="date @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "UtcCreationDate", 3)">
+                @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Date".Localize(), "UtcCreationDate", 3)
+            </th>
+            <th class="size @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Size", 4)">
+                @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Size".Localize(), "Size", 4)
+            </th>
 
+    </thead>
+}
 <div class="common-table fixed">
     <div class="thead">
         <table>
-            <thead>
-                <tr>
-                    <th class="checkbox mutiple">
-                        <div>
-                            <input type="checkbox" class="select-all" />
-                            @Html.IconImage("arrow")
-                            <ul class="hide">
-                                <li>Select:</li>
-                                <li class="all"><a>
-                                    @Html.Raw("All Elements".Localize())</a></li>
-                                <li class="docs"><a>
-                                    @Html.Raw("Only Documents".Localize())</a></li>
-                                <li class="folders"><a>
-                                    @Html.Raw("Only Folders".Localize())</a></li>
-                                <li class="none"><a>
-                                    @Html.Raw("None".Localize())</a></li>
-                            </ul>
-                        </div>
-                    </th>
-                    <th class="common @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "FileName", 1)">
-                        @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Title".Localize(), "FileName", 1)
-                    </th>
-                    <th class="type @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Type", 2)">
-                        @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Type".Localize(), "Type", 2)
-                    </th>
-                    <th class="date @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "UtcCreationDate", 3)">
-                        @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Date".Localize(), "UtcCreationDate", 3)
-                    </th>
-                    <th class="size @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Size", 4)">
-                        @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Size".Localize(), "Size", 4)
-                    </th>
-
-            </thead>
+            @RenderHeader()
         </table>
     </div>
     <div class="tbody">
         <table>
+            @RenderHeader()
             <tbody>
                 <tr id="CreateFolderTemplate" class="hide">
                     <td class="checkbox"></td>

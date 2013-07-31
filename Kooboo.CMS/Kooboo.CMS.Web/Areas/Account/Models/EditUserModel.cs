@@ -58,7 +58,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
             user.IsLockedOut = this.IsLockedOut;
             if (user.IsLockedOut == true)
             {
-                user.LastLockoutDate = DateTime.UtcNow;
+                user.UtcLastLockoutDate = DateTime.UtcNow;
             }
             user.UICulture = this.UICulture;
             return user;

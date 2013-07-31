@@ -17,3 +17,24 @@
         @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Sites").SetCurrentSite(this.ViewContext))
     </nav>
 }
+else if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("RepositoryName")))
+{
+    <div class="topbar block sitemanager clearfix">
+        <a href="@Url.Action("Index", new { controller = "Repository", area = "Contents" })" title="@("Content database".Localize())">
+            <h6 class="title">@("Content database".Localize())</h6>
+        </a>
+        <span class="name-title clear">@(ViewContext.RequestContext.GetRequestValue("RepositoryName"))</span>
+    </div>
+    
+    <nav class="container block menu">
+        @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Contents").SetCurrentRepository(this.ViewContext))
+    </nav>
+}
+else
+{
+    @Html.Partial("_SidebarTopSearch")
+
+    <nav class="container block menu">
+        @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))
+    </nav>
+}

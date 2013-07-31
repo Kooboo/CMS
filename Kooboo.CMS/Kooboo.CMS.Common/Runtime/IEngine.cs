@@ -19,27 +19,27 @@ namespace Kooboo.CMS.Common.Runtime
         #endregion
 
         #region ContainerManager
-        IContainerManager ContainerManager { get; } 
+        IContainerManager ContainerManager { get; }
         #endregion
 
         #region Resolve
-        T Resolve<T>() where T : class;
+        T Resolve<T>(params Parameter[] parameters) where T : class;
 
-        T Resolve<T>(string name) where T : class;
+        T Resolve<T>(string name, params Parameter[] parameters) where T : class;
 
-        object Resolve(Type type);
+        object Resolve(Type type, params Parameter[] parameters);
 
-        object Resolve(Type type, string name);
+        object Resolve(Type type, string name, params Parameter[] parameters);
         #endregion
 
         #region TryResolve
-        T TryResolve<T>() where T : class;
+        T TryResolve<T>(params Parameter[] parameters) where T : class;
 
-        T TryResolve<T>(string name) where T : class;
+        T TryResolve<T>(string name, params Parameter[] parameters) where T : class;
 
-        object TryResolve(Type type);
+        object TryResolve(Type type, params Parameter[] parameters);
 
-        object TryResolve(Type type, string name);
+        object TryResolve(Type type, string name, params Parameter[] parameters);
         #endregion
 
         #region ResolveAll

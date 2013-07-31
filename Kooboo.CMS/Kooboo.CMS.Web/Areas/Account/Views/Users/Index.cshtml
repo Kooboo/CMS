@@ -11,8 +11,8 @@
         </li>
         <li><a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
             @Html.IconImage("delete") @("Delete".Localize())</a></li>
-          <li><a href="@Url.Action("ResetPassword", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
-            @Html.IconImage("resetpassword") @("ResetPassword".Localize())</a></li>
+        <li><a href="@Url.Action("ResetPassword", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
+            @Html.IconImage("resetpassword") @("Reset password".Localize())</a></li>
     </ul>
 }
 <div class="topbar clearfix">

@@ -74,7 +74,7 @@ namespace Kooboo.CMS.Sites.Member
                     valid = _manager.Validate(membership, model.UserName, model.Password);
                     if (valid)
                     {
-                        controllerContext.HttpContext.MemberAuthentication().SetAuthCookie(model.UserName, model.RememberMe == null ? false : model.RememberMe.Value);
+                        controllerContext.HttpContext.Member().SetAuthCookie(model.UserName, model.RememberMe == null ? false : model.RememberMe.Value);
 
                         if (!string.IsNullOrEmpty(model.RedirectUrl))
                         {

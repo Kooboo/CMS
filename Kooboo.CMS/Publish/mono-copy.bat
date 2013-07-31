@@ -4,7 +4,10 @@ cd..
 cd TemplateEngines
 call publish.bat
 cd..
-cd UserProviders
+cd AccountProviders
+call Publish.bat
+cd..
+cd MembershipProviders
 call Publish.bat
 cd..
 cd SiteProviders

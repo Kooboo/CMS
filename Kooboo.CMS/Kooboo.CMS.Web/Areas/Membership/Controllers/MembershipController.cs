@@ -104,17 +104,21 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 
         #region Delete
         [HttpPost]
-        public virtual ActionResult Delete(string membershipName)
+        public virtual ActionResult Delete(Kooboo.CMS.Member.Models.Membership[] model, string @return)
         {
             ModelState.Clear();
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
             {
-                _manager.Delete(new Kooboo.CMS.Member.Models.Membership(membershipName));
-
-                data.ReloadPage = true;
+                if (model != null)
+                {
+                    foreach (var item in model)
+                    {
+                        _manager.Delete(item);
+                    }
+                    resultData.RedirectUrl = @return;
+                }
             });
-
             return Json(data);
 
         }
@@ -122,20 +126,21 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 
         #region Export
         [HttpPost]
-        public virtual ActionResult Export(string membershipName, string @return)
+        public virtual ActionResult Export(Kooboo.CMS.Member.Models.Membership[] model)
         {
-            string fileName = membershipName + ".zip";
-            Response.AttachmentHeader(fileName);
-            var membership = new Kooboo.CMS.Member.Models.Membership(membershipName).AsActual();
-            if (membership != null)
+
+            if (model != null || model.Length > 1)
             {
-                _provider.Export(membership, Response.OutputStream);
-                return null;
+                string fileName = model.First().Name + ".zip";
+                Response.AttachmentHeader(fileName);
+                var membership = model.First().AsActual();
+                if (membership != null)
+                {
+                    _provider.Export(membership, Response.OutputStream);
+                }
+
             }
-            else
-            {
-                return Redirect(@return);
-            }
+            return null;
 
         }
 
@@ -159,6 +164,17 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
                 data.RedirectUrl = @return;
             });
             return Json(data, "text/plain", System.Text.Encoding.UTF8);
+        }
+        #endregion
+
+        #region Go
+        public ActionResult Go(string membershipName, string uuid)
+        {
+            if (string.IsNullOrEmpty(membershipName) && !string.IsNullOrEmpty(uuid))
+            {
+                membershipName = uuid;
+            }
+            return RedirectToAction("Index", "MembershipUser", new { membershipName = membershipName });
         }
         #endregion
 

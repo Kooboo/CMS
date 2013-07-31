@@ -20,7 +20,7 @@
         }
     }
 
-    var mediaLibraryUrl = Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType", "grid").Merge("SingleChoice","true"));
+    var mediaLibraryUrl = Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType", "grid").Merge("SingleChoice", "true"));
 }
 <script type="text/javascript">
 @* (function ($) {
@@ -103,5 +103,9 @@
                 }
             };
         }
+
+        $('textarea.codemirror').each(function () {
+            $(this).codeMirror();
+        });
     });
 </script>

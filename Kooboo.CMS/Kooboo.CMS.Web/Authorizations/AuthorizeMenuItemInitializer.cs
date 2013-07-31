@@ -23,15 +23,24 @@ namespace Kooboo.CMS.Web.Authorizations
         protected override bool GetIsVisible(MenuItem menuItem, System.Web.Mvc.ControllerContext controllerContext)
         {
             var visible = base.GetIsVisible(menuItem, controllerContext);
-            if (menuItem.ReadOnlyProperties != null && !string.IsNullOrEmpty(menuItem.ReadOnlyProperties["permissionName"]))
+
+            if (menuItem.ReadOnlyProperties != null)
             {
-                var permission = new Kooboo.CMS.Account.Models.Permission()
+                var requiredAdministrator = menuItem.ReadOnlyProperties["requiredAdministrator"];
+                if (!string.IsNullOrEmpty(requiredAdministrator) && requiredAdministrator.ToLower() == "true")
                 {
-                    AreaName = menuItem.ReadOnlyProperties["permissionArea"],
-                    Group = menuItem.ReadOnlyProperties["permissionGroup"],
-                    Name = menuItem.ReadOnlyProperties["permissionName"]
-                };
-                return controllerContext.RequestContext.Authorize(permission);
+                    return Kooboo.CMS.Sites.Services.ServiceFactory.UserManager.IsAdministrator(controllerContext.HttpContext.User.Identity.Name);
+                }
+                if (!string.IsNullOrEmpty(menuItem.ReadOnlyProperties["permissionName"]))
+                {
+                    var permission = new Kooboo.CMS.Account.Models.Permission()
+                    {
+                        AreaName = menuItem.ReadOnlyProperties["permissionArea"],
+                        Group = menuItem.ReadOnlyProperties["permissionGroup"],
+                        Name = menuItem.ReadOnlyProperties["permissionName"]
+                    };
+                    return controllerContext.RequestContext.Authorize(permission);
+                }
             }
             return visible;
         }

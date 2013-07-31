@@ -14,7 +14,7 @@ using Kooboo.CMS.Sites.Globalization;
 
 namespace Kooboo.CMS.Sites.Providers.AzureTable.LabelProvider
 {
-    public class RepositoryFactory : IRepositoryFactory
+    public class RepositoryFactory : IElementRepositoryFactory
     {
         public Kooboo.Globalization.IElementRepository CreateRepository(Models.Site site)
         {

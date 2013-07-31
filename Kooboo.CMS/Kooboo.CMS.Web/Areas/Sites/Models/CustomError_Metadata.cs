@@ -42,6 +42,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [GridColumnAttribute(HeaderText = "Redirect URL", GridColumnType = typeof(SortableGridColumn), Order = 2)]
         [Required(ErrorMessage = "Required")]
         [DisplayName("Redirect URL")]
+        [UIHint("AutoComplete")]
+        [DataSource(typeof(AutoCompletePageListDataSouce))]
         public string RedirectUrl { get; set; }
 
         [GridColumn(HeaderText = "Redirect type", GridColumnType = typeof(SortableGridColumn), Order = 3)]

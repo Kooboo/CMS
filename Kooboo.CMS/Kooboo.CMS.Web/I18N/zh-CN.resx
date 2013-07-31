@@ -2466,4 +2466,34 @@
   <data name="Post a comment" xml:space="preserve">
     <value>Post a comment</value>
   </data>
+  <data name="UserLockedOut" xml:space="preserve">
+    <value>UserLockedOut</value>
+  </data>
+  <data name="Is administrator" xml:space="preserve">
+    <value>Is administrator</value>
+  </data>
+  <data name="New user" xml:space="preserve">
+    <value>New user</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>ResetPassword</value>
+  </data>
+  <data name="Security Setting" xml:space="preserve">
+    <value>Security Setting</value>
+  </data>
+  <data name="A user name cannot contain a space or any of the following characters:\/:*?&lt;&gt;|~" xml:space="preserve">
+    <value>A user name cannot contain a space or any of the following characters:\/:*?&lt;&gt;|~</value>
+  </data>
+  <data name="'Confirm password' and 'Password' do not match." xml:space="preserve">
+    <value>'Confirm password' and 'Password' do not match.</value>
+  </data>
+  <data name="Confirm password" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="Is administrator 字段是必需的。" xml:space="preserve">
+    <value>Is administrator 字段是必需的。</value>
+  </data>
+  <data name="New role" xml:space="preserve">
+    <value>New role</value>
+  </data>
 </root>

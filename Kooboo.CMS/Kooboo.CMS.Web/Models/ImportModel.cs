@@ -20,10 +20,11 @@ namespace Kooboo.CMS.Web.Models
         public static ImportModel Default = new ImportModel();
 
         [Required(ErrorMessage = "Required")]
-        [RegularExpression(".+\\.(zip)$", ErrorMessage = "Required a zip file.")]
+        //[RegularExpression(".+\\.(zip)$", ErrorMessage = "Required a zip file.")]
         [UIHint("File")]
         [Description("Only .zip file is accepted.")]
-        public string File { get; set; }
+        [System.Web.Mvc.AdditionalMetadata("accept", ".zip")]
+        public HttpPostedFileWrapper File { get; set; }
 
         [Description("Will overwrite the exists items.")]
         [Required(ErrorMessage = "Required")]

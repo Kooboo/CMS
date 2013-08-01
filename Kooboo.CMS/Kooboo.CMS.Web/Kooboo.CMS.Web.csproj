@@ -166,6 +166,7 @@
     <Compile Include="Areas\Contents\Models\Grid2\PendingWorflowItem_Edit_GridItemColumn.cs" />
     <Compile Include="Areas\Contents\Models\ImageCropModel.cs" />
     <Compile Include="Areas\Contents\Models\ImageScaleModel.cs" />
+    <Compile Include="Areas\Contents\Models\ImportRepositoryModel.cs" />
     <Compile Include="Areas\Contents\Models\IndexSummaryModel.cs" />
     <Compile Include="Areas\Contents\Models\MediaContentMetadata_Metadata.cs" />
     <Compile Include="Areas\Contents\Models\MoveMediaContent.cs" />
@@ -2392,6 +2393,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\_ModuleNode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Contents\Views\Repository\Import.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

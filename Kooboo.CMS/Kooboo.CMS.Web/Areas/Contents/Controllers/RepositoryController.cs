@@ -282,17 +282,39 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         [HttpPost]
         public virtual ActionResult Export(Repository[] model)
         {
-            if (model != null || model.Length >1)
+            if (model != null || model.Length > 1)
             {
                 string fileName = model.First().Name + ".zip";
                 Response.AttachmentHeader(fileName);
                 Manager.Export(model.First().Name, Response.OutputStream);
-              
+
             }
             return null;
         }
         #endregion
 
+        #region Import
+
+        public ActionResult Import()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public virtual ActionResult Import(ImportRepositoryModel model, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    Manager.Create(model.Name, model.File.InputStream);
+                    data.RedirectUrl = @return;
+                });
+            }
+            return Json(data, "text/plain", System.Text.Encoding.UTF8);
+        }
+        #endregion
         #region IsNameAvailable
 
         /// <summary>

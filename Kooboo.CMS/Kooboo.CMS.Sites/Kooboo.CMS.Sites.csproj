@@ -108,9 +108,11 @@
     <Compile Include="Membership\ExternalLoginHelper.cs" />
     <Compile Include="Membership\ForgotPasswordModel.cs" />
     <Compile Include="Membership\ForgotPasswordPlugin.cs" />
-    <Compile Include="Membership\MemberAuthentication.cs" />
-    <Compile Include="Membership\MemberExtensionMethods.cs" />
+    <Compile Include="Membership\IMembershipAuthentication.cs" />
+    <Compile Include="Membership\MembershipExtensionMethods.cs" />
     <Compile Include="Membership\MemberPluginHelper.cs" />
+    <Compile Include="Membership\MembershipAuthentication.cs" />
+    <Compile Include="Membership\PageDesigningMembershipAuthentication.cs" />
     <Compile Include="Membership\RegisterMemberModel.cs" />
     <Compile Include="Membership\RegisterMemberPlugin.cs" />
     <Compile Include="Membership\ResetPasswordModel.cs" />

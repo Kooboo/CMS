@@ -77,14 +77,14 @@ namespace Kooboo.CMS.Sites.Membership
         {
             redirectUrl = "";
 
-            var memberAuth = controllerContext.HttpContext.Member();
+            var memberAuth = controllerContext.HttpContext.Membership();
             if (memberAuth.GetMember().Identity.IsAuthenticated == false)
             {
                 throw new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "");
             }
             var membership = MemberPluginHelper.GetMembership();
 
-            var membershipUser = controllerContext.HttpContext.Member().GetMembershipUser();
+            var membershipUser = controllerContext.HttpContext.Membership().GetMembershipUser();
 
             var editMemberModel = new EditMemberProfileModel();
 

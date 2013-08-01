@@ -43,14 +43,14 @@
                 }
             </div>
         }
-        @if (ViewContext.HttpContext.Member().GetMember().Identity.IsAuthenticated)
+        @if (ViewContext.HttpContext.Membership().GetMember().Identity.IsAuthenticated)
         {
             <h6 class="title">@("Post a comment".Localize())</h6>
             <div class="common-form">
                 <form method="post" action="@Url.FrontUrl().SubmissionUrl("PostComment")">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="ParentUUID" value="@ViewBag.Article.UUID" />
-                    <input type="hidden" name="Member" value="@ViewContext.HttpContext.Member().GetMember().Identity.Name" />
+                    <input type="hidden" name="Member" value="@ViewContext.HttpContext.Membership().GetMember().Identity.Name" />
                     <p class="field">
                         <label for="title">Title:</label>
                         <input type="text" id="title" name="title" data-val-required="Title is required" data-val="true" />

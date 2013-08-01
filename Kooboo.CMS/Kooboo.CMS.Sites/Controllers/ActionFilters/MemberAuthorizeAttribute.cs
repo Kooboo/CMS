@@ -41,7 +41,7 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
             var permission = Page_Context.Current.PageRequestContext.Page.Permission;
             if (permission != null)
             {
-                IPrincipal member = httpContext.Member().GetMember();
+                IPrincipal member = httpContext.Membership().GetMember();
                 return permission.Authorize(member);
             }
 

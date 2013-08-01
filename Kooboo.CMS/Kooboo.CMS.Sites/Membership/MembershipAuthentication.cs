@@ -9,6 +9,7 @@
 using Kooboo.CMS.Membership.Models;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +20,14 @@ using System.Web.Security;
 
 namespace Kooboo.CMS.Sites.Membership
 {
-    
-    public class MemberAuthentication
+    public class MembershipAuthentication : IMembershipAuthentication
     {
         #region .ctor
         Site _site = null;
         HttpContextBase _httpContext = null;
         Kooboo.CMS.Membership.Models.Membership _membership;
 
-        public MemberAuthentication(Site site, HttpContextBase httpContextBase)
+        public MembershipAuthentication(Site site, HttpContextBase httpContextBase)
         {
             if (site == null)
             {
@@ -108,7 +108,7 @@ namespace Kooboo.CMS.Sites.Membership
             }
             return memberPrincipal;
         }
-        public MembershipUser GetMembershipUser()
+        public virtual MembershipUser GetMembershipUser()
         {
             var principalName = GetPrincipalName(_site) + "-MembershipUser";
             MembershipUser membershipUser = (MembershipUser)HttpContext.Current.Items[principalName];
@@ -188,9 +188,5 @@ namespace Kooboo.CMS.Sites.Membership
         }
         #endregion
 
-    }
-
-    public class DefaultMemberAuthentication : MemberAuthentication
-    {
     }
 }

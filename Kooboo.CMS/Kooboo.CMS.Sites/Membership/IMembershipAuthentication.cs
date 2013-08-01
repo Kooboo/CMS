@@ -6,22 +6,21 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Membership.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
-using System.Web;
 
 namespace Kooboo.CMS.Sites.Membership
 {
-    public static class MemberExtensionMethods
+    public interface IMembershipAuthentication
     {
-        public static MemberAuthentication Member(this HttpContextBase httpContext)
-        {
-            var site = Site.Current;
-            return new MemberAuthentication(site, httpContext);
-        }
+        void SetAuthCookie(string userName, bool createPersistentCookie);
+        void SignOut();
+        IPrincipal GetMember();
+        MembershipUser GetMembershipUser();
+        bool IsAuthenticated();
     }
 }

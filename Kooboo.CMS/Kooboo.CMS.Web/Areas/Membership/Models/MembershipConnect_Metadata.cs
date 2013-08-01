@@ -37,9 +37,11 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         [GridColumn(Order = 2, HeaderText = "Display name", GridColumnType = typeof(SortableGridColumn))]
         public virtual string DisplayName { get; set; }
 
+        [DisplayName("App id")]
         [GridColumn(Order = 3, HeaderText = "App id", GridColumnType = typeof(SortableGridColumn))]
         public virtual string AppId { get; set; }
 
+        [DisplayName("App secret")]
         [GridColumn(Order = 4, HeaderText = "App secret", GridColumnType = typeof(SortableGridColumn))]
         public virtual string AppSecret { get; set; }
 

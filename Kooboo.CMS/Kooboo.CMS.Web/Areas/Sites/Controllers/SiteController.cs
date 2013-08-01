@@ -387,7 +387,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         #region ONLINE OFFLINE
 
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Settings", Order = 1)]
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
         public virtual ActionResult SwitchOffOn(string siteName)
         {
             var isOnLine = ServiceFactory.SiteManager.IsOnline(siteName);
@@ -410,7 +410,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region ClearCache
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Settings", Order = 1)]
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
         [HttpPost]
         public virtual ActionResult ClearCache()
         {
@@ -434,13 +434,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Settings
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Settings", Order = 1)]
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
         public virtual ActionResult Settings()
         {
             return View(Site.AsActual());
         }
 
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Settings", Order = 1)]
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
         [HttpPost]
         public virtual ActionResult Settings(Site model)
         {

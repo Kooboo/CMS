@@ -1,7 +1,7 @@
 ﻿@model Kooboo.CMS.Membership.Models.Membership
 @{
     ViewBag.Title = "Edit membership".Localize();
-    Layout = "~/Views/Shared/Blank.cshtml";
+    Layout = "~/Areas/Membership/Views/Shared/Site.cshtml";
 }
 @section Panel{
     <ul class="panel">
@@ -18,7 +18,7 @@
         }
     </ul>
 }
-<div class="common-form">
+<div class="block common-form">
     <h1 class="title">@ViewBag.Title</h1>
     @using (Html.BeginForm())
     { 

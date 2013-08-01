@@ -27,7 +27,7 @@ namespace Kooboo.CMS.Sites.Membership
         HttpContextBase _httpContext = null;
         Kooboo.CMS.Membership.Models.Membership _membership;
 
-        public MembershipAuthentication(Site site, HttpContextBase httpContextBase)
+        public MembershipAuthentication(Site site, Kooboo.CMS.Membership.Models.Membership membership, HttpContextBase httpContextBase)
         {
             if (site == null)
             {
@@ -38,11 +38,7 @@ namespace Kooboo.CMS.Sites.Membership
                 throw new ArgumentNullException("httpContextBase");
             }
             this._site = site;
-            this._membership = site.GetMembership();
-            if (_membership == null)
-            {
-                throw new NullMembershipException();
-            }
+            this._membership = membership;
 
             this._httpContext = httpContextBase;
         }

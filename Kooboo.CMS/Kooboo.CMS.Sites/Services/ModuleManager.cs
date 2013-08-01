@@ -168,7 +168,10 @@ namespace Kooboo.CMS.Sites.Services
         {
             var moduleAction = ResolveModuleAction(moduleName);
 
-            moduleAction.OnUninstalling(controllerContext);
+            if (moduleAction != null)
+            {
+                moduleAction.OnUninstalling(controllerContext);
+            }
         }
         #endregion
 

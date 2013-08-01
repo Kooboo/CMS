@@ -25,12 +25,20 @@ namespace Kooboo.CMS.Sites.Membership
             {
                 if (Page_Context.Current.PageRequestContext.RequestChannel == Web.FrontRequestChannel.Design)
                 {
-                    return new PageDesigningMembershipAuthentication();
+                    return new NullMembershipAuthentication();
                 }
             }
 
             var site = Site.Current;
-            return new MembershipAuthentication(site, httpContext);
+            var membership = site.GetMembership();
+            if (membership == null)
+            {
+                return new NullMembershipAuthentication();
+            }
+            else
+            {
+                return new MembershipAuthentication(site, membership, httpContext);
+            }
         }
     }
 }

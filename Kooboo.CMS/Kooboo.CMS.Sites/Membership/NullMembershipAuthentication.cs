@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Membership
 {
-    public class PageDesigningMembershipAuthentication : IMembershipAuthentication
+    public class NullMembershipAuthentication : IMembershipAuthentication
     {
         public void SetAuthCookie(string userName, bool createPersistentCookie)
         {

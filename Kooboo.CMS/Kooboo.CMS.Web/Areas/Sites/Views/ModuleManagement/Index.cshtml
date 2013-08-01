@@ -26,7 +26,7 @@
 		<div class="sitemap-panel clearfix">
             <div class="blank">
                 <p>
-                    @("You do not have any module yet, click the button below to installl a membership.".Localize())
+                    @("You do not have any module yet, click the button below to installl a module.".Localize())
                 </p>
                 @Html.ActionLink("Install", "Install", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl), new RouteValueDictionary(new { @class = "button" }))
             </div>

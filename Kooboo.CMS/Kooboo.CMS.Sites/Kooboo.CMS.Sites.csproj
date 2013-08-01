@@ -112,7 +112,7 @@
     <Compile Include="Membership\MembershipExtensionMethods.cs" />
     <Compile Include="Membership\MemberPluginHelper.cs" />
     <Compile Include="Membership\MembershipAuthentication.cs" />
-    <Compile Include="Membership\PageDesigningMembershipAuthentication.cs" />
+    <Compile Include="Membership\NullMembershipAuthentication.cs" />
     <Compile Include="Membership\RegisterMemberModel.cs" />
     <Compile Include="Membership\RegisterMemberPlugin.cs" />
     <Compile Include="Membership\ResetPasswordModel.cs" />

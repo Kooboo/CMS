@@ -34,7 +34,7 @@ namespace Kooboo.CMS.Form.Html.Controls
 
         protected override string RenderInput(IColumn column)
         {
-            string input = string.Format(@"<input class=""long"" id=""{0}"" name=""{0}"" type=""{1}"" value=""@(Model.{0} ==null ? """" : Model.{0}.ToLocalTime().ToShortDateString())"" {2}/>", column.Name, Type, Kooboo.CMS.Form.Html.ValidationExtensions.GetUnobtrusiveValidationAttributeString(column));
+            string input = string.Format(@"<input class=""long"" id=""{0}"" name=""{0}"" type=""{1}"" value=""@(Model.{0} ==null ? """" : ((Model.{0} is string)? Model.{0} : Model.{0}.ToLocalTime().ToShortDateString()))"" {2}/>", column.Name, Type, Kooboo.CMS.Form.Html.ValidationExtensions.GetUnobtrusiveValidationAttributeString(column));
             return input + string.Format(@"<script language=""javascript"" type=""text/javascript"">$(function(){{$(""#{0}"").datepicker();}});</script>", column.Name);
         }
     }

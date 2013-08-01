@@ -281,6 +281,8 @@
             else {
                 $dataType.children().first().attr('selected', 'selected');
             }
+
+            $dataType.trigger('change');
         });
     });
 </script>

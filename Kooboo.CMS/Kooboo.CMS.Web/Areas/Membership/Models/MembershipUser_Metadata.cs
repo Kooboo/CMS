@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Member.Models;
+using Kooboo.CMS.Membership.Models;
 using Kooboo.CMS.Web.Grid2;
 using Kooboo.ComponentModel;
 using Kooboo.Web.Mvc.Grid2.Design;

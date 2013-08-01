@@ -99,25 +99,25 @@
     <Compile Include="Extension\ModuleArea\IModuleAction.cs" />
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />
     <Compile Include="Extension\PluginHelper.cs" />
-    <Compile Include="Member\ActivateMemberModel.cs" />
-    <Compile Include="Member\ResetPasswordModel.cs" />
-    <Compile Include="Member\ResetPasswordPlugin.cs" />
-    <Compile Include="Member\ForgotPasswordModel.cs" />
-    <Compile Include="Member\ForgotPasswordPlugin.cs" />
-    <Compile Include="Member\MemberPluginHelper.cs" />
-    <Compile Include="Member\ActivateMemberPlugin.cs" />
-    <Compile Include="Member\ChangeMemberPasswordPlugin.cs" />
-    <Compile Include="Member\ChangeMemberPasswordModel.cs" />
-    <Compile Include="Member\EditMemberProfilePlugin.cs" />
-    <Compile Include="Member\EditMemberProfileModel.cs" />
-    <Compile Include="Member\ExternalLoginHelper.cs" />
-    <Compile Include="Member\MemberAuthentication.cs" />
-    <Compile Include="Member\MemberExtensionMethods.cs" />
-    <Compile Include="Member\ValidateMemberModel.cs" />
-    <Compile Include="Member\RegisterMemberModel.cs" />
-    <Compile Include="Member\RegisterMemberPlugin.cs" />
-    <Compile Include="Member\SignOutMemberPlugin.cs" />
-    <Compile Include="Member\ValidateMemberPlugin.cs" />
+    <Compile Include="Membership\ActivateMemberModel.cs" />
+    <Compile Include="Membership\ActivateMemberPlugin.cs" />
+    <Compile Include="Membership\ChangeMemberPasswordModel.cs" />
+    <Compile Include="Membership\ChangeMemberPasswordPlugin.cs" />
+    <Compile Include="Membership\EditMemberProfileModel.cs" />
+    <Compile Include="Membership\EditMemberProfilePlugin.cs" />
+    <Compile Include="Membership\ExternalLoginHelper.cs" />
+    <Compile Include="Membership\ForgotPasswordModel.cs" />
+    <Compile Include="Membership\ForgotPasswordPlugin.cs" />
+    <Compile Include="Membership\MemberAuthentication.cs" />
+    <Compile Include="Membership\MemberExtensionMethods.cs" />
+    <Compile Include="Membership\MemberPluginHelper.cs" />
+    <Compile Include="Membership\RegisterMemberModel.cs" />
+    <Compile Include="Membership\RegisterMemberPlugin.cs" />
+    <Compile Include="Membership\ResetPasswordModel.cs" />
+    <Compile Include="Membership\ResetPasswordPlugin.cs" />
+    <Compile Include="Membership\SignOutMemberPlugin.cs" />
+    <Compile Include="Membership\ValidateMemberModel.cs" />
+    <Compile Include="Membership\ValidateMemberPlugin.cs" />
     <Compile Include="Models\HtmlMeta.cs" />
     <Compile Include="Models\SubmissionSetting.cs" />
     <Compile Include="NullMembershipException.cs" />
@@ -501,9 +501,9 @@
       <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
       <Name>Kooboo.CMS.Form</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Member\Kooboo.CMS.Member.csproj">
+    <ProjectReference Include="..\Kooboo.CMS.Membership\Kooboo.CMS.Membership.csproj">
       <Project>{3df23643-4bd1-4564-82b9-9ec594ad05b6}</Project>
-      <Name>Kooboo.CMS.Member</Name>
+      <Name>Kooboo.CMS.Membership</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Search\Kooboo.CMS.Search.csproj">
       <Project>{c7b73e67-d226-41cb-a86d-410276b265a1}</Project>

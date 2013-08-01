@@ -19,6 +19,44 @@
 
     var singleChoice = !string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("SingleChoice"));
 }
+@helper RenderHeader(bool singleChoice)
+{
+    <thead>
+        <tr>
+            <th class="checkbox optional-selector ">
+                @if (singleChoice == false)
+                {
+                    <div>
+                        <input type="checkbox" class="select-all" />
+                        <ul class="hide">
+                            <li>Select:</li>
+                            <li class="all"><a>
+                                @Html.Raw("All Elements".Localize())</a></li>
+                            <li class="docs"><a>
+                                @Html.Raw("Only Documents".Localize())</a></li>
+                            <li class="folders"><a>
+                                @Html.Raw("Only Folders".Localize())</a></li>
+                            <li class="none"><a>
+                                @Html.Raw("None".Localize())</a></li>
+                        </ul>
+                    </div>
+                }
+            </th>
+            <th>
+                @Html.Raw("Title".Localize())
+            </th>
+            <th class="type">
+                @Html.Raw("Type".Localize())
+            </th>
+            <th class="date">
+                @Html.Raw("Date".Localize())
+            </th>
+            <th class="size">
+                @Html.Raw("Size".Localize())
+            </th>
+        </tr>
+    </thead>
+}
 <div id="main-container">
     <div class="wrap">
         <div class="topbar clearfix">
@@ -56,45 +94,12 @@
         <div class="common-table fixed">
             <div class="thead">
                 <table>
-                    <thead>
-                        <tr>
-                            <th class="checkbox optional-selector ">
-                                @if (singleChoice == false)
-                                {
-                                    <div>
-                                        <input type="checkbox" class="select-all" />
-                                        <ul class="hide">
-                                            <li>Select:</li>
-                                            <li class="all"><a>
-                                                @Html.Raw("All Elements".Localize())</a></li>
-                                            <li class="docs"><a>
-                                                @Html.Raw("Only Documents".Localize())</a></li>
-                                            <li class="folders"><a>
-                                                @Html.Raw("Only Folders".Localize())</a></li>
-                                            <li class="none"><a>
-                                                @Html.Raw("None".Localize())</a></li>
-                                        </ul>
-                                    </div>
-                                }
-                            </th>
-                            <th>
-                                @Html.Raw("Title".Localize())
-                            </th>
-                            <th class="type">
-                                @Html.Raw("Type".Localize())
-                            </th>
-                            <th class="date">
-                                @Html.Raw("Date".Localize())
-                            </th>
-                            <th class="size">
-                                @Html.Raw("Size".Localize())
-                            </th>
-                        </tr>
-                    </thead>
+                    @RenderHeader(singleChoice)
                 </table>
             </div>
             <div class="tbody">
                 <table>
+                    @RenderHeader(singleChoice)
                     <tbody>
                         <tr id="CreateFolderTemplate" class="hide">
                             <td></td>

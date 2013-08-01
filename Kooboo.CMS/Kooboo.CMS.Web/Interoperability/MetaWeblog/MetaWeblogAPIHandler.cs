@@ -81,7 +81,7 @@ namespace Kooboo.CMS.Content.Interoperability.MetaWeblog
             bool allow = false;
             if (Kooboo.CMS.Sites.Models.Site.Current != null)
             {
-                allow = CMS.Sites.Services.ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, userName, CMS.Account.Models.Permission.Contents_ContentPermission);
+                allow = CMS.Sites.Services.ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, userName, Kooboo.CMS.Account.Models.Permission.Contents_ContentPermission);
             }
             else
             {

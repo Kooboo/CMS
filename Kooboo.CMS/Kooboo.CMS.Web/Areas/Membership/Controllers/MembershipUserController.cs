@@ -1,6 +1,6 @@
 ﻿using Kooboo.CMS.Common;
-using Kooboo.CMS.Member.Models;
-using Kooboo.CMS.Member.Services;
+using Kooboo.CMS.Membership.Models;
+using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Web.Areas.Membership.Models;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
@@ -10,12 +10,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.CMS.Member.Persistence;
+using Kooboo.CMS.Membership.Persistence;
 using Kooboo.CMS.Common.DataViolation;
 
 namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 {
-    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Member", Group = "", Name = "Membership", Order = 1)]
+    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Membership", Group = "", Name = "Member", Order = 1)]
     public class MembershipUserController : ControllerBase
     {
         #region .ctor

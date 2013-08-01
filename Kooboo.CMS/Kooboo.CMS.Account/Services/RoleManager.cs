@@ -17,46 +17,27 @@ namespace Kooboo.CMS.Account.Services
 {
     public class RoleManager
     {
+        static IList<Permission> permissions = new List<Permission>();
+        #region .ctor
         public IRoleProvider RoleProvider { get; private set; }
         public RoleManager(IRoleProvider roleProvider)
         {
             RoleProvider = roleProvider;
         }
+        #endregion
+
+        #region Permissions
         public virtual IEnumerable<Permission> AllPermissions()
         {
-            //yield return Permission.Account_User_MaangePermission;
-            //yield return Permission.Account_Role_ManagePermission;
-
-            yield return Permission.Contents_SettingPermission;
-
-            yield return Permission.Contents_SchemaPermission;
-            yield return Permission.Contents_FolderPermission;
-            yield return Permission.Contents_ContentPermission;
-            yield return Permission.Contents_BroadcastingPermission;
-            yield return Permission.Contents_WorkflowPermission;
-
-            yield return Permission.Sites_Settings_SystemPermission;
-            yield return Permission.Sites_Settings_UserSettingPermission;
-            yield return Permission.Sites_Settings_CustomErrorPermission;
-            yield return Permission.Sites_Settings_UrlRedirectPermission;
-            yield return Permission.Sites_Settings_Robot_TxtPermission;
-            yield return Permission.Sites_Settings_VisitRulePermission;
-
-            yield return Permission.Sites_Templates_LayoutPermission;
-            yield return Permission.Sites_Templates_ViewPermission;
-            yield return Permission.Sites_Templates_LabelPermission;
-            yield return Permission.Sites_Templates_FilePermission;
-            yield return Permission.Sites_Development_ActionMappingPermission;
-            yield return Permission.Sites_Development_SubmissionPermission;
-
-            yield return Permission.Sites_Extensions_PluginPermission;
-            yield return Permission.Sites_Extensions_ModulePermission;
-
-            yield return Permission.Sites_Page_EditPermission;
-            yield return Permission.Contents_HtmlBlockPermission;
-            yield return Permission.Sites_Page_StyleEditPermission;
-            yield return Permission.Sites_Page_PublishPermission;
+            return permissions;
         }
+        public virtual void AddPermission(Permission permission)
+        {
+            permissions.Add(permission);
+        }
+        #endregion
+
+        #region Roles
         public virtual void Add(Role role)
         {
             RoleProvider.Add(role);
@@ -78,5 +59,6 @@ namespace Kooboo.CMS.Account.Services
             var old = Get(roleName);
             RoleProvider.Update(newRole, old);
         }
+        #endregion
     }
 }

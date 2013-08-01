@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Member.OAuthClients;
+using Kooboo.CMS.Membership.OAuthClients;
 using Kooboo.Web.Mvc;
 using System;
 using System.Collections.Generic;

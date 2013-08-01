@@ -8,7 +8,7 @@
         @Html.Partial("_SitesNavTree", Site.Current)
         @if (ServiceFactory.UserManager.IsAdministrator(User.Identity.Name))
         {
-            <a class="right add" href="@Url.Action("CreateSubSite", "Site", new { area = "Sites", parent = ViewContext.RequestContext.GetRequestValue("siteName"), @return = ViewContext.HttpContext.Request.RawUrl })">@Html.IconImage("add")</a>
+            <a class="right add" href="@Url.Action("CreateSubSite", "Site", new { area = "Sites", parent = ViewContext.RequestContext.GetRequestValue("siteName"), @return = ViewContext.HttpContext.Request.RawUrl })" title='@("New sub site".Localize())'>@Html.IconImage("add")</a>
         }
     </div>
 

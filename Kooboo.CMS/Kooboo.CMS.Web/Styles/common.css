@@ -3163,27 +3163,24 @@ ul.site-tree {
 	float: left;
 	width: 160px;
     min-height: 150px;
-	margin: 0 11px 32px 21px;
+	margin: 0 20px 20px 0;
 	overflow: hidden;
 	position: relative;
 }
 
 .content-block.database.checked > ul{
-	padding-left: 22px;
 	border-left: 2px solid #0078b1;
 	border-right: 2px solid #0078b1;
 	border-bottom: 2px solid #0078b1;
 }
 
 .content-block.membership.checked > ul{
-	padding-left: 22px;
 	border-left: 2px solid #3cbabb;
 	border-right: 2px solid #3cbabb;
 	border-bottom: 2px solid #3cbabb;
 }
 
 .content-block.module.checked > ul{
-	padding-left: 22px;
 	border-left: 2px solid #5a0b86;
 	border-right: 2px solid #5a0b86;
 	border-bottom: 2px solid #5a0b86;
@@ -3192,7 +3189,7 @@ ul.site-tree {
 .content-block .content-block-header{
 	height: 32px;
 	line-height: 32px;
-	padding-left: 18px;
+	padding-left: 20px;
 	color: #fff;
 }
 
@@ -3221,6 +3218,8 @@ ul.site-tree {
 }
 
 .content-block input[type="radio"]{
+	margin: 9px 9px 0 0;
+	float: right;
 	display: none;
 }
 
@@ -3238,17 +3237,26 @@ ul.site-tree {
 }
 
 .content-block > ul{
-	padding: 10px 0 10px 23px;
+	padding: 10px 0 10px 20px;
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 }
 
 .content-block:hover > ul{
-	padding-left: 22px;
+	padding-left: 19px;
 	border-left: 2px solid #ccc;
 	border-right: 2px solid #ccc;
 	border-bottom: 2px solid #ccc;
+}
+
+.content-block.checked > ul{
+	padding-left: 19px;
+}
+
+.content-block.checked input[type="radio"],
+.content-block:hover input[type="radio"]{
+	display: block;
 }
 
 .content-block > ul li{
@@ -3757,14 +3765,14 @@ svg text:hover{
 
 svg text.titles:hover{
     cursor:default;
+	text-decoration: none;
 }
 
 svg image:hover{
     cursor:pointer;
 }
 
-#showRelation p{
-	width: 1000px;
+#showRelation{
 	text-align: center;
 }
 /* jquery-ui autocomplete */

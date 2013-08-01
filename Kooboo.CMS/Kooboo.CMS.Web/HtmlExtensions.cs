@@ -21,7 +21,10 @@ namespace Kooboo.CMS.Web
     {
         public static IHtmlString IncludeLocalizationScripts(this HtmlHelper htmlHelper)
         {
-            var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
+            //CurrentThreadCulture is the site culture.
+            //CurrentUICulture is the user interface culture.
+            //Here is required to use the site culture.
+            var culture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
             string jqueryUIGlobalization = string.Format("~/Scripts/jquery-ui-i18n/jquery.ui.datepicker-{0}.js", culture);
             string jqueryGlobalization = string.Format("~/Scripts/jquery-globalize/cultures/globalize.culture.{0}.js", culture);
             return new AggregateHtmlString(new IHtmlString[]{ htmlHelper.Script(htmlHelper.ResolveUrl(jqueryGlobalization)),
@@ -30,7 +33,7 @@ namespace Kooboo.CMS.Web
 
         public static IHtmlString IconImage(this HtmlHelper htmlHelper, string className, IDictionary<string, object> additionalAttributes = null)
         {
-            ViewDataDictionary viewData = new ViewDataDictionary(){Model=className};
+            ViewDataDictionary viewData = new ViewDataDictionary() { Model = className };
             viewData["AdditionalAttributes"] = additionalAttributes;
             return htmlHelper.Partial("_IconImage", viewData);
         }

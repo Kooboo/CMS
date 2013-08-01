@@ -166,6 +166,7 @@
     <Compile Include="Areas\Contents\Models\Grid2\PendingWorflowItem_Edit_GridItemColumn.cs" />
     <Compile Include="Areas\Contents\Models\ImageCropModel.cs" />
     <Compile Include="Areas\Contents\Models\ImageScaleModel.cs" />
+    <Compile Include="Areas\Contents\Models\ImportRepositoryModel.cs" />
     <Compile Include="Areas\Contents\Models\IndexSummaryModel.cs" />
     <Compile Include="Areas\Contents\Models\MediaContentMetadata_Metadata.cs" />
     <Compile Include="Areas\Contents\Models\MoveMediaContent.cs" />
@@ -1996,9 +1997,9 @@
       <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
       <Name>Kooboo.CMS.Form</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Member\Kooboo.CMS.Member.csproj">
+    <ProjectReference Include="..\Kooboo.CMS.Membership\Kooboo.CMS.Membership.csproj">
       <Project>{3df23643-4bd1-4564-82b9-9ec594ad05b6}</Project>
-      <Name>Kooboo.CMS.Member</Name>
+      <Name>Kooboo.CMS.Membership</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Search\Kooboo.CMS.Search.csproj">
       <Project>{C7B73E67-D226-41CB-A86D-410276B265A1}</Project>
@@ -2298,19 +2299,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Membership\Views\Web.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Membership\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Membership\Menu.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -2319,84 +2316,52 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Create.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Membership\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\_MembershipNode.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Membership\_MembershipNode.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipGroup\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipGroup\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Shared\__Sidebar.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Shared\__Sidebar.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipGroup\Create.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipGroup\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\ChangePassword.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipUser\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\Create.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipUser\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\Edit.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipUser\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipUser\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipUser\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipConnect\Create.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipConnect\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipConnect\Edit.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipConnect\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\MembershipConnect\Index.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\MembershipConnect\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Shared\Site.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Shared\Site.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Edit.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Membership\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\ExternalLogin\ExternalLoginFailure.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\ExternalLogin\ExternalLoginFailure.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Membership\Import.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Areas\Membership\Views\Membership\Import.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\EditorTemplates\KeyValueEquality.cshtml" />
@@ -2428,6 +2393,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\_ModuleNode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Contents\Views\Repository\Import.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

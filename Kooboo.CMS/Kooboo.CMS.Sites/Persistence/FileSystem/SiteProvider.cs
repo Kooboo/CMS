@@ -9,8 +9,8 @@
 using Ionic.Zip;
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Member.Models;
-using Kooboo.CMS.Member.Persistence;
+using Kooboo.CMS.Membership.Models;
+using Kooboo.CMS.Membership.Persistence;
 using Kooboo.CMS.Sites.Globalization;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.Globalization;
@@ -362,7 +362,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             if (!string.IsNullOrEmpty(membershipName))
             {
-                var membership = new Membership(membershipName).AsActual();
+                var membership = new Kooboo.CMS.Membership.Models.Membership(membershipName).AsActual();
                 if (membership == null)
                 {
                     var membershipFile = GetSiteRelatedFile(site, MembershipFileName);

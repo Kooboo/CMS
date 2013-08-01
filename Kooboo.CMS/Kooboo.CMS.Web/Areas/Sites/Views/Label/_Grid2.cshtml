@@ -1,27 +1,32 @@
 ﻿@model Kooboo.Web.Mvc.Grid2.GridModel
+@helper RenderHeader()
+{
+    <thead>
+        <tr>
+            @if (Model.Checkable)
+            {
+                <th class="checkbox">
+                    <input type="checkbox" class="select-all" />
+                </th>
+            }
+            @foreach (var column in Model.Columns)
+            {
+                <th @column.RenderHeaderContainerAtts(ViewContext)>
+                    @column.RenderHeader(ViewContext)
+                </th>
+            }
+        </tr>
+    </thead>
+}
 <div class="common-table fixed">
     <div class="thead">
         <table>
-            <thead>
-                <tr>
-                    @if (Model.Checkable)
-                    {
-                        <th class="checkbox">
-                            <input type="checkbox" class="select-all" />
-                        </th>
-                    }
-                    @foreach (var column in Model.Columns)
-                    {
-                        <th @column.RenderHeaderContainerAtts(ViewContext)>
-                            @column.RenderHeader(ViewContext)
-                        </th>
-                    }
-                </tr>
-            </thead>
+            @RenderHeader()
         </table>
     </div>
     <div class="tbody">
         <table>
+            @RenderHeader()
             <thead>
                 <tr>
                     @if (Model.Checkable)

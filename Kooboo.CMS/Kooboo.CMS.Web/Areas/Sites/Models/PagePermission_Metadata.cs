@@ -22,17 +22,17 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     [MetadataFor(typeof(PagePermission))]
     public class PagePermission_Metadata
     {
-        [DisplayName("Require member")]
+        [DisplayName("Require membership authentication")]
         public bool RequireMember { get; set; }
-        [DisplayName("Allow groups")]
+        [DisplayName("Allow membership groups")]
         [UIHint("Multiple_DropDownList")]
         [DataSource(typeof(SiteMembershipGroupDataSource))]
         public string[] AllowGroups { get; set; }
 
-        [DisplayName("Authorize menu")]
+        [DisplayName("Apply to menu generation")]
         public bool AuthorizeMenu { get; set; }
 
-        [DisplayName("Unauthorized URL")]
+        [DisplayName("Unauthorized redirect URL")]
         [UIHint("AutoComplete")]
         [DataSource(typeof(AutoCompletePageListDataSouce))]
         public string UnauthorizedUrl { get; set; }

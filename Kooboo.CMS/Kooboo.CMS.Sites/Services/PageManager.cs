@@ -57,7 +57,8 @@ namespace Kooboo.CMS.Sites.Services
             {
                 pages = pages.Select(it => it.AsActual())
                    .Where(it => it.Name.Contains(filterName, StringComparison.CurrentCultureIgnoreCase)
-                       || (it.Navigation != null && !string.IsNullOrEmpty(it.Navigation.DisplayText) && it.Navigation.DisplayText.Contains(filterName, StringComparison.CurrentCultureIgnoreCase)));
+                       || (it.Navigation != null && !string.IsNullOrEmpty(it.Navigation.DisplayText) && it.Navigation.DisplayText.Contains(filterName, StringComparison.CurrentCultureIgnoreCase))
+                       || it.VirtualPath.Contains(filterName, StringComparison.OrdinalIgnoreCase));
             }
 
             return pages.Select(it => it.AsActual()).OrderBy(it => it.Navigation.Order).ToArray();
@@ -85,7 +86,8 @@ namespace Kooboo.CMS.Sites.Services
             {
                 pages = pages.Select(it => it.AsActual())
                    .Where(it => it.Name.Contains(filterName, StringComparison.CurrentCultureIgnoreCase)
-                       || (it.Navigation != null && !string.IsNullOrEmpty(it.Navigation.DisplayText) && it.Navigation.DisplayText.Contains(filterName, StringComparison.CurrentCultureIgnoreCase)));
+                       || (it.Navigation != null && !string.IsNullOrEmpty(it.Navigation.DisplayText) && it.Navigation.DisplayText.Contains(filterName, StringComparison.CurrentCultureIgnoreCase))
+                       || it.VirtualPath.Contains(filterName, StringComparison.OrdinalIgnoreCase));
             }
 
             foreach (var page in pages)

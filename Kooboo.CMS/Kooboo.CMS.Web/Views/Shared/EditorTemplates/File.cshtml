@@ -17,7 +17,7 @@
         {
             editorHtmlAttributes.Merge(new RouteValueDictionary(htmlAttributes));
         }
-    }
+    } 
 }
 <input type="file" name="@propertyName" @Html.GenerateHtmlAttributes(editorHtmlAttributes)/>
 @Html.ValidationMessage(ViewData.ModelMetadata, new { name = ViewData["name"] })

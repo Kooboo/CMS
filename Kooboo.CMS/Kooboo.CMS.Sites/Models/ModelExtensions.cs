@@ -8,7 +8,7 @@
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
-using Kooboo.CMS.Member.Models;
+using Kooboo.CMS.Membership.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,13 +29,13 @@ namespace Kooboo.CMS.Sites.Models
             return null;
         }
 
-        public static Membership GetMembership(this Site site)
+        public static Kooboo.CMS.Membership.Models.Membership GetMembership(this Site site)
         {
             site = site.AsActual();
 
             if (site != null && !string.IsNullOrEmpty(site.Membership))
             {
-                return new Membership(site.Membership).AsActual();
+                return new Kooboo.CMS.Membership.Models.Membership(site.Membership).AsActual();
             }
             return null;
         }

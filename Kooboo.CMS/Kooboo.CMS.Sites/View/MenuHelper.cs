@@ -9,7 +9,7 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
-using Kooboo.CMS.Sites.Member;
+using Kooboo.CMS.Sites.Membership;
 
 using System;
 using System.Collections.Generic;

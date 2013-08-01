@@ -39,10 +39,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.Grid2
 
             if (!isStaticPage)
             {
-                return new HtmlString("-");
+                return new HtmlString(PropertyValue == null ? "" : PropertyValue.ToString());
             }
 
-            return new HtmlString(string.Format(@"<a href=""{0}"" target=""_blank"" class=""o-icon preview"" title=""{2}"">{1}</a>", href, "Preview".Localize(), "Preview".Localize()));
+            return new HtmlString(string.Format(@"<a href=""{0}"" target=""_blank"" class=""o-icon preview"" title=""{2}"">{1}</a>", href, PropertyValue, PropertyValue));
         }
     }
 }

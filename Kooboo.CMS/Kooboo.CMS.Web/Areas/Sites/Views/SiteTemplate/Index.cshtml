@@ -19,10 +19,10 @@
             @Html.IconImage("delete") @("Delete".Localize())</a></li>
     </ul>
 }
-<div class="block">
-    <h1 class="title">@ViewBag.Title <a href="http://sites.kooboo.com" target="_blank" class="title-tip">@("Browse more templates online".Localize())</a></h1>
 
-    <ul class="site-list">
+<div class="topbar"><h1 class="title">@ViewBag.Title <a href="http://sites.kooboo.com" target="_blank" class="title-tip">@("Browse more templates online".Localize())</a></h1></div>
+<div class="block fixed">
+	<ul class="site-list">
         @foreach (var item in Model)
         {
             <li>

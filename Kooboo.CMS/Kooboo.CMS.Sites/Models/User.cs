@@ -17,13 +17,7 @@ using Kooboo.Collections;
 
 namespace Kooboo.CMS.Sites.Models
 {
-    public class Profile : DynamicDictionary
-    {
-        public Profile()
-        {
-
-        }
-    }
+    
     [DataContract]
     public partial class User 
     {
@@ -45,7 +39,7 @@ namespace Kooboo.CMS.Sites.Models
         [DataMember(Order = 3)]
         public List<string> Roles { get; set; }
         [DataMember(Order = 5)]
-        public Profile Profile { get; set; }
+        public Dictionary<string, string> Profile { get; set; }
     }
 
     public partial class User : ISiteObject, IFilePersistable, IPersistable, IIdentifiable

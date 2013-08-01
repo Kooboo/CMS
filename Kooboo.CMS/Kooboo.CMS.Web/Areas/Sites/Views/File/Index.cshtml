@@ -33,19 +33,19 @@
                 @Html.IconImage("upload")@("Upload".Localize())
             </a>
         </li>
-         <li><a href="@Html.Raw(this.Url.Action("Delete", routes))" data-show-on-check="Any" data-command-type="AjaxPost"  data-confirm="@("Are you sure you want to delete these items?".Localize())"> @Html.IconImage("delete") @("Delete".Localize())</a></li>
+        <li><a href="@Html.Raw(this.Url.Action("Delete", routes))" data-show-on-check="Any" data-command-type="AjaxPost"  data-confirm="@("Are you sure you want to delete these items?".Localize())">@Html.IconImage("delete") @("Delete".Localize())</a></li>
         <li class="j_DropDown" data-show-on-check="Any">
             <a>
                 @("More...".Localize())
                 @Html.IconImage("arrow small white-down")
             </a>
             <ul class="j_DropDownContent hide">
-               <li>
+                <li>
                     <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="Download">
                         @("Export".Localize())
                     </a>
                 </li>
-                <li><a id="RenameButton" data-show-on-check="Single">@("Rename".Localize())</a></li>                
+                <li><a id="RenameButton" data-show-on-check="Single">@("Rename".Localize())</a></li>
             </ul>
         </li>
     </ul>
@@ -73,44 +73,48 @@
         </div>
     }
 </div>
-
+@helper RenderHeader()
+{
+    <thead>
+        <tr>
+            <th class="checkbox mutiple">
+                <div>
+                    <input type="checkbox" class="select-all" />
+                    <ul class="hide">
+                        <li>Select:</li>
+                        <li class="all"><a>
+                            @("All Elements".Localize())</a></li>
+                        <li class="docs"><a>
+                            @("Only Documents".Localize())</a></li>
+                        <li class="folders"><a>
+                            @("Only Folders".Localize())</a></li>
+                        <li class="none"><a>
+                            @("None".Localize())</a></li>
+                    </ul>
+                </div>
+            </th>
+            <th class="common">
+                @("Name".Localize())
+            </th>
+            <th>@("Path".Localize())</th>
+            <th class="date">
+                @("Date".Localize())
+            </th>
+            <th class="size">
+                @("Size".Localize())
+            </th>
+        </tr>
+    </thead>
+}
 <div class="common-table fixed">
     <div class="thead">
         <table>
-            <thead>
-                <tr>
-                    <th class="checkbox mutiple">
-                        <div>
-                            <input type="checkbox" class="select-all" />
-                            <ul class="hide">
-                                <li>Select:</li>
-                                <li class="all"><a>
-                                    @("All Elements".Localize())</a></li>
-                                <li class="docs"><a>
-                                    @("Only Documents".Localize())</a></li>
-                                <li class="folders"><a>
-                                    @("Only Folders".Localize())</a></li>
-                                <li class="none"><a>
-                                    @("None".Localize())</a></li>
-                            </ul>
-                        </div>
-                    </th>
-                    <th class="common">
-                        @("Name".Localize())
-                    </th>
-                    <th>@("Path".Localize())</th>
-                    <th class="date">
-                        @("Date".Localize())
-                    </th>
-                    <th class="size">
-                        @("Size".Localize())
-                    </th>
-                </tr>
-            </thead>
+            @RenderHeader()
         </table>
     </div>
     <div class="tbody">
         <table>
+            @RenderHeader()
             <tbody>
                 <tr id="CreateFolderTemplate" class="hide">
                     <td class="checkbox"></td>
@@ -262,7 +266,7 @@
                 helper: fixHelper,
                 items: "tr.doctr",
                 handle: 'td.draggable .drag',
-                update: function (event, ui) {               
+                update: function (event, ui) {
 
                     var fileOrders = {};
                     _.each($('[data-filename]').toArray(), function (item, index) {

@@ -11,8 +11,11 @@
 
 }
 
-<div class="block" id="showRelation">
-    <h1 class="title">Relation</h1>
+<div class="topbar">
+	<h1 class="title">Relation</h1>
+</div>
+<div class="block fixed">
+	<div  id="showRelation"></div>
 </div>
 
 
@@ -23,7 +26,9 @@
 
     var max_length = Math.max(site.length, content.length, membership.length);
 
-    var w = 1000;
+    //var w = 900;
+    console.log($('#showRelation').width());
+    var w = $('#showRelation').width();
     var rect_w = w / 100 * 20;
     var rect_h = 44;
     var rect_margin_h = w / 100 * 2;
@@ -46,9 +51,9 @@
     var titles = svg.selectAll('text.titles').data(['Membership', 'Site', 'Database'])
 	.enter().append('text')
 	.attr('class', 'titles')
-	.attr('style', 'font-family: Arial; font-size: 16px; text-anchor: middle')
+	.attr('style', 'font-family: "Segoe UI Light", "Helvetica Neue", openSansLight, Arial, Helvetica, sans-serif; font-size: 20px; text-anchor: middle')
 	.attr('x', function (d, i) { return i * w / 100 * 30 + w / 100 * 20 })
-	.attr('y', 70)
+	.attr('y', 50)
 	.text(function (d) { return d });
 
     // rects and texts
@@ -67,7 +72,7 @@
 				.attr('data-name', function (d) { return d.name })
                 .attr('data-url', function (d) { return d.url })
 				.attr('fill', '#3ca8db')
-    site_texts.attr('x', w / 100 * 40 + 8)
+    site_texts.attr('x', w / 100 * 40 + 10)
 				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 26 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
 				.attr('fill', '#fff')
@@ -83,7 +88,7 @@
 				.attr('data-name', function (d) { return d.name })
                 .attr('data-url', function (d) { return d.url })
 				.attr('fill', '#1076a6')
-    content_texts.attr('x', w / 100 * 70 + 8)
+    content_texts.attr('x', w / 100 * 70 + 10)
 				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
 				.attr('fill', '#fff')
@@ -99,7 +104,7 @@
 				.attr('data-name', function (d) { return d.name })
                 .attr('data-url', function (d) { return d.url })
 				.attr('fill', '#3cbabb')
-    membership_texts.attr('x', w / 100 * 10 + 8)
+    membership_texts.attr('x', w / 100 * 10 + 10)
 				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
 				.attr('fill', '#fff')
@@ -140,7 +145,7 @@
     var content_export_imgs = svg.selectAll('image.export').data(content).enter().append('image');
     var membership_export_imgs = svg.selectAll('image.export').data(membership).enter().append('image');
 
-    site_export_imgs.attr('x', w / 100 * 60 - 30)
+    site_export_imgs.attr('x', w / 100 * 60 - 32)
 				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 10 })
 				.attr('width', 24)
 				.attr('height', 24)
@@ -148,15 +153,15 @@
 				.attr('data-name', function (d) { return d.name })
                 .attr('data-url', function (d) { return d.url })
 				.attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
-					content_export_imgs.attr('x', w / 100 * 90 - 30)
-                                .attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
-                                .attr('width', 24)
-                                .attr('height', 24)
-                                .attr('class', 'view')
-                                .attr('data-name', function (d) { return d.name })
-                                .attr('data-url', function (d) { return d.url })
-                                .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
-    membership_export_imgs.attr('x', w / 100 * 30 - 30)
+	content_export_imgs.attr('x', w / 100 * 90 - 32)
+                .attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
+                .attr('width', 24)
+                .attr('height', 24)
+                .attr('class', 'view')
+                .attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+                .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+    membership_export_imgs.attr('x', w / 100 * 30 - 32)
 				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
 				.attr('width', 24)
 				.attr('height', 24)

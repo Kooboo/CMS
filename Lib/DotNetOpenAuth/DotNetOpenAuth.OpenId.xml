@@ -4063,7 +4063,7 @@
         </member>
         <member name="P:DotNetOpenAuth.OpenId.Extensions.SimpleRegistration.ClaimsResponse.Culture">
             <summary>
-            Gets or sets a combination o the language and country of the user.
+            Gets or sets a combination of the language and country of the user.
             </summary>
         </member>
         <member name="P:DotNetOpenAuth.OpenId.Extensions.SimpleRegistration.ClaimsResponse.IsSignedByProvider">

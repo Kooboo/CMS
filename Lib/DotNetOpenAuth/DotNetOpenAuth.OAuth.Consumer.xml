@@ -166,6 +166,15 @@
             The token secret is stored in the <see cref="P:DotNetOpenAuth.OAuth.ConsumerBase.TokenManager"/>.
             </remarks>
         </member>
+        <member name="M:DotNetOpenAuth.OAuth.ConsumerBase.CreateAuthorizingHandler(System.String,System.Net.Http.HttpMessageHandler)">
+            <summary>
+            Creates an HTTP handler that automatically applies an OAuth 1 access token and signature to outbound HTTP requests.
+            The result of this method can be supplied to the <see cref="M:System.Net.Http.HttpClient.#ctor(System.Net.Http.HttpMessageHandler)"/> constructor.
+            </summary>
+            <param name="accessToken">The access token to use to authorize each outbound HTTP message.</param>
+            <param name="innerHandler">The inner HTTP handler to use.  The default uses <see cref="T:System.Net.Http.HttpClientHandler"/> as the inner handler.</param>
+            <returns>An <see cref="T:System.Net.Http.HttpMessageHandler"/> instance.</returns>
+        </member>
         <member name="M:DotNetOpenAuth.OAuth.ConsumerBase.PrepareAuthorizedRequest(DotNetOpenAuth.Messaging.MessageReceivingEndpoint,System.String)">
             <summary>
             Creates a web request prepared with OAuth authorization 
@@ -336,6 +345,312 @@
             <returns>
             The access token assigned by the Service Provider.
             </returns>
+        </member>
+        <member name="T:DotNetOpenAuth.OAuth.OAuth1HmacSha1HttpMessageHandler">
+            <summary>
+            A delegating HTTP handler that signs outgoing HTTP requests 
+            with an HMAC-SHA1 signature.
+            </summary>
+        </member>
+        <member name="T:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase">
+            <summary>
+            A base class for delegating <see cref="T:System.Net.Http.HttpMessageHandler"/>s that sign
+            outgoing HTTP requests per the OAuth 1.0 "3.4 Signature" in RFC 5849.
+            </summary>
+            <remarks>
+            This implements http://tools.ietf.org/html/rfc5849#section-3.4
+            </remarks>
+        </member>
+        <member name="F:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.AllowedCharacters">
+            <summary>
+            These are the characters that may be chosen from when forming a random nonce.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.DefaultNonceLength">
+            <summary>
+            The default nonce length.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.DefaultParametersLocation">
+            <summary>
+            The default parameters location.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.epoch">
+            <summary>
+            The reference date and time for calculating time stamps.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.ParameterSeparatorAsArray">
+            <summary>
+            An array containing simply the amperstand character.
+            </summary>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase"/> class.
+            </summary>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.#ctor(System.Net.Http.HttpMessageHandler)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase"/> class.
+            </summary>
+            <param name="innerHandler">The inner handler which is responsible for processing the HTTP response messages.</param>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.ApplyAuthorization(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Applies OAuth authorization to the specified request.
+            This method is applied automatically to outbound requests that use this message handler instance.
+            However this method may be useful for obtaining the OAuth 1.0 signature without actually sending the request.
+            </summary>
+            <param name="request">The request.</param>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Sends an HTTP request to the inner handler to send to the server as an asynchronous operation.
+            </summary>
+            <param name="request">The HTTP request message to send to the server.</param>
+            <param name="cancellationToken">A cancellation token to cancel operation.</param>
+            <returns>
+            Returns <see cref="T:System.Threading.Tasks.Task`1" />. The task object representing the asynchronous operation.
+            </returns>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.Sign(System.Byte[])">
+            <summary>
+            Calculates the signature for the specified buffer.
+            </summary>
+            <param name="signedPayload">The payload to calculate the signature for.</param>
+            <returns>The signature.</returns>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.GetSignature(System.Net.Http.HttpRequestMessage,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Gets the OAuth 1.0 signature to apply to the specified request.
+            </summary>
+            <param name="request">The outbound HTTP request.</param>
+            <param name="oauthParameters">The oauth parameters.</param>
+            <returns>
+            The value for the "oauth_signature" parameter.
+            </returns>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.GetConsumerAndTokenSecretString">
+            <summary>
+            Gets the "ConsumerSecret&amp;AccessTokenSecret" string, allowing either property to be empty or null.
+            </summary>
+            <returns>The concatenated string.</returns>
+            <remarks>
+            This is useful in the PLAINTEXT and HMAC-SHA1 signature algorithms.
+            </remarks>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.UrlEscape(System.String)">
+            <summary>
+            Escapes a value for transport in a URI, per RFC 3986.
+            </summary>
+            <param name="value">The value to escape. Null and empty strings are OK.</param>
+            <returns>The escaped value. Never null.</returns>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.ToTimeStamp(System.DateTime)">
+            <summary>
+            Returns the OAuth 1.0 timestamp for the current time.
+            </summary>
+            <param name="dateTime">The date time.</param>
+            <returns>A string representation of the number of seconds since "the epoch".</returns>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.GetBaseStringUri(System.Uri)">
+            <summary>
+            Constructs the "Base String URI" as described in http://tools.ietf.org/html/rfc5849#section-3.4.1.2
+            </summary>
+            <param name="requestUri">The request URI.</param>
+            <returns>
+            The string to include in the signature base string.
+            </returns>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.ConstructSignatureBaseString(System.Net.Http.HttpRequestMessage,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Constructs the "Signature Base String" as described in http://tools.ietf.org/html/rfc5849#section-3.4.1
+            </summary>
+            <param name="request">The HTTP request message.</param>
+            <param name="oauthParameters">The oauth parameters.</param>
+            <returns>
+            The signature base string.
+            </returns>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.GenerateUniqueFragment">
+            <summary>
+            Generates a string of random characters for use as a nonce.
+            </summary>
+            <returns>The nonce string.</returns>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.GetOAuthParameters">
+            <summary>
+            Gets the "oauth_" prefixed parameters that should be added to an outbound request.
+            </summary>
+            <returns>A collection of name=value pairs.</returns>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.GetNormalizedParameters(System.Net.Http.HttpRequestMessage,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Gets a normalized string of the query string parameters included in the request and the additional OAuth parameters.
+            </summary>
+            <param name="request">The HTTP request.</param>
+            <param name="oauthParameters">The oauth parameters that will be added to the request.</param>
+            <returns>The normalized string of parameters to included in the signature base string.</returns>
+        </member>
+        <member name="P:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.Location">
+            <summary>
+            Gets or sets the location to add OAuth parameters to outbound HTTP requests.
+            </summary>
+        </member>
+        <member name="P:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.ConsumerKey">
+            <summary>
+            Gets or sets the consumer key.
+            </summary>
+            <value>
+            The consumer key.
+            </value>
+        </member>
+        <member name="P:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.ConsumerSecret">
+            <summary>
+            Gets or sets the consumer secret.
+            </summary>
+            <value>
+            The consumer secret.
+            </value>
+        </member>
+        <member name="P:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.AccessToken">
+            <summary>
+            Gets or sets the access token.
+            </summary>
+            <value>
+            The access token.
+            </value>
+        </member>
+        <member name="P:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.AccessTokenSecret">
+            <summary>
+            Gets or sets the access token secret.
+            </summary>
+            <value>
+            The access token secret.
+            </value>
+        </member>
+        <member name="P:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.NonceLength">
+            <summary>
+            Gets or sets the length of the nonce.
+            </summary>
+            <value>
+            The length of the nonce.
+            </value>
+        </member>
+        <member name="P:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.SignatureMethod">
+            <summary>
+            Gets the signature method to include in the oauth_signature_method parameter.
+            </summary>
+            <value>
+            The signature method.
+            </value>
+        </member>
+        <member name="T:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.OAuthParametersLocation">
+            <summary>
+            The locations that oauth parameters may be added to HTTP requests.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.OAuthParametersLocation.QueryString">
+            <summary>
+            The oauth parameters are added to the query string in the URL.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.OAuth.OAuth1HttpMessageHandlerBase.OAuthParametersLocation.AuthorizationHttpHeader">
+            <summary>
+            An HTTP Authorization header is added with the OAuth scheme.
+            </summary>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HmacSha1HttpMessageHandler.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetOpenAuth.OAuth.OAuth1HmacSha1HttpMessageHandler"/> class.
+            </summary>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HmacSha1HttpMessageHandler.#ctor(System.Net.Http.HttpMessageHandler)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetOpenAuth.OAuth.OAuth1HmacSha1HttpMessageHandler"/> class.
+            </summary>
+            <param name="innerHandler">The inner handler which is responsible for processing the HTTP response messages.</param>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1HmacSha1HttpMessageHandler.Sign(System.Byte[])">
+            <summary>
+            Calculates the signature for the specified buffer.
+            </summary>
+            <param name="signedPayload">The payload to calculate the signature for.</param>
+            <returns>
+            The signature.
+            </returns>
+        </member>
+        <member name="P:DotNetOpenAuth.OAuth.OAuth1HmacSha1HttpMessageHandler.SignatureMethod">
+            <summary>
+            Gets the signature method to include in the oauth_signature_method parameter.
+            </summary>
+            <value>
+            The signature method.
+            </value>
+        </member>
+        <member name="T:DotNetOpenAuth.OAuth.OAuth1PlainTextMessageHandler">
+            <summary>
+            A delegating HTTP handler that signs outgoing HTTP requests
+            with the PLAINTEXT signature.
+            </summary>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1PlainTextMessageHandler.Sign(System.Byte[])">
+            <summary>
+            Calculates the signature for the specified buffer.
+            </summary>
+            <param name="signedPayload">The payload to calculate the signature for.</param>
+            <returns>
+            The signature.
+            </returns>
+            <exception cref="T:System.NotImplementedException">Always thrown.</exception>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1PlainTextMessageHandler.GetSignature(System.Net.Http.HttpRequestMessage,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Gets the OAuth 1.0 signature to apply to the specified request.
+            </summary>
+            <param name="request">The outbound HTTP request.</param>
+            <param name="oauthParameters">The oauth parameters.</param>
+            <returns>
+            The value for the "oauth_signature" parameter.
+            </returns>
+        </member>
+        <member name="P:DotNetOpenAuth.OAuth.OAuth1PlainTextMessageHandler.SignatureMethod">
+            <summary>
+            Gets the signature method to include in the oauth_signature_method parameter.
+            </summary>
+            <value>
+            The signature method.
+            </value>
+        </member>
+        <member name="T:DotNetOpenAuth.OAuth.OAuth1RsaSha1HttpMessageHandler">
+            <summary>
+            A delegating HTTP handler that signs outgoing HTTP requests
+            with an RSA-SHA1 signature.
+            </summary>
+        </member>
+        <member name="M:DotNetOpenAuth.OAuth.OAuth1RsaSha1HttpMessageHandler.Sign(System.Byte[])">
+            <summary>
+            Calculates the signature for the specified buffer.
+            </summary>
+            <param name="signedPayload">The payload to calculate the signature for.</param>
+            <returns>
+            The signature.
+            </returns>
+        </member>
+        <member name="P:DotNetOpenAuth.OAuth.OAuth1RsaSha1HttpMessageHandler.SigningCertificate">
+            <summary>
+            Gets or sets the certificate used to sign outgoing messages.  Used only by Consumers.
+            </summary>
+        </member>
+        <member name="P:DotNetOpenAuth.OAuth.OAuth1RsaSha1HttpMessageHandler.SignatureMethod">
+            <summary>
+            Gets the signature method to include in the oauth_signature_method parameter.
+            </summary>
+            <value>
+            The signature method.
+            </value>
         </member>
         <member name="T:DotNetOpenAuth.OAuth.WebConsumer">
             <summary>

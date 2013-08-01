@@ -126,18 +126,59 @@
             The value. 
             </param>
         </member>
-        <member name="T:DotNetOpenAuth.AspNet.Clients.WindowsLiveClient">
+        <member name="T:DotNetOpenAuth.AspNet.Clients.AzureADClaims">
             <summary>
-            The WindowsLive client.
+            Contains clains of a AzureAD token.
             </summary>
             <remarks>
-            The WindowsLive brand is being replaced by Microsoft account brand.
-            We keep this class for backward compatibility only.
+            Technically, this class doesn't need to be public, but because we want to make it serializable in medium trust, it has to be public.
             </remarks>
         </member>
-        <member name="T:DotNetOpenAuth.AspNet.Clients.MicrosoftClient">
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADClaims.Aud">
             <summary>
-            The Microsoft account client.
+            Gets or sets the audience.
+            </summary>
+            <value> The audience token is valid for. </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADClaims.Iss">
+            <summary>
+            Gets or sets the issuer.
+            </summary>
+            <value> The issuer. </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADClaims.Nbf">
+            <summary>
+            Gets or sets the early expiry time.
+            </summary>
+            <value> The early expiry time. </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADClaims.Exp">
+            <summary>
+            Gets or sets the expiry time.
+            </summary>
+            <value> The expiry time. </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADClaims.Oid">
+            <summary>
+            Gets or sets the id of the user.
+            </summary>
+            <value> The id of the user. </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADClaims.Tid">
+            <summary>
+            Gets or sets the id of the tenant.
+            </summary>
+            <value> The tenant . </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADClaims.Appid">
+            <summary>
+            Gets or sets the appid of application.
+            </summary>
+            <value> The id of the application. </value>
+        </member>
+        <member name="T:DotNetOpenAuth.AspNet.Clients.AzureADClient">
+            <summary>
+            The AzureAD client.
             </summary>
         </member>
         <member name="T:DotNetOpenAuth.AspNet.Clients.OAuth2Client">
@@ -263,6 +304,267 @@
             Gets the name of the provider which provides authentication service.
             </summary>
         </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.AuthorizationEndpoint">
+            <summary>
+            The authorization endpoint.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.TokenEndpoint">
+            <summary>
+            The token endpoint.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.GraphResource">
+            <summary>
+            The name of the graph resource.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.MetaDataEndpoint">
+            <summary>
+            The URL to get the token decoding certificate from.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.GraphEndpoint">
+            <summary>
+            The URL for AzureAD graph.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.STSName">
+            <summary>
+            The id of the STS.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.appId">
+            <summary>
+            The app id.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.appSecret">
+            <summary>
+            The app secret.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.resource">
+            <summary>
+            The resource to target.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.encodingcert">
+            <summary>
+            Encoding cert.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.hash">
+            <summary>
+            Hash algo used by the X509Cert.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.tenantid">
+            <summary>
+            The tenantid claim for the authcode.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.AzureADClient.userid">
+            <summary>
+            The userid claim for the authcode.
+            </summary>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.AzureADClient.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetOpenAuth.AspNet.Clients.AzureADClient"/> class.
+            </summary>
+            <param name="appId">
+            The app id.
+            </param>
+            <param name="appSecret">
+            The app secret.
+            </param>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.AzureADClient.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetOpenAuth.AspNet.Clients.AzureADClient"/> class.
+            </summary>
+            <param name="appId">
+            The app id.
+            </param>
+            <param name="appSecret">
+            The app secret.
+            </param>
+            <param name="resource">
+            The resource of oauth request.
+            </param>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.AzureADClient.GetServiceLoginUrl(System.Uri)">
+            <summary>
+            The get service login url.
+            </summary>
+            <param name="returnUrl">
+            The return url.
+            </param>
+            <returns>An absolute URI.</returns>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.AzureADClient.GetUserData(System.String)">
+            <summary>
+            The get user data.
+            </summary>
+            <param name="accessToken">
+            The access token.
+            </param>
+            <returns>A dictionary of profile data.</returns>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.AzureADClient.QueryAccessToken(System.Uri,System.String)">
+            <summary>
+            Obtains an access token given an authorization code and callback URL.
+            </summary>
+            <param name="returnUrl">
+            The return url.
+            </param>
+            <param name="authorizationCode">
+            The authorization code.
+            </param>
+            <returns>
+            The access token.
+            </returns>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.AzureADClient.Base64URLdecode(System.String)">
+            <summary>
+            Base64 decode function except that it switches -_ to +/ before base64 decode
+            </summary>
+            <param name="str">
+            The string to be base64urldecoded.
+            </param>
+            <returns>
+            Decoded string as string using UTF8 encoding.
+            </returns>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.AzureADClient.Base64URLdecodebyte(System.String)">
+            <summary>
+            Base64 decode function except that it switches -_ to +/ before base64 decode
+            </summary>
+            <param name="str">
+            The string to be base64urldecoded.
+            </param>
+            <returns>
+            Decoded string as bytes.
+            </returns>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.AzureADClient.ValidateSig(System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            Validate whether the unsigned value is same as signed value 
+            </summary>
+            <param name="uval">
+            The raw input of the string signed using the key
+            </param>
+            <param name="sval">
+            The signature of the string
+            </param>
+            <param name="certthumb">
+            The thumbprint of cert used to encrypt token
+            </param>
+            <returns>
+            True if same, false otherwise.
+            </returns>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.AzureADClient.GetEncodingCert">
+            <summary>
+            Returns the certificate with which the token is encoded.
+            </summary>
+            <returns>
+            The encoding certificate.
+            </returns>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.AzureADClient.ParseAccessToken(System.String,System.Boolean)">
+            <summary>
+            Parses the access token into an AzureAD token.
+            </summary>
+            <param name="token">
+            The token as a string.
+            </param>
+            <param name="validate">
+            Whether to validate against time\audience.
+            </param>
+            <returns>
+            The claims as an object and null in case of failure.
+            </returns>
+        </member>
+        <member name="T:DotNetOpenAuth.AspNet.Clients.AzureADGraph">
+            <summary>
+            Contains data of a AzureAD user.
+            </summary>
+            <remarks>
+            Technically, this class doesn't need to be public, but because we want to make it serializable in medium trust, it has to be public.
+            </remarks>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADGraph.GivenName">
+            <summary>
+            Gets or sets the firstname.
+            </summary>
+            <value> The first name. </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADGraph.Surname">
+            <summary>
+            Gets or sets the lastname.
+            </summary>
+            <value> The last name. </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADGraph.UserPrincipalName">
+            <summary>
+            Gets or sets the email.
+            </summary>
+            <value> The email. </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADGraph.DisplayName">
+            <summary>
+            Gets or sets the fullname.
+            </summary>
+            <value> The fullname. </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADGraph.ObjectId">
+            <summary>
+            Gets or sets the id.
+            </summary>
+            <value> The id. </value>
+        </member>
+        <member name="T:DotNetOpenAuth.AspNet.Clients.AzureADHeader">
+            <summary>
+            Contains header of AzureAD JWT token.
+            </summary>
+            <remarks>
+            Technically, this class doesn't need to be public, but because we want to make it serializable in medium trust, it has to be public.
+            </remarks>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADHeader.Typ">
+            <summary>
+            Gets or sets the type of token. Will always be JWT
+            </summary>
+            <value> The type of token. </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADHeader.Alg">
+            <summary>
+            Gets or sets the algo of the header.
+            </summary>
+            <value> The algo of encoding. </value>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.AzureADHeader.X5t">
+            <summary>
+            Gets or sets the thumbprint of the header.
+            </summary>
+            <value> The thumbprint of the cert used to encode. </value>
+        </member>
+        <member name="T:DotNetOpenAuth.AspNet.Clients.WindowsLiveClient">
+            <summary>
+            The WindowsLive client.
+            </summary>
+            <remarks>
+            The WindowsLive brand is being replaced by Microsoft account brand.
+            We keep this class for backward compatibility only.
+            </remarks>
+        </member>
+        <member name="T:DotNetOpenAuth.AspNet.Clients.MicrosoftClient">
+            <summary>
+            The Microsoft account client.
+            </summary>
+        </member>
         <member name="F:DotNetOpenAuth.AspNet.Clients.MicrosoftClient.AuthorizationEndpoint">
             <summary>
             The authorization endpoint.
@@ -283,24 +585,35 @@
             The _app secret.
             </summary>
         </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.MicrosoftClient.requestedScopes">
+            <summary>
+            The requested scopes.
+            </summary>
+        </member>
         <member name="M:DotNetOpenAuth.AspNet.Clients.MicrosoftClient.#ctor(System.String,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.AspNet.Clients.MicrosoftClient"/> class.
+            Requests a scope of "wl.basic" by default, but "wl.signin" is a good minimal alternative.
             </summary>
-            <param name="appId">
-            The app id.
-            </param>
-            <param name="appSecret">
-            The app secret.
-            </param>
+            <param name="appId">The app id.</param>
+            <param name="appSecret">The app secret.</param>
         </member>
-        <member name="M:DotNetOpenAuth.AspNet.Clients.MicrosoftClient.#ctor(System.String,System.String,System.String)">
+        <member name="M:DotNetOpenAuth.AspNet.Clients.MicrosoftClient.#ctor(System.String,System.String,System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetOpenAuth.AspNet.Clients.MicrosoftClient"/> class.
+            </summary>
+            <param name="appId">The app id.</param>
+            <param name="appSecret">The app secret.</param>
+            <param name="requestedScopes">One or more requested scopes.</param>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.MicrosoftClient.#ctor(System.String,System.String,System.String,System.String[])">
             <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.AspNet.Clients.MicrosoftClient"/> class.
             </summary>
             <param name="providerName">The provider name.</param>
             <param name="appId">The app id.</param>
             <param name="appSecret">The app secret.</param>
+            <param name="requestedScopes">One or more requested scopes.</param>
         </member>
         <member name="M:DotNetOpenAuth.AspNet.Clients.MicrosoftClient.GetServiceLoginUrl(System.Uri)">
             <summary>
@@ -335,6 +648,11 @@
             <returns>
             The query access token.
             </returns>
+        </member>
+        <member name="P:DotNetOpenAuth.AspNet.Clients.MicrosoftClient.AppId">
+            <summary>
+            Gets the identifier for this client as it is registered with Microsoft.
+            </summary>
         </member>
         <member name="M:DotNetOpenAuth.AspNet.Clients.WindowsLiveClient.#ctor(System.String,System.String)">
             <summary>
@@ -578,7 +896,24 @@
             The _app secret.
             </summary>
         </member>
+        <member name="F:DotNetOpenAuth.AspNet.Clients.FacebookClient.scope">
+            <summary>
+            The scope.
+            </summary>
+        </member>
         <member name="M:DotNetOpenAuth.AspNet.Clients.FacebookClient.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetOpenAuth.AspNet.Clients.FacebookClient"/> class
+            with "email" as the scope.
+            </summary>
+            <param name="appId">
+            The app id.
+            </param>
+            <param name="appSecret">
+            The app secret.
+            </param>
+        </member>
+        <member name="M:DotNetOpenAuth.AspNet.Clients.FacebookClient.#ctor(System.String,System.String,System.String[])">
             <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.AspNet.Clients.FacebookClient"/> class.
             </summary>
@@ -587,6 +922,9 @@
             </param>
             <param name="appSecret">
             The app secret.
+            </param>
+            <param name="scope">
+            The scope of authorization to request when authenticating with Facebook. The default is "email".
             </param>
         </member>
         <member name="M:DotNetOpenAuth.AspNet.Clients.FacebookClient.GetServiceLoginUrl(System.Uri)">

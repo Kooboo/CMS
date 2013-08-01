@@ -88,6 +88,10 @@
       <Project>{ffd8e9f0-61b6-4b0d-a803-5beccd2a6578}</Project>
       <Name>Kooboo.CMS.Sites</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
+      <Name>Kooboo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

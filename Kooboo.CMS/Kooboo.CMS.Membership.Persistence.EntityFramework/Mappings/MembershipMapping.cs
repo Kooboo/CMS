@@ -29,7 +29,7 @@ namespace Kooboo.CMS.Membership.Persistence.EntityFramework.Mappings
             this.Property(it => it.MinRequiredPasswordLength);
             this.Property(it => it.PasswordStrengthRegularExpression).HasColumnType("nvarchar").HasMaxLength(256);
 
-            this.ToTable("Kooboo_CMS_Member_Membership");
+            this.ToTable("Kooboo_CMS_Membership_Membership");
         }
     }
 }

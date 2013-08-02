@@ -32,7 +32,7 @@ namespace Kooboo.CMS.Membership.Persistence.EntityFramework.Mappings
             this.HasRequired(it => it.Membership)
                 .WithMany();
 
-            this.ToTable("Kooboo_CMS_Member_MembershipConnect");
+            this.ToTable("Kooboo_CMS_Membership_MembershipConnect");
         }
     }
 }

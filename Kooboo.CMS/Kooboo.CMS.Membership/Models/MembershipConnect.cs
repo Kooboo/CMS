@@ -120,7 +120,7 @@ namespace Kooboo.CMS.Membership.Models
         {
             get;
             set;
-        } 
+        }
         #endregion
     }
     #endregion
@@ -160,8 +160,9 @@ namespace Kooboo.CMS.Membership.Models
         public virtual string[] MembershipGroups { get; set; }
         [DataMember]
         public virtual bool Enabled { get; set; }
-
-        #region O/R mapping fields        
+        [DataMember]
+        public virtual string UsernameFormat{ get; set; }
+        #region O/R mapping fields
         public string OptionsXml
         {
             get

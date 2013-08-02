@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Membership.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,29 +17,26 @@ namespace Kooboo.CMS.Membership.OAuthClients
 {
     public interface IOAuthMembershipProvider
     {
-        string GetUserName(AuthResult authResult);
-        string GetEmail(AuthResult authResult);
+        string GetUserName(AuthResult authResult, MembershipConnect membershipConnect);
+        string GetEmail(AuthResult authResult, MembershipConnect membershipConnect);
     }
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IOAuthMembershipProvider))]
     public class OAuthMembershipProvider : IOAuthMembershipProvider
     {
-        public string GetUserName(AuthResult authResult)
+        public string GetUserName(AuthResult authResult, MembershipConnect membershipConnect)
         {
             string userName = authResult.UserName;
-            if (IsEmail(userName))
+            if (!IsEmail(userName) && !string.IsNullOrEmpty(membershipConnect.UsernameFormat))
             {
-                return userName;
+                userName = string.Format(membershipConnect.UsernameFormat, userName);
             }
-            else
-            {
-                return userName + "@" + authResult.Provider;
-            }
+            return userName;
         }
         private static bool IsEmail(string str)
         {
             return Regex.IsMatch(str, RegexPatterns.EmailAddress);
         }
-        public string GetEmail(AuthResult authResult)
+        public string GetEmail(AuthResult authResult, MembershipConnect membershipConnect)
         {
             string email = "";
 

@@ -32,7 +32,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         [GridColumn(Order = 3, HeaderText = "Provider type", GridColumnType = typeof(SortableGridColumn))]
         public virtual string ProviderType { get; set; }
 
-        [GridColumn(Order = 4, HeaderText = "Provider user id", GridColumnType = typeof(SortableGridColumn))]
+        //[GridColumn(Order = 4, HeaderText = "Provider user id", GridColumnType = typeof(SortableGridColumn))]
         public virtual string ProviderUserId { get; set; }
 
         [GridColumn(Order = 5, HeaderText = "Create date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
@@ -48,10 +48,10 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         [GridColumn(Order = 8, HeaderText = "Login date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         public virtual DateTime UtcLastLoginDate { get; set; }
 
-        [GridColumn(Order = 9, HeaderText = "Password change date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
+        //[GridColumn(Order = 9, HeaderText = "Password change date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         public virtual DateTime UtcLastPasswordChangedDate { get; set; }
 
-        [GridColumn(Order = 10, HeaderText = "Lock out date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
+        //[GridColumn(Order = 10, HeaderText = "Lock out date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         public virtual DateTime UtcLastLockoutDate { get; set; }
 
         public virtual string PasswordQuestion { get; set; }

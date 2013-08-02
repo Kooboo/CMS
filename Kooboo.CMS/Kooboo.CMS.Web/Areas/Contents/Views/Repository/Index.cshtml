@@ -47,9 +47,11 @@
 
 @if (Model.Count() == 0)
 {
-	<div class="topbar"><h1 class="title">@ViewBag.Title</h1></div>
-	<div class="block fixed">
-		<div class="sitemap-panel clearfix">
+    <div class="topbar">
+        <h1 class="title">@ViewBag.Title</h1>
+    </div>
+    <div class="block fixed">
+        <div class="sitemap-panel clearfix">
             <div class="blank">
                 <p>
                     @("You do not have any content database yet, click the button below to create a content database.".Localize())
@@ -57,19 +59,21 @@
                 @Html.ActionLink("Create a database", "Create", "Repository", new { @return = ViewContext.HttpContext.Request.RawUrl }, new { @class = "button" })
             </div>
         </div>
-	</div>
+    </div>
 }
 else
 {	
-	<div class="topbar"><h1 class="title">@ViewBag.Title</h1></div>
-	<div class="block fixed" id="database_list">
-		@foreach (var item in Model)
+    <div class="topbar">
+        <h1 class="title">@ViewBag.Title</h1>
+    </div>
+    <div class="block fixed" id="database_list">
+        @foreach (var item in Model)
         {        
             <div class="content-block database">
                 @Html.Partial("_DatabaseNode", item.AsActual())
             </div>
         }
-	</div>
+    </div>
 }
 
 <script>
@@ -86,13 +90,13 @@ else
             reset();
         }
         reset();
-        $database_list.live('click', function () {
+        $database_list.on('click', function (e) {
             var $self = $(this);
             clear();
             $self.addClass('checked');
             $self.find('input:radio.select').attr('checked', true);
             reset();
-            return false;
+            e.stopPropagation();
         });
         $database_list.grid();
         $(document).click(function () {

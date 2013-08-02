@@ -566,48 +566,6 @@ img.icon.home {
 	height: 14px;
 	width: 32px;
 }
-/* Sidebar */
-img.icon.SiteCluster{
-	width: 24px;
-	height: 24px;
-	background-position: 0 -184px;
-}
-
-img.icon.Databases{
-	width: 24px;
-	height: 24px;
-	background-position: -24px -184px;
-}
-
-img.icon.Memberships{
-	width: 24px;
-	height: 24px;
-	background-position: -48px -184px;
-}
-
-img.icon.Sitetemplates{
-	width: 24px;
-	height: 24px;
-	background-position: -72px -184px;
-}
-
-img.icon.Modules{
-	width: 24px;
-	height: 24px;
-	background-position: -96px -184px;
-}
-
-img.icon.ABtest{
-	width: 24px;
-	height: 24px;
-	background-position: -120px -184px;
-}
-
-img.icon.Relation{
-	width: 24px;
-	height: 24px;
-	background-position: -144px -184px;
-}
 
 /* Form elements
 ----------------------------------------------------------*/

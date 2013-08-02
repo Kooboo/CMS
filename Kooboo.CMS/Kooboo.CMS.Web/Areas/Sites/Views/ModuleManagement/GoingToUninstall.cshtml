@@ -1,6 +1,6 @@
-﻿@model IEnumerable<Site>
+﻿@model IEnumerable<Kooboo.CMS.Web.Areas.Sites.Models.SiteModuleRelationModel>
 @{
-    ViewBag.Title = "Unable to uninstall".Localize();
+    ViewBag.Title = "Module is use in sites".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
@@ -9,9 +9,12 @@
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
                 @Html.IconImage("cancel") @("Back".Localize())</a>
         </li>
+        <li><a href="@Url.Action("Exclude", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" 
+            data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to exclude the module from these sites?".Localize())">@Html.IconImage("delete") @("Exclude".Localize())</a></li>
+
     </ul>
 }
-<div class="common-form">
+@*<div class="common-form">
     <h1 class="title">
         @ViewBag.Title</h1>
     @(Html.Raw("The module is being in used for these site:"))
@@ -21,5 +24,9 @@
             <li>@Html.ActionLink(site.FriendlyName, "Index", new { controller = "Module", area = "Sites", siteName = site.FullName })</li>
         }
     </ul>
+</div>*@
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title</h1>
 </div>
-
+@Html.GridForModel2()

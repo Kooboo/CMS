@@ -233,6 +233,7 @@
     <Compile Include="Areas\Sites\Models\DataSources\ABRuleSettingDataSource.cs" />
     <Compile Include="Areas\Sites\Models\Security_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ABSiteSetting_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\SiteModuleRelationModel.cs" />
     <Compile Include="Areas\Sites\Models\SubmissionSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\UserAgentVisitRule_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\CopySiteModel.cs" />

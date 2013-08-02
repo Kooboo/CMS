@@ -39,7 +39,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     {
         [Required]
         [UIHint("File")]
-        [Display(Name = "Module file")]
+        [AdditionalMetadata("accept", ".zip")]
+        [Display(Name = "Select file source")]
         public string ModuleFile { get; set; }
     }
 

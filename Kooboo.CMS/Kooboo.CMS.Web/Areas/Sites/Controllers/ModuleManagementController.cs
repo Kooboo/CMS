@@ -111,6 +111,44 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Uninstall
+        public virtual ActionResult GoingToUninstall(string uuid)
+        {
+            ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
+
+            var sites = Manager.AllSitesInModule(uuid);
+            if (sites.Count() > 0)
+            {
+                return View(sites.Select(it => new SiteModuleRelationModel(it)));
+            }
+            if (!string.IsNullOrEmpty(moduleInfo.UninstallingTemplate))
+            {
+                return RedirectToAction("OnUninstalling", ControllerContext.RequestContext.AllRouteValues());
+            }
+            else
+            {
+                return RedirectToAction("DeleteModuleFiles", ControllerContext.RequestContext.AllRouteValues());
+            }
+        }
+        [HttpPost]
+        public virtual ActionResult Exclude(string uuid, SiteModuleRelationModel[] model, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+
+            data.RunWithTry((resultData) =>
+            {
+                if (ModelState.IsValid)
+                {
+                    foreach (var item in model)
+                    {
+                        Manager.RemoveSiteFromModule(uuid, item.UUID);
+                    }
+
+                    resultData.RedirectUrl = @return;
+                }
+            });
+            return Json(data);
+        }
+
         public virtual ActionResult OnUninstalling(string uuid)
         {
             ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
@@ -130,24 +168,6 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
 
             return Json(data);
-        }
-        public virtual ActionResult GoingToUninstall(string uuid)
-        {
-            ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
-
-            var sites = Manager.AllSitesInModule(uuid);
-            if (sites.Count() > 0)
-            {
-                return View(sites);
-            }
-            if (!string.IsNullOrEmpty(moduleInfo.UninstallingTemplate))
-            {
-                return RedirectToAction("OnUninstalling", ControllerContext.RequestContext.AllRouteValues());
-            }
-            else
-            {
-                return RedirectToAction("DeleteModuleFiles", ControllerContext.RequestContext.AllRouteValues());
-            }
         }
         public virtual ActionResult DeleteModuleFiles(string uuid)
         {

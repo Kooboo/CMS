@@ -36,7 +36,8 @@
             </a>
         </li>
         <li>
-            <a href="@Url.Action("Delete", "Repository", new RouteValueDictionary(new { @return = ViewContext.HttpContext.Request.RawUrl }))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete the content database?".Localize())">
+            <a href="@Url.Action("Delete", "Repository", new RouteValueDictionary(new { @return = ViewContext.HttpContext.Request.RawUrl }))" data-show-on-check="Any" data-command-type="AjaxPost" data-show-on-selector=".notused"
+                data-confirm="@("Are you sure you want to delete the content database?".Localize())">
                 @Html.IconImage("delete")
                 @("Delete".Localize())
             </a>
@@ -68,10 +69,8 @@ else
     </div>
     <div class="block fixed" id="database_list">
         @foreach (var item in Model)
-        {        
-            <div class="content-block database">
-                @Html.Partial("_DatabaseNode", item.AsActual())
-            </div>
+        { 
+            @Html.Partial("_DatabaseNode", item.AsActual())          
         }
     </div>
 }
@@ -82,7 +81,7 @@ else
         var $check_relateds = $('[data-show-on-check]');
         var selector = 'input:radio.select:checked';
         function reset() {
-            $database_list.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
+            $database_list.reset_check_relateds({ check_relateds: $check_relateds, selector: selector, itemTag: 'div.content-block-header' });
         }
         function clear() {
             $database_list.removeClass('checked');

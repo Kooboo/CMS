@@ -35,7 +35,7 @@
             </a>
         </li>
         <li>
-            <a href="@Url.Action("Delete", "Membership", new RouteValueDictionary(new { @return = ViewContext.HttpContext.Request.RawUrl }))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete the content database?".Localize())">
+            <a href="@Url.Action("Delete", "Membership", new RouteValueDictionary(new { @return = ViewContext.HttpContext.Request.RawUrl }))" data-show-on-check="Any" data-command-type="AjaxPost" data-show-on-selector=".notused" data-confirm="@("Are you sure you want to delete the membership?".Localize())">
                 @Html.IconImage("delete")
                 @("Delete".Localize())
             </a>
@@ -68,9 +68,7 @@ else
     <div class="block fixed" id="membership_list">
         @foreach (var membership in Model)
         {        
-            <div class="content-block membership">
-                @Html.Partial("_MembershipNode", membership)
-            </div>
+            @Html.Partial("_MembershipNode", membership)           
         }
     </div>
 }
@@ -81,7 +79,7 @@ else
         var $check_relateds = $('[data-show-on-check]');
         var selector = 'input:radio.select:checked';
         function reset() {
-            $membership_list.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
+            $membership_list.reset_check_relateds({ check_relateds: $check_relateds, selector: selector, itemTag: 'div.content-block-header' });
         }
         function clear() {
             $membership_list.removeClass('checked');

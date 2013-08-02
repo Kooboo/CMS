@@ -12,22 +12,24 @@
     var textFolders = textFolderManager.All(Model, "").Count();
     var sites = siteManager.All().Select(it => it.AsActual()).Where(it => it.Repository.EqualsOrNullEmpty(Model.Name, StringComparison.OrdinalIgnoreCase)).Count();
 }
+<div class="content-block database">
 
-<div class="content-block-header">
-    @Html.ActionLink(string.IsNullOrEmpty(Model.DisplayName) ? Model.Name : Model.DisplayName, "Guide", "Repository", routeValues, new RouteValueDictionary(new { title = Model.Name }))
-    <input type="radio" name="select" class="select" value="@Model.UUID" id="@Model.UUID"  data-id-property="UUID"><label for="@Model.UUID"></label><span class="corner"></span>
+    <div class="content-block-header @(sites > 0 ? "inused" : "notused")">
+        @Html.ActionLink(string.IsNullOrEmpty(Model.DisplayName) ? Model.Name : Model.DisplayName, "Guide", "Repository", routeValues, new RouteValueDictionary(new { title = Model.Name }))
+        <input type="radio" name="select" class="select" value="@Model.UUID" id="@Model.UUID"  data-id-property="UUID"><label for="@Model.UUID"></label><span class="corner"></span>
+    </div>
+
+    <ul>
+        <li>
+            @("Content types:") @(contentTypes)
+        </li>
+
+        <li>
+            @("Text folders:") @(textFolders)
+        </li>
+        <li>
+            @("Sites in use:") @sites
+        </li>
+    </ul>
+
 </div>
-
-<ul>
-    <li>
-        @("Content types:") @(contentTypes)
-    </li>
-
-    <li>
-        @("Text folders:") @(textFolders)
-    </li>
-    <li>
-        @("Sites in use:") @sites
-    </li>
-</ul>
-

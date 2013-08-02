@@ -1,5 +1,6 @@
-﻿@{
-    ViewBag.Title = "Impossible to uninstall".Localize();
+﻿@model IEnumerable<Site>
+@{
+    ViewBag.Title = "Unable to uninstall".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
@@ -13,6 +14,12 @@
 <div class="common-form">
     <h1 class="title">
         @ViewBag.Title</h1>
-    @(Html.Raw(string.Format("The module is being in used, <a href='{0}'>click here</a> to see the referencing.", Url.Action("Relations", ViewContext.RequestContext.AllRouteValues().Merge("title", "Show module relations".Localize())))))
+    @(Html.Raw("The module is being in used for these site:"))
+    <ul>
+        @foreach (var site in Model)
+        {
+            <li>@Html.ActionLink(site.FriendlyName, "Index", new { controller = "Module", area = "Sites", siteName = site.FullName })</li>
+        }
+    </ul>
 </div>
 

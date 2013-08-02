@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Uninstall module".Localize();
+    ViewBag.Title = "Unistall module".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
@@ -8,16 +8,18 @@
             <a data-ajaxform="">
                 @Html.IconImage("next") @("Next".Localize())</a>
         </li>
-        <li>
-            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
-        </li>
     </ul>
 }
-<div class="common-form">
-    <h1 class="title">
-        @ViewBag.Title</h1>
 
+<div class="common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <a>@("Run uninstall action".Localize())</a>
+            <span class="current">@("Run install action".Localize())<b></b></span>
+            <span>@("Finished".Localize())</span>
+        </div>
+    </div>
     @using (Html.BeginForm())
     {               
         <div class="block">
@@ -26,4 +28,3 @@
     }
 
 </div>
-

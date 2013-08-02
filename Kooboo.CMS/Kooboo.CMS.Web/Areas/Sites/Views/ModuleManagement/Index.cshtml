@@ -14,8 +14,8 @@
             @Html.IconImage("delete") @("Uninstall".Localize())</a></li>
 
 
-        <li><a href="@Url.Action("Relations", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show module relations"))" data-show-on-check="Single" data-command-type="Redirect">
-            @Html.IconImage("relations") @("Relations".Localize())</a></li>
+        <li><a href="@Url.Action("Relation", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show module relations"))" data-show-on-check="Single" data-command-type="Redirect">
+            @Html.IconImage("relation") @("Relation".Localize())</a></li>
     </ul>
 }
 

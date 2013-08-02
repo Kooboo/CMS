@@ -1,6 +1,6 @@
 ﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo
 @{
-    ViewBag.Title = "Run module initialization".Localize();
+    ViewBag.Title = "Install module".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
@@ -12,9 +12,14 @@
     </ul>
 }
 <div class="common-form">
-    <h1 class="title">
-        @ViewBag.Title</h1>
-
+    <h1 class="title">@ViewBag.Title</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <a>@("Upload module".Localize())</a>
+            <span class="current">@("Run install action".Localize())<b></b></span>
+            <span>@("Finished".Localize())</span>            
+        </div>
+    </div>
     @using (Html.BeginForm())
     {
         @Html.Partial(Model.InstallingTemplate,null,new ViewDataDictionary())

@@ -125,7 +125,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 data.RunWithTry((resultData) =>
                 {
                     Manager.OnUnistalling(uuid, ControllerContext);
-                    resultData.RedirectUrl = Url.Action("Uninstall", ControllerContext.RequestContext.AllRouteValues());
+                    resultData.RedirectUrl = Url.Action("DeleteModuleFiles", ControllerContext.RequestContext.AllRouteValues());
                 });
             }
 
@@ -138,7 +138,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             var sites = Manager.AllSitesInModule(uuid);
             if (sites.Count() > 0)
             {
-                return View();
+                return View(sites);
             }
             if (!string.IsNullOrEmpty(moduleInfo.UninstallingTemplate))
             {
@@ -146,15 +146,15 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
             else
             {
-                return RedirectToAction("Uninstall", ControllerContext.RequestContext.AllRouteValues());
+                return RedirectToAction("DeleteModuleFiles", ControllerContext.RequestContext.AllRouteValues());
             }
         }
-        public virtual ActionResult Uninstall(string uuid)
+        public virtual ActionResult DeleteModuleFiles(string uuid)
         {
             return View();
         }
         [HttpPost]
-        public virtual ActionResult Uninstall(string uuid, string @return)
+        public virtual ActionResult DeleteModuleFiles(string uuid, string @return)
         {
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
@@ -165,18 +165,23 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     Manager.Uninstall(uuid);
                 }
 
-                resultData.RedirectUrl = @return;
+                resultData.RedirectUrl = Url.Action("UninstallComplete", ControllerContext.RequestContext.AllRouteValues());
             });
             return Json(data);
         }
+
+        public virtual ActionResult UninstallComplete(string moduleName, string @return)
+        {
+            return View();
+        }
         #endregion
 
-        #region Relations
-        public virtual ActionResult Relations(string uuid)
+        #region Relation
+        public virtual ActionResult Relation(string uuid)
         {
-            var model = Manager.AllSitesInModule(uuid).Select(siteName => new RelationModel()
+            var model = Manager.AllSitesInModule(uuid).Select(site => new RelationModel()
             {
-                RelationName = siteName,
+                RelationName = site.FriendlyName,
                 RelationType = "Site"
             });
             return View("Relations", model);

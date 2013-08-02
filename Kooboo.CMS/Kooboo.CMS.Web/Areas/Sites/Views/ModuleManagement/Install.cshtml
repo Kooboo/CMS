@@ -16,8 +16,17 @@
     </ul>
 }
 <div class="common-form">
-    <h1 class="title">
-        @ViewBag.Title</h1>
+    <h1 class="title">@ViewBag.Title</h1>
+	<div class="process-steps">
+        <div class="steps-inner">
+            <a>Campaign info</a>
+            <a>Subscribers</a>
+            <span class="current">Choose mode<b></b></span>
+            <span>Edit content</span>
+            <span>Test</span>
+            <span>Send</span>
+        </div>
+    </div>
     @using (Html.BeginForm())
     {
                

@@ -2221,6 +2221,58 @@ body .select2-results .select2-result-label {
 	font-weight: bold;
 }
 
+/* Process-steps
+---------------------------------------------------------*/
+.process-steps{
+    position: relative;
+    font-size: 0;
+    width: 100%;
+    height: 30px;
+    border-bottom: 3px solid #ccc;
+    margin-bottom: 20px;
+    counter-reset: step;
+}
+
+.process-steps .steps-inner{
+    overflow-x: hidden;
+    position: absolute;
+}
+
+.process-steps a, .process-steps span{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #ccc;
+    margin: 0 50px;
+}
+.process-steps a:before, .process-steps span:before{
+    counter-increment: step;
+    content: counter(step) ".";
+}
+.process-steps span.current{
+    color: #000;
+}
+.process-steps a{
+    color: #999;
+}
+.process-steps a:hover{
+    color: #000;
+}
+.process-steps a b, .process-steps span b{
+    position: absolute;
+    display: block;
+    width: 9999px;
+    height: 3px;
+    bottom: -3px;
+    right: 50%;
+    z-index: 2;
+    background: #0078B1;
+}
+
+
 /* Treeview
 ---------------------------------------------------------*/
 .block.treeview {
@@ -3029,7 +3081,7 @@ ul.site-tree {
 }
 
 .sitemap-description li span.available {
-	background: #37B861;
+	background: #1f9284;
 }
 
 .sitemap-description li span.completed {
@@ -3169,21 +3221,21 @@ ul.site-tree {
 }
 
 .content-block.database.checked > ul{
-	border-left: 2px solid #0078b1;
-	border-right: 2px solid #0078b1;
-	border-bottom: 2px solid #0078b1;
+	border-left: 2px solid #1f9284;
+	border-right: 2px solid #1f9284;
+	border-bottom: 2px solid #1f9284;
 }
 
 .content-block.membership.checked > ul{
-	border-left: 2px solid #3cbabb;
-	border-right: 2px solid #3cbabb;
-	border-bottom: 2px solid #3cbabb;
+	border-left: 2px solid #5496A7;
+	border-right: 2px solid #5496A7;
+	border-bottom: 2px solid #5496A7;
 }
 
 .content-block.module.checked > ul{
-	border-left: 2px solid #5a0b86;
-	border-right: 2px solid #5a0b86;
-	border-bottom: 2px solid #5a0b86;
+	border-left: 2px solid #6a4a7c;
+	border-right: 2px solid #6a4a7c;
+	border-bottom: 2px solid #6a4a7c;
 }
 
 .content-block .content-block-header{
@@ -3191,6 +3243,8 @@ ul.site-tree {
 	line-height: 32px;
 	padding-left: 20px;
 	color: #fff;
+	background: #fff;
+	position: relative;
 }
 
 .content-block .content-block-header a{
@@ -3200,15 +3254,15 @@ ul.site-tree {
 }
 
 .content-block.database .content-block-header{
-	background: #1076a6;
+	background: #1f9284;
 }
 
 .content-block.membership .content-block-header{
-	background: #3cbabb;
+	background: #5496A7;
 }
 
 .content-block.module .content-block-header{
-	background: #5a0b86;
+	background: #80678F;
 }
 
 .content-block .content-block-header img.icon{
@@ -3218,9 +3272,11 @@ ul.site-tree {
 }
 
 .content-block input[type="radio"]{
-	margin: 9px 9px 0 0;
+	margin: 4px 4px 0 0;
 	float: right;
 	display: none;
+	position: relative;
+	z-index: 2;
 }
 
 .content-block input[type="radio"] ~ label{
@@ -3234,6 +3290,19 @@ ul.site-tree {
 
 .content-block input[type="radio"] ~ label:hover{
 	cursor: pointer;
+}
+
+.content-block input[type="radio"] ~ .corner{
+	display: none;
+	border-left: 32px solid transparent;
+	border-top: 32px solid #0078B1;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.content-block input[type="radio"]:checked ~ .corner{
+	display: block;
 }
 
 .content-block > ul{
@@ -3302,7 +3371,7 @@ ul.site-tree {
 }
 
 .block.process .map-item {
-	background: #37b861;
+	background: #1f9284;
 	position: absolute;
 }
 
@@ -3758,6 +3827,11 @@ ul.site-tree {
 /* =6 Other
 ---------------------------------------------------------------------------------------------------------------------*/
 /* relation svg */
+.topbar .tips{
+	float: right;
+	margin-top: 14px;
+}
+
 svg text:hover{
     cursor:pointer;
 	text-decoration: underline;
@@ -3772,9 +3846,6 @@ svg image:hover{
     cursor:pointer;
 }
 
-#showRelation{
-	text-align: center;
-}
 /* jquery-ui autocomplete */
 .ui-autocomplete{
 	padding: 1px;

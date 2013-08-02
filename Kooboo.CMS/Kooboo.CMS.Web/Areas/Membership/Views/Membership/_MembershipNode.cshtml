@@ -17,7 +17,7 @@
 
 <div class="content-block-header">
     @Html.ActionLink(Model.Name, "Go", "Membership", routeValues, new RouteValueDictionary(new { title = Model.Name }))
-    <input type="radio" name="select" class="select" value="@Model.UUID" id="@Model.UUID"  data-id-property="UUID"><label for="@Model.UUID"></label>
+    <input type="radio" name="select" class="select" value="@Model.UUID" id="@Model.UUID"  data-id-property="UUID"><label for="@Model.UUID"></label><span class="corner"></span>
 </div>
 
 <ul>

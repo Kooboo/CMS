@@ -253,6 +253,12 @@ img.icon.trash {
 	width: 26px;
 }
 
+img.icon.relation {
+	background-position: -260px -26px;
+	height: 26px;
+	width: 26px;
+}
+
 img.icon.plus.small {
 	background-position: -33px -64px;
 	height: 16px;

@@ -433,7 +433,7 @@
     <Compile Include="Json_netResult.cs" />
     <Compile Include="Models\CopyModel.cs" />
     <Compile Include="Models\DynamicDictionaryBinder.cs" />
-    <Compile Include="Models\JsonModelBinder.cs" />
+    <Compile Include="Models\Json_netModelBinder.cs" />
     <Compile Include="Models\RemoteExAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Areas\Sites\CodeSnippets\WebForm\Inline Edit\Edit field atributes.txt" />

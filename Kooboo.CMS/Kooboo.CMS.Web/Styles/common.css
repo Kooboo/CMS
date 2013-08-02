@@ -2236,6 +2236,9 @@ body .select2-results .select2-result-label {
     background: #0078B1;
 }
 
+.process-steps-tip{
+	font-size: 18px;
+}
 
 /* Treeview
 ---------------------------------------------------------*/

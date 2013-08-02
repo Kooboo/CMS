@@ -166,6 +166,7 @@
     <Compile Include="Areas\Contents\Models\Grid2\PendingWorflowItem_Edit_GridItemColumn.cs" />
     <Compile Include="Areas\Contents\Models\ImageCropModel.cs" />
     <Compile Include="Areas\Contents\Models\ImageScaleModel.cs" />
+    <Compile Include="Areas\Contents\Models\ImportRepositoryModel.cs" />
     <Compile Include="Areas\Contents\Models\IndexSummaryModel.cs" />
     <Compile Include="Areas\Contents\Models\MediaContentMetadata_Metadata.cs" />
     <Compile Include="Areas\Contents\Models\MoveMediaContent.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Areas\Sites\Models\DataSources\ABRuleSettingDataSource.cs" />
     <Compile Include="Areas\Sites\Models\Security_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ABSiteSetting_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\SiteModuleRelationModel.cs" />
     <Compile Include="Areas\Sites\Models\SubmissionSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\UserAgentVisitRule_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\CopySiteModel.cs" />
@@ -432,7 +434,7 @@
     <Compile Include="Json_netResult.cs" />
     <Compile Include="Models\CopyModel.cs" />
     <Compile Include="Models\DynamicDictionaryBinder.cs" />
-    <Compile Include="Models\JsonModelBinder.cs" />
+    <Compile Include="Models\Json_netModelBinder.cs" />
     <Compile Include="Models\RemoteExAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Areas\Sites\CodeSnippets\WebForm\Inline Edit\Edit field atributes.txt" />
@@ -1996,9 +1998,9 @@
       <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
       <Name>Kooboo.CMS.Form</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Member\Kooboo.CMS.Member.csproj">
+    <ProjectReference Include="..\Kooboo.CMS.Membership\Kooboo.CMS.Membership.csproj">
       <Project>{3df23643-4bd1-4564-82b9-9ec594ad05b6}</Project>
-      <Name>Kooboo.CMS.Member</Name>
+      <Name>Kooboo.CMS.Membership</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Search\Kooboo.CMS.Search.csproj">
       <Project>{C7B73E67-D226-41CB-A86D-410276B265A1}</Project>
@@ -2277,7 +2279,7 @@
     <Content Include="Areas\Sites\Views\ModuleManagement\OnUninstalling.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\ModuleManagement\Uninstall.cshtml" />
+    <Content Include="Areas\Sites\Views\ModuleManagement\DeleteModuleFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\GoingToUninstall.cshtml" />
@@ -2297,10 +2299,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Membership\Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Membership\Views\Shared\MenuItem.cshtml" />
+    <Content Include="Areas\Membership\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Membership\Views\Membership\Index.cshtml" />
@@ -2389,10 +2390,16 @@
     <Content Include="Areas\Contents\Views\Repository\_DatabaseNode.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Sites\Views\Home\Relation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\_ModuleNode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Contents\Views\Repository\Import.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\UninstallComplete.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

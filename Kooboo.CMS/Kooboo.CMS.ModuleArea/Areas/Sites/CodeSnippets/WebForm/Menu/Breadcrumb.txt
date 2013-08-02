@@ -4,5 +4,5 @@
     <li><%:Html.FrontHtml().PageLink(item.LinkText, item.FullName)%></li>
     <li class="separator">|</li>
 <%}%>
-<li><%:Page_Context.Current.GetFieldValue("Title")??MenuHelper.Current().Name%></li>
+<li><%:Page_Context.Current.ContentTitle??MenuHelper.Current().LinkText%></li>
 </ul>

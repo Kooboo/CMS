@@ -3,6 +3,7 @@
     Layout = ViewBag.Layout ?? "_TR.cshtml";
     ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
     var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString();
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName);
 
     var editorHtmlAttributes = Html.GetUnobtrusiveValidationAttributes(propertyName, ViewData.ModelMetadata).Merge(ViewData.ModelMetadata.AdditionalValues, true);
     var htmlAttributes = ViewBag.HtmlAttributes;
@@ -27,7 +28,7 @@
 }
 <script>
     $(function () {
-        $('#@Html.Raw(ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString())').autocomplete({
+        $('#@id').autocomplete({
                     source: '@Html.Raw(Url.Action("Index", "AutoComplete", ViewContext.RequestContext.AllRouteValues().Merge("dataSourceType", ViewData.ModelMetadata.GetDataSourceType().AssemblyQualifiedName)))'
                 });
             });

@@ -1,14 +1,15 @@
 ﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Sites.ABTest.ABRuleSetting>
 @{
     ViewBag.Title = "A/B rules".Localize();
-    if (Site.Current != null)
-    {
-        Layout = "~/Views/Shared/Site.cshtml";
-    }
-    else
-    {
-        Layout = "~/Areas/Sites/Views/Shared/Global.cshtml";
-    }
+    Layout = "~/Views/Shared/Site.cshtml";
+    //if (Site.Current != null)
+    //{
+    //    Layout = "~/Views/Shared/Site.cshtml";
+    //}
+    //else
+    //{
+    //    Layout = "~/Areas/Sites/Views/Shared/Global.cshtml";
+    //}
     var allRules = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<Kooboo.CMS.Sites.ABTest.IVisitRule>();
  
 }
@@ -27,7 +28,7 @@
                         @((string)(item.RuleType).Localize())</a></li>    
                 }
             </ul>
-        </li>       
+        </li>
         <li>
             <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import visit rules"))">
                 @Html.IconImage("import") @("Import".Localize())

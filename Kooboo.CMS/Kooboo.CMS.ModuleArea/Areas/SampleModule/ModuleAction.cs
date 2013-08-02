@@ -34,7 +34,7 @@ namespace Kooboo.CMS.ModuleArea.Areas.SampleModule
         {
             var moduleInfo = ModuleInfo.Get(SampleAreaRegistration.ModuleName);
             var installModel = new InstallModel();
-            Kooboo.CMS.Sites.Extension.PagePluginHelper.BindModel<InstallModel>(installModel, controllerContext);
+            Kooboo.CMS.Sites.Extension.ModelBindHelper.BindModel<InstallModel>(installModel, controllerContext);
 
             moduleInfo.DefaultSettings.CustomSettings["DatabaseServer"] = installModel.DatabaseServer;
             moduleInfo.DefaultSettings.CustomSettings["UserName"] = installModel.UserName;

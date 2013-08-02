@@ -83,7 +83,6 @@
     <Content Include="lib\Kooboo.CMS.Search.dll" />
     <Content Include="lib\Kooboo.CMS.Sites.dll" />
     <Content Include="lib\Kooboo.CMS.Sites.TemplateEngines.Razor.dll" />
-    <Content Include="lib\Kooboo.Connect.dll" />
     <Content Include="lib\Kooboo.dll" />
     <Content Include="lib\Lucene.Net.Contrib.Highlighter.dll" />
     <Content Include="lib\Lucene.Net.dll" />

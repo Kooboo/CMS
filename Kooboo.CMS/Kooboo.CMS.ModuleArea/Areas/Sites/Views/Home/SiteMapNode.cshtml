@@ -8,13 +8,14 @@
         Html.ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_EditPermission);
 
     var hasDraft = ServiceFactory.PageManager.HasDraft(Model.Page);
+    var isABTestPage = new Kooboo.CMS.Sites.ABTest.ABPageSetting() { Site = Kooboo.CMS.Sites.Models.Site.Current, MainPage = Model.Page.FullName }.AsActual() != null;
 
     var routeValues = ViewContext.RequestContext.AllRouteValues()
 .Merge("controller", "Page")
 .Merge("UUID", Model.Page.FullName)
 .Merge("return", Request.RawUrl);
 
-    <div class="map-item @( isLocal ? "" : "inherited") @(isStaticPage ? "static" : "dynamic") @(!Model.Page.Published == true ? "unpublished" : "") @(Model.Page.Navigation.Show ? "show-in-menu" : "")">
+    <div class="map-item @( isLocal ? "" : "inherited") @(isStaticPage ? "static" : "dynamic") @(!Model.Page.Published == true ? "unpublished" : "") @(Model.Page.Navigation.Show ? "show-in-menu" : "") @(isABTestPage == true ?"abpage":"")">
         <a title="@((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)">
             @((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)</a>
         <span class="arrow">@Html.IconImage("arrow-right")</span>

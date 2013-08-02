@@ -26,7 +26,7 @@
         
         var Utilities =  {            
             cloneObject:function(obj) {
-                return _.clone(obj);
+                return ko.mapping.fromJS(ko.toJS(obj));
             },            
             showDialog:function(ruleItem) {
                 $currentDialog = $("#rulType_" + ruleItem.RuleType());
@@ -101,7 +101,7 @@
                     $.ajax({
                         type: "POST",
                         url: location.href,
-                        contentType:"application/json",
+                        contentType:"application/json_net",
                         dataType:"json",
                         data: data
                     }).done(function( responseData ) {

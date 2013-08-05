@@ -25,6 +25,7 @@ namespace Kooboo.CMS.Membership.Persistence.EntityFramework.Mappings
             this.Property(it => it.AppId).HasColumnType("nvarchar").HasMaxLength(256);
             this.Property(it => it.AppSecret).HasColumnType("nvarchar").HasMaxLength(256);
             this.Property(it => it.Enabled);
+            this.Property(it => it.UsernameFormat).HasColumnType("nvarchar").HasMaxLength(256);
 
             this.Property(it => it.OptionsXml).HasColumnType("nvarchar").HasMaxLength(1024);
             this.Property(it => it.MembershipGroupsXml).HasColumnType("nvarchar").HasMaxLength(1024);

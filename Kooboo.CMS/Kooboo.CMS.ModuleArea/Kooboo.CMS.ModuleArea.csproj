@@ -650,6 +650,8 @@
     <Content Include="Images\svg-export.png" />
     <Content Include="Images\svg-preview.png" />
     <Content Include="Images\svg-view.png" />
+    <Content Include="lib\Mono.Math.dll" />
+    <Content Include="lib\Org.Mentalis.Security.Cryptography.dll" />
     <Content Include="Menu.config" />
     <Content Include="lib\CookComputing.XmlRpcV2.dll" />
     <Content Include="lib\DiffPlex.dll" />

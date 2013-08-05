@@ -541,4 +541,248 @@
   <data name="News" xml:space="preserve">
     <value>News</value>
   </data>
+  <data name="Publish" xml:space="preserve">
+    <value>Publish</value>
+  </data>
+  <data name="This item has not been published yet.&lt;br/&gt;Click to publish this item." xml:space="preserve">
+    <value>This item has not been published yet.&lt;br/&gt;Click to publish this item.</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Font family" xml:space="preserve">
+    <value>Font family</value>
+  </data>
+  <data name="Font size" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="Font color" xml:space="preserve">
+    <value>Font color</value>
+  </data>
+  <data name="Background color" xml:space="preserve">
+    <value>Background color</value>
+  </data>
+  <data name="Color picker" xml:space="preserve">
+    <value>Color picker</value>
+  </data>
+  <data name="Select a color or insert a hex code value." xml:space="preserve">
+    <value>Select a color or insert a hex code value.</value>
+  </data>
+  <data name="Original:" xml:space="preserve">
+    <value>Original:</value>
+  </data>
+  <data name="New:" xml:space="preserve">
+    <value>New:</value>
+  </data>
+  <data name="Hex value:" xml:space="preserve">
+    <value>Hex value:</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Invalid input width" xml:space="preserve">
+    <value>Invalid input width</value>
+  </data>
+  <data name="Invalid input height" xml:space="preserve">
+    <value>Invalid input height</value>
+  </data>
+  <data name="The image size is too big for this layout.&#xA;Are you sure you want to use this size?" xml:space="preserve">
+    <value>The image size is too big for this layout.
+Are you sure you want to use this size?</value>
+  </data>
+  <data name="Are you sure you want to delete this image?" xml:space="preserve">
+    <value>Are you sure you want to delete this image?</value>
+  </data>
+  <data name="Are you sure you want to delete the link?" xml:space="preserve">
+    <value>Are you sure you want to delete the link?</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Bold</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Italic</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Underline</value>
+  </data>
+  <data name="Align left" xml:space="preserve">
+    <value>Align left</value>
+  </data>
+  <data name="Align center" xml:space="preserve">
+    <value>Align center</value>
+  </data>
+  <data name="Align right" xml:space="preserve">
+    <value>Align right</value>
+  </data>
+  <data name="Align justify" xml:space="preserve">
+    <value>Align justify</value>
+  </data>
+  <data name="Number list" xml:space="preserve">
+    <value>Number list</value>
+  </data>
+  <data name="Bullet list" xml:space="preserve">
+    <value>Bullet list</value>
+  </data>
+  <data name="Increase indent" xml:space="preserve">
+    <value>Increase indent</value>
+  </data>
+  <data name="Decrease indent" xml:space="preserve">
+    <value>Decrease indent</value>
+  </data>
+  <data name="Insert image" xml:space="preserve">
+    <value>Insert image</value>
+  </data>
+  <data name="Insert link" xml:space="preserve">
+    <value>Insert link</value>
+  </data>
+  <data name="Edit source" xml:space="preserve">
+    <value>Edit source</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="Remove format" xml:space="preserve">
+    <value>Remove format</value>
+  </data>
+  <data name="Insert horizontal ruler" xml:space="preserve">
+    <value>Insert horizontal ruler</value>
+  </data>
+  <data name="Paste with plain text" xml:space="preserve">
+    <value>Paste with plain text</value>
+  </data>
+  <data name="Are you sure you want to delete this item?" xml:space="preserve">
+    <value>Are you sure you want to delete this item?</value>
+  </data>
+  <data name="Network error, the action has been cancelled." xml:space="preserve">
+    <value>Network error, the action has been cancelled.</value>
+  </data>
+  <data name="Copying..." xml:space="preserve">
+    <value>Copying...</value>
+  </data>
+  <data name="Deleting..." xml:space="preserve">
+    <value>Deleting...</value>
+  </data>
+  <data name="Publishing..." xml:space="preserve">
+    <value>Publishing...</value>
+  </data>
+  <data name="Copy successfully." xml:space="preserve">
+    <value>Copy successfully.</value>
+  </data>
+  <data name="Delete successfully." xml:space="preserve">
+    <value>Delete successfully.</value>
+  </data>
+  <data name="Publish successfully." xml:space="preserve">
+    <value>Publish successfully.</value>
+  </data>
+  <data name="The attempt to copy has failed." xml:space="preserve">
+    <value>The attempt to copy has failed.</value>
+  </data>
+  <data name="The attempt to delete has failed." xml:space="preserve">
+    <value>The attempt to delete has failed.</value>
+  </data>
+  <data name="The attempt to publish has failed." xml:space="preserve">
+    <value>The attempt to publish has failed.</value>
+  </data>
+  <data name="Saving..." xml:space="preserve">
+    <value>Saving...</value>
+  </data>
+  <data name="Save successfully." xml:space="preserve">
+    <value>Save successfully.</value>
+  </data>
+  <data name="The attempt to save has failed." xml:space="preserve">
+    <value>The attempt to save has failed.</value>
+  </data>
+  <data name="Image options" xml:space="preserve">
+    <value>Image options</value>
+  </data>
+  <data name="Image library" xml:space="preserve">
+    <value>Image library</value>
+  </data>
+  <data name="URL" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="ALT" xml:space="preserve">
+    <value>ALT</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="LINK" xml:space="preserve">
+    <value>LINK</value>
+  </data>
+  <data name="Please input the url." xml:space="preserve">
+    <value>Please input the url.</value>
+  </data>
+  <data name="Link panel" xml:space="preserve">
+    <value>Link panel</value>
+  </data>
+  <data name="Unlink" xml:space="preserve">
+    <value>Unlink</value>
+  </data>
+  <data name="Text:" xml:space="preserve">
+    <value>Text:</value>
+  </data>
+  <data name="Url:" xml:space="preserve">
+    <value>Url:</value>
+  </data>
+  <data name="Title:" xml:space="preserve">
+    <value>Title:</value>
+  </data>
+  <data name="Link type:" xml:space="preserve">
+    <value>Link type:</value>
+  </data>
+  <data name="Open in a new window" xml:space="preserve">
+    <value>Open in a new window</value>
+  </data>
+  <data name="Text panel" xml:space="preserve">
+    <value>Text panel</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Default entry" xml:space="preserve">
+    <value>Default entry</value>
+  </data>
+  <data name="ModuleName" xml:space="preserve">
+    <value>ModuleName</value>
+  </data>
+  <data name="KoobooCMSVersion" xml:space="preserve">
+    <value>KoobooCMSVersion</value>
+  </data>
+  <data name="ThemeName" xml:space="preserve">
+    <value>ThemeName</value>
+  </data>
+  <data name="Controller" xml:space="preserve">
+    <value>Controller</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>Empty</value>
+  </data>
+  <data name="Initialize module" xml:space="preserve">
+    <value>Initialize module</value>
+  </data>
 </root>

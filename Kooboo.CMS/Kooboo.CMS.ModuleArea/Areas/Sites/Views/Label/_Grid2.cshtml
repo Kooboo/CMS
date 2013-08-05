@@ -27,22 +27,6 @@
     <div class="tbody">
         <table>
             @RenderHeader()
-            <thead>
-                <tr>
-                    @if (Model.Checkable)
-                    {
-                        <th class="checkbox">
-                            <input type="checkbox" class="select-all" />
-                        </th>
-                    }
-                    @foreach (var column in Model.Columns)
-                    {
-                        <th @column.RenderHeaderContainerAtts(ViewContext)>
-                            @column.RenderHeader(ViewContext)
-                        </th>
-                    }
-                </tr>
-            </thead>
             <tbody>
                 @{
                     var categoryList = ViewData["CategoryList"] == null ? new ElementCategory[0] : ((IEnumerable<ElementCategory>)ViewData["CategoryList"]).ToArray();
@@ -52,7 +36,7 @@
                 { 
                     <tr class="empty">
                         <td colspan="100">
-                            @("Empty".Localize())
+                            @(string.IsNullOrEmpty(Model.GridAttribute.EmptyText) ? ("Empty".Localize()) : Model.GridAttribute.EmptyText)
                         </td>
                     </tr>
                 }

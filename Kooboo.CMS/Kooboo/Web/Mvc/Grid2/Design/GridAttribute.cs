@@ -30,5 +30,7 @@ namespace Kooboo.Web.Mvc.Grid2.Design
         /// The type of the grid item.
         /// </value>
         public Type GridItemType { get; set; }
+
+        public string EmptyText { get; set; }
     }
 }

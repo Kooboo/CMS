@@ -35,7 +35,7 @@
                 { 
                     <tr class="empty">
                         <td colspan="100">
-                            @("Empty".Localize())
+                            @(string.IsNullOrEmpty(Model.GridAttribute.EmptyText)? ("Empty".Localize()) : Model.GridAttribute.EmptyText)
                         </td>
                     </tr>
                 }

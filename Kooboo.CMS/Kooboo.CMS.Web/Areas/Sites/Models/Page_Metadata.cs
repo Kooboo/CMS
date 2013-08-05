@@ -33,7 +33,7 @@ using System.Web.Routing;
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
     [MetadataFor(typeof(Page))]
-    [Grid(Checkable = true, Draggable = true, IdProperty = "UUID", GridItemType = typeof(PageGridItem))]
+    [Grid(Checkable = true, Draggable = true, IdProperty = "UUID", GridItemType = typeof(PageGridItem), EmptyText = "No sub pages")]
     [GridColumn(GridItemColumnType = typeof(Page_Draft_GridItemColumn), HeaderText = "Draft", Order = 5)]
     public class Page_Metadata
     {

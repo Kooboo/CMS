@@ -31,12 +31,12 @@ namespace Kooboo.CMS.Web.Areas.Sites.Menu
                 var site = SiteHelper.Parse(siteName).AsActual();
                 if (site != null)
                 {
-                    var repositoryName = site.Repository;
-                    if (!string.IsNullOrEmpty(repositoryName))
+                    var repository = site.GetRepository();
+                    if (repository != null)
                     {
                         areaName = "Contents";
                         var items = MenuFactory.BuildMenu(controllerContext, areaName, false).Items;
-                        ResetRouteValues(siteName, repositoryName, areaName, items);
+                        ResetRouteValues(siteName, repository.Name, areaName, items);
                         return items;
                     }
                 }

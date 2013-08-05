@@ -23,20 +23,19 @@ namespace Kooboo.CMS.Account.Models
     public partial class User
     {
         public string UserName { get; set; }
-
-        [DataMember()]
+        [DataMember(Order = 1)]
         public string Email { get; set; }
 
-        [DataMember()]
+        [DataMember(Order = 3)]
         public string Password { get; set; }
 
-        [DataMember()]
+        [DataMember(Order = 5)]
         public bool IsAdministrator { get; set; }
-
-        [DataMember()]
+                
+        [DataMember]
         public string UICulture { get; set; }
 
-        [DataMember()]
+        [DataMember]
         public string PasswordSalt
         {
             get;
@@ -44,7 +43,7 @@ namespace Kooboo.CMS.Account.Models
         }
 
         private bool? isApproved;
-        [DataMember()]
+        [DataMember]
         public bool IsApproved
         {
             get
@@ -61,28 +60,28 @@ namespace Kooboo.CMS.Account.Models
             }
         }
 
-        [DataMember()]
+        [DataMember]
         public bool IsLockedOut
         {
             get;
             set;
         }
 
-        [DataMember()]
+        [DataMember]
         public int FailedPasswordAttemptCount
         {
             get;
             set;
         }
 
-        [DataMember()]
+        [DataMember]
         public DateTime? UtcLastLockoutDate
         {
             get;
             set;
         }
 
-        [DataMember()]
+        [DataMember]
         public DateTime? UtcLastLoginDate
         {
             get;

@@ -16,7 +16,7 @@
 {
     var parent = parents.Pop();  
     <li>
-        @Html.ActionLink(string.IsNullOrEmpty(parent.DisplayName) ? parent.Name : parent.DisplayName, ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.AllRouteValues().Merge("siteName", parent.FullName).Merge("repositoryName", parent.AsActual().Name))
+        @Html.ActionLink(string.IsNullOrEmpty(parent.DisplayName) ? parent.Name : parent.DisplayName, ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.AllRouteValues().Merge("siteName", parent.FullName).Merge("repositoryName", parent.AsActual().Repository))
         <ul>
             @if (parents.Count > 0)
             {
@@ -32,7 +32,7 @@
 @helper RenderChildSite(Site site)
 {
     <li>
-        @Html.ActionLink(string.IsNullOrEmpty(site.DisplayName) ? site.Name : site.DisplayName, ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.AllRouteValues().Merge("siteName", site.FullName).Merge("repositoryName", site.AsActual().Name))
+        @Html.ActionLink(string.IsNullOrEmpty(site.DisplayName) ? site.Name : site.DisplayName, ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.AllRouteValues().Merge("siteName", site.FullName).Merge("repositoryName", site.AsActual().Repository))
         <ul>
             @foreach (var child in ServiceFactory.SiteManager.ChildSites(site))
             {
@@ -44,7 +44,7 @@
 @helper RenderCurrent(Site site)
 {
     <li class='active'>
-        @Html.ActionLink(string.IsNullOrEmpty(site.DisplayName) ? site.Name : site.DisplayName, ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.AllRouteValues().Merge("siteName", site.FullName).Merge("repositoryName", site.AsActual().Name))
+        @Html.ActionLink(string.IsNullOrEmpty(site.DisplayName) ? site.Name : site.DisplayName, ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.AllRouteValues().Merge("siteName", site.FullName).Merge("repositoryName", site.AsActual().Repository))
 
         
         <ul>

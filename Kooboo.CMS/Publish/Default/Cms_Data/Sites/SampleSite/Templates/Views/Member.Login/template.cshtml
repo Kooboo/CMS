@@ -36,7 +36,7 @@
                     <th></th>
                     <td>
                         <button type="submit">@("Login".Label())</button>
-                      <a href="@Url.FrontUrl().PageUrl("Member/ForgotPassword")">@("Forgot password?".Label())</a>
+                        <a href="@Url.FrontUrl().PageUrl("Member/ForgotPassword")">@("Forgot password?".Label())</a>
                     </td>
                 </tr>
             </table>
@@ -45,11 +45,14 @@
     <div class="member-form-side">
         @{
             var membershipConnects = Page_Context.Current.ExternalLogin().GetMembershipConnects();
-        }
+ }
         @if (membershipConnects.Count() > 0)
         {
+
             <h2>@("Login with social accounts".Label())
             </h2>
+
+
 
             <form action="@(Page_Context.Current.ExternalLogin().ExternalLoginUrl(ViewContext.RequestContext.GetRequestValue("ReturnUrl")))" method="post">
 
@@ -57,9 +60,12 @@
                 <ul>
                     @foreach (var p in membershipConnects)
                     {
+                        if (p.Enabled)
+                        {
                         <li>
                             <button type="submit" name="connectName" value="@p.Name" title="Log in using your @p.DisplayName account" class="@p.Name.ToLower()">@p.DisplayName</button>
-                        </li>
+                        </li>    
+                        }
                     }
                 </ul>
 

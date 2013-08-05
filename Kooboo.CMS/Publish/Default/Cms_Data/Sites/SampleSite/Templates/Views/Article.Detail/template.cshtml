@@ -11,7 +11,7 @@
             readings = (int)textContent["Readings"] + 1;
         }
         Kooboo.CMS.Content.Services.ServiceFactory.TextContentManager.Update(Repository.Current, textContent.GetSchema(),
-   textContent.UUID, "Readings", readings);
+   textContent.UUID, "Readings", readings, User.Identity.Name, false);
 
     }
  }
@@ -28,6 +28,8 @@
         @foreach (dynamic comment in ((Kooboo.CMS.Content.Models.TextContent)ViewBag.Article).Children("Comment"))
         {
 
+
+
             <div class="item">
                 <div class="clearfix">
                     <h5 class="title">@comment.Title</h5>
@@ -36,6 +38,7 @@
                 <p>@comment.Body</p>
                 @if (User.Identity.IsAuthenticated)
                 {
+
                     <form class="delete" action="@Url.FrontUrl().SubmissionUrl("DeleteComment", new { uuid = comment.UUID })" method="post">
                         @Html.AntiForgeryToken()
                         <button type="submit">@("Delete".Label())</button>
@@ -45,7 +48,9 @@
         }
         @if (ViewContext.HttpContext.Membership().GetMember().Identity.IsAuthenticated)
         {
+
             <h6 class="title">@("Post a comment".Localize())</h6>
+
             <div class="common-form">
                 <form method="post" action="@Url.FrontUrl().SubmissionUrl("PostComment")">
                     @Html.AntiForgeryToken()
@@ -55,7 +60,7 @@
                         <label for="title">Title:</label>
                         <input type="text" id="title" name="title" data-val-required="Title is required" data-val="true" />
                         @Html.ValidationMessageForInput("title")
-                    </p>                   
+                    </p>
                     <p class="field">
                         <label for="Body">Comment:</label>
                         <textarea id="Summary" name="Body"></textarea>
@@ -68,6 +73,7 @@
         }
         else
         {
+
             <div class="hint-tips"><a href="@Url.FrontUrl().PageUrl("Member/Login", new { returnUrl = Request.RawUrl })">Login</a><text> to leave a comment.</text></div>
         }
     </div>

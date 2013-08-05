@@ -26,23 +26,7 @@
     </div>
     <div class="tbody">
         <table>
-            @RenderHeader()
-            <thead>
-                <tr>
-                    @if (Model.Checkable)
-                    {
-                        <th class="checkbox">
-                            <input type="checkbox" class="select-all" />
-                        </th>
-                    }
-                    @foreach (var column in Model.Columns)
-                    {
-                        <th @column.RenderHeaderContainerAtts(ViewContext)>
-                            @column.RenderHeader(ViewContext)
-                        </th>
-                    }
-                </tr>
-            </thead>
+            @RenderHeader()            
             <tbody>
                 @{
                     var categoryList = ViewData["CategoryList"] == null ? new ElementCategory[0] : ((IEnumerable<ElementCategory>)ViewData["CategoryList"]).ToArray();

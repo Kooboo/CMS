@@ -16,7 +16,7 @@
         }();
 
         $('#addBtn').click(function () {
-            var selecteds = $('input:checkbox.doc:checked');
+            var selecteds = $('input:checkbox.doc:checked,input:radio.doc:checked');
             var added = false;
 
             var selectList = [];
@@ -29,8 +29,11 @@
                     line: $self
                 });
             });
-            if (top.checkSelect) {
-                result = top.checkSelect.call(this, selectList);
+            if (typeof top.checkSelect == 'function') {
+                var result = top.checkSelect.call(this, selectList);
+                if (result == false) {
+                    return false;
+                }
             }
 
             if (iframe && iframe.outerApi && selectList.length > 0) {

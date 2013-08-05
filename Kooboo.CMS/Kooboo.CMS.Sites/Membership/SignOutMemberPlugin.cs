@@ -55,7 +55,7 @@ namespace Kooboo.CMS.Sites.Membership
         #region LoginCore
         protected virtual void SingOutCore(ControllerContext controllerContext)
         {
-            controllerContext.HttpContext.Member().SignOut();
+            controllerContext.HttpContext.Membership().SignOut();
         }
         #endregion
 

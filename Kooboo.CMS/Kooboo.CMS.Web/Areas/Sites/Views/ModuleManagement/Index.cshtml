@@ -14,36 +14,40 @@
             @Html.IconImage("delete") @("Uninstall".Localize())</a></li>
 
 
-        <li><a href="@Url.Action("Relations", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show module relations"))" data-show-on-check="Single" data-command-type="Redirect">
-            @Html.IconImage("relations") @("Relations".Localize())</a></li>
+        <li><a href="@Url.Action("Relation", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show module relations"))" data-show-on-check="Single" data-command-type="Redirect">
+            @Html.IconImage("relation") @("Relation".Localize())</a></li>
     </ul>
 }
 
 @if (Model.Count() == 0)
 {
-	<div class="topbar"><h1 class="title">@(ViewBag.Title)</h1></div>
-	<div class="block fixed">
-		<div class="sitemap-panel clearfix">
+    <div class="topbar">
+        <h1 class="title">@(ViewBag.Title)</h1>
+    </div>
+    <div class="block fixed">
+        <div class="sitemap-panel clearfix">
             <div class="blank">
                 <p>
-                    @("You do not have any module yet, click the button below to installl a membership.".Localize())
+                    @("You do not have any module yet, click the button below to installl a module.".Localize())
                 </p>
                 @Html.ActionLink("Install", "Install", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl), new RouteValueDictionary(new { @class = "button" }))
             </div>
         </div>
-	</div>
+    </div>
 }
 else
 {
-	<div class="topbar"><h1 class="title">@(ViewBag.Title)</h1></div>
-	<div class="block fixed" id="module_list">
-		@foreach (var module in Model)
+    <div class="topbar">
+        <h1 class="title">@(ViewBag.Title)</h1>
+    </div>
+    <div class="block fixed" id="module_list">
+        @foreach (var module in Model)
         {        
             <div class="content-block module">
                 @Html.Partial("_ModuleNode", module)
             </div>
         }
-	</div>
+    </div>
 }
 
 <script>
@@ -60,13 +64,13 @@ else
             reset();
         }
         reset();
-        $module_list.live('click', function () {
+        $module_list.on('click', function (e) {
             var $self = $(this);
             clear();
             $self.addClass('checked');
             $self.find('input:radio.select').attr('checked', true);
             reset();
-            return false;
+            e.stopPropagation();
         });
         $module_list.grid();
         $(document).click(function () {

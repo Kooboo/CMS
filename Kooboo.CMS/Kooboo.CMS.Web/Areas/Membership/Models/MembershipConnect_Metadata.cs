@@ -35,11 +35,14 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
 
 
         [GridColumn(Order = 2, HeaderText = "Display name", GridColumnType = typeof(SortableGridColumn))]
+        [DisplayName("Display name")]
         public virtual string DisplayName { get; set; }
 
+        [DisplayName("App id")]
         [GridColumn(Order = 3, HeaderText = "App id", GridColumnType = typeof(SortableGridColumn))]
         public virtual string AppId { get; set; }
 
+        [DisplayName("App secret")]
         [GridColumn(Order = 4, HeaderText = "App secret", GridColumnType = typeof(SortableGridColumn))]
         public virtual string AppSecret { get; set; }
 
@@ -51,6 +54,10 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         [UIHint("Multiple_DropDownList")]
         [DataSource(typeof(MembershipGroupDataSource))]
         public virtual string[] MembershipGroups { get; set; }
+
+        [DisplayName("Username format")]
+        [Description("Third party user name generation rule, for example: {0}@twitter.")]
+        public virtual string UsernameFormat { get; set; }
 
         [GridColumn(Order = 5, HeaderText = "Enabled", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
         public string Enabled { get; set; }

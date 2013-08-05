@@ -126,7 +126,7 @@ Thread information:
             AreaRegistration.RegisterAllAreas();
 
             #region Binders
-            ModelBinders.Binders.DefaultBinder = new JsonModelBinder();
+            ModelBinders.Binders.DefaultBinder = new Json_netModelBinder();
 
             ModelBinders.Binders.Add(typeof(DynamicDictionary), new DynamicDictionaryBinder());
             ModelBinders.Binders.Add(typeof(Kooboo.CMS.Sites.DataRule.IDataRule), new Kooboo.CMS.Web.Areas.Sites.ModelBinders.DataRuleBinder());

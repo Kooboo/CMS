@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/Popup.cshtml";
 
-    ViewBag.Title = "Media content".Localize();
+    ViewBag.Title = "Media library".Localize();
 
     var routes = ViewContext.RequestContext.AllRouteValues();
 
@@ -17,6 +17,45 @@
     string action = routes["action"].ToString();
     var folderPaths = (ViewContext.RequestContext.GetRequestValue("FolderName") != null ? FolderHelper.SplitFullName(ViewContext.RequestContext.GetRequestValue("FolderName")) : new string[] { }).ToArray();
 
+    var singleChoice = !string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("SingleChoice"));
+}
+@helper RenderHeader(bool singleChoice)
+{
+    <thead>
+        <tr>
+            <th class="checkbox optional-selector ">
+                @if (singleChoice == false)
+                {
+                    <div>
+                        <input type="checkbox" class="select-all" />
+                        <ul class="hide">
+                            <li>Select:</li>
+                            <li class="all"><a>
+                                @Html.Raw("All Elements".Localize())</a></li>
+                            <li class="docs"><a>
+                                @Html.Raw("Only Documents".Localize())</a></li>
+                            <li class="folders"><a>
+                                @Html.Raw("Only Folders".Localize())</a></li>
+                            <li class="none"><a>
+                                @Html.Raw("None".Localize())</a></li>
+                        </ul>
+                    </div>
+                }
+            </th>
+            <th>
+                @Html.Raw("Title".Localize())
+            </th>
+            <th class="type">
+                @Html.Raw("Type".Localize())
+            </th>
+            <th class="date">
+                @Html.Raw("Date".Localize())
+            </th>
+            <th class="size">
+                @Html.Raw("Size".Localize())
+            </th>
+        </tr>
+    </thead>
 }
 <div id="main-container">
     <div class="wrap">
@@ -55,46 +94,15 @@
         <div class="common-table fixed">
             <div class="thead">
                 <table>
-                    <thead>
-                        <tr>
-                            <th class="checkbox optional-selector ">
-                                <div>
-                                    <input type="checkbox" class="select-all" />
-                                    <ul class="hide">
-                                        <li>Select:</li>
-                                        <li class="all"><a>
-                                            @Html.Raw("All Elements".Localize())</a></li>
-                                        <li class="docs"><a>
-                                            @Html.Raw("Only Documents".Localize())</a></li>
-                                        <li class="folders"><a>
-                                            @Html.Raw("Only Folders".Localize())</a></li>
-                                        <li class="none"><a>
-                                            @Html.Raw("None".Localize())</a></li>
-                                    </ul>
-                                </div>
-                            </th>
-                            <th>
-                                @Html.Raw("Title".Localize())
-                            </th>
-                            <th class="type">
-                                @Html.Raw("Type".Localize())
-                            </th>
-                            <th class="date">
-                                @Html.Raw("Date".Localize())
-                            </th>
-                            <th class="size">
-                                @Html.Raw("Size".Localize())
-                            </th>
-                        </tr>
-                    </thead>
+                    @RenderHeader(singleChoice)
                 </table>
             </div>
             <div class="tbody">
                 <table>
+                    @RenderHeader(singleChoice)
                     <tbody>
                         <tr id="CreateFolderTemplate" class="hide">
-                            <td>
-
+                            <td></td>
                             <td>
                                 @using (Html.BeginForm(ViewContext.RequestContext.AllRouteValues().Merge("action", "CreateFolder").Merge("UUID", null).Merge("return", ViewContext.HttpContext.Request.RawUrl)))
                                 {
@@ -127,8 +135,10 @@
                             currentRoutes["folderName"] = folder.FullName;
                 
                             <tr class="foldertr">
-                                <td>
-                                    <input type="checkbox" disabled="disabled" /></td>
+                                <td class="checkbox">
+                                    <input type="@(singleChoice ? "radio" : "checkbox")" disabled="disabled" />
+
+                                </td>
                                 <td>
                                     <a href="@this.Url.Action(action, currentRoutes)">@Html.IconImage("folder")@folder.Name</a>
                                 </td>
@@ -136,7 +146,7 @@
                                     @Html.Raw("Folder".Localize())
                                 </td>
                                 <td class="date"></td>
-                                <td></td>
+                                <td class="size"></td>
                             </tr>
                         }
                         @if (Model != null && Model.Contents != null)
@@ -151,7 +161,7 @@
                                 {
                             <tr class="doctr">
                                 <td class="checkbox">
-                                    <input type="checkbox" name="select" value="@Html.Raw(content.UUID)" class="select doc" 
+                                    <input  type="@(singleChoice ? "radio" : "checkbox")" name="select" value="@Html.Raw(content.UUID)" class="select doc" 
                             data-alt-text="@Html.Raw((content.Metadata == null || string.IsNullOrEmpty(content.Metadata.AlternateText)) ? content.FileName : content.Metadata.AlternateText)" 
                             data-is-image="@content.IsImage"
                             data-url="@Html.Raw(content.Url)" autocomplete="off"/>

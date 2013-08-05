@@ -30,6 +30,7 @@ namespace Kooboo.CMS.Web.Areas.Membership
 
             #region RegisterPermissions
             var roleManager = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<RoleManager>();
+            roleManager.AddPermission(new Permission() { AreaName = "Membership", Group = "", Name = "Setting" });
             roleManager.AddPermission(new Permission() { AreaName = "Membership", Group = "", Name = "Group" });
             roleManager.AddPermission(new Permission() { AreaName = "Membership", Group = "", Name = "Member" });
             roleManager.AddPermission(new Permission() { AreaName = "Membership", Group = "", Name = "Connect" });

@@ -41,7 +41,7 @@ namespace Kooboo.CMS.Sites.View
                 var permission = page.Permission;
                 if (permission != null && permission.AuthorizeMenu)
                 {
-                    show = permission.Authorize(Page_Context.Current.ControllerContext.HttpContext.Member().GetMember());
+                    show = permission.Authorize(Page_Context.Current.ControllerContext.HttpContext.Membership().GetMember());
                 }
             }
             return show;

@@ -7,10 +7,10 @@
                 @("Advanced".Localize())</a>@Html.IconImage("arrow blue-down")</li>
             <li><a href="#tabValidation">
                 @("Validation".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-            <li data-bind="visible:ShowSelectionValueContents">
+            <li data-bind="visible: ShowSelectionValueContents">
                 <a href="#tabSelectListItems">
                     @("Selection value".Localize())</a>@Html.IconImage("arrow blue-down")
-                <input type="hidden" id="selection-folder" data-bind="value:Column().SelectionFolder" />
+                <input type="hidden" id="selection-folder" data-bind="value: Column().SelectionFolder" />
             </li>
         </ul>
         <div class="tab-content active" id="tabBasicInfo">
@@ -38,7 +38,7 @@
                     <td>
                         <table class="key-value" id="custom-settings-container">
                             <thead>
-                                <tr data-bind="visible:Column().CustomSettingsDicObjectArray != null && Column().CustomSettingsDicObjectArray().length >0">
+                                <tr data-bind="visible: Column().CustomSettingsDicObjectArray != null && Column().CustomSettingsDicObjectArray().length > 0">
                                     <th>@("Key".Localize())</th>
                                     <th>@("Value".Localize())</th>
                                 </tr>
@@ -47,20 +47,20 @@
                                 <!-- ko foreach: { data: Column().CustomSettingsDicObjectArray, as: 'Setting' }-->
                                 <tr>
                                     <td>
-                                        <input type="text" title="key" class="short" data-bind="value:Setting.Key()" />
+                                        <input type="text" title="key" class="short" data-bind="value: Setting.Key()" />
                                     </td>
                                     <td>
-                                        <input type="text" title="value" class="medium" data-bind="value:Setting.Value()" />
+                                        <input type="text" title="value" class="medium" data-bind="value: Setting.Value()" />
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0)" data-bind="click:$root.RemoveCustomSetting" class="inline-action">@Html.IconImage("minus")</a>
+                                        <a href="javascript:void(0)" data-bind="click: $root.RemoveCustomSetting" class="inline-action">@Html.IconImage("minus")</a>
                                     </td>
                                 </tr>
                                 <!-- /ko -->
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td><a href="javascript:void(0)" data-bind="click:AddCustomSetting" class="key-value-add">@Html.IconImage("plus")</a></td>
+                                    <td><a href="javascript:void(0)" data-bind="click: AddCustomSetting" class="key-value-add">@Html.IconImage("plus")</a></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -70,19 +70,19 @@
             </table>
         </div>
         <div class="tab-content" id="tabValidation">
-            <select class="medium" data-bind="options:ValidationTypes, value:SelectedValidationType,visible:ValidationTypes().length > 0"></select>
-            <a href="javascript:void(0)" class="form-action" data-bind="click:AddValidationRule,visible:ValidationTypes().length > 0">@Html.IconImage("plus")</a>
+            <select class="medium" data-bind="options: ValidationTypes, value: SelectedValidationType, visible: ValidationTypes().length > 0"></select>
+            <a href="javascript:void(0)" class="form-action" data-bind="click: AddValidationRule, visible: ValidationTypes().length > 0">@Html.IconImage("plus")</a>
             <table>
-                <tbody data-bind="foreach:{ data: Column().Validations, as: 'Validation' }">
+                <tbody data-bind="foreach: { data: Column().Validations, as: 'Validation' }">
                     <tr class="border">
                         <td colspan="3"></td>
                     </tr>
                     <tr>
                         <td>
                             <label>ValidationType</label></td>
-                        <td data-bind="text:Validation.Type"></td>
+                        <td data-bind="text: Validation.Type"></td>
                         <td style="width: 26px;">
-                            <a title="Remove" class="action" href="javascript:void(0)" data-bind="click:$root.RemoveValidationRule">@Html.IconImage("minus")</a>
+                            <a title="Remove" class="action" href="javascript:void(0)" data-bind="click: $root.RemoveValidationRule">@Html.IconImage("minus")</a>
                         </td>
                     </tr>
                     <tr>
@@ -92,7 +92,7 @@
                             <input type="text" class="medium" name="error-message" 
                                    @*data-val="true" 
                                    data-val-required="@("Required".Localize())" *@
-                                   data-bind="value:Validation.ErrorMessage">
+                                   data-bind="value: Validation.ErrorMessage">
                             <span class="field-validation-valid" data-valmsg-for="error-message" data-valmsg-replace="true"></span>
                         </td>
                     </tr>
@@ -106,7 +106,7 @@
                                    data-val="true" 
                                    data-val-number='@("The field Length must be a number.".Localize())'
                                    data-value-type="int32"
-                                   data-bind="value:Validation.Min">
+                                   data-bind="value: Validation.Min">
                             <span class="field-validation-valid"
                                 data-valmsg-for="min-length"
                                 data-valmsg-replace="true"></span>
@@ -119,7 +119,7 @@
                             <input type="text" name="max-length" class="medium" 
                                    data-val="true" 
                                    data-val-number='@("The field Length must be a number.".Localize())'
-                                   data-bind="value:Validation.Max">
+                                   data-bind="value: Validation.Max">
                             <span class="field-validation-valid"
                                 data-valmsg-for="max-length"
                                 data-valmsg-replace="true"></span>
@@ -135,7 +135,7 @@
                             <input type="text" name="range-start" class="medium"
                                    data-val="true" 
                                    data-val-number='@("The field Length must be a number.".Localize())'
-                                   data-bind="value:Validation.Start">
+                                   data-bind="value: Validation.Start">
                             <span class="field-validation-valid"
                                 data-valmsg-for="range-start"
                                 data-valmsg-replace="true"></span>
@@ -148,7 +148,7 @@
                             <input type="text" name="range-end" class="medium" 
                                    data-val="true" 
                                    data-val-number='@("The field Length must be a number.".Localize())'
-                                   data-bind="value:Validation.End">
+                                   data-bind="value: Validation.End">
                             <span class="field-validation-valid"
                                 data-valmsg-for="range-end"
                                 data-valmsg-replace="true"></span>
@@ -161,7 +161,7 @@
                         <td>
                             <label>@("Pattern".Localize())</label></td>
                         <td colspan="2">
-                            <input type="text" class="medium" data-bind="value:Validation.Pattern"></td>
+                            <input type="text" class="medium" data-bind="value: Validation.Pattern"></td>
                     </tr>
                     <!-- /ko -->
                 </tbody>
@@ -175,13 +175,13 @@
                             <li>
                                 <input type="radio" name="SelectionSourceRadio" id="selection-source-manual"
                                     value="0"
-                                    data-bind="checked:Column().SelectionSource">
+                                    data-bind="checked: Column().SelectionSource">
                                 <label class="inline" for="selection-source-manual">@("Manual".Localize())</label>
                             </li>
                             <li>
                                 <input type="radio" name="SelectionSourceRadio" id="selection-source-from-folder"
                                     value="1"
-                                    data-bind="checked:Column().SelectionSource">
+                                    data-bind="checked: Column().SelectionSource">
                                 <label class="inline" for="selection-source-from-folder">@("From folder".Localize())</label>
                             </li>
 
@@ -191,15 +191,15 @@
                 <!--  if: Column().SelectionSource()==1 -->
                 <tr>
                     <td>
-                        <div class="block treeview active clear" data-bind="visible:Column().SelectionSource()==1">
-                            <ul id="J_DataTree" data-bind="template: { name: 'folder-trees-template', foreach: metadata.folderTrees}">
+                        <div class="block treeview active clear" data-bind="visible: Column().SelectionSource() == 1">
+                            <ul id="J_DataTree" data-bind="template: { name: 'folder-trees-template', foreach: metadata.folderTrees }">
                             </ul>
                         </div>
                     </td>
                 </tr>
                 <!--  -->
             </table>
-            <table class="key-value clear" data-bind='visible: Column().SelectionSource()==0'>
+            <table class="key-value clear" data-bind='visible: Column().SelectionSource() == 0'>
                 <thead data-bind="visible: Column().SelectionItems().length > 0">
                     <tr>
                         <th>
@@ -210,16 +210,16 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody data-bind="foreach:Column().SelectionItems">
+                <tbody data-bind="foreach: Column().SelectionItems">
                     <tr>
                         <td>
-                            <input type="text" class="short" data-bind="value:$data.Text"></td>
+                            <input type="text" class="short" data-bind="value: $data.Text"></td>
                         <td>
-                            <input type="text" class="short" data-bind="value:$data.Value"></td>
+                            <input type="text" class="short" data-bind="value: $data.Value"></td>
                         <td>
                             <a href="javascript:void(0)" class="form-action"
                                 tabindex="1000"
-                                data-bind="click:$root.RemoveSelectionItem">@Html.IconImage("minus")</a>
+                                data-bind="click: $root.RemoveSelectionItem">@Html.IconImage("minus")</a>
                         </td>
                     </tr>
                 </tbody>
@@ -227,15 +227,15 @@
                     <tr>
                         <td colspan="3">
                             <a href="javascript:void(0)" class="form-action" tabindex="1000"
-                                data-bind="click:AddSelectionItem">@Html.IconImage("plus")</a></td>
+                                data-bind="click: AddSelectionItem">@Html.IconImage("plus")</a></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
     <p class="buttons">
-        <input type="button" class="button" data-bind="click:PersistToColumnList" value="@("Save".Localize())">
-        <a class="button gray" data-bind="click:CancelPersistToColumnList">@("Cancel".Localize())</a>
+        <input type="button" class="button" data-bind="click: PersistToColumnList" value="@("Save".Localize())">
+        <a class="button gray" data-bind="click: CancelPersistToColumnList">@("Cancel".Localize())</a>
     </p>
 </form>
 
@@ -244,13 +244,13 @@
     <li class="tree-node active clearfix">
         <span>
             @Html.IconImage("folder")
-            <input type="radio" name="Column.SelectionValue" data-bind="uniqueId: true,value:$data.Folder.NamePaths.join('~'),checked:$root.Column().SelectionFolder">
-            <label data-bind="uniqueFor: 'after',text:$data.Folder.NamePaths.join('/')"></label>
+            <input type="radio" name="Column.SelectionValue" data-bind="uniqueId: true, value: $data.Folder.NamePaths.join('~'), checked: $root.Column().SelectionFolder">
+            <label data-bind="uniqueFor: 'after', text: $data.Folder.NamePaths.join('/')"></label>
         </span>
 
         <!-- ko if: $data.Children.length > 0 -->
         @Html.IconImage("tree-icon")
-        <ul data-bind="template: { name: 'folder-trees-template', foreach: $data.Children}">
+        <ul data-bind="template: { name: 'folder-trees-template', foreach: $data.Children }">
         </ul>
         <!-- /ko -->
     </li>
@@ -264,31 +264,25 @@
             $('#selection-folder').val($(this).val()).change();
         });
         var $controlType = $('#ControlType');
-        $controlType.change(function () {
-            var controleType = $controlType.val();
-            var dataType = 0;
-            switch (controleType) {
-                case 'Int32':
-                    {
-                        dataType = 1;
-                        break;
+        var $dataType = $('#DataType');
+        $controlType.live('change', function () {
+            var $selectedItem = $(this).find(':selected');
+            var dataType = $selectedItem.data('datatype');
+
+            if (dataType) {
+                $dataType.children().each(function (index, option) {
+                    var $option = $(option);
+                    $option.removeAttr('selected');
+                    if (option.outerText.toLowerCase() == dataType.toLowerCase()) {
+                        $option.attr('selected', 'selected');
                     }
-                case 'Date':
-                    {
-                        dataType = 3;
-                        break;
-                    }
-                case 'CheckBox':
-                    {
-                        dataType = 4;
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }//
-            $('#DataType').val(dataType).change();
+                });
+            }
+            else {
+                $dataType.children().first().attr('selected', 'selected');
+            }
+
+            $dataType.trigger('change');
         });
     });
 </script>

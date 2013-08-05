@@ -233,6 +233,7 @@
     <Compile Include="Areas\Sites\Models\DataSources\ABRuleSettingDataSource.cs" />
     <Compile Include="Areas\Sites\Models\Security_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ABSiteSetting_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\SiteModuleRelationModel.cs" />
     <Compile Include="Areas\Sites\Models\SubmissionSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\UserAgentVisitRule_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\CopySiteModel.cs" />
@@ -433,7 +434,7 @@
     <Compile Include="Json_netResult.cs" />
     <Compile Include="Models\CopyModel.cs" />
     <Compile Include="Models\DynamicDictionaryBinder.cs" />
-    <Compile Include="Models\JsonModelBinder.cs" />
+    <Compile Include="Models\Json_netModelBinder.cs" />
     <Compile Include="Models\RemoteExAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Areas\Sites\CodeSnippets\WebForm\Inline Edit\Edit field atributes.txt" />
@@ -2278,7 +2279,7 @@
     <Content Include="Areas\Sites\Views\ModuleManagement\OnUninstalling.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\ModuleManagement\Uninstall.cshtml" />
+    <Content Include="Areas\Sites\Views\ModuleManagement\DeleteModuleFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\GoingToUninstall.cshtml" />
@@ -2396,6 +2397,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Contents\Views\Repository\Import.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\UninstallComplete.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

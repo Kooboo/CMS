@@ -453,14 +453,14 @@
             <param name="message">The message to serialize.  Must not be null.</param>
             <returns>A non-null, non-empty value.</returns>
         </member>
-        <member name="M:DotNetOpenAuth.Messaging.IDataBagFormatter`1.Deserialize(`0,DotNetOpenAuth.Messaging.IProtocolMessage,System.String,System.String)">
+        <member name="M:DotNetOpenAuth.Messaging.IDataBagFormatter`1.Deserialize(`0,System.String,DotNetOpenAuth.Messaging.IProtocolMessage,System.String)">
             <summary>
             Deserializes a <see cref="T:DotNetOpenAuth.Messaging.DataBag"/>.
             </summary>
             <param name="message">The instance to deserialize into</param>
-            <param name="containingMessage">The message that contains the <see cref="T:DotNetOpenAuth.Messaging.DataBag"/> serialized value.  Must not be null.</param>
             <param name="data">The serialized form of the <see cref="T:DotNetOpenAuth.Messaging.DataBag"/> to deserialize.  Must not be null or empty.</param>
-            <param name="messagePartName">The name of the parameter whose value is to be deserialized.  Used for error message generation.</param>
+            <param name="containingMessage">The message that contains the <see cref="T:DotNetOpenAuth.Messaging.DataBag"/> serialized value.  May be null if no carrying message is applicable.</param>
+            <param name="messagePartName">The name of the parameter whose value is to be deserialized.  Used for error message generation, but may be <c>null</c>.</param>
         </member>
         <member name="F:DotNetOpenAuth.Messaging.DataBagFormatterBase`1.NonceLength">
             <summary>
@@ -562,14 +562,14 @@
             <param name="message">The message to serialize.  Must not be null.</param>
             <returns>A non-null, non-empty value.</returns>
         </member>
-        <member name="M:DotNetOpenAuth.Messaging.DataBagFormatterBase`1.Deserialize(`0,DotNetOpenAuth.Messaging.IProtocolMessage,System.String,System.String)">
+        <member name="M:DotNetOpenAuth.Messaging.DataBagFormatterBase`1.Deserialize(`0,System.String,DotNetOpenAuth.Messaging.IProtocolMessage,System.String)">
             <summary>
             Deserializes a <see cref="T:DotNetOpenAuth.Messaging.DataBag"/>, including decompression, decryption, signature and nonce validation where applicable.
             </summary>
             <param name="message">The instance to initialize with deserialized data.</param>
-            <param name="containingMessage">The message that contains the <see cref="T:DotNetOpenAuth.Messaging.DataBag"/> serialized value.  Must not be null.</param>
             <param name="value">The serialized form of the <see cref="T:DotNetOpenAuth.Messaging.DataBag"/> to deserialize.  Must not be null or empty.</param>
-            <param name="messagePartName">The name of the parameter whose value is to be deserialized.  Used for error message generation.</param>
+            <param name="containingMessage">The message that contains the <see cref="T:DotNetOpenAuth.Messaging.DataBag"/> serialized value.  May be null if no carrying message is applicable.</param>
+            <param name="messagePartName">The name of the parameter whose value is to be deserialized.  Used for error message generation, but may be <c>null</c>.</param>
         </member>
         <member name="M:DotNetOpenAuth.Messaging.DataBagFormatterBase`1.SerializeCore(`0)">
             <summary>
@@ -3166,6 +3166,19 @@
             </returns>
             <exception cref="T:System.FormatException">Thrown when the string value given cannot be decoded into the required object type.</exception>
         </member>
+        <member name="T:DotNetOpenAuth.Messaging.Reflection.IMessagePartFormattingEncoder">
+            <summary>
+            An interface describing how various objects can be serialized and deserialized between their object and string forms.
+            </summary>
+            <remarks>
+            Implementations of this interface must include a default constructor and must be thread-safe.
+            </remarks>
+        </member>
+        <member name="P:DotNetOpenAuth.Messaging.Reflection.IMessagePartFormattingEncoder.FormattingType">
+            <summary>
+            Gets the type of the encoded values produced by this encoder, as they would appear in their preferred form.
+            </summary>
+        </member>
         <member name="T:DotNetOpenAuth.Messaging.Reflection.IMessagePartNullEncoder">
             <summary>
             A message part encoder that has a special encoding for a null value.
@@ -3504,13 +3517,13 @@
             <param name="message">The message to serialize.  Must not be null.</param>
             <returns>A non-null, non-empty value.</returns>
         </member>
-        <member name="M:DotNetOpenAuth.Messaging.IDataBagFormatterContract`1.DotNetOpenAuth#Messaging#IDataBagFormatter{T}#Deserialize(`0,DotNetOpenAuth.Messaging.IProtocolMessage,System.String,System.String)">
+        <member name="M:DotNetOpenAuth.Messaging.IDataBagFormatterContract`1.DotNetOpenAuth#Messaging#IDataBagFormatter{T}#Deserialize(`0,System.String,DotNetOpenAuth.Messaging.IProtocolMessage,System.String)">
             <summary>
             Deserializes a <see cref="T:DotNetOpenAuth.Messaging.DataBag"/>.
             </summary>
             <param name="message">The instance to deserialize into</param>
-            <param name="containingMessage">The message that contains the <see cref="T:DotNetOpenAuth.Messaging.DataBag"/> serialized value.  Must not be nulll.</param>
             <param name="data">The serialized form of the <see cref="T:DotNetOpenAuth.Messaging.DataBag"/> to deserialize.  Must not be null or empty.</param>
+            <param name="containingMessage">The message that contains the <see cref="T:DotNetOpenAuth.Messaging.DataBag"/> serialized value.  Must not be nulll.</param>
             <param name="messagePartName">Name of the message part whose value is to be deserialized.  Used for exception messages.</param>
         </member>
         <member name="T:DotNetOpenAuth.Messaging.UriStyleMessageFormatter`1">
@@ -4377,6 +4390,15 @@
             a property is totally dropped from a newer version of the protocol.
             </remarks>
         </member>
+        <member name="P:DotNetOpenAuth.Messaging.MessagePartAttribute.IsSecuritySensitive">
+            <summary>
+            Gets or sets a value indicating whether the value contained by this property contains
+            sensitive information that should generally not be logged.
+            </summary>
+            <value>
+            <c>true</c> if this instance is security sensitive; otherwise, <c>false</c>.
+            </value>
+        </member>
         <member name="P:DotNetOpenAuth.Messaging.MessagePartAttribute.MinVersionValue">
             <summary>
             Gets or sets the minimum version of the protocol this attribute applies to
@@ -4639,6 +4661,11 @@
             The server variables collection.
             </summary>
         </member>
+        <member name="F:DotNetOpenAuth.Messaging.HttpRequestInfo.cookies">
+            <summary>
+            The backing field for the <see cref="P:DotNetOpenAuth.Messaging.HttpRequestInfo.Cookies"/> property.
+            </summary>
+        </member>
         <member name="M:DotNetOpenAuth.Messaging.HttpRequestInfo.#ctor(System.ServiceModel.Channels.HttpRequestMessageProperty,System.Uri)">
             <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.Messaging.HttpRequestInfo"/> class.
@@ -4646,7 +4673,7 @@
             <param name="request">The request.</param>
             <param name="requestUri">The request URI.</param>
         </member>
-        <member name="M:DotNetOpenAuth.Messaging.HttpRequestInfo.#ctor(System.String,System.Uri,System.Collections.Specialized.NameValueCollection,System.Collections.Specialized.NameValueCollection)">
+        <member name="M:DotNetOpenAuth.Messaging.HttpRequestInfo.#ctor(System.String,System.Uri,System.Collections.Specialized.NameValueCollection,System.Collections.Specialized.NameValueCollection,System.Web.HttpCookieCollection)">
             <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.Messaging.HttpRequestInfo"/> class.
             </summary>
@@ -4654,6 +4681,7 @@
             <param name="requestUri">The request URI.</param>
             <param name="form">The form variables.</param>
             <param name="headers">The HTTP headers.</param>
+            <param name="cookies">The cookies in the request.</param>
         </member>
         <member name="M:DotNetOpenAuth.Messaging.HttpRequestInfo.#ctor(System.Net.HttpListenerRequest)">
             <summary>
@@ -4768,6 +4796,12 @@
             <summary>
             Gets the server variables.
             </summary>
+        </member>
+        <member name="P:DotNetOpenAuth.Messaging.HttpRequestInfo.Cookies">
+            <summary>
+            Gets the collection of cookies that were sent by the client.
+            </summary>
+            <returns>The client's cookies.</returns>
         </member>
         <member name="T:DotNetOpenAuth.Messaging.IMessageFactoryContract">
             <summary>
@@ -5335,11 +5369,6 @@
             </summary>
             <remarks>The random number generator is thread-safe.</remarks>
         </member>
-        <member name="F:DotNetOpenAuth.Messaging.MessagingUtilities.NonCryptoRandomDataGenerator">
-            <summary>
-            A pseudo-random data generator (NOT cryptographically strong random data)
-            </summary>
-        </member>
         <member name="F:DotNetOpenAuth.Messaging.MessagingUtilities.SymmetricSecretKeyLifespan">
             <summary>
             The default lifetime of a private secret.
@@ -5479,6 +5508,29 @@
             See http://codahale.com/a-lesson-in-timing-attacks/ for more information.
             </remarks>
         </member>
+        <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.GetPublicFacingUrl(System.Web.HttpRequestBase,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Gets the public facing URL for the given incoming HTTP request.
+            </summary>
+            <param name="request">The incoming request.  Cannot be <c>null</c>.</param>
+            <param name="serverVariables">The server variables to consider part of the request.  Cannot be <c>null</c>.</param>
+            <returns>
+            The URI that the outside world used to create this request.
+            </returns>
+            <remarks>
+            Although the <paramref name="serverVariables"/> value can be obtained from
+            <see cref="P:System.Web.HttpRequest.ServerVariables"/>, it's useful to be able to pass them
+            in so we can simulate injected values from our unit tests since the actual property
+            is a read-only kind of <see cref="T:System.Collections.Specialized.NameValueCollection"/>.
+            </remarks>
+        </member>
+        <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.GetPublicFacingUrl(System.Web.HttpRequestBase)">
+            <summary>
+            Gets the public facing URL for the given incoming HTTP request.
+            </summary>
+            <param name="request">The incoming request.  Cannot be <c>null</c>.  Server variables are read from this request.</param>
+            <returns>The URI that the outside world used to create this request.</returns>
+        </member>
         <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.GetWebRoot">
             <summary>
             Gets the URL to the root of a web site, which may include a virtual directory path.
@@ -5521,6 +5573,15 @@
             <param name="requestHandler">The request handler.</param>
             <param name="parts">The parts to include in the POST entity.</param>
         </member>
+        <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.AssembleAuthorizationHeader(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            Assembles the content of the HTTP Authorization or WWW-Authenticate header.
+            </summary>
+            <param name="fields">The fields to include.</param>
+            <returns>
+            A value prepared for an HTTP header.
+            </returns>
+        </member>
         <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.AssembleAuthorizationHeader(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
             <summary>
             Assembles the content of the HTTP Authorization or WWW-Authenticate header.
@@ -5540,18 +5601,17 @@
         <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.CombineKeyHandleAndPayload(System.String,System.String)">
             <summary>
             Encodes a symmetric key handle and the blob that is encrypted/signed with that key into a single string
-            that can be decoded by <see cref="M:DotNetOpenAuth.Messaging.MessagingUtilities.ExtractKeyHandleAndPayload(DotNetOpenAuth.Messaging.IProtocolMessage,System.String,System.String,System.String@,System.String@)"/>.
+            that can be decoded by <see cref="M:DotNetOpenAuth.Messaging.MessagingUtilities.ExtractKeyHandleAndPayload(System.String,System.String,System.String@,System.String@)"/>.
             </summary>
             <param name="handle">The cryptographic key handle.</param>
             <param name="payload">The encrypted/signed blob.</param>
             <returns>The combined encoded value.</returns>
         </member>
-        <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.ExtractKeyHandleAndPayload(DotNetOpenAuth.Messaging.IProtocolMessage,System.String,System.String,System.String@,System.String@)">
+        <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.ExtractKeyHandleAndPayload(System.String,System.String,System.String@,System.String@)">
             <summary>
             Extracts the key handle and encrypted blob from a string previously returned from <see cref="M:DotNetOpenAuth.Messaging.MessagingUtilities.CombineKeyHandleAndPayload(System.String,System.String)"/>.
             </summary>
-            <param name="containingMessage">The containing message.</param>
-            <param name="messagePart">The message part.</param>
+            <param name="messagePart">The message part. May be null if not applicable.</param>
             <param name="keyHandleAndBlob">The value previously returned from <see cref="M:DotNetOpenAuth.Messaging.MessagingUtilities.CombineKeyHandleAndPayload(System.String,System.String)"/>.</param>
             <param name="handle">The crypto key handle.</param>
             <param name="dataBlob">The encrypted/signed data.</param>
@@ -5572,11 +5632,22 @@
         </member>
         <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.GetCryptoRandomDataAsBase64(System.Int32)">
             <summary>
-            Gets a cryptographically strong random sequence of values.
+            Gets a cryptographically strong random string of base64 characters.
             </summary>
             <param name="binaryLength">The length of the byte sequence to generate.</param>
             <returns>A base64 encoding of the generated random data, 
             whose length in characters will likely be greater than <paramref name="binaryLength"/>.</returns>
+        </member>
+        <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.GetNonCryptoRandomDataAsBase64(System.Int32,System.Boolean)">
+            <summary>
+            Gets a NON-cryptographically strong random string of base64 characters.
+            </summary>
+            <param name="binaryLength">The length of the byte sequence to generate.</param>
+            <param name="useWeb64">A value indicating whether web64 encoding is used to avoid the need to escape characters.</param>
+            <returns>
+            A base64 encoding of the generated random data,
+            whose length in characters will likely be greater than <paramref name="binaryLength" />.
+            </returns>
         </member>
         <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.GetRandomString(System.Int32,System.String)">
             <summary>
@@ -5879,7 +5950,7 @@
             Gets the HTTP verb to use for a given <see cref="T:DotNetOpenAuth.Messaging.HttpDeliveryMethods"/> enum value.
             </summary>
             <param name="httpMethod">The HTTP method.</param>
-            <returns>An HTTP verb, such as GET, POST, PUT, or DELETE.</returns>
+            <returns>An HTTP verb, such as GET, POST, PUT, DELETE, PATCH, or OPTION.</returns>
         </member>
         <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.AddExtraParameters(DotNetOpenAuth.Messaging.Reflection.MessageDictionary,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
@@ -5896,6 +5967,13 @@
             <typeparam name="TValue">The type of the value.</typeparam>
             <param name="sequence">The sequence.</param>
             <returns>A dictionary.</returns>
+        </member>
+        <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.AsKeyValuePairs(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Enumerates all members of the collection as key=value pairs.
+            </summary>
+            <param name="nvc">The collection to enumerate.</param>
+            <returns>A sequence of pairs.</returns>
         </member>
         <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.ToDictionary(System.Collections.Specialized.NameValueCollection)">
             <summary>
@@ -6077,29 +6155,6 @@
               <c>true</c> if this request's URL was rewritten; otherwise, <c>false</c>.
             </value>
         </member>
-        <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.GetPublicFacingUrl(System.Web.HttpRequestBase,System.Collections.Specialized.NameValueCollection)">
-            <summary>
-            Gets the public facing URL for the given incoming HTTP request.
-            </summary>
-            <param name="request">The request.</param>
-            <param name="serverVariables">The server variables to consider part of the request.</param>
-            <returns>
-            The URI that the outside world used to create this request.
-            </returns>
-            <remarks>
-            Although the <paramref name="serverVariables"/> value can be obtained from
-            <see cref="P:System.Web.HttpRequest.ServerVariables"/>, it's useful to be able to pass them
-            in so we can simulate injected values from our unit tests since the actual property
-            is a read-only kind of <see cref="T:System.Collections.Specialized.NameValueCollection"/>.
-            </remarks>
-        </member>
-        <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.GetPublicFacingUrl(System.Web.HttpRequestBase)">
-            <summary>
-            Gets the public facing URL for the given incoming HTTP request.
-            </summary>
-            <param name="request">The request.</param>
-            <returns>The URI that the outside world used to create this request.</returns>
-        </member>
         <member name="M:DotNetOpenAuth.Messaging.MessagingUtilities.GetQueryOrForm(System.Web.HttpRequestBase)">
             <summary>
             Gets the query or form data from the original request (before any URL rewriting has occurred.)
@@ -6116,6 +6171,11 @@
             <param name="key">The symmetric key to use for encryption/decryption.</param>
             <returns>A symmetric algorithm.</returns>
         </member>
+        <member name="P:DotNetOpenAuth.Messaging.MessagingUtilities.NonCryptoRandomDataGenerator">
+            <summary>
+            Gets a random number generator for use on the current thread only.
+            </summary>
+        </member>
         <member name="T:DotNetOpenAuth.Messaging.MessagingUtilities.CompressionMethod">
             <summary>
             The available compression algorithms.
@@ -6129,6 +6189,26 @@
         <member name="F:DotNetOpenAuth.Messaging.MessagingUtilities.CompressionMethod.Gzip">
             <summary>
             The GZip algorithm.
+            </summary>
+        </member>
+        <member name="T:DotNetOpenAuth.Messaging.MessagingUtilities.ThreadSafeRandom">
+            <summary>
+            A thread-safe, non-crypto random number generator.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.Messaging.MessagingUtilities.ThreadSafeRandom.threadRandomInitializer">
+            <summary>
+            The initializer of all new <see cref="T:System.Random"/> instances.
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.Messaging.MessagingUtilities.ThreadSafeRandom.threadRandom">
+            <summary>
+            A thread-local instance of <see cref="T:System.Random"/>
+            </summary>
+        </member>
+        <member name="P:DotNetOpenAuth.Messaging.MessagingUtilities.ThreadSafeRandom.RandomNumberGenerator">
+            <summary>
+            Gets a random number generator for use on the current thread only.
             </summary>
         </member>
         <member name="T:DotNetOpenAuth.Messaging.MessagingUtilities.ComparisonHelper`1">
@@ -6244,6 +6324,11 @@
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.Messaging.Reflection.ValueMapping"/> struct.
             </summary>
             <param name="encoder">The encoder.</param>
+        </member>
+        <member name="P:DotNetOpenAuth.Messaging.Reflection.ValueMapping.Encoder">
+            <summary>
+            Gets the encoder.
+            </summary>
         </member>
         <member name="T:DotNetOpenAuth.Messaging.Reflection.MessageDescription">
             <summary>
@@ -6762,6 +6847,15 @@
             Gets or sets a value indicating whether this part is defined as a constant field and can be read without a message instance.
             </summary>
         </member>
+        <member name="P:DotNetOpenAuth.Messaging.Reflection.MessagePart.IsSecuritySensitive">
+            <summary>
+            Gets or sets a value indicating whether the value contained by this property contains
+            sensitive information that should generally not be logged.
+            </summary>
+            <value>
+            <c>true</c> if this instance is security sensitive; otherwise, <c>false</c>.
+            </value>
+        </member>
         <member name="P:DotNetOpenAuth.Messaging.Reflection.MessagePart.StaticConstantValue">
             <summary>
             Gets the static constant value for this message part without a message instance.
@@ -6770,6 +6864,11 @@
         <member name="P:DotNetOpenAuth.Messaging.Reflection.MessagePart.MemberDeclaredType">
             <summary>
             Gets the type of the declared member.
+            </summary>
+        </member>
+        <member name="P:DotNetOpenAuth.Messaging.Reflection.MessagePart.PreferredFormattingType">
+            <summary>
+            Gets the type of the encoded values produced by this encoder, as they would appear in their preferred form.
             </summary>
         </member>
         <member name="T:DotNetOpenAuth.Messaging.UnprotectedMessageException">
@@ -6984,6 +7083,11 @@
             to a length limitation imposed by the HttpWebRequest or calling method.
             </summary>
         </member>
+        <member name="P:DotNetOpenAuth.Messaging.OutgoingWebResponse.Cookies">
+            <summary>
+            Gets the cookies collection to add as headers to the HTTP response.
+            </summary>
+        </member>
         <member name="P:DotNetOpenAuth.Messaging.OutgoingWebResponse.Body">
             <summary>
             Gets or sets the body of the response as a string.
@@ -7043,6 +7147,16 @@
             Added to the URLs in the query part (as defined by [RFC3986] (Berners-Lee, T., “Uniform Resource Identifiers (URI): Generic Syntax,” .) section 3).
             </summary>
         </member>
+        <member name="F:DotNetOpenAuth.Messaging.HttpDeliveryMethods.PatchRequest">
+            <summary>
+            Added to the URLs in the query part (as defined by [RFC3986] (Berners-Lee, T., “Uniform Resource Identifiers (URI): Generic Syntax,” .) section 3).
+            </summary>
+        </member>
+        <member name="F:DotNetOpenAuth.Messaging.HttpDeliveryMethods.OptionsRequest">
+            <summary>
+            Added to the URLs in the query part (as defined by [RFC3986] (Berners-Lee, T., “Uniform Resource Identifiers (URI): Generic Syntax,” .) section 3).
+            </summary>
+        </member>
         <member name="F:DotNetOpenAuth.Messaging.HttpDeliveryMethods.HttpVerbMask">
             <summary>
             The flags that control HTTP verbs.
@@ -7091,6 +7205,11 @@
             The deserialized form of the given string.
             </returns>
             <exception cref="T:System.FormatException">Thrown when the string value given cannot be decoded into the required object type.</exception>
+        </member>
+        <member name="P:DotNetOpenAuth.Messaging.TimespanSecondsEncoder.FormattingType">
+            <summary>
+            Gets the type of the encoded values produced by this encoder, as they would appear in their preferred form.
+            </summary>
         </member>
         <member name="T:DotNetOpenAuth.Messaging.UntrustedWebRequestHandler">
             <summary>

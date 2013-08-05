@@ -60,7 +60,7 @@ namespace Kooboo.CMS.Sites.Membership
         #region ChangePasswordCore
         protected virtual bool ChangePasswordCore(ControllerContext controllerContext, SubmissionSetting submissionSetting = null)
         {
-            var memberAuth = controllerContext.HttpContext.Member();
+            var memberAuth = controllerContext.HttpContext.Membership();
             if (memberAuth.GetMember().Identity.IsAuthenticated == false)
             {
                 throw new HttpException((int)System.Net.HttpStatusCode.Unauthorized, "");

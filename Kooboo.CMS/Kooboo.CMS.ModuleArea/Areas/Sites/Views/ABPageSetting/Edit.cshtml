@@ -24,9 +24,8 @@
     {       
         @Html.ValidationSummary(true)      
         <table>
-            <tbody>
-                @Html.DisplayFor(o => o.RuleName)
-                @Html.HiddenFor(o => o.RuleName)
+            <tbody>                
+                @Html.EditorFor(o => o.RuleName)
                 @Html.DisplayFor(o => o.MainPage)
                 @Html.EditorFor(o => o.Items)
                 @Html.EditorFor(o => o.ABTestGoalPage, new { HtmlAttributes = new { @class = "medium" } })

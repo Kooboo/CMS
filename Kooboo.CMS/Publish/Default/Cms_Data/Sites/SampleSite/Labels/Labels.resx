@@ -235,4 +235,7 @@
   <data name="Member profile" xml:space="preserve">
     <value>Member profile</value>
   </data>
+  <data name="Register member" xml:space="preserve">
+    <value>Register member</value>
+  </data>
 </root>

@@ -1,37 +1,39 @@
-﻿@model Kooboo.CMS.Web.Areas.Contents.Models.CreateRepositoryModel
+﻿@model Kooboo.CMS.Content.Models.Repository
 @{
-    ViewBag.Title = "Create".Localize();
-   Layout = "~/Views/Shared/Site.cshtml";
+    ViewBag.Title = "Create content database".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
 }
-    <div class="common-form">
-        @using (Html.BeginForm())
-        { 
-        @Html.Hidden("url", ViewData["url"])
-        @Html.ValidationSummary(true)
-        <fieldset>
-            <table>
-                <tbody>
-                    @Html.EditorFor(m => m.Name)
-                    @Html.EditorFor(m=>m.Template)
-                </tbody>
-            </table>
-        </fieldset>
-        <p class="buttons">
-            <button type="submit">
-                @("Save".Localize())</button></p>
-        }
-    </div>
-    <script language="javascript" type="text/javascript">
-        $(function () {
-            $("input:text:first").focus();
-            $("input:text").width(150);
-            //            var url = $("#url").val();
-            //            if (url.length && url.length > 0) {
-            //                top.setTimeout(function () {
-            //                    for (var i = 0; i < 3; i++) {
-            //                        this.parent.document.location.href = url;
-            //                    }
-            //                }, 10);
-            //            }
-        });
-    </script>
+
+
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    @using (Html.BeginForm())
+    { 
+        @Html.ValidationSummary(true)        
+        <table>
+            <tbody>
+                @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.DisplayName, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.UserKeyReplacePattern, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.UserKeyHyphens, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.EnableVersioning)
+                @Html.EditorFor(m => m.EnableWorkflow)
+                @Html.EditorFor(m => m.EnableBroadcasting)
+                @Html.EditorFor(m => m.StrictContentPermission)
+                @Html.EditorFor(m => m.ShowHiddenFolders)
+            </tbody>
+        </table>
+    }
+</div>

@@ -25,6 +25,7 @@ using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Html;
 using Kooboo.Web.Mvc.Paging;
 using Kooboo.Web.Url;
+using Kooboo.CMS.Sites.Membership;
 //# define Page_Trace
 using System;
 using System.Collections.Generic;
@@ -100,24 +101,7 @@ namespace Kooboo.CMS.Sites.View
 
         public virtual IHtmlString Position(string positionID, string defaultContent)
         {
-            if (PageContext.PageRequestContext.RequestChannel == FrontRequestChannel.Design)
-            {
-                return new PageDesignHolder(this, positionID);
-            }
-            else
-            {
-                var positions = (PageContext.PageRequestContext.Page.PagePositions ?? new List<PagePosition>()).Where(it => it.LayoutPositionId.Equals(positionID, StringComparison.InvariantCultureIgnoreCase)).ToArray();
-                if (positions.Length == 0)
-                {
-                    return new HtmlString(defaultContent);
-                }
-                else
-                {
-                    var htmlStrings = RenderPositionContents(positions).ToArray();
-                    return new AggregateHtmlString(htmlStrings);
-                }
-
-            }
+            return Position(positionID, () => defaultContent);
         }
         public virtual IHtmlString Position(string positionID, Func<string> defaultContentFunc)
         {
@@ -130,6 +114,7 @@ namespace Kooboo.CMS.Sites.View
                 var positions = GetContentsForPosition(positionID);
                 if (positions.Length == 0)
                 {
+                    defaultContentFunc = defaultContentFunc == null ? () => "" : defaultContentFunc;
                     return new HtmlString(defaultContentFunc());
                 }
                 else
@@ -138,6 +123,26 @@ namespace Kooboo.CMS.Sites.View
                     return new AggregateHtmlString(htmlStrings);
                 }
 
+            }
+        }
+
+        public virtual IHtmlString Position(string positionID, bool requireMembershipAuthentication, params string[] membershipGroups)
+        {
+            if (PageContext.PageRequestContext.RequestChannel == FrontRequestChannel.Design)
+            {
+                return new PageDesignHolder(this, positionID);
+            }
+            else
+            {
+                if (requireMembershipAuthentication)
+                {
+                    var permission = new PagePermission() { RequireMember = requireMembershipAuthentication, AllowGroups = membershipGroups };
+                    if (!permission.Authorize(Html.ViewContext.HttpContext.Membership().GetMember()))
+                    {
+                        return new HtmlString("");
+                    }
+                }
+                return Position(positionID);
             }
         }
         #endregion

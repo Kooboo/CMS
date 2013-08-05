@@ -175,7 +175,7 @@
                 var operator = ko.utils.arrayFirst(metadata.operatorList, function(item) {
                     return item.Value === filter.Operator();
                 });
-                console.log(value1);
+                
                 var value1 = filter.Value1();
                 var value2 = filter.Value2();
                 var expression = logic.Text + '  ' + fieldName + '  ' + operator.Operator + '  ' + (value1==undefined?"":value1);

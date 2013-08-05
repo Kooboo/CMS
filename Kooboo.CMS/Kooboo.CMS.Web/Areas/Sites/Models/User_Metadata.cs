@@ -33,7 +33,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [GridColumn(Order = 1, GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn))]
         [DisplayName("User name")]
         [Description("Add an user to your website <br />The user must be created first.")]
-        [Required(ErrorMessage = "Required")]        
+        [Required(ErrorMessage = "Required")]
         [UIHint("DropDownList")]
         [DataSource(typeof(UsersDatasource))]
         [RemoteEx("IsUserAvailable", "Users", RouteFields = "siteName", AdditionalFields = "old_Key")]
@@ -42,7 +42,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [GridColumn(Order = 2, GridItemColumnType = typeof(ArrayGridItemColumn))]
         [Required(ErrorMessage = "Required")]
         [UIHint("Multiple_DropDownList")]
-        [DataSource(typeof(RolesDatasource))]        
+        [DataSource(typeof(RolesDatasource))]
         public List<string> Roles { get; set; }
+
+        [UIHint("Dictionary")]
+        public Dictionary<string, string> Profile { get; set; }
     }
 }

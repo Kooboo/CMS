@@ -51,7 +51,7 @@ namespace Kooboo.CMS.Membership.Persistence.EntityFramework.Mappings
             this.HasRequired(it => it.Membership)
                 .WithMany();
 
-            this.ToTable("Kooboo_CMS_Member_MembershipUser");
+            this.ToTable("Kooboo_CMS_Membership_MembershipUser");
         }
     }
 }

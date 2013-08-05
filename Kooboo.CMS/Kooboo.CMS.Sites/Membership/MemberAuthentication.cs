@@ -19,6 +19,7 @@ using System.Web.Security;
 
 namespace Kooboo.CMS.Sites.Membership
 {
+    
     public class MemberAuthentication
     {
         #region .ctor
@@ -53,7 +54,7 @@ namespace Kooboo.CMS.Sites.Membership
         #endregion
 
         #region SetAuthCookie
-        public void SetAuthCookie(string userName, bool createPersistentCookie)
+        public virtual void SetAuthCookie(string userName, bool createPersistentCookie)
         {
             HttpCookie cookie = FormsAuthentication.GetAuthCookie(userName, createPersistentCookie);
             cookie.Name = GetCookieName(_site);
@@ -68,7 +69,7 @@ namespace Kooboo.CMS.Sites.Membership
         #endregion
 
         #region SignOut
-        public void SignOut()
+        public virtual void SignOut()
         {
             var authCookie = GetAuthCookie(_site, _httpContext.Request.Cookies);
             if (authCookie != null)
@@ -80,7 +81,7 @@ namespace Kooboo.CMS.Sites.Membership
         #endregion
 
         #region GetMember
-        public IPrincipal GetMember()
+        public virtual IPrincipal GetMember()
         {
             var principalName = GetPrincipalName(_site);
             IPrincipal memberPrincipal = (IPrincipal)HttpContext.Current.Items[principalName];
@@ -155,7 +156,7 @@ namespace Kooboo.CMS.Sites.Membership
         #endregion
 
         #region IsAuthenticated
-        public bool IsAuthenticated()
+        public virtual bool IsAuthenticated()
         {
             var principal = GetMember();
             if (principal != null && principal.Identity.IsAuthenticated == true)
@@ -187,5 +188,9 @@ namespace Kooboo.CMS.Sites.Membership
         }
         #endregion
 
+    }
+
+    public class DefaultMemberAuthentication : MemberAuthentication
+    {
     }
 }

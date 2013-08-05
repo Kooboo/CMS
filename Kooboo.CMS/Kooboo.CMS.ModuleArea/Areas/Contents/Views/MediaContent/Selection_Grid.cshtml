@@ -21,6 +21,7 @@
     var images = Model.Contents == null ? new MediaContent[0] : Model.Contents.Where(it => it.IsImage).ToArray();
     var files = Model.Contents == null ? new MediaContent[0] : Model.Contents.Where(it => !it.IsImage).ToArray();
 
+    var singleChoice = !string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("SingleChoice"));
 }
 <div id="main-container">
     <div class="wrap">
@@ -81,7 +82,7 @@
                     {
                         <li>
                             <a class="select">
-                                <input type="checkbox" name="select" value="@Html.Raw(file.UUID)" class="select doc" 
+                                <input type="@(singleChoice ? "radio" : "checkbox")" name="select" value="@Html.Raw(file.UUID)" class="select doc" 
                                  data-alt-text="@file.FileName" 
                             data-is-image="@file.IsImage"
                             data-url="@Html.Raw(file.Url)" autocomplete="off"/>
@@ -99,7 +100,7 @@
                     {
                         <li>
                             <a class="select">
-                                <input type="checkbox"  name="select" value="@Html.Raw(image.UUID)" class="select doc" 
+                                <input type="@(singleChoice ? "radio" : "checkbox")" name="select" value="@Html.Raw(image.UUID)" class="select doc" 
                                  data-alt-text="@Html.Raw((image.Metadata == null || string.IsNullOrEmpty(image.Metadata.AlternateText)) ? image.FileName : image.Metadata.AlternateText)" 
                             data-is-image="@image.IsImage"
                             data-url="@Html.Raw(image.Url)"/>

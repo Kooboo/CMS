@@ -41,3 +41,11 @@
 	background: #D32B28;
 	color: #FFF;
 }
+
+.iframe-dialog .ui-dialog-content > iframe.fullscreen {
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+}

@@ -14,7 +14,7 @@
 }
 
 <table class="key-value" id="@koTemplateId">
-    <thead data-bind="visible: data().length>0">
+    <thead data-bind="visible: data().length > 0">
         <tr>
             <th>@("Key".Localize())
             </th>
@@ -25,10 +25,10 @@
     <tbody data-bind="foreach: data">
         <tr>
             <td>
-                <input type="text" title='key' name="Key" class="short" data-bind="value: $data.Key, attr: {name: $parent.getPrefixFieldName($index()) + 'Key'}" />
+                <input type="text" title='key' name="Key" class="short" data-bind="value: $data.Key, attr: { name: $parent.getPrefixFieldName($index()) + 'Key' }" />
             </td>
             <td>
-                <textarea name="Value" data-bind="value: $data.Value, attr: {name: $parent.getPrefixFieldName($index()) + 'Value'}"></textarea>
+                <textarea name="Value" data-bind="value: $data.Value, attr: { name: $parent.getPrefixFieldName($index()) + 'Value' }"></textarea>
             </td>
             <td>
                 <a class="action" data-bind="click: $parent.removeItem">@Html.IconImage("minus")</a>
@@ -55,6 +55,9 @@
             var self = this;
 
             self.data = ko.observableArray(@Html.Raw(modelJson));
+            self.data.subscribe(function (newValue) {
+                $('textarea').autosize({ className: 'autoresize' });
+            });
 
             self.addItem = function () {
                 self.data.push({ Key: '', Value: '' });

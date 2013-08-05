@@ -1,23 +1,29 @@
 ﻿@model Kooboo.CMS.Web.Areas.Sites.Models.InstallModuleModel
 @{
-    ViewBag.Title = "Install module".Localize();
+    ViewBag.Title = "Module installation".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
     <ul class="panel">
         <li>
-            <a data-ajaxform="">
-                @Html.IconImage("next") @("Next".Localize())</a>
-        </li>
-        <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
                 @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())</a>
         </li>
     </ul>
 }
 <div class="common-form">
-    <h1 class="title">
-        @ViewBag.Title</h1>
+    <h1 class="title">@ViewBag.Title</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <span class="current">@("Upload module file".Localize())<b></b></span>
+            <span>@("Run install action".Localize())</span>
+            <span>@("Finished".Localize())</span>
+        </div>
+    </div>
     @using (Html.BeginForm())
     {
                

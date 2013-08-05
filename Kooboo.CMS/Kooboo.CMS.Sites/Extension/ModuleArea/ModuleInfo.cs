@@ -16,6 +16,7 @@ using Kooboo.CMS.Sites.Models;
 using System.IO;
 using Kooboo.Globalization;
 using Kooboo.Web.Url;
+using Kooboo.CMS.Common;
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
     public class EntryOption
@@ -67,7 +68,6 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         public static string ModuleInfoFileName = "module.config";
         #endregion
 
-
         #region GetModuleSettings
         public void SaveModuleSettings(Site site, ModuleSettings moduleSettings)
         {
@@ -95,15 +95,31 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
             return settingFile;
         }
 
+        #region GetModuleDataPath
+        public IPath GetModuleDataPath()
+        {
+            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+            var path = new CommonPath()
+            {
+                PhysicalPath = Path.Combine(baseDir.Cms_DataPhysicalPath, "Modules", ModuleName),
+                VirtualPath = UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "Modules", ModuleName)
+            };
+            return path;
+        }
         public IPath GetModuleDataPath(Site site)
         {
+            if (site == null)
+            {
+                return GetModuleDataPath();
+            }
             var path = new CommonPath()
             {
                 PhysicalPath = Path.Combine(site.PhysicalPath, "Modules", ModuleName),
                 VirtualPath = UrlUtility.Combine(site.VirtualPath, "Modules", ModuleName)
             };
             return path;
-        }
+        } 
+        #endregion
         #endregion
 
         #region GetModuleInfoPath
@@ -123,7 +139,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         #endregion
 
         #region Obsolete methods
-        
+
         #region SaveModuleSetting/GetSiteModuleSettings
 
         public static void SaveModuleSetting(string moduleName, string siteName, ModuleSettings moduleSettings)
@@ -157,7 +173,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         }
         #endregion
 
-        
+
         #endregion
 
         #region IIdentifiable Members

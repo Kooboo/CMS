@@ -46,7 +46,16 @@ namespace Kooboo.CMS.Sites.Services
         #region Get
         public override SubmissionSetting Get(Models.Site site, string name)
         {
-            return _provider.Get(new SubmissionSetting() { Site = site, Name = name });
+            SubmissionSetting submission = null;
+            while (submission == null && site != null)
+            {
+                submission = _provider.Get(new SubmissionSetting() { Site = site, Name = name });
+                if (submission == null)
+                {
+                    site = site.Parent;
+                }
+            }
+            return submission;
         }
         #endregion
 

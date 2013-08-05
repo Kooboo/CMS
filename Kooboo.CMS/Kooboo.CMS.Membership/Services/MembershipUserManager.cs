@@ -122,9 +122,10 @@ namespace Kooboo.CMS.Membership.Services
         public virtual MembershipUser CreateOrUpdateOAuthMember(Kooboo.CMS.Membership.Models.Membership membership, MembershipConnect membershipConnect, AuthResult authResult, Dictionary<string, string> profiles)
         {
             membership = membership.AsActual();
+            membershipConnect = membershipConnect.AsActual();
 
-            var userName = _oauthMembershipProvider.GetUserName(authResult);
-            var email = _oauthMembershipProvider.GetEmail(authResult);
+            var userName = _oauthMembershipProvider.GetUserName(authResult, membershipConnect);
+            var email = _oauthMembershipProvider.GetEmail(authResult, membershipConnect);
             MembershipUser membershipUser = new MembershipUser() { Membership = membership, UserName = userName }.AsActual();
             Dictionary<string, string> extraData = null;
             if (authResult.ExtraData != null)

@@ -277,6 +277,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
     $.fn.reset_check_relateds = function (options) {
         var $check_relateds = options.check_relateds;
         var checkedSelector = options.selector;
+        var itemTag = options.itemTag || "tr";
         var action = options.action;
 
         var $items = $(this);
@@ -306,8 +307,8 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                     break;
             }
             var show_on_selector = $related.data('show-on-selector');
-            if (show_on_selector) {
-                if ($all_checkeds.closest('tr:not(' + show_on_selector + ')').length > 0) {
+            if (show_on_selector) {               
+                if ($all_checkeds.closest(itemTag + ':not(' + show_on_selector + ')').length > 0) {
                     $related.hide();
                 }
             }

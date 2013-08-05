@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Web.Models
         [UIHint("File")]
         [Description("Only .zip file is accepted.")]
         [System.Web.Mvc.AdditionalMetadata("accept", ".zip")]
-        public HttpPostedFileWrapper File { get; set; }
+        public virtual HttpPostedFileWrapper File { get; set; }
 
         [Description("Will overwrite the exists items.")]
         [Required(ErrorMessage = "Required")]

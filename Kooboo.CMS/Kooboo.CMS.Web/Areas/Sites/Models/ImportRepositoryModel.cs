@@ -38,6 +38,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Required(ErrorMessage = "Required")]
         [UIHint("UploadOrSelect")]
         [DataSource(typeof(RepositoryPackagesDatasource))]
+        [Description("Import from uploaded template files or existing content database templates(under Cms_Data\\ImportedContents).")]
+        [AdditionalMetadata("data-val-filesize", "The content file exceeds the maximum size can be uploaded. Please upload the file under Cms_Data\\ImportedContents folder via FTP, then switch to the selection mode.")]
+        [AdditionalMetadata("data-val-filesize-value", 4194304)]
         public string File { get; set; }
 
 

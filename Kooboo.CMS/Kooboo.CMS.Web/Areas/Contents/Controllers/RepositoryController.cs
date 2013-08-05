@@ -304,14 +304,22 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         public virtual ActionResult Import(ImportRepositoryModel model, string @return)
         {
             var data = new JsonResultData(ModelState);
-            if (ModelState.IsValid)
+
+            data.RunWithTry((resultData) =>
             {
-                data.RunWithTry((resultData) =>
+                Kooboo.CMS.Content.Models.Repository repository = null;
+                if (Request.Files.Count > 0)
                 {
-                    Manager.Create(model.Name, model.File.InputStream);
-                    data.RedirectUrl = @return;
-                });
-            }
+                    repository = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager.Create(model.Name, Request.Files[0].InputStream);
+                }
+                else
+                {
+                    repository = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager.Create(model.Name, model.File);
+                }
+
+                resultData.RedirectUrl = @return;
+            });
+
             return Json(data, "text/plain", System.Text.Encoding.UTF8);
         }
         #endregion

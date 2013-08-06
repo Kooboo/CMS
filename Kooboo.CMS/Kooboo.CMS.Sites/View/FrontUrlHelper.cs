@@ -109,10 +109,10 @@ namespace Kooboo.CMS.Sites.View
                 {
                     if (HttpContext.Current.Request.IsSecureConnection)
                     {
-                        if (!requireSSL.Value)
-                        {
-                            url = "http://" + HttpContext.Current.Request.Url.Host + url;
-                        }
+                        //if (!requireSSL.Value)
+                        //{
+                        //    url = "http://" + HttpContext.Current.Request.Url.Host + url;
+                        //}
                     }
                     else if (requireSSL.Value)
                     {

@@ -44,9 +44,9 @@ namespace Kooboo.CMS.Membership.Persistence.EntityFramework.Mappings
             this.Property(it => it.Comment).HasColumnType("nvarchar").HasMaxLength(1024);
             this.Property(it => it.ProviderType).HasColumnType("nvarchar").HasMaxLength(256);
             this.Property(it => it.ProviderUserId).HasColumnType("nvarchar").HasMaxLength(256);
-            this.Property(it => it.ProfileXml).HasColumnType("nvarchar").HasMaxLength(1024);
-            this.Property(it => it.ProviderExtraDataXml).HasColumnType("nvarchar").HasMaxLength(1024);
-            this.Property(it => it.MembershipGroupsXml).HasColumnType("nvarchar").HasMaxLength(1024);
+            this.Property(it => it.ProfileXml).HasColumnType("nvarchar(max)");
+            this.Property(it => it.ProviderExtraDataXml).HasColumnType("nvarchar(max)");
+            this.Property(it => it.MembershipGroupsXml).HasColumnType("nvarchar(max)");
 
             this.HasRequired(it => it.Membership)
                 .WithMany();

@@ -43,7 +43,7 @@ namespace Kooboo.CMS.Account.Persistence.Caching
         }
         public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
         {
-            containerManager.AddResolvingObserver(new ResolvingObserver());
+            //containerManager.AddResolvingObserver(new ResolvingObserver());
         }
 
         public int Order

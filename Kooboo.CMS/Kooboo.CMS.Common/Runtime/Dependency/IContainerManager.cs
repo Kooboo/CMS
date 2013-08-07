@@ -46,7 +46,7 @@ namespace Kooboo.CMS.Common.Runtime.Dependency
         /// <param name="lifeStyle">The life style.</param>
         void AddComponent<TService, TImplementation>(string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton);
 
-        void AddComponent(Type service, Type implementation, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton);
+        void AddComponent(Type service, Type implementation, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton, params Parameter[] parameters);
 
         void AddComponentInstance<TService>(object instance, string key = "");
 

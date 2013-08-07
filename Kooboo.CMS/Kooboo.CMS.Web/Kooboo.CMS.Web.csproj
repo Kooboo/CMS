@@ -1914,7 +1914,7 @@
     <Content Include="Areas\Sites\Views\PagePublishingQueue\Index.cshtml" />
     <Content Include="Areas\Sites\Views\Robots_Txt\Index.cshtml" />
     <Content Include="Areas\Sites\Views\Site\EditorTemplates\CreateOrSelect.cshtml" />
-    <Content Include="Areas\Sites\Views\Site\EditorTemplates\UploadOrSelect.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\UploadOrSelect.cshtml" />
     <Content Include="Areas\Sites\Views\Site\Create.cshtml" />
     <Content Include="Areas\Sites\Views\Site\CreateSubSite.cshtml" />
     <Content Include="Areas\Sites\Views\Site\Delete.cshtml" />

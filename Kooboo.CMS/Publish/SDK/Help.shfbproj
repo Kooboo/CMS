@@ -29,7 +29,7 @@
       <DocumentationSource sourceFile="..\..\Kooboo.CMS.Web\Bin\Kooboo.xml" />
     </DocumentationSources>
     <HelpTitle>Kooboo CMS API Document</HelpTitle>
-    <HelpFileVersion>4.1.0.%2a</HelpFileVersion>
+    <HelpFileVersion>4.2.0.0</HelpFileVersion>
     <SandcastlePath>D:\Program Files\Sandcastle\</SandcastlePath>
     <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
   </PropertyGroup>

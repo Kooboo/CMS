@@ -46,7 +46,13 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
 
                     var routeValues = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetRouteValuesWithModuleUrl(modulePositionId, encodedModuleUrl, moduleContext.ModulePosition.Exclusive);
 
-                    virtualPath.VirtualPath = Page_Context.Current.FrontUrl.PageUrl(Page_Context.Current.PageRequestContext.Page.FullName, routeValues).ToString().TrimStart('/');
+                    var pageUrl = Page_Context.Current.FrontUrl.PageUrl(Page_Context.Current.PageRequestContext.Page.FullName, routeValues).ToString();
+                    var routeVirtualPath = pageUrl;
+                    if (Uri.IsWellFormedUriString(pageUrl, UriKind.Absolute))
+                    {
+                        routeVirtualPath = new Uri(routeVirtualPath).PathAndQuery;
+                    }
+                    virtualPath.VirtualPath = routeVirtualPath.TrimStart('/');
                 }
                 else
                 {

@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         {
             if (Repository == null)
             {
-                filterContext.Result = RedirectToAction("index", "home");
+                filterContext.Result = RedirectToAction("Index", "Repository");
             }
             base.OnActionExecuting(filterContext);
         }

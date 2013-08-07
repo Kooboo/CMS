@@ -1,6 +1,6 @@
 ﻿@model object
 @{
-    Layout = ViewBag.Layout ?? "~/Views/Shared/EditorTemplates/_TR.cshtml";
+    Layout = ViewBag.Layout ?? "_TR.cshtml";
     ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
     var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString();
     var fieldId = ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName);

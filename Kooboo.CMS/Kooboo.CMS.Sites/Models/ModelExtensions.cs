@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Sites.Models
             site = site.AsActual();
             if (site != null && !string.IsNullOrEmpty(site.Repository))
             {
-                return new Repository(site.Repository);
+                return new Repository(site.Repository).AsActual();
             }
             return null;
         }

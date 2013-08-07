@@ -513,6 +513,7 @@ namespace Kooboo.CMS.Sites.View
                 if (PageContext.InlineEditing)
                 {
                     yield return InlineEditingVariablesScript();
+                    yield return this.Html.Script("~/Scripts/tiny_mce/tinymce.min.js");
                     //Inline editing的脚本样式不能用CDN
                     yield return Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, "Sites", "inlineEditingJs", null, null);
                 }

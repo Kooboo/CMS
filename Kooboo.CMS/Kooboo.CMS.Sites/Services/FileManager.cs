@@ -49,6 +49,26 @@ namespace Kooboo.CMS.Sites.Services
     }
     public class FileEntry : FileResource
     {
+        public class FileNameEqualityComparer : IEqualityComparer<FileEntry>
+        {
+            public bool Equals(FileEntry x, FileEntry y)
+            {
+                if (x == y)
+                {
+                    return true;
+                }
+                if (x.FileName.EqualsOrNullEmpty(y.FileName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            public int GetHashCode(FileEntry obj)
+            {
+                return obj.GetHashCode();
+            }
+        }
         public FileEntry()
         {
         }

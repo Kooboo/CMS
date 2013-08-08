@@ -578,28 +578,23 @@ namespace Kooboo.CMS.Sites.View
         private IEnumerable<IHtmlString> GetScriptsBySite(Site site, bool compressed, string baseUri = null)
         {
             List<IHtmlString> scripts = new List<IHtmlString>();
-            while (scripts.Count == 0 && site != null)
+
+            var siteScripts = ServiceFactory.ScriptManager.AllScripts(site, "");
+            if (siteScripts != null && siteScripts.Count() > 0)
             {
-                var siteScripts = ServiceFactory.ScriptManager.GetFiles(site, "");
-                if (siteScripts != null && siteScripts.Count() > 0)
+                if (site.Mode == ReleaseMode.Debug)
                 {
-                    if (site.Mode == ReleaseMode.Debug)
+                    foreach (var script in siteScripts)
                     {
-                        foreach (var script in siteScripts)
-                        {
-                            scripts.Add(this.Html.Script(Kooboo.Web.Url.UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath)));
-                        }
-                    }
-                    else
-                    {
-                        scripts.Add(this.Html.Script(this.PageContext.FrontUrl.SiteScriptsUrl(baseUri, compressed).ToString()));
+                        scripts.Add(this.Html.Script(Kooboo.Web.Url.UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath)));
                     }
                 }
                 else
                 {
-                    site = site.Parent;
+                    scripts.Add(this.Html.Script(this.PageContext.FrontUrl.SiteScriptsUrl(baseUri, compressed).ToString()));
                 }
             }
+
             //else
             //{
             //    if (site.Parent != null)

@@ -55,5 +55,24 @@ namespace Kooboo.CMS.Sites.Services
         {
             get { return "Scripts"; }
         }
+
+        public virtual IEnumerable<FileEntry> AllScripts(Site site, string dirRelativePath)
+        {
+            List<FileEntry> list = new List<FileEntry>();
+            while (site != null)
+            {
+                var files = GetFiles(site, dirRelativePath);
+                foreach (var item in files)
+                {
+                    if (!list.Contains(item, new FileEntry.FileNameEqualityComparer()))
+                    {
+                        list.Add(item);
+                    }
+                }
+                site = site.Parent;
+            }
+
+            return list;
+        }
     }
 }

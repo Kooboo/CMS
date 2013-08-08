@@ -46,7 +46,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
 
         [UIHint("ABSiteRuleItems")]
         [Display(Name = "Alternative sites")]
-        [Description("The alternative sites to render based on defined A/B rules.")]
+        [Description("The alternative sites to render based on defined A/B rules.<br /> Entry site is the site that this rule will be applied to. <br /> Alternative sites are the sites to be rendered when the rule items are matched.")]
         public List<ABSiteRuleItem> Items { get; set; }
 
         [GridColumn(HeaderText = "Redirect type", GridColumnType = typeof(SortableGridColumn), Order = 3)]

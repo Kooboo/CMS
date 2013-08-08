@@ -19,15 +19,18 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     public class ABRuleSetting_Metadata
     {
         [Remote("IsNameAvailable", "ABRuleSetting", AdditionalFields = "SiteName,old_Key")]
-        [DisplayName("Rule name")]
+        [DisplayName("Name")]
         [Required(ErrorMessage = "Required")]
+        [Description("The meaningful name of your rule collections")]
         [RegularExpression(RegexPatterns.FileName, ErrorMessage = "A name cannot contain a space or any of the following characters:\\/:*?<>|~")]
         [GridColumnAttribute(HeaderText = "Name", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn), Order = 1)]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Required")]
         [UIHint("DropDownList")]
+        [DisplayName("Rule type")]
         [DataSource(typeof(RouteTypesDatasource))]
+        [Description("The random factor of your A/B test, can be based on IP, User-Agent or percentage")]
         public string RuleType { get; set; }
 
         public List<IVisitRule> RuleItems

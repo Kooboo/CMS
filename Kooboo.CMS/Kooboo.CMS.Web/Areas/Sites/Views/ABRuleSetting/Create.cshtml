@@ -28,13 +28,13 @@
         else
         {
             <li>
-                <a id="submitVisitRule">
-                    @Html.IconImage("save") @("Finish".Localize())</a>
-            </li>
-            <li>
                 <a href="@ViewContext.RequestContext.GetRequestValue("Back")">
                     @Html.IconImage("cancel") @("Back".Localize())</a>
             </li>
+            <li>
+                <a id="submitVisitRule">
+                    @Html.IconImage("next") @("Next".Localize())</a>
+            </li>           
         }
     </ul>
 }
@@ -46,6 +46,7 @@
             <div class="steps-inner">
                 <span class="current">@("Select rule type".Localize())<b></b></span>
                 <span>@("Add rule item".Localize())</span>
+                <span>@("Finished".Localize())</span>
             </div>
         </div>
         <form method="get">
@@ -66,11 +67,12 @@ else
 {
     <div class="common-form">
         <form id="ruleSettingForm">
-            <h1 class="title">@ViewBag.Title:</h1>
+            <h1 class="title">@ViewBag.Title</h1>
             <div class="process-steps">
                 <div class="steps-inner">
                     <a>@("Select rule type".Localize())</a>
                     <span class="current">@("Add rule item".Localize())<b></b></span>
+                    <span>@("Finished".Localize())</span>
                 </div>
             </div>
             <div class="common-form">

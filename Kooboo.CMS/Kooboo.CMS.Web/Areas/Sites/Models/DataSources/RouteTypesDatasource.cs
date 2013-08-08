@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
             return  Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<IVisitRule>()
                 .Select(o => new SelectListItem
                 {
-                    Text = o.RuleType,
+                    Text = o.RuleTypeDisplayName,
                     Value = o.RuleType
                 });
         }

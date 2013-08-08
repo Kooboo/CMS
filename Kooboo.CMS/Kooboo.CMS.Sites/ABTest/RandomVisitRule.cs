@@ -64,5 +64,9 @@ namespace Kooboo.CMS.Sites.ABTest
             get { return "return this.Percent() + ' %';"; }
             set { }
         }
+        public string RuleTypeDisplayName
+        {
+            get { return "Percentage random"; }
+        }
     }
 }

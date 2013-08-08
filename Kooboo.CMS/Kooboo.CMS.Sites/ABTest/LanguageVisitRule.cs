@@ -44,5 +44,10 @@ namespace Kooboo.CMS.Sites.ABTest
             get { return "return this.LanguageName();"; }
             set { }
         }
+
+        public string RuleTypeDisplayName
+        {
+            get { return "Browser language"; }
+        }
     }
 }

@@ -10,16 +10,16 @@
 }
 
 .kb-block-unpublish {
-	outline: 1px dashed red !important;
-	+border: 1px dashed red !important;
+	outline: 1px dashed #777 !important;
+	+border: 1px dashed #777 !important;
 	filter: alpha(opacity=50) !important;
 	-moz-opacity: 0.5 !important;
 	opacity: 0.5 !important;
 }
 
 .kb-block-hl {
-	outline: 1px dashed red !important;
-	+border: 1px dashed red !important;
+	outline: 1px dashed #777 !important;
+	+border: 1px dashed #777 !important;
 	filter: alpha(opacity=100) !important;
 	-moz-opacity: 1 !important;
 	opacity: 1 !important;
@@ -27,7 +27,7 @@
 
 .kb-block-mask {
 	position: absolute;
-	background-color: red;
+	background-color: #84ACE9;
 	filter: alpha(opacity=40);
 	-moz-opacity: 0.4;
 	opacity: 0.4;

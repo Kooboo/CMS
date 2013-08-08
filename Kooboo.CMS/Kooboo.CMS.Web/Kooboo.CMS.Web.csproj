@@ -828,6 +828,8 @@
     <Content Include="Scripts\tiny_mce\skins\lightgray\skin.min.css" />
     <Content Include="Scripts\tiny_mce\themes\modern\theme.min.js" />
     <Content Include="Scripts\tiny_mce\tinymce.min.js" />
+    <Content Include="Scripts\yardiTip\images\arrow_down.png" />
+    <Content Include="Scripts\yardiTip\images\arrow_top.png" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
     <Content Include="Styles\Diff\Main.css" />
@@ -1770,8 +1772,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.watermarkinput.js" />
     <Content Include="Scripts\yardiTip\ellipsis.xml" />
-    <Content Include="Scripts\yardiTip\images\arrow_down.gif" />
-    <Content Include="Scripts\yardiTip\images\arrow_top.gif" />
     <Content Include="Scripts\yardiTip\images\arrow_top_yellow.gif" />
     <Content Include="Scripts\yardiTip\yardiTip.css" />
     <Content Include="Scripts\yardiTip\yardiTip.js" />

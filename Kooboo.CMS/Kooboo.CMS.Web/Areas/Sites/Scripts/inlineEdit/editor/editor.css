@@ -43,6 +43,10 @@ body div.mce-fullscreen {
 	z-index: 99999;
 }
 
+body .mce-ico {
+	color: #666;
+}
+
 body .mce-panel {
 	background: #F6F6F6;
 	border-color: #BABABA;

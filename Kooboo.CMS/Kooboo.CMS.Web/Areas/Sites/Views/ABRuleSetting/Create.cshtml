@@ -55,15 +55,25 @@
             <input type="hidden" name="Return" value="@ViewContext.RequestContext.GetRequestValue("return")"/>
             <table>
                 <tbody>
+					<tr>
+						<th>@("Rule name".Localize())</th>
+						<td>
+							@Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
+							@Html.Hidden("old_Key", "")
+							@Html.EditorFor(m => m.Name, new { Layout = "_NoLabel.cshtml", HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:ruleSetting.Name" } } })
+						</td>
+					</tr>
                     <tr>
-                        <td>@("Rule type".Localize())</td>
+                        <th>@("Rule type".Localize())</th>
                         <td>
                             <select name="ruleType">
                                 @foreach (var item in allRules)
                                 {
                                     <option value="@item.RuleType">@((string)(item.RuleType).Localize())</option>    
                                 }
-                            </select></td>
+                            </select>
+							<em class="tip">The tips goes here.</em>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -73,23 +83,16 @@
 else
 {
     <div class="common-form">
-        <h1 class="title">@ViewBag.Title</h1>
-        <div class="process-steps">
-            <div class="steps-inner">
-                <a>@("Select rule type".Localize())</a>
-                <span class="current">@("Add rule item".Localize())<b></b></span>
-            </div>
-        </div>
         <form id="ruleSettingForm">
-            <div class="topbar">
-                <h1 class="title left">@ViewBag.Title:</h1>
-                <p class="field left">
-                    @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
-                    @Html.Hidden("old_Key", "")
-                    @Html.EditorFor(m => m.Name, new { Layout = "_NoLabel.cshtml", HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:ruleSetting.Name" } } })
-                </p>
-            </div>
-            <div class="common-form fixed">
+			<h1 class="title">@ViewBag.Title:</h1>
+			<div class="process-steps">
+				<div class="steps-inner">
+					<a>@("Select rule type".Localize())</a>
+					<span class="current">@("Add rule item".Localize())<b></b></span>
+				</div>
+			</div>
+			
+            <div class="common-form">
                 @Html.Partial("_RuleSetting", ViewData)
             </div>
         </form>

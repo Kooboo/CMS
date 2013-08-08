@@ -16,21 +16,21 @@
 @section Panel{
     <ul class="panel">
         <li class="j_DropDown">
-            <a>
+            <a href="@Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">
                 @Html.IconImage("add")
-                @("Create New".Localize())
-                @Html.IconImage("arrow small white-down")
+                @("Create".Localize())
+                @*@Html.IconImage("arrow small white-down")*@
             </a>
-            <ul class="j_DropDownContent hide">
+            @* <ul class="j_DropDownContent hide">
                 @foreach (var item in allRules)
                 {
                     <li><a href="@Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("RuleType", (string)(item.RuleType)).Merge("return", ViewContext.HttpContext.Request.RawUrl))">
                         @((string)(item.RuleType).Localize())</a></li>    
                 }
-            </ul>
+            </ul>*@
         </li>
         <li>
-            <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import visit rules"))">
+            <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import A/B rules".Localize()))">
                 @Html.IconImage("import") @("Import".Localize())
             </a>
         </li>

@@ -59,10 +59,10 @@ namespace Kooboo.CMS.Sites.Membership
             get
             {
                 return new Dictionary<string, object>() {
-                    { "UserName", "{UserName}" },                 
+                    {"UserName", "{UserName}" },                 
                     {"RedirectUrl", "~/Member/ConfirmMail"},
-                    {"EmailSubject","Kooboo CMS SampleSite"},
-                    {"EmailBody","Please click <a href='{0}'>here</a> to reset your password."},
+                    {"EmailSubject","Your password"},
+                    {"EmailBody","<b>{0}</b> <br/><br/> To change your password, click on the following link:<br/> <br/> <a href='{1}'>{1}</a> <br/>"},
                     {"ResetPasswordUrl","~/Member/ResetPassword?member={0}&code={1}"}
                 };
             }
@@ -121,7 +121,7 @@ namespace Kooboo.CMS.Sites.Membership
             resetPasswordUrl = UrlUtility.ToHttpAbsolute(resetPasswordUrl);
 
             var subject = forgotPasswordModel.EmailSubject;
-            var body = string.Format(forgotPasswordModel.EmailBody, resetPasswordUrl);
+            var body = string.Format(forgotPasswordModel.EmailBody, membershipUser.UserName, resetPasswordUrl);
 
             site.SendMailToCustomer(membershipUser.Email, subject, body, true, null);
         }

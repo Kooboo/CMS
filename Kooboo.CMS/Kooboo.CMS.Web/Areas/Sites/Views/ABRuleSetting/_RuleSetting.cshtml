@@ -1,9 +1,56 @@
 ﻿@using Kooboo.CMS.Sites.ABTest;
 @using Kooboo.CMS.Sites.ABTest;
 
-<div class="block command">
-    <input type="button" class="button" value="Create @ViewBag.Rule.RuleType rule" data-bind="click: add"/>
+<table>
+	<tbody>
+		<tr>
+			<th>Rule name</th>
+			<td>Rule name goes here.</td>
+		</tr>
+		<tr>
+			<th>Items</th>
+			<td>
+				<table class="key-value">
+					<thead>
+						<tr>
+							<th width="190">Name</th>
+							<th>Setting value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Google Chrome</td>
+							<td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.95 Safari/537.36</td>
+							<td><a><img class="icon minus" src="/Images/invis.gif"></a></td>
+						</tr>
+						<tr>
+							<td>Firefox</td>
+							<td>Mozilla/5.0 (Windows NT 6.1; WOW64) Firefox/28.0.1500.95 Safari/537.36</td>
+							<td><a><img class="icon minus" src="/Images/invis.gif"></a></td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td>
+								<a><img class="icon plus" src="/Images/invis.gif"></a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<!--
+<div class="block">
+    <h2>Items in &lt;Rulename&gt;</h2>
+	
+	<input type="button" class="button" value="Add @ViewBag.Rule.RuleType item" data-bind="click: add"/>
 </div>
+-->
+
+<!--
 <div id="grid-field">
     <div id="grid-field-template">
         <div class="common-table">
@@ -17,7 +64,6 @@
                     </tr>
                 </thead>
                 <tbody class="ui-sortable">
-                    <!-- ko foreach: ruleSetting.RuleItems -->
                     <tr>
                         <td class="nocheckbox draggable">
                             <div>@Html.IconImage("drag")</div>
@@ -28,7 +74,6 @@
                             <a class="action" data-bind="click: $root.delete">@Html.IconImage("minus small")</a>
                         </td>
                     </tr>
-                    <!-- /ko -->
                 </tbody>
                 <tfoot>
                     <tr>
@@ -44,3 +89,4 @@
         </div>
     </div>
 </div>
+-->

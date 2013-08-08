@@ -2,44 +2,42 @@
 @using Kooboo.CMS.Sites.ABTest;
 
 <table>
-	<tbody>
-		<tr>
-			<th>Rule name</th>
-			<td>Rule name goes here.</td>
-		</tr>
-		<tr>
-			<th>Items</th>
-			<td>
-				<table class="key-value">
-					<thead>
-						<tr>
-							<th width="190">Name</th>
-							<th>Setting value</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Google Chrome</td>
-							<td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.95 Safari/537.36</td>
-							<td><a><img class="icon minus" src="/Images/invis.gif"></a></td>
-						</tr>
-						<tr>
-							<td>Firefox</td>
-							<td>Mozilla/5.0 (Windows NT 6.1; WOW64) Firefox/28.0.1500.95 Safari/537.36</td>
-							<td><a><img class="icon minus" src="/Images/invis.gif"></a></td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td>
-								<a><img class="icon plus" src="/Images/invis.gif"></a>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</td>
-		</tr>
-	</tbody>
+    <tbody>
+        <tr>
+            <th>@("Rule name".Localize())</th>
+            <td data-bind="text: ruleSetting.Name"></td>
+        </tr>
+        <tr>
+            <th>@("Items".Localize())</th>
+            <td>
+                <table class="key-value">
+                    <thead>
+                        <tr>
+                            <th width="190">@("Name".Localize())</th>
+                            <th>@("Setting value".Localize())</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko foreach: ruleSetting.RuleItems -->
+                        <tr>
+                            <td data-bind="text: Name, click: $root.edit">Google Chrome</td>
+                            <td data-bind="text: SettingValue"></td>
+                            <td><a data-bind="click: $root.delete">
+                                @Html.IconImage("minus")</a></td>
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <a class="action" data-bind="click: $root.add">@Html.IconImage("plus")</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 <!--

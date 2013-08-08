@@ -214,6 +214,7 @@
     <Compile Include="Areas\Sites\Menu\MembershipMenuItems.cs" />
     <Compile Include="Areas\Sites\Models\ABPageTestHitsReport.cs" />
     <Compile Include="Areas\Sites\Models\ABPageTestResult_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\DataSources\RouteTypesDatasource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\MembershipDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\SiteMembershipGroupDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\SubmissionPluginsDataSource.cs" />

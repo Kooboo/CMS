@@ -4,19 +4,17 @@
     ViewBag.Title = "Create A/B rule".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 
-    string ruleType = ViewContext.RequestContext.GetRequestValue("RuleType");
     var allRules = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<IVisitRule>();
-    if (!string.IsNullOrEmpty(ruleType))
+    if (!string.IsNullOrEmpty(Model.RuleType))
     {
-        ViewData.Model = new Kooboo.CMS.Sites.ABTest.ABRuleSetting() { RuleType = ruleType };
 
-        ViewBag.Rule = allRules.Where(it => it.RuleType.EqualsOrNullEmpty(ruleType, StringComparison.OrdinalIgnoreCase)).First();
+        ViewBag.Rule = allRules.Where(it => it.RuleType.EqualsOrNullEmpty(Model.RuleType, StringComparison.OrdinalIgnoreCase)).First();
     }
     
 }
 @section Panel{
     <ul class="panel">
-        @if (string.IsNullOrEmpty(ruleType))
+        @if (string.IsNullOrEmpty(Model.RuleType))
         {
             <li>
                 <a href="@ViewContext.RequestContext.GetRequestValue("return")">
@@ -40,7 +38,7 @@
         }
     </ul>
 }
-@if (string.IsNullOrEmpty(ruleType))
+@if (string.IsNullOrEmpty(Model.RuleType))
 {
     <div class="common-form">
         <h1 class="title">@ViewBag.Title</h1>
@@ -50,31 +48,15 @@
                 <span>@("Add rule item".Localize())</span>
             </div>
         </div>
-        <form>
+        <form method="get">
             <input type="hidden" name="Back" value="@Request.RawUrl"/>
             <input type="hidden" name="Return" value="@ViewContext.RequestContext.GetRequestValue("return")"/>
+            @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
+            @Html.Hidden("old_Key", "")
             <table>
                 <tbody>
-					<tr>
-						<th>@("Rule name".Localize())</th>
-						<td>
-							@Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
-							@Html.Hidden("old_Key", "")
-							@Html.EditorFor(m => m.Name, new { Layout = "_NoLabel.cshtml", HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:ruleSetting.Name" } } })
-						</td>
-					</tr>
-                    <tr>
-                        <th>@("Rule type".Localize())</th>
-                        <td>
-                            <select name="ruleType">
-                                @foreach (var item in allRules)
-                                {
-                                    <option value="@item.RuleType">@((string)(item.RuleType).Localize())</option>    
-                                }
-                            </select>
-							<em class="tip">The tips goes here.</em>
-                        </td>
-                    </tr>
+                    @Html.EditorFor(m => m.Name, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" } } })
+                    @Html.EditorFor(m => m.RuleType, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" } } })
                 </tbody>
             </table>
         </form>
@@ -84,14 +66,13 @@ else
 {
     <div class="common-form">
         <form id="ruleSettingForm">
-			<h1 class="title">@ViewBag.Title:</h1>
-			<div class="process-steps">
-				<div class="steps-inner">
-					<a>@("Select rule type".Localize())</a>
-					<span class="current">@("Add rule item".Localize())<b></b></span>
-				</div>
-			</div>
-			
+            <h1 class="title">@ViewBag.Title:</h1>
+            <div class="process-steps">
+                <div class="steps-inner">
+                    <a>@("Select rule type".Localize())</a>
+                    <span class="current">@("Add rule item".Localize())<b></b></span>
+                </div>
+            </div>
             <div class="common-form">
                 @Html.Partial("_RuleSetting", ViewData)
             </div>

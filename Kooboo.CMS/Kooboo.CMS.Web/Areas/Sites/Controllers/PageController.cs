@@ -72,7 +72,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Create
-        public override ActionResult Create()
+        public override ActionResult Create(Page model)
         {
             if (!string.IsNullOrWhiteSpace(Site.Repository))
             {

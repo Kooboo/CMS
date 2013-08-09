@@ -579,7 +579,7 @@ namespace Kooboo.CMS.Sites.View
         {
             List<IHtmlString> scripts = new List<IHtmlString>();
 
-            var siteScripts = ServiceFactory.ScriptManager.AllScripts(site, "");
+            var siteScripts = ServiceFactory.ScriptManager.GetFiles(site, "");
             if (siteScripts != null && siteScripts.Count() > 0)
             {
                 if (site.Mode == ReleaseMode.Debug)

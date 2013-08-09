@@ -245,7 +245,27 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return Json(data);
         }
         #endregion
+        #region Localize
 
+        [HttpPost]
+        public virtual ActionResult Localize(string directoryPath, string[] folders, string[] docs)
+        {
+            var data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+            {
+                if (docs != null)
+                {
+                    foreach (var f in docs)
+                    {
+                        FileManager.LocalizeFile(Site, f);
+                    }
+                }
+                resultData.ReloadPage = true;
+            });
+            return Json(data);
+        }
+
+        #endregion
         #region IsFolderNameAvailable
         public virtual ActionResult IsFolderNameAvailable(string folderName, string old_Key, string folderPath)
         {
@@ -258,6 +278,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
         #endregion
+
         #region IsFileNameAvailable
         public virtual ActionResult IsFileNameAvailable(string fileName, string old_Key, string folderPath)
         {

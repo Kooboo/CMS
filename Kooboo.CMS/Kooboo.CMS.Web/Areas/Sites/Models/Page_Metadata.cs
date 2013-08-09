@@ -34,7 +34,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
     [MetadataFor(typeof(Page))]
     [Grid(Checkable = true, Draggable = true, IdProperty = "UUID", GridItemType = typeof(PageGridItem), EmptyText = "No sub pages")]
-    [GridColumn(GridItemColumnType = typeof(Page_Draft_GridItemColumn), HeaderText = "Draft", Order = 5)]
+    [GridColumn(GridItemColumnType = typeof(Page_Draft_GridItemColumn), HeaderText = "Draft", Order = 6)]
     public class Page_Metadata
     {
         [GridColumn(Order = 1, GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(InheritableEditGridActionItemColumn))]
@@ -71,8 +71,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [GridColumn(Order = 3, GridColumnType = typeof(SortableGridColumn), HeaderText = "Display text")]
         public Navigation Navigation { get; set; }
 
-        [GridColumn(Order = 4, GridColumnType = typeof(SortableGridColumn))]
-        public Site Site { get; set; }
+
 
         public HtmlMeta HtmlMeta { get; set; }
 
@@ -94,10 +93,14 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         //[UIHint("OutputCache")]
         public CacheSettings OutputCache { get; set; }
 
+        [GridColumn(Order = 4, GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
         [Required(ErrorMessage = "Required")]
         public bool? Published { get; set; }
 
-        [GridColumn(Order = 5, HeaderText = "Preview", GridItemColumnType = typeof(Page_Preview_GridItemColumn))]
+        [GridColumn(Order = 5, GridColumnType = typeof(SortableGridColumn))]
+        public Site Site { get; set; }
+
+        [GridColumn(Order = 7, HeaderText = "Preview", GridItemColumnType = typeof(Page_Preview_GridItemColumn))]
         public string VirtualPath { get; set; }
 
         [UIHint("CustomFields")]

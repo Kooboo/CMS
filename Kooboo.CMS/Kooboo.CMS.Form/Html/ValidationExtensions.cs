@@ -25,18 +25,18 @@ namespace Kooboo.CMS.Form.Html
             switch (validation.ValidationType)
             {
                 case ValidationType.Required:
-                    return new[] { new ModelClientValidationRequiredRule(string.Format(validation.ErrorMessage, columnName)) };
+                    return new[] { new ModelClientValidationRequiredRule(string.IsNullOrEmpty(validation.ErrorMessage) ? "" : string.Format(validation.ErrorMessage, columnName)) };
                 case ValidationType.Unique:
-                    return new[] { new ModelClientValidationRequiredRule(string.Format(validation.ErrorMessage, columnName)) };
+                    return new[] { new ModelClientValidationRequiredRule(string.IsNullOrEmpty(validation.ErrorMessage) ? "" : string.Format(validation.ErrorMessage, columnName)) };
                 case ValidationType.StringLength:
                     var stringLength = (StringLengthValidation)validation;
-                    return new[] { new ModelClientValidationStringLengthRule(string.Format(validation.ErrorMessage, columnName), stringLength.Min, stringLength.Max) };
+                    return new[] { new ModelClientValidationStringLengthRule(string.IsNullOrEmpty(validation.ErrorMessage) ? "" : string.Format(validation.ErrorMessage, columnName), stringLength.Min, stringLength.Max) };
                 case ValidationType.Range:
                     var rangeValidation = (RangeValidation)validation;
-                    return new[] { new ModelClientValidationRangeRule(string.Format(validation.ErrorMessage, columnName), rangeValidation.Start, rangeValidation.End) };
+                    return new[] { new ModelClientValidationRangeRule(string.IsNullOrEmpty(validation.ErrorMessage) ? "" : string.Format(validation.ErrorMessage, columnName), rangeValidation.Start, rangeValidation.End) };
                 case ValidationType.Regex:
                     var regexValidation = (RegexValidation)validation;
-                    return new[] { new ModelClientValidationRegexRule(string.Format(validation.ErrorMessage, columnName), regexValidation.Pattern) };
+                    return new[] { new ModelClientValidationRegexRule(string.IsNullOrEmpty(validation.ErrorMessage) ? "" : string.Format(validation.ErrorMessage, columnName), regexValidation.Pattern) };
                 default:
                     return new ModelClientValidationRegexRule[0];
             }

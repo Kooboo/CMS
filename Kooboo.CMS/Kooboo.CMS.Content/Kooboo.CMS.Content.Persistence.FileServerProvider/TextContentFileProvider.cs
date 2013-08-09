@@ -14,6 +14,7 @@ using Kooboo.IO;
 using Kooboo.CMS.Content.FileServer.Interfaces;
 namespace Kooboo.CMS.Content.Persistence.FileServerProvider
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentFileProvider), Order = 2)]
     public class TextContentFileProvider : ITextContentFileProvider
     {
         public string Save(Models.TextContent content, Models.ContentFile file)

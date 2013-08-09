@@ -53,7 +53,6 @@
     <Compile Include="..\..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
-    <Compile Include="DependencyRegistrar.cs" />
     <Compile Include="FileServerProviderSettings.cs" />
     <Compile Include="MediaContentProvider.cs" />
     <Compile Include="MediaFolderProvider.cs" />

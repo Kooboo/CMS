@@ -100,6 +100,8 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce
             Current = null;
         }
     }
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentProvider), Order = 2)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IContentProvider<TextContent>), Order = 2)]
     public class TextContentProvider : ITextContentProvider
     {
         TextContentDbCommands dbCommands = new TextContentDbCommands();

@@ -3808,8 +3808,7 @@ ul.site-tree {
 }
 
 svg text:hover{
-    cursor:pointer;
-	text-decoration: underline;
+    cursor:default;
 }
 
 svg text.titles:hover{

@@ -178,7 +178,7 @@
 
 
     // Show relation
-    $('.site-rect').on('mouseenter', function (e) {
+    $('.site-rect, .content-rect text').on('mouseenter', function (e) {
     	$(this).attr('style', 'opacity: .5');
         var site_name = $(this).data('name');
         for (var i = 0; i < site.length; i++) {
@@ -215,7 +215,7 @@
     	$('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
     });
 
-    $('.content-rect').on('mouseenter', function (e) {
+    $('.content-rect, .content-rect text').on('mouseenter', function (e) {
     	$(this).attr('style', 'opacity: .5');
         var click_name = $(this).data('name');
         for(var i=0;i<content.length;i++){
@@ -262,7 +262,7 @@
     	$('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
     });
 
-    $('.membership-rect').on('mouseenter', function (e) {
+    $('.membership-rect, .membership-rect text').on('mouseenter', function (e) {
     	$(this).attr('style', 'opacity: .5');
     	var click_name = $(this).data('name');
     	for(var i=0;i<membership.length;i++){

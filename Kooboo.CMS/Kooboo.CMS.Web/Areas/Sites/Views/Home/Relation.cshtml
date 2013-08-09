@@ -11,12 +11,46 @@
 
 }
 
+<style>
+/* relation svg */
+.topbar .tips{
+	float: right;
+	margin-top: 14px;
+}
+
+svg text:hover{
+    cursor:default;
+}
+
+svg text.titles:hover{
+    cursor:default;
+	text-decoration: none;
+}
+
+svg image:hover{
+    cursor:pointer;
+}
+
+#fullSiteName{
+	position: absolute;
+	border: 1px solid #ccc;
+	top: 0;
+	left: 0;
+	background: #fff;
+	color: #000;
+	z-index: 999;
+	padding: 0 5px;
+	display: none;
+}
+</style>
+
 <div class="topbar">
 	<h1 class="title">Relation</h1>
 	<p class="tips">Tip: Click rectangles to view the relations.</p>
 </div>
 <div class="block fixed">
 	<div  id="showRelation"></div>
+	<span id="fullSiteName">fullname</span>
 </div>
 
 
@@ -77,13 +111,14 @@
 				.attr('class', 'site-rect')
 				.attr('data-name', function (d) { return d.name })
                 .attr('data-url', function (d) { return d.url })
-				.attr('fill', bg_site)
+				.attr('fill', bg_site);
     site_texts.attr('x', w / 100 * 30 + 80)
 				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 26 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
 				.attr('fill', '#fff')
 				.attr('data-name', function (d) { return d.name })
                 .attr('data-url', function (d) { return d.url })
+				.attr('data-fulltext', function (d) { return d.fullText })
 				.text(function (d) { return d.text });
 
     content_rects.attr('x', w / 100 * 60 + 70)
@@ -93,7 +128,7 @@
 				.attr('class', 'content-rect')
 				.attr('data-name', function (d) { return d.name })
                 .attr('data-url', function (d) { return d.url })
-				.attr('fill', bg_database)
+				.attr('fill', bg_database);
     content_texts.attr('x', w / 100 * 60 + 80)
 				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
@@ -109,7 +144,7 @@
 				.attr('class', 'membership-rect')
 				.attr('data-name', function (d) { return d.name })
                 .attr('data-url', function (d) { return d.url })
-				.attr('fill', bg_membership)
+				.attr('fill', bg_membership);
     membership_texts.attr('x', 80)
 				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
 				.attr('style', 'font-family: Arial; font-size: 14px')
@@ -176,9 +211,21 @@
                 .attr('data-url', function (d) { return d.url })
 				.attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
 
+	// Mouse Position
+	$('svg').on('mousemove', function(e){
+		currentX = e.pageX;
+		currentY = e.pageY;
+	});
+
+	$('.site-text').on('mousemove', function(){
+		$('#fullSiteName').html($(this).data('fulltext')).css({'display': 'block', 'top': currentY - 12, 'left': currentX + 12});
+	}).on('mouseleave', function(){
+		$('#fullSiteName').css({'display': 'none'});
+	});
 
     // Show relation
-    $('.site-rect, .content-rect text').on('mouseenter', function (e) {
+	$('.site-rect').on('mouseenter', function (e) {
+		e.stopPropagation();
     	$(this).attr('style', 'opacity: .5');
         var site_name = $(this).data('name');
         for (var i = 0; i < site.length; i++) {
@@ -211,11 +258,13 @@
         		$('.membership-rect').eq(membership_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
         	}
         });
+
     }).on('mouseleave', function(e){
     	$('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
     });
 
-    $('.content-rect, .content-rect text').on('mouseenter', function (e) {
+	$('.content-rect').on('mouseenter', function (e) {
+		e.stopPropagation();
     	$(this).attr('style', 'opacity: .5');
         var click_name = $(this).data('name');
         for(var i=0;i<content.length;i++){
@@ -262,7 +311,8 @@
     	$('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
     });
 
-    $('.membership-rect, .membership-rect text').on('mouseenter', function (e) {
+	$('.membership-rect').on('mouseenter', function (e) {
+		e.stopPropagation();
     	$(this).attr('style', 'opacity: .5');
     	var click_name = $(this).data('name');
     	for(var i=0;i<membership.length;i++){
@@ -309,6 +359,43 @@
     }).on('mouseleave', function(e){
     	$('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
     });
+
+	// text fixed
+	$('text').on('mouseenter', function(e){
+		e.stopPropagation();
+    	var text_y = parseInt($(this).attr('y'));
+    	var rect_x = parseInt($(this).attr('x')) - 10;
+    	var all_rect = $('rect[x="' + rect_x + '"]');
+    	var y_list = [];
+    	for(var i=0;i<all_rect.length;i++){
+    		y_list.push($(all_rect[i]).attr('y'));
+    	}
+    	for(var i=0;i<y_list.length;i++){
+    		if(parseInt(y_list[i]) - text_y == -26){
+    			var index = i;
+    			break;
+    		}
+    	}
+    	$(all_rect[index]).trigger('mouseenter');
+    }).on('click', function(e){
+    	e.stopPropagation();
+    	var text_y = parseInt($(this).attr('y'));
+    	var rect_x = parseInt($(this).attr('x')) - 10;
+    	var all_rect = $('rect[x="' + rect_x + '"]');
+    	var y_list = [];
+    	for(var i=0;i<all_rect.length;i++){
+    		y_list.push($(all_rect[i]).attr('y'));
+    	}
+    	for(var i=0;i<y_list.length;i++){
+    		if(parseInt(y_list[i]) - text_y == -26){
+    			var index = i;
+    			break;
+    		}
+    	}
+    	$(all_rect[index]).trigger('click');
+    });
+	
+    
 
     $('html').on('click', function(e){
     	var target = $(e.target);

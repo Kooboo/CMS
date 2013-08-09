@@ -3801,25 +3801,6 @@ ul.site-tree {
 
 /* =6 Other
 ---------------------------------------------------------------------------------------------------------------------*/
-/* relation svg */
-.topbar .tips{
-	float: right;
-	margin-top: 14px;
-}
-
-svg text:hover{
-    cursor:default;
-}
-
-svg text.titles:hover{
-    cursor:default;
-	text-decoration: none;
-}
-
-svg image:hover{
-    cursor:pointer;
-}
-
 /* jquery-ui autocomplete */
 .ui-autocomplete{
 	padding: 1px;

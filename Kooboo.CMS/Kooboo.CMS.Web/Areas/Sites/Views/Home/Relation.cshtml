@@ -18,6 +18,11 @@
 	margin-top: 14px;
 }
 
+svg text.empty:hover,
+svg rect.empty:hover{
+	cursor: pointer;
+}
+
 svg text:hover{
     cursor:default;
 }
@@ -42,6 +47,7 @@ svg image:hover{
 	padding: 0 5px;
 	display: none;
 }
+
 </style>
 
 <div class="topbar">
@@ -71,7 +77,7 @@ svg image:hover{
     var rect_w = w / 100 * 20;
     var rect_h = 44;
     var rect_margin_h = w / 100 * 2;
-    var h = max_length * (rect_h + rect_margin_h) + 100;
+    var h = max_length * (rect_h + rect_margin_h) + 500;
 
     var svg = d3.select('#showRelation').append('svg').attr('width', w).attr('height', h);
 
@@ -96,7 +102,56 @@ svg image:hover{
 	.attr('y', 40)
 	.text(function (d) { return d });
 
-    // rects and texts
+	// rects and texts
+	// Empty case
+	function createEmptyRect(empty_type){
+		switch (empty_type){
+			case 'membership':
+				var text = 'Create new membership';
+				var offset = 0;
+				var url = '/Membership/Membership/Create';
+				break;
+			case 'site':
+				var text = 'Create new site';
+				var offset = 1;
+				var url = '/Sites/Site/Create';
+				break;
+			case 'content':
+				var text = 'Create new content';
+				var offset = 2;
+				var url = '/Contents/Repository/Create';
+				break;
+		}
+		svg.selectAll('rect.none').data([1]).enter().append('rect')
+			.attr('x', offset * 300 + 70)
+			.attr('y', 100)
+			.attr('class', 'empty')
+			.attr('data-url', url)
+			.attr('width', rect_w)
+			.attr('height', rect_h)
+			.attr('fill', '#fff')
+			.attr('stroke', '#aaa')
+			.attr('stroke-dasharray', '5 2');
+		svg.selectAll('text.none').data([1]).enter().append('text')
+			.attr('x', 70 + w / 100 * 10 + offset * 300)
+			.attr('y', 126)
+			.attr('class', 'empty')
+			.attr('data-url', url)
+			.attr('style', 'font-family: Arial; font-size: 14px; text-anchor: middle')
+			.attr('fill', '#aaa')
+			.text(text);
+	}
+	if(!membership.length){
+		createEmptyRect('membership');
+	}
+	if(!site.length){
+		createEmptyRect('site');
+	}
+	if(!content.length){
+		createEmptyRect('content');
+	}
+
+	// Full case
     var site_rects = svg.selectAll('rect.site').data(site).enter().append('rect');
     var site_texts = svg.selectAll('text.site').data(site).enter().append('text').attr('class', 'site-text');
     var content_rects = svg.selectAll('rect.content').data(content).enter().append('rect');
@@ -411,7 +466,7 @@ svg image:hover{
     $('.site-text, .content-text, .membership-text').on('click', function () {
       //  location.href= $(this).data('url');
     });
-    $('image.view').on('click', function () {
+    $('image.view, rect.empty, text.empty').on('click', function () {
         location.href= $(this).data('url');
     });
 </script>

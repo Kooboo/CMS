@@ -12,9 +12,12 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Common;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Content.Persistence.MongoDB
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IRepositoryProvider), Order = 2)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(Kooboo.CMS.Common.Persistence.Non_Relational.IProvider<Repository>), Order = 2)]
     public class RepositoryProvider : Default.RepositoryProvider
     {
         public RepositoryProvider(IBaseDir baseDir)

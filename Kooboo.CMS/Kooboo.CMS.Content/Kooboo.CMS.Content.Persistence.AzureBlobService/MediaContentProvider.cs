@@ -247,6 +247,8 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         #endregion
     }
     #endregion
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IMediaContentProvider), Order = 2)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IContentProvider<MediaContent>), Order = 2)]
     public class MediaContentProvider : IMediaContentProvider
     {
         #region IMediaContentProvider

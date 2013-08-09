@@ -18,7 +18,8 @@ using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.CMS.Content.Persistence.MongoDB
 {
-    public class ProviderFactory : Default.ProviderFactory, Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProviderFactory), Order = 2)]
+    public class ProviderFactory : Default.ProviderFactory
     {
         public override string Name
         {
@@ -27,18 +28,18 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
 
 
 
-        public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
-        {
-            containerManager.AddComponent<IProviderFactory, ProviderFactory>();
-            containerManager.AddComponent<IRepositoryProvider, RepositoryProvider>();
-            containerManager.AddComponent<ISchemaProvider, SchemaProvider>();
-            containerManager.AddComponent<IContentProvider<TextContent>, TextContentProvider>();
-            containerManager.AddComponent<ITextContentProvider, TextContentProvider>();
-        }
+        //public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
+        //{
+        //    containerManager.AddComponent<IProviderFactory, ProviderFactory>();
+        //    containerManager.AddComponent<IRepositoryProvider, RepositoryProvider>();
+        //    containerManager.AddComponent<ISchemaProvider, SchemaProvider>();
+        //    containerManager.AddComponent<IContentProvider<TextContent>, TextContentProvider>();
+        //    containerManager.AddComponent<ITextContentProvider, TextContentProvider>();
+        //}
 
-        public int Order
-        {
-            get { return 2; }
-        }
+        //public int Order
+        //{
+        //    get { return 2; }
+        //}
     }
 }

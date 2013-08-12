@@ -1,4 +1,4 @@
-The current running version: V4.1.1.0
+The current running version: V4.2.0 https://kooboo.codeplex.com/releases/view/110279
 
 
 Kooboo CMS has been developed to satisfy all your web development needs we are constantly working on simplifying the development process giving you complete freedom over development.

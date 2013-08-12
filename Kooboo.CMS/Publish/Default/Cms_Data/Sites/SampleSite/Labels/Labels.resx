@@ -61,14 +61,20 @@
   <data name="Sample site" xml:space="preserve">
     <value>Sample site</value>
   </data>
-  <data name="Sign Out" xml:space="preserve">
-    <value>Sign Out</value>
+  <data name="Member Login" xml:space="preserve">
+    <value>Member Login</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
   </data>
   <data name="Articles" xml:space="preserve">
     <value>Articles</value>
   </data>
   <data name="Copyright &amp;copy; 2009 - 2013 Kooboo team" xml:space="preserve">
     <value>Copyright &amp;copy; 2009 - 2013 Kooboo team</value>
+  </data>
+  <data name="Admin Login" xml:space="preserve">
+    <value>Admin Login</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
@@ -82,53 +88,23 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="Redirect to" xml:space="preserve">
-    <value>Redirect to</value>
-  </data>
-  <data name="Current page" xml:space="preserve">
-    <value>Current page</value>
-  </data>
-  <data name="Admin page" xml:space="preserve">
-    <value>Admin page</value>
-  </data>
   <data name="Remember me" xml:space="preserve">
     <value>Remember me</value>
   </data>
-  <data name="About us" xml:space="preserve">
-    <value>About us</value>
+  <data name="Forgot password?" xml:space="preserve">
+    <value>Forgot password?</value>
   </data>
-  <data name="LogOn" xml:space="preserve">
-    <value>LogOn</value>
+  <data name="Register a new account" xml:space="preserve">
+    <value>Register a new account</value>
   </data>
-  <data name="Search" xml:space="preserve">
-    <value>Search</value>
+  <data name="Login with social accounts" xml:space="preserve">
+    <value>Login with social accounts</value>
   </data>
-  <data name="Submit" xml:space="preserve">
-    <value>Submit</value>
+  <data name="&lt;b&gt;Note&lt;/b&gt;: You need to configure Fackbook or &lt;br &gt; Twitter settings before using them." xml:space="preserve">
+    <value>&lt;b&gt;Note&lt;/b&gt;: You need to configure Fackbook or &lt;br &gt; Twitter settings before using them.</value>
   </data>
-  <data name="ddd" xml:space="preserve">
-    <value>ddd</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="Username and/or password are incorrect." xml:space="preserve">
-    <value>Username and/or password are incorrect.</value>
-  </data>
-  <data name="MemberLogin" xml:space="preserve">
-    <value>MemberLogin</value>
-  </data>
-  <data name="DesignPage" xml:space="preserve">
-    <value>DesignPage</value>
-  </data>
-  <data name="MemberInfo" xml:space="preserve">
-    <value>MemberInfo</value>
-  </data>
-  <data name="Member" xml:space="preserve">
-    <value>Member</value>
-  </data>
-  <data name="Register" xml:space="preserve">
-    <value>Register</value>
+  <data name="Register member" xml:space="preserve">
+    <value>Register member</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -136,106 +112,10 @@
   <data name="Confirm password" xml:space="preserve">
     <value>Confirm password</value>
   </data>
-  <data name="Sign up" xml:space="preserve">
-    <value>Sign up</value>
-  </data>
   <data name="'Confirm password' and 'Password' do not match." xml:space="preserve">
     <value>'Confirm password' and 'Password' do not match.</value>
   </data>
-  <data name="Active" xml:space="preserve">
-    <value>Active</value>
-  </data>
-  <data name="The member has been actived." xml:space="preserve">
-    <value>The member has been actived.</value>
-  </data>
-  <data name="Index" xml:space="preserve">
-    <value>Index</value>
-  </data>
-  <data name="Edit member info" xml:space="preserve">
-    <value>Edit member info</value>
-  </data>
-  <data name="First name" xml:space="preserve">
-    <value>First name</value>
-  </data>
-  <data name="Last name" xml:space="preserve">
-    <value>Last name</value>
-  </data>
-  <data name="Culture" xml:space="preserve">
-    <value>Culture</value>
-  </data>
-  <data name="Time zone" xml:space="preserve">
-    <value>Time zone</value>
-  </data>
-  <data name="Update" xml:space="preserve">
-    <value>Update</value>
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Profile</value>
-  </data>
-  <data name="Change password" xml:space="preserve">
-    <value>Change password</value>
-  </data>
-  <data name="ChangePassword" xml:space="preserve">
-    <value>ChangePassword</value>
-  </data>
-  <data name="Old password" xml:space="preserve">
-    <value>Old password</value>
-  </data>
-  <data name="New password" xml:space="preserve">
-    <value>New password</value>
-  </data>
-  <data name="'Confirm password' and 'New password' do not match." xml:space="preserve">
-    <value>'Confirm password' and 'New password' do not match.</value>
-  </data>
-  <data name="The old password is incorrect." xml:space="preserve">
-    <value>The old password is incorrect.</value>
-  </data>
-  <data name="Activate" xml:space="preserve">
-    <value>Activate</value>
-  </data>
-  <data name="Register a new account" xml:space="preserve">
-    <value>Register a new account</value>
-  </data>
-  <data name="ConfirmMail" xml:space="preserve">
-    <value>ConfirmMail</value>
-  </data>
-  <data name="Activation occurs errors." xml:space="preserve">
-    <value>Activation occurs errors.</value>
-  </data>
-  <data name="The member has been actived" xml:space="preserve">
-    <value>The member has been actived</value>
-  </data>
-  <data name="Age" xml:space="preserve">
-    <value>Age</value>
-  </data>
-  <data name="Login with social accounts" xml:space="preserve">
-    <value>Login with social accounts</value>
-  </data>
-  <data name="Forgot password?" xml:space="preserve">
-    <value>Forgot password?</value>
-  </data>
-  <data name="ForgotPassword" xml:space="preserve">
-    <value>ForgotPassword</value>
-  </data>
-  <data name="Send mail" xml:space="preserve">
-    <value>Send mail</value>
-  </data>
-  <data name="Forgot password" xml:space="preserve">
-    <value>Forgot password</value>
-  </data>
-  <data name="Check mail" xml:space="preserve">
-    <value>Check mail</value>
-  </data>
-  <data name="ResetPassword" xml:space="preserve">
-    <value>ResetPassword</value>
-  </data>
-  <data name="Reset password" xml:space="preserve">
-    <value>Reset password</value>
-  </data>
-  <data name="Member profile" xml:space="preserve">
-    <value>Member profile</value>
-  </data>
-  <data name="Register member" xml:space="preserve">
-    <value>Register member</value>
+  <data name="Sign up" xml:space="preserve">
+    <value>Sign up</value>
   </data>
 </root>

@@ -449,6 +449,10 @@
     border-right: 1px solid #ccc;
 }
 
+.member-form .member-form-main a{
+	margin-top: 5px;
+}
+
 .member-form .member-form-main.single{
 	border: 0;
 }
@@ -487,6 +491,7 @@
 
 .member-form .member-form-main button{
     background: #0078b1;
+	margin-bottom: 10px;
 }
   
 .member-form .member-form-side{
@@ -612,8 +617,14 @@
 	background: #EEE;
 	color: #666;
 	padding: 10px;
+	overflow: hidden;
+}
+
+#footer p {
+	float: left;
 }
 
 #footer a {
-	color: #FFF;
+	color: #0078b1;
+	float: right;
 }

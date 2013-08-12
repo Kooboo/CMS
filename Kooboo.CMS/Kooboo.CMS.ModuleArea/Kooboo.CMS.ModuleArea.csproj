@@ -1608,8 +1608,8 @@
     <Content Include="Scripts\tiny_mce_extension.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\yardiTip\ellipsis.xml" />
-    <Content Include="Scripts\yardiTip\images\arrow_down.gif" />
-    <Content Include="Scripts\yardiTip\images\arrow_top.gif" />
+    <Content Include="Scripts\yardiTip\images\arrow_down.png" />
+    <Content Include="Scripts\yardiTip\images\arrow_top.png" />
     <Content Include="Scripts\yardiTip\images\arrow_top_yellow.gif" />
     <Content Include="Scripts\yardiTip\yardiTip.css" />
     <Content Include="Scripts\yardiTip\yardiTip.js" />
@@ -1785,6 +1785,7 @@
     <Content Include="Areas\Sites\Views\ABRuleSetting\Create.cshtml" />
     <Content Include="Areas\Sites\Views\ABRuleSetting\Edit.cshtml" />
     <Content Include="Areas\Sites\Views\ABRuleSetting\EditorTemplates\UserAgentPattern.cshtml" />
+    <Content Include="Areas\Sites\Views\ABRuleSetting\Finished.cshtml" />
     <Content Include="Areas\Sites\Views\ABRuleSetting\Index.cshtml" />
     <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\IP.cshtml" />
     <Content Include="Areas\Sites\Views\ABRuleSetting\RuleTemplates\Language.cshtml" />

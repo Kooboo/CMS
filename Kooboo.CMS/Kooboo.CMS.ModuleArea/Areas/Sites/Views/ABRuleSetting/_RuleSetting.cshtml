@@ -1,9 +1,54 @@
 ﻿@using Kooboo.CMS.Sites.ABTest;
 @using Kooboo.CMS.Sites.ABTest;
 
-<div class="block command">
-    <input type="button" class="button" value="Create @ViewBag.Rule.RuleType rule" data-bind="click: add"/>
+<table>
+    <tbody>
+        <tr>
+            <th>@("Name".Localize())</th>
+            <td data-bind="text: ruleSetting.Name"></td>
+        </tr>
+        <tr>
+            <th>@("Items".Localize())</th>
+            <td>
+                <table class="key-value">
+                    <thead>
+                        <tr>
+                            <th width="190">@("Name".Localize())</th>
+                            <th>@("Setting value".Localize())</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko foreach: ruleSetting.RuleItems -->
+                        <tr>
+                            <td data-bind="text: Name, click: $root.edit">Google Chrome</td>
+                            <td data-bind="text: SettingValue"></td>
+                            <td><a data-bind="click: $root.delete">
+                                @Html.IconImage("minus")</a></td>
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <a class="action" data-bind="click: $root.add">@Html.IconImage("plus")</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!--
+<div class="block">
+    <h2>Items in &lt;Rulename&gt;</h2>
+	
+	<input type="button" class="button" value="Add @ViewBag.Rule.RuleType item" data-bind="click: add"/>
 </div>
+-->
+
+<!--
 <div id="grid-field">
     <div id="grid-field-template">
         <div class="common-table">
@@ -17,7 +62,6 @@
                     </tr>
                 </thead>
                 <tbody class="ui-sortable">
-                    <!-- ko foreach: ruleSetting.RuleItems -->
                     <tr>
                         <td class="nocheckbox draggable">
                             <div>@Html.IconImage("drag")</div>
@@ -28,7 +72,6 @@
                             <a class="action" data-bind="click: $root.delete">@Html.IconImage("minus small")</a>
                         </td>
                     </tr>
-                    <!-- /ko -->
                 </tbody>
                 <tfoot>
                     <tr>
@@ -44,3 +87,4 @@
         </div>
     </div>
 </div>
+-->

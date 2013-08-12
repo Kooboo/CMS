@@ -12,5 +12,5 @@ using System.Reflection;
 [assembly: AssemblyCopyright("Copyright © Yari 2009-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("4.2.0.0807")]
-[assembly: AssemblyFileVersion("4.2.0.0807")]
+[assembly: AssemblyVersion("4.2.0.0812")]
+[assembly: AssemblyFileVersion("4.2.0.0812")]

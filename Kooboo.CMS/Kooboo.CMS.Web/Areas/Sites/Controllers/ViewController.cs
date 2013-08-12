@@ -73,7 +73,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Create
-        public override ActionResult Create()
+        public override ActionResult Create(View model)
         {
             var engineName = ControllerContext.RequestContext.GetRequestValue("EngineName");
             var engine = Kooboo.CMS.Sites.View.TemplateEngines.GetEngineByName(engineName);

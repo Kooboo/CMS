@@ -34,7 +34,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Create
-        public override ActionResult Create()
+        public override ActionResult Create(Layout model)
         {
             var engineName = ControllerContext.RequestContext.GetRequestValue("EngineName");
             ViewData["LayoutSamples"] = ServiceFactory.LayoutItemTemplateManager.GetLayoutSamples(engineName);

@@ -636,12 +636,16 @@ input, button, select, textarea {
 
 .key-value th {
 	width: auto !important;
-	padding: 0 5px 5px 5px !important;
+	padding: 0 5px 5px 0 !important;
 }
 
 .key-value td {
-	padding: 5px !important;
+	padding: 5px 5px 5px 0 !important;
 	vertical-align: top;
+}
+
+.key-value td:first-child {
+	min-width: 190px;
 }
 
 .key-value input,
@@ -2195,6 +2199,10 @@ body .select2-results .select2-result-label {
     border-bottom: 3px solid #ccc;
     margin-bottom: 20px;
     counter-reset: step;
+}
+
+.process-steps.fixed{
+	margin-top: 71px;
 }
 
 .process-steps .steps-inner{
@@ -3793,26 +3801,6 @@ ul.site-tree {
 
 /* =6 Other
 ---------------------------------------------------------------------------------------------------------------------*/
-/* relation svg */
-.topbar .tips{
-	float: right;
-	margin-top: 14px;
-}
-
-svg text:hover{
-    cursor:pointer;
-	text-decoration: underline;
-}
-
-svg text.titles:hover{
-    cursor:default;
-	text-decoration: none;
-}
-
-svg image:hover{
-    cursor:pointer;
-}
-
 /* jquery-ui autocomplete */
 .ui-autocomplete{
 	padding: 1px;

@@ -20,7 +20,42 @@ namespace Kooboo.CMS.Sites.Services
 {
     public static class FileOrderHelper
     {
+        private class Comparer : IComparer<FileResource>
+        {
+            string[] _orders;
+            public Comparer(string[] fileOrders)
+            {
+                this._orders = fileOrders;
+            }
+            public int Compare(FileResource x, FileResource y)
+            {
+                var indexX = Array.IndexOf(_orders, x.FileName);
+                var indexY = Array.IndexOf(_orders, y.FileName);
+                if (indexX == -1 && indexY != -1)
+                {
+                    return 1;
+                }
+                if (indexX != -1 && indexY == -1)
+                {
+                    return -1;
+                }
+                if (indexX == -1 && indexY == -1)
+                {
+                    return 1;
+                }
+                return indexX.CompareTo(indexY);
+            }
+        }
         public static string OrderFileName = "Order.txt";
+        public static IComparer<FileResource> GetComparer(string orderFile)
+        {
+            if (!string.IsNullOrEmpty(orderFile) && File.Exists(orderFile))
+            {
+                var lines = File.ReadAllLines(orderFile);
+                return new Comparer(lines);
+            }
+            return null;
+        }
         public static IEnumerable<string> OrderFiles(string orderFile, IEnumerable<string> fileNames)
         {
             if (!string.IsNullOrEmpty(orderFile) && File.Exists(orderFile))
@@ -49,6 +84,26 @@ namespace Kooboo.CMS.Sites.Services
     }
     public class FileEntry : FileResource
     {
+        public class FileNameEqualityComparer : IEqualityComparer<FileEntry>
+        {
+            public bool Equals(FileEntry x, FileEntry y)
+            {
+                if (x == y)
+                {
+                    return true;
+                }
+                if (x.FileName.EqualsOrNullEmpty(y.FileName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            public int GetHashCode(FileEntry obj)
+            {
+                return obj.GetHashCode();
+            }
+        }
         public FileEntry()
         {
         }
@@ -188,9 +243,41 @@ namespace Kooboo.CMS.Sites.Services
                 return ex == ".txt" || ex == ".js" || ex == ".css" || ex == ".rule";
             }
         }
+
+        public override Site Site
+        {
+            get
+            {
+                return this.RootDir.Site;
+            }
+            set
+            {
+                // this.RootDir.Site = value;
+            }
+        }
     }
     public class DirectoryEntry : DirectoryResource
     {
+        public class DirectoryNameEqualityComparer : IEqualityComparer<DirectoryEntry>
+        {
+            public bool Equals(DirectoryEntry x, DirectoryEntry y)
+            {
+                if (x == y)
+                {
+                    return true;
+                }
+                if (x.Name.EqualsOrNullEmpty(y.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            public int GetHashCode(DirectoryEntry obj)
+            {
+                return obj.GetHashCode();
+            }
+        }
         public DirectoryEntry()
         {
         }
@@ -275,6 +362,17 @@ namespace Kooboo.CMS.Sites.Services
                 name = value;
             }
         }
+
+        public override Site Site
+        {
+            get
+            {
+                return this.RootDir.Site;
+            }
+            set
+            {
+            }
+        }
         #endregion
 
         public override IEnumerable<string> ParseObject(IEnumerable<string> relativePaths)
@@ -324,18 +422,26 @@ namespace Kooboo.CMS.Sites.Services
         }
         public virtual IEnumerable<DirectoryResource> GetDirectories(Site site, string relativePath)
         {
-            var dir = GetDirectory(site, relativePath);
-            if (dir.Exists())
+            List<DirectoryEntry> list = new List<DirectoryEntry>();
+            while (site != null)
             {
-                foreach (var item in IO.IOUtility.EnumerateDirectoriesExludeHidden(dir.PhysicalPath))
+                var dir = GetDirectory(site, relativePath);
+                if (dir.Exists())
                 {
-                    yield return new DirectoryEntry(GetRootDir(site), GetRelativePath(relativePath, item.Name)) { LastUpdateDate = item.LastWriteTime };
+                    foreach (var item in IO.IOUtility.EnumerateDirectoriesExludeHidden(dir.PhysicalPath))
+                    {
+                        var dirEntry = new DirectoryEntry(GetRootDir(site), GetRelativePath(relativePath, item.Name)) { LastUpdateDate = item.LastWriteTime };
+                        if (!list.Contains(dirEntry, new DirectoryEntry.DirectoryNameEqualityComparer()))
+                        {
+                            list.Add(dirEntry);
+                        }
+                    }
                 }
+                site = site.Parent;
             }
+            return list;
+
         }
-
-
-
         public virtual void DeleteDirectory(Site site, string relativePath)
         {
             var dir = new DirectoryEntry(GetRootDir(site), relativePath);
@@ -367,25 +473,55 @@ namespace Kooboo.CMS.Sites.Services
 
         public virtual IEnumerable<FileEntry> GetFiles(Site site, string dirRelativePath)
         {
-            var dir = GetDirectory(site, dirRelativePath);
-            if (dir.Exists())
+            IComparer<FileResource> comparer = null;
+            Site recursiveSite = site;
+            while (comparer == null && recursiveSite != null)
             {
-                var files = EnumerateFiles(dir.PhysicalPath);
-                files = FileOrderHelper.OrderFiles(FileOrderHelper.GetOrderFile(dir.PhysicalPath), files);
-                return files.Select(it => new FileInfo(Path.Combine(dir.PhysicalPath, it)))
-                    .Where(it => !Path.GetFileName(it.FullName).Equals(FileOrderHelper.OrderFileName, StringComparison.OrdinalIgnoreCase))
-                    .Select(it => new FileEntry(GetRootDir(site), GetRelativePath(dirRelativePath, it.Name))
-                {
-                    FileSize = it.Length,
-                    Name = it.Name,
-                    FileExtension = it.Extension,
-                    FileName = Path.GetFileName(it.FullName),
-                    CreateDate = it.LastWriteTimeUtc
-                });
+                var dir = GetDirectory(recursiveSite, dirRelativePath);
+                comparer = FileOrderHelper.GetComparer(FileOrderHelper.GetOrderFile(dir.PhysicalPath));
+                recursiveSite = recursiveSite.Parent;
             }
-            return new FileEntry[0];
+
+            ICollection<FileEntry> list;
+            if (comparer == null)
+            {
+                list = new List<FileEntry>();
+            }
+            else
+            {
+                list = new SortedSet<FileEntry>(comparer);
+            }
+            recursiveSite = site;
+            while (recursiveSite != null)
+            {
+                var dir = GetDirectory(recursiveSite, dirRelativePath);
+                if (dir.Exists())
+                {
+                    var files = EnumerateFiles(dir.PhysicalPath);
+                    var fileEntries = files.Select(it => new FileInfo(Path.Combine(dir.PhysicalPath, it)))
+                        .Where(it => !Path.GetFileName(it.FullName).Equals(FileOrderHelper.OrderFileName, StringComparison.OrdinalIgnoreCase))
+                        .Select(it => new FileEntry(GetRootDir(recursiveSite), GetRelativePath(dirRelativePath, it.Name))
+                    {
+                        FileSize = it.Length,
+                        Name = it.Name,
+                        FileExtension = it.Extension,
+                        FileName = Path.GetFileName(it.FullName),
+                        CreateDate = it.LastWriteTimeUtc
+                    });
+                    foreach (var fileEntry in fileEntries)
+                    {
+                        if (!list.Contains(fileEntry, new FileEntry.FileNameEqualityComparer()))
+                        {
+                            list.Add(fileEntry);
+                        }
+                    }
+                }
+                recursiveSite = recursiveSite.Parent;
+            }
+            return list;
         }
-        private IEnumerable<string> EnumerateFiles(string dir)
+
+        protected virtual IEnumerable<string> EnumerateFiles(string dir)
         {
             foreach (var item in System.IO.Directory.EnumerateFiles(dir))
             {
@@ -466,6 +602,30 @@ namespace Kooboo.CMS.Sites.Services
             FileEntry file = new FileEntry(GetRootDir(site), GetRelativePath(parentRelativePath, name));
             return file.Exists();
         }
+
+        public virtual void LocalizeFile(Site site, string fileRelativePath)
+        {
+            FileEntry targetFileEntry = GetFile(site, fileRelativePath);
+            if (!targetFileEntry.Exists())
+            {
+                FileEntry fileEntry = null;
+                Site recursiveSite = site;
+                while (fileEntry == null && recursiveSite != null)
+                {
+                    fileEntry = GetFile(recursiveSite, fileRelativePath);
+                    if (!fileEntry.Exists())
+                    {
+                        fileEntry = null;
+                    }
+                    recursiveSite = recursiveSite.Parent;
+                }
+
+                if (fileEntry != null)
+                {
+                    File.Copy(fileEntry.PhysicalPath, targetFileEntry.PhysicalPath, true);
+                }
+            }
+        }
         #endregion
 
         #region Import & Export
@@ -504,7 +664,6 @@ namespace Kooboo.CMS.Sites.Services
             }
         }
         #endregion
-
 
         protected virtual void FlushWebResourceCache(Site site, PathResource resource)
         {

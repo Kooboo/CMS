@@ -39,7 +39,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.LabelProvider
         }
     }
     [Table("Kooboo_CMS_Sites_Labels")]
-    public class LabelEntity 
+    public class LabelEntity
     {
         public LabelEntity() { }
         public LabelEntity(string siteName, Element element)
@@ -51,12 +51,13 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.LabelProvider
             this.SiteName = siteName;
             this.Name = name;
             this.Value = value;
-            this.Category = cagegory;        
+            this.Category = cagegory;
         }
-        [Key, Column(Order = 0)]
+        [Key, Column(Order = 0)]        
         public string SiteName { get; set; }
         [Key, Column(Order = 1)]
-        public string Name { get; set; }        
+        [StringLength(1024)]
+        public string Name { get; set; }
         [Key, Column(Order = 2)]
         public string Category { get; set; }
         public string Value { get; set; }

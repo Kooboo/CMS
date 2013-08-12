@@ -19,6 +19,7 @@ using Kooboo.Runtime.Serialization;
 using Ionic.Zip;
 using Kooboo.CMS.Content.Services;
 using System.IO;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
 
@@ -205,6 +206,8 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         }
 
     }
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IMediaFolderProvider), Order = 2)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<MediaFolder>), Order = 2)]
     public class MediaFolderProvider : IMediaFolderProvider
     {
         public IQueryable<MediaFolder> ChildFolders(MediaFolder parent)

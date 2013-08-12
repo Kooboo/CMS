@@ -30,10 +30,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             : base(manager) { }
 
         #region CURD
-        public override ActionResult Create()
+        public override ActionResult Create(HtmlBlock model)
         {
             ViewBag.ExternalCssSetting = this.GetExternalCssSetting();
-            return base.Create();
+            return base.Create(model);
         }
 
         public override ActionResult Edit(string uuid)

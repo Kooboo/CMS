@@ -27,8 +27,8 @@
             <tbody>
                 @Html.EditorFor(o => o.RuleName)
                 @Html.DisplayFor(o => o.MainSite)
+                @Html.EditorFor(o => o.Items)                
                 @Html.EditorFor(o => o.RedirectType, new { HtmlAttributes = new { @class = "medium" } })
-                @Html.EditorFor(o => o.Items)
             </tbody>
         </table>
     }

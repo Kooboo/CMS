@@ -20,13 +20,12 @@
         </li>
     </ul>
 }
-<form id="ruleSettingForm">
-    <div class="topbar">
-        <h1 class="title left">@ViewBag.Title: <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
-    </div>
-    <div class="common-form fixed">
-        @Html.Partial("_RuleSetting", ViewData)
-    </div>
-</form>
+
+<div class="common-form block">
+	<h1 class="title">@ViewBag.Title: <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+	@Html.Partial("_RuleSetting", ViewData)
+</div>
 
 @Html.Partial("_RuleSetting.Scripts", ViewData)
+
+

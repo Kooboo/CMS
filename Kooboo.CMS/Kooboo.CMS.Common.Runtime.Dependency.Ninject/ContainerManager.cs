@@ -106,9 +106,18 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
             AddComponent(typeof(TService), typeof(TImplementation), key, lifeStyle);
         }
 
-        public virtual void AddComponent(Type service, Type implementation, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient)
+        public virtual void AddComponent(Type service, Type implementation, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient, params Parameter[] parameters)
         {
-            _container.Bind(service).To(implementation).PerLifeStyle(lifeStyle).MapKey(key).ReplaceExisting(service);
+            var binding = _container.Bind(service).To(implementation);
+            if (parameters != null)
+            {
+                var ninjectParamters = ConvertParameters(parameters);
+                foreach (var parameter in ninjectParamters)
+                {
+                    binding.WithParameter(parameter);
+                }
+            }
+            binding.PerLifeStyle(lifeStyle).MapKey(key).ReplaceExisting(service);
         }
 
         public virtual void AddComponentInstance<TService>(object instance, string key = "")
@@ -132,7 +141,7 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
             {
                 return null;
             }
-            return parameters.Select(it => new NinjectParameters.ConstructorArgument(it.Name, it.Value)).ToArray();
+            return parameters.Select(it => new NinjectParameters.ConstructorArgument(it.Name, (context) => it.ValueCallback())).ToArray();
         }
         #endregion
         #region Resolve

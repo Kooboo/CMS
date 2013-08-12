@@ -35,8 +35,9 @@
                 <tr>
                     <th></th>
                     <td>
-                        <button type="submit">@("Login".Label())</button>
-                        <a href="@Url.FrontUrl().PageUrl("Member/ForgotPassword")">@("Forgot password?".Label())</a>
+                        <button type="submit">@("Login".Label())</button><br>
+                        <a href="@Url.FrontUrl().PageUrl("Member/ForgotPassword")">@("Forgot password?".Label())</a><br>
+                          @Html.FrontHtml().PageLink("Register a new account".Label(), "Member/Register")
                     </td>
                 </tr>
             </table>
@@ -72,7 +73,7 @@
             </form>
         }
         <div>
-            @Html.FrontHtml().PageLink("Register a new account".Label(), "Member/Register")
+        @Html.Raw("<b>Note</b>: You need to configure Fackbook or <br > Twitter settings before using them.".Label())
         </div>
     </div>
 

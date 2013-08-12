@@ -5,7 +5,7 @@
 */
 
 .kb-fieldAnchor {
-	background: #F6F6F6;
+	background: #F9F9F9;
 	border: 1px solid #BABABA;
 	cursor: default;
 	display: none;
@@ -50,7 +50,7 @@
 }
 
 .kb-fieldAnchor .kb-hover {
-	background-color: #D5E1F2;
+	background-color: #C2D5F2;
 }
 
 .kb-fieldAnchor .kb-sep {
@@ -79,7 +79,7 @@
 
 .kb-field-mask {
 	position: absolute;
-	background-color: #4282C3;
+	background-color: #84ACE9;
 	filter: alpha(opacity=40);
 	-moz-opacity: 0.4;
 	opacity: 0.4;

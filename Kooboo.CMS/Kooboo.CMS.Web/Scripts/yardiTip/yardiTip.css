@@ -7,6 +7,7 @@
 */
 
 .yardi-tip {
+	color: #5D5D5D;
 	display: none;
 	max-width: 600px;
 	position: absolute;
@@ -23,9 +24,9 @@
 }
 
 .yardi-tip .arrow {
-	background:url(images/arrow_top.gif) no-repeat left top;
-	bottom: -2px;
-	height: 15px;
+	background: url(images/arrow_top.png) no-repeat left top;
+	bottom: -1px;
+	height: 10px;
 	position: relative;
 }
 
@@ -34,26 +35,20 @@
 }
 
 .yardi-tip .down {
-	background-image: url(images/arrow_down.gif);
+	background-image: url(images/arrow_down.png);
 	bottom: auto;
-	top: -2px;
+	top: -1px;
 }
 
 .yardi-tip .title {
 	background-color: #FFF;
-	border: 2px solid #BDB936;
+	border: 1px solid #BEBEBE;
 	border-bottom: 0px;
 	font-family: arial, verdana, sans-serif;
 	font-size: 16px;
 	overflow: hidden;
 	padding: 1px 2px;
 	white-space: nowrap;
-	
-	/* Do rounding */
-	border-radius: 4px 4px 0 0;
-	-moz-border-radius: 4px 4px 0 0;
-	-webkit-border-radius: 4px 4px 0 0;
-	
 	/* Ellipsis */
 	text-overflow: ellipsis; /* IE */
 	-moz-binding: url('ellipsis.xml#ellipsis'); /* Firefox */
@@ -62,14 +57,9 @@
 
 .yardi-tip .content {
 	background-color: #FFF;
-	border: 2px solid #BDB936;
+	border: 1px solid #BEBEBE;
 	border-top: 0px;
 	overflow: hidden;
-	
-	/* Do rounding */
-	border-radius: 0 0 4px 4px;
-	-moz-border-radius: 0 0 4px 4px;
-	-webkit-border-radius: 0 0 4px 4px;
 }
 
 .yardi-tip .contentwrap {

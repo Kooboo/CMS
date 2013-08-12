@@ -116,7 +116,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 num = index++,
                 name = it.FullName,
-                text = it.FriendlyName,
+                text = GetSummaryText(it),
+                fullText = it.FriendlyName,
                 content = FindIndex(databases, db => db.Name.EqualsOrNullEmpty(it.Repository, StringComparison.OrdinalIgnoreCase)),
                 membership = FindIndex(memberships, mb => mb.Name.EqualsOrNullEmpty(it.Membership, StringComparison.OrdinalIgnoreCase)),
                 url = Url.Action("SiteMap", new { siteName = it.FullName })
@@ -135,6 +136,25 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 text = it.Name,
                 url = Url.Action("Go", new { controller = "Membership", area = "Membership", membershipName = it.Name })
             }).ToArray();
+        }
+        protected virtual string GetSummaryText(Site site)
+        {
+            if (site.FriendlyName.Length > 24)
+            {
+                string[] names = site.FriendlyName.Split("/".ToArray());
+                if (names.Length > 2)
+                {
+                    return string.Join("/", names[0], "...", names[names.Length - 1]);
+                }
+                else
+                {
+                    return site.FriendlyName;
+                }
+            }
+            else
+            {
+                return site.FriendlyName;
+            }
         }
         public static int FindIndex<T>(IEnumerable<T> items, Func<T, bool> predicate)
         {

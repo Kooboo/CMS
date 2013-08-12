@@ -26,9 +26,7 @@
 
             @Html.FrontHtml().Position("mainContainer")
         </div>
-        <footer id="footer">
-            <p class="copyright">@("Copyright &copy; 2009 - 2013 Kooboo team".Label())</p>
-        </footer>
+       @Html.FrontHtml().RenderView("Footer",ViewData)
     </div>
     <div class="hide">
         @Html.FrontHtml().RenderView("LoginForm", ViewData)

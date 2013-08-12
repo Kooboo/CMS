@@ -13,14 +13,19 @@ using System.Text;
 
 namespace Kooboo.CMS.Common.Runtime
 {
-    public class Parameter
+    public class Parameter 
     {
         public Parameter(string name, object value)
         {
             this.Name = name;
-            this.Value = value;
+            this.ValueCallback = () => value;
         }
-        public string Name { get; set; }
-        public object Value { get; set; }
+        public Parameter(string name, Func<object> value)
+        {
+            this.Name = name;
+            this.ValueCallback = value;
+        }
+        public string Name { get; private set; }
+        public Func<object> ValueCallback { get; private set; }
     }
 }

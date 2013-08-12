@@ -36,6 +36,25 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         #endregion
 
+        #region Create
+        public override ActionResult Create(ABRuleSetting model, string @return)
+        {
+            var data = new JsonResultData(ModelState) { RedirectUrl = Url.Action("Finished", this.ControllerContext.RequestContext.AllRouteValues()) };
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    Add(model);
+                });
+            }
+            return Json(data);
+        }
+
+        public virtual ActionResult Finished(string @return)
+        {
+            return View();
+        }
+        #endregion
         #region import/export
         public void Export(ABRuleSetting[] model)
         {

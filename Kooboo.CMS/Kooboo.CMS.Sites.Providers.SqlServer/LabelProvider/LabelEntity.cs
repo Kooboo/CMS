@@ -56,6 +56,7 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.LabelProvider
         [Key, Column(Order = 0)]
         public string SiteName { get; set; }
         [Key, Column(Order = 1)]
+        [StringLength(1024)]
         public string Name { get; set; }        
         [Key, Column(Order = 2)]
         public string Category { get; set; }

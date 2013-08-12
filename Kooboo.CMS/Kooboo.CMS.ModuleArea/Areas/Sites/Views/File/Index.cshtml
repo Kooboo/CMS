@@ -33,19 +33,22 @@
                 @Html.IconImage("upload")@("Upload".Localize())
             </a>
         </li>
-        <li><a href="@Html.Raw(this.Url.Action("Delete", routes))" data-show-on-check="Any" data-command-type="AjaxPost"  data-confirm="@("Are you sure you want to delete these items?".Localize())">@Html.IconImage("delete") @("Delete".Localize())</a></li>
+        <li><a href="@Html.Raw(this.Url.Action("Delete", routes))" data-show-on-check="Any" data-show-on-selector=".localized" data-command-type="AjaxPost"  data-confirm="@("Are you sure you want to delete these items?".Localize())">@Html.IconImage("delete") @("Delete".Localize())</a></li>
         <li class="j_DropDown" data-show-on-check="Any">
             <a>
                 @("More...".Localize())
                 @Html.IconImage("arrow small white-down")
             </a>
             <ul class="j_DropDownContent hide">
+                <li><a href="@Url.Action("Localize", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".unlocalized" data-command-type="AjaxPost">
+                    @("Localize".Localize())</a></li>
+
                 <li>
-                    <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="Download">
+                    <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized"  data-command-type="Download">
                         @("Export".Localize())
                     </a>
                 </li>
-                <li><a id="RenameButton" data-show-on-check="Single">@("Rename".Localize())</a></li>
+                <li><a id="RenameButton" data-show-on-check="Single" data-show-on-selector=".localized">@("Rename".Localize())</a></li>
             </ul>
         </li>
     </ul>
@@ -152,15 +155,18 @@
                         var templateId = "folder_" + UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
                         var displayTemplateId = templateId + "_display";
                         var editorTemplateId = templateId + "_editor";
-                    <tr class="foldertr">
+                        var isLocalized = folder.Site == Site.Current;
+                    <tr class="foldertr @(isLocalized ? "localized" : "unlocalized")">
                         <td class="checkbox">
-                            <input type="checkbox" class="select folder" value="@folder.RelativePath" />
+                            <input type="checkbox" class="select folder" value="@folder.RelativePath" @(isLocalized ? "" : "disabled") />
                         </td>
                         <td class="common">
                             <div id="@displayTemplateId" class="display-template">
                                 <a class="text" href="@Html.Raw(this.Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("folderPath", folder.RelativePath)))">@Html.IconImage("folder")@folder.Name</a>
-
-                                <a data-tr-hover="true" data-inline-action='{"show":"#@editorTemplateId","hide":"#@displayTemplateId"}' class="action hide">@Html.IconImage("edit small")</a>
+                                @if (isLocalized)
+                                {
+                                    <a data-tr-hover="true" data-inline-action='{"show":"#@editorTemplateId","hide":"#@displayTemplateId"}' class="action hide">@Html.IconImage("edit small")</a>
+                                }
                             </div>
                             <div id="@editorTemplateId" class="edit-template hide">
                                 @using (Html.BeginForm(ViewContext.RequestContext.AllRouteValues().Merge("action", "RenameFolder").Merge("folderPath", folder.RelativePath)))
@@ -189,18 +195,18 @@
                         var templateId = "file_" + UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
                         var displayTemplateId = templateId + "_display";
                         var editorTemplateId = templateId + "_editor";
-                    
-                    <tr class="doctr @(extension)">
+                        var isLocalized = content.Site == Site.Current;
+                    <tr class="doctr @(extension) @(isLocalized ? "localized" : "unlocalized")">
                         <td class="checkbox draggable">
                             <div>
                                 @Html.IconImage("drag")
-                                <input type="checkbox" class="select doc" value="@content.RelativePath " data-filename="@content.FileName" />
+                                <input type="checkbox" class="select doc" value="@content.RelativePath " data-filename="@content.FileName"/>
                             </div>
                         </td>
                         <td class="common">
 
                             <div id="@displayTemplateId" class="display-template">
-                                @if (content.CanBeEdit)
+                                @if (content.CanBeEdit && isLocalized)
                                 {
                                     <a class="text" href="@Html.Raw(this.Url.Action("EditFile", ViewContext.RequestContext.AllRouteValues().Merge("relativePath", content.RelativePath).Merge("return", Request.RawUrl)))">@Html.IconImage("file " + extension)@content.FileName</a>
                                 }
@@ -212,7 +218,10 @@
                                 {
                                     <a class="text" href="@Url.Content(content.VirtualPath)" target="_blank">@Html.IconImage("file " + extension)@content.FileName</a>
                                 }
-                                <a data-tr-hover="true" data-inline-action='{"show":"#@editorTemplateId","hide":"#@displayTemplateId"}' class="action hide">@Html.IconImage("edit small")</a>
+                                @if (isLocalized)
+                                {
+                                    <a data-tr-hover="true" data-inline-action='{"show":"#@editorTemplateId","hide":"#@displayTemplateId"}' class="action hide">@Html.IconImage("edit small")</a>
+                                }
                             </div>
                             <div id="@editorTemplateId" class="edit-template hide">
                                 @using (Html.BeginForm(ViewContext.RequestContext.AllRouteValues().Merge("action", "RenameFile").Merge("relativePath", content.RelativePath)))

@@ -25,6 +25,8 @@ namespace Kooboo.CMS.Sites.ABTest
 
         string DisplayText { get; }
 
+        string RuleTypeDisplayName { get; }
+
         bool IsMatch(System.Web.HttpRequestBase httpRequest);
     }
 }

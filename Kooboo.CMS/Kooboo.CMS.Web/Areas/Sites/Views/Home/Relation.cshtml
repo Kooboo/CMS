@@ -108,17 +108,17 @@
             case 'membership':
                 var text = '@("Create new membership".Localize())';
                 var offset = 0;
-                var url = '@(Url.Action("Create", new { controller = "Membership", area = "Membership" }))';
-			    break;
+                var url = '@(Url.Action("Create", new { controller = "Membership", area = "Membership", @return = Request.RawUrl }))';
+                break;
             case 'site':
                 var text = '@("Create new site".Localize())';
                 var offset = 1;
-                var url = '@(Url.Action("Create", new { controller = "Site", area = "Sites" }))';
+                var url = '@(Url.Action("Create", new { controller = "Site", area = "Sites", @return = Request.RawUrl }))';
                 break;
             case 'content':
                 var text = '@("Create new content database".Localize())';
                 var offset = 2;
-                var url = '@(Url.Action("Create", new { controller = "Repository", area = "Contents" }))';
+                var url = '@(Url.Action("Create", new { controller = "Repository", area = "Contents", @return = Request.RawUrl }))';
                 break;
         }
         svg.selectAll('rect.none').data([1]).enter().append('rect')
@@ -256,14 +256,14 @@
                                 .attr('data-name', function (d) { return d.name })
                                 .attr('data-url', function (d) { return d.url })
                                 .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
-	membership_export_imgs.attr('x', w / 100 * 20 + 38)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
-				.attr('width', 24)
-				.attr('height', 24)
-				.attr('class', 'view')
-				.attr('data-name', function (d) { return d.name })
-                .attr('data-url', function (d) { return d.url })
-				.attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+					membership_export_imgs.attr('x', w / 100 * 20 + 38)
+                                .attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
+                                .attr('width', 24)
+                                .attr('height', 24)
+                                .attr('class', 'view')
+                                .attr('data-name', function (d) { return d.name })
+                                .attr('data-url', function (d) { return d.url })
+                                .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
 
 	// Mouse Position
 	$('svg').on('mousemove', function(e){

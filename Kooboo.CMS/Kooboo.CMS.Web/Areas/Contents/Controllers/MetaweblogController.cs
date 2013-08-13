@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.CMS.Content.Interoperability.MetaWeblog;
+using Kooboo.CMS.Web.Interoperability.MetaWeblog;
 
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {
@@ -22,7 +22,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
         public virtual ActionResult Index(string repositoryName)
         {
-            IHttpHandler httpHandler = new MetaWeblogAPIHandler() { RepositoryName = repositoryName };
+            IHttpHandler httpHandler = new MetaWeblogAPIHandler(repositoryName);
             httpHandler.ProcessRequest(System.Web.HttpContext.Current);
             return null;
         }

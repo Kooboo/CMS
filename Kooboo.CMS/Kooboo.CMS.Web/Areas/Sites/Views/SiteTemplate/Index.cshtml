@@ -20,9 +20,11 @@
     </ul>
 }
 
-<div class="topbar"><h1 class="title">@ViewBag.Title <a href="http://sites.kooboo.com" target="_blank" class="title-tip">@("Browse more templates online".Localize())</a></h1></div>
+<div class="topbar">
+    <h1 class="title">@ViewBag.Title <a href="http://sites.kooboo.com" target="_blank" class="title-tip">@("Browse more templates online".Localize())</a></h1>
+</div>
 <div class="block fixed">
-	<ul class="site-list">
+    <ul class="site-list">
         @foreach (var item in Model)
         {
             <li>
@@ -42,9 +44,12 @@
         var $siteList = $('.site-list');
         var $check_relateds = $('[data-show-on-check]');
         var selector = 'input:checkbox.select:checked';
-        $siteList.reset_check_relateds($check_relateds, selector);
+        function reset() {
+            $siteList.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
+        }
+        reset();
         $siteList.find('input:checkbox.select').change(function () {
-            $siteList.reset_check_relateds($check_relateds, selector);
+            reset();
         });
         $siteList.grid();
     });

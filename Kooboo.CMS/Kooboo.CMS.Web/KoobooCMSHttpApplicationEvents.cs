@@ -48,7 +48,11 @@ namespace Kooboo.CMS.Web
         #region RegisterRoutes
         public static void RegisterRoutes(RouteCollection routes)
         {
+            routes.Add(new Route("api/metaweblog", null, new RouteValueDictionary(new { controller = "nonexistingcontroller" }),
+     new Kooboo.CMS.Web.Interoperability.MetaWeblog.MetaWeblogRouteHandler()));
+
             Kooboo.Web.Mvc.Routing.RouteTableRegister.RegisterRoutes(routes);
+
 
             ModelMetadataProviders.Current = new KoobooDataAnnotationsModelMetadataProvider();
 

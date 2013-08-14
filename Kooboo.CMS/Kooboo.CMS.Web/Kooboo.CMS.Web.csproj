@@ -122,7 +122,6 @@
     <Compile Include="Areas\Contents\Controllers\ManagerControllerBase.cs" />
     <Compile Include="Areas\Contents\Controllers\MediaContentController.cs" />
     <Compile Include="Areas\Contents\Controllers\MediaFolderController.cs" />
-    <Compile Include="Areas\Contents\Controllers\MetaweblogController.cs" />
     <Compile Include="Areas\Contents\Controllers\PendingWorkflowController.cs" />
     <Compile Include="Areas\Contents\Controllers\ReceivingSettingController.cs" />
     <Compile Include="Areas\Contents\Controllers\RepositoryController.cs" />
@@ -246,6 +245,10 @@
     <Compile Include="Areas\Sites\Models\ABRuleSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\SiteTemplate_ViewModel.cs" />
     <Compile Include="Areas\Sites\Models\QueryStringVisitRule_Metadata.cs" />
+    <Compile Include="Interoperability\MetaWeblog\BloggerAPI.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interoperability\MetaWeblog\MetaWeblogRouteHandler.cs" />
     <Compile Include="KoobooCMSHttpApplicationEvents.cs" />
     <Compile Include="Models\AllPropertiesResolver.cs" />
     <Compile Include="Models\ImportModel.cs" />
@@ -429,7 +432,6 @@
     <Compile Include="Grid2\SortableGridColumn.cs" />
     <Compile Include="HealthMonitoring\TextFileWebEventProvider.cs" />
     <Compile Include="HtmlExtensions.cs" />
-    <Compile Include="Interoperability\MetaWeblog\BloggerAPI.cs" />
     <Compile Include="Interoperability\MetaWeblog\MetaWeblogAPI.cs" />
     <Compile Include="Interoperability\MetaWeblog\MetaWeblogAPIHandler.cs" />
     <Compile Include="Json_netResult.cs" />

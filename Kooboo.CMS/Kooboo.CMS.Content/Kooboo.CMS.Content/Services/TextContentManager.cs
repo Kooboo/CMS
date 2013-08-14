@@ -80,7 +80,7 @@ namespace Kooboo.CMS.Content.Services
         public string Value
         {
             get
-            {                
+            {
                 return string.Join(",", Contents.Select(it => it.UUID + ":" + it.FolderName).ToArray());
             }
         }
@@ -148,7 +148,7 @@ namespace Kooboo.CMS.Content.Services
 
         public virtual ContentBase Update(Repository repository, TextFolder folder, string uuid, NameValueCollection values, string userid = "")
         {
-            return Update(repository, folder, uuid, values, null, DateTime.Now, null, null);
+            return Update(repository, folder, uuid, values, null, DateTime.Now, null, null, userid);
         }
         public virtual ContentBase Update(Repository repository, TextFolder folder, string uuid, NameValueCollection values, HttpFileCollectionBase files,
          DateTime modificationDate, IEnumerable<TextContent> addedCateogries, IEnumerable<TextContent> removedCategories, string userid = "", bool enableVersion = true)

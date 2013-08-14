@@ -14,17 +14,18 @@ using System.Text;
 using System.Web.Mvc;
 using Kooboo.CMS.Sites.Extension;
 using Kooboo.CMS.ModuleArea.Areas.SampleModule.Models;
+using Kooboo.CMS.Sites.Models;
 namespace Kooboo.CMS.ModuleArea.Areas.SampleModule
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleAction), Key = SampleAreaRegistration.ModuleName)]
     public class ModuleAction : IModuleAction
     {
-        public void OnExcluded(Sites.Models.Site site)
+        public void OnExcluded(Site site)
         {
             // Add code here that will be executed when the module was excluded to the site.
         }
 
-        public void OnIncluded(Sites.Models.Site site)
+        public void OnIncluded(Site site)
         {
             // Add code here that will be executed when the module was included to the site.
         }

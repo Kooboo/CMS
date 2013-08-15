@@ -88,10 +88,12 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             string body = engine.GetCodeHelper().DefaultViewCode();
             body = string.IsNullOrWhiteSpace(body) ? " " : body;
-            var view = new View() { Site = Site, EngineName = engineName, Body = body, Name = name };
 
+            model.Site = Site;
+            model.Body = body;
+            model.Name = name;
 
-            return View(view);
+            return base.Create(model);
         }
         [HttpPost]
         [ValidateInput(false)]

@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             ViewData["LayoutSamples"] = ServiceFactory.LayoutItemTemplateManager.GetLayoutSamples(engineName);
             ViewData["ViewEngine"] = Kooboo.CMS.Sites.View.TemplateEngines.GetEngineByName(engineName);
             ViewBag.DefaultLayout = Kooboo.CMS.Sites.Services.ServiceFactory.LayoutItemTemplateManager.GetDefaultLayoutSample(engineName);
-            return View();
+            return base.Create(model);
         }
         [HttpPost]
         [ValidateInput(false)]

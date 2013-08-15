@@ -50,6 +50,15 @@ namespace Kooboo.CMS.Content.Services
         }
         #endregion
 
+        #region Add
+        public override void Add(Repository repository, Schema item)
+        {
+            base.Add(repository, item);
+
+            ResetForm(repository, item.Name, FormType.All);
+        }
+        #endregion
+
         #region Get
         public override Schema Get(Repository repository, string name)
         {
@@ -124,8 +133,6 @@ namespace Kooboo.CMS.Content.Services
         //    schema.RemoveColumn(new Column() { Name = name });
         //    this.Update(repository, schema, old);
         //}
-
-
 
         #region Build Forms
         public virtual void ResetForm(Repository repository, string schemaName, FormType formType)
@@ -207,7 +214,6 @@ namespace Kooboo.CMS.Content.Services
             IO.IOUtility.SaveStringToFile(formFilePhysicalPath, body);
         }
         #endregion
-
 
         #region relation
         public virtual IEnumerable<TextFolder> GetRelationFolders(Schema schema)

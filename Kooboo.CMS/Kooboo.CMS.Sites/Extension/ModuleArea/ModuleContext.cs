@@ -86,14 +86,14 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         #region GetSiteDataFolder
         public IPath GetSiteDataFolder()
         {
-            return ModuleInfo.GetModuleDataPath(this.Site);
+            return ModuleHelper.GetModuleDataPath(this.Site, this.ModuleName);
         }
         #endregion
 
         #region GetSharedDataFolder
         public IPath GetSharedDataFolder()
         {
-            return ModuleInfo.GetModuleDataPath();
+            return ModuleHelper.GetModulePath(this.ModuleName);
         }
         #endregion
     }

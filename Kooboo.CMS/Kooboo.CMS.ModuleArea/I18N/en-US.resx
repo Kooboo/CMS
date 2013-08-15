@@ -785,4 +785,67 @@ Are you sure you want to use this size?</value>
   <data name="Initialize module" xml:space="preserve">
     <value>Initialize module</value>
   </data>
+  <data name="Text content" xml:space="preserve">
+    <value>Text content</value>
+  </data>
+  <data name="New folder" xml:space="preserve">
+    <value>New folder</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="Are you sure you want to reset these templates?" xml:space="preserve">
+    <value>Are you sure you want to reset these templates?</value>
+  </data>
+  <data name="Reset templates" xml:space="preserve">
+    <value>Reset templates</value>
+  </data>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Selectable" xml:space="preserve">
+    <value>Selectable</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="More..." xml:space="preserve">
+    <value>More...</value>
+  </data>
+  <data name="Copy content type" xml:space="preserve">
+    <value>Copy content type</value>
+  </data>
+  <data name="Advanced search" xml:space="preserve">
+    <value>Advanced search</value>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>YES</value>
+  </data>
+  <data name="Add content" xml:space="preserve">
+    <value>Add content</value>
+  </data>
+  <data name="Are you sure you want to publish these items?" xml:space="preserve">
+    <value>Are you sure you want to publish these items?</value>
+  </data>
+  <data name="Are you sure you want to unpublish these items?" xml:space="preserve">
+    <value>Are you sure you want to unpublish these items?</value>
+  </data>
+  <data name="Localize" xml:space="preserve">
+    <value>Localize</value>
+  </data>
+  <data name="Re-broadcast" xml:space="preserve">
+    <value>Re-broadcast</value>
+  </data>
+  <data name="Versions" xml:space="preserve">
+    <value>Versions</value>
+  </data>
+  <data name="The templates have been reset." xml:space="preserve">
+    <value>The templates have been reset.</value>
+  </data>
 </root>

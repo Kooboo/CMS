@@ -19,7 +19,7 @@
             <label for="Title">Title</label>
             </th>
             <td>
-            <input class='medium' id="Title" name="Title" type="text" value="@(Model.Title ?? "")" />            
+            <input class='long' id="Title" name="Title" type="text" value="@(Model.Title ?? "")" />            
             @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Title"], null)
             
             </td>          
@@ -28,7 +28,7 @@
             <label for="Body">Body</label>
             </th>
             <td>
-            <textarea class="large" name="Body" >@(Model.Body ?? "")</textarea>             
+            <textarea class="extra-large" name="Body" >@(Model.Body ?? "")</textarea>             
             @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Body"], null)
             
             </td>          
@@ -37,7 +37,7 @@
             <label for="Name">Name</label>
             </th>
             <td>
-            <input class='medium' id="Name" name="Name" type="text" value="@(Model.Name ?? "")" />            
+            <input class='long' id="Name" name="Name" type="text" value="@(Model.Name ?? "")" />            
             @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Name"], null)
             
             </td>          

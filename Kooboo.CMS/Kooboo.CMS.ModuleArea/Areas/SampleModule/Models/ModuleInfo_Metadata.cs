@@ -15,6 +15,7 @@ using System.ComponentModel.DataAnnotations;
 using Kooboo.Web.Mvc;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Kooboo.CMS.Sites.Models;
 
 namespace Kooboo.CMS.ModuleArea.Models
 {
@@ -32,7 +33,7 @@ namespace Kooboo.CMS.ModuleArea.Models
             this.Version = moduleInfo.Version;
             this.KoobooCMSVersion = moduleInfo.KoobooCMSVersion;
 
-            this.Settings = ModuleInfo.GetSiteModuleSettings(moduleName, siteName);
+            this.Settings = ModuleInfo.Get(moduleName).GetModuleSettings(new Site(siteName));
         }
         public string ModuleName { get; set; }
         public string Version { get; set; }

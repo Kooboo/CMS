@@ -2,6 +2,24 @@
 <ArrayOfLastAction xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Kooboo.CMS.Search.Models">
 	<LastAction>
 		<FolderName>Article</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-08-14T03:32:36.786789Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-08-14T03:31:12.8801538Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-08-13T10:05:39.1354009Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
 		<ContentSummary>Lorem ipsum dolor sit amet 4</ContentSummary>
 		<Action>Update</Action>
 		<UtcActionDate>2013-01-31T03:20:15.3253781Z</UtcActionDate>
@@ -11,23 +29,5 @@
 		<ContentSummary>Lorem ipsum dolor sit amet 3</ContentSummary>
 		<Action>Update</Action>
 		<UtcActionDate>2013-01-30T09:22:30.2352153Z</UtcActionDate>
-	</LastAction>
-	<LastAction>
-		<FolderName>Article</FolderName>
-		<ContentSummary>Lorem ipsum dolor sit amet 4</ContentSummary>
-		<Action>Update</Action>
-		<UtcActionDate>2013-01-30T09:22:22.6741439Z</UtcActionDate>
-	</LastAction>
-	<LastAction>
-		<FolderName>Article</FolderName>
-		<ContentSummary>Lorem ipsum dolor sit amet 4</ContentSummary>
-		<Action>Update</Action>
-		<UtcActionDate>2013-01-30T09:21:01.5165822Z</UtcActionDate>
-	</LastAction>
-	<LastAction>
-		<FolderName>Article</FolderName>
-		<ContentSummary>Lorem ipsum dolor sit amet 4</ContentSummary>
-		<Action>Update</Action>
-		<UtcActionDate>2013-01-30T09:15:10.3415713Z</UtcActionDate>
 	</LastAction>
 </ArrayOfLastAction>

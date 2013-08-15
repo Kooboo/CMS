@@ -19,7 +19,7 @@
             <label for="Title">Title</label>
             </th>
             <td>
-            <input class='medium' id="Title" name="Title" type="text" value="@(Model.Title ?? "")" />            
+            <input class='long' id="Title" name="Title" type="text" value="@(Model.Title ?? "")" />            
             @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Title"], null)
             
             </td>          

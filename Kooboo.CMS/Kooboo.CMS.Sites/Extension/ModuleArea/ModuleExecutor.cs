@@ -26,7 +26,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         public static ModuleActionInvokedContext InvokeAction(ControllerContext controllerContext, Site site, string moduleUrl, ModulePosition modulePosition)
         {
             HttpContext context = HttpContext.Current;
-            var moduleSettings = ModuleInfo.GetSiteModuleSettings(modulePosition.ModuleName, site == null ? "" : site.FullName);
+            var moduleSettings = ModuleInfo.Get(modulePosition.ModuleName).GetModuleSettings(site);
             if (modulePosition.Entry != null)
             {
                 moduleSettings.Entry = modulePosition.Entry;

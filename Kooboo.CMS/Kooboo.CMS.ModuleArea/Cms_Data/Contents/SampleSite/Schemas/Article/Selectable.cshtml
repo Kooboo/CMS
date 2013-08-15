@@ -26,27 +26,61 @@
     }
 
     nameList.Reverse();   
+
+   var childFolders = Model.ChildFolders==null? new TextFolder[0]:Model.ChildFolders.ToArray();
 }
-<input type="hidden" name="FriendlyFolderName" value="@string.Join("/", nameList)"/>
-<form id="selectedForm" action="">
 
 <div class="common-table fixed">
-    <table class="datasource">
+ <div class="thead">
+    <table>
         <thead>
             <tr>
                 <th class="checkbox">
+                    <input type="checkbox" class="select-all" />
                 </th>
-                		<th class="">Title</th>
-		<th class="">Readings</th>
-		<th class="">Creation date</th>
-		<th class="">Published</th>
+                		<th class="Title @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Title",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Title", "Title", -1)</th>
+		<th class="Readings @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Readings",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Readings", "Readings", -1)</th>
+		<th class="UtcCreationDate @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "UtcCreationDate",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Creation date", "UtcCreationDate", -1)</th>
+		<th class="Published @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Published",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Published", "Published", -1)</th>
 
             </tr>
         </thead>
- <tbody>
- @if (Model.ChildFolders != null)
+    </table>
+</div>
+<div class="tbody">
+    <table>
+        <thead>
+            <tr>
+                <th class="checkbox">
+                    <input type="checkbox" class="select-all" />
+                </th>
+                		<th class="Title @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Title",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Title", "Title", -1)</th>
+		<th class="Readings @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Readings",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Readings", "Readings", -1)</th>
+		<th class="UtcCreationDate @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "UtcCreationDate",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Creation date", "UtcCreationDate", -1)</th>
+		<th class="Published @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Published",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Published", "Published", -1)</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        @if (childFolders.Length == 0 && Model.Contents.TotalItemCount == 0)
         {
-            foreach (dynamic item in Model.ChildFolders)
+            <tr class="empty">
+                <td colspan="100">
+                    @("Empty".Localize())
+                </td>
+            </tr>
+        }
+        else{
+            if(folder.Parent != null){
+                    <tr class="folderTr">
+                        <td></td>
+                        <td>
+                            <a class="f-icon folder" href="@this.Url.Action("SelectCategories", ViewContext.RequestContext.AllRouteValues().Merge("FolderName", (object)(folder.Parent.FullName)).Merge("FullName", (object)(folder.Parent.FullName)))">...</a>
+                        </td>
+                        <td colspan="3"></td>
+                    </tr>
+             }
+             foreach (dynamic item in childFolders)
                 {
                     <tr class="folderTr">
                         <td>                            
@@ -72,7 +106,7 @@
         </tbody>
     </table>
 </div>
-</form>
+</div>
 @helper AddTreeItems(IEnumerable<TextContent> items, Schema schema, TextFolder folder, bool isRoot)
     {
             
@@ -84,7 +118,7 @@
         <td class='checkbox'>
             @if (Model.SingleChoice)
             {
-                <input type="radio" value='@item["UUID"]' name="select" class="select docs"/> 
+                <input type="radio" value='@item["UUID"]' name="select" class="select doc"/> 
             }
             else
             {
@@ -96,8 +130,7 @@
  @Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Title)</td>
 		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Readings)</td>
 		<td class="date">@(DateTime.Parse(item["UtcCreationDate"].ToString()).ToLocalTime().ToShortDateString())</td>
-		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Published)</td>		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Published)</td>
-
+		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Published)</td>
     </tr>     
             }
         }
@@ -110,7 +143,7 @@
         <td class='checkbox'>
             @if (Model.SingleChoice)
             {
-                <input type="radio" name="select" data-bind="attr:{value:item.UUID}" class="select docs"/> 
+                <input type="radio" name="select" data-bind="attr:{value:item.UUID}" class="select doc"/> 
             }
             else
             {                
@@ -119,7 +152,7 @@
         </td>
 		<td class="treeStyle">
 		<span class="expander">@Html.IconImage("arrow")</span>
-		@Html.IconImage("file document")<span data-bind="html:item.Title"></span></td>		<td data-bind="html:item.Readings"></td>		<td data-bind="html:item.Published"></td>
+		@Html.IconImage("file document")<span data-bind="html:item.Title"></span></td>		<td data-bind="html:item.Readings"></td>
         <td class="date" data-bind="html:item._LocalCreationDate_"></td>
         <td><span data-bind="text : (item.Published == true?'YES': '-')"></span></td>
     </tr>     

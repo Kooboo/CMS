@@ -90,36 +90,8 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
 
         private string GetModuleSettingFile(Site site)
         {
-            var dataPath = GetModuleDataPath(site);
-            var settingFile = Path.Combine(dataPath.PhysicalPath, "settings.config");
-            return settingFile;
+            return ModuleHelper.GetModuleDataPath(site, this.ModuleName, "settings.config").PhysicalPath;
         }
-
-        #region GetModuleDataPath
-        public IPath GetModuleDataPath()
-        {
-            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
-            var path = new CommonPath()
-            {
-                PhysicalPath = Path.Combine(baseDir.Cms_DataPhysicalPath, "Modules", ModuleName),
-                VirtualPath = UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "Modules", ModuleName)
-            };
-            return path;
-        }
-        public IPath GetModuleDataPath(Site site)
-        {
-            if (site == null)
-            {
-                return GetModuleDataPath();
-            }
-            var path = new CommonPath()
-            {
-                PhysicalPath = Path.Combine(site.PhysicalPath, "Modules", ModuleName),
-                VirtualPath = UrlUtility.Combine(site.VirtualPath, "Modules", ModuleName)
-            };
-            return path;
-        } 
-        #endregion
         #endregion
 
         #region GetModuleInfoPath
@@ -136,44 +108,6 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
             ModuleItemPath moduleInfoPath = GetModuleInfoPath(moduleInfo.ModuleName);
             DataContractSerializationHelper.Serialize(moduleInfo, moduleInfoPath.PhysicalPath);
         }
-        #endregion
-
-        #region Obsolete methods
-
-        #region SaveModuleSetting/GetSiteModuleSettings
-
-        public static void SaveModuleSetting(string moduleName, string siteName, ModuleSettings moduleSettings)
-        {
-            var siteModuleSettingFile = GetSiteModuleSettingFile(moduleName, siteName);
-
-            DataContractSerializationHelper.Serialize(moduleSettings, siteModuleSettingFile);
-        }
-
-        private static string GetSiteModuleSettingFile(string moduleName, string siteName)
-        {
-            Site site = new Site(siteName);
-            var siteModulesPath = Path.Combine(site.PhysicalPath, "Modules");
-            var siteModuleNamePath = Path.Combine(siteModulesPath, moduleName);
-            var siteModuleSettingFile = Path.Combine(siteModuleNamePath, "settings.config");
-            return siteModuleSettingFile;
-        }
-        [Obsolete("Use GetModuleSettings(Site site)")]
-        public static ModuleSettings GetSiteModuleSettings(string moduleName, string siteName)
-        {
-            if (!string.IsNullOrEmpty(siteName))
-            {
-                var siteModuleSettingFile = GetSiteModuleSettingFile(moduleName, siteName);
-
-                if (File.Exists(siteModuleSettingFile))
-                {
-                    return DataContractSerializationHelper.Deserialize<ModuleSettings>(siteModuleSettingFile);
-                }
-            }
-            return Get(moduleName).DefaultSettings;
-        }
-        #endregion
-
-
         #endregion
 
         #region IIdentifiable Members

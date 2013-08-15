@@ -578,6 +578,8 @@
     <Content Include="Cms_Data\SiteTemplates\SampleSite.zip" />
     <Content Include="Cms_Data\SiteTemplates\SmallBusiness.png" />
     <Content Include="Cms_Data\SiteTemplates\SmallBusiness.zip" />
+    <Content Include="Cms_Data\Views\ABRuleTemplates\README.txt" />
+    <Content Include="Cms_Data\Views\Shared\README.txt" />
     <Content Include="Cms_Data\Web.config" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -1990,6 +1992,10 @@
     <Content Include="Views\Shared\_SidebarTopSearch.cshtml" />
     <Content Include="Views\Shared\_SitesNavTree.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Cms_Data\ContentType_Templates\Controls\ImageCrop.cshtml" />
+    <Content Include="Cms_Data\Views\ControlTypes\ImageCrop.cshtml" />
+    <Content Include="Cms_Data\Views\ControlTypes\MediaFiles.cshtml" />
+    <Content Include="Cms_Data\Views\ControlTypes\MultiFiles.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2021,7 +2027,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>31706</DevelopmentServerPort>
+          <DevelopmentServerPort>32245</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

@@ -23,10 +23,7 @@ namespace Kooboo.CMS.Sites.Controllers
         {
             if (actionResult is FileResult)
             {
-                if (controllerContext.HttpContext.Response.Output is OutputTextWriterWrapper)
-                {
-                    controllerContext.HttpContext.Response.Output = ((OutputTextWriterWrapper)controllerContext.HttpContext.Response.Output).GetRawOuputWriter();
-                }
+                controllerContext.HttpContext.Response.RestoreRawOutput();
             }
             base.InvokeActionResult(controllerContext, actionResult);
         }

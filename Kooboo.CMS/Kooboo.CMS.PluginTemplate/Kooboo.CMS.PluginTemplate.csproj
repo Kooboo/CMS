@@ -64,7 +64,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInitializer.cs" />
     <Compile Include="CustomContentEventSubscriber.cs" />
     <Compile Include="PagePluginSample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

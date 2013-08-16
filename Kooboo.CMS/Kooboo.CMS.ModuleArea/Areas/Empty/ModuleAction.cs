@@ -13,7 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Kooboo.CMS.Sites.Extension;
-using Kooboo.CMS.ModuleArea.Areas.SampleModule.Models;
 using Kooboo.CMS.Sites.Models;
 namespace Kooboo.CMS.ModuleArea.Areas.Empty
 {

@@ -95,7 +95,8 @@
     <Compile Include="Extension\ICommonPagePlugin.cs" />
     <Compile Include="Extension\IPageRequestModule.cs" />
     <Compile Include="Extension\ISubmissionPlugin.cs" />
-    <Compile Include="Extension\ModuleArea\ModuleHelper.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleControllerContextExtensions.cs" />
+    <Compile Include="Extension\ModuleArea\ModulePathHelper.cs" />
     <Compile Include="Extension\ModuleArea\ModuleItemPath.cs" />
     <Compile Include="Extension\ModuleArea\IModuleAction.cs" />
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />

@@ -518,16 +518,6 @@
     <Content Include="Cms_Data\Contents\SampleSite\Schemas\Comment\Selectable.cshtml" />
     <Content Include="Cms_Data\Contents\SampleSite\Schemas\Comment\setting.config" />
     <Content Include="Cms_Data\Contents\SampleSite\Schemas\Comment\Update.cshtml" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\segments.gen" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\segments_w" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.fdt" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.fdx" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.fnm" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.frq" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.nrm" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.prx" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.tii" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.tis" />
     <Content Include="Cms_Data\Contents\SampleSite\Search\LastActions.xml" />
     <Content Include="Cms_Data\Contents\SampleSite\Search\Settings\Article.config" />
     <Content Include="Cms_Data\Contents\SampleSite\setting.config" />
@@ -535,6 +525,7 @@
     <Content Include="Cms_Data\ContentType_Templates\Controls\MultiFiles.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Files\favicon.ico" />
     <Content Include="Cms_Data\Sites\SampleSite\Files\logo.png" />
+    <Content Include="Cms_Data\Sites\SampleSite\Modules\SampleModule\settings.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Pages\about\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Pages\Articles\Detail\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Pages\Articles\setting.config" />
@@ -611,7 +602,6 @@
     <Content Include="Areas\Empty\Menu.config" />
     <Content Include="Areas\Empty\module.config" />
     <Content Include="Areas\Empty\routes.config" />
-    <Content Include="Areas\Empty\Sites.config" />
     <Content Include="Areas\Empty\Themes\Default\Theme.rule" />
     <Content Include="Areas\Empty\Views\Shared\Front.cshtml" />
     <Content Include="Areas\Empty\Views\Web.config" />
@@ -1996,6 +1986,7 @@
     <Content Include="Cms_Data\Views\ControlTypes\ImageCrop.cshtml" />
     <Content Include="Cms_Data\Views\ControlTypes\MediaFiles.cshtml" />
     <Content Include="Cms_Data\Views\ControlTypes\MultiFiles.cshtml" />
+    <Content Include="Areas\SampleModule\Views\Admin\EditorTemplates\ModuleSettings.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

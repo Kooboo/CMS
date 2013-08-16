@@ -61,6 +61,7 @@ namespace Kooboo.CMS.ModuleArea.Models
 
         public Entry Entry { get; set; }
 
+        [UIHint("Dictionary")]
         public Dictionary<string, string> CustomSettings { get; set; }
     }
 }

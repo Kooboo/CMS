@@ -37,7 +37,8 @@ namespace Kooboo.CMS.ModuleArea.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    ModuleInfo.SaveModuleSetting(ModuleName, siteName, moduleInfo.Settings);
+                    this.ControllerContext.SaveModuleSettings(moduleInfo.Settings);
+
                     resultEntry.AddMessage("Module setting has been changed.".Localize());
                 }
 

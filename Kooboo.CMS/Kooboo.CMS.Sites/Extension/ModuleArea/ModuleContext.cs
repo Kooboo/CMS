@@ -83,17 +83,33 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         public ModulePosition ModulePosition { get; private set; }
         #endregion
 
-        #region GetSiteDataFolder
-        public IPath GetSiteDataFolder()
+        #region EnableTheme
+        private bool enableTheme = true;
+        public virtual bool EnableTheme
         {
-            return ModuleHelper.GetModuleDataPath(this.Site, this.ModuleName);
+            get
+            {
+                return enableTheme;
+            }
+            set
+            {
+                this.enableTheme = value;
+            }
         }
         #endregion
 
-        #region GetSharedDataFolder
-        public IPath GetSharedDataFolder()
+        #region EnableScript
+        private bool enableScript = true;
+        public virtual bool EnableScript
         {
-            return ModuleHelper.GetModulePath(this.ModuleName);
+            get
+            {
+                return enableScript;
+            }
+            set
+            {
+                enableScript = value;
+            }
         }
         #endregion
     }

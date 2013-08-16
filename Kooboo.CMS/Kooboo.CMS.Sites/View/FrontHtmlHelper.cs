@@ -614,25 +614,22 @@ namespace Kooboo.CMS.Sites.View
 
                     foreach (ModuleActionInvokedContext actionInvoked in PageContext.ModuleResults.Values)
                     {
-                        if (actionInvoked.ControllerContext.Controller is ModuleControllerBase)
-                        {
-                            if (!((ModuleControllerBase)actionInvoked.ControllerContext.Controller).EnableScript)
-                            {
-                                break;
-                            }
-                        }
                         var moduleRequestContext = (ModuleRequestContext)actionInvoked.ControllerContext.RequestContext;
-                        if (site.Mode == ReleaseMode.Debug)
+                        if (moduleRequestContext.ModuleContext.EnableScript)
                         {
-                            foreach (var script in ServiceFactory.ModuleManager.AllScripts(moduleRequestContext.ModuleContext.ModuleName))
+                            if (site.Mode == ReleaseMode.Debug)
                             {
-                                yield return this.Html.Script(UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath));
+                                foreach (var script in ServiceFactory.ModuleManager.AllScripts(moduleRequestContext.ModuleContext.ModuleName))
+                                {
+                                    yield return this.Html.Script(UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath));
+                                }
+                            }
+                            else
+                            {
+                                yield return this.Html.Script(this.PageContext.FrontUrl.ModuleScriptsUrl(moduleRequestContext.ModuleContext.ModuleName, baseUri, compressed).ToString());
                             }
                         }
-                        else
-                        {
-                            yield return this.Html.Script(this.PageContext.FrontUrl.ModuleScriptsUrl(moduleRequestContext.ModuleContext.ModuleName, baseUri, compressed).ToString());
-                        }
+
                     }
                 }
             }
@@ -749,16 +746,8 @@ namespace Kooboo.CMS.Sites.View
                 {
                     foreach (ModuleActionInvokedContext actionInvoked in PageContext.ModuleResults.Values)
                     {
-                        if (actionInvoked.ControllerContext.Controller is ModuleControllerBase)
-                        {
-                            if (!((ModuleControllerBase)actionInvoked.ControllerContext.Controller).EnableTheming)
-                            {
-                                break;
-                            }
-                        }
-
                         var moduleRequestContext = (ModuleRequestContext)actionInvoked.ControllerContext.RequestContext;
-                        if (moduleRequestContext.ModuleContext.ModuleSettings != null && !string.IsNullOrEmpty(moduleRequestContext.ModuleContext.ModuleSettings.ThemeName))
+                        if (moduleRequestContext.ModuleContext.EnableTheme && moduleRequestContext.ModuleContext.ModuleSettings != null && !string.IsNullOrEmpty(moduleRequestContext.ModuleContext.ModuleSettings.ThemeName))
                         {
                             string themeRuleBody;
                             var styles = ServiceFactory.ModuleManager.AllThemeFiles(moduleRequestContext.ModuleContext.ModuleName,

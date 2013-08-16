@@ -90,7 +90,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
 
         private string GetModuleSettingFile(Site site)
         {
-            return ModuleHelper.GetModuleDataPath(site, this.ModuleName, "settings.config").PhysicalPath;
+            return new ModulePathHelper(ModuleName, site).GetModuleLocalFilePath("settings.config").PhysicalPath;
         }
         #endregion
 

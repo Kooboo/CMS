@@ -1995,7 +1995,6 @@
     <Content Include="Areas\SampleModule\Views\News\LastestNews.cshtml" />
     <Content Include="Areas\SampleModule\PackModule.bat" />
     <Content Include="Areas\Empty\PackModule.bat" />
-    <None Include="Properties\PublishProfiles\fs.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

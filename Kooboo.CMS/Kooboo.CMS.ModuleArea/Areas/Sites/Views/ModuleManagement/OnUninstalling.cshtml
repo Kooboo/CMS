@@ -2,6 +2,11 @@
 @{
     ViewBag.Title = "Unistall module".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
+    var uninstallingTemplate = Model.UninstallingTemplate;
+    if (!uninstallingTemplate.StartsWith("~/"))
+    {
+        uninstallingTemplate = new ModulePathHelper(Model.ModuleName).GetViewPath(uninstallingTemplate).VirtualPath;
+    }
 }
 @section Panel{
     <ul class="panel">
@@ -26,7 +31,7 @@
     </div>
     @using (Html.BeginForm())
     {
-        @Html.Partial(Model.UninstallingTemplate,null,new ViewDataDictionary())
+        @Html.Partial(uninstallingTemplate,null,new ViewDataDictionary())
     }
 </div>
 

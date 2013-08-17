@@ -50,7 +50,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             var ns = Manager.GetNamespace(Site).GetNamespaceNode(nsStr);
             ViewData["NameSpace"] = ns;
-            return View(List(search, sortField, sortDir).ToPagedList(page ?? 1, pageSize ?? 50));
+            return View(List(search, sortField, sortDir));
         }
 
         #endregion

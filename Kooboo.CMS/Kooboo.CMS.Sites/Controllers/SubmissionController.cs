@@ -28,10 +28,13 @@ namespace Kooboo.CMS.Sites.Controllers
         #endregion
 
         #region Submit
-        [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         public ActionResult Submit(string submissionName)
         {
+            if (this.ControllerContext.HttpContext.Request.HttpMethod.ToUpper() == "POST")
+            {
+                System.Web.Helpers.AntiForgery.Validate();
+            }
             if (string.IsNullOrEmpty(submissionName))
             {
                 throw new ArgumentNullException("submissionName");

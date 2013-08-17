@@ -35,7 +35,7 @@ namespace Kooboo.CMS.ModuleArea.Areas.Empty
                 , new[] { "Kooboo.CMS.ModuleArea.Areas.Empty.Controllers", "Kooboo.Web.Mvc", "Kooboo.Web.Mvc.WebResourceLoader" }
             );
 
-            var menuFile = AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "Menu.config");
+            var menuFile = AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "CMSMenu.config");
             if (File.Exists(menuFile))
             {
                 Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu(AreaName, menuFile);

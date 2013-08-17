@@ -576,7 +576,7 @@
     <Content Include="Global.asax" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Areas\Empty\ModuleAction.cs" />
+    <Compile Include="Areas\Empty\ModuleEvents.cs" />
     <Compile Include="Areas\Empty\ModuleAreaRegistration.cs" />
     <Compile Include="Areas\SampleModule\AdminControllerBase.cs" />
     <Compile Include="Areas\SampleModule\Controllers\AdminController.cs" />
@@ -587,7 +587,7 @@
     <Compile Include="Areas\SampleModule\Models\InstallModel.cs" />
     <Compile Include="Areas\SampleModule\Models\ModuleInfo_Metadata.cs" />
     <Compile Include="Areas\SampleModule\Models\News.cs" />
-    <Compile Include="Areas\SampleModule\ModuleAction.cs" />
+    <Compile Include="Areas\SampleModule\ModuleEvents.cs" />
     <Compile Include="Areas\SampleModule\ModuleAreaRegistration.cs" />
     <Compile Include="Areas\SampleModule\Repositories\IRepository.cs" />
     <Compile Include="Areas\SampleModule\Repositories\NewsRepository.cs" />
@@ -599,14 +599,14 @@
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Article\~contents\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Empty\Menu.config" />
+    <Content Include="Areas\Empty\CMSMenu.config" />
     <Content Include="Areas\Empty\module.config" />
     <Content Include="Areas\Empty\routes.config" />
     <Content Include="Areas\Empty\Themes\Default\Theme.rule" />
     <Content Include="Areas\Empty\Views\Shared\Front.cshtml" />
     <Content Include="Areas\Empty\Views\Web.config" />
     <Content Include="Areas\Empty\WebResources.config" />
-    <Content Include="Areas\SampleModule\Menu.config" />
+    <Content Include="Areas\SampleModule\CMSMenu.config" />
     <Content Include="Areas\SampleModule\module.config" />
     <Content Include="Areas\SampleModule\routes.config" />
     <Content Include="Areas\SampleModule\Themes\Default\Theme.rule" />

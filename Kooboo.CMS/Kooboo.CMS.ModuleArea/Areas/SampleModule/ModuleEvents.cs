@@ -13,11 +13,12 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Kooboo.CMS.Sites.Extension;
+using Kooboo.CMS.ModuleArea.Areas.SampleModule.Models;
 using Kooboo.CMS.Sites.Models;
-namespace Kooboo.CMS.ModuleArea.Areas.Empty
+namespace Kooboo.CMS.ModuleArea.Areas.SampleModule
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleAction), Key = ModuleAreaRegistration.ModuleName)]
-    public class ModuleAction : IModuleAction
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleEvents), Key = SampleAreaRegistration.ModuleName)]
+    public class ModuleEvents : IModuleEvents
     {
         public void OnExcluded(Site site)
         {
@@ -31,7 +32,16 @@ namespace Kooboo.CMS.ModuleArea.Areas.Empty
 
 
         public void OnInstalling(ControllerContext controllerContext)
-        {        
+        {
+            var moduleInfo = ModuleInfo.Get(SampleAreaRegistration.ModuleName);
+            var installModel = new InstallModel();
+            Kooboo.CMS.Sites.Extension.ModelBindHelper.BindModel<InstallModel>(installModel, controllerContext);
+
+            moduleInfo.DefaultSettings.CustomSettings["DatabaseServer"] = installModel.DatabaseServer;
+            moduleInfo.DefaultSettings.CustomSettings["UserName"] = installModel.UserName;
+            moduleInfo.DefaultSettings.CustomSettings["Password"] = installModel.Password;
+            ModuleInfo.Save(moduleInfo);
+
             // Add code here that will be executed when the module installing.
         }
 

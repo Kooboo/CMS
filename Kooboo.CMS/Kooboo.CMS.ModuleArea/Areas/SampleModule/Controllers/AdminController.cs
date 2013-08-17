@@ -59,8 +59,8 @@ namespace Kooboo.CMS.ModuleArea.Controllers
         {
             ModuleInfo moduleInfo = new ModuleInfo();
             moduleInfo.ModuleName = "SampleModule";
-            moduleInfo.Version = "4.2.0.0";
-            moduleInfo.KoobooCMSVersion = "4.2.0.0";
+            moduleInfo.Version = "4.2.1.0";
+            moduleInfo.KoobooCMSVersion = "4.2.1.0";
             moduleInfo.InstallingTemplate = UrlUtility.Combine("~/", "Areas", SampleAreaRegistration.ModuleName, "Views", "Shared", "_OnInstalling.cshtml");
             moduleInfo.UninstallingTemplate = UrlUtility.Combine("~/", "Areas", SampleAreaRegistration.ModuleName, "Views", "Shared", "_OnUninstalling.cshtml");
             moduleInfo.DefaultSettings = new ModuleSettings()
@@ -77,7 +77,8 @@ namespace Kooboo.CMS.ModuleArea.Controllers
                 new EntryOption(){ Name="NewsCategories",Entry = new Entry{ Controller="News",Action ="Categories"}},
                 new EntryOption(){Name="ArticleCategories",Entry=new Entry{Controller="Article",Action="Categories"}},
                 new EntryOption(){Name="ArticleList",Entry=new Entry{Controller="Article",Action="List"}},
-                 new EntryOption(){Name="ArticleSearch",Entry=new Entry{Controller="Article",Action="Search"}},
+                new EntryOption(){Name="ArticleSearch",Entry=new Entry{Controller="Article",Action="Search"}},
+                new EntryOption(){Name="LastestNews",Entry=new Entry{Controller="News",Action="LastestNews",LinkToEntryName="NewsList"}}
             };
             moduleInfo.DefaultSettings.CustomSettings = new Dictionary<string, string>();
             moduleInfo.DefaultSettings.CustomSettings["Setting1"] = "Value1";

@@ -657,6 +657,7 @@
         EntryOptionsSelect: null,
         initialize: function () {
             ProcessModule.superclass.initialize.call(this);
+            this.LinkToEntryNameInput = $('input[id="LinkToEntryName"]');
             this.EntryActionInput = $('input[id="EntryAction"]');
             this.EntryControllerInput = $('input[id="EntryController"]');
             this.ValuesTemplate = $('#DefaultValuesTemplate');
@@ -675,6 +676,7 @@
                 }
                 // set module default settings
                 var module = $(this).val();
+                self.LinkToEntryNameInput.val($('input[id="' + module + 'LinkToEntryName"]').val());
                 self.EntryActionInput.val($('input[id="' + module + 'EntryAction"]').val());
                 self.EntryControllerInput.val($('input[id="' + module + 'EntryController"]').val());
                 if (self.ValuesTemplate.data('KO_ViewModel')) {
@@ -685,15 +687,16 @@
                 if (options && options.length) {
                     optionsHtml.push('<option></option>');
                     $.each(options, function (index, op) {
-                        optionsHtml.push("<option action='" + op.EntryAction + "' controller='" + op.EntryController + "' values='" + ko.toJSON(op.Values) + "'>" + op.Name + '</option>');
+                        optionsHtml.push("<option action='" + op.EntryAction + "' controller='" + op.EntryController + "' values='" + ko.toJSON(op.Values) + "' linkToEntryName='" + op.LinkToEntryName + "'>" + op.Name + '</option>');
                     });
                 }
-                self.EntryOptionsSelect.html(optionsHtml.join(''));
+                self.EntryOptionsSelect.append(optionsHtml.join(''));
             });
             this.EntryOptionsSelect.change(function () {
                 var op = $(this).children().eq(this.selectedIndex);
                 var action = op.attr('action'), controller = op.attr('controller');
                 var values = op.attr('values');
+                self.LinkToEntryNameInput.val(op.attr('linkToEntryName'));
                 self.EntryActionInput.val(action); self.EntryControllerInput.val(controller);
                 self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON(values));
             });
@@ -702,26 +705,42 @@
         restoreValue: function () {
             ProcessModule.superclass.restoreValue.call(this);
             var self = this;
+
             // 
-            var moduleName = this.outerValue.ModuleName;
+            var moduleName = self.outerValue.ModuleName;
             if (moduleName) { $('input[name="ModuleName"][value="' + moduleName + '"]').attr('checked', true).trigger('change'); }
-            //
-            var exclusive = this.outerValue.Exclusive;
-            if (exclusive == 'true') { $('input[name="Exclusive"]').attr('checked', true); }
-            //
-            var action = this.outerValue.EntryAction;
-            if (action) { this.EntryActionInput.val(action); }
-            //
-            var controller = this.outerValue.EntryController;
-            if (controller) { this.EntryControllerInput.val(controller); }
 
-            var values = this.outerValue.Values;
+            setTimeout(function () {                
+                var entryName = self.outerValue.EntryName;
+                if (entryName) {
+                    self.EntryOptionsSelect.find('option').each(function () {
+                        if ($(this).text() == entryName) {
+                            $(this).attr("selected", "selected");
+                        }
+                    });
+                }
 
-            if (values) {
-                setTimeout(function () {
-                    self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON(values));
-                }, 200);
-            }
+                var linkToEntryName = self.outerValue.LinkToEntryName;              
+                if (linkToEntryName) {
+                    self.LinkToEntryNameInput.val(linkToEntryName);
+                }
+              
+                //
+                var exclusive = self.outerValue.Exclusive;
+                if (exclusive == 'true') { $('input[name="Exclusive"]').attr('checked', true); }
+                //
+                var action = self.outerValue.EntryAction;
+                if (action) { self.EntryActionInput.val(action); }
+                //
+                var controller = self.outerValue.EntryController;
+                if (controller) { self.EntryControllerInput.val(controller); }
+
+                var values = self.outerValue.Values;
+
+                if (values) {
+                    self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON(values));                    
+                }
+            }, 200);
         },
 
         validateForm: function (context) {

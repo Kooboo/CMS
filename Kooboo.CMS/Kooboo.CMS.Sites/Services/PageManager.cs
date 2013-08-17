@@ -50,6 +50,12 @@ namespace Kooboo.CMS.Sites.Services
 
         #region Page
 
+        /// <summary>
+        /// Query the all pages including the sub pages.
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="filterName"></param>
+        /// <returns></returns>
         public override IEnumerable<Page> All(Site site, string filterName)
         {
             var pages = Provider.All(site);

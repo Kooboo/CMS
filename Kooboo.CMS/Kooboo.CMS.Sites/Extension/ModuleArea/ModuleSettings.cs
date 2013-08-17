@@ -18,12 +18,15 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
     [KnownType(typeof(string[]))]
     public class Entry
     {
+        public string Name { get; set; }
 
         public string Controller { get; set; }
 
         public string Action { get; set; }
 
         public RouteValueDictionary Values { get; set; }
+
+        public string LinkToEntryName { get; set; }
     }
 
     public class ModuleSettings

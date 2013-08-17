@@ -44,7 +44,16 @@ namespace Kooboo.CMS.ModuleArea.Controllers
         public ActionResult About()
         {
             return View("about");
-        } 
+        }
+        public ActionResult LastestNews()
+        {
+            List<News> news = new List<News>();
+            for (int i = 0; i < 5; i++)
+            {
+                news.Add(new News() { Id = i, Title = string.Format("lastest news {0}", i), Body = "news body" });
+            }
+            return View(news);
+        }
         #endregion
 
         #region Download && json
@@ -57,10 +66,10 @@ namespace Kooboo.CMS.ModuleArea.Controllers
         public ActionResult OutputJson()
         {
             return Json(new { Id = 1, Name = "Name1" }, JsonRequestBehavior.AllowGet);
-        } 
+        }
         #endregion
 
-        #region AJAX 
+        #region AJAX
         public ActionResult PartialRender()
         {
             return View();
@@ -68,7 +77,7 @@ namespace Kooboo.CMS.ModuleArea.Controllers
         public ActionResult AjaxView()
         {
             return PartialView();
-        } 
+        }
         #endregion
     }
 }

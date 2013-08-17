@@ -1987,6 +1987,7 @@
     <Content Include="Cms_Data\Views\ControlTypes\MediaFiles.cshtml" />
     <Content Include="Cms_Data\Views\ControlTypes\MultiFiles.cshtml" />
     <Content Include="Areas\SampleModule\Views\Admin\EditorTemplates\ModuleSettings.cshtml" />
+    <Content Include="Areas\SampleModule\Views\News\LastestNews.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

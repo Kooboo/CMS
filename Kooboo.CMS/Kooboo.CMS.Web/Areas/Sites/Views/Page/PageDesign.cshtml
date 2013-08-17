@@ -19,10 +19,10 @@
             if (create) { pageName = null; }
             // ...
             var resources = new System.Text.StringBuilder();
-            resources.AppendFormat("<script type=\"text/javascript\" src=\"{0}\"></script>", Html.Raw(Url.Action("Settings", "PageDesign", new { siteName = siteName }))).AppendLine();
-            resources.Append(Html.Raw(Html.ExternalResources("pageDesignJs").ToString()));
+            resources.AppendFormat("<script type=\"text/javascript\" src=\"{0}\"></script>", Html.Raw(Kooboo.Web.Url.UrlUtility.ToHttpAbsolute(Request.Url.AbsoluteUri,Url.Action("Settings", "PageDesign", new { siteName = siteName })))).AppendLine();
+            resources.Append(Html.Raw(Html.ExternalResources(AreaHelpers.GetAreaName(Html.ViewContext.RouteData),"pageDesignJs",null,Request.Url.AbsoluteUri).ToString()));
             var js = Html.Raw(resources.ToString());
-            var css = Html.Raw(Html.ExternalResources("pageDesignCss").ToString());
+            var css = Html.Raw(Html.ExternalResources(AreaHelpers.GetAreaName(Html.ViewContext.RouteData), "pageDesignCss", null, Request.Url.AbsoluteUri).ToString());
             var url = Html.Raw(Url.Action("Design", "PageDesign", new
             {
                 siteName = siteName

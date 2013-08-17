@@ -17,7 +17,7 @@ using Kooboo.CMS.ModuleArea.Areas.SampleModule.Models;
 using Kooboo.CMS.Sites.Models;
 namespace Kooboo.CMS.ModuleArea.Areas.SampleModule
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleEvents), Key = SampleAreaRegistration.ModuleName)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleEvents), Key = ModuleAreaRegistration.ModuleName)]
     public class ModuleEvents : IModuleEvents
     {
         public void OnExcluded(Site site)
@@ -33,7 +33,7 @@ namespace Kooboo.CMS.ModuleArea.Areas.SampleModule
 
         public void OnInstalling(ControllerContext controllerContext)
         {
-            var moduleInfo = ModuleInfo.Get(SampleAreaRegistration.ModuleName);
+            var moduleInfo = ModuleInfo.Get(ModuleAreaRegistration.ModuleName);
             var installModel = new InstallModel();
             Kooboo.CMS.Sites.Extension.ModelBindHelper.BindModel<InstallModel>(installModel, controllerContext);
 

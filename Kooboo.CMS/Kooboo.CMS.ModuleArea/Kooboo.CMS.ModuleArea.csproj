@@ -101,7 +101,11 @@
     <Content Include="Areas\Contents\Styles\images\map-item-done.png" />
     <Content Include="Areas\Contents\Styles\images\map-item-hover.png" />
     <Content Include="Areas\Contents\Styles\images\map-item.png" />
+    <Content Include="Areas\Empty\7z.exe" />
+    <Content Include="Areas\Empty\ignores.txt" />
     <Content Include="Areas\Empty\Themes\Default\Order.txt" />
+    <Content Include="Areas\SampleModule\7z.exe" />
+    <Content Include="Areas\SampleModule\ignores.txt" />
     <Content Include="Areas\SampleModule\Scripts\app.js" />
     <Content Include="Areas\SampleModule\Scripts\Order.txt" />
     <Content Include="Areas\SampleModule\Scripts\script1.js" />
@@ -642,6 +646,7 @@
     <Content Include="Images\svg-export.png" />
     <Content Include="Images\svg-preview.png" />
     <Content Include="Images\svg-view.png" />
+    <Content Include="lib\log4net.dll" />
     <Content Include="lib\Mono.Math.dll" />
     <Content Include="lib\Org.Mentalis.Security.Cryptography.dll" />
     <Content Include="Menu.config" />
@@ -1988,6 +1993,9 @@
     <Content Include="Cms_Data\Views\ControlTypes\MultiFiles.cshtml" />
     <Content Include="Areas\SampleModule\Views\Admin\EditorTemplates\ModuleSettings.cshtml" />
     <Content Include="Areas\SampleModule\Views\News\LastestNews.cshtml" />
+    <Content Include="Areas\SampleModule\PackModule.bat" />
+    <Content Include="Areas\Empty\PackModule.bat" />
+    <None Include="Properties\PublishProfiles\fs.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -14,7 +14,7 @@ using System.Web.Mvc;
 using Kooboo.CMS.Sites.Extension.ModuleArea;
 using Kooboo.CMS.ModuleArea.Models;
 
-namespace Kooboo.CMS.ModuleArea.Controllers
+namespace Kooboo.CMS.ModuleArea.Areas.SampleModule.Controllers
 {
     public class NewsController : Controller
     {

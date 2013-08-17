@@ -102,5 +102,22 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
             return path;
         }
         #endregion
+
+        #region GetViewPath
+        /// <summary>
+        /// Get the module view path
+        /// </summary>
+        /// <param name="relationViewPaths">the relative path base on the module path. for example: new []{"Views","Shared","_OnInstalling.cshtml"}</param>
+        /// <returns></returns>
+        public IPath GetViewPath(params string[] relationViewPaths)
+        {
+            var modulePath = GetModuleInstallationPath();
+            return new CommonPath()
+            {
+                PhysicalPath = Path.Combine(new[] { modulePath.PhysicalPath }.Concat(relationViewPaths).ToArray()),
+                VirtualPath = UrlUtility.Combine(new[] { modulePath.VirtualPath }.Concat(relationViewPaths).ToArray())
+            };
+        }
+        #endregion
     }
 }

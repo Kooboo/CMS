@@ -19,15 +19,19 @@ using Kooboo.Web.Url;
 using Kooboo.CMS.Common;
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
+    [DataContract]
     public class EntryOption
     {
+        [DataMember(EmitDefaultValue = false)]
         public string Name { get; set; }
+        [DataMember(EmitDefaultValue = false)]
         public Entry Entry { get; set; }
     }
     [DataContract]
     public class ModuleInfo : Kooboo.CMS.Common.Persistence.Non_Relational.IIdentifiable
     {
         #region ModuleInfo properties
+        [DataMember(Order = 0)]
         public string ModuleName { get; set; }
 
         [DataMember(Order = 1)]
@@ -36,17 +40,18 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         [DataMember(Order = 3)]
         public string KoobooCMSVersion { get; set; }
 
+        [DataMember(Order = 5)]
+        public string InstallingTemplate { get; set; }
+
+        [DataMember(Order = 6)]
+        public string UninstallingTemplate { get; set; }
+
         [DataMember(Order = 7)]
         public ModuleSettings DefaultSettings { get; set; }
 
         [DataMember(Order = 9)]
         public EntryOption[] EntryOptions { get; set; }
 
-        [DataMember]
-        public string InstallingTemplate { get; set; }
-
-        [DataMember]
-        public string UninstallingTemplate { get; set; }
         #endregion
 
         #region GetModuleInfo
@@ -61,6 +66,10 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
             var moduleInfo = DataContractSerializationHelper.Deserialize<ModuleInfo>(moduleInfoPath.PhysicalPath);
             moduleInfo.ModuleName = moduleName;
             return moduleInfo;
+        }
+        public static ModuleInfo Get(Stream stream)
+        {
+            return (ModuleInfo)DataContractSerializationHelper.Deserialize(typeof(ModuleInfo), null, stream);
         }
         #endregion
 

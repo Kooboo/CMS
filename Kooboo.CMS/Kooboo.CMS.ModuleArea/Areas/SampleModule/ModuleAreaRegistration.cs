@@ -12,9 +12,9 @@ using System.IO;
 using Kooboo;
 using Kooboo.Web.Mvc;
 
-namespace Kooboo.CMS.ModuleArea
+namespace Kooboo.CMS.ModuleArea.Areas.SampleModule
 {
-    public class SampleAreaRegistration : AreaRegistration
+    public class ModuleAreaRegistration : AreaRegistration
     {
         public const string ModuleName = "SampleModule";
         public override string AreaName

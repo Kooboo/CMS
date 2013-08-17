@@ -145,9 +145,9 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region Install
-        public virtual ModuleInfo Install(string moduleName, Stream moduleStream, ref StringBuilder log)
+        public virtual ModuleInfo Install(Stream moduleStream, ref StringBuilder log)
         {
-            return ModuleInstaller.Install(moduleName, moduleStream, ref log);
+            return ModuleInstaller.Install(moduleStream, ref log);
         }
 
         public virtual void OnInstalling(string moduleName, ControllerContext controllerContext)

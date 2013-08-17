@@ -57,10 +57,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 {
                     var moduleFile = this.Request.Files["ModuleFile"];
 
-                    StringBuilder log = new StringBuilder();
-                    var moduleName = System.IO.Path.GetFileNameWithoutExtension(moduleFile.FileName);
+                    StringBuilder log = new StringBuilder();                   
 
-                    var moduleInfo = Manager.Install(moduleName, moduleFile.InputStream, ref log);
+                    var moduleInfo = Manager.Install(moduleFile.InputStream, ref log);
 
                     if (moduleInfo == null && log.Length != 0)
                     {
@@ -71,7 +70,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     {
                         if (!string.IsNullOrEmpty(moduleInfo.InstallingTemplate))
                         {
-                            data.RedirectUrl = Url.Action("OnInstalling", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleName));
+                            data.RedirectUrl = Url.Action("OnInstalling", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleInfo.ModuleName));
                         }
                         else
                         {

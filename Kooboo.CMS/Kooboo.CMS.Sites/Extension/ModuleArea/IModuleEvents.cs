@@ -16,7 +16,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
-    public interface IModuleAction
+    public interface IModuleEvents
     {
         /// <summary>
         /// Called when [installing].

@@ -178,9 +178,9 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region ResolveModuleAction
-        protected virtual IModuleAction ResolveModuleAction(string moduleName)
+        protected virtual IModuleEvents ResolveModuleAction(string moduleName)
         {
-            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleAction>(moduleName);
+            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
         }
         #endregion
 

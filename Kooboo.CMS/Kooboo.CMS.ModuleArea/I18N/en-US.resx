@@ -1244,4 +1244,43 @@ Are you sure you want to use this size?</value>
   <data name="The item has been saved." xml:space="preserve">
     <value>The item has been saved.</value>
   </data>
+  <data name="Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="All Elements" xml:space="preserve">
+    <value>All Elements</value>
+  </data>
+  <data name="Only Documents" xml:space="preserve">
+    <value>Only Documents</value>
+  </data>
+  <data name="Only Folders" xml:space="preserve">
+    <value>Only Folders</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="Site" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Invalid folder name." xml:space="preserve">
+    <value>Invalid folder name.</value>
+  </data>
+  <data name="The name already exists." xml:space="preserve">
+    <value>The name already exists.</value>
+  </data>
+  <data name="New file" xml:space="preserve">
+    <value>New file</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
 </root>

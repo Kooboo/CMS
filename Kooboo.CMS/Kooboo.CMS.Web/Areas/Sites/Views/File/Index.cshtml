@@ -100,6 +100,7 @@
                 @("Name".Localize())
             </th>
             <th>@("Path".Localize())</th>
+            <th>@("Site".Localize())</th>
             <th class="date">
                 @("Date".Localize())
             </th>
@@ -183,6 +184,7 @@
 
                         </td>
                         <td>@(string.IsNullOrEmpty(folderPath) ? "-" : "")</td>
+                        <td>@(folder.Site)</td>
                         <td class="date">
                             @folder.LastUpdateDate.ToShortDateString()
                         </td>
@@ -200,7 +202,7 @@
                         <td class="checkbox draggable">
                             <div>
                                 @Html.IconImage("drag")
-                                <input type="checkbox" class="select doc" value="@content.RelativePath " data-filename="@content.FileName"/>
+                                <input type="checkbox" class="select doc" value="@content.RelativePath" data-filename="@content.FileName"/>
                             </div>
                         </td>
                         <td class="common">
@@ -238,6 +240,7 @@
                         <td>
                             @content.RelativePath
                         </td>
+                        <td>@content.Site</td>
                         <td class="date">
                             @content.CreateDate.ToShortDateString()
                         </td>

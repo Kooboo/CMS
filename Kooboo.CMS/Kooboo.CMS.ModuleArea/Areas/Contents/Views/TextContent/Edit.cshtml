@@ -23,10 +23,29 @@
         <ul class="panel">
             @if (availableEdit)
             {
+                if (Model.IsLocalized.HasValue && Model.IsLocalized.Value == false)
+                { <li class="j_DropDown">
+                    <a>
+                        @Html.IconImage("save")
+                        @Html.IconImage("arrow small white-down")
+                        @("Save".Localize())
+                    </a>
+                    <ul class="j_DropDownContent hide">
+                        <li><a data-ajaxform="">@("Save".Localize())</a></li>
+                        <li><a data-ajaxform=""  href="@Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("Localize", "true").Merge("setPublished", "true"))">@("Save & Localize".Localize())</a></li>
+                    </ul>
+                </li>
+               
+                }
+                else
+                {
                 <li>
                     <a data-ajaxform="">
                         @Html.IconImage("save") @("Save".Localize())</a>
                 </li>
+                }
+
+
             }
             <li>
                 <a href="@ViewContext.RequestContext.GetRequestValue("return")">

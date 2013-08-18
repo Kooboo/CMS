@@ -17,13 +17,13 @@
                     @Html.IconImage("folder")
                     @if (ViewBag.IsSingle)
                     {
-                        <input type="radio" id="@inputId" value="@Html.Raw(m.Folder.FullName)"
-            name="@(ViewData["InputName"])" @(values.Contains(m.Folder.FullName) == true ? "checked" : "") @(Html.GenerateHtmlAttributes((IDictionary<string,object>)ViewBag.InputAttributes))/>
+                        <input type="radio" id="@inputId" value="@Html.Raw(m.Folder.FullName)" @(ViewBag.IsEditing ? "disabled" : "") 
+            name="@(ViewData["InputName"])" @(values.Contains(m.Folder.FullName) == true ? "checked" : "") @(Html.GenerateHtmlAttributes((IDictionary<string, object>)ViewBag.InputAttributes))/>
                     }
                     else
                     {
-                        <input type="checkbox" id="@inputId" value="@Html.Raw(m.Folder.FullName)"
-            name="@(ViewData["InputName"])" @(values.Contains(m.Folder.FullName) == true ? "checked" : "") @(Html.GenerateHtmlAttributes((IDictionary<string,object>)ViewBag.InputAttributes))/>
+                        <input type="checkbox" id="@inputId" value="@Html.Raw(m.Folder.FullName)" @(ViewBag.IsEditing ? "disabled" : "") 
+            name="@(ViewData["InputName"])" @(values.Contains(m.Folder.FullName) == true ? "checked" : "") @(Html.GenerateHtmlAttributes((IDictionary<string, object>)ViewBag.InputAttributes))/>
                     }
                     <label for="@inputId">
                         @(((m.Folder).AsActual() ?? m.Folder).FriendlyName)</label>

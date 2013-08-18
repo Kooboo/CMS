@@ -32,7 +32,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
         {
             this.DataSource = Kooboo.CMS.Content.Services.ServiceFactory.TextFolderManager.FolderTrees(repository);
         }
-
+        public bool IsEditing { get; set; }
         public bool IsSingle { get; set; }
         public string InputName { get; set; }
         public bool AllowNull { get; set; }

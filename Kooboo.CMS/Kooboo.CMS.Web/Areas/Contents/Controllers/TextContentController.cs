@@ -287,7 +287,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
         [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
         [HttpPost]
-        public virtual ActionResult Edit(string folderName, string uuid, FormCollection form, string @return)
+        public virtual ActionResult Edit(string folderName, string uuid, FormCollection form, string @return, bool localize = false)
         {
             var data = new JsonResultData();
             try
@@ -307,6 +307,10 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                     content = TextContentManager.Update(Repository, textFolder, uuid, form,
                     Request.Files, DateTime.UtcNow, addedCategories, removedCategories, User.Identity.Name);
 
+                    if (localize == true)
+                    {
+                        TextContentManager.Localize(textFolder, uuid);
+                    }
 
                     data.RedirectToOpener = true;
 

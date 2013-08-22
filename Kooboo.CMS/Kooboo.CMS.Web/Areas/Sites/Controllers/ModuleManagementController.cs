@@ -57,9 +57,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 {
                     var moduleFile = this.Request.Files["ModuleFile"];
 
-                    StringBuilder log = new StringBuilder();                   
-
-                    var moduleInfo = Manager.Install(moduleFile.InputStream, ref log);
+                    StringBuilder log = new StringBuilder();
+                    var moduleName = System.IO.Path.GetFileNameWithoutExtension(moduleFile.FileName);
+                    var moduleInfo = Manager.Install(moduleName, moduleFile.InputStream, ref log);
 
                     if (moduleInfo == null && log.Length != 0)
                     {

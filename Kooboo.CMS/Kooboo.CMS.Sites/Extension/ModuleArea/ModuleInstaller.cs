@@ -17,11 +17,11 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
     public static class ModuleInstaller
     {
-        public static ModuleInfo Install(Stream moduleStream, ref StringBuilder log)
+        public static ModuleInfo Install(string moduleName, Stream moduleStream, ref StringBuilder log)
         {
             ModuleInfo moduleInfo = null;
 
-            moduleInfo = Unzip(moduleStream, ref log);
+            moduleInfo = Unzip(moduleName, moduleStream, ref log);
             if (moduleInfo != null)
             {
                 CopyAssembies(moduleInfo, ref log);
@@ -29,7 +29,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
 
             return moduleInfo;
         }
-        public static ModuleInfo Unzip(Stream moduleStream, ref StringBuilder log)
+        public static ModuleInfo Unzip(string moduleName, Stream moduleStream, ref StringBuilder log)
         {
             //ModulePath modulePath = new ModulePath(moduleName);
             //if (Directory.Exists(modulePath.PhysicalPath))
@@ -58,7 +58,8 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                 {
                     return null;
                 }
-                ModulePath modulePath = new ModulePath(moduleInfo.ModuleName);
+                moduleName = string.IsNullOrEmpty(moduleInfo.ModuleName) ? moduleName : moduleInfo.ModuleName;
+                ModulePath modulePath = new ModulePath(moduleName);
                 var modulePhysicalPath = modulePath.PhysicalPath;
 
                 if (Directory.Exists(modulePath.PhysicalPath))

@@ -58,7 +58,11 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                 {
                     return null;
                 }
-                moduleName = string.IsNullOrEmpty(moduleInfo.ModuleName) ? moduleName : moduleInfo.ModuleName;
+                if (string.IsNullOrEmpty(moduleInfo.ModuleName))
+                {
+                    moduleInfo.ModuleName = moduleName;
+                }
+
                 ModulePath modulePath = new ModulePath(moduleName);
                 var modulePhysicalPath = modulePath.PhysicalPath;
 

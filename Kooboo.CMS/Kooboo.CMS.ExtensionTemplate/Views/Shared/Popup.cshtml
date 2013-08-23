@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        @ViewBag.Title @("-Kooboo CMS".Localize())
+    </title>
+    @Html.ExternalResources("siteStyles")
+
+    @Html.ExternalResources("siteScripts")
+    <script type="text/javascript" src="~/Scripts/tiny_mce/tinymce.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/tiny_mce_extension.js"></script>
+    <!--[if lte IE 8]>
+    <script src="~/Scripts/html5shiv.js" type="text/javascript"></script>
+    <script src="~/Scripts/selectivizr-min.js" type="text/javascript"></script>
+    <![endif]-->
+    <link href="~/Styles/jQuery.JCrop/jquery.Jcrop.css" rel="Stylesheet" type="text/css" />
+    @RenderSection("ScriptCSS", false)
+</head>
+<body class="blank  in-dialog loading">
+    @Html.Partial("_Loading_Info")
+    <div id="body-container" class="no-sidebar">
+        @RenderBody()
+    </div>
+    @Html.Partial("Master.Script")
+    <script>
+        $(function () {
+            //注释的原因是前台插入media library时窗体会自动变小。
+            //$(parent.document).find('iframe').height($(document).height());
+        });
+    </script>
+</body>
+</html>

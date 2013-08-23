@@ -1,0 +1,33 @@
+﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo
+@{
+    ViewBag.Title = "Module installation".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+    var installingTemplate = Model.InstallingTemplate;
+    if (!installingTemplate.StartsWith("~/"))
+    {
+        installingTemplate = new ModulePathHelper(Model.ModuleName).GetViewPath(installingTemplate).VirtualPath;
+    }
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <a>@("Upload module file".Localize())</a>
+            <span class="current">@("Run installation action".Localize())<b></b></span>
+            <span>@("Finished".Localize())</span>
+        </div>
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.Partial(installingTemplate, null, new ViewDataDictionary())
+    }
+</div>
+

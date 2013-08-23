@@ -1,0 +1,39 @@
+﻿@model object
+@{
+    Layout = ViewBag.Layout ?? "~/Views/Shared/EditorTemplates/_TR.cshtml";
+    ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
+    var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString();
+
+    var editorHtmlAttributes = Html.GetUnobtrusiveValidationAttributes(propertyName, ViewData.ModelMetadata).Merge("multiple", "multiple").Merge(ViewData.ModelMetadata.AdditionalValues, true);
+    var htmlAttributes = ViewBag.HtmlAttributes;
+    if (htmlAttributes != null)
+    {
+        if (htmlAttributes is IDictionary<string, object>)
+        {
+            editorHtmlAttributes.Merge((IDictionary<string, object>)htmlAttributes);
+        }
+        else
+        {
+            editorHtmlAttributes.Merge(new RouteValueDictionary(htmlAttributes));
+        }
+    }
+
+    var model = Model;
+    if (Model is IEnumerable<Kooboo.CMS.Common.Persistence.Relational.IEntity>)
+    {
+        model = ((IEnumerable<Kooboo.CMS.Common.Persistence.Relational.IEntity>)Model).Select(it => it.Id.ToString());
+    }
+}
+
+@Html.DropDownList(propertyName, ViewData.ModelMetadata.GetDataSource()
+                    .GetSelectListItems(ViewContext.RequestContext, "").SetActiveItem(model), editorHtmlAttributes)
+@Html.ValidationMessage(ViewData.ModelMetadata, new { name = ViewData["name"] })
+@if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+{
+    <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
+}
+<script>
+    jQuery(function ($) {
+        $("#@ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName)").select2();
+    });
+</script>

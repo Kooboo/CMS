@@ -1,0 +1,192 @@
+﻿<div class="block dialog hide" id="data-rule-edit-form">
+    <h2 class="title">Edit Filters</h2>
+    <div class="step clearfix">
+        <span data-bind="css:{active:EditingStep()=='ChooseFolder'}">Choose Folder</span>
+        @Html.IconImage("arrow gray-right")
+        <span data-bind="css:{active:EditingStep()=='EditFilters'}">Edit Filters</span>
+    </div>
+    <div>
+        <div data-bind="visible:EditingStep()=='ChooseFolder'">@Html.Partial("_ChooseFolder")</div>
+        <div class="common-form" data-bind="if:EditingStep()=='EditFilters'">
+            <fieldset>
+                <legend></legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>
+                                <label>@("Data Name".Localize())</label>
+                            </th>
+                            <td>
+                                <input type="text" data-bind="value:DataRuleSetting().DataName
+                                                            ,css:{'input-validation-error':!IsValid()}
+                                                            ,event: {change: ValidateDataRuleName}">
+
+                                <span class="field-validation-error" data-bind="text:ValidationMessage(),visible:!IsValid()"></span>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("Folder".Localize())</label>
+                            </th>
+                            <td data-bind="text:GetFolderDisplayName(DataRuleSetting().DataRule.FolderName())"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("Content type".Localize())</label>
+                            </th>
+                            <td data-bind="text:GetContentType(DataRuleSetting().DataRule.FolderName())"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("Content filter".Localize())</label>
+                            </th>
+                            <td>
+                                <ul class="filter-list" data-data-set="WhereClauses" data-bind="template: { name: 'filter-list-template', foreach:DataRuleSetting().DataRule.WhereClauses() }"></ul>
+                                <a class="action" data-bind="click:AddFilter">@Html.IconImage("plus small")</a>
+                            </td>
+                        </tr>
+                        <tr data-bind="if:GetCategoryFolders(DataRuleSetting().DataRule.FolderName())!= null">
+                            <th>
+                                <label>@("Category folder".Localize())</label>
+                            </th>
+                            <td>
+                                <select data-bind="options:GetCategoryFolders(DataRuleSetting().DataRule.FolderName())
+                                                   ,optionsText:'FolderName',optionsValue:'FolderName'
+                                                   ,optionsCaption: '@("Select a category".Localize())'
+                                                   ,value:DataRuleSetting().DataRule.CategoryFolderName"class="medium">
+                                </select>
+                            </td>
+                        </tr>
+                        <tr data-bind="if:GetCategoryFolders(DataRuleSetting().DataRule.FolderName())!= null
+                                       ,visible:DataRuleSetting().DataRule.CategoryFolderName()!=null">
+                            <th>
+                                <label>@("Category filter".Localize())</label>
+                            </th>
+                            <td>
+                                <ul class="filter-list" data-data-set="CategoryClauses" data-bind="template: { name: 'filter-list-template', foreach:DataRuleSetting().DataRule.CategoryClauses() }"></ul>
+                                <a data-bind="click:AddFilter" class="action">@Html.IconImage("plus small")</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <fieldset data-bind="if:HasAdvancedOptions">
+                <legend class="clickable clearfix no-bind">@Html.IconImage("arrow")@("Advanced".Localize())</legend>
+                <table style="display: none;">
+                    <tbody>
+                        <tr>
+                            <th>
+                                <label>@("Top".Localize())</label>
+                            </th>
+                            <td>
+                                <input class="short" data-bind="value:DataRuleSetting().DataRule.Top" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("Sort filed".Localize())</label>
+                            </th>
+                            <td>
+                                <select data-bind="options:GetSchemaColumns(DataRuleSetting().DataRule.FolderName()),
+                                                    optionsText:'Name',optionsValue:'Name',
+                                                    value:DataRuleSetting().DataRule.SortField"
+                                    class="short">
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("Sort direction".Localize())</label>
+                            </th>
+                            <td>
+                                <select class="short" data-bind="value:DataRuleSetting().DataRule.SortDirection">
+                                    <option value="0">@("ASC".Localize())</option>
+                                    <option value="1">@("DESC".Localize())</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("Enable paging".Localize())</label>
+                            </th>
+                            <td>
+                                <input type="checkbox" data-bind="checked:DataRuleSetting().DataRule.EnablePaging,click:DataRuleSetting().DataRule.OnEnablePaging">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("Page size".Localize())</label>
+                            </th>
+                            <td>
+                                <input class="short" type="text" data-bind="value:DataRuleSetting().DataRule.PageSize,enable:DataRuleSetting().DataRule.EnablePaging">
+                                <em class="tip">@("A const value OR dynamic value get from query string. eg: 10 OR {PageSize}".Localize())</em>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("Page index".Localize())</label>
+                            </th>
+                            <td>
+                                <input class="short" type="text" data-bind="value:DataRuleSetting().DataRule.PageIndex,enable:DataRuleSetting().DataRule.EnablePaging">
+                                <em class="tip">@("The page index parameter name. eg:{PageIndex}".Localize())</em>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <p class="buttons">
+                <button data-bind="visible:DataRuleSetting().IsNew,click:GotoPreviousStep" type="button">« @("Previous".Localize())</button>
+                <button data-bind="click:SaveDataRule">Save</button>
+                <a class="button gray" data-bind="click:CancelSaveDataRule">@("Cancel".Localize())</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="filter-list-template">
+    <li class="clearfix" data-bind="if:!$data.IsEditing()">
+        <span data-bind="text:$root.GetFilterExpression($data)"></span>
+        <a class="action" data-bind="click:$root.EditFilter">@Html.IconImage("edit small")</a>
+        <a class="action" data-bind="click:$root.RemoveFilter">@Html.IconImage("minus small")</a>
+    </li>
+    <li data-bind="if:$data.IsEditing">
+        <div class="filter-form clearfix">
+            <h5>Filter:</h5>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <select class="short" data-bind="options:metadata.logicList,optionsText:'Text',optionsValue:'Value',value:$data.LogicalTemp"></select>
+                            <select class="medium" data-bind="options:$root.GetSchemaColumns($root.DataRuleSetting().DataRule.FolderName()),optionsText:'Name',optionsValue:'Name',value:$data.FieldNameTemp ">
+                            </select>                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="short" data-bind="options:metadata.operatorList,optionsText:'Text',optionsValue:'Value',value:$data.OperatorTemp"></select>
+                            <input type="text" class="medium" data-bind="value:Value1Temp">                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <a class="button save" data-bind="click:$root.SaveEditingFilter">@("Save".Localize())</a>
+            <a class="button cancel gray action" data-bind="click:$root.CancelEditingFilter">@("Cancel".Localize())</a>
+        </div>
+    </li>
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#data-rule-edit-form').on('click', 'legend.clickable.no-bind', function () {
+            var handle = $(this), next = handle.next();
+            if (handle.hasClass('active')) {
+                handle.removeClass('active');
+                next.fadeOut();
+            } else {
+                handle.addClass('active');
+                next.fadeIn();
+            }
+        });
+    });
+</script>

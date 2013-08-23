@@ -1,0 +1,5 @@
+
+jQuery(function($){
+	$.datepicker.regional['qut-GT'] = {"Name":"qut-GT","closeText":"Close","prevText":"Prev","nextText":"Next","currentText":"Today","monthNames":["nab\u0027e ik\u0027","ukab\u0027 ik\u0027","rox ik\u0027","ukaj ik\u0027","uro\u0027 ik\u0027","uwaq ik\u0027","uwuq ik\u0027","uwajxaq ik\u0027","ub\u0027elej ik\u0027","ulaj ik\u0027","ujulaj ik\u0027","ukab\u0027laj ik\u0027",""],"monthNamesShort":["nab\u0027e","ukab","rox","ukaj","uro","uwaq","uwuq","uwajxaq","ub\u0027elej","ulaj","ujulaj","ukab\u0027laj",""],"dayNames":["juq\u0027ij","kaq\u0027ij","oxq\u0027ij","kajq\u0027ij","joq\u0027ij","waqq\u0027ij","wuqq\u0027ij"],"dayNamesShort":["juq","kaq","oxq","kajq","joq","waqq","wuqq"],"dayNamesMin":["ju","ka","ox","ka","jo","wa","wu"],"dateFormat":"dd/mm/yy","firstDay":0,"isRTL":false};
+	$.datepicker.setDefaults($.datepicker.regional['qut-GT']);
+});

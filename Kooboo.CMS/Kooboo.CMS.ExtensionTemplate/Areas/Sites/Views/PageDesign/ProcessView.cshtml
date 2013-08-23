@@ -1,0 +1,53 @@
+﻿@model Kooboo.CMS.Sites.Services.Namespace<Kooboo.CMS.Sites.Models.View>
+@{
+    Layout = "Design.cshtml";
+}
+@section HeadContent{
+    <script type="text/javascript">
+        function getDesignerType(types) { return types['view']; }
+    </script>
+}
+<div class="common-form in-dialog">
+    <h1 class="title">@("Views".Localize())</h1>
+    <div class="block treeview">
+        <ul id="J_DataTree">
+            @(Html.Partial("ViewNamespace", Model))
+        </ul>
+    </div>
+    <table>
+        <tr>
+            <th>@("Cache Settings".Localize())</th>
+            <td>
+                <input type="checkbox" id="enablecache" />
+                <label class="inline" for="enablecache">
+                    @("Enable".Localize())
+                </label>
+            </td>
+        </tr>
+        <tr id="cache_con">
+            <th></th>
+            <td>
+                <select
+                    id="ExpirationPolicy" name="OutputCache.ExpirationPolicy" class="medium">
+                    @foreach (var item in (string[])ViewData["Policys"])
+                    {
+                        <option>
+                            @Html.Raw(item)</option>
+                    }
+                </select>
+                <input class="mini" type="text" name="OutputCache.Duration" />
+                @("Second".Localize())
+            </td>
+        </tr>
+        <tr id="parameter_tr" style="display:none;">
+            <th>@("Parameters".Localize())</th>
+            <td id="parameter"></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        $('#J_DataTree li.tree-node').treeNode();
+    })
+</script>

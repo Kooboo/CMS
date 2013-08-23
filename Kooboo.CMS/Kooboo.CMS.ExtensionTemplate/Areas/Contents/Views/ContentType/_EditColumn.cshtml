@@ -1,0 +1,288 @@
+﻿@model Kooboo.CMS.Content.Models.Column
+<form class="common-form" id="column-edit-form">
+    <div id="tabs" class="tabs">
+        <ul class="tab-index clearfix">
+            <li><a class="active" href="#tabBasicInfo">@("Basic".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+            <li><a href="#tabMoreOption">
+                @("Advanced".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+            <li><a href="#tabValidation">
+                @("Validation".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+            <li data-bind="visible: ShowSelectionValueContents">
+                <a href="#tabSelectListItems">
+                    @("Selection value".Localize())</a>@Html.IconImage("arrow blue-down")
+                <input type="hidden" id="selection-folder" data-bind="value: Column().SelectionFolder" />
+            </li>
+        </ul>
+        <div class="tab-content active" id="tabBasicInfo">
+            <table>
+                @Html.EditorFor(it => it.Name, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "id", "column-name" }, { "data-val-uniquecolumn", "This name is being used by other columns.".Localize() }, { "data-bind", "value:Column().Name,attr:{disabled:Column().IsExistedColumn}" } } })
+                @Html.EditorFor(it => it.Label, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:Column().Label" } } })
+                @Html.EditorFor(it => it.ControlType, new { NotSelect2 = true, HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:Column().ControlType" } } })
+                @Html.EditorFor(it => it.DataType, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:Column().DataType" } } })
+                @Html.EditorFor(it => it.DefaultValue, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:Column().DefaultValue" } } })
+                @Html.EditorFor(it => it.Summarize, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:Column().Summarize" } } })
+                @Html.EditorFor(it => it.ShowInGrid, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:Column().ShowInGrid" } } })
+            </table>
+        </div>
+        <div class="tab-content" id="tabMoreOption">
+            <table>
+                @Html.EditorFor(it => it.Tooltip, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:Column().Tooltip" } } })
+                @Html.EditorFor(it => it.Length, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:Column().Length" } } })
+                @Html.EditorFor(it => it.AllowNull, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:Column().AllowNull" } } })
+                @Html.EditorFor(it => it.Modifiable, new { HtmlAttributes = new RouteValueDictionary() { { "data-bind", "checked:Column().Modifiable" } } })
+                <tr>
+                    <th>
+                        <label>
+                            @("Custom settings".Localize())</label>
+                    </th>
+                    <td>
+                        <table class="key-value" id="custom-settings-container">
+                            <thead>
+                                <tr data-bind="visible: Column().CustomSettingsDicObjectArray != null && Column().CustomSettingsDicObjectArray().length > 0">
+                                    <th>@("Key".Localize())</th>
+                                    <th>@("Value".Localize())</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- ko foreach: { data: Column().CustomSettingsDicObjectArray, as: 'Setting' }-->
+                                <tr>
+                                    <td>
+                                        <input type="text" title="key" class="short" data-bind="value: Setting.Key()" />
+                                    </td>
+                                    <td>
+                                        <input type="text" title="value" class="medium" data-bind="value: Setting.Value()" />
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)" data-bind="click: $root.RemoveCustomSetting" class="inline-action">@Html.IconImage("minus")</a>
+                                    </td>
+                                </tr>
+                                <!-- /ko -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td><a href="javascript:void(0)" data-bind="click: AddCustomSetting" class="key-value-add">@Html.IconImage("plus")</a></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <em class="tip">Enable the modification of this field in the content editing page.</em>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tab-content" id="tabValidation">
+            <select class="medium" data-bind="options: ValidationTypes, value: SelectedValidationType, visible: ValidationTypes().length > 0"></select>
+            <a href="javascript:void(0)" class="form-action" data-bind="click: AddValidationRule, visible: ValidationTypes().length > 0">@Html.IconImage("plus")</a>
+            <table>
+                <tbody data-bind="foreach: { data: Column().Validations, as: 'Validation' }">
+                    <tr class="border">
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>ValidationType</label></td>
+                        <td data-bind="text: Validation.Type"></td>
+                        <td style="width: 26px;">
+                            <a title="Remove" class="action" href="javascript:void(0)" data-bind="click: $root.RemoveValidationRule">@Html.IconImage("minus")</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>@("Error message".Localize())</label></td>
+                        <td colspan="2">
+                            <input type="text" class="medium" name="error-message" 
+                                   @*data-val="true" 
+                                   data-val-required="@("Required".Localize())" *@
+                                   data-bind="value: Validation.ErrorMessage">
+                            <span class="field-validation-valid" data-valmsg-for="error-message" data-valmsg-replace="true"></span>
+                        </td>
+                    </tr>
+
+                    <!-- ko if: Validation.Type() =='StringLength' -->
+                    <tr>
+                        <td>
+                            <label>@("Min".Localize())</label></td>
+                        <td colspan="2">
+                            <input type="text" name="min-length" class="medium" 
+                                   data-val="true" 
+                                   data-val-number='@("The field Length must be a number.".Localize())'
+                                   data-value-type="int32"
+                                   data-bind="value: Validation.Min">
+                            <span class="field-validation-valid"
+                                data-valmsg-for="min-length"
+                                data-valmsg-replace="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>@("Max".Localize())</label></td>
+                        <td colspan="2">
+                            <input type="text" name="max-length" class="medium" 
+                                   data-val="true" 
+                                   data-val-number='@("The field Length must be a number.".Localize())'
+                                   data-bind="value: Validation.Max">
+                            <span class="field-validation-valid"
+                                data-valmsg-for="max-length"
+                                data-valmsg-replace="true"></span>
+
+                        </td>
+                    </tr>
+                    <!-- /ko -->
+                    <!-- ko if: Validation.Type()=='Range' -->
+                    <tr>
+                        <td>
+                            <label>@("Start".Localize())</label></td>
+                        <td colspan="2">
+                            <input type="text" name="range-start" class="medium"
+                                   data-val="true" 
+                                   data-val-number='@("The field Length must be a number.".Localize())'
+                                   data-bind="value: Validation.Start">
+                            <span class="field-validation-valid"
+                                data-valmsg-for="range-start"
+                                data-valmsg-replace="true"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>@("End".Localize())</label></td>
+                        <td colspan="2">
+                            <input type="text" name="range-end" class="medium" 
+                                   data-val="true" 
+                                   data-val-number='@("The field Length must be a number.".Localize())'
+                                   data-bind="value: Validation.End">
+                            <span class="field-validation-valid"
+                                data-valmsg-for="range-end"
+                                data-valmsg-replace="true"></span>
+
+                        </td>
+                    </tr>
+                    <!-- /ko -->
+                    <!-- ko if: Validation.Type()=='Regex' -->
+                    <tr>
+                        <td>
+                            <label>@("Pattern".Localize())</label></td>
+                        <td colspan="2">
+                            <input type="text" class="medium" data-bind="value: Validation.Pattern"></td>
+                    </tr>
+                    <!-- /ko -->
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-content" id="tabSelectListItems">
+            <table>
+                <tr>
+                    <td>
+                        <ul class="radio-list clearfix">
+                            <li>
+                                <input type="radio" name="SelectionSourceRadio" id="selection-source-manual"
+                                    value="0"
+                                    data-bind="checked: Column().SelectionSource">
+                                <label class="inline" for="selection-source-manual">@("Manual".Localize())</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="SelectionSourceRadio" id="selection-source-from-folder"
+                                    value="1"
+                                    data-bind="checked: Column().SelectionSource">
+                                <label class="inline" for="selection-source-from-folder">@("From folder".Localize())</label>
+                            </li>
+
+                        </ul>
+                    </td>
+                </tr>
+                <!--  if: Column().SelectionSource()==1 -->
+                <tr>
+                    <td>
+                        <div class="block treeview active clear" data-bind="visible: Column().SelectionSource() == 1">
+                            <ul id="J_DataTree" data-bind="template: { name: 'folder-trees-template', foreach: metadata.folderTrees }">
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <!--  -->
+            </table>
+            <table class="key-value clear" data-bind='visible: Column().SelectionSource() == 0'>
+                <thead data-bind="visible: Column().SelectionItems().length > 0">
+                    <tr>
+                        <th>
+                            <label class="short">@("Text".Localize())</label></th>
+                        <th>
+                            <label class="short">@("Value".Localize())</label>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: Column().SelectionItems">
+                    <tr>
+                        <td>
+                            <input type="text" class="short" data-bind="value: $data.Text"></td>
+                        <td>
+                            <input type="text" class="short" data-bind="value: $data.Value"></td>
+                        <td>
+                            <a href="javascript:void(0)" class="form-action"
+                                tabindex="1000"
+                                data-bind="click: $root.RemoveSelectionItem">@Html.IconImage("minus")</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            <a href="javascript:void(0)" class="form-action" tabindex="1000"
+                                data-bind="click: AddSelectionItem">@Html.IconImage("plus")</a></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <p class="buttons">
+        <input type="button" class="button" data-bind="click: PersistToColumnList" value="@("Save".Localize())">
+        <a class="button gray" data-bind="click: CancelPersistToColumnList">@("Cancel".Localize())</a>
+    </p>
+</form>
+
+
+<script type="text/html" id="folder-trees-template">
+    <li class="tree-node active clearfix">
+        <span>
+            @Html.IconImage("folder")
+            <input type="radio" name="Column.SelectionValue" data-bind="uniqueId: true, value: $data.Folder.NamePaths.join('~'), checked: $root.Column().SelectionFolder">
+            <label data-bind="uniqueFor: 'after', text: $data.Folder.NamePaths.join('/')"></label>
+        </span>
+
+        <!-- ko if: $data.Children.length > 0 -->
+        @Html.IconImage("tree-icon")
+        <ul data-bind="template: { name: 'folder-trees-template', foreach: $data.Children }">
+        </ul>
+        <!-- /ko -->
+    </li>
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        var $folderTree = $('#J_DataTree');
+        $folderTree.find('li.tree-node').treeNode();
+        $folderTree.find('input[type=radio]').change(function () {
+            $('#selection-folder').val($(this).val()).change();
+        });
+        var $controlType = $('#ControlType');
+        var $dataType = $('#DataType');
+        $controlType.live('change', function () {
+            var $selectedItem = $(this).find(':selected');
+            var dataType = $selectedItem.data('datatype');
+
+            if (dataType) {
+                $dataType.children().each(function (index, option) {
+                    var $option = $(option);
+                    $option.removeAttr('selected');
+                    if (option.outerText.toLowerCase() == dataType.toLowerCase()) {
+                        $option.attr('selected', 'selected');
+                    }
+                });
+            }
+            else {
+                $dataType.children().first().attr('selected', 'selected');
+            }
+
+            $dataType.trigger('change');
+        });
+    });
+</script>

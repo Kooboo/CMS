@@ -1,0 +1,31 @@
+﻿@model Dictionary<string, string>
+<fieldset>
+    <table>
+        <tbody>
+            <tr>
+                <th>
+                    <label for="CustomFields_Field1" class="label-checkbox">
+                        Field1</label>
+                </th>
+                <td>
+                    <input type="hidden" name="CustomFields[0].Key" value="Field1" />
+                    <input type="checkbox" value="true" name="CustomFields[0].Value" id="CustomFields_Field1"
+                        data-val-required="Required" data-val="true" class="medium" @( (Model != null && Model.ContainsKey("Field1") && Model["Field1"].ToString() == "true") ? "checked=\"checked\"" : "")>
+                    <input type="hidden" value="false" name="CustomFields[0].Value">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label for="CustomFields_Field2">
+                        Field2</label>
+                </th>
+                <td>
+                    <input type="hidden" name="CustomFields[1].Key" value="Field2" />
+                    <input type="text" value="@(((Model != null && Model.ContainsKey("Field2")) ? Model["Field2"] : ""))" name="CustomFields[1].Value" id="CustomFields_Field2" class="medium" />
+                    <span name="" data-valmsg-replace="true" data-valmsg-for="CustomFields.Field2" class="field-validation-valid">
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</fieldset>

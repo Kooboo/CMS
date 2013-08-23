@@ -1,0 +1,15 @@
+﻿/* Error */
+.validation-summary-errors {
+	color: #F00;
+	padding: 10px 0 20px;
+}
+
+.field-validation-error {
+	color: #F00;
+	line-height: 26px;
+}
+
+.input-validation-error {
+	color: #F00;
+	border-color: #F00 !important;
+}

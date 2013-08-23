@@ -1,0 +1,4 @@
+7z.exe
+ignores.txt
+PackModule.bat
+*.zip

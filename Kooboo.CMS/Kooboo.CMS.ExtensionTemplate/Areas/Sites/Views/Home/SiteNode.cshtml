@@ -1,0 +1,63 @@
+﻿@model Kooboo.CMS.Sites.Models.SiteNode
+@{
+    var isOnline = Model.IsOnLine;
+    var onLineName = (string.IsNullOrEmpty(Model.Site.DisplayName) == true ? Model.Site.Name : Model.Site.DisplayName);
+    var offlineName = onLineName + "(Offline)".Localize();
+    var displayName = isOnline ? onLineName : offlineName;
+}
+
+<div class="map-item @(Model.IsOnLine ? "" : "offline")">
+    @Html.ActionLink(displayName, "SiteMap", new { siteName = Model.Site.FullName, repositoryName = Model.Site.Repository }, new { title = displayName })
+    <span class="arrow">
+        @Html.IconImage("arrow-right")</span>
+    <ul>
+        <li><a href="@FrontUrlHelper.Preview(Url, Model.Site, null, null)" target="_blank">
+            @("Preview".Localize())</a></li>
+        @if (ServiceFactory.UserManager.AllowCreatingSite(Html.ViewContext.HttpContext.User.Identity.Name))
+        {
+            <li>
+                @Html.ActionLink("Create a subsite".Localize(), "CreateSubSite", new { controller = "Site", parent = Model.Site.FullName, @return = Request.RawUrl }, new { title = "New sub site".Localize() })
+            </li>
+        }
+        @if (Kooboo.CMS.Sites.Services.ServiceFactory.UserManager.Authorize(Model.Site, Html.ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Settings_SystemPermission))
+        {                
+                   
+            <li>
+                @Html.ActionLink("Export".Localize(), "Export", ViewContext.RequestContext.AllRouteValues().Merge("controller", "Site").Merge("SiteName", Model.Site.FullName).Merge("return", Request.RawUrl), new RouteValueDictionary())
+            </li>                       
+            <li>
+                @Html.ActionLink("Delete".Localize(), "Delete", "site", new { siteName = Model.Site.FullName, @return = Request.RawUrl }, new { @class = "delete-site-link" })
+            </li>
+            <li>@Html.ActionLink("Import database".Localize(), "ImportRepository", ViewContext.RequestContext.AllRouteValues().Merge("controller", "site").Merge("SiteName", Model.Site.FullName).Merge("return", Request.RawUrl), new RouteValueDictionary())</li>
+            <li>
+                @Html.ActionLink(Model.IsOnLine ? "Take offline".Localize() : "Take online".Localize(), "SwitchOffOn", "Site"
+                    , new RouteValueDictionary() { { "siteName", Model.Site.FullName } }
+                    , new RouteValueDictionary() { { "data-ajax", "POST" } })
+            </li>
+            <li>@Html.ActionLink("Clear cache".Localize(), "ClearCache", ViewContext.RequestContext.AllRouteValues().Merge("controller", "Site").Merge("SiteName", Model.Site.FullName),
+                new RouteValueDictionary() { { "data-ajax", "POST" } })</li>
+            <li>
+                @Html.ActionLink("Copy".Localize(), "Copy", "Site", new { siteName = Model.Site.FullName, @return = Request.RawUrl }, null)
+            </li>
+        }
+    </ul>
+</div>
+@if (Model.Children.Count() > 0)
+{
+    <ul>
+        @foreach (var item in Model.Children)
+        {
+            if (ServiceFactory.UserManager.Authorize(item.Site, ViewContext.HttpContext.User.Identity.Name))
+            {              
+            <li class="tree-node active">
+                @if (item.Children.Count() > 0)
+                {
+                    @Html.IconImage("tree-icon")
+                }
+                @Html.Partial("SiteNode", item)
+            </li>
+            }
+        }
+    </ul>
+}
+

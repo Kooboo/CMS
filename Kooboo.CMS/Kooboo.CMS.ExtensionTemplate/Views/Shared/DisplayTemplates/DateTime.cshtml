@@ -1,0 +1,31 @@
+﻿@model DateTime
+@{
+    DateTime dt = DateTime.MinValue;
+    if (Model.Kind == DateTimeKind.Utc)
+    {
+        dt = Model.ToLocalTime();
+    }
+    else
+    {
+        dt = Model;
+    }
+}
+<tr>
+    <th>
+        <label for="@ViewData.ModelMetadata.PropertyName">
+            @ViewData.ModelMetadata.GetDisplayName().Localize()</label>
+        @if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+        {
+            <a href="#" class="tooltip-link" title="@ViewData.ModelMetadata.Description "></a>
+        }
+    </th>
+    <td>
+        @if (string.IsNullOrEmpty(ViewData.ModelMetadata.DisplayFormatString)){
+            @dt
+        }
+        else
+        { 
+            @dt.ToString(ViewData.ModelMetadata.DisplayFormatString)
+        }
+    </td>
+</tr>

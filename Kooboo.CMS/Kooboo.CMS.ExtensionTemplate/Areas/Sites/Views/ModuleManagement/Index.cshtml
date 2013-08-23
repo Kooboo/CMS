@@ -1,0 +1,80 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo>
+@{
+    ViewBag.Title = "Modules".Localize();
+    //Layout = "~/Areas/Sites/Views/Shared/Global.cshtml";
+    Layout = "~/Views/Shared/Site.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@Url.Action("Install", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">
+                @Html.IconImage("add") @("Install".Localize())</a>
+        </li>
+        <li><a href="@Url.Action("GoingToUninstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single"  data-command-type="Redirect">
+            @Html.IconImage("delete") @("Uninstall".Localize())</a></li>
+
+
+        <li><a href="@Url.Action("Relation", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show module relations"))" data-show-on-check="Single" data-command-type="Redirect">
+            @Html.IconImage("relation") @("Relation".Localize())</a></li>
+    </ul>
+}
+
+@if (Model.Count() == 0)
+{
+    <div class="topbar">
+        <h1 class="title">@(ViewBag.Title)</h1>
+    </div>
+    <div class="block fixed">
+        <div class="sitemap-panel clearfix">
+            <div class="blank">
+                <p>
+                    @("You do not have any module yet, click the button below to installl a module.".Localize())
+                </p>
+                @Html.ActionLink("Install", "Install", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl), new RouteValueDictionary(new { @class = "button" }))
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="topbar">
+        <h1 class="title">@(ViewBag.Title)</h1>
+    </div>
+    <div class="block fixed" id="module_list">
+        @foreach (var module in Model)
+        {        
+            <div class="content-block module">
+                @Html.Partial("_ModuleNode", module)
+            </div>
+        }
+    </div>
+}
+
+<script>
+    $(function () {
+        var $module_list = $('#module_list').find('.module');
+        var $check_relateds = $('[data-show-on-check]');
+        var selector = 'input:radio.select:checked';
+        function reset() {
+            $module_list.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
+        }
+        function clear() {
+            $module_list.removeClass('checked');
+            $module_list.find('input:radio.select').attr('checked', false);
+            reset();
+        }
+        reset();
+        $module_list.on('click', function (e) {
+            var $self = $(this);
+            clear();
+            $self.addClass('checked');
+            $self.find('input:radio.select').attr('checked', true);
+            reset();
+            e.stopPropagation();
+        });
+        $module_list.grid();
+        $(document).click(function () {
+            clear();
+        });
+    });
+</script>

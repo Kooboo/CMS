@@ -1,0 +1,25 @@
+﻿@{  
+    ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
+    var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString(); 
+}
+<tr>
+    <td>
+        @if (IsSectionDefined("Label"))
+        { 
+            @RenderSection("Label", false)
+        }
+        else
+        {
+            <label for="@ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName) ">
+                <span class="left">
+                    @ViewData.ModelMetadata.GetDisplayName().Localize()</span>
+            </label>
+            if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+            {
+            <a href="#" class="tooltip-link" title="@ViewData.ModelMetadata.Description.Localize() "></a>
+            }
+        }
+
+        @RenderBody()
+    </td>
+</tr>

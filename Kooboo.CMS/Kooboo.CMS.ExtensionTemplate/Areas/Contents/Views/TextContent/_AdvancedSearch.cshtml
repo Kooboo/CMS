@@ -1,0 +1,171 @@
+﻿@model dynamic
+@using Kooboo.Web.Script.Serialization
+@using Kooboo.CMS.Sites.DataRule
+@{
+    
+    var action = ViewContext.RequestContext.AllRouteValues()["action"].ToString();
+    var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
+    var folder = (Kooboo.CMS.Content.Models.TextFolder)ViewData["Folder"];
+    var operatorList = new List<System.Web.Mvc.SelectListItem> { 
+    new System.Web.Mvc.SelectListItem{ Text = "Equals", Value="0"},
+    new System.Web.Mvc.SelectListItem{ Text = "NotEquals", Value="1"},
+    new System.Web.Mvc.SelectListItem{ Text = "Greater than", Value="2"},
+    new System.Web.Mvc.SelectListItem{ Text = "Less than", Value="3"},
+    new System.Web.Mvc.SelectListItem{ Text = "Contains", Value="4"},
+    new System.Web.Mvc.SelectListItem{ Text = "Start with", Value="5"},
+    new System.Web.Mvc.SelectListItem{ Text = "End with", Value="6"}
+  };
+
+    var logicalList = new List<System.Web.Mvc.SelectListItem> { 
+    new System.Web.Mvc.SelectListItem{ Text = "AND", Value="0"},
+    new System.Web.Mvc.SelectListItem{ Text = "OR", Value="1"},
+    new System.Web.Mvc.SelectListItem{ Text = "Then AND", Value="2"},
+    new System.Web.Mvc.SelectListItem{ Text = "Then OR", Value="3"}
+  };
+
+    var columnSelectListItems = schema.AllColumns.Select(o =>
+                                                  new System.Web.Mvc.SelectListItem
+                                                  {
+                                                      Text = o.Name,
+                                                      Value = o.Name
+                                                  });
+
+    var dataTypesJson = Newtonsoft.Json.JsonConvert.SerializeObject(schema.AllColumns.Select(it => new { FieldName = it.Name, DataType = it.DataType.ToString() }));
+
+    var whereClauseJson = Newtonsoft.Json.JsonConvert.SerializeObject(new WhereClause());
+    var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject((ViewData["WhereClause"] ?? new List<WhereClause> { new WhereClause() }));
+
+}
+<div class="search-panel">
+    <div class="searchbox">
+        <form id="search" action="@Html.Raw(Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("page", "1")))"
+        method="get" class="no-stop">
+            @foreach (var routeValue in ViewContext.RequestContext.AllRouteValues())
+            {
+                if (routeValue.Key.ToLower() != "page" && routeValue.Key.ToLower() != "search")
+                {
+                <input type="hidden" name="@routeValue.Key" value="@routeValue.Value" />
+                }
+            }
+
+            <input type="text" name="search" id="searchBox" value="@ViewContext.RequestContext.GetRequestValue("search")" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }"/>
+            <button type="submit">@Html.IconImage("search")</button>
+        </form>
+    </div>
+    @if (folder != null)
+    {
+        <a class="more">@Html.IconImage("arrow small black-down")</a>
+        <div class="more-search common-form" style="display: none">
+            <h6>
+                @("Advanced search".Localize())</h6>
+            <form action="@Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("page", "1"))"
+        class="no-stop" method="get">
+                <input type="hidden" name="SiteName" value="@Request["SiteName"]" />
+                <input type="hidden" name="RepositoryName" value="@Request["RepositoryName"]" />
+                <input type="hidden" name="FolderName" value="@Request["FolderName"]" />
+                <input type="hidden" name="Folder" value="@Request["Folder"]" />
+                <input type="hidden" name="ParentFolder" value="@Request["ParentFolder"]" />
+                <input type="hidden" name="ParentUUID" value="@Request["ParentUUID"]" />
+                <fieldset>
+                    <table id="filter_list">
+                        <tbody data-bind="foreach: {data:data,afterRender:bindFieldNameChanged}">
+                            <tr>
+                                <td class="filter-list clearfix">
+                                    <a class="action right" href="javascipr:;" data-bind="click: $parent.removeItem">@Html.IconImage("minus small")</a>
+                                    <div class="clearfix">
+                                        @Html.DropDownList("FieldName", columnSelectListItems,
+                                        new RouteValueDictionary() { { "class", "medium j_FieldNameInput" } }
+                                        .Merge("data-bind", "value:FieldName, attr: {name: $parent.getPrefixFieldName($index()) + 'FieldName'}"))
+                                        @Html.DropDownList("Operator", operatorList, new RouteValueDictionary(new { @class = "short" })
+                                                .Merge("data-bind", "value:Operator, attr: {name: $parent.getPrefixFieldName($index()) + 'Operator'}"))
+                                    </div>
+                                    <div class="clearfix">
+                                        @Html.TextBox("Value1", null, new RouteValueDictionary(new { @class = "medium j_FieldValueInput" })
+                                                .Merge("data-bind", "value:Value1, attr: {name: $parent.getPrefixFieldName($index()) + 'Value1'}"))
+                                        @Html.DropDownList("Logical", logicalList, new RouteValueDictionary(new { @class = "short" })
+                                                .Merge("data-bind", "value:Logical, attr: {name: $parent.getPrefixFieldName($index()) + 'Logical'}"))
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th><a class="action right" data-bind="click: $data.addItem">@Html.IconImage("plus small")</a></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </fieldset>
+                <p class="buttons">
+                    <button type="submit">
+                        @("Search".Localize())</button>
+                    <a class="button action gray cancel">
+                        @("Cancel".Localize())</a>
+                </p>
+            </form>
+            <script type="text/javascript">
+                $(function () {
+                   
+                    (function () {
+                        var searchPanel = $('div.search-panel');
+                        panel = searchPanel.find('div.more-search');
+                        moreLink = searchPanel.find('a.more').click(function () {
+                            if (panel.is(':visible')) {
+                                $(this).removeClass('active');
+                                panel.slideUp();
+                            } else {
+                                $(this).addClass('active');
+                                panel.slideDown();
+                            }
+                        });
+                        searchPanel.find('.cancel').click(function () {
+                            searchPanel.find('a.more').click();
+                        });
+                    })();
+                    
+                    (function () {
+                        var dataTypes = @Html.Raw(dataTypesJson);
+                        function bindFieldNameChanged()
+                        {
+                            $('.j_FieldNameInput').change(function(){
+                                var $fieldNameInput = $(this);
+                                var $fieldValueInput = $fieldNameInput.parents('td').find('.j_FieldValueInput');
+                                var dataType = _.find(dataTypes,function(type,index){return type.FieldName == $fieldNameInput.val()});                             
+                                if (dataType!=null) {
+                                    switch (dataType.DataType) {
+                                        case 'DateTime':
+                                            $fieldValueInput.datepicker();
+                                            break;
+                                        default:
+                                            $fieldValueInput.datepicker("destroy");
+                                    } ;
+                                }
+                            });
+                        }                      
+                        function SearchViewModel() {
+                            var self = this;
+
+                            self.data = ko.observableArray(@Html.Raw(jsonData));
+
+                            self.addItem = function () {
+                                self.data.push(@Html.Raw(whereClauseJson));
+                            };
+
+                            self.removeItem = function () {
+                                self.data.remove(this);
+                            };
+
+                            var namePrfix = 'WhereClause';
+                            self.getPrefixFieldName = function (index) {
+                                return namePrfix + '[' + (index) + '].';
+                            };
+                            self.bindFieldNameChanged = bindFieldNameChanged;
+                        }
+                        ko.applyBindings(new SearchViewModel(), $("#filter_list")[0]);
+
+                      
+                    })();                   
+                });
+            </script>
+        </div>
+    } @*end if*@
+</div>

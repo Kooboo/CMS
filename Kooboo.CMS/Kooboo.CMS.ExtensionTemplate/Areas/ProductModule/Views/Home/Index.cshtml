@@ -1,0 +1,13 @@
+﻿@model IEnumerable<TextContent>
+<div>
+    <div class="block list">
+        @foreach (var item in Model)
+        {
+            <div class="item">
+                <h6 class="title">@Html.ModuleHtml().ActionLink(item["ProductName"].ToString(), "Detail", new { UserKey = item.UserKey})</h6>
+                <span class="date">@ViewHelper.DateTimeToString(item.UtcCreationDate, "yyyy-MM-dd")</span>
+                <p>@Html.Raw(item["ProductDetail"])</p>
+            </div>
+        }
+    </div>
+</div>

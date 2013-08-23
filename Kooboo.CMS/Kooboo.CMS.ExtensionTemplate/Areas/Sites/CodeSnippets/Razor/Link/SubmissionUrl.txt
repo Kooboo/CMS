@@ -1,0 +1,1 @@
+@Url.FrontUrl().SubmissionUrl("SubmissionName")

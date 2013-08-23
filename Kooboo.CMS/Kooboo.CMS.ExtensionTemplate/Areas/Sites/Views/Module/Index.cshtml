@@ -1,0 +1,22 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Web.Areas.Sites.Models.ModuleListInSiteModel>
+@{
+    ViewBag.Title = "Modules".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@Url.Action("Include", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".excluded" data-command-type="AjaxPost">
+                @Html.IconImage("add") @("Include".Localize())</a>
+        </li>
+        <li>
+            <a href="@Url.Action("Exclude", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".included" data-command-type="AjaxPost">
+                @Html.IconImage("delete") @("Exclude".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+</div>
+@Html.GridForModel2()

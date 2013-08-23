@@ -1283,4 +1283,13 @@ Are you sure you want to use this size?</value>
   <data name="Rename" xml:space="preserve">
     <value>Rename</value>
   </data>
+  <data name="The Title field is required." xml:space="preserve">
+    <value>The Title field is required.</value>
+  </data>
+  <data name="Body" xml:space="preserve">
+    <value>Body</value>
+  </data>
+  <data name="CustomSettings" xml:space="preserve">
+    <value>CustomSettings</value>
+  </data>
 </root>

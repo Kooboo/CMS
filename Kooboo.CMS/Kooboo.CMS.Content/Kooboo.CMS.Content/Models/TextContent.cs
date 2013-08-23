@@ -187,7 +187,7 @@ namespace Kooboo.CMS.Content.Models
                 {
                     return (bool)base["IsLocalized"];
                 }
-                return null;
+                return true;
             }
             set
             {

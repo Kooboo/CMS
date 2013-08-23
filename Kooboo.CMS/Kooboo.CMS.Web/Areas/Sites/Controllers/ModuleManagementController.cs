@@ -74,7 +74,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                         }
                         else
                         {
-                            data.RedirectUrl = @return;
+                            data.RedirectUrl = Url.Action("InstallComplete", ControllerContext.RequestContext.AllRouteValues());
                         }
                     }
                 });

@@ -63,7 +63,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                     moduleInfo.ModuleName = moduleName;
                 }
 
-                ModulePath modulePath = new ModulePath(moduleName);
+                ModulePath modulePath = new ModulePath(moduleInfo.ModuleName);
                 var modulePhysicalPath = modulePath.PhysicalPath;
 
                 if (Directory.Exists(modulePath.PhysicalPath))

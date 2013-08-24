@@ -31,6 +31,22 @@
             </li>
             }
         }
+        else
+        {
+            <li class="j_DropDown">
+                <a>
+                    @Html.IconImage("add")
+                    @("Create New".Localize())
+                    @Html.IconImage("arrow small white-down")
+                </a>
+                @Html.Partial("_LayoutList", ViewData["LayoutList"])
+            </li>                      
+            <li>
+                <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import pages"))">
+                    @Html.IconImage("import") @("Import".Localize())
+                </a>
+            </li>
+        }
 
 
         <li><a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">

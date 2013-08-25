@@ -157,7 +157,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Kooboo.CMS.Web.Models.RemoteEx("IsIdentifierAvailable", "*", RouteFields = "SiteName,UUID,parentPage", AdditionalFields = "Name")]
         public string Identifier { get; set; }
 
-        [Description("Customize the page URL to anyway you like.<br /> Use {key} to match the URL query string. <br />For example: {userkey}_othertext to replace parameter \"?userkey=\" into static URL")]
+        [Description("Customize the page URL to anyway you like.<br /> Use {key} to match the URL query string. <br />For example: {userkey}_othertext to replace parameter \"?userkey=\" into static URL.<br/>Use {*ModuleURL} to match all the query string after ModuleURL.")]
         [Display(Name = "URL path")]
         [RegularExpression("^([^\\?~/])([^\\?])*\\s*$", ErrorMessage = "The route URL cannot start with a '/' or '~' character and it cannot contain a '?' character.")]
         public string RoutePath { get; set; }

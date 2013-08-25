@@ -4,6 +4,10 @@
     {
         @Html.Partial("DataRules", Model)
     }
+     @Html.EditorFor(o => o.Parameters)
+    <div class="block plugins">
+        @Html.EditorFor(m => m.Plugins)
+    </div>
     <div class="block views">
         <h6 class="title active">
             @Html.IconImage("arrow")
@@ -12,9 +16,5 @@
             @Html.Partial("ViewList", Kooboo.CMS.Sites.Services.ServiceFactory.ViewManager.GetNamespace(Site.Current, ViewContext.RequestContext.GetRequestValue("name")))
         </div>
     </div>
-    @Html.Partial("CodeHelper")
-    @Html.EditorFor(o => o.Parameters)
-    <div class="block plugins">
-        @Html.EditorFor(m => m.Plugins)
-    </div>
+    @Html.Partial("CodeHelper")   
 </div>

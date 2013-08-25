@@ -111,8 +111,8 @@
                 self.CodeSnippetList.remove(codeSnippet);
             }
         };
-        self.InsertCodeSnippet = function(rule,e){
-            var codeSnippet = ko.utils.arrayFirst(self.CodeSnippetList(), function(item) {                
+        self.InsertCodeSnippet = function(rule,e){            
+            var codeSnippet = ko.utils.arrayFirst(self.CodeSnippetList(), function(item) {     
                 return item.DataRuleName() === rule.DataName();
             });
             if($(e.target).hasClass('csharp')){
@@ -372,7 +372,7 @@
             $.ajax({
                 type: "POST",
                 url: "@Html.Raw(Url.Action("GetCodeSnippet", "View", new { siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), ViewEngine = viewEngine.Name })) ",
-                contentType:"application/json",
+                contentType:"application/json_net",
                 dataType:"json",
                 data: ko.mapping.toJSON(dataRule),
                 success:function(result){

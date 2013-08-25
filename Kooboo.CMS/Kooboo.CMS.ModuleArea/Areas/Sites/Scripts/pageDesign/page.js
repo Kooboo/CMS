@@ -655,6 +655,13 @@
         EntryActionInput: null,
         EntryControllerInput: null,
         EntryOptionsSelect: null,
+        setSelectedOptionByText: function (select, entryName) {
+            select.find('option').each(function () {
+                if ($(this).text() == entryName) {
+                    $(this).attr("selected", "selected");
+                }
+            });
+        },
         initialize: function () {
             ProcessModule.superclass.initialize.call(this);
             this.LinkToEntryNameInput = $('input[id="LinkToEntryName"]');
@@ -679,9 +686,8 @@
                 self.LinkToEntryNameInput.val($('input[id="' + module + 'LinkToEntryName"]').val());
                 self.EntryActionInput.val($('input[id="' + module + 'EntryAction"]').val());
                 self.EntryControllerInput.val($('input[id="' + module + 'EntryController"]').val());
-                if (self.ValuesTemplate.data('KO_ViewModel')) {
-                    self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON($('input[id="' + module + 'Values"]').val()));
-                }
+                var entryName = $('input[id="' + module + 'EntryName"]').val();
+
 
                 var optionsHtml = [], options = $.parseJSON($('input[id="' + module + 'EntryOptions"]').val());
                 if (options && options.length) {
@@ -691,6 +697,14 @@
                     });
                 }
                 self.EntryOptionsSelect.append(optionsHtml.join(''));
+
+                if (self.ValuesTemplate.data('KO_ViewModel')) {
+                    self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON($('input[id="' + module + 'Values"]').val()));
+                }
+
+                if (entryName) {
+                    self.setSelectedOptionByText(self.EntryOptionsSelect, entryName);
+                }
             });
             this.EntryOptionsSelect.change(function () {
                 var op = $(this).children().eq(this.selectedIndex);
@@ -710,21 +724,17 @@
             var moduleName = self.outerValue.ModuleName;
             if (moduleName) { $('input[name="ModuleName"][value="' + moduleName + '"]').attr('checked', true).trigger('change'); }
 
-            setTimeout(function () {                
+            setTimeout(function () {
                 var entryName = self.outerValue.EntryName;
                 if (entryName) {
-                    self.EntryOptionsSelect.find('option').each(function () {
-                        if ($(this).text() == entryName) {
-                            $(this).attr("selected", "selected");
-                        }
-                    });
+                    self.setSelectedOptionByText(self.EntryOptionsSelect, entryName);
                 }
 
-                var linkToEntryName = self.outerValue.LinkToEntryName;              
+                var linkToEntryName = self.outerValue.LinkToEntryName;
                 if (linkToEntryName) {
                     self.LinkToEntryNameInput.val(linkToEntryName);
                 }
-              
+
                 //
                 var exclusive = self.outerValue.Exclusive;
                 if (exclusive == 'true') { $('input[name="Exclusive"]').attr('checked', true); }
@@ -738,7 +748,7 @@
                 var values = self.outerValue.Values;
 
                 if (values) {
-                    self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON(values));                    
+                    self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON(values));
                 }
             }, 200);
         },

@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
 
         [GridColumn(Order = 3, HeaderText = "Send to sub sites", GridItemColumnType = typeof(BooleanGridItemColumn))]
         [DisplayName("Send to sub sites")]
-        [Description("Configure the receiving setting for subsite automatically.")]
+        [Description("Configure the receiving settings for subsites automatically.")]
         public bool? SendToChildSites { get; set; }
 
         [UIHint("RadioButtonList")]

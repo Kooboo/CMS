@@ -394,7 +394,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
     $.fn.checkableTR = function (trCollection) {
         var $tr = $(this);
         var $check_relateds = $('[data-show-on-check]');
-        var trCollection = trCollection;
+        var trCollection = trCollection || $(this);
         var selector = 'input:checkbox.select:checked';
         var $tbody = $tr.closest('tbody');
         $tr.click(function () {

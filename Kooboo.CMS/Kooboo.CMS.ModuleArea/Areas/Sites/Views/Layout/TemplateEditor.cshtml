@@ -21,15 +21,18 @@
                 </li>
                 <!-- /ko -->
                 <li data-bind="visible: $data.createNew()">
-                    <input class="editor" id="newPositionName" type="text" data-bind="value:$data.newPositionName" />
-                    <a class="action right" data-bind="click:$data.cancelAdd" title="@("Cancel".Localize())">@Html.IconImage("minus small")</a>
-                    <a class="action right" data-bind="click:$data.insertPosition" title="@("Save".Localize())">@Html.IconImage("save small")</a>
+                    <input class="editor" id="newPositionName" type="text" data-bind="value: $data.newPositionName" />
+                    <a class="action right" data-bind="click: $data.cancelAdd" title="@("Cancel".Localize())">@Html.IconImage("minus small")</a>
+                    <a class="action right" data-bind="click: $data.insertPosition" title="@("Save".Localize())">@Html.IconImage("save small")</a>
                 </li>
             </ul>
             <p class="actions clearfix" data-bind="visible: !$data.createNew()">
                 <a class="action right" data-bind="click: $data.addPosition">@Html.IconImage("plus small")</a>
             </p>
         </div>
+    </div>
+    <div class="block plugins">
+        @Html.EditorFor(m => m.Plugins)
     </div>
     <div class="block">
         <h6 class="title active">
@@ -62,15 +65,13 @@
         </div>
     </div>
     @Html.Partial("CodeHelper")
-    <div class="block plugins">
-        @Html.EditorFor(m => m.Plugins)
-    </div>
+
 </div>
 <script>
     $(function () {
         @viewEngine.GetLayoutPositionParser().RegisterClientParser()
         @viewEngine.GetLayoutPositionParser().RegisterClientAddPosition() 
-    @viewEngine.GetLayoutPositionParser().RegisterClientRemovePosition()        
+    @viewEngine.GetLayoutPositionParser().RegisterClientRemovePosition()
         var config = {
             positionInputDisplay: '@("Position Name".Localize())',
             positionNullAlert: '@("Please input a new position name.".Localize())',

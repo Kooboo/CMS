@@ -4,6 +4,12 @@
 		<FolderName>Article</FolderName>
 		<ContentSummary>Lorem ipsum dolor sit amet 4</ContentSummary>
 		<Action>Update</Action>
+		<UtcActionDate>2013-08-23T12:43:50.3220933Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet 4</ContentSummary>
+		<Action>Update</Action>
 		<UtcActionDate>2013-08-01T07:28:44.3823133Z</UtcActionDate>
 	</LastAction>
 	<LastAction>
@@ -23,11 +29,5 @@
 		<ContentSummary>Lorem ipsum dolor sit amet 4</ContentSummary>
 		<Action>Update</Action>
 		<UtcActionDate>2013-07-11T03:23:40.5857448Z</UtcActionDate>
-	</LastAction>
-	<LastAction>
-		<FolderName>Article</FolderName>
-		<ContentSummary>Lorem ipsum dolor sit amet 4</ContentSummary>
-		<Action>Update</Action>
-		<UtcActionDate>2013-07-11T03:23:24.7714732Z</UtcActionDate>
 	</LastAction>
 </ArrayOfLastAction>

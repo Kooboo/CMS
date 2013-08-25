@@ -1,5 +1,7 @@
 
 copy "..\..\Kooboo.CMS.Content\Kooboo.CMS.Content.Persistence.SQLCe\bin\Release\Kooboo.CMS.Content.Persistence.SQLCe.dll" "SQLCe\Kooboo.CMS.Content.Persistence.SQLCe.dll"
+copy "..\..\..\Lib\SQLCe\*.dll" "SQLCe\" /Y
+copy "..\..\..\Lib\SQLCe\NativeBinaries\x86\*.dll" "SQLCe\" /Y
 
 copy "..\..\Kooboo.CMS.Content\Kooboo.CMS.Content.Persistence.Mysql\bin\Release\Kooboo.CMS.Content.Persistence.Mysql.dll" "Mysql\Kooboo.CMS.Content.Persistence.Mysql.dll"
 

@@ -34,16 +34,19 @@ namespace Kooboo.CMS.ExtensionTemplate.Areas.ProductModule
                 , null
                 , new[] { "Kooboo.CMS.ExtensionTemplate.Areas.ProductModule.Controllers", "Kooboo.Web.Mvc", "Kooboo.Web.Mvc.WebResourceLoader" }
             );
-
-            var menuFile = AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "CMSMenu.config");
-            if (File.Exists(menuFile))
+            var areaPath = AreaHelpers.CombineAreaFilePhysicalPath(AreaName);
+            if (Directory.Exists(areaPath))
             {
-                Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu(AreaName, menuFile);
-            }
-            var resourceFile = Path.Combine(Settings.BaseDirectory, "Areas", AreaName, "WebResources.config");
-            if (File.Exists(resourceFile))
-            {
-                Kooboo.Web.Mvc.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, resourceFile);
+                var menuFile = AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "CMSMenu.config");
+                if (File.Exists(menuFile))
+                {
+                    Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu(AreaName, menuFile);
+                }
+                var resourceFile = Path.Combine(Settings.BaseDirectory, "Areas", AreaName, "WebResources.config");
+                if (File.Exists(resourceFile))
+                {
+                    Kooboo.Web.Mvc.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, resourceFile);
+                }
             }
         }
     }

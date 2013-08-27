@@ -18,4 +18,4 @@ copy "..\..\Kooboo.CMS.Content\Kooboo.CMS.Content.Persistence.FileServerProvider
 copy "..\..\Kooboo.CMS.Content\Kooboo.CMS.Content.FileServer.Interfaces\bin\Release\Kooboo.CMS.Content.FileServer.Interfaces.dll" "FileServerProvider\Kooboo.CMS.Content.FileServer.Interfaces.dll"
 
 
-..\7z a ..\Released\Content_Providers.zip AzureBlob\*.* FileServerProvider\*.* MongoDB\*.* Mysql\*.* SQLCe\*.* SQLServer\*.*
+..\7z\7z a ..\Released\Content_Providers.zip AzureBlob\*.* FileServerProvider\*.* MongoDB\*.* Mysql\*.* SQLCe\*.* SQLServer\*.*

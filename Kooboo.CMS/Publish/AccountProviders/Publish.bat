@@ -3,4 +3,4 @@ copy "..\..\Kooboo.CMS.Account.Persistence.EntityFramework\bin\Release\Kooboo.CM
 
 copy "..\..\..\Lib\EntityFramework\*.dll" "EntityFramework\*.*"
 
-..\7z a ..\Released\Account_Providers.zip EntityFramework\*.*
+..\7z\7z a ..\Released\Account_Providers.zip EntityFramework\*.*

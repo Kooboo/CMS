@@ -1,1 +1,1 @@
-..\7z a ..\Released\Kooboo_CMS.zip manifest.xml parameters.xml Kooboo_CMS
+..\7z\7z a ..\Released\Kooboo_CMS.zip manifest.xml parameters.xml Kooboo_CMS

@@ -13,4 +13,4 @@ copy "..\..\Kooboo.CMS.Sites.Persistence.EntityFramework\bin\Release\Kooboo.CMS.
 copy "..\..\..\Lib\EntityFramework\*.dll" "EntityFramework\*.*"
 
 
-..\7z a ..\Released\Site_Providers.zip AzureTable\*.* SQLServer\*.* EntityFramework\*.*
+..\7z\7z a ..\Released\Site_Providers.zip AzureTable\*.* SQLServer\*.* EntityFramework\*.*

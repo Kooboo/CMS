@@ -18,6 +18,6 @@ del /s /q Bin\*.xml
 
 for %%* in (.) do set CurrDirName=%%~n*
 
-7z a -r %CurrDirName%.zip *.* -x@ignores.txt
+..\..\7z\7z a -r %CurrDirName%.zip *.* -x@..\..\7z\ignores.txt
 
 @pause

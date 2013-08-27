@@ -7,4 +7,4 @@ copy "..\..\Kooboo.CMS.Sites.TemplateEngines.Razor\bin\Release\Kooboo.CMS.Sites.
 md WebForm
 copy "..\..\Kooboo.CMS.Sites.TemplateEngines.WebForm\bin\Release\Kooboo.CMS.Sites.TemplateEngines.WebForm.dll" "WebForm\Kooboo.CMS.Sites.TemplateEngines.WebForm.dll"
 
-..\7z a ..\Released\Template_Engines.zip NVelocity\*.* Razor\*.* WebForm\*.*
+..\7z\7z a ..\Released\Template_Engines.zip NVelocity\*.* Razor\*.* WebForm\*.*

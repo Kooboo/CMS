@@ -270,6 +270,17 @@
             });
             self.EditingStep = ko.observable();
             self.GotoNextStep = function() {
+                if(self.DataRuleSetting().TakeOperation() == 1)
+                {
+                    var newFilter = utils.CloneObject(metadata.rawEmptyWhereClause);
+                    newFilter.IsEditing = ko.observable(false);
+                    newFilter.Logical(0);
+                    newFilter.FieldName('UserKey');
+                    newFilter.Operator(0);
+                    newFilter.Value1('{UserKey}');
+     
+                    self.DataRuleSetting().DataRule.WhereClauses.push(newFilter);
+                }
                 self.EditingStep('EditFilters');
                 $.validator.unobtrusive.parse('#editing-form');
             };

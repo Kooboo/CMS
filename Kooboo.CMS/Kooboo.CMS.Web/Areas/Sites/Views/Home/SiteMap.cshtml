@@ -44,7 +44,7 @@
                             foreach (var l in layouts)
                             {
                             <li>
-                                @Html.ActionLink(l.Name, "Create", "Page", ViewContext.RequestContext.AllRouteValues().Merge("FullName", "").Merge("Layout", l.Name).Merge("return", ViewContext.HttpContext.Request.RawUrl), new RouteValueDictionary())
+                                @Html.ActionLink(l.Name, "Create", "Page", ViewContext.RequestContext.AllRouteValues().Merge("FullName", "").Merge("Layout", l.Name).Merge("IsDefault", true).Merge("return", ViewContext.HttpContext.Request.RawUrl), new RouteValueDictionary())
                             </li>
                             }
                         }

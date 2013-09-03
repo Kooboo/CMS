@@ -284,5 +284,39 @@ namespace Kooboo.CMS.Content.Models
                 base["___EnableVersion___"] = value;
             }
         }
+
+
+        #region MoreOptionsOnBroadcasting
+        public int OriginalUpdateTimes
+        {
+            get
+            {
+                if (this.ContainsKey("OriginalUpdateTimes") && base["OriginalUpdateTimes"] != null)
+                {
+                    return (int)(base["OriginalUpdateTimes"]);
+                }
+                return 0;
+            }
+            set
+            {
+                base["OriginalUpdateTimes"] = value;
+            }
+        }
+        public int OriginalLastestVisitedVersionId
+        {
+            get
+            {
+                if (this.ContainsKey("OriginalLastestVisitedVersionId") && base["OriginalLastestVisitedVersionId"] != null)
+                {
+                    return Convert.ToInt32(base["OriginalLastestVisitedVersionId"]);
+                }
+                return 0;
+            }
+            set
+            {
+                base["OriginalLastestVisitedVersionId"] = value;
+            }
+        }
+        #endregion
     }
 }

@@ -50,13 +50,15 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         TextFolderManager TextFolderManager { get; set; }
         WorkflowManager WorkflowManager { get; set; }
         ITextContentBinder Binder { get; set; }
+        ITextContentProvider _textContentProvider;
         public TextContentController(TextContentManager textContentManager, TextFolderManager textFolderManager,
-            WorkflowManager workflowManager, ITextContentBinder binder)
+            WorkflowManager workflowManager, ITextContentBinder binder, ITextContentProvider textContentProvider)
         {
             TextContentManager = textContentManager;
             TextFolderManager = textFolderManager;
             WorkflowManager = workflowManager;
             Binder = binder;
+            _textContentProvider = textContentProvider;
         }
         #endregion
 
@@ -584,7 +586,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             }
 
 
-            return View("Diff",model);
+            return View("Diff", model);
         }
         [HttpPost]
         public virtual ActionResult RevertTo(string folderName, string schemaName, string uuid, Kooboo.CMS.Content.Versioning.VersionInfo[] model, string @return)
@@ -600,8 +602,60 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
             });
             return Json(data);
-        }        
+        }
 
+        #region Original content versions
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="OriginalRepository"></param>
+        /// <param name="OriginalFolder"></param>
+        /// <param name="OriginalUUID"></param>
+        /// <param name="startVersionId"></param>
+        /// <returns></returns>
+        public virtual ActionResult ShowOriginalVersions(string OriginalRepository, string OriginalFolder, string OriginalUUID, int startVersionId = 0)
+        {
+            TextFolder textFolder = new TextFolder(new Repository(OriginalRepository), OriginalFolder).AsActual();
+            var schema = textFolder.GetSchema().AsActual();
+
+            var textContent = schema.CreateQuery().WhereEquals("UUID", OriginalUUID).FirstOrDefault();
+            var versions = VersionManager.AllVersionInfos(textContent).Where(it => it.Version > startVersionId);
+            return View(versions);
+        }
+        public virtual ActionResult ShowOriginalDiff(string originalRepository, string originalFolder, string originalUUID, string version)
+        {
+            return Diff(originalRepository, originalFolder, originalUUID, version);
+        }
+        public virtual ActionResult UpdateToRead(string repositoryName, string folderName, string uuid, string originalRepository, string originalFolder, string originalUUID, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+            {
+                var repository = new Repository(repositoryName);
+                var textFolder = new TextFolder(repository, folderName);
+                var textContent = textFolder.CreateQuery().WhereEquals("UUID", uuid).FirstOrDefault();
+                if (textContent != null)
+                {
+                    textContent.OriginalUpdateTimes = 0;
+                    var originalTextFolder = new TextFolder(new Repository(originalRepository), originalFolder).AsActual();
+                    if (originalTextFolder != null)
+                    {
+                        var originalContent = originalTextFolder.CreateQuery().WhereEquals("UUID", originalUUID).FirstOrDefault();
+                        if (originalContent != null)
+                        {
+                            var maxVersion = VersionManager.AllVersionInfos(textContent).Max(it => it.Version);
+                            textContent.OriginalLastestVisitedVersionId = maxVersion;
+                        }
+                    }
+
+                    _textContentProvider.Update(textContent, textContent);
+                }
+
+                data.RedirectUrl = @return;
+            });
+            return Json(data);
+        }
+        #endregion
         #endregion
 
         #region Publish
@@ -929,6 +983,12 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                     Text = it.FriendlyText,
                     Link = url.Action("SubContent", new { SiteName = requestContext.GetRequestValue("SiteName"), RepositoryName = Repository.Name, ParentFolder = item.FolderName, FolderName = it.FullName, parentUUID = (object)(item.UUID) })
                 });
+                if (item.OriginalUpdateTimes > 0)
+                {
+                    item["_ViewOriginalContentChangesURL_"] = @Url.Action("ShowOriginalVersions", this.ControllerContext.RequestContext.AllRouteValues().Merge("UUID", (string)(item.UUID)).Merge("OriginalRepository", (string)(item.OriginalRepository))
+                        .Merge("OriginalFolder", (string)(item.OriginalFolder)).Merge("OriginalUUID", (string)(item.OriginalUUID)).Merge("startVersionId", (int)(item.OriginalLastestVisitedVersionId))
+                        .Merge("return", @return));
+                }
             }
             data.Model = contents;
 

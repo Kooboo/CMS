@@ -264,6 +264,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Areas\Contents\Views\TextContent\SelectCategories.cshtml" />
+    <Content Include="Areas\Contents\Views\TextContent\ShowOriginalVersions.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Areas\Contents\WebResources.config">
       <SubType>Designer</SubType>
     </Content>

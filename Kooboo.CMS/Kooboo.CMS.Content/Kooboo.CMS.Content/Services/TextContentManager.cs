@@ -362,6 +362,13 @@ namespace Kooboo.CMS.Content.Services
             copyedContent.Sequence = 0;
             copyedContent.UserId = originalContent.UserId;
 
+            var versions = Kooboo.CMS.Content.Versioning.VersionManager.AllVersionInfos(originalContent);
+            if (versions.Count() > 0)
+            {
+                copyedContent.OriginalLastestVisitedVersionId = versions.Max(it => it.Version);
+            }
+
+
             if (values != null)
             {
                 originalContent = Binder.Bind(schema, copyedContent, values);

@@ -13,6 +13,7 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Binder;
 using Kooboo.CMS.Content.Models.Paths;
+using Kooboo.CMS.Content.Persistence;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Content.Query.Expressions;
 using Kooboo.CMS.Content.Services;
@@ -27,6 +28,7 @@ using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Paging;
 using Kooboo.Web.Script.Serialization;
 using Kooboo.Web.Url;
+using Kooboo.Web;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -36,6 +38,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.CMS.Content.Formatter;
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
@@ -536,7 +539,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
         #region Version Diff
 
-        public virtual ActionResult Versions(string folderName, string parentFolder, string uuid)
+        public virtual ActionResult Versions(string folderName, string uuid)
         {
             TextFolder textFolder = new TextFolder(Repository, folderName).AsActual();
             var schema = textFolder.GetSchema().AsActual();
@@ -545,9 +548,9 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             var versions = VersionManager.AllVersionInfos(textContent);
             return View(versions);
         }
-        public virtual ActionResult Diff(string folderName, string parentFolder, string uuid, string version)
+        public virtual ActionResult Diff(string repositoryName, string folderName, string uuid, string version)
         {
-            TextFolder textFolder = new TextFolder(Repository, folderName).AsActual();
+            TextFolder textFolder = new TextFolder(new Repository(repositoryName), folderName).AsActual();
             var schema = textFolder.GetSchema().AsActual();
 
             var versions = version.Split(',');
@@ -581,7 +584,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             }
 
 
-            return View(model);
+            return View("Diff",model);
         }
         [HttpPost]
         public virtual ActionResult RevertTo(string folderName, string schemaName, string uuid, Kooboo.CMS.Content.Versioning.VersionInfo[] model, string @return)
@@ -597,7 +600,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
             });
             return Json(data);
-        }
+        }        
 
         #endregion
 
@@ -605,7 +608,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         // Kooboo.CMS.Account.Models.Permission.Contents_ContentPermission
         [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
         [HttpPost]
-        public virtual ActionResult Publish(string folderName, string parentFolder, string uuid)
+        public virtual ActionResult Publish(string folderName, string uuid)
         {
             var data = new JsonResultData(ModelState);
 
@@ -630,7 +633,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         }
 
         [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
-        public virtual ActionResult BatchPublish(string folderName, string parentFolder, string[] docs)
+        public virtual ActionResult BatchPublish(string folderName, string[] docs)
         {
             var data = new JsonResultData(ModelState);
 
@@ -656,7 +659,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
         }
         [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
-        public virtual ActionResult BatchUnpublish(string folderName, string parentFolder, string[] docs)
+        public virtual ActionResult BatchUnpublish(string folderName, string[] docs)
         {
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
@@ -931,6 +934,43 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
             return new Json_netResult() { Data = data, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
+        }
+        #endregion
+
+        #region Import
+        public virtual ActionResult Import(TextContentImportModel model)
+        {
+            ModelState.Clear();
+            return View(model);
+        }
+        [HttpPost]
+        public virtual ActionResult Import(TextContentImportModel model, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+            {
+                model.TextContentExporter.Import(new TextFolder(Repository, model.FolderName), model.File.InputStream);
+                data.RedirectUrl = @return;
+            });
+            return Json(data);
+        }
+        #endregion
+
+        #region Export
+        public virtual void Export(string formatter, string folderName, string[] docs)
+        {
+            var exporter = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ITextContentFormater>(formatter.ToLower());
+            var fileName = folderName + exporter.FileExtension;
+            Response.AttachmentHeader(fileName);
+
+            var textFolder = new TextFolder(Repository, folderName);
+
+            var contentQuery = textFolder.CreateQuery();
+            foreach (var item in docs)
+            {
+                contentQuery = contentQuery.Or(new WhereEqualsExpression(null, "UUID", item));
+            }
+            exporter.Export(contentQuery, Response.OutputStream);
         }
         #endregion
     }

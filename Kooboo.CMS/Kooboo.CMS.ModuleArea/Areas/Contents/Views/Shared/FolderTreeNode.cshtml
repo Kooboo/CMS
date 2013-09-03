@@ -17,12 +17,12 @@
                     @Html.IconImage("folder")
                     @if (ViewBag.IsSingle)
                     {
-                        <input type="radio" id="@inputId" value="@Html.Raw(m.Folder.FullName)" @(ViewBag.IsEditing ? "disabled" : "") 
+                        <input type="radio" id="@inputId" value="@Html.Raw(m.Folder.FullName)" @((ViewBag.IsEditing != null && ViewBag.IsEditing) ? "disabled" : "") 
             name="@(ViewData["InputName"])" @(values.Contains(m.Folder.FullName) == true ? "checked" : "") @(Html.GenerateHtmlAttributes((IDictionary<string, object>)ViewBag.InputAttributes))/>
                     }
                     else
                     {
-                        <input type="checkbox" id="@inputId" value="@Html.Raw(m.Folder.FullName)" @(ViewBag.IsEditing ? "disabled" : "") 
+                        <input type="checkbox" id="@inputId" value="@Html.Raw(m.Folder.FullName)" @((ViewBag.IsEditing != null && ViewBag.IsEditing) ? "disabled" : "") 
             name="@(ViewData["InputName"])" @(values.Contains(m.Folder.FullName) == true ? "checked" : "") @(Html.GenerateHtmlAttributes((IDictionary<string, object>)ViewBag.InputAttributes))/>
                     }
                     <label for="@inputId">

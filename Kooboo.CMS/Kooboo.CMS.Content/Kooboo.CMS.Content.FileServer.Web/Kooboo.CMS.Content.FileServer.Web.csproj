@@ -92,6 +92,10 @@
     <Compile Include="Services\TextContentFileService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Kooboo.CMS.Common.Runtime.Dependency.Ninject\Kooboo.CMS.Common.Runtime.Dependency.Ninject.csproj">
+      <Project>{94a4a4ba-f5eb-44cb-9cd3-b240b80ce686}</Project>
+      <Name>Kooboo.CMS.Common.Runtime.Dependency.Ninject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>
@@ -126,7 +130,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
-          <DevelopmentServerPort>8628</DevelopmentServerPort>
+          <DevelopmentServerPort>8626</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
@@ -139,6 +143,10 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

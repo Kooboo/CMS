@@ -2483,6 +2483,8 @@ body #diffBox .diffTable td.lineNumber {
 	min-width: 100%;
 	position: absolute;
 	z-index: 1009;
+	max-height: 500px;
+	overflow-y: auto;
 }
 
 #header .panel ul li {
@@ -2496,6 +2498,7 @@ body #diffBox .diffTable td.lineNumber {
 	line-height: 34px;
 	margin: 0 -10px;
 	white-space: nowrap;
+	padding-right: 20px;
 }
 
 #header .panel ul a:hover {

@@ -2498,7 +2498,7 @@ body #diffBox .diffTable td.lineNumber {
 	line-height: 34px;
 	margin: 0 -10px;
 	white-space: nowrap;
-	padding-right: 20px;
+	padding-right: 30px;
 }
 
 #header .panel ul a:hover {

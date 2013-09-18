@@ -124,7 +124,7 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region SiteTrees
-        public virtual IEnumerable<SiteTree> SiteTrees(string userName)
+        public virtual IEnumerable<SiteTree> SiteTrees(string userName = null)
         {
             return AllRootSites().Select(it => GetSiteNode(it, userName))
                 .Where(it => it != null)
@@ -132,17 +132,24 @@ namespace Kooboo.CMS.Sites.Services
         }
         protected virtual SiteNode GetSiteNode(Site site, string userName)
         {
-            if (ServiceFactory.UserManager.Authorize(site, userName))
+            var visible = string.IsNullOrEmpty(userName) || ServiceFactory.UserManager.Authorize(site, userName);
+
+            SiteNode siteNode = new SiteNode() { Site = site.AsActual() };
+
+            siteNode.Children = ChildSites(site)
+                .Select(it => GetSiteNode(it, userName))
+                .Where(it => it != null);
+
+            if (visible == true || siteNode.Children.Count() > 0)
             {
-                SiteNode siteNode = new SiteNode() { Site = site.AsActual() };
-
-                siteNode.Children = ChildSites(site)
-                    .Select(it => GetSiteNode(it, userName))
-                    .Where(it => it != null);
-
                 return siteNode;
             }
-            return null;
+            else
+            {
+                return null;
+            }
+
+
         }
         #endregion
 

@@ -87,15 +87,15 @@ namespace Kooboo.CMS.Sites.Services
             var matchedPage = page;
             var ruleName = page.FullName;
 
-            string abpageRuleInCookie = null;
-            string abPageInCookie = null;
+            //string abpageRuleInCookie = null;
+            //string abPageInCookie = null;
 
-            ABPageTestTrackingHelper.TryGetABTestPage(httpContext.Request, site, out abpageRuleInCookie, out abPageInCookie);
-            var matchedRuleInCookie = false;
-            if (!string.IsNullOrEmpty(abpageRuleInCookie))
-            {
-                matchedRuleInCookie = abpageRuleInCookie.EqualsOrNullEmpty(ruleName, StringComparison.OrdinalIgnoreCase);
-            }
+            //ABPageTestTrackingHelper.TryGetABTestPage(httpContext.Request, site, out abpageRuleInCookie, out abPageInCookie);
+            //var matchedRuleInCookie = false;
+            //if (!string.IsNullOrEmpty(abpageRuleInCookie))
+            //{
+            //    matchedRuleInCookie = abpageRuleInCookie.EqualsOrNullEmpty(ruleName, StringComparison.OrdinalIgnoreCase);
+            //}
 
             var visitRule = Get(site, ruleName);
             if (visitRule != null)
@@ -107,15 +107,15 @@ namespace Kooboo.CMS.Sites.Services
                     foreach (var item in visitRule.Items)
                     {
                         var isMatched = false;
-                        if (matchedRuleInCookie && abPageInCookie.EqualsOrNullEmpty(item.PageName, StringComparison.OrdinalIgnoreCase))
-                        {
-                            isMatched = true;
-                        }
-                        else
-                        {
-                            var ruleItem = ruleSetting.RuleItems.Where(it => it.Name.EqualsOrNullEmpty(item.RuleItemName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-                            isMatched = (ruleItem.IsMatch(httpContext.Request));
-                        }
+                        //if (matchedRuleInCookie && abPageInCookie.EqualsOrNullEmpty(item.PageName, StringComparison.OrdinalIgnoreCase))
+                        //{
+                        //    isMatched = true;
+                        //}
+                        //else
+                        //{
+                        var ruleItem = ruleSetting.RuleItems.Where(it => it.Name.EqualsOrNullEmpty(item.RuleItemName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                        isMatched = (ruleItem.IsMatch(httpContext.Request));
+                        //}
 
                         if (isMatched && !string.IsNullOrEmpty(item.PageName))
                         {

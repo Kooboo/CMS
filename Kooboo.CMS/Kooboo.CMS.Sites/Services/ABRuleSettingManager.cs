@@ -24,10 +24,14 @@ namespace Kooboo.CMS.Sites.Services
     {
         #region .ctor
         IABRuleSettingProvider _provider;
-        public ABRuleSettingManager(IABRuleSettingProvider provider)
+        IABSiteSettingProvider _abSiteSettingProvider;
+        IABPageSettingProvider _abPageSettingProvider;
+        public ABRuleSettingManager(IABRuleSettingProvider provider, IABSiteSettingProvider abSiteSettingProvider, IABPageSettingProvider abPageSettingProvider)
             : base(provider)
         {
             _provider = provider;
+            _abSiteSettingProvider = abSiteSettingProvider;
+            _abPageSettingProvider = abPageSettingProvider;
         }
         #endregion
 
@@ -75,7 +79,40 @@ namespace Kooboo.CMS.Sites.Services
         }
         #endregion
 
-      
+        #region Relations
+        public override IEnumerable<RelationModel> Relations(ABRuleSetting o)
+        {
+            List<RelationModel> list = new List<RelationModel>();
+            if (o.Site == null)
+            {
+                list.AddRange(_abSiteSettingProvider.All().Select(it => it.AsActual())
+                    .Where(it => it != null && it.RuleName.EqualsOrNullEmpty(o.Name, StringComparison.OrdinalIgnoreCase))
+                    .Select(it => new Site(it.MainSite).AsActual())
+                    .Select(it => new RelationModel()
+                    {
+                        DisplayName = it.FriendlyName,
+                        ObjectUUID = it.FullName,
+                        RelationType = "Site",
+                        RelationObject = it
+                    }));
+            }
+            else
+            {
+                list.AddRange(_abPageSettingProvider.All(o.Site).Select(it => it.AsActual())
+                                   .Where(it => it != null && it.RuleName.EqualsOrNullEmpty(o.Name, StringComparison.OrdinalIgnoreCase))
+                                   .Select(it => new Page(o.Site, it.MainPage).AsActual())
+                                   .Select(it => new RelationModel()
+                                   {
+                                       DisplayName = it.FriendlyName,
+                                       ObjectUUID = it.FullName,
+                                       RelationType = "Page",
+                                       RelationObject = it
+                                   }));
+            }
+            return list;
+        }
+
+        #endregion
 
     }
 }

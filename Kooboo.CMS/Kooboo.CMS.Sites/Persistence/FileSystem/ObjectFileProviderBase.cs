@@ -21,6 +21,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
     public abstract class ObjectFileProviderBase<T> : SettingFileProviderBase<T>
          where T : IPersistable, IIdentifiable
     {
+        static string DataFileExtension = ".config";
         #region All
         public override IEnumerable<T> All(Site site)
         {
@@ -45,10 +46,23 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 var dir = new DirectoryInfo(basePath);
                 foreach (var fileInfo in dir.EnumerateFiles())
                 {
-                    list.Add(CreateObject(site, fileInfo));
+                    if (IsValidDataItem(fileInfo.FullName))
+                    {
+                        var o = CreateObject(site, fileInfo);
+                        if (o != null)
+                        {
+                            list.Add(o);
+                        }
+                    }
                 }
             }
             return list;
+        }
+
+        protected virtual bool IsValidDataItem(string filePath)
+        {
+            var extension = Path.GetExtension(filePath);
+            return extension.EqualsOrNullEmpty(DataFileExtension, StringComparison.OrdinalIgnoreCase);
         }
         #endregion
 
@@ -68,9 +82,9 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 }
                 else
                 {
-                    basePath =GetBasePath(null);
+                    basePath = GetBasePath(null);
                 }
-                return Path.Combine(basePath, o.UUID + ".config");
+                return Path.Combine(basePath, o.UUID + DataFileExtension);
             }
         }
         #endregion

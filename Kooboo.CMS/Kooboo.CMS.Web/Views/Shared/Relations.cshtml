@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Kooboo.CMS.Web.Models.RelationModel>
+﻿@model IEnumerable<RelationModel>
 @{
     ViewBag.Title = ViewContext.RequestContext.GetRequestValue("title").Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
@@ -16,5 +16,5 @@
         @ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
 </div>
 <div class="block common-form">
-@Html.GridForModel2()
+    @Html.GridForModel2()
 </div>

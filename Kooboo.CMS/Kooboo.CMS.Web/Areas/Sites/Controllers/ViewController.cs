@@ -171,11 +171,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #region Relations
         public virtual ActionResult Relations(string uuid)
         {
-            var model = Manager.RelationsPages(new CMS.Sites.Models.View { Name = uuid, Site = Site }).Select(o => new RelationModel
-            {
-                RelationName = o.FriendlyName,
-                RelationType = "Page".Localize()
-            });
+            var model = Manager.Relations(new CMS.Sites.Models.View { Name = uuid, Site = Site });
             return View("Relations", model);
         }
         #endregion

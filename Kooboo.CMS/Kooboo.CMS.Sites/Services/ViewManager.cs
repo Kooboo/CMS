@@ -144,7 +144,7 @@ namespace Kooboo.CMS.Sites.Services
         public override void Remove(Site site, Models.View o)
         {
             o.Site = site;
-            if (!o.HasParentVersion() && RelationsPages(o).Where(i => i.Site == site).Count() > 0)
+            if (!o.HasParentVersion() && Relations(o).Count() > 0)
             {
                 throw new KoobooException(string.Format("'{0}' is being used".Localize(), o.Name));
             }
@@ -161,17 +161,20 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region Relations
-        public virtual IEnumerable<Page> RelationsPages(Models.View view)
+        public override IEnumerable<RelationModel> Relations(Models.View view)
         {
-            if (view.Exists())
+            view = view.AsActual();
+            var pageRepository = (IPageProvider)Providers.ProviderFactory.GetProvider<IProvider<Page>>();
+            return pageRepository.ByView(view).Select(it => new RelationModel()
             {
-                view = view.AsActual();
-                var pageRepository = (IPageProvider)Providers.ProviderFactory.GetProvider<IProvider<Page>>();
-                return pageRepository.ByView(view);
-            }
-            return new Page[0];
+                DisplayName = it.FriendlyName,
+                ObjectUUID = it.FullName,
+                RelationObject = it,
+                RelationType = "Page"
+            });
 
         }
+
         #endregion
 
         #region Copy

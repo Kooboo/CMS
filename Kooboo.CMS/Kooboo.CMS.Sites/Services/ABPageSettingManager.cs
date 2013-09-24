@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Sites.Services
         #region All
         public override IEnumerable<ABPageSetting> All(Site site, string filterName)
         {
-            var list = _provider.All(site).Select(it => it.AsActual());
+            var list = _provider.All(site).Select(it => it.AsActual()).Where(it => it != null);
             if (!string.IsNullOrEmpty(filterName))
             {
                 list = list.Where(it => it.MainPage.Contains(filterName));

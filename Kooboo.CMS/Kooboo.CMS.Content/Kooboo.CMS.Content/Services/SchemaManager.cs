@@ -71,7 +71,7 @@ namespace Kooboo.CMS.Content.Services
         #region Remove
         public new void Remove(Repository repository, Schema schema)
         {
-            if (GetRelationFolders(schema).Count() > 0)
+            if (Relations(schema).Count() > 0)
             {
                 throw new Exception(string.Format("'{0}' is being used by some folders!".Localize(), schema.Name));
             }
@@ -216,11 +216,18 @@ namespace Kooboo.CMS.Content.Services
         #endregion
 
         #region relation
-        public virtual IEnumerable<TextFolder> GetRelationFolders(Schema schema)
+
+        public virtual IEnumerable<RelationModel> Relations(Schema schema)
         {
             var folderProvider = Providers.DefaultProviderFactory.GetProvider<ITextFolderProvider>();
 
-            return folderProvider.BySchema(schema);
+            return folderProvider.BySchema(schema).Select(it => new RelationModel()
+            {
+                DisplayName = it.FriendlyText,
+                ObjectUUID = it.FullName,
+                RelationObject = it,
+                RelationType = "TextFolder"
+            });
 
         }
         #endregion

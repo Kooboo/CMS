@@ -253,7 +253,7 @@
     <Compile Include="KoobooCMSHttpApplicationEvents.cs" />
     <Compile Include="Models\AllPropertiesResolver.cs" />
     <Compile Include="Models\ImportModel.cs" />
-    <Compile Include="Models\RelationModel.cs" />
+    <Compile Include="Models\RelationModel_Metadata.cs" />
     <Compile Include="ReferrerCheckingModule.cs" />
     <Compile Include="SortByExtension.cs" />
     <Content Include="Areas\Account\Menu.config">

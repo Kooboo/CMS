@@ -20,6 +20,7 @@ using Kooboo.CMS.Sites;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.Web.Mvc;
 using Kooboo.CMS.Common;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
@@ -200,7 +201,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         {
             var model = Manager.AllSitesInModule(uuid).Select(site => new RelationModel()
             {
-                RelationName = site.FriendlyName,
+                DisplayName = site.FriendlyName,
+                ObjectUUID = site.FullName,
+                RelationObject = site,
                 RelationType = "Site"
             });
             return View("Relations", model);

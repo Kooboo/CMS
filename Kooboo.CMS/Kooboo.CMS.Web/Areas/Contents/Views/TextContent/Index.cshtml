@@ -50,7 +50,7 @@
             @if (formatters.Count() > 0)
             {
                 <li class="j_DropDown">
-                    <a> @Html.IconImage("import")
+                    <a>@Html.IconImage("import")
                         @("Import".Localize())
                         @Html.IconImage("arrow small white-down")
                     </a>
@@ -65,7 +65,7 @@
                 
                 <li class="j_DropDown" data-show-on-check="Any">
                     <a>
-                         @Html.IconImage("export")
+                        @Html.IconImage("export")
                         @("Export".Localize())
                         @Html.IconImage("arrow small white-down")
                     </a>
@@ -118,6 +118,7 @@
 <div class="topbar clearfix">
     <h1 class="title">
         @ViewBag.Title</h1>
+    @Html.Partial("_TextContentGridBreadcrumb", folder)
     @Html.Partial("_AdvancedSearch")
 </div>
 

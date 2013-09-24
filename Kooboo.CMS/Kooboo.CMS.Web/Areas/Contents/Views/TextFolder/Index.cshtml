@@ -2,6 +2,11 @@
 @{
     ViewBag.Title = "Text content".Localize();
     Layout = "~/Views/Shared/Site.cshtml";
+    TextFolder currentFolder = null;
+    if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("FolderName")))
+    {
+        currentFolder = new TextFolder(Repository.Current, ViewContext.RequestContext.GetRequestValue("FolderName")).AsActual();
+    }
 }
 
 @section Panel{
@@ -20,7 +25,16 @@
 }
 <div class="topbar clearfix">
     <h1 class="title">
-        @ViewBag.Title</h1>
+        @if (currentFolder == null)
+        {
+            @ViewBag.Title
+        }
+        else
+        {
+            @currentFolder.FriendlyText
+        }
+    </h1>
+    @Html.Partial("_TextContentGridBreadcrumb", currentFolder, new ViewDataDictionary())
     @Html.Partial("_Search")
 </div>
 @Html.GridForModel2()

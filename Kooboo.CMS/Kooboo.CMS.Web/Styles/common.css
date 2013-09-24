@@ -2826,6 +2826,11 @@ body #diffBox .diffTable td.lineNumber {
 	float: left;
 }
 
+.breadcrumb span a {
+    color:#0078B1;
+    float:none;
+}
+
 /* Common-form
 ----------------------------------------------------------*/
 #main-container > .wrap .common-form.fixed {

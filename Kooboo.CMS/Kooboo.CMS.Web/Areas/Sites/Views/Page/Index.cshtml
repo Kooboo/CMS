@@ -3,51 +3,25 @@
     ViewBag.Title = "Pages".Localize();
     Layout = "~/Views/Shared/Site.cshtml";
     var sortable = string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("sortField"));
+
+    var parentPage = (Kooboo.CMS.Sites.Models.Page)ViewBag.Page;
 }
 @section Panel{
     <ul class="panel">
-        @if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("ParentPage")))
-        {
-            var page = new Kooboo.CMS.Sites.Models.Page(Site.Current, ViewContext.RequestContext.GetRequestValue("ParentPage"));
-            if (page.IsLocalized(Site.Current))
-            {
-            <li class="j_DropDown">
-                <a>
-                    @Html.IconImage("add")
-                    @("Create New".Localize())
-                    @Html.IconImage("arrow small white-down")
-                </a>
-                @Html.Partial("_LayoutList", ViewData["LayoutList"])
-            </li>
-            
-            <li><a href="@Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("UUID", page.UUID).Merge("parentPage", page.Parent == null ? null : page.Parent.FullName))">
-                @Html.IconImage("edit") @("Edit current".Localize())
-            </a></li>
-            
-            <li>
-                <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import pages"))">
-                    @Html.IconImage("import") @("Import".Localize())
-                </a>
-            </li>
-            }
-        }
-        else
-        {
-            <li class="j_DropDown">
-                <a>
-                    @Html.IconImage("add")
-                    @("Create New".Localize())
-                    @Html.IconImage("arrow small white-down")
-                </a>
-                @Html.Partial("_LayoutList", ViewData["LayoutList"])
-            </li>                      
-            <li>
-                <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import pages"))">
-                    @Html.IconImage("import") @("Import".Localize())
-                </a>
-            </li>
-        }
 
+        <li class="j_DropDown">
+            <a>
+                @Html.IconImage("add")
+                @("Create New".Localize())
+                @Html.IconImage("arrow small white-down")
+            </a>
+            @Html.Partial("_LayoutList", ViewData["LayoutList"])
+        </li>
+        <li>
+            <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import pages"))">
+                @Html.IconImage("import") @("Import".Localize())
+            </a>
+        </li>
 
         <li><a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
             @Html.IconImage("delete") @("Delete".Localize())</a></li>
@@ -77,7 +51,39 @@
 }
 <div class="topbar clearfix">
     <h1 class="title">
-        @ViewBag.Title</h1>
+        @if (parentPage != null)
+        {
+            @parentPage.LinkText
+        }
+        else
+        {
+            @ViewBag.Title
+        }
+    </h1>
+    @if (parentPage != null)
+    {
+        var path = parentPage.PageNamePaths.ToArray();
+        <div class="breadcrumb">
+            <a href="@Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("parentPage", ""))">@ViewBag.Title</a>
+            @for (var i = 0; i < path.Length; i++)
+            {
+                @Html.IconImage("arrow gray-right")
+                var current = new Kooboo.CMS.Sites.Models.Page(Site.Current, PageHelper.CombineFullName(path.Take(i + 1))).LastVersion(Site.Current).AsActual();
+                if (i == path.Length - 1)
+                {                     
+                <span>@current.LinkText
+                    @if (parentPage.IsLocalized(Site.Current))
+                    {                        
+                        @("(")<a href="@Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("UUID", parentPage.FullName).Merge("return", Request.RawUrl))">@("Edit".Localize())</a>@(")")                        
+                    }</span>
+                }
+                else
+                {               
+                <a href="@Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("parentPage", @current.FullName))">@current.LinkText</a>                
+                }
+            }
+        </div>    
+    }
     @Html.Partial("_Search")
 </div>
 @Html.GridForModel2()

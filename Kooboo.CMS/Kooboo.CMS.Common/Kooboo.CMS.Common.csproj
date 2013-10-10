@@ -70,6 +70,7 @@
     <Compile Include="HttpApplicationHooker.cs" />
     <Compile Include="IBaseDir.cs" />
     <Compile Include="IHttpApplicationEvents.cs" />
+    <Compile Include="IntegrateIdBase.cs" />
     <Compile Include="ITimeZoneHelper.cs" />
     <Compile Include="ITypeActivtorStartupTask.cs" />
     <Compile Include="KeyValue.cs" />

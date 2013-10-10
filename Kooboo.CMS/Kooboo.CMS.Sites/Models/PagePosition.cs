@@ -21,6 +21,12 @@ namespace Kooboo.CMS.Sites.Models
 {
     [DataContract(Name = "PagePosition")]
     [KnownTypeAttribute(typeof(PagePosition))]
+    [KnownTypeAttribute(typeof(ViewPosition))]
+    [KnownTypeAttribute(typeof(ModulePosition))]
+    [KnownTypeAttribute(typeof(HtmlPosition))]
+    [KnownType(typeof(ContentPosition))]
+    [KnownTypeAttribute(typeof(HtmlBlockPosition))]
+    [KnownTypeAttribute(typeof(ProxyPosition))]
     public abstract class PagePosition
     {
         private string pagePositionId = UniqueIdGenerator.GetInstance().GetBase32UniqueId(5);

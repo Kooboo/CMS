@@ -90,6 +90,7 @@ namespace Kooboo.CMS.Content.Services
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(TextContentManager))]
     public class TextContentManager
     {
+        #region .ctor
         ITextContentProvider TextContentProvider { get; set; }
         ITextContentBinder Binder { get; set; }
         public TextContentManager(ITextContentProvider textContentProvider, ITextContentBinder binder)
@@ -97,6 +98,8 @@ namespace Kooboo.CMS.Content.Services
             TextContentProvider = textContentProvider;
             Binder = binder;
         }
+        #endregion
+
         #region ByFolder
         public virtual ContentBase Add(Repository repository, TextFolder folder, NameValueCollection values, HttpFileCollectionBase files,
           IEnumerable<TextContent> categories, string userid = "")
@@ -528,7 +531,7 @@ namespace Kooboo.CMS.Content.Services
         public virtual void Update(TextFolder textFolder, string uuid, IEnumerable<string> fieldNames, IEnumerable<object> fieldValues, string userName = "", bool enableVersion = true)
         {
             var content = textFolder.CreateQuery().WhereEquals("UUID", uuid).FirstOrDefault();
-            if (content != null)
+            if (content.IntegrateId != null)
             {
                 var names = fieldNames.ToArray();
                 var values = fieldValues.ToArray();
@@ -608,6 +611,17 @@ namespace Kooboo.CMS.Content.Services
             }
         }
 
+        #endregion
+
+        #region Publish/Unpublish
+        public void Publish(TextFolder textFolder, string contentUUID, string userName = "")
+        {
+            this.Update(textFolder, contentUUID, "Published", true, userName);
+        }
+        public void Unpublish(TextFolder textFolder, string contentUUID, string userName = "")
+        {
+            this.Update(textFolder, contentUUID, "Published", false, userName);
+        }
         #endregion
     }
 }

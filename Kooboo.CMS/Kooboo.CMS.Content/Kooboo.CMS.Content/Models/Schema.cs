@@ -49,12 +49,39 @@ namespace Kooboo.CMS.Content.Models
         {
             Name = "Id",
             Label = "Id",
+            DataType = DataType.Int,
             ControlType = "Hidden"
         };
         public static Column UUID = new Column()
         {
             Name = "UUID",
             Label = "UUID",
+            DataType = DataType.String,
+            Length = 36,
+            ControlType = "Hidden"
+        };
+        public static Column Repository = new Column()
+        {
+            Name = "Repository",
+            Label = "Repository",
+            DataType = DataType.String,
+            Length = 256,
+            ControlType = "Hidden"
+        };
+        public static Column FolderName = new Column()
+        {
+            Name = "FolderName",
+            Label = "FolderName",
+            DataType = DataType.String,
+            Length = 256,
+            ControlType = "Hidden"
+        };
+        public static Column SchemaName = new Column()
+        {
+            Name = "SchemaName",
+            Label = "SchemaName",
+            DataType = DataType.String,
+            Length = 256,
             ControlType = "Hidden"
         };
         public static Column UserKey = new Column()
@@ -62,6 +89,7 @@ namespace Kooboo.CMS.Content.Models
             Name = "UserKey",
             Label = "User Key",
             DataType = DataType.String,
+            Length = 100,
             ControlType = "TextBox",
             AllowNull = true,
             //ShowInGrid = true,
@@ -102,6 +130,7 @@ namespace Kooboo.CMS.Content.Models
             Label = "ParentFolder",
             ControlType = "Hidden",
             DataType = DataType.String,
+            Length = 256,
             Order = 99,
         };
         public static Column ParentUUID = new Column()
@@ -110,12 +139,15 @@ namespace Kooboo.CMS.Content.Models
             Label = "ParentUUID",
             ControlType = "Hidden",
             DataType = DataType.String,
+            Length = 36,
             Order = 99,
         };
         public static Column UserId = new Column()
         {
             Name = "UserId",
             Label = "UserId",
+            DataType = DataType.String,
+            Length = 36,
             ControlType = "Hidden"
         };
 
@@ -125,13 +157,16 @@ namespace Kooboo.CMS.Content.Models
             Label = "OriginalFolder",
             ControlType = "Hidden",
             DataType = DataType.String,
+            Length = 256,
             Order = 99,
         };
         public static Column OriginalUUID = new Column
         {
             Name = "OriginalUUID",
             Label = "OriginalUUID",
-            ControlType = "Hidden"
+            ControlType = "Hidden",
+            DataType = DataType.String,
+            Length = 36
         };
         public static Column IsLocalized = new Column
         {
@@ -570,7 +605,10 @@ namespace Kooboo.CMS.Content.Models
             {
                 var sysColumns = new[] {
                     Column.Id,
-                    Column.UUID,
+                    Column.UUID, 
+                    Column.Repository,
+                    Column.SchemaName,
+                    Column.FolderName,
                     Column.UserKey,
                     Column.UtcCreationDate,
                     Column.UtcLastModificationDate,
@@ -581,7 +619,8 @@ namespace Kooboo.CMS.Content.Models
                     Column.OriginalFolder,
                     Column.OriginalUUID,
                     Column.IsLocalized,
-                    Column.Sequence,};
+                    Column.Sequence
+                };
                 if (this.Columns == null)
                 {
                     return sysColumns;

@@ -81,7 +81,7 @@ namespace Kooboo.CMS.Sites.Services
 
         public void Init(HttpApplication context)
         {
-            Job.Jobs.Instance.AttachJob("PagePublishingJob", new PagePublishingJob(), 60000, null);
+            //Job.Jobs.Instance.AttachJob("PagePublishingJob", new PagePublishingJob(), 60000, null);
         }
     }
 }

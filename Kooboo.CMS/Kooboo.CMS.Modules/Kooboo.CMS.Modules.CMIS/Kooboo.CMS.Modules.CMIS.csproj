@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{29B36D82-20E0-473C-9D90-EDD5981587EC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kooboo.CMS.Modules.CMIS</RootNamespace>
+    <AssemblyName>Kooboo.CMS.Modules.CMIS</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Kooboo">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Account">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Account.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Common">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Content">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Content.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Form">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Form.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Sites">
+      <HintPath>..\lib\Kooboo_CMS\Kooboo.CMS.Sites.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\CMSAssemblyInfoGlobal.cs">
+      <Link>CMSAssemblyInfoGlobal.cs</Link>
+    </Compile>
+    <Compile Include="Models\CmisNs.cs" />
+    <Compile Include="Models\cmisProperty.cs" />
+    <Compile Include="Models\cmisPropertyBoolean.cs" />
+    <Compile Include="Models\cmisPropertyDateTime.cs" />
+    <Compile Include="Models\cmisPropertyDecimal.cs" />
+    <Compile Include="Models\CmisPropertyDefinitionId.cs" />
+    <Compile Include="Models\cmisPropertyHtml.cs" />
+    <Compile Include="Models\cmisPropertyId.cs" />
+    <Compile Include="Models\cmisPropertyInteger.cs" />
+    <Compile Include="Models\cmisPropertyString.cs" />
+    <Compile Include="Models\cmisPropertyUri.cs" />
+    <Compile Include="Models\GeneratedClasses.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IAclService.cs" />
+    <Compile Include="Services\IDiscoveryService.cs" />
+    <Compile Include="Services\Implementation\ContextHelper.cs" />
+    <Compile Include="Services\Implementation\IIncomeDataManager.cs" />
+    <Compile Include="Services\Implementation\ModelHelper.cs" />
+    <Compile Include="Services\Implementation\NavigationService.cs" />
+    <Compile Include="Services\Implementation\ObjectService.cs" />
+    <Compile Include="Services\Implementation\PageService.cs" />
+    <Compile Include="Services\Implementation\RepositoryService.cs" />
+    <Compile Include="Services\Implementation\Service.cs" />
+    <Compile Include="Services\IMultiFilingService.cs" />
+    <Compile Include="Services\INavigationService.cs" />
+    <Compile Include="Services\IObjectService.cs" />
+    <Compile Include="Services\IPageService.cs" />
+    <Compile Include="Services\IPolicyService.cs" />
+    <Compile Include="Services\IRelationshipService.cs" />
+    <Compile Include="Services\IRepositoryService.cs" />
+    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\IVersioningService.cs" />
+    <Compile Include="WcfExtensions\ApplyOpenCMISResponseFormatterBehavior.cs" />
+    <Compile Include="WcfExtensions\ApplyOpenCMISResponseFormatterBehaviorElement.cs" />
+    <Compile Include="WcfExtensions\DIInstanceProvider.cs" />
+    <Compile Include="WcfExtensions\DIServiceBehaviorAttribute.cs" />
+    <Compile Include="WcfExtensions\DIServiceHost.cs" />
+    <Compile Include="WcfExtensions\DIServiceHostFactory.cs" />
+    <Compile Include="WcfExtensions\DispatchByBodyElementBehaviorAttribute.cs" />
+    <Compile Include="WcfExtensions\DispatchByBodyElementOperationSelector.cs" />
+    <Compile Include="WcfExtensions\ExceptionHandler.cs" />
+    <Compile Include="WcfExtensions\ExceptionHandlerBehaviourAttribute.cs" />
+    <Compile Include="WcfExtensions\OpenCMISResponseFormatter.cs" />
+    <Compile Include="WcfExtensions\UserValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="README.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

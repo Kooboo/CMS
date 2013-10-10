@@ -245,6 +245,16 @@ namespace Kooboo.CMS.Content.Models
     /// </summary>
     public partial class ContentBase : IPersistable
     {
+        /// <summary>
+        /// The content integrate id composite of Repository, FolderName and UUID. example: Repository#FolderName#UUID
+        /// </summary>
+        public string IntegrateId
+        {
+            get
+            {
+                return new ContentIntegrateId(this).ToString();
+            }
+        }
         #region IPersistable Members
 
         private bool isDummy = true;

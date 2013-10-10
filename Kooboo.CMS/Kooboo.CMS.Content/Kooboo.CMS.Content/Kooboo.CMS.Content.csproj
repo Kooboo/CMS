@@ -77,6 +77,7 @@
     <Compile Include="Formatter\ITextContentFormater.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CategoryFolder.cs" />
+    <Compile Include="Models\ContentIntegrateId.cs" />
     <Compile Include="Models\FolderHelper.cs" />
     <Compile Include="Models\MediaFolder.cs" />
     <Compile Include="Models\ContentBase.cs" />

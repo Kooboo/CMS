@@ -66,6 +66,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             var list = Manager.All(Site, parentPage, search);
 
+            if (!string.IsNullOrEmpty(parentPage))
+            {
+                list = list.Concat(Manager.GetUnsyncedSubPages(Site, parentPage));
+            }
             return list.AsQueryable().SortBy(sortField, sortDir);
         }
 

@@ -15,7 +15,7 @@
 .Merge("UUID", Model.Page.FullName)
 .Merge("return", Request.RawUrl);
 
-    <div class="map-item @( isLocal ? "" : "inherited") @(isStaticPage ? "static" : "dynamic") @(!Model.Page.Published == true ? "unpublished" : "") @(Model.Page.Navigation.Show ? "show-in-menu" : "") @(isABTestPage == true ?"abpage":"")">
+    <div class="map-item @( isLocal ? "" : "inherited") @(isStaticPage ? "static" : "dynamic") @(!Model.Page.Published == true ? "unpublished" : "") @(Model.Page.Navigation.Show ? "show-in-menu" : "") @(isABTestPage == true ? "abpage" : "")">
         <a title="@((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)">
             @((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)</a>
         <span class="arrow">@Html.IconImage("arrow-right")</span>
@@ -121,6 +121,12 @@
                 @Html.Partial("SiteMapNode", item)
             </li>
         }
-    </ul>
+         @foreach (var unsyncedPage in ServiceFactory.PageManager.GetUnsyncedSubPages(Kooboo.CMS.Sites.Models.Site.Current, Model.Page.FullName))
+        {
+            <li class="tree-node active">
+                @Html.Partial("UnsyncedPageNode", unsyncedPage)
+            </li>
         }
+    </ul>
+        } 
 } 

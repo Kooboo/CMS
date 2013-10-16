@@ -68,6 +68,18 @@ namespace Kooboo.CMS.Membership.Models
     #region Interfaces
     public partial class MembershipUser : IMemberElement, IPersistable, IIdentifiable, IEntity
     {
+        #region .ctor
+        public MembershipUser()
+        {
+
+        }
+        public MembershipUser(Membership membership, string userName)
+        {
+            this.Membership = membership;
+            this.UserName = userName;
+        }
+        #endregion
+
         #region IPersistable
         private bool _isDummy = true;
         bool IPersistable.IsDummy
@@ -189,7 +201,7 @@ namespace Kooboo.CMS.Membership.Models
         public virtual Dictionary<string, string> ProviderExtraData { get; set; }
 
 
-        #region O/R mapping fields       
+        #region O/R mapping fields
         public string ProfileXml
         {
             get

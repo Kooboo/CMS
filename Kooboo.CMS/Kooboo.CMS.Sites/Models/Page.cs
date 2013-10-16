@@ -741,6 +741,10 @@ namespace Kooboo.CMS.Sites.Models
 
         public virtual bool HasParentVersion()
         {
+            if (this.Parent != null && this.Parent.IsLocalized(this.Site))
+            {
+                return false;
+            }
             var parentSite = this.Site.Parent;
             while (parentSite != null)
             {

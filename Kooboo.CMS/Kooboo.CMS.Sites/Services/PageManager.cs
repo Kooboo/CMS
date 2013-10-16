@@ -636,5 +636,35 @@ namespace Kooboo.CMS.Sites.Services
         }
         #endregion
 
+        #region GetUnsyncedSubPage
+        public IEnumerable<Page> GetUnsyncedSubPages(Site site, string fullPageName)
+        {
+            if (site.Parent != null)
+            {
+                var page = new Page(site, fullPageName).LastVersion(site);
+                if (page.IsLocalized(site))
+                {
+                    var parent = site.Parent;
+                    List<Page> pagesInParentSites = new List<Page>();
+
+                    while (parent != null)
+                    {
+                        var parentPage = new Page(parent, fullPageName).LastVersion(parent);
+                        if (parentPage.IsLocalized(parent))
+                        {
+                            pagesInParentSites.AddRange(this.ChildPages(parent, fullPageName, null));
+                        }
+                        parent = parent.Parent;
+                    }
+
+                    var childPages = this.ChildPages(site, fullPageName, null);
+
+                    return pagesInParentSites.Where(it => !childPages.Any(cp => it.FullName.EqualsOrNullEmpty(cp.FullName, StringComparison.OrdinalIgnoreCase)));
+                }
+            }
+
+            return new Page[0];
+        }
+        #endregion
     }
 }

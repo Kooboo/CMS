@@ -13,6 +13,7 @@ using System.Web;
 using Kooboo.CMS.Sites.Models;
 using System.IO;
 using Kooboo.CMS.Sites.Services;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Web.Areas.Sites
 {
@@ -39,7 +40,8 @@ namespace Kooboo.CMS.Web.Areas.Sites
 
         public static IEnumerable<TabInfo> SystemTabs()
         {
-            string tabPath = Path.Combine(Kooboo.Settings.BaseDirectory, "Cms_Data", PageTabsDir);
+            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+            string tabPath = Path.Combine(baseDir.Cms_DataPhysicalPath, PageTabsDir);
             return GetTabs(tabPath);
 
         }

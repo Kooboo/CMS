@@ -1674,15 +1674,6 @@ body .select2-results .select2-result-label {
 	vertical-align: top;
 }
 
-.common-table tr.unlocalized td {
-	background: #F5F5F5;
-	color: #666;
-}
-
-.common-table tr.unlocalized td a {
-	color: #666;
-}
-
 .common-table tr:hover td {
 	background: #E7E7E7;
 }
@@ -3071,6 +3062,10 @@ ul.site-tree {
 	color: #000;
 }
 
+.sitemap-description li span.unsynced {
+    background-color: #DBCF8E;
+}
+
 .sitemap-description li span.unpublished {
 	background: #C1C1C1;
 }
@@ -3119,6 +3114,10 @@ ul.site-tree {
 .map-item.inherited {
 	background-image: url(images/stripe.png);
 	background-repeat: repeat;
+}
+
+.map-item.unsynced {
+    background-color: #DBCF8E;
 }
 
 .map-item.show-in-menu > a {

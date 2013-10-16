@@ -114,20 +114,22 @@ namespace Kooboo.CMS.Sites.Services
                         //else
                         //{
                         var ruleItem = ruleSetting.RuleItems.Where(it => it.Name.EqualsOrNullEmpty(item.RuleItemName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-                        isMatched = (ruleItem.IsMatch(httpContext.Request));
-                        //}
-
-                        if (isMatched && !string.IsNullOrEmpty(item.PageName))
+                        if (ruleItem != null)
                         {
-                            var rulePage = new Page(site, item.PageName).LastVersion().AsActual();
-                            if (rulePage != null)
+                            isMatched = (ruleItem.IsMatch(httpContext.Request));
+                            //}
+
+                            if (isMatched && !string.IsNullOrEmpty(item.PageName))
                             {
-                                matchedPage = rulePage;
-                                matchedRuleItem = item;
-                                break;
+                                var rulePage = new Page(site, item.PageName).LastVersion().AsActual();
+                                if (rulePage != null)
+                                {
+                                    matchedPage = rulePage;
+                                    matchedRuleItem = item;
+                                    break;
+                                }
                             }
                         }
-
                     }
 
                     OnRuleMatch(new PageMatchedContext() { HttpContext = httpContext, Site = site, RawPage = page, MatchedPage = matchedPage, ABPageSetting = visitRule, MatchedRuleItem = matchedRuleItem });

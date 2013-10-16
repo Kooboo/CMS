@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Controllers.ActionFilters;
 using Kooboo.CMS.Sites.Models;
@@ -222,10 +223,11 @@ namespace Kooboo.CMS.Sites.Controllers
         private string GetCachingFilePath(string imagePath, int width, int height, bool preserverAspectRatio, int quality)
         {
             var lastModeifyDate = System.IO.File.GetLastWriteTimeUtc(imagePath);
-            string cms_dataPath = Path.Combine(Kooboo.Settings.BaseDirectory, PathEx.BasePath);
+            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+            string cms_dataPath = baseDir.Cms_DataPhysicalPath;
             string fileName = Path.GetFileNameWithoutExtension(imagePath);
             string newFileName = fileName + "-" + width.ToString() + "-" + height.ToString() + "-" + preserverAspectRatio.ToString() + "-" + quality.ToString() + "-" + lastModeifyDate.Ticks;
-            string imageCachingPath = Path.Combine(Kooboo.Settings.BaseDirectory, PathEx.BasePath, "ImageCaching");
+            string imageCachingPath = Path.Combine(cms_dataPath, "ImageCaching");
             string cachingPath = imageCachingPath + imagePath.Substring(cms_dataPath.Length);
             return Path.Combine(Path.GetDirectoryName(cachingPath), newFileName + Path.GetExtension(imagePath));
         }

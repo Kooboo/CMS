@@ -96,7 +96,7 @@
 
 @Html.Partial(ViewData["Template"].ToString(), Model)
 
-@if (folder.EnablePaging.HasValue && folder.EnablePaging.Value == true)
+@if (HttpContext.Current.Items["RenderedPager"] == null && folder.EnablePaging.HasValue && folder.EnablePaging.Value == true)
 {
     <div class="pagination">
         @Html.Pager(pagedList)

@@ -43,8 +43,11 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
         }
         private static string GetSettingFile()
         {
-            return Path.Combine(Kooboo.Settings.BinDirectory, "MongoDB.config");
-        }
+            var filePath = Path.Combine(Kooboo.Settings.BaseDirectory, "MongoDB.config");
+            if (!File.Exists(filePath))
+                filePath = Path.Combine(Kooboo.Settings.BinDirectory, "MongoDB.config");
+            return filePath;
+        }        
         /// <summary>
         /// http://www.mongodb.org/display/DOCS/Connections
         /// </summary>

@@ -54,7 +54,7 @@ namespace Kooboo.CMS.Web.Areas.Sites
             roleManager.AddPermission(Permission.Sites_Templates_ViewPermission);
             roleManager.AddPermission(Permission.Sites_Templates_LabelPermission);
             roleManager.AddPermission(Permission.Sites_Templates_FilePermission);
-            roleManager.AddPermission(Permission.Sites_Development_ActionMappingPermission);
+            roleManager.AddPermission(Permission.Sites_Templates_PageMappingPermission);
             roleManager.AddPermission(Permission.Sites_Development_SubmissionPermission);
 
             roleManager.AddPermission(Permission.Sites_Extensions_PluginPermission);

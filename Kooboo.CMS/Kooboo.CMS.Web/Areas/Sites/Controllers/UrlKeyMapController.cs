@@ -20,7 +20,7 @@ using Kooboo.CMS.Sites;
 using Kooboo.CMS.Common;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
-    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "Settings", Name = "Page url", Order = 1)]
+    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "Development", Name = "PageMapping", Order = 1)]
     public class UrlKeyMapController : ManageControllerBase<UrlKeyMap, UrlKeyMapManager>
     {
         public UrlKeyMapController(UrlKeyMapManager manager) : base(manager) { }

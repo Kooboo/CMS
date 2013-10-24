@@ -1135,7 +1135,7 @@
     <value>高级</value>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>TOP</value>
+    <value>顶部</value>
   </data>
   <data name="Sort direction" xml:space="preserve">
     <value>排序方向</value>
@@ -1690,7 +1690,7 @@
     <value>您确定要取消发布这条数据吗？</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Email</value>
+    <value>邮件</value>
   </data>
   <data name="Invalid email address" xml:space="preserve">
     <value>非法邮件地址</value>
@@ -1723,7 +1723,7 @@
     <value>编辑</value>
   </data>
   <data name="The TemplateBuildByMachine field is required." xml:space="preserve">
-    <value>“TemplateBuildByMachine”为必填项</value>
+    <value>“制作模板”为必填项</value>
   </data>
   <data name="Grid" xml:space="preserve">
     <value>网格</value>
@@ -2023,7 +2023,7 @@
     <value>重建索引</value>
   </data>
   <data name="Last actions" xml:space="preserve">
-    <value>最后的 actions</value>
+    <value>最后的操作</value>
   </data>
   <data name="Indexed folder '{0}' - content title '{1}'" xml:space="preserve">
     <value>已建索引目录'{0}' - 内容标题'{1}'</value>
@@ -2098,10 +2098,10 @@
     <value>图片选项</value>
   </data>
   <data name="URL:" xml:space="preserve">
-    <value>URL：</value>
+    <value>路径：</value>
   </data>
   <data name="ALT:" xml:space="preserve">
-    <value>ALT：</value>
+    <value>替换：</value>
   </data>
   <data name="Width:" xml:space="preserve">
     <value>宽：</value>
@@ -2137,175 +2137,175 @@
     <value>文字面板</value>
   </data>
   <data name="Edit a content" xml:space="preserve">
-    <value>Edit a content</value>
+    <value>编辑一项内容</value>
   </data>
   <data name="-Kooboo CMS" xml:space="preserve">
     <value>-Kooboo CMS</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading</value>
+    <value>正在下载</value>
   </data>
   <data name="Site templates" xml:space="preserve">
-    <value>Site templates</value>
+    <value>网站模板</value>
   </data>
   <data name="Change language" xml:space="preserve">
-    <value>Change language</value>
+    <value>更改语言</value>
   </data>
   <data name="All your changes might be lost." xml:space="preserve">
-    <value>All your changes might be lost.</value>
+    <value>您的所有更改可能会丢失</value>
   </data>
   <data name="YES" xml:space="preserve">
-    <value>YES</value>
+    <value>是的</value>
   </data>
   <data name=" - Kooboo CMS" xml:space="preserve">
     <value> - Kooboo CMS</value>
   </data>
   <data name="Add content" xml:space="preserve">
-    <value>Add content</value>
+    <value>添加内容</value>
   </data>
   <data name="New folder" xml:space="preserve">
-    <value>New folder</value>
+    <value>新建文件夹</value>
   </data>
   <data name="More..." xml:space="preserve">
-    <value>More...</value>
+    <value>更多...</value>
   </data>
   <data name="Are you sure you want to publish these items?" xml:space="preserve">
-    <value>Are you sure you want to publish these items?</value>
+    <value>您确定您想要发布这些项?</value>
   </data>
   <data name="Are you sure you want to unpublish these items?" xml:space="preserve">
-    <value>Are you sure you want to unpublish these items?</value>
+    <value>您确定您不需要要发布这些项?</value>
   </data>
   <data name="Re-broadcast" xml:space="preserve">
-    <value>Re-broadcast</value>
+    <value>重播</value>
   </data>
   <data name="Custom files" xml:space="preserve">
-    <value>Custom files</value>
+    <value>自定义文件</value>
   </data>
   <data name="Indexed data" xml:space="preserve">
-    <value>Indexed data</value>
+    <value>索引数据</value>
   </data>
   <data name="Media content" xml:space="preserve">
-    <value>Media content</value>
+    <value>媒介内容</value>
   </data>
   <data name="Redirect to home page 字段是必需的。" xml:space="preserve">
-    <value>Redirect to home page 字段是必需的。</value>
+    <value>重定向到主页 字段是必需的。</value>
   </data>
   <data name="Back to home page" xml:space="preserve">
-    <value>Back to home page</value>
+    <value>返回到主页</value>
   </data>
   <data name="For a list of newly added features and a quick start guide,&lt;br /&gt;See: &lt;a href=&quot;http://www.kooboo.com/documents&quot; target=&quot;_blank&quot;&gt;http://www.kooboo.com/documents&lt;/a&gt;" xml:space="preserve">
-    <value>For a list of newly added features and a quick start guide,&lt;br /&gt;See: &lt;a href="http://www.kooboo.com/documents" target="_blank"&gt;http://www.kooboo.com/documents&lt;/a&gt;</value>
+    <value>新功能和快速入门，请参考：&lt;br /&gt;See: &lt;a href="http://www.kooboo.com/documents" target="_blank"&gt;http://www.kooboo.com/documents&lt;/a&gt;</value>
   </data>
   <data name="Sign in to the CMS and create your first Kooboo website, the default login is: &lt;strong&gt;admin/admin&lt;/strong&gt;" xml:space="preserve">
-    <value>Sign in to the CMS and create your first Kooboo website, the default login is: &lt;strong&gt;admin/admin&lt;/strong&gt;</value>
+    <value>登录Kooboo CMS 并创建您的第一个Kooboo网站, 默认登录:  &lt;strong&gt;admin/admin&lt;/strong&gt;</value>
   </data>
   <data name="The layout does not exists. Layout name:{0}" xml:space="preserve">
-    <value>The layout does not exists. Layout name:{0}</value>
+    <value>布局不存在. 布局名称:{0}</value>
   </data>
   <data name="Not Found - Kooboo CMS" xml:space="preserve">
-    <value>Not Found - Kooboo CMS</value>
+    <value>没有找到 - Kooboo CMS</value>
   </data>
   <data name="Not Found" xml:space="preserve">
-    <value>Not Found</value>
+    <value>没有找到</value>
   </data>
   <data name="If you see this page, it means that Kooboo CMS has been installed on this server." xml:space="preserve">
-    <value>If you see this page, it means that Kooboo CMS has been installed on this server.</value>
+    <value>如果你看到这个页面, 就意味着 Kooboo CMS 已经在这个服务器上安装成功.</value>
   </data>
   <data name="The requested URL was not found on this server. These could be the following reasons." xml:space="preserve">
-    <value>The requested URL was not found on this server. These could be the following reasons.</value>
+    <value>要求的 URL 在服务器上没有找到. 如下是可能得原因.</value>
   </data>
   <data name="You might have typed the URL incorrectly" xml:space="preserve">
-    <value>You might have typed the URL incorrectly</value>
+    <value>您可能输入错误的网址.</value>
   </data>
   <data name="Your page has been moved" xml:space="preserve">
-    <value>Your page has been moved</value>
+    <value>您查找的页面可能被移除.</value>
   </data>
   <data name="You haven't created your Kooboo website yet. Please &lt;a href='{0}'&gt;login&lt;/a&gt; and create your first Kooboo website." xml:space="preserve">
-    <value>You haven't created your Kooboo website yet. Please &lt;a href='{0}'&gt;login&lt;/a&gt; and create your first Kooboo website.</value>
+    <value>您的Kooboo网站创建尚未成功. 请 &lt;a href='{0}'&gt;login&lt;/a&gt; 创建您的第一个Kooboo网站.</value>
   </data>
   <data name="Site cluster" xml:space="preserve">
-    <value>Site cluster</value>
+    <value>网站集群</value>
   </data>
   <data name="The parent website which this new website will be based on." xml:space="preserve">
-    <value>The parent website which this new website will be based on.</value>
+    <value>这个新站点将基于父站点.</value>
   </data>
   <data name="Inherited page" xml:space="preserve">
-    <value>Inherited page</value>
+    <value>继承的网页</value>
   </data>
   <data name="Unpublished page" xml:space="preserve">
-    <value>Unpublished page</value>
+    <value>未发布的页面</value>
   </data>
   <data name="Text content" xml:space="preserve">
-    <value>Text content</value>
+    <value>文本内容</value>
   </data>
   <data name="Workflow history" xml:space="preserve">
-    <value>Workflow history</value>
+    <value>工作流历史</value>
   </data>
   <data name="Process workflow" xml:space="preserve">
-    <value>Process workflow</value>
+    <value>进程工作流</value>
   </data>
   <data name="Workflow item sequence" xml:space="preserve">
-    <value>Workflow item sequence</value>
+    <value>工作流项目序列</value>
   </data>
   <data name="Step name" xml:space="preserve">
-    <value>Step name</value>
+    <value>步骤名</value>
   </data>
   <data name="Role" xml:space="preserve">
-    <value>Role</value>
+    <value>角色</value>
   </data>
   <data name="Creation date" xml:space="preserve">
-    <value>Creation date</value>
+    <value>创建日期</value>
   </data>
   <data name="Previous comments" xml:space="preserve">
-    <value>Previous comments</value>
+    <value>先前的评论</value>
   </data>
   <data name="Comment" xml:space="preserve">
-    <value>Comment</value>
+    <value>评论</value>
   </data>
   <data name="Are you sure you want to process the workflow item?" xml:space="preserve">
-    <value>Are you sure you want to process the workflow item?</value>
+    <value>您确定您想处理工作流项目吗?</value>
   </data>
   <data name="Process" xml:space="preserve">
-    <value>Process</value>
+    <value>进程</value>
   </data>
   <data name="Reject" xml:space="preserve">
-    <value>Reject</value>
+    <value>拒绝</value>
   </data>
   <data name="View workflow history" xml:space="preserve">
-    <value>View workflow history</value>
+    <value>浏览工作流历史</value>
   </data>
   <data name="Flow order" xml:space="preserve">
-    <value>Flow order</value>
+    <value>流顺序</value>
   </data>
   <data name="Sequence" xml:space="preserve">
-    <value>Sequence</value>
+    <value>序列</value>
   </data>
-  <data name="Content summary" xml:space="preserve">
-    <value>Content summary</value>
+  <data name="Content Summary" xml:space="preserve">
+    <value>内容</value>
   </data>
   <data name="Passed" xml:space="preserve">
-    <value>Passed</value>
+    <value>已通过</value>
   </data>
   <data name="Processer" xml:space="preserve">
-    <value>Processer</value>
+    <value>制造</value>
   </data>
   <data name="Processed date" xml:space="preserve">
-    <value>Processed date</value>
+    <value>制造日期</value>
   </data>
   <data name="Finished" xml:space="preserve">
-    <value>Finished</value>
+    <value>完成</value>
   </data>
   <data name="-" xml:space="preserve">
     <value>-</value>
   </data>
   <data name="New HTML block" xml:space="preserve">
-    <value>New HTML block</value>
+    <value>新建 HTML 块</value>
   </data>
   <data name="Kooboo online" xml:space="preserve">
-    <value>Kooboo online</value>
+    <value>Kooboo 在线</value>
   </data>
   <data name="Powered by Kooboo CMS | &amp;copy; 2009-2013 &lt;a href=&quot;http://www.kooboo.com&quot; target=&quot;_blank&quot;&gt;Kooboo team&lt;/a&gt;" xml:space="preserve">
-    <value>Powered by Kooboo CMS | &amp;copy; 2009-2013 &lt;a href="http://www.kooboo.com" target="_blank"&gt;Kooboo team&lt;/a&gt;</value>
+    <value>采用 Kooboo CMS | &amp;copy; 2009-2013 &lt;a href="http://www.kooboo.com" target="_blank"&gt;Kooboo team&lt;/a&gt;</value>
   </data>
   <data name="UserName 字段是必需的。" xml:space="preserve">
     <value>UserName 字段是必需的。</value>
@@ -2317,52 +2317,52 @@
     <value>ActiveUUID 字段是必需的。</value>
   </data>
   <data name="A new site" xml:space="preserve">
-    <value>A new site</value>
+    <value>一个新站点</value>
   </data>
   <data name="A new subsite" xml:space="preserve">
-    <value>A new subsite</value>
+    <value>新子站点</value>
   </data>
   <data name="Import database" xml:space="preserve">
-    <value>Import database</value>
+    <value>导入数据</value>
   </data>
   <data name="Warning" xml:space="preserve">
-    <value>Warning</value>
+    <value>警告</value>
   </data>
   <data name="The content database is not used by any other website any more. &lt;br /&gt;Would you like to delete the associated content database." xml:space="preserve">
-    <value>The content database is not used by any other website any more. &lt;br /&gt;Would you like to delete the associated content database.</value>
+    <value>相关内容数据库将不会被任何站点使用. &lt;br /&gt;您想要删除它吗?</value>
   </data>
   <data name="You do not have any site yet, click the button below to create a site." xml:space="preserve">
-    <value>You do not have any site yet, click the button below to create a site.</value>
+    <value>您现在没有任何网站，点击下面的按钮来创建一个网站.</value>
   </data>
   <data name="New site" xml:space="preserve">
-    <value>New site</value>
+    <value>新站点</value>
   </data>
   <data name="Template" xml:space="preserve">
-    <value>Template</value>
+    <value>模板</value>
   </data>
   <data name="Create a new database or select the database where &lt;br/&gt; your content is stored." xml:space="preserve">
-    <value>Create a new database or select the database where &lt;br/&gt; your content is stored.</value>
+    <value>创建一个新的数据库或选择一个 &lt;br/&gt;您已保存内容的数据库.</value>
   </data>
   <data name="Your front site culture, this is used to display currency,&lt;br/&gt;  date, number or other culture related content" xml:space="preserve">
-    <value>Your front site culture, this is used to display currency,&lt;br/&gt;  date, number or other culture related content</value>
+    <value>您的前台网站的语言，用来显示货币、&lt;br/&gt;日期、数字或其语言相关的内容。</value>
   </data>
   <data name="Time zone" xml:space="preserve">
-    <value>Time zone</value>
+    <value>时区</value>
   </data>
   <data name="New sub page" xml:space="preserve">
-    <value>New sub page</value>
+    <value>新建子页</value>
   </data>
   <data name="Are you sure you want to unpublish this page?" xml:space="preserve">
-    <value>Are you sure you want to unpublish this page?</value>
+    <value>您确定您将取消发布这些页面吗?</value>
   </data>
   <data name="Are you sure you want to publish this page?" xml:space="preserve">
-    <value>Are you sure you want to publish this page?</value>
+    <value>您确定您将发布这些页面吗?</value>
   </data>
   <data name="Paste with plain text" xml:space="preserve">
-    <value>Paste with plain text</value>
+    <value>粘贴空白文本</value>
   </data>
   <data name="Image library" xml:space="preserve">
-    <value>Image library</value>
+    <value>图像库</value>
   </data>
   <data name="URL" xml:space="preserve">
     <value>URL</value>
@@ -2371,129 +2371,453 @@
     <value>ALT</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>Width</value>
+    <value>宽</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>高</value>
   </data>
   <data name="This folder is empty." xml:space="preserve">
-    <value>This folder is empty.</value>
+    <value>此文件夹为空.</value>
   </data>
   <data name="Invalid folder name." xml:space="preserve">
-    <value>Invalid folder name.</value>
+    <value>无效的文件名.</value>
   </data>
   <data name="Root" xml:space="preserve">
-    <value>Root</value>
+    <value>根目录</value>
   </data>
   <data name="png" xml:space="preserve">
     <value>png</value>
   </data>
   <data name="Username and/or password are incorrect." xml:space="preserve">
-    <value>Username and/or password are incorrect.</value>
+    <value>用户名或密码是错误的.</value>
   </data>
   <data name="Plese set the default route values for the page &quot;{0}&quot;." xml:space="preserve">
-    <value>Plese set the default route values for the page "{0}".</value>
+    <value>请为这个页面设置默认路径"{0}".</value>
   </data>
   <data name="A/B Test" xml:space="preserve">
-    <value>A/B Test</value>
+    <value>A/B 测试</value>
   </data>
   <data name="Page visit rule" xml:space="preserve">
-    <value>Page visit rule</value>
+    <value>页面访问规则</value>
   </data>
   <data name="Membership users" xml:space="preserve">
-    <value>Membership users</value>
+    <value>会员 用户</value>
   </data>
   <data name="UtcCreationDate" xml:space="preserve">
-    <value>UtcCreationDate</value>
+    <value>Utc创建日期</value>
   </data>
   <data name="IsApproved" xml:space="preserve">
-    <value>IsApproved</value>
+    <value>通过审核</value>
   </data>
   <data name="IsLockedOut" xml:space="preserve">
-    <value>IsLockedOut</value>
+    <value>解除锁定</value>
   </data>
   <data name="LastLockoutDate" xml:space="preserve">
-    <value>LastLockoutDate</value>
+    <value>上一次解除锁定时间</value>
   </data>
   <data name="LastLoginDate" xml:space="preserve">
-    <value>LastLoginDate</value>
+    <value>上一次登录时间</value>
   </data>
   <data name="LastPasswordChangedDate" xml:space="preserve">
-    <value>LastPasswordChangedDate</value>
+    <value>上一次更改密码时间</value>
   </data>
   <data name="Site master" xml:space="preserve">
-    <value>Site master</value>
+    <value>网站管理员</value>
   </data>
   <data name="Membership groups" xml:space="preserve">
-    <value>Membership groups</value>
+    <value>会员团体</value>
   </data>
   <data name="Membership connects" xml:space="preserve">
-    <value>Membership connects</value>
+    <value>会员连接</value>
   </data>
   <data name="Members" xml:space="preserve">
-    <value>Members</value>
+    <value>成员</value>
   </data>
   <data name="Groups" xml:space="preserve">
-    <value>Groups</value>
+    <value>团体</value>
   </data>
   <data name="Connects" xml:space="preserve">
-    <value>Connects</value>
+    <value>连接</value>
   </data>
   <data name="Memberships" xml:space="preserve">
-    <value>Memberships</value>
+    <value>会员</value>
   </data>
   <data name="Create date" xml:space="preserve">
-    <value>Create date</value>
+    <value>创建日期</value>
   </data>
   <data name="Is approved" xml:space="preserve">
-    <value>Is approved</value>
+    <value>审核通过</value>
   </data>
   <data name="Is locked out" xml:space="preserve">
-    <value>Is locked out</value>
+    <value>解除锁定</value>
   </data>
   <data name="Lockout date" xml:space="preserve">
-    <value>Lockout date</value>
+    <value>解除锁定日期</value>
   </data>
   <data name="Login date" xml:space="preserve">
-    <value>Login date</value>
+    <value>登陆日期</value>
   </data>
   <data name="Password changed date" xml:space="preserve">
-    <value>Password changed date</value>
+    <value>密码更改日期</value>
   </data>
   <data name="Could not find a property named Password." xml:space="preserve">
-    <value>Could not find a property named Password.</value>
+    <value>找不到命名密码的属性.</value>
   </data>
   <data name="Post a comment" xml:space="preserve">
-    <value>Post a comment</value>
+    <value>发布评论</value>
   </data>
   <data name="UserLockedOut" xml:space="preserve">
-    <value>UserLockedOut</value>
+    <value>用户锁定</value>
   </data>
   <data name="Is administrator" xml:space="preserve">
-    <value>Is administrator</value>
+    <value>管理员</value>
   </data>
   <data name="New user" xml:space="preserve">
-    <value>New user</value>
+    <value>新用户</value>
   </data>
   <data name="ResetPassword" xml:space="preserve">
-    <value>ResetPassword</value>
+    <value>重置密码</value>
   </data>
   <data name="Security Setting" xml:space="preserve">
-    <value>Security Setting</value>
+    <value>安全设置</value>
   </data>
   <data name="A user name cannot contain a space or any of the following characters:\/:*?&lt;&gt;|~" xml:space="preserve">
-    <value>A user name cannot contain a space or any of the following characters:\/:*?&lt;&gt;|~</value>
+    <value>用户名不能包含空格或以下任何字符:\/:*?&lt;&gt;|~</value>
   </data>
   <data name="'Confirm password' and 'Password' do not match." xml:space="preserve">
-    <value>'Confirm password' and 'Password' do not match.</value>
+    <value>'确认密码' 并且 '密码'不匹配.</value>
   </data>
   <data name="Confirm password" xml:space="preserve">
-    <value>Confirm password</value>
+    <value>确认密码</value>
   </data>
   <data name="Is administrator 字段是必需的。" xml:space="preserve">
-    <value>Is administrator 字段是必需的。</value>
+    <value>管理员 字段是必需的。</value>
   </data>
   <data name="New role" xml:space="preserve">
-    <value>New role</value>
+    <value>新角色</value>
+  </data>
+  <data name="New sub site" xml:space="preserve">
+    <value>新建子站点</value>
+  </data>
+  <data name="Relation" xml:space="preserve">
+    <value>关系</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>内容</value>
+  </data>
+  <data name="Site level A/B Test" xml:space="preserve">
+    <value>站点级别 A/B 测试</value>
+  </data>
+  <data name="A/B rules" xml:space="preserve">
+    <value>A/B 准则</value>
+  </data>
+  <data name="A/B site settings" xml:space="preserve">
+    <value>A/B 站点设置</value>
+  </data>
+  <data name="Tip: Click rectangles to view the relations." xml:space="preserve">
+    <value>Tip: 点击矩形来查看关系.</value>
+  </data>
+  <data name="Membership" xml:space="preserve">
+    <value>会员</value>
+  </data>
+  <data name="Site" xml:space="preserve">
+    <value>站点</value>
+  </data>
+  <data name="Create new membership" xml:space="preserve">
+    <value>创建新会员</value>
+  </data>
+  <data name="Create new site" xml:space="preserve">
+    <value>Create new site</value>
+  </data>
+  <data name="Create new content database" xml:space="preserve">
+    <value>创建新的内容数据库</value>
+  </data>
+  <data name="Content databases" xml:space="preserve">
+    <value>内容数据库</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>管理</value>
+  </data>
+  <data name="Are you sure you want to delete the content database?" xml:space="preserve">
+    <value>您确定你将删除这些内容数据库?</value>
+  </data>
+  <data name="Unsynced page" xml:space="preserve">
+    <value>未同步页面</value>
+  </data>
+  <data name="Diagnosis" xml:space="preserve">
+    <value>诊断</value>
+  </data>
+  <data name="A/B page settings" xml:space="preserve">
+    <value>A/B 页面设置</value>
+  </data>
+  <data name="A/B test reports" xml:space="preserve">
+    <value>A/B 测试报告</value>
+  </data>
+  <data name="Submission setting" xml:space="preserve">
+    <value>提交设置</value>
+  </data>
+  <data name="Provider type" xml:space="preserve">
+    <value>提供者类型</value>
+  </data>
+  <data name="Membership group" xml:space="preserve">
+    <value>会员团体</value>
+  </data>
+  <data name="App id" xml:space="preserve">
+    <value>App 编号</value>
+  </data>
+  <data name="App secret" xml:space="preserve">
+    <value>App 密码</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="Domain" xml:space="preserve">
+    <value>域名</value>
+  </data>
+  <data name="Web resource" xml:space="preserve">
+    <value>网页资源</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>安全</value>
+  </data>
+  <data name="Select the database where &lt;br/&gt; your content is stored or create a new database." xml:space="preserve">
+    <value>创建一个新的数据库或选择一个 &lt;br/&gt;您已保存内容的数据库. </value>
+  </data>
+  <data name="Select a membership data source for the site." xml:space="preserve">
+    <value>为这个网站选择会员数据来源.</value>
+  </data>
+  <data name="The culture shown on your website. &lt;br /&gt; This is used to display currency, date, number and other culture related content." xml:space="preserve">
+    <value>网站的文化. &lt;br /&gt; 用来显示货币、日期、数字或其语言相关的内容。.</value>
+  </data>
+  <data name="Shows the sitemap as the start page in the menu." xml:space="preserve">
+    <value>显示站点地图作为起始页的菜单.</value>
+  </data>
+  <data name="Enable version control on Layout, View and Page." xml:space="preserve">
+    <value>在布局、视图和页面启用版本控制.</value>
+  </data>
+  <data name="Your website domains, without &quot;http://&quot;" xml:space="preserve">
+    <value>您的站点域名没有 "http://"</value>
+  </data>
+  <data name="The virtual path of your website. You may create a subsite eg. www.kooboo.com/china, &lt;b&gt;china&lt;/b&gt; is the Site path." xml:space="preserve">
+    <value>您的网站的虚拟路径。&lt;br/&gt;您可能例如 www.kooboo.com/china的子网站，&lt;b&gt;china&lt;/b&gt; 就是网站的路径.</value>
+  </data>
+  <data name="Site path" xml:space="preserve">
+    <value>站点路径</value>
+  </data>
+  <data name="Alternate SSL detection via HTTP header, please fill in http header name and value. &lt;a href='https://github.com/plack/Plack/wiki/How-to-detect-reverse-proxy-and-SSL-frontend' target='_blank'&gt;Click&lt;/a&gt; for more." xml:space="preserve">
+    <value>请填写HTTP header名称和值并通过HTTP头交替检测SSL。 &lt;a href='https://github.com/plack/Plack/wiki/How-to-detect-reverse-proxy-and-SSL-frontend' target='_blank'&gt;Click&lt;/a&gt; for more.</value>
+  </data>
+  <data name="Alternate SSL detection" xml:space="preserve">
+    <value>交替检测SSL</value>
+  </data>
+  <data name="Give your website a version number, it can be any number as you like." xml:space="preserve">
+    <value>给你的网站一个版本号,它可以是你喜欢的任何数.</value>
+  </data>
+  <data name="Used to generate resource links different with site domain. e.g: Generate CDN links for scripts and styles." xml:space="preserve">
+    <value>用于生成不同的网站域名资源链接。比如:生成CDN链接脚本和样式。</value>
+  </data>
+  <data name="Resource domain" xml:space="preserve">
+    <value>资源域</value>
+  </data>
+  <data name="Use &lt;b&gt;debug&lt;/b&gt; on development and use &lt;b&gt;release&lt;/b&gt; on live site. &lt;b&gt;Release&lt;/b&gt; mode utilizes CSS/JS compression and other techniques." xml:space="preserve">
+    <value>在开发时使用Debug模式；发布后使用Release模式。发Release模式会合并和压缩脚本样式。</value>
+  </data>
+  <data name="Enables you to edit content from the front end of your website." xml:space="preserve">
+    <value>使您能够从你的网站的前端编辑内容.</value>
+  </data>
+  <data name="Load JQuery and JQuery validation files." xml:space="preserve">
+    <value>负载JQuery和JQuery验证文件.</value>
+  </data>
+  <data name="The FROM email address of emails sent out by the system. For example: user registration confirmation email." xml:space="preserve">
+    <value>发送方电子邮件地址的电子邮件由系统发送。例如:用户注册确认邮件。</value>
+  </data>
+  <data name="Used in SEO, see: http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html" xml:space="preserve">
+    <value>用于搜索引擎优化, 参见: http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html</value>
+  </data>
+  <data name="Canonical" xml:space="preserve">
+    <value>规范</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>密钥</value>
+  </data>
+  <data name="Custom fields for HTML meta values" xml:space="preserve">
+    <value>为 HTML 的meta值自定义字段</value>
+  </data>
+  <data name="字段 Encrypt key 必须是一个字符串，其最小长度为 8，最大长度为 8。" xml:space="preserve">
+    <value>字段 Encrypt key 必须是一个字符串，其最小长度为 8，最大长度为 8。</value>
+  </data>
+  <data name="The encrypt key for SecurityHelper.Encrypt/Decrypt." xml:space="preserve">
+    <value>SecurityHelper.Encrypt的加密密钥.</value>
+  </data>
+  <data name="Encrypt key" xml:space="preserve">
+    <value>加密密钥</value>
+  </data>
+  <data name="Turn on submission api 字段是必需的。" xml:space="preserve">
+    <value>打开提交 api 字段是必需的。</value>
+  </data>
+  <data name="Turn on submission api" xml:space="preserve">
+    <value>打开提交api</value>
+  </data>
+  <data name=" Turn on/off the content submission API such as ContentService and SendEmail API. The 'ContentService' was obsolete in 4.1 verion, it is recommended to trun off for security reason." xml:space="preserve">
+    <value> 打开/关闭的诸如ContentService and SendEmail API提交. 'ContentService' 是过时的4.1版本, 因为安全原因被停用了.</value>
+  </data>
+  <data name="Custom field values that can be accessed in front end site via API: @Site.Current.CustomFields[&quot;key&quot;]." xml:space="preserve">
+    <value>自定义字段值,可以在前端通过API访问网站: @Site.Current.CustomFields["key"].</value>
+  </data>
+  <data name="Test SMTP" xml:space="preserve">
+    <value>测试 SMTP</value>
+  </data>
+  <data name="Status code" xml:space="preserve">
+    <value>状态码</value>
+  </data>
+  <data name="Redirect URL" xml:space="preserve">
+    <value>重定向 URL</value>
+  </data>
+  <data name="Redirect type" xml:space="preserve">
+    <value>重定向 URL</value>
+  </data>
+  <data name="Show error path" xml:space="preserve">
+    <value>显示错误路径</value>
+  </data>
+  <data name="Input URL/Pattern" xml:space="preserve">
+    <value>输入 URL/Pattern</value>
+  </data>
+  <data name="Output URL/Pattern" xml:space="preserve">
+    <value>输出 URL/Pattern</value>
+  </data>
+  <data name="Regex" xml:space="preserve">
+    <value>正则表达式</value>
+  </data>
+  <data name="Inheritance" xml:space="preserve">
+    <value>继承</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>路径</value>
+  </data>
+  <data name="The name already exists." xml:space="preserve">
+    <value>名称已经存在.</value>
+  </data>
+  <data name="New file" xml:space="preserve">
+    <value>新建文件</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="Page full name" xml:space="preserve">
+    <value>页面 全名</value>
+  </data>
+  <data name="Submission settings" xml:space="preserve">
+    <value>提交设置</value>
+  </data>
+  <data name="Data Name" xml:space="preserve">
+    <value>数据名称</value>
+  </data>
+  <data name="Sort filed" xml:space="preserve">
+    <value>排序存档</value>
+  </data>
+  <data name="ASC" xml:space="preserve">
+    <value>升序</value>
+  </data>
+  <data name="DESC" xml:space="preserve">
+    <value>降序</value>
+  </data>
+  <data name="A const value OR dynamic value get from query string. eg: 10 OR {PageSize}" xml:space="preserve">
+    <value>从查询字符串获得一个常量值或动态值. 比如: 10 OR {PageSize}</value>
+  </data>
+  <data name="The page index parameter name. eg:{PageIndex}" xml:space="preserve">
+    <value>页面索引参数名称. 比如:{PageIndex}</value>
+  </data>
+  <data name="NotNull" xml:space="preserve">
+    <value>非空</value>
+  </data>
+  <data name="IsNull" xml:space="preserve">
+    <value>空</value>
+  </data>
+  <data name="Then AND" xml:space="preserve">
+    <value>Then AND</value>
+  </data>
+  <data name="Then OR" xml:space="preserve">
+    <value>Then OR</value>
+  </data>
+  <data name="Invalid data rule name." xml:space="preserve">
+    <value>无效数据规则名称.</value>
+  </data>
+  <data name="This data rule name is being used by other datarules." xml:space="preserve">
+    <value>这个数据规则的名字已经被使用</value>
+  </data>
+  <data name="This item already exists." xml:space="preserve">
+    <value>这个项目已经存在.</value>
+  </data>
+  <data name="New view" xml:space="preserve">
+    <value>新视图</value>
+  </data>
+  <data name="Are you sure you want to reset these templates?" xml:space="preserve">
+    <value>您确定您将重置这些模板?</value>
+  </data>
+  <data name="Copy content type" xml:space="preserve">
+    <value>复制内容类型</value>
+  </data>
+  <data name="Tree style data 字段是必需的。" xml:space="preserve">
+    <value>树型数据字段是必需的。</value>
+  </data>
+  <data name="Tree style data" xml:space="preserve">
+    <value>树型数据 </value>
+  </data>
+  <data name="Create the tree style data and management interface." xml:space="preserve">
+    <value>创建树风格数据和管理接口.</value>
+  </data>
+  <data name="Control type" xml:space="preserve">
+    <value>控制类型</value>
+  </data>
+  <data name="This name is being used by other columns." xml:space="preserve">
+    <value>这个名称已经被其他列使用.</value>
+  </data>
+  <data name="Invalid column name." xml:space="preserve">
+    <value>无效列名.</value>
+  </data>
+  <data name="Name of your field, it uses the same naming rule as C# veriable name." xml:space="preserve">
+    <value>你的字段名称因为使用和c#相同的命名规则会导致更严重问题。</value>
+  </data>
+  <data name="Descriptive label of your field on the content editing page." xml:space="preserve">
+    <value>你的内容编辑页面的描述性的标签字段.</value>
+  </data>
+  <data name="The way that you would like to input your content." xml:space="preserve">
+    <value>你想要输入你的内容的方式.</value>
+  </data>
+  <data name="Data type" xml:space="preserve">
+    <value>数据类型</value>
+  </data>
+  <data name="The Summary field will be used as a title or summary to describe your content item." xml:space="preserve">
+    <value>Summary字段将被用作一个标题或摘要来描述你的内容项.</value>
+  </data>
+  <data name="Show this field in the CMS content list page." xml:space="preserve">
+    <value>在CMS内容列表页面显示这个字段.</value>
+  </data>
+  <data name="Input tip while users are editing content." xml:space="preserve">
+    <value>当用户编辑内容时输入提示.</value>
+  </data>
+  <data name="Allow null" xml:space="preserve">
+    <value>允许空</value>
+  </data>
+  <data name="Custom settings" xml:space="preserve">
+    <value>自定义设置</value>
+  </data>
+  <data name="The field Length must be a number." xml:space="preserve">
+    <value>这个字段长度必须是一个数字.</value>
+  </data>
+  <data name="Details view" xml:space="preserve">
+    <value>详细视图</value>
+  </data>
+  <data name="Thumbnails view" xml:space="preserve">
+    <value>缩略图视图</value>
+  </data>
+  <data name="Invalid file name." xml:space="preserve">
+    <value>无效文件名.</value>
+  </data>
+  <data name="Multi-file upload" xml:space="preserve">
+    <value>多文件 下载</value>
+  </data>
+  <data name="Published" xml:space="preserve">
+    <value>Published</value>
   </data>
 </root>

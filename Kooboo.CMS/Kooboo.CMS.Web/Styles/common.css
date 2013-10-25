@@ -2160,6 +2160,28 @@ body .select2-results .select2-result-label {
 	border: 1px solid #C2D5F2;
 }
 
+/* jQuery tabs
+----------------------------------------------------------*/
+.tabs.ui-tabs .ui-tabs-nav,
+.tabs.ui-tabs .ui-tabs-nav li a {
+    padding: 0;
+}
+
+.tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.tabs li.ui-tabs-active a {
+    background: #5EA8DE;
+    color: #FFF;
+}
+
+.tabs li.ui-tabs-active .arrow {
+    display: block;
+}
+
+
 /* Dialog
 ----------------------------------------------------------*/
 .block.dialog .title {

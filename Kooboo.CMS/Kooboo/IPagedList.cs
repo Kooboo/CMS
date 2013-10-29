@@ -14,7 +14,7 @@ namespace Kooboo
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IPagedList<T> : IEnumerable<T>
+    public interface IPagedList<T> : IEnumerable<T>, Kooboo.Web.Mvc.Paging.IPagedList
     {
         /// <summary>
         /// Gets or sets the index of the current page.

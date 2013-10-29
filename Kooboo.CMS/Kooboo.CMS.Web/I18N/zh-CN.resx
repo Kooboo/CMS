@@ -2767,7 +2767,7 @@
     <value>创建树风格数据和管理接口.</value>
   </data>
   <data name="Control type" xml:space="preserve">
-    <value>控制类型</value>
+    <value>控件类型</value>
   </data>
   <data name="This name is being used by other columns." xml:space="preserve">
     <value>这个名称已经被其他列使用.</value>
@@ -2819,5 +2819,35 @@
   </data>
   <data name="Published" xml:space="preserve">
     <value>Published</value>
+  </data>
+  <data name="Edit image" xml:space="preserve">
+    <value>Edit image</value>
+  </data>
+  <data name="File name" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="Original dimensions" xml:space="preserve">
+    <value>Original dimensions</value>
+  </data>
+  <data name="Image crop" xml:space="preserve">
+    <value>Image crop</value>
+  </data>
+  <data name="X" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="Y" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Selection</value>
+  </data>
+  <data name="Aspect ratio" xml:space="preserve">
+    <value>Aspect ratio</value>
+  </data>
+  <data name="Alternative text" xml:space="preserve">
+    <value>Alternative text</value>
+  </data>
+  <data name="Not support to parse absolute url path." xml:space="preserve">
+    <value>Not support to parse absolute url path.</value>
   </data>
 </root>

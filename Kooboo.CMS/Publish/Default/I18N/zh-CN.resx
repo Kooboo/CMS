@@ -2767,7 +2767,7 @@
     <value>创建树风格数据和管理接口.</value>
   </data>
   <data name="Control type" xml:space="preserve">
-    <value>控制类型</value>
+    <value>控件类型</value>
   </data>
   <data name="This name is being used by other columns." xml:space="preserve">
     <value>这个名称已经被其他列使用.</value>

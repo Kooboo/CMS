@@ -60,56 +60,56 @@ namespace Kooboo.Web.Mvc.Paging
             return new PagerBuilder(helper, null, pagerOptions, htmlAttributes).RenderPager();
         }
 
-        public static MvcHtmlString Pager<T>(this HtmlHelper helper, PagedList<T> pagedList)
+        public static MvcHtmlString Pager<T>(this HtmlHelper helper, IPagedList<T> pagedList)
         {
             if (pagedList == null)
                 return Pager(helper, null, null);
             return Pager(helper, pagedList, null, null, null, null, null, null);
         }
 
-        public static MvcHtmlString Pager<T>(this HtmlHelper helper, PagedList<T> pagedList, PagerOptions pagerOptions)
+        public static MvcHtmlString Pager<T>(this HtmlHelper helper, IPagedList<T> pagedList, PagerOptions pagerOptions)
         {
             if (pagedList == null)
                 return Pager(helper, pagerOptions, null);
             return Pager(helper, pagedList, null, null, pagerOptions, null, null, null);
         }
 
-        public static MvcHtmlString Pager<T>(this HtmlHelper helper, PagedList<T> pagedList, PagerOptions pagerOptions, object htmlAttributes)
+        public static MvcHtmlString Pager<T>(this HtmlHelper helper, IPagedList<T> pagedList, PagerOptions pagerOptions, object htmlAttributes)
         {
             if (pagedList == null)
                 return Pager(helper, pagerOptions, new RouteValueDictionary(htmlAttributes));
             return Pager(helper, pagedList, null, null, pagerOptions, null, null, htmlAttributes);
         }
 
-        public static MvcHtmlString Pager<T>(this HtmlHelper helper, PagedList<T> pagedList, PagerOptions pagerOptions, IDictionary<string, object> htmlAttributes)
+        public static MvcHtmlString Pager<T>(this HtmlHelper helper, IPagedList<T> pagedList, PagerOptions pagerOptions, IDictionary<string, object> htmlAttributes)
         {
             if (pagedList == null)
                 return Pager(helper, pagerOptions, htmlAttributes);
             return Pager(helper, pagedList, null, null, pagerOptions, null, null, htmlAttributes);
         }
 
-        public static MvcHtmlString Pager<T>(this HtmlHelper helper, PagedList<T> pagedList, PagerOptions pagerOptions, string routeName, object routeValues)
+        public static MvcHtmlString Pager<T>(this HtmlHelper helper, IPagedList<T> pagedList, PagerOptions pagerOptions, string routeName, object routeValues)
         {
             if (pagedList == null)
                 return Pager(helper, pagerOptions, null);
             return Pager(helper, pagedList, null, null, pagerOptions, routeName, routeValues, null);
         }
 
-        public static MvcHtmlString Pager<T>(this HtmlHelper helper, PagedList<T> pagedList, PagerOptions pagerOptions, string routeName, RouteValueDictionary routeValues)
+        public static MvcHtmlString Pager<T>(this HtmlHelper helper, IPagedList<T> pagedList, PagerOptions pagerOptions, string routeName, RouteValueDictionary routeValues)
         {
             if (pagedList == null)
                 return Pager(helper, pagerOptions, null);
             return Pager(helper, pagedList, null, null, pagerOptions, routeName, routeValues, null);
         }
 
-        public static MvcHtmlString Pager<T>(this HtmlHelper helper, PagedList<T> pagedList, PagerOptions pagerOptions, string routeName, object routeValues, object htmlAttributes)
+        public static MvcHtmlString Pager<T>(this HtmlHelper helper, IPagedList<T> pagedList, PagerOptions pagerOptions, string routeName, object routeValues, object htmlAttributes)
         {
             if (pagedList == null)
                 return Pager(helper, pagerOptions, new RouteValueDictionary(htmlAttributes));
             return Pager(helper, pagedList, null, null, pagerOptions, routeName, routeValues, htmlAttributes);
         }
 
-        public static MvcHtmlString Pager<T>(this HtmlHelper helper, PagedList<T> pagedList, PagerOptions pagerOptions, string routeName,
+        public static MvcHtmlString Pager<T>(this HtmlHelper helper, IPagedList<T> pagedList, PagerOptions pagerOptions, string routeName,
             RouteValueDictionary routeValues, IDictionary<string, object> htmlAttributes)
         {
             if (pagedList == null)
@@ -117,14 +117,14 @@ namespace Kooboo.Web.Mvc.Paging
             return Pager(helper, pagedList, null, null, pagerOptions, routeName, routeValues, htmlAttributes);
         }
 
-        public static MvcHtmlString Pager<T>(this HtmlHelper helper, PagedList<T> pagedList, string routeName, object routeValues, object htmlAttributes)
+        public static MvcHtmlString Pager<T>(this HtmlHelper helper, IPagedList<T> pagedList, string routeName, object routeValues, object htmlAttributes)
         {
             if (pagedList == null)
                 return Pager(helper, null, new RouteValueDictionary(htmlAttributes));
             return Pager(helper, pagedList, null, null, null, routeName, routeValues, htmlAttributes);
         }
 
-        public static MvcHtmlString Pager<T>(this HtmlHelper helper, PagedList<T> pagedList, string routeName, RouteValueDictionary routeValues,
+        public static MvcHtmlString Pager<T>(this HtmlHelper helper, IPagedList<T> pagedList, string routeName, RouteValueDictionary routeValues,
             IDictionary<string, object> htmlAttributes)
         {
             if (pagedList == null)
@@ -165,7 +165,7 @@ namespace Kooboo.Web.Mvc.Paging
             return builder.RenderPager();
         }
 
-        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, PagedList<T> pagedList, AjaxOptions ajaxOptions)
+        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, IPagedList<T> pagedList, AjaxOptions ajaxOptions)
         {
             if (pagedList == null)
                 return AjaxPager(html, null, null);
@@ -173,7 +173,7 @@ namespace Kooboo.Web.Mvc.Paging
                              null);
         }
 
-        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, PagedList<T> pagedList, string routeName, AjaxOptions ajaxOptions)
+        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, IPagedList<T> pagedList, string routeName, AjaxOptions ajaxOptions)
         {
             if (pagedList == null)
                 return AjaxPager(html, null, null);
@@ -181,7 +181,7 @@ namespace Kooboo.Web.Mvc.Paging
                              null);
         }
 
-        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, PagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions)
+        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, IPagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions)
         {
             if (pagedList == null)
                 return AjaxPager(html, pagerOptions, null);
@@ -189,7 +189,7 @@ namespace Kooboo.Web.Mvc.Paging
                              null);
         }
 
-        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, PagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions, object htmlAttributes)
+        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, IPagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions, object htmlAttributes)
         {
             if (pagedList == null)
                 return AjaxPager(html, pagerOptions, new RouteValueDictionary(htmlAttributes));
@@ -197,7 +197,7 @@ namespace Kooboo.Web.Mvc.Paging
                              ajaxOptions, htmlAttributes);
         }
 
-        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, PagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions,
+        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, IPagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions,
             IDictionary<string, object> htmlAttributes)
         {
             if (pagedList == null)
@@ -206,7 +206,7 @@ namespace Kooboo.Web.Mvc.Paging
                              ajaxOptions, htmlAttributes);
         }
 
-        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, PagedList<T> pagedList, string routeName, object routeValues, PagerOptions pagerOptions, AjaxOptions ajaxOptions)
+        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, IPagedList<T> pagedList, string routeName, object routeValues, PagerOptions pagerOptions, AjaxOptions ajaxOptions)
         {
             if (pagedList == null)
                 return AjaxPager(html, pagerOptions, null);
@@ -214,7 +214,7 @@ namespace Kooboo.Web.Mvc.Paging
                              null);
         }
 
-        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, PagedList<T> pagedList, string routeName, object routeValues,
+        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, IPagedList<T> pagedList, string routeName, object routeValues,
             PagerOptions pagerOptions, AjaxOptions ajaxOptions, object htmlAttributes)
         {
             if (pagedList == null)
@@ -223,7 +223,7 @@ namespace Kooboo.Web.Mvc.Paging
                              routeValues, ajaxOptions, htmlAttributes);
         }
 
-        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, PagedList<T> pagedList, string routeName, RouteValueDictionary routeValues,
+        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, IPagedList<T> pagedList, string routeName, RouteValueDictionary routeValues,
             PagerOptions pagerOptions, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes)
         {
             if (pagedList == null)
@@ -232,7 +232,7 @@ namespace Kooboo.Web.Mvc.Paging
                              routeValues, ajaxOptions, htmlAttributes);
         }
 
-        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, PagedList<T> pagedList, string actionName, string controllerName,
+        public static MvcHtmlString AjaxPager<T>(this HtmlHelper html, IPagedList<T> pagedList, string actionName, string controllerName,
             PagerOptions pagerOptions, AjaxOptions ajaxOptions)
         {
             if (pagedList == null)
@@ -266,39 +266,39 @@ namespace Kooboo.Web.Mvc.Paging
             return new PagerBuilder(null, ajax, pagerOptions, htmlAttributes).RenderPager();
         }
 
-        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, PagedList<T> pagedList, AjaxOptions ajaxOptions)
+        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, IPagedList<T> pagedList, AjaxOptions ajaxOptions)
         {
             return pagedList == null ? Pager(ajax, null, null) : Pager(ajax, pagedList, null, null, null, null, null, ajaxOptions, null);
         }
 
-        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, PagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions)
+        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, IPagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions)
         {
             return pagedList == null ? Pager(ajax, pagerOptions, null) : Pager(ajax, pagedList,
                 null, null, null, pagerOptions, null, ajaxOptions, null);
         }
 
-        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, PagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions, object htmlAttributes)
+        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, IPagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions, object htmlAttributes)
         {
             if (pagedList == null)
                 return Pager(ajax, pagerOptions, new RouteValueDictionary(htmlAttributes));
             return Pager(ajax, pagedList, null, null, null, pagerOptions, null, ajaxOptions, htmlAttributes);
         }
 
-        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, PagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes)
+        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, IPagedList<T> pagedList, PagerOptions pagerOptions, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes)
         {
             if (pagedList == null)
                 return Pager(ajax, pagerOptions, htmlAttributes);
             return Pager(ajax, pagedList, null, null, null, pagerOptions, null, ajaxOptions, htmlAttributes);
         }
 
-        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, PagedList<T> pagedList, string routeName, object routeValues, AjaxOptions ajaxOptions, object htmlAttributes)
+        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, IPagedList<T> pagedList, string routeName, object routeValues, AjaxOptions ajaxOptions, object htmlAttributes)
         {
             if (pagedList == null)
                 return Pager(ajax, null, new RouteValueDictionary(htmlAttributes));
             return Pager(ajax, pagedList, null, null, routeName, null, routeValues, ajaxOptions, htmlAttributes);
         }
 
-        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, PagedList<T> pagedList, string routeName, RouteValueDictionary routeValues,
+        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, IPagedList<T> pagedList, string routeName, RouteValueDictionary routeValues,
             AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes)
         {
             if (pagedList == null)
@@ -306,7 +306,7 @@ namespace Kooboo.Web.Mvc.Paging
             return Pager(ajax, pagedList, null, null, routeName, null, routeValues, ajaxOptions, htmlAttributes);
         }
 
-        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, PagedList<T> pagedList, string routeName, object routeValues, PagerOptions pagerOptions,
+        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, IPagedList<T> pagedList, string routeName, object routeValues, PagerOptions pagerOptions,
             AjaxOptions ajaxOptions, object htmlAttributes)
         {
             if (pagedList == null)
@@ -314,7 +314,7 @@ namespace Kooboo.Web.Mvc.Paging
             return Pager(ajax, pagedList, null, null, routeName, pagerOptions, routeValues, ajaxOptions, htmlAttributes);
         }
 
-        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, PagedList<T> pagedList, string routeName, RouteValueDictionary routeValues,
+        public static MvcHtmlString Pager<T>(this AjaxHelper ajax, IPagedList<T> pagedList, string routeName, RouteValueDictionary routeValues,
             PagerOptions pagerOptions, AjaxOptions ajaxOptions, IDictionary<string, object> htmlAttributes)
         {
             if (pagedList == null)

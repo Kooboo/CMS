@@ -745,6 +745,8 @@
     <Content Include="Scripts\codemirror\theme\xq-dark.css" />
     <Content Include="Scripts\codemirror\theme\xq-light.css" />
     <Content Include="Scripts\d3.v3.min.js" />
+    <Content Include="Scripts\jquery-ui-timepicker-addon\jquery-ui-sliderAccess.js" />
+    <Content Include="Scripts\jquery-ui-timepicker-addon\jquery-ui-timepicker-addon.js" />
     <Content Include="Scripts\jquery.autosize.js" />
     <Content Include="Scripts\jquery.fileDownload.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
@@ -847,6 +849,7 @@
     <Content Include="Styles\images\icon-insert-page.png" />
     <Content Include="Styles\images\media-library.png" />
     <Content Include="Styles\InlineEditing.css" />
+    <Content Include="Styles\jquery-ui-timepicker-addon.css" />
     <Content Include="Styles\jquery-ui.css" />
     <Content Include="Styles\jQuery.jCrop\Jcrop.gif" />
     <Content Include="Styles\jQuery.jCrop\jquery.Jcrop.css" />
@@ -2420,6 +2423,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\Home\UnsyncedPageNode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\EditorTemplates\Spinner.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -3856,3 +3856,50 @@ ul.site-tree {
 	background: #0078b1;
 	color: #fff;
 }
+
+span.jquery-ui-spinner-rewrite input[type="text"]{
+    margin-left: 0;
+    padding: 3px 9px;
+}
+
+span.jquery-ui-spinner-rewrite .ui-spinner-input {
+    margin: 0;
+}
+
+span.jquery-ui-spinner-rewrite .ui-spinner-button {
+    color: #606060;
+    font-size: 10px;
+    text-align: center;
+    height: 13px;
+    border-left: 1px solid #aaa;
+    background: #eee;
+}
+
+span.jquery-ui-spinner-rewrite .ui-spinner-button.ui-state-hover {
+    color: #aaa;
+}
+
+span.jquery-ui-spinner-rewrite .ui-icon {
+    text-indent: 0;
+    overflow:hidden;
+    margin-left: -5px;
+    left: 50%;
+}
+
+span.jquery-ui-spinner-rewrite .ui-spinner-up {
+   top: 1px;
+   right: 1px;
+}
+
+span.jquery-ui-spinner-rewrite .ui-spinner-down {
+   right: 1px;
+   bottom: 1px;
+}
+
+.ui-tooltip {
+    background: #fff;
+}
+
+.ui-datepicker {
+    width:230px
+}

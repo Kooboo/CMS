@@ -1,0 +1,111 @@
+﻿@model dynamic
+@using Kooboo.CMS.Web
+@Html.IncludeLocalizationScripts()
+@{
+    var route = ViewContext.RequestContext.AllRouteValues();
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+    var tinymceLang = "en";
+    var tinymceLangFile = Server.MapPath(string.Format("~/Scripts/tiny_mce/langs/{0}.js", culture.Name));
+    if (File.Exists(tinymceLangFile))
+    {
+        tinymceLang = culture.Name.ToLower();
+    }
+    string tinymceContentStyle = null;
+    if (Kooboo.CMS.Sites.Models.Site.Current != null)
+    {
+        tinymceContentStyle = (new FrontUrlHelper(Url, Site.Current, Kooboo.CMS.Sites.Web.FrontRequestChannel.Debug)).FileUrl("tinymce_content.css", false).ToString();
+        if (!File.Exists(Server.MapPath(tinymceContentStyle)))
+        {
+            tinymceContentStyle = null;
+        }
+    }
+
+    var mediaLibraryUrl = Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType", "grid").Merge("SingleChoice", "true"));
+}
+<script type="text/javascript">
+@* (function ($) {
+        $.fn.numberic = function () {
+            var $self = $(this)
+            $self.find('input[data-value-type=float]').numeric('@Html.Raw(culture.NumberFormat.NumberDecimalSeparator)');
+            $self.find('input[data-value-type=int32]').numeric(false);
+        };
+    })(jQuery);*@
+    $(function () {
+        window.leaveConfirm.bind('@("All your changes might be lost.".Localize())');
+        //$(window.body).numberic();
+
+        //#region Initialize the js culture
+        Globalize.culture('@Html.Raw(culture.Name)');
+        var mediaLibraryUrl = '@Html.Raw(mediaLibraryUrl)';
+
+        var chooseFileFromMediaLibrary = function (inputId, value, fileType, window) {
+
+            // execute popup
+            var topJQ = top._jQuery || top.jQuery;
+            var id = new Date().getTime();
+            topJQ.pop({
+                id: id,
+                url: mediaLibraryUrl,
+                width: 900,
+                height: 500,
+                dialogClass: 'iframe-dialog',
+                frameHeight: '100%',
+                beforeLoad: function () {
+                },
+                onload: function (handle, pop, config) {
+                    top.onFileSelected = function (src, text, option) {
+                        var $srcInput = topJQ('#' + inputId);
+                        $srcInput.val(src);
+                        var $descriptionInput = $srcInput.parent().parent().parent().next().find('input');
+                        $descriptionInput.val(text);
+                    };
+                    top.fileSelectPop = pop;
+                },
+                onclose: function (handle, pop, config) {
+
+                }
+            });
+            tinymce.ztopKoobooDialog(id);
+        }
+
+        //#endregion
+        var hasTinymce = false;
+        $('textarea.tinymce').each(function () {
+            var textarea = $(this);
+            var tinyMCEConfig = $.extend({}, tinymce.getKoobooConfig(), {
+                '$textarea': textarea,
+                'elements': textarea.attr('id'),
+                file_browser_callback: chooseFileFromMediaLibrary,
+                'media_library_url': mediaLibraryUrl,
+                @if (!string.IsNullOrEmpty(tinymceContentStyle))
+                {
+                    <text>content_css: '@(tinymceContentStyle)',</text>
+                }
+                language: '@tinymceLang',
+                setup: function (ed) {
+                    ed.on('change', function (ed, l) {
+                        window.leaveConfirm.stop();
+                    });
+                    ed.on('FullscreenStateChanged', function (e) {
+                        $(window.parent.document).find('iframe').toggleClass('fullscreen');
+                    });
+                }
+            });
+
+            tinyMCE.init(tinyMCEConfig);
+
+            hasTinymce = true;
+        });
+        if (hasTinymce) {
+            window.ajaxFormParam = {
+                beforeSerialize: function ($form, options) {
+                    tinyMCE.triggerSave();
+                }
+            };
+        }
+
+        $('textarea.codemirror').each(function () {
+            $(this).codeMirror();
+        });
+    });
+</script>

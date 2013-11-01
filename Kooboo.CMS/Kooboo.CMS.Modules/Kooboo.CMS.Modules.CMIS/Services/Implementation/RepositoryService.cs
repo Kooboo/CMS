@@ -56,30 +56,30 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
         public getRepositoriesResponse GetRepositories(getRepositoriesRequest request)
         {
 
-            var repositories = _repositoryManager.All();
+            var sites = _siteManager.All();
 
-            return new getRepositoriesResponse(repositories.Select(it => new cmisRepositoryEntryType()
+            return new getRepositoriesResponse(sites.Select(it => new cmisRepositoryEntryType()
             {
-                repositoryId = it.Name,
-                repositoryName = string.IsNullOrEmpty(it.DisplayName) ? it.Name : it.DisplayName
+                repositoryId = it.FullName,
+                repositoryName = string.IsNullOrEmpty(it.DisplayName) ? it.FriendlyName : it.DisplayName
             }).ToArray());
         }
         #endregion
 
         #region GetRepositoryInfo
-        private cmisRepositoryInfoType ToRepositoryInfo(Kooboo.CMS.Content.Models.Repository repository)
+        private cmisRepositoryInfoType ToRepositoryInfo(Kooboo.CMS.Sites.Models.Site site)
         {
             var repositoryInfo = new cmisRepositoryInfoType()
             {
-                repositoryId = repository.Name,
-                repositoryName = string.IsNullOrEmpty(repository.DisplayName) ? repository.Name : repository.DisplayName,
+                repositoryId = site.FullName,
+                repositoryName = string.IsNullOrEmpty(site.DisplayName) ? site.Name : site.DisplayName,
                 vendorName = "Kooboo",
                 repositoryDescription = "",
                 productName = "Kooboo CMS",
                 productVersion = this.GetType().Assembly.GetName().Version.ToString(),
                 rootFolderId = "/",
                 latestChangeLogToken = "",
-                capabilities = GetRepositoryCapabilities(repository),
+                capabilities = GetRepositoryCapabilities(site),
                 aclCapability = null, //todo: Not very clear for acl now.
                 cmisVersionSupported = "1.1",
                 thinClientURI = null,
@@ -90,7 +90,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
             };
             return repositoryInfo;
         }
-        private cmisRepositoryCapabilitiesType GetRepositoryCapabilities(Kooboo.CMS.Content.Models.Repository repository)
+        private cmisRepositoryCapabilitiesType GetRepositoryCapabilities(Kooboo.CMS.Sites.Models.Site site)
         {
             return new cmisRepositoryCapabilitiesType()
             {
@@ -112,10 +112,10 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
         }
         public getRepositoryInfoResponse GetRepositoryInfo(getRepositoryInfoRequest request)
         {
-            var repository = new Kooboo.CMS.Content.Models.Repository(request.repositoryId).AsActual();
-            if (repository != null)
+            var site = ModelHelper.GetSite(request.repositoryId);
+            if (site != null)
             {
-                var repositoryInfo = ToRepositoryInfo(repository);
+                var repositoryInfo = ToRepositoryInfo(site);
                 return new getRepositoryInfoResponse(repositoryInfo);
             }
             else

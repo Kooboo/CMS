@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Kooboo.CMS.Sites.Models.DataRuleSetting>
+
+<div class="common-form" id="grid-field-container">
+    <div class="command">
+        <button type="button"  data-bind="click:AddDataRule" title="@("Add DataRule".Localize())">
+            @("Add".Localize())</button>
+    </div>
+    <div class="common-table">
+        <table>
+            <thead data-bind="visible: $root.DataRuleList().length > 0">
+                <tr>
+                    <th>@("DataName".Localize())</th>
+                    <th class="action">@("Edit".Localize())</th>
+                    <th class="action">@("Delete".Localize())</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach:$root.DataRuleList">
+                <tr>
+                    <td data-bind="text:DataName"></td>
+                    <td class="action">
+                        <a title="@("Edit".Localize())" class="action" data-bind="click:$root.EditDataRule">@Html.IconImage("edit small")</a>
+                    </td>
+                    <td class="action">
+                        <a title="@("Delete".Localize())" class="action" data-bind="click:$root.DeleteDataRule">@Html.IconImage("minus small")</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    @Html.Partial("_DataRulesJsonToFormInput")
+
+</div>
+
+@Html.Partial("_EditDataRule")
+@Html.Partial("DataRules.Scripts", Model)

@@ -1,0 +1,419 @@
+﻿@using Kooboo.CMS.Content.Models
+@using Kooboo.CMS.Sites.DataRule
+@using Newtonsoft.Json
+@model IEnumerable<Kooboo.CMS.Sites.Models.DataRuleSetting>
+
+@{
+    var currentController = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    var repository = new Repository(Site.Current.Repository).AsActual();
+    var folderManager = Kooboo.CMS.Content.Services.ServiceFactory.TextFolderManager;
+    var schemaManager = Kooboo.CMS.Content.Services.ServiceFactory.SchemaManager;
+
+    var sysColumnList = new Schema().AllColumns;
+    var codeSnippetDictionaryList = new List<object>();
+    var folderTrees = folderManager.FolderTrees(repository);
+    var schemaList = schemaManager.All(repository, "").Select(it => it.AsActual());
+    var emptyDataRuleSetting = new DataRuleSetting();
+    var emptyDataRule = new FolderDataRule();
+    var viewEngine = (ITemplateEngine)ViewData["ViewEngine"];
+    if (currentController == "view")
+    {
+        foreach (var rule in Model)
+        {
+            var codeSnippetClean = viewEngine.GetDataRuleCodeSnippet(rule.TakeOperation).Generate(Site.Current.GetRepository(), rule, false);
+            var codeSnippetInline = viewEngine.GetDataRuleCodeSnippet(rule.TakeOperation).Generate(Site.Current.GetRepository(), rule, true);
+            codeSnippetDictionaryList.Add(new
+                {
+                    DataRuleName = rule.DataName,
+                    CodeSnippetClean = codeSnippetClean,
+                    CodeSnippetInline = codeSnippetInline
+                });
+        }
+    }
+    var operatorList = new List<object>
+        {
+            new {Text = "Equals".Localize(), Value = 0, Operator = "=="},
+            new {Text = "NotEquals".Localize(), Value = 1, Operator = "!="},
+            new {Text = "Greater than".Localize(), Value = 2, Operator = ">"},
+            new {Text = "Less than".Localize(), Value = 3, Operator = "<"},
+            new {Text = "Contains".Localize(), Value = 4, Operator = "Contains"},
+            new {Text = "Start with".Localize(), Value = 5, Operator = "Start with"},
+            new {Text = "End with".Localize(), Value = 6, Operator = "End with"},
+            new {Text = "NotNull".Localize(), Value = 9, Operator = "Not Null"},
+            new {Text = "IsNull".Localize(), Value = 8, Operator = "Is Null"},
+        };
+    var logicList = new List<object>
+        {
+            new {Text = "AND".Localize(), Value = 0},
+            new {Text = "OR".Localize(), Value = 1},
+            new {Text = "Then AND".Localize(), Value = 2},
+            new {Text = "Then OR".Localize(), Value = 3},
+        };
+}
+<script type="text/javascript">
+    var metadata = {
+        dataRuleList : @Html.Raw(JsonConvert.SerializeObject(Model, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }))  ,
+        codeSnippetList:@Html.Raw(JsonConvert.SerializeObject(codeSnippetDictionaryList, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None })) ,
+        sysColumnList:@Html.Raw(JsonConvert.SerializeObject(sysColumnList, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None })) ,
+        rawEmptyDataRuleSetting:@Html.Raw(JsonConvert.SerializeObject(emptyDataRuleSetting, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects })) ,
+        rawEmptyDataRule:@Html.Raw(JsonConvert.SerializeObject(emptyDataRule, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects })) ,
+        rawEmptyWhereClause:@Html.Raw(JsonConvert.SerializeObject(new WhereClause(), Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None })) ,
+        folderTrees:@Html.Raw(JsonConvert.SerializeObject(folderTrees, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None })) ,
+        schemaList:@Html.Raw(JsonConvert.SerializeObject(schemaList, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None })) ,
+        operatorList:@Html.Raw(JsonConvert.SerializeObject(operatorList, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None })) ,
+        logicList:@Html.Raw(JsonConvert.SerializeObject(logicList, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None })) ,
+       
+    };
+    var dataRuleListMappingOptions = {
+        'WhereClauses': {
+            create:function(parameter) {
+                if (parameter.data != null) {
+                    parameter.data.IsEditing = ko.observable(false);
+                    parameter.data.IsNew = ko.observable(false);
+                }
+                return parameter.data;
+            }
+        },
+        'CategoryClauses': {
+            create:function(parameter) {
+                if (parameter.data != null) {
+                    parameter.data.IsEditing = ko.observable(false);
+                    parameter.data.IsNew = ko.observable(false);
+                }
+                return parameter.data;
+            }
+        },
+    };
+    var DisplayViewModel = function(){
+        var self = this;
+        self.DataRuleList = ko.mapping.fromJS(metadata.dataRuleList,dataRuleListMappingOptions);
+        self.CodeSnippetList = ko.mapping.fromJS(metadata.codeSnippetList);
+        self.AddDataRule = function() {
+            var newDataRule = utils.CloneObject(metadata.rawEmptyDataRuleSetting);
+            newDataRule.IsNew = true;
+            newDataRule.DataRule = utils.CloneObject(metadata.rawEmptyDataRule);
+            utils.SwitchDataRule(newDataRule);
+            utils.ShowDialog(newDataRule);
+        };
+        self.EditDataRule = function(rule) {
+            var shadowRule = utils.CloneObject(rule);
+            shadowRule.IsNew = false;
+            shadowRule.OldDataName = rule.DataName();
+            utils.SwitchDataRule(shadowRule);
+            utils.ShowDialog(shadowRule);
+        };
+        self.DeleteDataRule = function(rule){
+            if(confirm('@("Are you sure you want to delete this item?".Localize())')){
+                var codeSnippet = ko.utils.arrayFirst(self.CodeSnippetList(), function(item) {                
+                    return item.DataRuleName() === rule.DataName();
+                });
+                self.DataRuleList.remove(rule);
+                self.CodeSnippetList.remove(codeSnippet);
+            }
+        };
+        self.InsertCodeSnippet = function(rule,e){            
+            var codeSnippet = ko.utils.arrayFirst(self.CodeSnippetList(), function(item) {     
+                return item.DataRuleName() === rule.DataName();
+            });
+            if($(e.target).hasClass('csharp')){
+                utils.InsertCodeSnippet(codeSnippet.CodeSnippetClean());
+            }
+            else{
+                utils.InsertCodeSnippet(codeSnippet.CodeSnippetInline());
+            }            
+        };
+    };
+        var EditViewModel = function(dataRule) {
+            var self = this;
+            self.DataRuleSetting = ko.observable(dataRule);
+            self.GetCorrespondingFolder = function(folderName) {
+                return utils.GetFolderTreeNodeByName(metadata.folderTrees,folderName);
+            };
+            self.GetCorrespondingSchema = function(schemaName) {
+                var schema = ko.utils.arrayFirst(metadata.schemaList, function(item) {
+                    return item.Name === schemaName;
+                });
+                return schema;
+            };
+            self.GetFolderDisplayName = function(folderName) {
+                var folder = self.GetCorrespondingFolder(folderName);
+                if (folder == null) {
+                    return "";
+                }
+                return folder.DisplayName === "" ? folder.Name : folder.DisplayName;
+            };
+            self.GetSchemaColumns = function(folderName) {
+                var folder = self.GetCorrespondingFolder(folderName);
+                if (folder == null) {
+                    return {};
+                }
+                var schema = self.GetCorrespondingSchema(folder.SchemaName);
+                var userColumns = schema.Columns;
+                var allColumns = $.merge([], userColumns);
+                $.merge(allColumns, metadata.sysColumnList);
+                return allColumns;
+            };
+            self.GetContentType = function(folderName) {
+                if (folderName == null) {
+                    return '';
+                }
+                return folderName.split('~')[0];
+            };
+            self.GetCategoryFolders = function(folderName) {
+                var folder = self.GetCorrespondingFolder(folderName);
+                if (folder == null) {
+                    return null;
+                }
+                return folder.Categories;
+            };
+            //filters
+            self.GetFilterExpression = function(filter) {
+                var logic = ko.utils.arrayFirst(metadata.logicList, function(item) {
+                    return item.Value === filter.Logical();
+                });
+                var fieldName = filter.FieldName();
+                var operator = ko.utils.arrayFirst(metadata.operatorList, function(item) {
+                    return item.Value === filter.Operator();
+                });
+                
+                var value1 = filter.Value1();
+                var value2 = filter.Value2();
+                var expression = logic.Text + '  ' + fieldName + '  ' + operator.Operator + '  ' + (value1==undefined?"":value1);
+                return expression;
+            };
+            self.CancelEditingFilter = function(filter,e) {            
+                if (filter.IsNew) {
+                    self.RemoveFilter(filter,e);
+                }
+                filter.IsEditing(false);
+            };
+            self.SaveEditingFilter = function(filter,e) {
+                filter.Logical(filter.LogicalTemp());
+                filter.FieldName(filter.FieldNameTemp());
+                filter.Operator(filter.OperatorTemp());
+                filter.Value1(filter.Value1Temp());
+                filter.Value2(filter.Value2Temp());
+                filter.IsEditing(false);
+            };
+            self.EditFilter = function(filter) {
+                //temp observables for editing
+                filter.LogicalTemp = ko.observable(filter.Logical());
+                filter.FieldNameTemp = ko.observable(filter.FieldName());
+                filter.OperatorTemp = ko.observable(filter.Operator());
+                filter.Value1Temp = ko.observable(filter.Value1());
+                filter.Value2Temp = ko.observable(filter.Value2());
+                filter.IsNew = false;
+                filter.IsEditing(true);
+            };
+            self.AddFilter = function(data,e) {
+                var newFilter = utils.CloneObject(metadata.rawEmptyWhereClause);
+                newFilter.IsEditing = ko.observable(false);
+                self.EditFilter(newFilter);
+                newFilter.IsNew = true;
+                var dataSet = $(e.target).parent().siblings('ul.filter-list').data('dataSet');
+                if (dataSet === "WhereClauses") {
+                    self.DataRuleSetting().DataRule.WhereClauses.push(newFilter);
+                }
+                if (dataSet === "CategoryClauses") {
+                    self.DataRuleSetting().DataRule.CategoryClauses.push(newFilter);
+                }
+            };
+            self.RemoveFilter = function(filter,e) {
+                var dataSet = $(e.target).closest('ul').data('dataSet');
+                if (dataSet === "WhereClauses") {
+                    self.DataRuleSetting().DataRule.WhereClauses.remove(filter);
+                }
+                if (dataSet === "CategoryClauses") {
+                    self.DataRuleSetting().DataRule.CategoryClauses.remove(filter);
+                }
+            };
+            self.SaveDataRule = function() {
+                utils.ValidateDataRuleName(self.DataRuleSetting().DataName());
+                if (!self.IsValid()) {
+                    return;
+                }
+                var newDataRule = self.DataRuleSetting();
+                var callBack = $.noop();
+                if (self.DataRuleSetting().IsNew) {
+                    displayViewModel.DataRuleList.push(newDataRule);
+                    callBack = function(codeSnippet) {
+                        displayViewModel.CodeSnippetList.push(ko.mapping.fromJS(codeSnippet));
+                    };
+                @if (currentController == "view")
+                {
+                    @:utils.LoadCodeSnippet(newDataRule,callBack);
+                }
+                } else {
+                    var oldDataRule = ko.utils.arrayFirst(displayViewModel.DataRuleList(), function(item) {
+                        return item.DataName() === newDataRule.OldDataName;
+                    });
+                    displayViewModel.DataRuleList.replace(oldDataRule, utils.CloneObject(newDataRule));
+                    callBack = function(codeSnippet) {
+                        var oldCodeSnippet = ko.utils.arrayFirst(displayViewModel.CodeSnippetList(), function(item) {
+                            return item.DataRuleName() === self.DataRuleSetting().OldDataName;
+                        });
+                        displayViewModel.CodeSnippetList.replace(oldCodeSnippet,ko.mapping.fromJS(codeSnippet));
+                    };
+                @if (currentController == "view")
+                {
+                    @:utils.LoadCodeSnippet(newDataRule, callBack);
+                }
+                }
+                utils.$DataRuleEditForm.dialog("close");            
+                window.leaveConfirm.stop();
+            };
+            self.CancelSaveDataRule = function() {
+                utils.$DataRuleEditForm.dialog("close");
+            };
+            self.HasAdvancedOptions = ko.computed(function() {
+                return self.DataRuleSetting().TakeOperation() == 0;
+            });
+            self.EditingStep = ko.observable();
+            self.GotoNextStep = function() {
+                if(self.DataRuleSetting().TakeOperation() == 1)
+                {
+                    var newFilter = utils.CloneObject(metadata.rawEmptyWhereClause);
+                    newFilter.IsEditing = ko.observable(false);
+                    newFilter.Logical(0);
+                    newFilter.FieldName('UserKey');
+                    newFilter.Operator(0);
+                    newFilter.Value1('{UserKey}');
+     
+                    self.DataRuleSetting().DataRule.WhereClauses.push(newFilter);
+                }
+                self.EditingStep('EditFilters');
+                $.validator.unobtrusive.parse('#editing-form');
+            };
+            self.GotoPreviousStep = function() {
+                self.EditingStep('ChooseFolder');
+            };
+            self.ValidateDataRuleName = function(data,e) {
+                var dataRuleName = e.target.value;
+                utils.ValidateDataRuleName(dataRuleName);
+            };
+            self.ValidationMessage = ko.observable('');
+            self.IsValid = ko.observable(true);
+        };
+
+        var displayViewModel = new DisplayViewModel();
+        ko.applyBindings(displayViewModel,$('#grid-field-container')[0]);
+        var editViewModel =  new EditViewModel(ko.mapping.fromJS(metadata.rawEmptyDataRuleSetting));//delay binding
+    
+        var utils = {
+            $CodeEditor : $('textarea'),
+            $DataRuleEditForm:$('#data-rule-edit-form'),
+            InsertCodeSnippet : function(codeSnippet){
+                var codeMirrorAPI = utils.$CodeEditor.data("codeMirror");
+                codeMirrorAPI.insertAtCursor(codeSnippet);
+            },
+            CloneObject:function(obj) {
+                return ko.mapping.fromJS(ko.toJS(obj));
+            },
+            SwitchDataRule:function(dataRule) {
+                if (dataRule.DataRule.WhereClauses() == null) {
+                    dataRule.DataRule.WhereClauses = ko.observableArray();
+                }
+                if (dataRule.DataRule.CategoryClauses() == null) {
+                    dataRule.DataRule.CategoryClauses = ko.observableArray();
+                }            
+                dataRule.DataRule.EnablePaging.subscribe(function(newValue) {
+                    if (newValue == true) {
+                        dataRule.DataRule.PageIndex("{PageIndex}");
+                        dataRule.DataRule.PageSize("{PageSize}");
+                    }else {
+                        dataRule.DataRule.PageIndex("");
+                        dataRule.DataRule.PageSize("");
+                    }
+                });           
+                editViewModel.DataRuleSetting(dataRule);
+                editViewModel.IsValid(true);
+                if (dataRule.IsNew) {
+                    editViewModel.EditingStep('ChooseFolder');
+                } else {
+                    editViewModel.EditingStep('EditFilters');
+                }
+                if (!ko.dataFor(utils.$DataRuleEditForm[0])) {//no binding yet,apply binding only once 
+                    ko.applyBindings(editViewModel,utils.$DataRuleEditForm[0]);  
+                }
+            },
+            FolderTreeNodeCatch:new Object(),
+            GetFolderTreeNodeByName:function(folderTree,folderName) {
+            
+                if (utils.FolderTreeNodeCatch[folderName] != null) {
+                    return utils.FolderTreeNodeCatch[folderName];
+                } else {
+                    var folder = null;
+                    for (var i = 0, j = folderTree.length; i < j; i++) {
+                        if (folderTree[i].Folder.NamePaths.join('~') === folderName) {
+                            folder = folderTree[i].Folder;
+                            utils.FolderTreeNodeCatch[folderName] = folder;
+                            return folder;
+                        }
+                        if (folderTree[i].Children.length > 0) {
+                            folder = utils.GetFolderTreeNodeByName(folderTree[i].Children,folderName);
+                        }
+                    }
+                    return folder;
+                }
+            },
+            ShowDialog : function (dataRule){
+                utils.$DataRuleEditForm.dialog({
+                    autoOpen:false,
+                    width: 780,
+                    modal: true,
+                    draggable: false,
+                    resizable: false
+                }).dialog("open").dialog("option", "position", 'center');
+                if (dataRule.IsNew) {
+                    utils.InitDataTree();
+                }
+            },
+            InitDataTree:function() {
+                var $dataTree = $('#J_DataTree');
+                $dataTree.change(function(e) {
+                    var $current = $(e.target);
+                    editViewModel.DataRuleSetting().DataRule.FolderName($current.val());
+                });
+                $dataTree.find('input[type=radio]').eq(0).attr('checked', true).change();
+            },
+        @if (currentController == "view")
+        {
+<text>
+        LoadCodeSnippet:function(dataRule,callback) {
+            $.ajax({
+                type: "POST",
+                url: "@Html.Raw(Url.Action("GetCodeSnippet", "View", new { siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), ViewEngine = viewEngine.Name })) ",
+                contentType:"application/json_net",
+                dataType:"json",
+                data: ko.mapping.toJSON(dataRule),
+                success:function(result){
+                    callback(result);
+                },
+            });
+        },
+</text>
+        }
+        ValidateDataRuleName:function(dataRuleName) {
+            if ($.trim(dataRuleName) == '') {
+                editViewModel.ValidationMessage('@("Required".Localize())');
+                editViewModel.IsValid(false);
+                return;
+            }
+            var formatPattern = /^[a-zA-Z_][a-zA-Z0-9_]{0,50}$/;
+            if (!dataRuleName.match(formatPattern)) {
+                editViewModel.ValidationMessage('@("Invalid data rule name.".Localize())');
+                editViewModel.IsValid(false);
+                return;
+            }
+            var exsitedDataRule = ko.utils.arrayFirst(displayViewModel.DataRuleList(), function(rule) {
+                return rule.DataName() === dataRuleName;
+            });
+            if (exsitedDataRule != null && (editViewModel.DataRuleSetting().IsNew || editViewModel.DataRuleSetting().OldDataName!=exsitedDataRule.DataName())){
+                editViewModel.ValidationMessage('@("This data rule name is being used by other datarules.".Localize())');
+                editViewModel.IsValid(false);
+                return;
+            }
+            editViewModel.IsValid(true);
+        },
+    };
+</script>

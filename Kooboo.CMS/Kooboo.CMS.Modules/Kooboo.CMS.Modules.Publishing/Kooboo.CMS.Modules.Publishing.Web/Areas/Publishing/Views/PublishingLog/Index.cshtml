@@ -1,0 +1,12 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Modules.Publishing.Models.PublishingLog>
+@{
+    ViewBag.Title = "Publishing log".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+}
+
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+    @Html.Partial("_AdvancedSearch")
+</div>
+@Html.GridForModel2()

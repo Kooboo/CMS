@@ -1,0 +1,22 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Sites.Versioning.VersionInfo>
+@{
+    ViewBag.Title = ViewContext.RequestContext.GetRequestValue("title").Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+        <li><a href="@Url.Action("PreviewVersion", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
+             @Html.IconImage("preview")
+            @("Preview".Localize())</a></li>
+    </ul>
+}
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+</div>
+@Html.GridForModel2()

@@ -1,0 +1,20 @@
+﻿@model IEnumerable<RelationModel>
+@{
+    ViewBag.Title = ViewContext.RequestContext.GetRequestValue("title").Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+</div>
+<div class="block common-form">
+    @Html.GridForModel2()
+</div>

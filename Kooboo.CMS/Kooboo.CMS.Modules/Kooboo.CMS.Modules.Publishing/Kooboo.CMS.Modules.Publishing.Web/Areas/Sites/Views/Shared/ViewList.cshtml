@@ -1,0 +1,20 @@
+﻿@model Kooboo.CMS.Sites.Services.Namespace<Kooboo.CMS.Sites.Models.View>
+@{
+    var viewEngine = (Kooboo.CMS.Sites.View.ITemplateEngine)ViewData["ViewEngine"];
+}
+<ul>
+    @foreach (var e in Model.Entries)
+    {
+        <li title="@e.FullName ">
+            <a  title='@viewEngine.GetCodeHelper().RenderView(e.FullName)' class="right">@Html.IconImage("insert")</a>
+            @e.Name
+        </li>
+    }
+    @foreach (var ns in Model.ChildNamespaces)
+    {
+        <li title="@ns.FullName " class="has-sub">
+            <span>@Html.IconImage("arrow")@ns.Name</span>
+            @Html.Partial("ViewList", ns)
+        </li>
+    }
+</ul>

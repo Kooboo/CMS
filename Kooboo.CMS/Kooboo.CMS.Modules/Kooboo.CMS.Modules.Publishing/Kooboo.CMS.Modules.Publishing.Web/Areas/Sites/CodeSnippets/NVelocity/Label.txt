@@ -1,0 +1,1 @@
+$ViewHelper.Label("Label Text")

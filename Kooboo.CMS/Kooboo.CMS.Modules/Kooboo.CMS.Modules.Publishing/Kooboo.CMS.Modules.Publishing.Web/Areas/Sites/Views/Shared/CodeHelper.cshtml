@@ -1,0 +1,15 @@
+﻿@model dynamic
+@{
+    var guid = Guid.NewGuid();
+    var viewEngine = (Kooboo.CMS.Sites.View.ITemplateEngine)ViewData["ViewEngine"];
+
+    var codeHelper = Kooboo.CMS.Sites.Services.ServiceFactory.CodeSnippetManager.All(viewEngine.Name);
+}
+<div class="block codehelper">
+    <h6 class="title active">
+        @Html.IconImage("arrow")
+        @("Code helper".Localize())</h6>
+    <div class="container viewTools list">
+        @Html.Partial("CodeHelperItem", codeHelper)
+    </div>
+</div>

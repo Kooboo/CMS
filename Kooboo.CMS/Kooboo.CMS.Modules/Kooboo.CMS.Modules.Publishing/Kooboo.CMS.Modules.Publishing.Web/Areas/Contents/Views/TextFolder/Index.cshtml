@@ -1,0 +1,40 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Content.Models.TextFolder>
+@{
+    ViewBag.Title = "Text content".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+    TextFolder currentFolder = null;
+    if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("FolderName")))
+    {
+        currentFolder = new TextFolder(Repository.Current, ViewContext.RequestContext.GetRequestValue("FolderName")).AsActual();
+    }
+}
+
+@section Panel{
+    <ul class="panel">
+        @if (Kooboo.CMS.Web.Authorizations.AuthorizationHelpers.Authorize(ViewContext.RequestContext, Kooboo.CMS.Account.Models.Permission.Contents_FolderPermission))
+        {
+            <li><a href="@Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">
+                @Html.IconImage("add-folder") @("New folder".Localize())</a></li>
+            <li><a href="@Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
+                @Html.IconImage("setting") @("Settings".Localize())</a></li>
+            <li><a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
+                @Html.IconImage("delete") @("Delete".Localize())</a></li>
+        }
+
+    </ul>
+}
+<div class="topbar clearfix">
+    <h1 class="title">
+        @if (currentFolder == null)
+        {
+            @ViewBag.Title
+        }
+        else
+        {
+            @currentFolder.FriendlyText
+        }
+    </h1>
+    @Html.Partial("_TextContentGridBreadcrumb", currentFolder, new ViewDataDictionary())
+    @Html.Partial("_Search")
+</div>
+@Html.GridForModel2()

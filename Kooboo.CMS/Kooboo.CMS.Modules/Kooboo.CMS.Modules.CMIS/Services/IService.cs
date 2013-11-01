@@ -17,7 +17,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services
 {
     [ServiceContract(Namespace = "http://docs.oasis-open.org/ns/cmis/core/200908/")]
     [DispatchByBodyElementBehaviorAttribute]
-    public interface IService : IRepositoryService, IObjectService, INavigationService//, IPageService
+    public interface IService : IRepositoryService, IObjectService, INavigationService, IPageService
     {
     }
 }

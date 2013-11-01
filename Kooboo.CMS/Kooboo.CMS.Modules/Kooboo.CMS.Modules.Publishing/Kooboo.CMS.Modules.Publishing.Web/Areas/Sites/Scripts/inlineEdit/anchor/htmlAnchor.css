@@ -1,0 +1,62 @@
+﻿/*
+*   htmlAnchor
+*   author: ronglin
+*   create date: 2011.02.09
+*/
+
+.kb-htmlAnchor {
+	background: #F6F6F6;
+	border: 1px solid #BABABA;
+	cursor: default;
+	display: none;
+	font-size: 12px;
+	font-family: Arial,Helvetica,sans-serif;
+	height: 24px;
+	line-height: 1;
+	overflow: hidden;
+	position: absolute;
+	z-index: 4;
+	-moz-user-select: none;
+}
+
+.kb-htmlAnchor .kb-con {
+	float: left;
+	cursor: default;
+	padding: 2px;
+}
+
+.kb-htmlAnchor .kb-name {
+	float: left;
+	line-height: 20px;
+	margin: 2px 4px;
+}
+
+.kb-htmlAnchor .kb-sep {
+	background: #DDD;
+	float: left;
+	height: 20px;
+	width: 1px;
+	cursor: default;
+}
+
+.kb-htmlAnchor .kb-btn {
+	background-position: center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	float: left;
+	margin: 0 4px;
+	padding: 2px;
+}
+
+.kb-htmlAnchor .kb-hover {
+	background-color: #D5E1F2;
+}
+
+/*
+* image buttons
+*/
+.kb-htmlAnchor .btnEdit {
+	background-image: url(images/menu_edit.png);
+	height: 16px;
+	width: 16px;
+}

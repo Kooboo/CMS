@@ -1,0 +1,20 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Web.Areas.Sites.Models.ABPageTestHitsReport>
+@{
+    ViewBag.Title = "A/B test result report".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title <strong>@ViewBag.TestResult.UUID</strong></h1>
+</div>
+@Html.GridForModel2()

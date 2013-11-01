@@ -1,0 +1,56 @@
+﻿@model Kooboo.CMS.Sites.Services.DiagnosisResult
+@{
+    ViewBag.Title = "System diagnosis".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+}
+<div class="block common-form diagnosis">
+    <h1 class="title">@ViewBag.Title</h1>
+    <fieldset>
+        <legend>@("System info".Localize())</legend>
+        <table>
+            <tbody>
+                @Html.DisplayFor(m => m.WebApplicationInformation.MachineName)
+                @Html.DisplayFor(m => m.WebApplicationInformation.ApplicationVirtualPath)
+                @Html.DisplayFor(m => m.WebApplicationInformation.TrustLevel)
+                @Html.DisplayFor(m => m.ContentProvider)
+            </tbody>
+        </table>
+    </fieldset>
+    <fieldset>
+        <legend>@("System diagnosis".Localize())</legend>
+        <table>
+            <tbody>
+                @foreach (var item in Model.DiagnosisItems)
+                {
+                    <tr>
+                        <th>
+                            <label>
+                                @item.Name
+                            </label>
+                        </th>
+                        <td>
+                            <span class="status">
+                                @if (item.Result == DiagnosisResultType.Passed)
+                                {
+                                    @Html.IconImage("tick");
+                                }
+                                else
+                                {
+                                    if (item.Result == DiagnosisResultType.Failed)
+                                    {
+                                    @Html.IconImage("cross");
+                                    }
+                                    else
+                                    {
+                                    @Html.IconImage("warning");
+                                    }
+                                }
+                            </span>
+                            <span class="gray">@item.Message</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </fieldset>
+</div>

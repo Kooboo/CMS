@@ -1,0 +1,4 @@
+﻿@foreach(var file in ContentHelper.SplitMultiFiles(ViewBag.Article.Images))
+{
+	<img src="@file" alt=""/>
+}

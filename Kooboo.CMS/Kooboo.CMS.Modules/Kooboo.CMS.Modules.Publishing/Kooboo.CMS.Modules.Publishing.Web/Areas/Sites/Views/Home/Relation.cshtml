@@ -1,0 +1,475 @@
+﻿@using Kooboo.CMS.Common.Runtime;
+@using Kooboo.CMS.Content.Services;
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "Start".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+
+}
+
+@section Panel{
+
+}
+
+<style>
+    /* relation svg */
+    .topbar .tips {
+        float: right;
+        margin-top: 14px;
+    }
+
+    svg text.empty:hover,
+    svg rect.empty:hover {
+        cursor: pointer;
+    }
+
+    svg text:hover {
+        cursor: default;
+    }
+
+    svg text.titles:hover {
+        cursor: default;
+        text-decoration: none;
+    }
+
+    svg image:hover {
+        cursor: pointer;
+    }
+
+    #fullSiteName {
+        position: absolute;
+        border: 1px solid #ccc;
+        top: 0;
+        left: 0;
+        background: #fff;
+        color: #000;
+        z-index: 999;
+        padding: 0 5px;
+        display: none;
+    }
+</style>
+
+<div class="topbar">
+    <h1 class="title">Relation</h1>
+    <p class="tips">@("Tip: Click rectangles to view the relations.".Localize())</p>
+</div>
+<div class="block fixed">
+    <div id="showRelation"></div>
+    <span id="fullSiteName">fullname</span>
+</div>
+
+
+<script>
+    var site =  @Html.Raw(JsonConvert.SerializeObject(ViewBag.Sites, Formatting.Indented))
+    var content = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Databases, Formatting.Indented))
+    var membership = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Memberships, Formatting.Indented))
+
+    var max_length = Math.max(site.length, content.length, membership.length);
+
+    var bg_database = '#1f9284';
+    var bg_site = '#3ca8db';
+    var bg_membership = '#5496A7';
+    var bg_hover = '#d3573f';
+
+    var w = 1000;
+    //var w = $('#showRelation').width();
+    var rect_w = w / 100 * 20;
+    var rect_h = 44;
+    var rect_margin_h = w / 100 * 2;
+    var h = max_length * (rect_h + rect_margin_h) + 500;
+
+    var svg = d3.select('#showRelation').append('svg').attr('width', w).attr('height', h);
+
+    var marker = svg.append('defs').append('marker')
+				.attr('id', 'the_marker')
+				.attr('markerWidth', 8)
+				.attr('markerHeight', 8)
+				.attr('refX', 5)
+				.attr('refY', 5)
+				.append('circle')
+				.attr('cx', 5)
+				.attr('cy', 5)
+				.attr('r', 2)
+				.attr('fill', '#666');
+
+    var titles = svg.selectAll('text.titles').data(['@("Membership".Localize())', '@("Site".Localize())', '@("Content database".Localize())'])
+	.enter().append('text')
+	.attr('class', 'titles')
+	.attr('style', 'font-family: Arial, Helvetica, sans-serif; font-size: 1.17em; font-weight: bold; text-anchor: middle')
+	.attr('fill', '#555')
+	.attr('x', function (d, i) { return i * w / 100 * 30 + w / 100 * 10 + 70 })
+	.attr('y', 40)
+	.text(function (d) { return d });
+
+    // rects and texts
+    // Empty case
+    function createEmptyRect(empty_type){
+        switch (empty_type){
+            case 'membership':
+                var text = '@("Create new membership".Localize())';
+                var offset = 0;
+                var url = '@(Url.Action("Create", new { controller = "Membership", area = "Membership", @return = Request.RawUrl }))';
+                break;
+            case 'site':
+                var text = '@("Create new site".Localize())';
+                var offset = 1;
+                var url = '@(Url.Action("Create", new { controller = "Site", area = "Sites", @return = Request.RawUrl }))';
+                break;
+            case 'content':
+                var text = '@("Create new content database".Localize())';
+                var offset = 2;
+                var url = '@(Url.Action("Create", new { controller = "Repository", area = "Contents", @return = Request.RawUrl }))';
+                break;
+        }
+        svg.selectAll('rect.none').data([1]).enter().append('rect')
+			.attr('x', offset * 300 + 70)
+			.attr('y', 100)
+			.attr('class', 'empty')
+			.attr('data-url', url)
+			.attr('width', rect_w)
+			.attr('height', rect_h)
+			.attr('fill', '#fff')
+			.attr('stroke', '#aaa')
+			.attr('stroke-dasharray', '5 2');
+        svg.selectAll('text.none').data([1]).enter().append('text')
+			.attr('x', 70 + w / 100 * 10 + offset * 300)
+			.attr('y', 126)
+			.attr('class', 'empty')
+			.attr('data-url', url)
+			.attr('style', 'font-family: Arial; font-size: 14px; text-anchor: middle')
+			.attr('fill', '#aaa')
+			.text(text);
+    }
+    if(!membership.length){
+        createEmptyRect('membership');
+    }
+    if(!site.length){
+        createEmptyRect('site');
+    }
+    if(!content.length){
+        createEmptyRect('content');
+    }
+
+    // Full case
+    var site_rects = svg.selectAll('rect.site').data(site).enter().append('rect');
+    var site_texts = svg.selectAll('text.site').data(site).enter().append('text').attr('class', 'site-text');
+    var content_rects = svg.selectAll('rect.content').data(content).enter().append('rect');
+    var content_texts = svg.selectAll('text.content').data(content).enter().append('text').attr('class', 'content-text');
+    var membership_rects = svg.selectAll('rect.membership').data(membership).enter().append('rect');
+    var membership_texts = svg.selectAll('text.membership').data(membership).enter().append('text').attr('class', 'membership-text');
+
+    site_rects.attr('x', w / 100 * 30 + 70)
+				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) })
+				.attr('width', rect_w)
+				.attr('height', rect_h)
+				.attr('class', 'site-rect')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.attr('fill', bg_site);
+    site_texts.attr('x', w / 100 * 30 + 80)
+				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 26 })
+				.attr('style', 'font-family: Arial; font-size: 14px')
+				.attr('fill', '#fff')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.attr('data-fulltext', function (d) { return d.fullText })
+				.text(function (d) { return d.text });
+
+    content_rects.attr('x', w / 100 * 60 + 70)
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) })
+				.attr('width', rect_w)
+				.attr('height', rect_h)
+				.attr('class', 'content-rect')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.attr('fill', bg_database);
+    content_texts.attr('x', w / 100 * 60 + 80)
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
+				.attr('style', 'font-family: Arial; font-size: 14px')
+				.attr('fill', '#fff')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.text(function (d) { return d.text });
+
+    membership_rects.attr('x', 70)
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) })
+				.attr('width', rect_w)
+				.attr('height', rect_h)
+				.attr('class', 'membership-rect')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.attr('fill', bg_membership);
+    membership_texts.attr('x', 80)
+				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
+				.attr('style', 'font-family: Arial; font-size: 14px')
+				.attr('fill', '#fff')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.text(function (d) { return d.text });
+
+    var hasMemberships = _.filter(site,function(d){
+        return d.membership > -1;
+    });
+    var hasContents = _.filter(site,function(d){
+        return d.content > -1;
+    });
+
+    // lines
+    var site_member_lines = svg.selectAll('line.site_member').data(hasMemberships).enter().append('line');
+    var site_content_lines = svg.selectAll('line.site_content').data(hasContents).enter().append('line');
+
+    site_member_lines.attr('x1', w / 100 * 30 + 70)
+					.attr('y1', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
+					.attr('x2', w / 100 * 20 + 70)
+					.attr('y2', function (d) { return 100 + d.membership * (rect_h + rect_margin_h) + rect_h / 2 })
+					.attr('class', 'member-line')
+					.attr('marker-end', 'url(#the_marker)')
+					.attr('marker-start', 'url(#the_marker)')
+					.attr('stroke', '#999');
+    site_content_lines.attr('x1', w / 100 * 50 + 70)
+					.attr('y1', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
+					.attr('x2', w / 100 * 60 + 70)
+					.attr('y2', function (d) { return 100 + d.content * (rect_h + rect_margin_h) + rect_h / 2 })
+					.attr('class', 'content-line')
+					.attr('marker-end', 'url(#the_marker)')
+					.attr('marker-start', 'url(#the_marker)')
+					.attr('stroke', '#999');
+
+
+    var site_export_imgs = svg.selectAll('image.export').data(site).enter().append('image');
+    var content_export_imgs = svg.selectAll('image.export').data(content).enter().append('image');
+    var membership_export_imgs = svg.selectAll('image.export').data(membership).enter().append('image');
+
+    site_export_imgs.attr('x', w / 100 * 50 + 38)
+				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 10 })
+				.attr('width', 24)
+				.attr('height', 24)
+				.attr('class', 'view')
+				.attr('data-name', function (d) { return d.name })
+                .attr('data-url', function (d) { return d.url })
+				.attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+					content_export_imgs.attr('x', w / 100 * 80 + 38)
+                                .attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
+                                .attr('width', 24)
+                                .attr('height', 24)
+                                .attr('class', 'view')
+                                .attr('data-name', function (d) { return d.name })
+                                .attr('data-url', function (d) { return d.url })
+                                .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+					membership_export_imgs.attr('x', w / 100 * 20 + 38)
+                                .attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
+                                .attr('width', 24)
+                                .attr('height', 24)
+                                .attr('class', 'view')
+                                .attr('data-name', function (d) { return d.name })
+                                .attr('data-url', function (d) { return d.url })
+                                .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+
+	// Mouse Position
+	$('svg').on('mousemove', function(e){
+	    currentX = e.pageX;
+	    currentY = e.pageY;
+	});
+
+	$('.site-text').on('mousemove', function(){
+	    $('#fullSiteName').html($(this).data('fulltext')).css({'display': 'block', 'top': currentY - 12, 'left': currentX + 12});
+	}).on('mouseleave', function(){
+	    $('#fullSiteName').css({'display': 'none'});
+	});
+
+	// Show relation
+	$('.site-rect').on('mouseenter', function (e) {
+	    e.stopPropagation();
+	    $(this).attr('style', 'opacity: .5');
+	    var site_name = $(this).data('name');
+	    for (var i = 0; i < site.length; i++) {
+	        if (site[i]['name'] == site_name) {
+	            var index = i;
+	            break;
+	        } else {
+	            continue;
+	        }
+	    }
+	    var content_index = site[index]['content'];
+	    var membership_index = site[index]['membership'];
+	    if(content_index > -1){
+	        $('.content-rect').eq(content_index).attr('style', 'opacity: .4');
+        	
+	    }
+	    if(membership_index > -1){
+	        $('.membership-rect').eq(membership_index).attr('style', 'opacity: .4');
+	    }
+
+	    $(this).on('click', function(e){
+	        $('.content-rect').attr('fill', bg_database);
+	        $('.site-rect').attr('fill', bg_site);
+	        $('.membership-rect').attr('fill', bg_membership);
+	        $(this).attr({'fill': bg_hover, 'style': 'opacity: 1'});
+	        if(content_index > -1){
+	            $('.content-rect').eq(content_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
+	        }
+	        if(membership_index > -1){
+	            $('.membership-rect').eq(membership_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
+	        }
+	    });
+
+	}).on('mouseleave', function(e){
+	    $('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
+	});
+
+	$('.content-rect').on('mouseenter', function (e) {
+	    e.stopPropagation();
+	    $(this).attr('style', 'opacity: .5');
+	    var click_name = $(this).data('name');
+	    for(var i=0;i<content.length;i++){
+	        if(content[i].name==click_name){
+	            var index = i;
+	            break;
+	        } else {
+	            continue;
+	        }
+	    }
+	    for (var i = 0; i < site.length; i++) {
+	        if (site[i]['content'] == index) {
+	            $('.site-rect').eq(site[i]['num']).attr('style', 'opacity: .4');
+	            var content_index = site[i]['content'];
+	            var membership_index = site[i]['membership'];
+	            if(content_index > -1){
+	                $('.content-rect').eq(content_index).attr('style', 'opacity: .4');
+	            }
+	            if(membership_index > -1){
+	                $('.membership-rect').eq(membership_index).attr('style', 'opacity: .4');
+	            }
+	        }
+	    }
+	    $(this).on('click', function(e){
+	        $('.content-rect').attr('fill', bg_database);
+	        $('.site-rect').attr('fill', bg_site);
+	        $('.membership-rect').attr('fill', bg_membership);
+	        $(this).attr({'fill': bg_hover, 'style': 'opacity: 1'});
+	        for (var i = 0; i < site.length; i++) {
+	            if (site[i]['content'] == index) {
+	                $('.site-rect').eq(site[i]['num']).attr({'fill': bg_hover, 'style': 'opacity: 1'});
+	                var content_index = site[i]['content'];
+	                var membership_index = site[i]['membership'];
+	                if(content_index > -1){
+	                    $('.content-rect').eq(content_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
+	                }
+	                if(membership_index > -1){
+	                    $('.membership-rect').eq(membership_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
+	                }
+	            }
+	        }
+	    });
+	}).on('mouseleave', function(e){
+	    $('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
+	});
+
+	$('.membership-rect').on('mouseenter', function (e) {
+	    e.stopPropagation();
+	    $(this).attr('style', 'opacity: .5');
+	    var click_name = $(this).data('name');
+	    for(var i=0;i<membership.length;i++){
+	        if(membership[i].name==click_name){
+	            var index = i;
+	            break;
+	        } else {
+	            continue;
+	        }
+	    }
+	    for (var i = 0; i < site.length; i++) {
+	        if (site[i]['membership'] == index) {
+	            $('.site-rect').eq(site[i]['num']).attr('style', 'opacity: .4');
+	            var content_index = site[i]['content'];
+	            var membership_index = site[i]['membership'];
+	            if(content_index > -1){
+	                $('.content-rect').eq(content_index).attr('style', 'opacity: .4');
+	            }
+	            if(membership_index > -1){
+	                $('.membership-rect').eq(membership_index).attr('style', 'opacity: .4');
+	            }
+	        }
+	    }
+	    $(this).on('click', function(e){
+	        $('.content-rect').attr('fill', bg_database);
+	        $('.site-rect').attr('fill', bg_site);
+	        $('.membership-rect').attr('fill', bg_membership);
+	        $(this).attr({'fill': bg_hover, 'style': 'opacity: 1'});
+
+	        for (var i = 0; i < site.length; i++) {
+	            if (site[i]['membership'] == index) {
+	                $('.site-rect').eq(site[i]['num']).attr({'fill': bg_hover, 'style': 'opacity: 1'});
+	                var content_index = site[i]['content'];
+	                var membership_index = site[i]['membership'];
+	                if(content_index > -1){
+	                    $('.content-rect').eq(content_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
+	                }
+	                if(membership_index > -1){
+	                    $('.membership-rect').eq(membership_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
+	                }
+	            }
+	        }
+	    });
+	}).on('mouseleave', function(e){
+	    $('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
+	});
+
+	// text fixed
+	$('text').on('mouseenter', function(e){
+	    e.stopPropagation();
+	    var text_y = parseInt($(this).attr('y'));
+	    var rect_x = parseInt($(this).attr('x')) - 10;
+	    var all_rect = $('rect[x="' + rect_x + '"]');
+	    var y_list = [];
+	    for(var i=0;i<all_rect.length;i++){
+	        y_list.push($(all_rect[i]).attr('y'));
+	    }
+	    for(var i=0;i<y_list.length;i++){
+	        if(parseInt(y_list[i]) - text_y == -26){
+	            var index = i;
+	            break;
+	        }
+	    }
+	    $(all_rect[index]).trigger('mouseenter');
+	}).on('click', function(e){
+	    e.stopPropagation();
+	    var text_y = parseInt($(this).attr('y'));
+	    var rect_x = parseInt($(this).attr('x')) - 10;
+	    var all_rect = $('rect[x="' + rect_x + '"]');
+	    var y_list = [];
+	    for(var i=0;i<all_rect.length;i++){
+	        y_list.push($(all_rect[i]).attr('y'));
+	    }
+	    for(var i=0;i<y_list.length;i++){
+	        if(parseInt(y_list[i]) - text_y == -26){
+	            var index = i;
+	            break;
+	        }
+	    }
+	    $(all_rect[index]).trigger('click');
+	});
+	
+    
+
+	$('html').on('click', function(e){
+	    var target = $(e.target);
+	    if(target[0].nodeName != 'rect'){
+	        $('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
+	        $('.content-rect').attr('fill', bg_database);
+	        $('.site-rect').attr('fill', bg_site);
+	        $('.membership-rect').attr('fill', bg_membership);
+	    }
+	});
+
+	// Icon action
+	$('.site-text, .content-text, .membership-text').on('click', function () {
+	    //  location.href= $(this).data('url');
+	});
+	$('image.view, rect.empty, text.empty').on('click', function () {
+	    location.href= $(this).data('url');
+	});
+</script>
+
+
+
+

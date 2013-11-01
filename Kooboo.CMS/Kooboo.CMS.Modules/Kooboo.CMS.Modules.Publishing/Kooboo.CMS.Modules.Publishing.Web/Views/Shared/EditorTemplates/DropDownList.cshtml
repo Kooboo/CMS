@@ -1,0 +1,52 @@
+﻿@model object
+@{
+    Layout = ViewBag.Layout ?? "_TR.cshtml";
+    ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
+    var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString();
+    var notSelect2 = ViewBag.NotSelect2;
+    var editorHtmlAttributes = Html.GetUnobtrusiveValidationAttributes(propertyName, ViewData.ModelMetadata).Merge(ViewData.ModelMetadata.AdditionalValues, true);
+    var htmlAttributes = ViewBag.HtmlAttributes;
+    if (htmlAttributes != null)
+    {
+        if (htmlAttributes is IDictionary<string, object>)
+        {
+            editorHtmlAttributes.Merge((IDictionary<string, object>)htmlAttributes);
+        }
+        else
+        {
+            editorHtmlAttributes.Merge(new RouteValueDictionary(htmlAttributes));
+        }
+    }
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName);
+
+    var items = ViewData.ModelMetadata.GetDataSource().GetSelectListItems(ViewContext.RequestContext, "").SetActiveItem(Model).ToArray();
+}
+
+<select name="@ViewData.TemplateInfo.GetFullHtmlFieldName(propertyName)" id="@id" @Html.GenerateHtmlAttributes(editorHtmlAttributes)>
+    @foreach (var item in items)
+    {
+        IDictionary<string, object> htmlAttribute = null;
+        var selecteListEx = item as SelectListItemEx;
+        if (selecteListEx != null)
+        {
+            htmlAttribute = selecteListEx.HtmlAttributes;
+        }
+        <option value="@item.Value" @(item.Selected ? "selected=selected" : "") @Html.GenerateHtmlAttributes(htmlAttribute)>@item.Text</option>
+    }
+</select>
+
+
+@Html.ValidationMessage(ViewData.ModelMetadata, new { name = ViewData["name"] })
+
+@if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+{
+    <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
+}
+@if (notSelect2 != null && notSelect2 != true)
+{
+    <script>
+        jQuery(function ($) {
+            $("#id").select2({ minimumResultsForSearch: 20 });
+        });
+    </script>
+}

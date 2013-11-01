@@ -52,8 +52,8 @@ Security tips:
 
 1. The default Cmis service is published by HTTP, the service setting in the web.config is:
 
- <service name="Kooboo.CMS.CMIS.Services.Implementation.Service" behaviorConfiguration="enableMetadata">       
-        <endpoint address="" binding="basicHttpBinding"  contract="Kooboo.CMS.CMIS.Services.IService" bindingConfiguration="unsecureHttpBinding"  />
+ <service name="Kooboo.CMS.Modules.CMIS.Services.Implementation.Service" behaviorConfiguration="enableMetadata">       
+        <endpoint address="" binding="basicHttpBinding"  contract="Kooboo.CMS.Modules.CMIS.Services.IService" bindingConfiguration="unsecureHttpBinding"  />
         <endpoint address="mex" contract="IMetadataExchange" binding="mexHttpBinding"/>
  </service>
 
@@ -64,7 +64,7 @@ Security tips:
  - Bind a SSL certificate to your site.
  - Modify the "services" section as following.(Just comment the default HTTP binding, uncomment the HTTPS binding.)
 
-  <service name="Kooboo.CMS.CMIS.Services.Implementation.Service" behaviorConfiguration="enableMetadata">
-       <endpoint address="" contract="Kooboo.CMS.CMIS.Services.IService" binding="basicHttpBinding" bindingConfiguration="secureHttpBinding" />
+  <service name="Kooboo.CMS.Modules.CMIS.Services.Implementation.Service" behaviorConfiguration="enableMetadata">
+       <endpoint address="" contract="Kooboo.CMS.Modules.CMIS.Services.IService" binding="basicHttpBinding" bindingConfiguration="secureHttpBinding" />
        <endpoint address="mex" contract="IMetadataExchange" binding="mexHttpsBinding" />
   </service>

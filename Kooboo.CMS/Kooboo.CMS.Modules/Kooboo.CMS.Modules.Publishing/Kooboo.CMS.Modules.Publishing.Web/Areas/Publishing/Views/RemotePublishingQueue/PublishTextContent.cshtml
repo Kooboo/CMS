@@ -1,0 +1,237 @@
+﻿@model Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.CreateTextContentPublishingQueueViewModel
+@{
+    ViewBag.Title = "Publish remote text content".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    <form action="" method="post" id="remote_publishTextContent_form">
+        <table id="remote_publish_textContent">
+            <tbody>
+                @Html.EditorFor(m => m.LocalFolderId, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.TextFolderMappings, new { HtmlAttributes = new { @class = "medium" } })
+                <tr>
+                    <th>
+                        @("Schedule".Localize())
+                    </th>
+                    <td>
+                        <input type="checkbox" value="true" style="float: none" name="Schedule" id="Schedule" defaultvalue="False">
+                    </td>
+                </tr>
+                @Html.EditorFor(m => m.UtcTimeToPublish, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.UtcTimeToUnpublish, new { HtmlAttributes = new { @class = "medium" } })
+                <tr>
+                    <th>
+                        <label>
+                            @("Text content".Localize())
+                        </label>
+                    </th>
+                    <td>
+                        <div id="textContent_template" class="category-list clearfix">
+                            <ul data-bind="foreach: data">
+                                <li class="category-item-data medium">
+                                    <span class="text left" data-bind="{text:Text}"></span>
+                                    <a class="remove right" data-bind="click: $parent.removeItem">@Html.IconImage("minus small")</a>
+                                    <input type="hidden" name="TextContents" data-bind="value:UUID" />
+                                    <input type="hidden" name="ObjectTitles" data-bind="value:Text" />
+                                </li>
+                            </ul>
+                            <a id="pop_textContent" href="#" class="action textContentButton">@Html.IconImage("plus small")</a>
+                            <span id="selected_Folder"></span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    $(function () {
+        var popBaseUrl="@Url.Action("SelectTextContent", ViewContext.RequestContext.AllRouteValues())";
+        function TextContentViewModel() {
+            var self = this;
+            self.data = ko.observableArray([]);
+            self.removeItem = function () {
+                window.leaveConfirm.stop();
+                self.data.remove(this);                       
+            };
+            self.addItem = function (uuid, text) {
+                window.leaveConfirm.stop();
+                self.data.push({ UUID: uuid, Text: text });                            
+            };
+            self.postValue = ko.computed(function () {
+                var uuid = [];
+                _.each(this.data(), function (item) {
+                    uuid.push(item.UUID);
+                });
+                return uuid.join(',');
+            }, this);
+        }
+        var textContentViewModel = new TextContentViewModel();
+        var textContentTemplate = $('#textContent_template');
+        ko.applyBindings(textContentViewModel, textContentTemplate[0]);
+
+        var $localFolder=$("#LocalFolderId"),$selectedFolder=$("#selected_Folder"),$datetimeTR=$("#remote_publish_textContent tr").filter(":gt(2)").filter(":lt(2)");
+        var btns=textContentTemplate.find('a.textContentButton');
+        $("#Schedule").on("change",function(){
+            $datetimeTR[this.checked?"show":"hide"]();
+        }).trigger("change");
+        $localFolder.change(function(){
+            $selectedFolder.text("  Select "+$localFolder.val());
+            var len=textContentViewModel.data().length;
+            if(len>0){
+                textContentViewModel.data.splice(0,len);
+            }
+            
+            btns.unbind().each(function(ix,obj){
+                var $categoryLink = $(obj);
+
+                var url=popBaseUrl;
+                var ix=url.indexOf("?");
+                if(ix){
+                    url=popBaseUrl+"&FolderName="+$localFolder.val();
+                }
+                else{
+                    url=popBaseUrl+"?FolderName="+$localFolder.val();
+                }
+                $categoryLink.attr("href",url);
+                $categoryLink.pop({
+                    url:url,
+                    popupOnTop: true,
+                    width: 700,
+                    height: 500,
+                    dialogClass: 'iframe-dialog',
+                    onclose: function () {
+                        setTimeout(function () {
+                            if ($.popContext.getCurrent() != null) {
+                                $.popContext.getCurrent().find('iframe').height('100%');
+                            }
+                        }, 16);
+                    },
+                    onload: function (currentHandle, pop, config) {
+                        var iframe = pop.children('iframe'),
+                        iframeSrc = iframe[0].contentWindow.document.location.href;
+                        if (iframeSrc == 'about:blank') {
+                            return false;
+                        }
+                        var contents = iframe.contents();
+                        _.each(textContentViewModel.data(), function (item, index) {
+                            var $tr = contents.find('tr#' + item.UUID);
+                            $tr.addClass('active');
+                            $tr.find('input.select').attr('checked', 'checked');
+                        });
+
+                        (function initButton() {
+                            var saveBtn = contents.find('.save'),
+                            cancelBtn = contents.find('.cancel');
+                            cancelBtn.click(function () {
+                                pop.close();
+                            });
+                            saveBtn.click(function () {
+                                var $selectedTr = contents.find('tr.active');
+                                textContentViewModel.data.removeAll();
+                                _.each($selectedTr, function (tr) {
+                                    var $tr = $(tr);
+                                    var text = $tr.find('td:eq(1)').text(),
+                                        uuid = $tr.attr('id');
+                                    textContentViewModel.addItem(uuid, text);
+                                });
+                                pop.close();                                       
+                            });
+
+                        })();
+                    }
+                });
+            });
+        }).trigger("change");
+        $("#remote_publishTextContent_form").on("submit", function () {
+            if(textContentViewModel.data().length<=0){
+                window.info.show("@("Please select text content.".Localize())",false);
+                return false;
+            }
+            return true;
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        var $publishTime = $("#UtcTimeToPublish"), $unpublishTime = $("#UtcTimeToUnpublish"),
+            $distanceText = $("#UtcTimeToUnpublish_distance"),schedule=$("#Schedule")[0];
+        $("#remote_publishTextContent_form").on("submit", function () {
+            var pubDateText = $publishTime.val(), unpubDateText = $unpublishTime.val();
+            if (schedule.checked && !(pubDateText || unpubDateText)) {
+                window.info.show("@("PublishTime and UnpublishTime Can not be both empty.".Localize())", false);
+                return false;
+            }
+            return true;
+        });
+        $publishTime.on("datetimepicker.blur", function () {
+            setTip(this.value, $unpublishTime.val());
+        });
+        $unpublishTime.unbind("datetimepicker.blur").on("datetimepicker.blur", function () {
+            setTip($publishTime.val(), this.value);
+        });
+        
+        function setTip(pubDateText, unpubDateText) {
+            var dayOfMillSeconds = 1000 * 60 * 60 * 24,
+                hoursOfMillSeconds = 1000 * 60 * 60,
+                minutesOfMillSeconds = 1000 * 60,
+                secondsOfMillSeconds = 1000,
+                displayText = "";
+            if (unpubDateText) {
+                var pubDate = new Date(), unpubDate = new Date(unpubDateText);
+                if (pubDateText) {
+                    pubDate = new Date(pubDateText);
+                }
+                var millSeconds = unpubDate.getTime() - pubDate.getTime();
+                var distanceDay = 0, distanceHours = 0, distantceMinutes = 0, distanceSeconds = 0;
+                if (millSeconds > 0) {
+                    if (millSeconds >= dayOfMillSeconds) {
+                        distanceDay = parseInt(millSeconds / dayOfMillSeconds);
+                        millSeconds -= dayOfMillSeconds * distanceDay;
+                    }
+                    if (millSeconds >= hoursOfMillSeconds) {
+                        distanceHours = parseInt(millSeconds / hoursOfMillSeconds);
+                        millSeconds -= hoursOfMillSeconds * distanceHours;
+                    }
+                    if (millSeconds >= minutesOfMillSeconds) {
+                        distantceMinutes = Math.floor(millSeconds / minutesOfMillSeconds);
+                        millSeconds -= minutesOfMillSeconds * distantceMinutes;
+                    }
+                    if (millSeconds >= secondsOfMillSeconds) {
+                        distanceSeconds = Math.floor(millSeconds / secondsOfMillSeconds);
+                    }
+                }
+                if (distanceDay > 0) {
+                    displayText += distanceDay + " @("days".Localize()) ";
+                }
+                if (distanceHours > 0) {
+                    displayText += distanceHours + " @("hours".Localize()) ";
+                }
+                if (distantceMinutes > 0) {
+                    displayText += distantceMinutes + " @("minutes".Localize()) ";
+                }
+                if (distanceSeconds > 0) {
+                    displayText += distanceSeconds + " @("seconds".Localize()) ";
+                }
+                if (!displayText) {
+                    displayText = distanceSeconds + " @("seconds".Localize())";
+                }
+                displayText = "@("Online for".Localize()) : " + displayText;
+            }
+            $distanceText.text(displayText);
+        }
+    });
+</script>

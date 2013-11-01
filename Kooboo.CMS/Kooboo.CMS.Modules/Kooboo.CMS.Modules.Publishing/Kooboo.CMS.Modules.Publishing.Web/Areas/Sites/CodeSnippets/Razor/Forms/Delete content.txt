@@ -1,0 +1,6 @@
+﻿<div class="common-form">
+    <form action="@Url.FrontUrl().SubmissionUrl("DeleteComment", new { uuid = comment.UUID })" method="post">
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Delete" />
+    </form>    
+</div>

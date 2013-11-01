@@ -1,0 +1,41 @@
+﻿@model IEnumerable<FolderTreeNode<TextFolder>>
+@using Kooboo.CMS.Content.Models
+@using Kooboo.CMS.Content.Services
+@{
+    var values = ViewData["Values"] as List<string> ?? new List<string>();
+}
+
+@if (Model != null && Model.Count() > 0)
+{
+    <ul>
+        @foreach (var m in Model)
+        {
+            var inputId = "input_" + Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
+    
+            <li class="tree-node clearfix">
+                <span>
+                    @Html.IconImage("folder")
+                    @if (ViewBag.IsSingle)
+                    {
+                        <input type="radio" id="@inputId" value="@Html.Raw(m.Folder.FullName)" @((ViewBag.IsEditing != null && ViewBag.IsEditing) ? "disabled" : "") 
+            name="@(ViewData["InputName"])" @(values.Contains(m.Folder.FullName) == true ? "checked" : "") @(Html.GenerateHtmlAttributes((IDictionary<string, object>)ViewBag.InputAttributes))/>
+                    }
+                    else
+                    {
+                        <input type="checkbox" id="@inputId" value="@Html.Raw(m.Folder.FullName)" @((ViewBag.IsEditing != null && ViewBag.IsEditing) ? "disabled" : "") 
+            name="@(ViewData["InputName"])" @(values.Contains(m.Folder.FullName) == true ? "checked" : "") @(Html.GenerateHtmlAttributes((IDictionary<string, object>)ViewBag.InputAttributes))/>
+                    }
+                    <label for="@inputId">
+                        @(((m.Folder).AsActual() ?? m.Folder).FriendlyName)</label>
+                </span>
+
+
+                @if (m.Children != null && m.Children.Count() > 0)
+                {
+                    @Html.IconImage("tree-icon")
+                    @Html.Partial("FolderTreeNode", m.Children, ViewData)
+                }
+            </li>
+        }
+    </ul>
+}

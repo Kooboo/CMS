@@ -1,18 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{86BADA5A-8965-4F82-94F4-270ACFAE77F3}</ProjectGuid>
+    <ProjectGuid>{6245D610-99D9-4A00-8155-13EFDFACA194}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kooboo.CMS.Sites.Providers.AzureTable</RootNamespace>
-    <AssemblyName>Kooboo.CMS.Sites.Providers.AzureTable</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>Kooboo.CMS.Sites.Persistence.Couchbase</RootNamespace>
+    <AssemblyName>Kooboo.CMS.Sites.Persistence.Couchbase</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,18 +28,24 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Couchbase, Version=1.2.6.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Couchbase\Couchbase.dll</HintPath>
+    </Reference>
+    <Reference Include="Enyim.Caching, Version=2.12.0.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Couchbase\Enyim.Caching.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\..\Lib\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\Lib\Azure\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -52,34 +55,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\CMSAssemblyInfoGlobal.cs">
+    <Compile Include="..\..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
-    <Compile Include="AssemblyInitializer.cs" />
-    <Compile Include="LabelProvider\LabelEntity.cs" />
-    <Compile Include="LabelProvider\LabelRepository.cs" />
-    <Compile Include="LabelProvider\RepositoryFactory.cs" />
-    <Compile Include="SiteOnAzureTableSettings.cs" />
-    <Compile Include="CloudStorageAccountHelper.cs" />
-    <Compile Include="CloudTableHelper.cs" />
-    <Compile Include="HtmlBlockProvider\HtmlBlockEntity.cs" />
+    <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="DatabaseSettings.cs" />
+    <Compile Include="DataHelper.cs" />
     <Compile Include="HtmlBlockProvider\HtmlBlockProvider.cs" />
-    <Compile Include="PageProvider\PageEntity.cs" />
-    <Compile Include="PageProvider\PageProvider.cs" />
+    <Compile Include="LabelProvider\ElementRepositoryFactory.cs" />
+    <Compile Include="LabelProvider\LabelRepository.cs" />
+    <Compile Include="ModelExtensions.cs" />
+    <Compile Include="PageProvider\PageProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserProvider\SiteUserEntity.cs" />
+    <Compile Include="SiteInitializer.cs" />
+    <Compile Include="SiteProvider.cs" />
     <Compile Include="UserProvider\UserProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
+    <ProjectReference Include="..\..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
+      <Project>{570cd9d3-75d2-468a-8245-45bdca57432e}</Project>
+      <Name>Kooboo.CMS.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Sites\Kooboo.CMS.Sites.csproj">
-      <Project>{FFD8E9F0-61B6-4B0D-A803-5BECCD2A6578}</Project>
+    <ProjectReference Include="..\..\Kooboo.CMS.Membership\Kooboo.CMS.Membership.csproj">
+      <Project>{3df23643-4bd1-4564-82b9-9ec594ad05b6}</Project>
+      <Name>Kooboo.CMS.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo.CMS.Sites\Kooboo.CMS.Sites.csproj">
+      <Project>{ffd8e9f0-61b6-4b0d-a803-5beccd2a6578}</Project>
       <Name>Kooboo.CMS.Sites</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
+    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
       <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
       <Name>Kooboo</Name>
     </ProjectReference>
@@ -87,9 +98,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>echo copy "$(TargetDir)\$(TargetFileName)" "..\..\..\Kooboo.CMS.Web\Bin\"
-echo copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\Kooboo.CMS.Web\Bin\"
-echo copy "..\..\..\..\Lib\Azure\*.dll" "..\..\..\Kooboo.CMS.Web\Bin\"</PostBuildEvent>
+    <PostBuildEvent>echo copy "$(TargetDir)*.*" "..\..\..\..\Kooboo.CMS.Web\Bin\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

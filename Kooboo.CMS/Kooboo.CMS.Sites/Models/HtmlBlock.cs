@@ -13,6 +13,7 @@ using System.Text;
 using System.IO;
 using Kooboo.Collections;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using System.Runtime.Serialization;
 
 namespace Kooboo.CMS.Sites.Models
 {
@@ -24,7 +25,7 @@ namespace Kooboo.CMS.Sites.Models
         { }
         public HtmlBlock(string physicalPath)
             : base(physicalPath) { }
-
+        [DataMember]
         public string Body { get; set; }
 
         #region DirectoryResource
@@ -71,6 +72,7 @@ namespace Kooboo.CMS.Sites.Models
         void IPersistable.Init(IPersistable source)
         {
             this.Name = ((HtmlBlock)source).Name;
+            this.Site = ((HtmlBlock)source).Site;
             this.isDummy = false;
         }
 

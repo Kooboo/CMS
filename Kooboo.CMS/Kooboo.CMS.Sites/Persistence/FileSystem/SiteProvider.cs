@@ -57,7 +57,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             throw new NotSupportedException("The method do not supported in SiteProvider.");
         }
 
-        public void Add(Models.Site item)
+        public virtual void Add(Models.Site item)
         {
             Save(item);
         }
@@ -78,12 +78,12 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         }
 
-        public void Update(Models.Site @new, Models.Site old)
+        public virtual void Update(Models.Site @new, Models.Site old)
         {
             Save(@new);
         }
 
-        public void Remove(Models.Site item)
+        public virtual void Remove(Models.Site item)
         {
             locker.EnterWriteLock();
             try
@@ -122,7 +122,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
         }
 
-        public Site Get(Site dummyObject)
+        public virtual Site Get(Site dummyObject)
         {
             if (!dummyObject.Exists())
             {
@@ -157,7 +157,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 return result;
             }
         }
-        public IDictionary<string, Site> GetDomainTable()
+        public virtual  IDictionary<string, Site> GetDomainTable()
         {
             SortedDictionary<string, Site> table = new SortedDictionary<string, Site>(new StringLengthComparer());
             foreach (var site in AllSites())
@@ -172,7 +172,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             return table;// new SortedDictionary<string, Site>(table, new StringLengthComparer());
 
         }
-        public Site GetSiteByHostNameNPath(string hostName, string requestPath)
+        public virtual Site GetSiteByHostNameNPath(string hostName, string requestPath)
         {
             var domainTable = GetDomainTable();
             var fullPath = hostName + "/" + requestPath.Trim('/') + "/";
@@ -207,11 +207,11 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Site> All()
+        public virtual IEnumerable<Site> All()
         {
             return AllRootSites();
         }
-        public IEnumerable<Site> AllSites()
+        public virtual IEnumerable<Site> AllSites()
         {
             return CascadedChildSites(null);
         }
@@ -225,7 +225,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             return childSites;
         }
 
-        public IEnumerable<Site> ChildSites(Site site)
+        public virtual IEnumerable<Site> ChildSites(Site site)
         {
             List<Site> list = new List<Site>();
             //if the site is null, get the root sites.
@@ -247,7 +247,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             return list;
         }
 
-        public IEnumerable<Site> AllRootSites()
+        public virtual IEnumerable<Site> AllRootSites()
         {
             return ChildSites(null);
         }
@@ -256,7 +256,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         #region Online/Offline
 
-        public void Offline(Site site)
+        public virtual void Offline(Site site)
         {
             var offlineFile = GetOfflineFile(site);
             if (!File.Exists(offlineFile))
@@ -264,7 +264,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 File.WriteAllText(offlineFile, "The site is offline, please remove this file to take it online.".Localize());
             }
         }
-        public void Online(Site site)
+        public virtual void Online(Site site)
         {
             var offlineFile = GetOfflineFile(site);
             if (File.Exists(offlineFile))
@@ -272,7 +272,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 File.Delete(offlineFile);
             }
         }
-        public bool IsOnline(Site site)
+        public virtual bool IsOnline(Site site)
         {
             var offlineFile = GetOfflineFile(site);
             return !File.Exists(offlineFile);
@@ -293,7 +293,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         /// <param name="siteName"></param>
         /// <param name="packageStream"></param>
         /// <returns></returns>
-        public Site Create(Site parentSite, string siteName, System.IO.Stream packageStream, CreateSiteSetting createSitSetting)
+        public virtual  Site Create(Site parentSite, string siteName, System.IO.Stream packageStream, CreateSiteSetting createSitSetting)
         {
             Site site = new Site(parentSite, siteName);
             if (site.Exists())
@@ -413,7 +413,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 return newRepositoryName + "_" + childSite.Name;
             }
         }
-        public void Initialize(Site site)
+        public virtual void Initialize(Site site)
         {
             //Initialize 
             Providers.HtmlBlockProvider.InitializeHtmlBlocks(site);
@@ -495,7 +495,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         /// </summary>
         /// <param name="site"></param>
         /// <param name="outputStream"></param>
-        public void Export(Site site, System.IO.Stream outputStream, bool includeDatabase, bool includeSubSites)
+        public virtual void Export(Site site, System.IO.Stream outputStream, bool includeDatabase, bool includeSubSites)
         {
             ISiteProvider siteProvider = Providers.SiteProvider;
 

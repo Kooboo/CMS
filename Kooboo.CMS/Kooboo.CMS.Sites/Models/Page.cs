@@ -251,7 +251,7 @@ namespace Kooboo.CMS.Sites.Models
     {
         public static Func<Site, Page, bool> IsLocalizeFunc = delegate(Site site, Page page)
         {
-            return (new Page(site, page.PageNamePaths.ToArray())).Exists();
+            return (new Page(site, page.PageNamePaths.ToArray())).AsActual() != null;
         };
         public Page()
         {
@@ -649,7 +649,7 @@ namespace Kooboo.CMS.Sites.Models
             this.Site = sourcePage.Site;
             this.Parent = sourcePage.Parent;
         }
-        void IPersistable.OnSaved()
+        public void OnSaved()
         {
             this.IsDummy = false;
         }

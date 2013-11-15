@@ -2818,16 +2818,16 @@
     <value>多文件 下载</value>
   </data>
   <data name="Published" xml:space="preserve">
-    <value>Published</value>
+    <value>已发布</value>
   </data>
   <data name="Edit image" xml:space="preserve">
-    <value>Edit image</value>
+    <value>编辑图片</value>
   </data>
   <data name="File name" xml:space="preserve">
-    <value>File name</value>
+    <value>文件名</value>
   </data>
   <data name="Original dimensions" xml:space="preserve">
-    <value>Original dimensions</value>
+    <value>原始尺寸</value>
   </data>
   <data name="Image crop" xml:space="preserve">
     <value>Image crop</value>
@@ -2845,9 +2845,9 @@
     <value>Aspect ratio</value>
   </data>
   <data name="Alternative text" xml:space="preserve">
-    <value>Alternative text</value>
+    <value>替换文字</value>
   </data>
   <data name="Not support to parse absolute url path." xml:space="preserve">
-    <value>Not support to parse absolute url path.</value>
+    <value>不支持解析绝对路径.</value>
   </data>
 </root>

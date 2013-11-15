@@ -11,6 +11,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
 {
     public abstract class CouchbaseQuery
     {
+        static Dictionary<string, string> viewNamesCache = new Dictionary<string, string>();
         public IContentQuery<TextContent> ContentQuery { get; private set; }
         public CouchbaseQuery(IContentQuery<TextContent> contentQuery)
         {
@@ -50,6 +51,9 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
             viewBuilder.Append("}");
             viewBuilder.Append("}");
             viewBuilder.Append("}");
+            //viewBuilder.Append("},");
+            //viewBuilder.Append("\"options\": {\"updateMinChanges\": 1000}}");
+            //   viewBuilder.AppendFormat(@"{{""views"": {{{0}:{{""map"":""function(doc,meta){{{1}}}""}}}},""options"": {{""updateMinChanges"": 1}}}}", viewName,viewBody);
 
             return viewBuilder.ToString()
                 .Replace(" ", "")
@@ -63,7 +67,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
 
             string keyExpression = "doc.UUID";
 
-            if (visitor.OrderClause != null)
+            if (visitor.OrderClause != null && (keys == null || keys.Length == 0))
             {
                 keyExpression = "doc." + visitor.OrderClause.FieldName + "+'_'+" + keyExpression;
                 viewName = viewName + "_ORDERBY_" + visitor.OrderClause.FieldName;
@@ -138,7 +142,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
 
         private object QueryByUserKey(CouchbaseVisitor visitor)
         {
-            var view = this.ContentQuery.Repository.GetClient().GetView(this.ContentQuery.Repository.GetDefaultViewDesign(), "Sort_By_UserKey");
+            var view = this.ContentQuery.Repository.GetClient().GetView(this.ContentQuery.Repository.GetDefaultViewDesign(), "Sort_By_UserKey").Reduce(false).Stale(StaleMode.False);
             view = view.Keys(visitor.EQUserKeys);
 
             return ExecuteView(visitor, view);
@@ -162,17 +166,27 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
 
             IView<IViewRow> couchbaseCursor = null;
             couchbaseCursor = this.ContentQuery.Repository.GetClient().GetView(designName, viewName);
-            var viewIsExists = couchbaseCursor.CheckExists();
-            var createdFlag = false;
+            var cacheKey = string.Format("{0}---{1}/{2}", this.ContentQuery.Repository.Name, designName, viewName);
+            var viewIsExists = viewNamesCache.ContainsKey(cacheKey);
+
             if (!viewIsExists)
             {
-                createdFlag = DatabaseHelper.CreateDesignDocument(this.ContentQuery.Repository.GetBucketName(), designName, viewDocument);
-                if (createdFlag)
+                viewIsExists = couchbaseCursor.CheckExists();
+                if (!viewIsExists)
                 {
-                    couchbaseCursor = this.ContentQuery.Repository.GetClient().GetView(designName, viewName).Stale(StaleMode.False);
-                    viewIsExists = createdFlag;
+                    viewIsExists = DatabaseHelper.CreateDesignDocument(this.ContentQuery.Repository.GetBucketName(), designName, viewDocument);
+                    if (viewIsExists)
+                    {
+                        viewNamesCache[cacheKey] = cacheKey;
+                    }
+                }
+                else
+                {
+                    viewNamesCache[cacheKey] = cacheKey;
                 }
             }
+            couchbaseCursor = couchbaseCursor.Reduce(false).Stale(StaleMode.False);
+
             if (keys != null && keys.Length > 0)
             {
                 couchbaseCursor.Keys(keys);

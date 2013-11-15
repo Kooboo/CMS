@@ -35,7 +35,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
         {
             using (var bucket = content.GetRepository().GetClient())
             {
-                var view = bucket.GetView(content.GetRepository().GetDefaultViewDesign(), "CategorisData_By_ContentUUID").Stale(StaleMode.False);
+                var view = bucket.GetView(content.GetRepository().GetDefaultViewDesign(), "CategorisData_By_ContentUUID").Stale(StaleMode.False).Reduce(false);
                 var ret = view.Where(it => it.Info["value"].ToString().Equals(content.UUID)).Select(it => it.ItemId);
                 ret.ForEach((key, index) =>
                 {
@@ -72,9 +72,10 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
         {
             using (var bucket = repository.GetClient())
             {
+                ////导入站点不用PersistTo
                 data.ForEach((it, index) =>
                 {
-                    bucket.ExecuteStore(StoreMode.Set, it.GetDocumentKey(), it.ToJson(), PersistTo.One);
+                    bucket.Store(StoreMode.Set, it.GetDocumentKey(), it.ToJson());
                 });
             }
         }
@@ -86,9 +87,10 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
             {
                 using (var bucket = schema.Repository.GetClient())
                 {
+                    //导入站点不用PersistTo
                     ret.ForEach((it, index) =>
                     {
-                        bucket.ExecuteStore(StoreMode.Add, it.UUID, it.ToJson(), PersistTo.One);
+                        bucket.Store(StoreMode.Add, it.UUID, it.ToJson());
                     });
                 }
             }

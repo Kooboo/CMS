@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 var filterCategories = categories.Where(it => it.CategoryFolder.Equals(this._categoriesQuery.CategoryFolder.FullName, StringComparison.CurrentCultureIgnoreCase)
                     && uuids.Contains(it.ContentUUID));
 
-                keys = filterCategories.Select(it => it.CategoryUUID).ToArray();
+                keys = filterCategories.Select(it => it.CategoryUUID).Distinct().ToArray();
             }
             else
             {

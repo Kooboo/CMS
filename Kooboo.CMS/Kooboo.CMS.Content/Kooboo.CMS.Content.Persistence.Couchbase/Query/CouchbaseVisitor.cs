@@ -266,6 +266,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 var leftVisitor = VisitInner(expression.Left);
                 leftClause = leftVisitor.WhereClause;
                 leftViewName = leftVisitor.ViewName;
+                this.eqUserKeys.AddRange(leftVisitor.EQUserKeys);
             }
 
             string rightClause = "";
@@ -275,6 +276,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 var rightVisitor = VisitInner(expression.Right);
                 rightClause = rightVisitor.WhereClause;
                 rightViewName = rightVisitor.ViewName;
+                this.eqUserKeys.AddRange(rightVisitor.EQUserKeys);
             }
 
 

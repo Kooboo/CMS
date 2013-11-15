@@ -62,8 +62,8 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                     }
                 }
 
-                keys = categoryContents.Select(it => it.ContentUUID).ToArray();
-            }         
+                keys = categoryContents.Select(it => it.ContentUUID).Distinct().ToArray();
+            }
 
             return clause;
         }

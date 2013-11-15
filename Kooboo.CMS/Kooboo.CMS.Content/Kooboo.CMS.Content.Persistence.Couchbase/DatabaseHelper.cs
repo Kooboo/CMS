@@ -14,6 +14,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
 {
     public static class DatabaseHelper
     {
+       
         public static CouchbaseClientConfiguration GetCouchbaseClientConfiguration()
         {
             CouchbaseClientConfiguration cf = new CouchbaseClientConfiguration();
@@ -28,15 +29,16 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
 
         public static CouchbaseClient GetClient(this Repository repository)
         {
-            var cf = GetCouchbaseClientConfiguration();            
+            var cf = GetCouchbaseClientConfiguration();
             cf.Bucket = repository.GetBucketName();
             cf.BucketPassword = repository.GetBucketPassword();
-            if (!ExistBucket(cf.Bucket))
-            {
-                return null;
-            }
+            // performance 
+            //if (!ExistBucket(cf.Bucket))
+            //{
+            //    return null;
+            //}
             CouchbaseClient client = new CouchbaseClient(cf);
-            return client;
+            return client;           
         }
 
         public static CouchbaseCluster GetCouchbaseCluster()

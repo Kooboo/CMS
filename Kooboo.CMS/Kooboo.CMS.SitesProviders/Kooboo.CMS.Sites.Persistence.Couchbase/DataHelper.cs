@@ -67,7 +67,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             {
                 if (bucket != null)
                 {
-                    var view = bucket.GetView(ModelExtensions.DesignName, viewName).Stale(global::Couchbase.StaleMode.False);
+                    var view = bucket.GetView(ModelExtensions.DesignName, viewName).Stale(global::Couchbase.StaleMode.False).Reduce(false);
 
                     var rows = view.ToArray();
 
@@ -86,7 +86,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             {
                 if (bucket != null)
                 {
-                    var view = bucket.GetView(ModelExtensions.DesignName, viewName).Stale(global::Couchbase.StaleMode.False);
+                    var view = bucket.GetView(ModelExtensions.DesignName, viewName).Stale(global::Couchbase.StaleMode.False).Reduce(false);
 
                     var rows = view.ToArray();
 

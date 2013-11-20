@@ -11,14 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.CMS.Sites.DataRule
+namespace Kooboo.CMS.Sites.DataRule.Http
 {
-    public enum DataRuleType
+    public interface IResponseTextParser
     {
-        Folder = 0,
-        Schema = 1,
-        Category = 2,
-        Http = 3
-        //Categorizable
+        bool Accept(string responseText, string contentType);
+        dynamic Parse(string responseText);
     }
 }

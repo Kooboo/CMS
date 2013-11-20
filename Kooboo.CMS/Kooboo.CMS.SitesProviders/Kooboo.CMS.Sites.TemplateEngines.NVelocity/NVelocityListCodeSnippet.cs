@@ -55,7 +55,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity
                 }
 
                 var snippet = string.Format(html, dataRule.DataName, linkHtml, editItem);
-                if (dataRule.DataRule.EnablePaging.Value)
+                if (dataRuleBase.EnablePaging.Value)
                 {
                     snippet += Environment.NewLine + string.Format(@"
 <div class=""pager"">

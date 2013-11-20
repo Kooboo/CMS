@@ -23,9 +23,9 @@ namespace Kooboo.CMS.Sites.DataRule
     [KnownTypeAttribute(typeof(CategoryDataRule))]
     public class CategoryDataRule : FolderDataRule
     {
-        public override Content.Query.IContentQuery<Content.Models.TextContent> Execute(DataRuleContext dataRuleContext)
+        public override IContentQuery<Content.Models.TextContent> GetContentQuery(DataRuleContext dataRuleContext)
         {
-            var contentQuery = base.Execute(dataRuleContext);
+            var contentQuery = base.GetContentQuery(dataRuleContext);
             if (contentQuery is MediaContentQuery)
             {
                 throw new KoobooException(string.Format("The binary folder '{0}' does not support '{1}'.", FolderName, "CategoryDataRule"));

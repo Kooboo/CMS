@@ -51,8 +51,8 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 typeof(DataRuleBase),
                 typeof(FolderDataRule),
                 typeof(SchemaDataRule),
-                typeof(CategoryDataRule)
-                //typeof(CategorizableDataRule),
+                typeof(CategoryDataRule),
+                typeof(HttpDataRule)
                 };
             }
         }

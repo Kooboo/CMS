@@ -8,17 +8,15 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.CMS.Sites.DataRule
+namespace Kooboo.CMS.Sites.DataRule.Http
 {
-    public enum DataRuleType
+    public interface IHttpDataRequest
     {
-        Folder = 0,
-        Schema = 1,
-        Category = 2,
-        Http = 3
-        //Categorizable
+        dynamic GetData(string url, string httpMethod, string contentType, NameValueCollection form, NameValueCollection headers);
     }
+
 }

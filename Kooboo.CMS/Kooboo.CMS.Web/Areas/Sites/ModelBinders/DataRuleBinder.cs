@@ -43,6 +43,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.ModelBinders
                 case DataRuleType.Category:
                     model = new CategoryDataRule();
                     break;
+                case DataRuleType.Http:
+                    model = new HttpDataRule();
+                    break;
             }
             bindingContext.ModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(() => model, model.GetType());
             return model;

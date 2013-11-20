@@ -28,14 +28,14 @@ namespace Kooboo.CMS.Sites.Models
         [DataMember(Order = 1)]
         public string DataName { get; set; }
         [DataMember(Order = 3)]
-        public DataRuleBase DataRule { get; set; }
+        public IDataRule DataRule { get; set; }
         [DataMember(Order = 5)]
         public TakeOperation TakeOperation { get; set; }
 
         /// <summary>
         /// The time, in seconds, that the data rule is cached. 
         /// </summary>
-        [DataMember(Order = 7)]        
+        [DataMember(Order = 7)]
         public int CachingDuration { get; set; }
 
     }

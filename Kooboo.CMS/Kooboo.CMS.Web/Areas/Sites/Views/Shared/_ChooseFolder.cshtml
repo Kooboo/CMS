@@ -23,6 +23,7 @@
         </tr>
     </table>
     <p class="buttons">
+        <button data-bind="visible:DataRuleSetting().IsNew,click:GotoPreviousStep" type="button">« @("Previous".Localize())</button>
         <button type="submit" data-bind="click:GotoNextStep">@("Next".Localize()) »</button>
         <a class="button gray"  data-bind="click:CancelSaveDataRule">@("Cancel".Localize())</a>
     </p>

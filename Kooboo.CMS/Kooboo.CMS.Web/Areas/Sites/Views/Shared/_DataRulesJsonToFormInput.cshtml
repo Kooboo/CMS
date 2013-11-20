@@ -1,5 +1,5 @@
 ﻿<div class="hide" data-bind="foreach:{data:$root.DataRuleList,as:'$dataRule'}">
-    <input type="hidden" data-bind="value:0,attr:{name:'DataRules['+$index()+'].DataRule.DataRuleType'}" />
+    <input type="hidden" data-bind="value:$dataRule.DataRule.DataRuleType,attr:{name:'DataRules['+$index()+'].DataRule.DataRuleType'}" />
     <input type="hidden" data-bind="value:$dataRule.TakeOperation,attr:{name:'DataRules['+$index()+'].TakeOperation'}" />
     <input type="hidden" data-bind="value:$dataRule.DataRule.FolderName,attr:{name:'DataRules['+$index()+'].DataRule.FolderName'}" />
     <!-- ko foreach:{data:$dataRule.DataRule.WhereClauses,as:'$filter'} -->
@@ -16,6 +16,7 @@
     <input type="hidden" data-bind="value:$filter.Value1,attr:{name:'DataRules['+$parentContext.$index()+'].DataRule.CategoryClauses['+$index()+'].Value1'}" />
     <input type="hidden" data-bind="value:$filter.Value2,attr:{name:'DataRules['+$parentContext.$index()+'].DataRule.CategoryClauses['+$index()+'].Value2'}" />
     <!-- /ko -->
+  
     <input type="hidden" data-bind="value:$dataRule.DataName,attr:{name:'DataRules['+$index()+'].DataName'}" />
     <input type="hidden" data-bind="value:$dataRule.DataRule.Top,attr:{name:'DataRules['+$index()+'].DataRule.Top'}" />
     <input type="hidden" data-bind="value:$dataRule.DataRule.EnablePaging,attr:{name:'DataRules['+$index()+'].DataRule.EnablePaging'}" />
@@ -24,4 +25,17 @@
     <input type="hidden" data-bind="value:$dataRule.DataRule.CategoryFolderName,attr:{name:'DataRules['+$index()+'].DataRule.CategoryFolderName'}" />
     <input type="hidden" data-bind="value:$dataRule.DataRule.SortField,attr:{name:'DataRules['+$index()+'].DataRule.SortField'}" />
     <input type="hidden" data-bind="value:$dataRule.DataRule.SortDirection,attr:{name:'DataRules['+$index()+'].DataRule.SortDirection'}" />
+
+    <input type="hidden" data-bind="value:$dataRule.DataRule.URL,attr:{name:'DataRules['+$index()+'].DataRule.URL'}" />
+    <input type="hidden" data-bind="value:$dataRule.DataRule.HttpMethod,attr:{name:'DataRules['+$index()+'].DataRule.HttpMethod'}" />
+    <input type="hidden" data-bind="value:$dataRule.DataRule.ContentType,attr:{name:'DataRules['+$index()+'].DataRule.ContentType'}" />
+    <input type="hidden" data-bind="value:$dataRule.DataRule.ResponseType,attr:{name:'DataRules['+$index()+'].DataRule.ResponseType'}" />
+    <!-- ko foreach:{data:$dataRule.DataRule.FormData,as:'data'} -->
+    <input type="hidden" data-bind="value:data.Key,attr:{name:'DataRules['+$parentContext.$index()+'].DataRule.FormData['+$index()+'].Key'}" />
+    <input type="hidden" data-bind="value:data.Value,attr:{name:'DataRules['+$parentContext.$index()+'].DataRule.FormData['+$index()+'].Value'}" />
+    <!-- /ko -->
+    <!-- ko foreach:{data:$dataRule.DataRule.Headers,as:'data'} -->
+    <input type="hidden" data-bind="value:data.Key,attr:{name:'DataRules['+$parentContext.$index()+'].DataRule.Headers['+$index()+'].Key'}" />
+    <input type="hidden" data-bind="value:data.Value,attr:{name:'DataRules['+$parentContext.$index()+'].DataRule.Headers['+$index()+'].Value'}" />
+    <!-- /ko -->    
 </div>

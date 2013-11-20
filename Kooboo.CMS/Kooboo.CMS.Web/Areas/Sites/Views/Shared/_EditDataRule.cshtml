@@ -1,12 +1,172 @@
 ﻿<div class="block dialog hide" id="data-rule-edit-form">
-    <h2 class="title">Edit Filters</h2>
+    <h2 class="title">@("Edit data rule".Localize())</h2>
     <div class="step clearfix">
-        <span data-bind="css:{active:EditingStep()=='ChooseFolder'}">Choose Folder</span>
+        <span data-bind="css:{active:EditingStep()=='ChooseDataRule'}">@("Choose data rule type".Localize())</span>
+        <!-- ko if: EditingStep()=='ChooseFolder' || EditingStep()=='EditFilters' -->
         @Html.IconImage("arrow gray-right")
-        <span data-bind="css:{active:EditingStep()=='EditFilters'}">Edit Filters</span>
+        <span data-bind="css:{active:EditingStep()=='ChooseFolder'}">@("Choose Folder".Localize())</span>
+        @Html.IconImage("arrow gray-right")
+        <span data-bind="css:{active:EditingStep()=='EditFilters'}">@("Edit Filters".Localize())</span>
+        <!-- /ko -->
+        <!-- ko if: EditingStep()=='EditHttp' -->
+        @Html.IconImage("arrow gray-right")
+        <span data-bind="css:{active:EditingStep()=='EditHttp'}">@("Edit HTTP".Localize())</span>
+        <!-- /ko -->
     </div>
-    <div>
+    <div class="step-content clearfix">
+        <div data-bind="visible:EditingStep()=='ChooseDataRule'">@Html.Partial("_ChooseDataRuleType")</div>
         <div data-bind="visible:EditingStep()=='ChooseFolder'">@Html.Partial("_ChooseFolder")</div>
+        <div class="common-form" data-bind="if:EditingStep()=='EditHttp',style:{'display':EditingStep()=='EditHttp'?'block':'none'}">
+            <fieldset>
+                <legend></legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>
+                                <label>@("Data name".Localize())</label>
+                            </th>
+                            <td>
+                                <input type="text" data-bind="value:DataRuleSetting().DataName
+                                                            ,css:{'input-validation-error':!IsValid()}
+                                                            ,event: {change: ValidateDataRuleName}" class="long">
+                                <span class="field-validation-error" data-bind="text:ValidationMessage(),visible:!IsValid()"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("URL".Localize())</label>
+                            </th>
+                            <td>
+                                <input type="text" data-bind="value:DataRuleSetting().DataRule.URL" class="long">
+                                <em class="tip">@Html.Raw("The URL that responses with Json/XML data source <br /> You can use {QueryString} to match the keys in your page url <br /> Example:http://www.kooboo.com/product/{userkey}".Localize())</em>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("HTTP method".Localize())</label>
+                            </th>
+                            <td>
+                                <ul class="radio-list">
+                                    <li>
+                                        <input type="radio" id="httpmethod_get" name="httpmethod" data-bind="checked:DataRuleSetting().DataRule.HttpMethod" value="GET" />
+                                        <label for="httpmethod_get" class="inline">@("GET".Localize())</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="httpmethod_post" name="httpmethod" data-bind="checked:DataRuleSetting().DataRule.HttpMethod" value="POST" />
+                                        <label for="httpmethod_post" class="inline">@("POST".Localize())</label>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("Content type".Localize())</label>
+                            </th>
+                            <td>
+                                <input type="text" data-bind="value:DataRuleSetting().DataRule.ContentType" class="long">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("Form data".Localize())</label>
+                            </th>
+                            <td>
+                                <table class="key-value">
+                                    <thead data-bind="visible: DataRuleSetting().DataRule.FormData().length > 0">
+                                        <tr>
+                                            <th>
+                                                @("Key".Localize())
+                                            </th>
+                                            <th>
+                                                @("Value".Localize())
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: DataRuleSetting().DataRule.FormData">
+                                        <tr>
+                                            <td>
+                                                <input type="text" title='key' name="Key" class="short" data-bind="value: $data.Key, attr: { name: $parent.getPrefixFieldName('FormData',$index()) + 'Key' }" />
+                                            </td>
+                                            <td>
+                                                <input type="text" name="Value" class="long" data-bind="value: $data.Value, attr: { name: $parent.getPrefixFieldName('FormData',$index()) + 'Value' }" />
+                                            </td>
+                                            <td>
+                                                <a class="action" data-bind="click: $parent.removeFormData">@Html.IconImage("minus")</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td><a class="action" data-bind="click: addFormData">@Html.IconImage("plus")</a></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("HTTP headers".Localize())</label>
+                            </th>
+                            <td>
+                                <table class="key-value">
+                                    <thead data-bind="visible: DataRuleSetting().DataRule.Headers().length > 0">
+                                        <tr>
+                                            <th>
+                                                @("Key".Localize())
+                                            </th>
+                                            <th>
+                                                @("Value".Localize())
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: DataRuleSetting().DataRule.Headers()">
+                                        <tr>
+                                            <td>
+                                                <input type="text" title='key' name="Key" class="short" data-bind="value: $data.Key, attr: { name: $parent.getPrefixFieldName('Headers',$index()) + 'Key' }" />
+                                            </td>
+                                            <td>
+                                                <textarea name="Value" data-bind="value: $data.Value, attr: { name: $parent.getPrefixFieldName('Headers',$index()) + 'Value' }"></textarea>
+                                            </td>
+                                            <td>
+                                                <a class="action" data-bind="click: $parent.removeHttpHeader">@Html.IconImage("minus")</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td><a class="action" data-bind="click: addHttpHeader">@Html.IconImage("plus")</a></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </td>
+                        </tr>
+                        @*<tr>
+                                <th>
+                                    <label>@("Response type".Localize())</label>
+                                </th>
+                                <td>
+                                    <ul class="radio-list">
+                                        <li>
+                                            <input type="radio" id="responseType_Json" name="responseType" data-bind="checked:DataRuleSetting().DataRule.ResponseType" value="0" />
+                                            <label for="responseType_Json" class="inline">@("Json".Localize())</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" id="responseType_Xml" name="responseType" data-bind="checked:DataRuleSetting().DataRule.ResponseType" value="1" />
+                                            <label for="responseType_Xml" class="inline">@("Xml".Localize())</label>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>*@
+                    </tbody>
+                </table>
+            </fieldset>
+
+            <p class="buttons">
+                <button data-bind="visible:DataRuleSetting().IsNew,click:GotoPreviousStep" type="button">« @("Previous".Localize())</button>
+                <button data-bind="click:SaveDataRule">@("Save".Localize())</button>
+                <a class="button gray" data-bind="click:CancelSaveDataRule">@("Cancel".Localize())</a>
+            </p>
+        </div>
         <div class="common-form" data-bind="if:EditingStep()=='EditFilters'">
             <fieldset>
                 <legend></legend>
@@ -14,15 +174,13 @@
                     <tbody>
                         <tr>
                             <th>
-                                <label>@("Data Name".Localize())</label>
+                                <label>@("Data name".Localize())</label>
                             </th>
                             <td>
                                 <input type="text" data-bind="value:DataRuleSetting().DataName
                                                             ,css:{'input-validation-error':!IsValid()}
                                                             ,event: {change: ValidateDataRuleName}">
-
                                 <span class="field-validation-error" data-bind="text:ValidationMessage(),visible:!IsValid()"></span>
-
                             </td>
                         </tr>
                         <tr>
@@ -51,11 +209,7 @@
                                 <label>@("Category folder".Localize())</label>
                             </th>
                             <td>
-                                <select data-bind="options:GetCategoryFolders(DataRuleSetting().DataRule.FolderName())
-                                                   ,optionsText:'FolderName',optionsValue:'FolderName'
-                                                   ,optionsCaption: '@("Select a category".Localize())'
-                                                   ,value:DataRuleSetting().DataRule.CategoryFolderName"class="medium">
-                                </select>
+                                <select data-bind="options:GetCategoryFolders(DataRuleSetting().DataRule.FolderName()),optionsText:'FolderName',optionsValue:'FolderName',optionsCaption: '@("Select a category".Localize())',value:DataRuleSetting().DataRule.CategoryFolderName" class="medium"></select>
                             </td>
                         </tr>
                         <tr data-bind="if:GetCategoryFolders(DataRuleSetting().DataRule.FolderName())!= null
@@ -91,8 +245,7 @@
                                 <select data-bind="options:GetSchemaColumns(DataRuleSetting().DataRule.FolderName()),
                                                     optionsText:'Name',optionsValue:'Name',
                                                     value:DataRuleSetting().DataRule.SortField"
-                                    class="short">
-                                </select>
+                                        class="short"></select>
                             </td>
                         </tr>
                         <tr>
@@ -137,13 +290,13 @@
             </fieldset>
             <p class="buttons">
                 <button data-bind="visible:DataRuleSetting().IsNew,click:GotoPreviousStep" type="button">« @("Previous".Localize())</button>
-                <button data-bind="click:SaveDataRule">Save</button>
+                <button data-bind="click:SaveDataRule">@("Save".Localize())</button>
                 <a class="button gray" data-bind="click:CancelSaveDataRule">@("Cancel".Localize())</a>
             </p>
         </div>
+
     </div>
 </div>
-
 <script type="text/html" id="filter-list-template">
     <li class="clearfix" data-bind="if:!$data.IsEditing()">
         <span data-bind="text:$root.GetFilterExpression($data)"></span>
@@ -158,14 +311,13 @@
                     <tr>
                         <td>
                             <select class="short" data-bind="options:metadata.logicList,optionsText:'Text',optionsValue:'Value',value:$data.LogicalTemp"></select>
-                            <select class="medium" data-bind="options:$root.GetSchemaColumns($root.DataRuleSetting().DataRule.FolderName()),optionsText:'Name',optionsValue:'Name',value:$data.FieldNameTemp ">
-                            </select>                           
+                            <select class="medium" data-bind="options:$root.GetSchemaColumns($root.DataRuleSetting().DataRule.FolderName()),optionsText:'Name',optionsValue:'Name',value:$data.FieldNameTemp "></select>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <select class="short" data-bind="options:metadata.operatorList,optionsText:'Text',optionsValue:'Value',value:$data.OperatorTemp"></select>
-                            <input type="text" class="medium" data-bind="value:Value1Temp">                            
+                            <input type="text" class="medium" data-bind="value:Value1Temp">
                         </td>
                     </tr>
                 </tbody>
@@ -175,7 +327,6 @@
         </div>
     </li>
 </script>
-
 <script type="text/javascript">
     $(function () {
         $('#data-rule-edit-form').on('click', 'legend.clickable.no-bind', function () {

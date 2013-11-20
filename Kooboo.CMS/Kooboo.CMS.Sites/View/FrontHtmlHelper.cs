@@ -263,30 +263,26 @@ namespace Kooboo.CMS.Sites.View
             {
                 throw new KoobooException("The repository for site is null.");
             }
-            var dataRule = contentPosition.DataRule;
+            var dataRule = (IContentDataRule)(contentPosition.DataRule);
             var dataRuleContext = new DataRuleContext(this.PageContext.PageRequestContext.Site,
                 this.PageContext.PageRequestContext.Page) { ValueProvider = this.PageContext.PageRequestContext.GetValueProvider() };
-            var contentQuery = dataRule.Execute(dataRuleContext);
+
             string viewPath = "";
+            TakeOperation operation;
             var schema = dataRule.GetSchema(repository);
-            Object model = contentQuery;
             switch (contentPosition.Type)
             {
                 case ContentPositionType.Detail:
                     viewPath = schema.GetFormTemplate(FormType.Detail);
-                    model = contentQuery.FirstOrDefault();
+                    operation = TakeOperation.First;
                     break;
                 case ContentPositionType.List:
                 default:
-                    int top = 10;
-                    if (int.TryParse(((FolderDataRule)dataRule).Top, out top))
-                    {
-                        model = contentQuery.Take(top);
-                    }
-
                     viewPath = schema.GetFormTemplate(FormType.List);
+                    operation = TakeOperation.List;
                     break;
             }
+            var model = dataRule.Execute(dataRuleContext, operation, 0);
             return ViewRender.RenderViewInternal(this.Html, viewPath, null, model);
         }
         #endregion

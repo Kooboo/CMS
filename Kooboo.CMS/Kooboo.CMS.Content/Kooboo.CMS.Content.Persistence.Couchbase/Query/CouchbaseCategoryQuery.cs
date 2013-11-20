@@ -44,11 +44,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
             if (contents.Count() > 0)
             {
                 var uuids = contents.Select(it => it.UUID);
-                var categories = this._categoriesQuery.Repository.GetCategories().Select(it => it.ToCategory());
-                var filterCategories = categories.Where(it => it.CategoryFolder.Equals(this._categoriesQuery.CategoryFolder.FullName, StringComparison.CurrentCultureIgnoreCase)
-                    && uuids.Contains(it.ContentUUID));
-
-                keys = filterCategories.Select(it => it.CategoryUUID).Distinct().ToArray();
+                keys = uuids.SelectMany(it => QueryCategories(this._categoriesQuery.Repository, it)).ToArray();
             }
             else
             {
@@ -56,6 +52,10 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
             }
 
             return clause;
+        }
+        private IEnumerable<string> QueryCategories(Repository repository, string contentUUID)
+        {
+            return repository.QueryCategoriesBy(contentUUID).Select(row => (IDictionary<string, object>)row.Info["value"]).Select(it => it["CategoryUUID"].ToString());
         }
     }
 }

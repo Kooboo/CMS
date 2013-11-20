@@ -128,6 +128,7 @@
     <Compile Include="Collections\DictionaryExtensions.cs" />
     <Compile Include="Collections\DynamicDictionary.cs" />
     <Compile Include="Collections\EnumerableExtensions.cs" />
+    <Compile Include="Collections\Generic\CKeyValuePair.cs" />
     <Compile Include="Collections\Matrix.cs" />
     <Compile Include="Collections\ComparedResult.cs" />
     <Compile Include="Collections\ReadonlyNameValueCollection.cs" />

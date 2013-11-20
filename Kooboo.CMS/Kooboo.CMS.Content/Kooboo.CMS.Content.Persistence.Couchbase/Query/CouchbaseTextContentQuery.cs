@@ -42,7 +42,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
             }
 
             keys = null;
-            IEnumerable<Category> categoryContents = null;
+            IEnumerable<string> categoryContents = new string[0];
             if (visitor.CategoryQueries != null && visitor.CategoryQueries.Count() > 0)
             {
                 CouchbaseQueryTranslator translator = new CouchbaseQueryTranslator();
@@ -52,20 +52,19 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                     var categories = ((IEnumerable<TextContent>)translator.Translate(item).Execute()).ToArray();
                     if (categories.Length > 0)
                     {
-                        var relation = this._textContentQuery.Repository.GetCategories().Select(it => it.ToCategory())
-                            .Where(it => it.CategoryFolder.Equals(((TextContentQueryBase)item).Folder.FullName))
-                            .Where(it => categories.Select(cg => cg.UUID).Contains(it.CategoryUUID));
-                        if (relation != null)
-                        {
-                            categoryContents = relation;
-                        }
+                        var categoryUUIDs = categories.SelectMany(it => QueryByCategory(this._textContentQuery.Repository, it.UUID)).ToArray();
+                        categoryContents = categoryContents.Concat(categoryUUIDs);
                     }
                 }
 
-                keys = categoryContents.Select(it => it.ContentUUID).Distinct().ToArray();
+                keys = categoryContents.Distinct().ToArray();
             }
 
             return clause;
+        }
+        private IEnumerable<string> QueryByCategory(Repository repository, string categoryUUID)
+        {
+            return repository.QueryByCategory(categoryUUID).Select(row => (IDictionary<string, object>)row.Info["value"]).Select(it => it["ContentUUID"].ToString());
         }
     }
 }

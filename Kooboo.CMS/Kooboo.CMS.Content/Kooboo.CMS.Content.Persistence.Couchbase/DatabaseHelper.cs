@@ -14,7 +14,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
 {
     public static class DatabaseHelper
     {
-       
+
         public static CouchbaseClientConfiguration GetCouchbaseClientConfiguration()
         {
             CouchbaseClientConfiguration cf = new CouchbaseClientConfiguration();
@@ -38,7 +38,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
             //    return null;
             //}
             CouchbaseClient client = new CouchbaseClient(cf);
-            return client;           
+            return client;
         }
 
         public static CouchbaseCluster GetCouchbaseCluster()
@@ -79,14 +79,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
             return cc.DeleteDesignDocument(bucket, name);
         }
 
-        public static IList<IViewRow> GetCategories(this Repository repository)
-        {
-            using (var bucket = repository.GetClient())
-            {
-                var view = bucket.GetView(repository.GetDefaultViewDesign(), "All_CategoriesData").Stale(StaleMode.False);
-                return view.ToList();
-            }
-        }
+      
 
         public static bool CreateDefaultViews(this Repository repository)
         {

@@ -59,8 +59,9 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
         #region Export/Import
         public IEnumerable<Models.Category> ExportCategoryData(Models.Repository repository)
         {
-            var ret = repository.GetCategories().Select(it => it.ToCategory());
-            return ret;
+            //var ret = repository.GetCategories().Select(it => it.ToCategory());
+            //return ret;
+            return new Category[0];
         }
 
         public IEnumerable<IDictionary<string, object>> ExportSchemaData(Models.Schema schema)
@@ -100,7 +101,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
         #region QueryCategories
         public IEnumerable<Models.Category> QueryCategories(Models.TextContent content)
         {
-            return content.GetRepository().GetCategories().Select(it => it.ToCategory()).Where(it => it.ContentUUID.Equals(content.UUID));
+            return content.GetRepository().QueryCategoriesBy(content.UUID).Select(it => it.ToCategory()).Where(it => it.ContentUUID.Equals(content.UUID));
         }
         #endregion
 

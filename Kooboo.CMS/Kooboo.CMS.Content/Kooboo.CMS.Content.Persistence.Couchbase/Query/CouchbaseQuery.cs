@@ -270,7 +270,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                     return null;
                 case CallType.Unspecified:
                 default:
-                    return new object[0];
+                    return new TextContent[0];
             }
         }
     }

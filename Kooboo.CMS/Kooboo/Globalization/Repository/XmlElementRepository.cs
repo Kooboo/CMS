@@ -154,13 +154,13 @@ namespace Kooboo.Globalization.Repository
         }
 
         /// <summary>
-        /// Clears this instance.
+        ///
         /// </summary>
         public void Clear()
         {
-            if (File.Exists(path))
+            if (Directory.Exists(path))
             {
-                File.Delete(path);
+                Directory.Delete(path, true);
             }
         }
 

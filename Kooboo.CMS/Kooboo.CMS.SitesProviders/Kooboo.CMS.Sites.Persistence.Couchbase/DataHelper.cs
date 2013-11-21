@@ -69,9 +69,9 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
                 {
                     var view = bucket.GetView(viewName, viewName).Stale(global::Couchbase.StaleMode.False).Reduce(false);
 
-                    var rows = view.ToArray();
+                    var idList = view.Select(it => it.ItemId).ToArray();
 
-                    return rows.Select(it => it.ToObject<T>());
+                    return bucket.ExecuteGet(idList).Select(it => ModelExtensions.JsonToObject<T>(it.Value.Value.ToString()));
                 }
                 else
                 {
@@ -88,9 +88,9 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
                 {
                     var view = bucket.GetView(viewName, viewName).Stale(global::Couchbase.StaleMode.False).Reduce(false);
 
-                    var rows = view.ToArray();
+                    var idList = view.Select(it => it.ItemId).ToArray();
 
-                    return rows.Select(it => it.ToModel<T>(site, createModel));
+                    return bucket.ExecuteGet(idList).Select(it => ModelExtensions.ToModel<T>(site, it.Key, it.Value.Value.ToString(), createModel));
                 }
                 else
                 {

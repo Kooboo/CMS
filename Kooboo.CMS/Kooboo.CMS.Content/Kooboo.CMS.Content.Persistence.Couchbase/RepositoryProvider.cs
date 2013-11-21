@@ -35,24 +35,25 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
                 bucket.AuthType = AuthTypes.Sasl;
                 bucket.BucketType = BucketTypes.Membase;
                 bucket.Quota = new Quota() { RAM = DatabaseSettings.Instance.BucketRAM };//RamQuotaMB must be at least 100
-                //bucket.FlushOption = FlushOptions.Enabled;//支持清空
-                //bucket.ReplicaNumber = (ReplicaNumbers)DatabaseSettings.Instance.ReplicaNumber;
-                //bucket.ReplicaIndex = DatabaseSettings.Instance.ReplicaIndex;
+                bucket.FlushOption = FlushOptions.Enabled;//支持清空
+                bucket.ReplicaNumber = (ReplicaNumbers)DatabaseSettings.Instance.ReplicaNumber;
+                bucket.ReplicaIndex = DatabaseSettings.Instance.ReplicaIndex;
                 DatabaseHelper.CreateBucket(bucket);
 
                 //此处需暂停几秒钟，否则，通过选择模板创建站点的方式，在导入数据时，会出现数据未导入的情况
                 //大致原因在于，Couchbae在数据库创建之后，需要几秒钟的初始化过程，在这个过程中插入任何数据都将失败
                 System.Threading.Thread.Sleep(3000);
-                //create category views
-                repository.CreateDefaultViews();
             }
+            //always recreate the default view 
+            repository.CreateDefaultViews();
             base.Initialize(repository);
         }
 
         public override void Remove(Models.Repository item)
         {
             base.Remove(item);
-            item.DeleteBucket();
+            // Can not delete the bucket because the bucket may have site data.
+            // item.DeleteBucket();
         }
 
         public override bool TestDbConnection()

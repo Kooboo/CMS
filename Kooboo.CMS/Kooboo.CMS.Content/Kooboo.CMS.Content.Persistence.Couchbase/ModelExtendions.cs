@@ -62,17 +62,24 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
             return
             string.Format(@"{{
                     ""views"": {{
-                        ""All_CategoriesData"":{{
+                        ""Query_Contents_By_Category"":{{
                             ""map"":""function(doc){{
                                 if(doc.{0}&&doc.{0}===\""{1}\""){{
                                      emit([doc.CategoryUUID,doc.ContentUUID],{{CategoryUUID:doc.CategoryUUID,CategoryFolder:doc.CategoryFolder,ContentUUID:doc.ContentUUID}});
                                 }}
                             }}""
-                        }},                       
+                        }},     
+                        ""Query_Categories_By_Content"":{{
+                            ""map"":""function(doc){{
+                                if(doc.{0}&&doc.{0}===\""{1}\""){{
+                                     emit([doc.ContentUUID,doc.CategoryUUID],{{CategoryUUID:doc.CategoryUUID,CategoryFolder:doc.CategoryFolder,ContentUUID:doc.ContentUUID}});
+                                }}
+                            }}""
+                        }},                     
                         ""Sort_By_UserKey"": {{
                             ""map"": ""function (doc) {{
                                 if (doc.SchemaName!=undefined){{
-                                    emit(doc.UserKey, doc); 
+                                    emit(doc.UserKey, {{UUID:doc.UUID}}); 
                                 }}
                             }}""
                         }}
@@ -80,21 +87,21 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
             }}", GetTypePropertyName(), GetCategoryTypePropertyValue()).Replace(" ", "").Replace("\r", "").Replace("\n", "");
         }
 
-//        public static string SchemaViews(this Schema schema)
-//        {
-//            return
-//            string.Format(@"{{
-//                    ""views"": {{
-//                        ""All"":{{
-//                            ""map"":""function(doc,meta){{
-//                                if(doc.{0}&&doc.{0}===\""{1}\""){{
-//                                    emit(meta.id,doc);
-//                                }}
-//                            }}""
-//                        }}
-//                    }}
-//            }}", GetTypePropertyName(), schema.GetTypePropertyValue()).Replace(" ", "").Replace("\r", "").Replace("\n", "");
-//        }
+        //        public static string SchemaViews(this Schema schema)
+        //        {
+        //            return
+        //            string.Format(@"{{
+        //                    ""views"": {{
+        //                        ""All"":{{
+        //                            ""map"":""function(doc,meta){{
+        //                                if(doc.{0}&&doc.{0}===\""{1}\""){{
+        //                                    emit(meta.id,doc);
+        //                                }}
+        //                            }}""
+        //                        }}
+        //                    }}
+        //            }}", GetTypePropertyName(), schema.GetTypePropertyValue()).Replace(" ", "").Replace("\r", "").Replace("\n", "");
+        //        }
         #endregion
 
 
@@ -119,23 +126,24 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
 
         public static IList<IViewRow> QueryByCategory(this Repository repository, string categoryUUID)
         {
-            using (var bucket = repository.GetClient())
-            {
-                var view = bucket.GetView(repository.GetDefaultViewDesign(), "All_CategoriesData").Stale(StaleMode.False);
-                var startKey = new string[] { categoryUUID, "0" }; //string.Format("[\"{0}\",\"0\"]", categoryUUID);
-                var endKey = new string[] { categoryUUID, "ZZZZZZZZZZZZZZZZZZZZZZZZZZ" };//string.Format("[\"{0}\",\"ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ\"]", categoryUUID);
-                view.StartKey(startKey).EndKey(endKey).WithInclusiveEnd(true);
-                return view.ToList();
-            }
+            return MatchByFirstKey(repository, "Query_Contents_By_Category", categoryUUID);
         }
         public static IList<IViewRow> QueryCategoriesBy(this Repository repository, string contentUUID)
         {
+            return MatchByFirstKey(repository, "Query_Categories_By_Content", contentUUID);
+        }
+
+        private static IList<IViewRow> MatchByFirstKey(Repository repository, string viewName, string firstKey)
+        {
             using (var bucket = repository.GetClient())
             {
-                var view = bucket.GetView(repository.GetDefaultViewDesign(), "All_CategoriesData").Stale(StaleMode.False);
-                var startKey = new string[] { "0", contentUUID }; //string.Format("[\"0\",\"{0}\"]", contentUUID);
-                var endKey = new string[] { "ZZZZZZZZZZZZZZZZZZZZZZZZZZ", contentUUID };//string.Format("[\"ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ\",\"{0}\"]", contentUUID);
-                view.StartKey(startKey).EndKey(endKey).WithInclusiveEnd(true);
+                var view = bucket.GetView(repository.GetDefaultViewDesign(), viewName).Stale(StaleMode.False);
+                if (!string.IsNullOrEmpty(firstKey))
+                {
+                    var startKey = new string[] { firstKey, "\u0000" }; //string.Format("[\"0\",\"{0}\"]", contentUUID);
+                    var endKey = new string[] { firstKey, "\uefff" };//string.Format("[\"ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ\",\"{0}\"]", contentUUID);
+                    view.StartKey(startKey).EndKey(endKey).WithInclusiveEnd(true);
+                }
                 return view.ToList();
             }
         }
@@ -150,7 +158,11 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
 
             return category;
         }
-
+        public static IDictionary<string, object> DictionaryValue(this IViewRow row)
+        {
+            Dictionary<string, object> dict = row.Info["value"] as Dictionary<string, object>;
+            return dict;
+        }
         public static TextContent ToContent(this IViewRow row)
         {
             if (row == null)

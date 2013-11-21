@@ -85,6 +85,20 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
             return model;
         }
+        public static T ToModel<T>(Site site, string key, string json, Func<Site, string, T> createModel)
+           where T : IPersistable
+        {
+          
+            var rawKey = ModelExtensions.GetRawDocumentKey(key);
+
+            var dummy = createModel(site, rawKey);
+
+            var model = JsonToObject<T>(json);
+
+            ((IPersistable)model).Init(dummy);
+
+            return model;
+        }
         public static T ToObject<T>(this IViewRow row)
         {
             var rawValue = row.Info["value"] as Dictionary<string, object>;

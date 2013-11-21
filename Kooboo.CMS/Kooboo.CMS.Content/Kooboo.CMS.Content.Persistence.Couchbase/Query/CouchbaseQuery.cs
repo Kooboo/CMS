@@ -69,14 +69,14 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
 
             if (visitor.OrderClause != null && (keys == null || keys.Length == 0))
             {
-                keyExpression = "doc." + visitor.OrderClause.FieldName + "+'_'+" + keyExpression;
+                keyExpression = "[doc." + visitor.OrderClause.FieldName + "," + keyExpression + "]";
                 viewName = viewName + "_ORDERBY_" + visitor.OrderClause.FieldName;
             }
 
             viewBody.Append(string.IsNullOrEmpty(clause) ? string.Empty : "if(")
                .Append(clause)
                .Append(string.IsNullOrEmpty(clause) ? string.Empty : ")")
-               .AppendFormat("emit({0},doc);", keyExpression);
+               .AppendFormat("emit({0},{{UUID:doc.UUID}});", keyExpression);
 
             return viewBody.ToString();
         }
@@ -126,14 +126,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                     break;
                 case Kooboo.CMS.Content.Query.Expressions.CallType.Unspecified:
                 default:
-                    if (visitor.Take != 0)
-                    {
-                        result = getResult.Values.Select(it => it.ToContent());
-                    }
-                    else
-                    {
-                        result = getResult.Values.Select(it => it.ToContent());
-                    }
+                    result = getResult.Values.Select(it => it.ToContent());
                     break;
             }
 
@@ -150,7 +143,6 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
 
         private object QueryByView(CouchbaseVisitor visitor)
         {
-
             //create view
             var designName = string.Empty;//"__TempViews__";
             var viewName = string.Empty;
@@ -229,30 +221,37 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                     result = couchbaseCursor.Count();
                     break;
                 case Kooboo.CMS.Content.Query.Expressions.CallType.First:
-                    result = couchbaseCursor.First().ToContent();
-                    break;
+                    return ViewRowToTextContent(couchbaseCursor.First());
                 case Kooboo.CMS.Content.Query.Expressions.CallType.Last:
-                    result = couchbaseCursor.Last().ToContent();
-                    break;
+                    return ViewRowToTextContent(couchbaseCursor.Last());
                 case Kooboo.CMS.Content.Query.Expressions.CallType.LastOrDefault:
-                    result = couchbaseCursor.Last().ToContent();
-                    break;
+                    return ViewRowToTextContent(couchbaseCursor.LastOrDefault());
                 case Kooboo.CMS.Content.Query.Expressions.CallType.FirstOrDefault:
-                    result = couchbaseCursor.FirstOrDefault().ToContent();
-                    break;
+                    return ViewRowToTextContent(couchbaseCursor.FirstOrDefault());
                 case Kooboo.CMS.Content.Query.Expressions.CallType.Unspecified:
                 default:
-                    if (visitor.Take != 0)
-                    {
-                        result = couchbaseCursor.Select(it => it.ToContent());
-                    }
-                    else
-                    {
-                        result = couchbaseCursor.Select(it => it.ToContent()).ToList();
-                    }
+
+                    var uuidList = couchbaseCursor.Select(it => GetUUID(it)).ToArray();
+                    return this.ContentQuery.Repository.GetClient().ExecuteGet(uuidList).Select(it => it.Value.ToContent());
+
                     break;
             }
             return result;
+        }
+        private TextContent ViewRowToTextContent(IViewRow viewRow)
+        {
+            if (viewRow == null)
+            {
+                return null;
+            }
+            var uuid = GetUUID(viewRow);
+            return this.ContentQuery.Repository.GetClient().ExecuteGet(uuid).ToContent();
+        }
+
+        private static string GetUUID(IViewRow viewRow)
+        {
+            var uuid = viewRow.DictionaryValue()["UUID"];
+            return uuid.ToString();
         }
         protected virtual object DefaultValueExecute(CallType callType)
         {

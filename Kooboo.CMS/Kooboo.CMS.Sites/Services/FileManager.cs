@@ -241,7 +241,7 @@ namespace Kooboo.CMS.Sites.Services
             get
             {
                 var ex = this.FileExtension.ToLower();
-                return ex == ".txt" || ex == ".js" || ex == ".css" || ex == ".rule";
+                return ex == ".txt" || ex == ".js" || ex == ".css" || ex == ".rule" || ex == ".less";
             }
         }
 

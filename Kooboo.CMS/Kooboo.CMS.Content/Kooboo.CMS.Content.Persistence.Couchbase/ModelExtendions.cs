@@ -75,7 +75,14 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
                                      emit([doc.ContentUUID,doc.CategoryUUID],{{CategoryUUID:doc.CategoryUUID,CategoryFolder:doc.CategoryFolder,ContentUUID:doc.ContentUUID}});
                                 }}
                             }}""
-                        }},                     
+                        }},  
+                        ""Query_Children_By_Content"":{{
+                            ""map"":""function(doc){{
+                                if(doc.SchemaName!=undefined && doc.ParentUUID){{
+                                     emit([doc.ParentUUID,doc.UUID],doc.UUID);
+                                }}
+                            }}""
+                        }},  
                         ""Sort_By_UserKey"": {{
                             ""map"": ""function (doc) {{
                                 if (doc.SchemaName!=undefined){{
@@ -131,6 +138,10 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
         public static IList<IViewRow> QueryCategoriesBy(this Repository repository, string contentUUID)
         {
             return MatchByFirstKey(repository, "Query_Categories_By_Content", contentUUID);
+        }
+        public static IList<IViewRow> QueryChildrenBy(this Repository repository, string parentUUID)
+        {
+            return MatchByFirstKey(repository, "Query_Children_By_Content", parentUUID);
         }
 
         private static IList<IViewRow> MatchByFirstKey(Repository repository, string viewName, string firstKey)

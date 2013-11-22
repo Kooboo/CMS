@@ -39,18 +39,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
             var parents = ((IEnumerable<TextContent>)(translator.Translate(this._childrenQuery.ParentQuery)).Execute()).ToList();
             if (parents.Count() > 0)
             {
-                List<string> parentsClause = new List<string>();
-                foreach (var item in parents)
-                {
-                    parentsClause.Add(string.Format("({0}=={1})",
-                        "doc[\\\"ParentUUID\\\"]",
-                        visitor.MakeValue(item.UUID)));
-                }
-                clause += string.Format("{0}({1})",
-                    string.IsNullOrEmpty(clause) ? string.Empty : "&&",
-                    string.Join("||", parentsClause));
-
-                viewName += string.Format("_ParentUUID_IN_[{0}]", string.Join(",", parents.Select(it => it.UUID).ToArray()));
+                keys = parents.SelectMany(it => QueryChildren(this.ContentQuery.Repository, it.UUID)).ToArray();
             }
             else
             {
@@ -58,6 +47,10 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
             }
 
             return clause;
+        }
+        private IEnumerable<string> QueryChildren(Repository repository, string parentUUID)
+        {
+            return repository.QueryChildrenBy(parentUUID).Select(row => row.Info["value"].ToString());
         }
     }
 }

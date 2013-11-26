@@ -418,7 +418,6 @@
     <Compile Include="Services\ManagerBase.cs" />
     <Compile Include="Services\ModuleManager.cs" />
     <Compile Include="Services\Namespace.cs" />
-    <Compile Include="Services\PagePublishingJob.cs" />
     <Compile Include="Services\SiteTemplateManager.cs" />
     <Compile Include="Services\SystemManager.cs" />
     <Compile Include="Services\ThemeManager.cs" />

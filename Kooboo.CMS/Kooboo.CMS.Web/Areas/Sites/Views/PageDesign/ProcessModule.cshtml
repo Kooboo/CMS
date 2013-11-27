@@ -111,6 +111,16 @@
             </td>
         </tr>
 
+        <tr>
+            <th></th>
+            <td>
+                <input type="checkbox" id="skipError" name="SkipError" value="true" />
+                <input type="hidden" name="SkipError" value="false" />
+                <label for="skipError" class="inline">@("Skip error".Localize())</label>
+                <em class="tip">@Html.Raw("".Localize())</em>
+            </td>
+        </tr>
+
     </table>
 </div>
 <script type="text/javascript">

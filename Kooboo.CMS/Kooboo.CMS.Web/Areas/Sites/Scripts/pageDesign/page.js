@@ -443,6 +443,9 @@
                     checkInput.attr('checked', true);
                     checkInput.trigger('change');
                 }
+            }            
+            if (this.outerValue.SkipError == 'true') {                
+                $('#skipError').attr('checked',true);
             }
             // OutputCache
             var dur, policy, outputCache = $.parseJSON(this.outerValue.OutputCache);
@@ -756,6 +759,9 @@
             var moduleName = self.outerValue.ModuleName;
             if (moduleName) { $('input[name="ModuleName"][value="' + moduleName + '"]').attr('checked', true).trigger('change'); }
 
+            if (this.outerValue.SkipError == 'true') {
+                $('#skipError').attr('checked', true);
+            }
             setTimeout(function () {
                 var entryName = self.outerValue.EntryName;
                 if (entryName) {

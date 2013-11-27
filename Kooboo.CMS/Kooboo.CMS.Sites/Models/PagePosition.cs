@@ -93,6 +93,9 @@ namespace Kooboo.CMS.Sites.Models
         [DataMember(Order = 10)]
         public CacheSettings OutputCache { get; set; }
 
+        [DataMember]
+        public bool SkipError { get; set; }
+
         public bool EnabledCache
         {
             get
@@ -104,7 +107,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             StringBuilder sb = new StringBuilder();
 
-            if (parameters!=null)
+            if (parameters != null)
             {
                 foreach (var item in parameters)
                 {
@@ -114,7 +117,7 @@ namespace Kooboo.CMS.Sites.Models
                 {
                     sb.Remove(sb.Length - 1, 1);
                 }
-            }          
+            }
 
             var s = "View:" + this.ViewName;
 
@@ -157,6 +160,9 @@ namespace Kooboo.CMS.Sites.Models
         /// </summary>
         [DataMember(Order = 11)]
         public bool Exclusive { get; set; }
+
+        [DataMember]
+        public bool SkipError { get; set; }
 
         public override string ToString()
         {

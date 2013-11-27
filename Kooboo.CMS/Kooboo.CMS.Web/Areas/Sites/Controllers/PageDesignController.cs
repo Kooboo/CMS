@@ -245,18 +245,24 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 var t = item.Str("Type");
                 if (t == PageDesignViewContent.TypeKey)
                 {
+                    bool skipError = false;
+                    bool.TryParse(item.Str("SkipError"), out skipError);
                     pos = new ViewPosition()
                     {
                         ViewName = item.Str("ViewName"),
+                        SkipError = skipError,
                         Parameters = ParseViewParameters(item.Str("Parameters")),
                         OutputCache = ParseJson<CacheSettings>(item.Str("OutputCache"))
                     };
                 }
                 else if (t == PageDesignModuleContent.TypeKey)
                 {
+                    bool skipError = false;
+                    bool.TryParse(item.Str("SkipError"), out skipError);
                     pos = new ModulePosition()
                     {
                         ModuleName = item.Str("ModuleName"),
+                        SkipError = skipError,
                         Exclusive = (item.Str("Exclusive") == "true"),
                         Entry = ParseModuleEntry(item)
                     };

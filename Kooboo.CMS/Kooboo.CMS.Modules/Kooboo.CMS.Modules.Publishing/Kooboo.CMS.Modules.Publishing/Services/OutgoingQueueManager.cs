@@ -22,6 +22,7 @@ using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Content.Models;
+using Kooboo.CMS.Content.Persistence;
 
 namespace Kooboo.CMS.Modules.Publishing.Services
 {
@@ -33,6 +34,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         IPublishingLogProvider _publishingLogProvider;
         PageManager _pageManager;
         TextContentManager _textContentManager;
+        ITextContentProvider _textContentProvider;
         public OutgoingQueueManager(IOutgoingQueueProvider outgoingQueueProvider, ICmisSession cmisSession, IPublishingLogProvider publishingLogProvider,
             PageManager pageManager, TextContentManager textContentManager)
             : base(outgoingQueueProvider)
@@ -206,7 +208,8 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                         {
                             case PublishingAction.Publish:
                                 content.Published = true;
-                                cmisService.AddTextContent(remoteEndpoint.RemoteRepositoryId, queueItem.RemoteFolderId, content);
+                                var categories = _textContentProvider.QueryCategories(content);
+                                cmisService.AddTextContent(remoteEndpoint.RemoteRepositoryId, queueItem.RemoteFolderId, content, categories);
                                 break;
                             case PublishingAction.Unbpulish:
                                 cmisService.DeleteTextContent(remoteEndpoint.RemoteRepositoryId, queueItem.RemoteFolderId, content.UUID);

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Kooboo.CMS.Modules.Publishing.Web")]
+[assembly: AssemblyTitle("Kooboo CMS")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("4.2.1.1029")]
-[assembly: AssemblyFileVersion("4.2.1.1029")]
+[assembly: AssemblyVersion("4.2.1.1126")]
+[assembly: AssemblyFileVersion("4.2.1.1126")]

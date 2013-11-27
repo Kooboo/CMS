@@ -116,6 +116,10 @@ namespace Kooboo.CMS.Content.Services
 
             textContent = Binder.Bind(schema, textContent, values);
 
+            if (!string.IsNullOrEmpty(values["UUID"]))
+            {
+                textContent.UUID = values["UUID"];
+            }
             textContent.ParentFolder = parentFolder;
             textContent.ParentUUID = parentUUID;
             textContent.UserId = userid;

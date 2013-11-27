@@ -34,11 +34,15 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #endregion
 
         #region TextContent
-        public string AddTextContent(Site site, TextFolder textFolder, System.Collections.Specialized.NameValueCollection values, System.Web.HttpFileCollectionBase files, IEnumerable<TextContent> categories, [System.Runtime.InteropServices.OptionalAttribute][System.Runtime.InteropServices.DefaultParameterValueAttribute("")]string userid, string vendor)
-        {              
+        public string AddTextContent(Site site, TextFolder textFolder, System.Collections.Specialized.NameValueCollection values, [System.Runtime.InteropServices.OptionalAttribute][System.Runtime.InteropServices.DefaultParameterValueAttribute("")]string userid, string vendor)
+        {
             var schema = textFolder.GetSchema();
 
             var textContent = new TextContent(textFolder.Repository.Name, textFolder.SchemaName, textFolder.FullName);
+            foreach (string key in values)
+            {
+                textContent[key] = values[key];
+            }
 
             textContent = _textContentBinder.Bind(schema, textContent, values);
 

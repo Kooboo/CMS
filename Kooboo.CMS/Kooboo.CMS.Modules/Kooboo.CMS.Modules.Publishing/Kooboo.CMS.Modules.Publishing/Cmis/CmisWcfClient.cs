@@ -199,9 +199,9 @@ namespace Kooboo.CMS.Modules.Publishing.Cmis
         #endregion
 
         #region AddTextContent
-        public string AddTextContent(string repositoryId, string folderId, TextContent textContent)
+        public string AddTextContent(string repositoryId, string folderId, TextContent textContent, IEnumerable<Category> categories)
         {
-            var cmisProperties = Kooboo.CMS.Modules.CMIS.Services.Implementation.ModelHelper.ToCmisPropertiesType(textContent);
+            var cmisProperties = Kooboo.CMS.Modules.CMIS.Services.Implementation.ModelHelper.ToCmisPropertiesType(textContent, categories);
 
             var service = GetService();
 
@@ -211,11 +211,11 @@ namespace Kooboo.CMS.Modules.Publishing.Cmis
         }
         #endregion
 
-        public string UpdateTextContent(string repositoryId, string folderId, TextContent textContent)
+        public string UpdateTextContent(string repositoryId, string folderId, TextContent textContent, IEnumerable<Category> categories)
         {
             return HandleFault(() =>
                {
-                   var cmisProperties = Kooboo.CMS.Modules.CMIS.Services.Implementation.ModelHelper.ToCmisPropertiesType(textContent);
+                   var cmisProperties = Kooboo.CMS.Modules.CMIS.Services.Implementation.ModelHelper.ToCmisPropertiesType(textContent, categories);
 
                    var service = GetService();
 

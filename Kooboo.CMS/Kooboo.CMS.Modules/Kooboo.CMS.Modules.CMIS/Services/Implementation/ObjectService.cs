@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
 {
@@ -35,7 +36,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
             var site = ModelHelper.GetSite(request.repositoryId);
             var textFolder = ModelHelper.GetTextFolder(request.repositoryId, request.folderId);
             var nameValueCollection = request.properties.ToNameValueCollection();
-            var inegrateId = _incomeDataManager.AddTextContent(site, textFolder, nameValueCollection, null, null, "", ContextHelper.GetVendor());
+            var inegrateId = _incomeDataManager.AddTextContent(site, textFolder, nameValueCollection, "", ContextHelper.GetVendor());
             return new createDocumentResponse(inegrateId, null);
         }
         #endregion
@@ -97,7 +98,8 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
 
             if (content != null)
             {
-                response.@object = ModelHelper.TocmisObjectType(content);
+                var categories = _textContentProvider.QueryCategories(content);
+                response.@object = ModelHelper.TocmisObjectType(content, categories);
             }
             return response;
         }

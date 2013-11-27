@@ -30,6 +30,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
         public DateTime UtcCreationDate { get; set; }
 
         [GridColumn(Order = 6, HeaderText = "Status", GridColumnType = typeof(SortableGridColumn))]
+        public QueueStatus Status { get; set; }
 
         [GridColumn(Order = 8, HeaderText = "Message", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(TooltipGridItemColumn))]
         public string Message { get; set; }

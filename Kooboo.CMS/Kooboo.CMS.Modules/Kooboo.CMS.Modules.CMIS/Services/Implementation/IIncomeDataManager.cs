@@ -22,8 +22,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
     public interface IIncomeDataManager
     {
         #region TextContent
-        string AddTextContent(Site site, TextFolder textFolder, NameValueCollection values, HttpFileCollectionBase files,
-  IEnumerable<TextContent> categories, string userid, string vendor);
+        string AddTextContent(Site site, TextFolder textFolder, NameValueCollection values, string userid, string vendor);
 
         string UpdateTextContent(Site site, TextFolder folder, string integrateId, NameValueCollection values, string userid, string vendor);
 
@@ -50,16 +49,19 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
         #endregion
 
         #region TextContent
-        public string AddTextContent(Site site, TextFolder textFolder, NameValueCollection values, HttpFileCollectionBase files, IEnumerable<TextContent> categories, string userid, string vendor)
+        public string AddTextContent(Site site, TextFolder textFolder, NameValueCollection values, string userid, string vendor)
         {
-            var textContent = _textContentManager.Add(textFolder.Repository, textFolder, values, files, categories, "");
+            var files = values.GetFilesFromValues();
+            var categories = values.GetCategories().Select(it => new TextContent(textFolder.Repository.Name, "", it.CategoryFolder) { UUID = it.CategoryUUID }).ToArray();
+            var textContent = _textContentManager.Add(textFolder.Repository, textFolder, values, files, categories, userid);
             return textContent.IntegrateId;
         }
 
         public string UpdateTextContent(Site site, TextFolder textFolder, string integrateId, NameValueCollection values, string userid, string vendor)
         {
             var integrate = new ContentIntegrateId(integrateId);
-            var textContent = _textContentManager.Update(textFolder.Repository, textFolder, integrate.ContentUUID, values, "");
+            var files = values.GetFilesFromValues();
+            var textContent = _textContentManager.Update(textFolder.Repository, textFolder, integrate.ContentUUID, values, files, DateTime.UtcNow, null, null, userid, true);
             return textContent.IntegrateId;
         }
 

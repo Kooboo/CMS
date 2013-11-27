@@ -7,6 +7,10 @@ using Kooboo.CMS.Modules.Publishing.Persistence;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.Globalization;
+using Kooboo.Collections;
+
+using Kooboo.CMS.Modules.CMIS.Services.Implementation;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -211,9 +215,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                     switch (queueItem.Action)
                     {
                         case PublishingAction.Publish:
-                            var textContent = new TextContent((Dictionary<string, object>)queueItem.Object);
-                            _textContentProvider.Delete(textContent);
-                            _textContentProvider.Add(textContent);
+                            AddOrUpdateContent(repository, queueItem);
                             return;
                         case PublishingAction.Unbpulish:
                             var integrateId = new ContentIntegrateId(queueItem.ObjectUUID);
@@ -231,6 +233,18 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                 }
             }
             NoSuchSiteMessage(ref queueItem);
+        }
+
+        private void AddOrUpdateContent(Repository repository, IncomeQueue queueItem)
+        {
+            var textContent = (Dictionary<string, object>)queueItem.Object;
+            var values = textContent.ToNameValueCollection();
+            var files = values.GetFilesFromValues();
+            var categories = values.GetCategories().Select(it => new TextContent(repository.Name, "", it.CategoryFolder) { UUID = it.CategoryUUID }).ToArray();
+
+            var textFolder = new TextFolder(repository, values["FolderName"]);
+            _textContentManager.Delete(repository, textFolder, values["UUID"]);
+            _textContentManager.Add(textFolder.Repository, textFolder, values, files, categories, values["UserId"]);
         }
         #endregion
     }

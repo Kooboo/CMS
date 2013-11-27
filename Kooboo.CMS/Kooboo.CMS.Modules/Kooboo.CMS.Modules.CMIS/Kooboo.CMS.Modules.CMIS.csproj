@@ -81,6 +81,7 @@
     <Compile Include="Services\IAclService.cs" />
     <Compile Include="Services\IDiscoveryService.cs" />
     <Compile Include="Services\Implementation\ContextHelper.cs" />
+    <Compile Include="Services\Implementation\HttpFileCollectionImp.cs" />
     <Compile Include="Services\Implementation\IIncomeDataManager.cs" />
     <Compile Include="Services\Implementation\ModelHelper.cs" />
     <Compile Include="Services\Implementation\NavigationService.cs" />
@@ -96,7 +97,9 @@
     <Compile Include="Services\IRelationshipService.cs" />
     <Compile Include="Services\IRepositoryService.cs" />
     <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\IStringBinaryConverter.cs" />
     <Compile Include="Services\IVersioningService.cs" />
+    <Compile Include="Services\IVirtualPathField.cs" />
     <Compile Include="WcfExtensions\ApplyOpenCMISResponseFormatterBehavior.cs" />
     <Compile Include="WcfExtensions\ApplyOpenCMISResponseFormatterBehaviorElement.cs" />
     <Compile Include="WcfExtensions\DIInstanceProvider.cs" />

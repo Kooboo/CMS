@@ -18,6 +18,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Web;
 
 namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
 {
@@ -111,7 +112,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
         }
         #endregion
 
-        #region ToNameValueCollection
+        #region Parse content fields
         public static NameValueCollection ToNameValueCollection(this cmisPropertiesType cmisProperties)
         {
             NameValueCollection nameValueCollection = new NameValueCollection();
@@ -126,16 +127,65 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
 
             return nameValueCollection;
         }
+
+        public static HttpFileCollectionBase GetFilesFromValues(this NameValueCollection values)
+        {
+            IVirtualPathField virtualPathField = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IVirtualPathField>();
+            HttpFileCollectionImp files = new HttpFileCollectionImp();
+            foreach (string key in values.AllKeys)
+            {
+                var value = values[key];
+                if (virtualPathField.IsBinaryString(value))
+                {
+                    var binarys = virtualPathField.ToBinaryStream(value);
+                    foreach (var keyValue in binarys)
+                    {
+                        files.AddFile(key, keyValue.Key, "", keyValue.Value);
+                    }
+                    values[key] = "";
+                }
+            }
+            return files;
+        }
+        public static IEnumerable<Category> GetCategories(this NameValueCollection values)
+        {
+            var categoriesString = values["___Categories___"];
+            if (!string.IsNullOrEmpty(categoriesString))
+            {
+                return ParseCategories(categoriesString);
+            }
+            return new Category[0];
+        }
+        #endregion
+
+        #region Categories field
+        private static string ToCategoriesString(IEnumerable<Category> categories)
+        {
+            if (categories != null)
+            {
+                return Kooboo.Web.Script.Serialization.JsonHelper.ToJSON(categories);
+            }
+            return string.Empty;
+        }
+        private static IEnumerable<Category> ParseCategories(string str)
+        {
+            if (!string.IsNullOrEmpty(str))
+            {
+                return Kooboo.Web.Script.Serialization.JsonHelper.Deserialize<Category[]>(str);
+            }
+            return new Category[0];
+        }
+
         #endregion
 
         #region TocmisObjectType
-        public static cmisObjectType TocmisObjectType(TextContent textContent)
+        public static cmisObjectType TocmisObjectType(TextContent textContent, IEnumerable<Category> categories)
         {
             cmisObjectType cmisObject = new cmisObjectType();
-            cmisObject.properties = ToCmisPropertiesType(textContent);
+            cmisObject.properties = ToCmisPropertiesType(textContent, categories);
             return cmisObject;
         }
-        public static cmisPropertiesType ToCmisPropertiesType(TextContent textContent)
+        public static cmisPropertiesType ToCmisPropertiesType(TextContent textContent, IEnumerable<Category> categories)
         {
             var properties = new cmisPropertiesType();
             var items = new List<cmisProperty>();
@@ -147,7 +197,8 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
             items.Add(new cmisPropertyId() { localName = "IntegrateId", propertyDefinitionId = CmisPropertyDefinitionId.ObjectId, value = new[] { textContent.IntegrateId } });
             items.Add(new cmisPropertyId() { localName = "SchemaName", propertyDefinitionId = CmisPropertyDefinitionId.ObjectTypeId, value = new[] { textContent.SchemaName } });
             items.Add(new cmisPropertyString() { localName = "ParentUUID", propertyDefinitionId = CmisPropertyDefinitionId.ParentId, value = new[] { textContent.ParentUUID } });
-
+            var categoriesString = ToCategoriesString(categories);
+            items.Add(new cmisPropertyString() { localName = "___Categories___", propertyDefinitionId = CmisPropertyDefinitionId.ParentId, value = new[] { categoriesString } });
 
             foreach (var item in textContent)
             {
@@ -182,10 +233,25 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
             {
                 return new cmisPropertyBoolean() { propertyDefinitionId = item.Key, localName = item.Key, value = new[] { (bool)item.Value } };
             }
+            else if (item.Value is string)
+            {
+                var stringValue = item.Value.ToString();
+                stringValue = ConvertVirtualPathField(stringValue);
+                return new cmisPropertyString() { propertyDefinitionId = item.Key, localName = item.Key, value = new string[] { stringValue } };
+            }
             else
             {
                 return new cmisPropertyString() { propertyDefinitionId = item.Key, localName = item.Key, value = new string[] { item.Value.ToString() } };
             }
+        }
+        private static string ConvertVirtualPathField(string value)
+        {
+            var virtuaFieldValue = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IVirtualPathField>();
+            if (virtuaFieldValue.IsVirtualPathField(value))
+            {
+                return virtuaFieldValue.ToBinaryString(value);
+            }
+            return value;
         }
         #endregion
     }

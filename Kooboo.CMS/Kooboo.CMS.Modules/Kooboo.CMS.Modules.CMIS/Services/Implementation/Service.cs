@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Content.Persistence;
 using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Modules.CMIS.WcfExtensions;
 using Kooboo.CMS.Sites.Services;
@@ -26,8 +27,9 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
         RepositoryManager _repositoryManager;
         SchemaManager _schemaManager;
         IIncomeDataManager _incomeDataManager;
+        ITextContentProvider _textContentProvider;
         public Service(RepositoryManager repositoryManager, SchemaManager schemaManager, TextFolderManager textFolderManager, SiteManager siteManager
-            , IIncomeDataManager incomeDataManager)
+            , IIncomeDataManager incomeDataManager, ITextContentProvider textContentProvider)
         {
             _textFolderManager = textFolderManager;
             _repositoryManager = repositoryManager;
@@ -35,6 +37,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
             _incomeDataManager = incomeDataManager;
 
             _siteManager = siteManager;
+            _textContentProvider = textContentProvider;
         }
         #endregion
     }

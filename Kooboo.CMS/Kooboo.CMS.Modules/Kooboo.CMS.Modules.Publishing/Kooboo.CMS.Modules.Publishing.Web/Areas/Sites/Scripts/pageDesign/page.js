@@ -485,9 +485,41 @@
             var self = this;
             // init tinymce
             this.textarea = $('#Textarea1');
+            var mediaLibraryUrl = this.textarea.attr('media_library_url');
+
+            var chooseFileFromMediaLibrary = function (inputId, value, fileType, window) {
+
+                // execute popup
+                var topJQ = top._jQuery || top.jQuery;
+                var id = new Date().getTime();
+                topJQ.pop({
+                    id: id,
+                    url: mediaLibraryUrl,
+                    width: 900,
+                    height: 500,
+                    dialogClass: 'iframe-dialog',
+                    frameHeight: '100%',
+                    beforeLoad: function () {
+                    },
+                    onload: function (handle, pop, config) {
+                        top.onFileSelected = function (src, text, option) {
+                            var $srcInput = $('#' + inputId);
+                            $srcInput.val(src);
+                            var $descriptionInput = $srcInput.parent().parent().parent().next().find('input');
+                            $descriptionInput.val(text);
+                        };
+                        top.fileSelectPop = pop;
+                    },
+                    onclose: function (handle, pop, config) {
+
+                    }
+                });
+                tinymce.ztopKoobooDialog(id);
+            }
             tinyMCE.init($.extend({}, tinyMCE.getKoobooConfig({ autoresize: false }), {
                 elements: this.textarea.attr('id'),
-                media_library_url: this.textarea.attr('media_library_url'),
+                file_browser_callback: chooseFileFromMediaLibrary,
+                media_library_url: mediaLibraryUrl,
                 media_library_title: this.textarea.attr('media_library_title'),
                 editor_selector: "richeditor",
                 relative_urls: undefined,

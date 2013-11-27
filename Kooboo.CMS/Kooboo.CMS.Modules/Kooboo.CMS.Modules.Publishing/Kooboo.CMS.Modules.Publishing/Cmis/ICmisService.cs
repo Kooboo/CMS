@@ -20,8 +20,8 @@ namespace Kooboo.CMS.Modules.Publishing.Cmis
         IEnumerable<KeyValuePair<string, string>> GetRepositories();
         IEnumerable<TreeNode<KeyValuePair<string, string>>> GetFolderTrees(string reposiotryId);
 
-        string AddTextContent(string repositoryId, string folderId, TextContent textContent);
-        string UpdateTextContent(string repositoryId, string folderId, TextContent textContent);
+        string AddTextContent(string repositoryId, string folderId, TextContent textContent, IEnumerable<Category> categories);
+        string UpdateTextContent(string repositoryId, string folderId, TextContent textContent, IEnumerable<Category> categories);
         void DeleteTextContent(string repositoryId, string folderId, string contentUUID);
 
         string AddPage(string repositoryId, Page page);

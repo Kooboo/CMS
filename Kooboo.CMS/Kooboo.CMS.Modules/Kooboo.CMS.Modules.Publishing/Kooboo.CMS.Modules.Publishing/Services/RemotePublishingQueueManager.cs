@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Kooboo.CMS.Content.Persistence;
 
 namespace Kooboo.CMS.Modules.Publishing.Services
 {
@@ -26,8 +27,9 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         IRemotePublishingQueueProvider _remotePublishingQueueProvider;
         IPublishingLogProvider _publishingLogProvider;
         IPageProvider _pageProvider;
+        ITextContentProvider _textContentProvider;
         public RemotePublishingQueueManager(IRemotePublishingQueueProvider remotePublishingQueueProvider, ICmisSession cmisSession,
-            PageManager pageManager, TextContentManager textContentManager, IPublishingLogProvider publishingLogProvider, IPageProvider pageProvider)
+            PageManager pageManager, TextContentManager textContentManager, IPublishingLogProvider publishingLogProvider, IPageProvider pageProvider, ITextContentProvider textContentProvider)
             : base(remotePublishingQueueProvider)
         {
             this._remotePublishingQueueProvider = remotePublishingQueueProvider;
@@ -36,6 +38,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             this._pageManager = pageManager;
             this._publishingLogProvider = publishingLogProvider;
             this._pageProvider = pageProvider;
+            _textContentProvider = textContentProvider;
         }
         #endregion
 
@@ -291,7 +294,8 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                         {
                             case PublishingAction.Publish:
                                 content.Published = true;
-                                cmisService.AddTextContent(remoteEndpoint.RemoteRepositoryId, mapping.RemoteFolderId, content);
+                                var categories = _textContentProvider.QueryCategories(content);
+                                cmisService.AddTextContent(remoteEndpoint.RemoteRepositoryId, mapping.RemoteFolderId, content, categories);
                                 queueItem.UtcProcessedPublishTime = DateTime.UtcNow;
                                 break;
                             case PublishingAction.Unbpulish:

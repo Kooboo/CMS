@@ -1,0 +1,19 @@
+﻿@model dynamic
+@{
+    var viewEngine = (Kooboo.CMS.Sites.View.ITemplateEngine)ViewBag.ViewEngine;
+}
+<ul class="codeSnippets">
+    <li>
+        <a  title="@viewEngine.GetCodeHelper().RegisterHtmlMeta()" class="right">@Html.IconImage("insert")</a>
+        @("Register HtmlMeta".Localize())
+    </li>
+    <li><a  title="@viewEngine.GetCodeHelper().RegisterStyles() " class="right">@Html.IconImage("insert")</a>
+        @("Register Style".Localize())
+    </li>
+    <li><a  title="@viewEngine.GetCodeHelper().RegisterScripts() " class="right">@Html.IconImage("insert")</a>
+        @("Register Script".Localize())
+    </li>
+    <li><a  title="@viewEngine.GetCodeHelper().RegisterTitle() " class="right">@Html.IconImage("insert")</a>
+        @("Register Title".Localize())
+    </li>
+</ul>

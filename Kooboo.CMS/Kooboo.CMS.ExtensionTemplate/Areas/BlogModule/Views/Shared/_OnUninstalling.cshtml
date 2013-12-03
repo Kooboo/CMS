@@ -1,0 +1,9 @@
+﻿@model Kooboo.CMS.ExtensionTemplate.Areas.BlogModule.ViewModels.InstallationModel
+@{
+    ViewBag.ConnectionString = Kooboo.CMS.ExtensionTemplate.Areas.BlogModule.Persistence.EntityFramework.BlogDbContext.DefaultConnectionString;
+}
+<table>
+    <tbody>
+        @Html.EditorFor(it => it.ConnectionString, new { HtmlAttributes = new { @class = "long" } })
+    </tbody>
+</table>

@@ -1,0 +1,218 @@
+﻿@model dynamic
+@{
+    Layout = "~/Views/Shared/Popup.cshtml";
+    var sourceUrl = ViewData["SourceUrl"] as string;
+    var previewUrl = this.Url.Action("ResizeImage", "Resource", new { siteName = Site.Current.FullName, url = sourceUrl, area = "", width = 600, height = 400, preserverAspectRatio = true, quality = 80 });
+    if (!string.IsNullOrEmpty(sourceUrl))
+    {
+        sourceUrl = Url.Content(sourceUrl);
+    }
+    object cropParam = ViewData["CropParam"];
+    var cropJSON = Kooboo.Web.Script.Serialization.JsonHelper.ToJSON(cropParam);
+}
+<div class="common-form image-editor">
+    <form action="@Html.Raw(Url.Action("ImageCrop", "TextContent", Request.RequestContext.AllRouteValues()))"
+    method="post" enctype="multipart/form-data" class="no-stop">
+        <table>
+            <tr>
+                <th>
+                    <label>
+                        @("Upload a new image".Localize()):</label>
+                </th>
+                <td>
+                    <input type="file" name="file" id="file" accept="image/jpeg,image/jpg,image/png" data-val-regex="@("Only .png and .jpg file are allowed.".Localize())" data-val-regex-pattern=".+\.(png|jpg)$" data-val="true" />
+                    @Html.ValidationMessageForInput("file")
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div class="image-crop">
+        <div class="toolbar">
+
+            <ul class="image-info clearfix">
+                <li>
+                    <label>@Html.Raw("X".Localize()):</label>
+                    <input type="text" id="Crop_X" name="Crop.X" readonly="readonly" class="mini" />
+                </li>
+                <li>
+                    <label>@Html.Raw("Y".Localize()):</label>
+                    <input type="text" id="Crop_Y" name="Crop.Y" readonly="readonly" class="mini" />
+                </li>
+                <li>
+                    <label>@Html.Raw("Selection".Localize()):</label>
+                    <input type="text" id="Crop_Width" name="Crop.Width" readonly="readonly" class="mini" />
+                    <span class="left">x</span>
+                    <input type="text" id="Crop_Height" name="Crop.Height" readonly="readonly" class="mini" />
+                </li>
+                <li>
+                    <label>@Html.Raw("Aspect ratio".Localize()):</label>
+                    <input type="text" id="Ratio_Width" class="mini" data-val="true" data-val-number="" />
+                    <span class="left">x</span>
+                    <input type="text" id="Ratio_Height" class="mini" data-val="true" data-val-number="" />
+                </li>
+            </ul>
+        </div>
+
+        <div class="image-container">
+            <img style="display: none" alt="@("Crope".Localize())" id="crop-image" width="640" height="400" />
+        </div>
+    </div>
+
+    <p class="buttons">
+        <a id="save" class="button">
+            @("Save".Localize())
+        </a>
+        <a class="button gray cancel">
+            @("Cancel".Localize())
+        </a>
+    </p>
+</div>
+<script>
+    $(function () {
+        var $cropImage = $('#crop-image');
+
+        var $top = top.$(top);
+        var jcropAPI;
+        var percent = 1;
+        var imgContainerWidth = 600;
+        var imgContainerHeight = 400;
+        var sourceWidth, sourceHeight;
+        var cropParam = $top.data('crop-param') || {};
+        function setJscrop(option) {
+            $cropImage.Jcrop(option, function () {
+                jcropAPI = this;
+            })
+        }
+
+        function setJcropRatio() {
+            var width = parseFloat($('#Ratio_Width').val());
+            var height = parseFloat($('#Ratio_Height').val());
+            if (!isNaN(width) && !isNaN(height)) {
+                setJscrop({
+                    aspectRatio: width / height
+                });
+            }
+            else {
+                setJscrop({
+                    aspectRatio: null
+                });
+            }
+        }
+        $('#Ratio_Width').keyup(function () {
+            setJcropRatio();
+        });
+        $('#Ratio_Height').keyup(function () {
+            setJcropRatio();
+        });
+
+        function cropChange(c) {
+            cropParam['Width'] = parseInt(c.w / percent);
+            cropParam['Height'] = parseInt(c.h / percent);
+            cropParam['X'] = parseInt(c.x / percent);
+            cropParam['Y'] = parseInt(c.y / percent);
+            $("#Crop_X").val(c.x);
+            $("#Crop_Y").val(c.y);
+            $("#Crop_Height").val(cropParam['Height']);
+            $("#Crop_Width").val(cropParam['Width']);
+        };
+        function loadImage(preview, imageUrl) {
+            $('<img/>').hide().appendTo('body').attr('src', imageUrl).load(function () {
+                window.loading.hide();
+                $cropImage.attr('src', imageUrl).show();
+                var source = $(this);
+                setTimeout(function () {
+                    sourceHeight = source.height(),
+                    sourceWidth = source.width(),
+                    cropParam.Model = cropParam.Url = imageUrl,
+                    croperWidth = imgContainerWidth; //$cropImage.width(),
+                    croperHeight = imgContainerHeight;//$cropImage.height(),
+                    sXY = sourceWidth / sourceHeight,
+                    crXY = croperWidth / croperHeight,
+                    ctXY = imgContainerWidth / imgContainerHeight;
+
+                    if (sXY > ctXY) {
+                        percent = croperWidth / sourceWidth;
+                    } else {
+                        if (sXY > 1) {
+                            percent = croperWidth / sourceWidth;
+                        } else {
+                            percent = croperHeight / sourceHeight;
+                        }
+                    }
+
+                    if (jcropAPI != null) {
+                        jcropAPI.destroy();
+                    }
+
+                    var cropSetting = {};
+                    cropSetting['onChange'] = cropChange;
+                    cropSetting['onSelect'] = cropChange;
+                    if (cropSetting.minSize
+                && cropSetting.minSize[0]
+                && cropSetting.minSize[1]) {
+                        cropSetting.minSize[0] = cropSetting.minSize[0] * percent;
+                        cropSetting.minSize[1] = cropSetting.minSize[1] * percent;
+                    }
+
+                    jcropAPI = $.Jcrop($cropImage, cropSetting);
+                    setJcropRatio();
+                    var select = getSelect(percent, croperWidth, croperHeight);
+                    if (select) {
+                        jcropAPI.setSelect(select);
+                    }
+                }, 200);
+            });
+        };
+
+        var $file = $('#file')
+        $file.change(function () {
+            $(this).parents('form').ajaxSubmit({
+                success: function (response, statusText, xhr, $form) {
+                    window.loading.show();
+                    var responseData = response;
+                    if (typeof (response) == 'string') {
+                        try {
+                            responseData = $.parseJSON(response);
+                        } catch (e) {
+                            responseData = $.parseJSON($(response).text());
+                        }
+
+                    }
+                    loadImage(responseData.Model.PreviewUrl, responseData.Model.ImageUrl);
+                }
+            });
+        });
+
+        var getSelect = function (percent, width, height) {
+            if (cropParam.X) {
+                return [cropParam.X * percent, cropParam.Y * percent, cropParam.X * percent + cropParam.Width * percent, cropParam.Y * percent + cropParam.Height * percent];
+            }
+            else {
+                return [width * 0.25, height * 0.25, width * 0.75, height * 0.75];
+            }
+
+        };
+        var defaultImageUrl = '@Html.Raw(sourceUrl)';
+        if (defaultImageUrl) {
+            loadImage('@Html.Raw(previewUrl)', '@Html.Raw(sourceUrl)');
+     }
+
+        $('#save').click(function () {
+            var onCropped = $top.data('onCropped');
+            if (onCropped) {
+                onCropped(cropParam);
+            }
+            $.popContext.getCurrent().close();
+        });
+        //if ($top.data('crop-param')) {
+        //    uploadSuccess($top.data('crop-param'));
+        //}
+
+        $('.cancel').click(function () {
+            $.popContext.getCurrent().close();
+        });
+    });
+
+
+
+</script>

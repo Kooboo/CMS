@@ -212,7 +212,7 @@ namespace Kooboo.CMS.Web.Interoperability.MetaWeblog
                 categories = GetCategories(folder, it),
                 dateCreated = it.UtcCreationDate,
                 description = it["description"] == null ? "" : it["description"].ToString(),
-                postid = it.UUID,
+                postid = MetaWeblogHelper.CompositePostId(it),
                 title = it["title"] == null ? "" : it["title"].ToString(),
                 userid = it.UserId
             }).ToArray();

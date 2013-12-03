@@ -1,0 +1,21 @@
+﻿/*
+*   imageButton
+*   author: ronglin
+*   create date: 2010.06.22
+*/
+
+.kb-imageButton {
+    display: inline-block;
+    border: 1px solid #dddddd;
+    cursor: pointer;
+}
+
+.kb-imageButton-highlight {
+    border: 1px solid #888888;
+}
+
+.kb-imageButton-disabled {
+    cursor: default;
+    border: 1px dashed #dddddd;
+    background-color: #ffffff;
+}

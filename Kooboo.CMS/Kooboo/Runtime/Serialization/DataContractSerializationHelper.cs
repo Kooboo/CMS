@@ -49,6 +49,7 @@ namespace Kooboo.Runtime.Serialization
                {
                    CheckCharacters = false,
                    Indent = true,
+                   OmitXmlDeclaration = true,
                    IndentChars = "\t"
                };
             using (var writer = XmlWriter.Create(stream, settings))

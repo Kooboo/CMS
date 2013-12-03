@@ -1,0 +1,38 @@
+﻿@model Kooboo.CMS.Modules.Publishing.Models.PublishingQueue
+@using Kooboo.CMS.Modules.Publishing.Models;
+@{
+    ViewBag.Title = "Publishing queue detail".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    @using (Html.BeginForm())
+    { 
+        <table>
+            <tbody>
+                @Html.DisplayFor(m => m.PublishingType)
+                @Html.DisplayFor(m => m.PublishingObject)
+                @Html.DisplayFor(m=>m.ObjectUUID)
+                @Html.DisplayFor(m => m.UtcTimeToPublish)
+                @Html.DisplayFor(m => m.UtcTimeToUnpublish)
+                @if(Model.PublishingObject==PublishingObject.Page){
+                    @Html.DisplayFor(m => m.RemoteEndpoints)
+                    @Html.DisplayFor(m=>m.PublishDraft)
+                }
+                @if (Model.PublishingObject == PublishingObject.TextContent)
+                {
+                    @Html.DisplayFor(m => m.PublishingMappings)
+                }
+            </tbody>
+        </table>
+    }
+</div>
+

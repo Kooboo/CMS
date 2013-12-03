@@ -20,6 +20,7 @@ using Kooboo.CMS.Sites;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.Web.Mvc;
 using Kooboo.CMS.Common;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
@@ -59,7 +60,6 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
                     StringBuilder log = new StringBuilder();
                     var moduleName = System.IO.Path.GetFileNameWithoutExtension(moduleFile.FileName);
-
                     var moduleInfo = Manager.Install(moduleName, moduleFile.InputStream, ref log);
 
                     if (moduleInfo == null && log.Length != 0)
@@ -71,11 +71,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     {
                         if (!string.IsNullOrEmpty(moduleInfo.InstallingTemplate))
                         {
-                            data.RedirectUrl = Url.Action("OnInstalling", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleName));
+                            data.RedirectUrl = Url.Action("OnInstalling", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleInfo.ModuleName));
                         }
                         else
                         {
-                            data.RedirectUrl = @return;
+                            data.RedirectUrl = Url.Action("InstallComplete", ControllerContext.RequestContext.AllRouteValues());
                         }
                     }
                 });
@@ -201,7 +201,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         {
             var model = Manager.AllSitesInModule(uuid).Select(site => new RelationModel()
             {
-                RelationName = site.FriendlyName,
+                DisplayName = site.FriendlyName,
+                ObjectUUID = site.FullName,
+                RelationObject = site,
                 RelationType = "Site"
             });
             return View("Relations", model);

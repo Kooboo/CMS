@@ -7,12 +7,14 @@
 @section Panel{
     <ul class="panel">
 
+        <li><a href="@Url.Action("Revert", ViewContext.RequestContext.AllRouteValues())" data-ajax="Post" data-confirm="@("Are you sure you want to revert to this version?".Localize())">
+            @Html.IconImage("reset") @("Revert".Localize())</a></li>
+
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
                 @Html.IconImage("cancel") @("Back".Localize())</a>
         </li>
-        <li><a href="@Url.Action("Revert", ViewContext.RequestContext.AllRouteValues())" data-ajax="Post" data-confirm="@("Are you sure you want to revert to this version?".Localize())">
-            @Html.IconImage("revert") @("Revert".Localize())</a></li>
+        
     </ul>
 }
 
@@ -22,7 +24,7 @@
         @ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID") - @ViewContext.RequestContext.GetRequestValue("version")</strong></h1>
     <table>
         <tbody>
-            @Html.EditorFor(m => m.Body, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.Body)
         </tbody>
     </table>
 

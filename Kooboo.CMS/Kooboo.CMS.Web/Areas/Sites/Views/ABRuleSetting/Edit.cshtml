@@ -22,8 +22,10 @@
 }
 
 <div class="common-form block">
-	<h1 class="title">@ViewBag.Title: <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
-	@Html.Partial("_RuleSetting", ViewData)
+    <form id="ruleSettingForm">
+        <h1 class="title">@ViewBag.Title: <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+        @Html.Partial("_RuleSetting", ViewData)
+    </form>
 </div>
 
 @Html.Partial("_RuleSetting.Scripts", ViewData)

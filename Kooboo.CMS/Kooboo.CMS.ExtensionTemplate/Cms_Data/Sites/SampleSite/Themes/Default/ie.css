@@ -1,0 +1,24 @@
+/*
+
+	This is for IE7- Only
+
+*/
+
+/* Global
+-----------------------------------*/
+a,
+button{
+	hide-focus:expression(this.hideFocus=true);
+}
+
+/* Form
+-----------------------------------*/
+input[type="radio"],
+input[type="checkbox"]{
+	height:13px;
+	width:13px;
+}
+button{
+	overflow:visible;
+	text-align:left;
+}

@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="robots" content="noindex,nofllow" />    
+    <link rel="shortcut icon" href='@Url.Content("~/Images/favicon.ico")' />
+    <title>
+        @ViewBag.Title @(" - Kooboo CMS".Localize())</title>
+    @Html.ExternalResources("siteStyles")
+    @Html.ExternalResources("logonScripts")
+    <script type="text/javascript">
+        $(function () {
+            $('input:visible').first().focus();
+        });
+    </script>
+</head>
+<body class="blank">
+    <div id="body-container" class="no-sidebar">
+        <header id="header" class="clearfix">
+            <a class="logo" href="@Html.Raw(Url.Content("~/Account/Logon"))" title="@("Back to login page".Localize())">
+                <img src="@Html.Raw(Url.Content("~/Images/logo.png"))" alt="logo" />
+                  @Html.IconImage("home")
+            </a>
+        </header>
+        <div id="main-container" class="clearfix">
+            <div class="wrap">
+                @RenderBody()
+            </div>
+        </div>
+        <footer id="footer">
+            <p>
+                @("Powered by Kooboo CMS".Localize())
+                @Kooboo.CMS.Sites.KoobooCMSVersion.Version
+                | &copy; @DateTime.Now.Year <a href="http://www.kooboo.com" target="_blank">@("Kooboo team".Localize())</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

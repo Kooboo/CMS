@@ -1,0 +1,56 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Content.Models.Schema>
+@{
+    ViewBag.Title = "Content Type".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+}
+
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("EngineName", Kooboo.CMS.Sites.View.TemplateEngines.Engines.First().Name))">
+                @Html.IconImage("add") @("Create".Localize())</a>
+        </li>
+        <li>
+            <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import content type"))">
+                @Html.IconImage("import") @("Import".Localize())
+            </a>
+        </li>
+        <li class="j_DropDown" data-show-on-check="Any">
+            <a>
+                @("Template".Localize())
+                @Html.IconImage("arrow small white-down")
+            </a>
+            <ul class="j_DropDownContent hide">
+                <li><a href="@Url.Action("ResetTemplates", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to reset these templates?".Localize())">@("Reset templates".Localize())</a></li>
+                <li><a href="@Url.Action("EditTemplate", ViewContext.RequestContext.AllRouteValues().Merge("FormType", Kooboo.CMS.Content.Models.FormType.Grid).Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">@("Grid".Localize())</a></li>
+                <li><a href="@Url.Action("EditTemplate", ViewContext.RequestContext.AllRouteValues().Merge("FormType", Kooboo.CMS.Content.Models.FormType.Create).Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">@("Create".Localize())</a></li>
+                <li><a href="@Url.Action("EditTemplate", ViewContext.RequestContext.AllRouteValues().Merge("FormType", Kooboo.CMS.Content.Models.FormType.Update).Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">@("Update".Localize())</a></li>
+                <li><a href="@Url.Action("EditTemplate", ViewContext.RequestContext.AllRouteValues().Merge("FormType", Kooboo.CMS.Content.Models.FormType.Selectable).Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">@("Selectable".Localize())</a></li>
+                <li><a href="@Url.Action("EditTemplate", ViewContext.RequestContext.AllRouteValues().Merge("FormType", Kooboo.CMS.Content.Models.FormType.List).Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">@("List".Localize())</a></li>
+                <li><a href="@Url.Action("EditTemplate", ViewContext.RequestContext.AllRouteValues().Merge("FormType", Kooboo.CMS.Content.Models.FormType.Detail).Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">@("Detail".Localize())</a></li>
+            </ul>
+        </li>
+        <li class="j_DropDown" data-show-on-check="Any">
+            <a>
+                @("More...".Localize())
+                @Html.IconImage("arrow small white-down")
+            </a>
+            <ul class="j_DropDownContent hide">
+                <li>
+                    <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="Download">@("Export".Localize())</a>
+                </li>
+                <li><a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">@("Delete".Localize())</a></li>
+                <li><a href="@Url.Action("Relations", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show content type relations"))" data-show-on-check="Single" data-command-type="Redirect">@("Relations".Localize())</a></li>
+                <li><a href="@Url.Action("Copy", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Copy content type".Localize()))" data-show-on-check="Single" data-command-type="Redirect">@("Copy".Localize())</a></li>
+            </ul>
+        </li>
+
+    </ul>
+}
+
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+    @Html.Partial("_Search")
+</div>
+@Html.GridForModel2()

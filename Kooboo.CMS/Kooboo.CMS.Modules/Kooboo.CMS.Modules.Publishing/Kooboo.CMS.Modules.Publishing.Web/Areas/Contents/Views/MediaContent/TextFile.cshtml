@@ -1,0 +1,34 @@
+﻿@model dynamic
+@{
+    Layout = "~/Areas/Contents/Views/Shared/Blank.cshtml";
+    }
+
+    <div class="common-form">
+        @using (Html.BeginForm())
+           { 
+        <fieldset>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.TextArea("Body",(string)(Model.Body),new{ @class="codemirror"})
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+        <p class="buttons">
+            <button type="submit">
+                @("Save".Localize())</button>
+            <button class="dialog-close">
+                @("Cancel".Localize())</button>
+        </p>
+        } 
+    </div>
+    <script language="javascript" type="text/javascript">
+        $(function () {
+
+        });
+    </script>
+@section ScriptCSS{
+    }

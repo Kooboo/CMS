@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Content.EventBus
 
         public static void Send(IEventContext eventContext)
         {
-            foreach (var s in Subscribers)
+            foreach (var s in ResolveAllSubscribers())
             {
                 var eventResult = s.Receive(eventContext);
                 if (eventResult != null)
@@ -39,6 +39,10 @@ namespace Kooboo.CMS.Content.EventBus
                     }
                 }
             }
+        }
+        private static IEnumerable<ISubscriber> ResolveAllSubscribers()
+        {
+            return Subscribers.Concat(Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<ISubscriber>());
         }
     }
 }

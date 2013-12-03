@@ -1,0 +1,53 @@
+﻿@model Kooboo.CMS.Content.Models.PendingWorkflowItem
+@{
+    ViewBag.Title = "Process workflow".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform=""  data-confirm="@("Are you sure you want to process the workflow item?".Localize())">
+                @Html.IconImage("process") @("Process".Localize())</a>
+        </li>
+        <li>
+            <a data-ajaxform="" href="@Url.Action("Reject",ViewContext.RequestContext.AllRouteValues())" data-confirm="@("Are you sure you want to process the workflow item?".Localize())">
+                @Html.IconImage("reject") @("Reject".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    @using (Html.BeginForm())
+    { 
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(o => o.WorkflowName)
+        @Html.HiddenFor(o => o.RoleName)
+        @Html.HiddenFor(o => o.Name)
+     
+        <table>
+            <tbody>
+                @Html.DisplayFor(o => o.WorkflowItemSequence)
+                @Html.DisplayFor(o => o.ItemDisplayName)
+                @Html.DisplayFor(o => o.WorkflowName)
+                @Html.DisplayFor(o => o.RoleName)
+                @Html.DisplayFor(o => o.CreationUser)
+                @Html.DisplayFor(o => o.CreationUtcDate)
+                @Html.DisplayFor(o => o.PreviousComment)
+                <tr>
+                    <th>                        
+                        <label>
+                            @("Comment".Localize())</label>
+                    </th>
+                    <td>
+                        @Html.TextArea("Comment", new { rows = 10,cols=50 })
+                    </td>
+                </tr>
+            </tbody>
+        </table>    
+    }
+</div>

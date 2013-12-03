@@ -1,0 +1,9 @@
+#if( $foo < 10 )
+    <strong>Go North</strong>
+#elseif( $foo == 10 )
+    <strong>Go East</strong>
+#elseif( $bar == 6 )
+    <strong>Go South</strong>
+#else
+    <strong>Go West</strong>
+#end

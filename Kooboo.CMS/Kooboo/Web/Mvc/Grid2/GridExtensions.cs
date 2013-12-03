@@ -36,6 +36,14 @@ namespace Kooboo.Web.Mvc.Grid2
         {
             return html.GridFor2(typeof(T), html.ViewData.Model, templateName);
         }
+        public static IHtmlString GridForModel2<T>(this HtmlHelper<IPagedList<T>> html)
+        {
+            return html.GridFor2(typeof(T), html.ViewData.Model);
+        }
+        public static IHtmlString GridForModel2<T>(this HtmlHelper<IPagedList<T>> html, string templateName)
+        {
+            return html.GridFor2(typeof(T), html.ViewData.Model, templateName);
+        }
         public static IHtmlString GridForModel2<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, IEnumerable<TValue>>> expression)
         {
             var collectionModel = expression.Compile()(html.ViewData.Model);

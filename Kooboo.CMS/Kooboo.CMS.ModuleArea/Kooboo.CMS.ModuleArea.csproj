@@ -25,6 +25,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -101,7 +102,11 @@
     <Content Include="Areas\Contents\Styles\images\map-item-done.png" />
     <Content Include="Areas\Contents\Styles\images\map-item-hover.png" />
     <Content Include="Areas\Contents\Styles\images\map-item.png" />
+    <Content Include="Areas\Empty\7z.exe" />
+    <Content Include="Areas\Empty\ignores.txt" />
     <Content Include="Areas\Empty\Themes\Default\Order.txt" />
+    <Content Include="Areas\SampleModule\7z.exe" />
+    <Content Include="Areas\SampleModule\ignores.txt" />
     <Content Include="Areas\SampleModule\Scripts\app.js" />
     <Content Include="Areas\SampleModule\Scripts\Order.txt" />
     <Content Include="Areas\SampleModule\Scripts\script1.js" />
@@ -518,16 +523,6 @@
     <Content Include="Cms_Data\Contents\SampleSite\Schemas\Comment\Selectable.cshtml" />
     <Content Include="Cms_Data\Contents\SampleSite\Schemas\Comment\setting.config" />
     <Content Include="Cms_Data\Contents\SampleSite\Schemas\Comment\Update.cshtml" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\segments.gen" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\segments_w" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.fdt" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.fdx" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.fnm" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.frq" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.nrm" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.prx" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.tii" />
-    <Content Include="Cms_Data\Contents\SampleSite\Search\Index\_1o.tis" />
     <Content Include="Cms_Data\Contents\SampleSite\Search\LastActions.xml" />
     <Content Include="Cms_Data\Contents\SampleSite\Search\Settings\Article.config" />
     <Content Include="Cms_Data\Contents\SampleSite\setting.config" />
@@ -535,6 +530,7 @@
     <Content Include="Cms_Data\ContentType_Templates\Controls\MultiFiles.cshtml" />
     <Content Include="Cms_Data\Sites\SampleSite\Files\favicon.ico" />
     <Content Include="Cms_Data\Sites\SampleSite\Files\logo.png" />
+    <Content Include="Cms_Data\Sites\SampleSite\Modules\SampleModule\settings.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Pages\about\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Pages\Articles\Detail\setting.config" />
     <Content Include="Cms_Data\Sites\SampleSite\Pages\Articles\setting.config" />
@@ -578,12 +574,14 @@
     <Content Include="Cms_Data\SiteTemplates\SampleSite.zip" />
     <Content Include="Cms_Data\SiteTemplates\SmallBusiness.png" />
     <Content Include="Cms_Data\SiteTemplates\SmallBusiness.zip" />
+    <Content Include="Cms_Data\Views\ABRuleTemplates\README.txt" />
+    <Content Include="Cms_Data\Views\Shared\README.txt" />
     <Content Include="Cms_Data\Web.config" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Areas\Empty\ModuleAction.cs" />
+    <Compile Include="Areas\Empty\ModuleEvents.cs" />
     <Compile Include="Areas\Empty\ModuleAreaRegistration.cs" />
     <Compile Include="Areas\SampleModule\AdminControllerBase.cs" />
     <Compile Include="Areas\SampleModule\Controllers\AdminController.cs" />
@@ -594,7 +592,7 @@
     <Compile Include="Areas\SampleModule\Models\InstallModel.cs" />
     <Compile Include="Areas\SampleModule\Models\ModuleInfo_Metadata.cs" />
     <Compile Include="Areas\SampleModule\Models\News.cs" />
-    <Compile Include="Areas\SampleModule\ModuleAction.cs" />
+    <Compile Include="Areas\SampleModule\ModuleEvents.cs" />
     <Compile Include="Areas\SampleModule\ModuleAreaRegistration.cs" />
     <Compile Include="Areas\SampleModule\Repositories\IRepository.cs" />
     <Compile Include="Areas\SampleModule\Repositories\NewsRepository.cs" />
@@ -606,15 +604,14 @@
     <Folder Include="Cms_Data\Contents\SampleSite\Folders\Article\~contents\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Empty\Menu.config" />
+    <Content Include="Areas\Empty\CMSMenu.config" />
     <Content Include="Areas\Empty\module.config" />
     <Content Include="Areas\Empty\routes.config" />
-    <Content Include="Areas\Empty\Sites.config" />
     <Content Include="Areas\Empty\Themes\Default\Theme.rule" />
     <Content Include="Areas\Empty\Views\Shared\Front.cshtml" />
     <Content Include="Areas\Empty\Views\Web.config" />
     <Content Include="Areas\Empty\WebResources.config" />
-    <Content Include="Areas\SampleModule\Menu.config" />
+    <Content Include="Areas\SampleModule\CMSMenu.config" />
     <Content Include="Areas\SampleModule\module.config" />
     <Content Include="Areas\SampleModule\routes.config" />
     <Content Include="Areas\SampleModule\Themes\Default\Theme.rule" />
@@ -650,6 +647,7 @@
     <Content Include="Images\svg-export.png" />
     <Content Include="Images\svg-preview.png" />
     <Content Include="Images\svg-view.png" />
+    <Content Include="lib\log4net.dll" />
     <Content Include="lib\Mono.Math.dll" />
     <Content Include="lib\Org.Mentalis.Security.Cryptography.dll" />
     <Content Include="Menu.config" />
@@ -1990,6 +1988,14 @@
     <Content Include="Views\Shared\_SidebarTopSearch.cshtml" />
     <Content Include="Views\Shared\_SitesNavTree.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Cms_Data\ContentType_Templates\Controls\ImageCrop.cshtml" />
+    <Content Include="Cms_Data\Views\ControlTypes\ImageCrop.cshtml" />
+    <Content Include="Cms_Data\Views\ControlTypes\MediaFiles.cshtml" />
+    <Content Include="Cms_Data\Views\ControlTypes\MultiFiles.cshtml" />
+    <Content Include="Areas\SampleModule\Views\Admin\EditorTemplates\ModuleSettings.cshtml" />
+    <Content Include="Areas\SampleModule\Views\News\LastestNews.cshtml" />
+    <Content Include="Areas\SampleModule\PackModule.bat" />
+    <Content Include="Areas\Empty\PackModule.bat" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2021,7 +2027,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>31706</DevelopmentServerPort>
+          <DevelopmentServerPort>32245</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

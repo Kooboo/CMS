@@ -1,0 +1,13 @@
+﻿@model object
+@{
+    Layout = ViewBag.Layout ?? "_TR.cshtml";
+    ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
+    var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString(); 
+}
+
+@Html.RadioButtonList(propertyName, ViewData.ModelMetadata.GetDataSource().GetSelectListItems(ViewContext.RequestContext).SetActiveItem(Model))
+@Html.ValidationMessage(ViewData.ModelMetadata, null)
+@if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+{
+    <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
+}

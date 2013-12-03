@@ -16,6 +16,15 @@
     </div>
     <table>
         <tr>
+            <th></th>
+            <td>
+                <input type="checkbox" id="skipError" name="SkipError" value="true"/>
+                <input type="hidden" name="SkipError" value="false" />
+                <label for="skipError" class="inline">@("Skip error".Localize())</label>
+                <em class="tip">@Html.Raw("".Localize())</em>
+            </td>
+        </tr>
+        <tr>
             <th>@("Cache Settings".Localize())</th>
             <td>
                 <input type="checkbox" id="enablecache" />
@@ -27,12 +36,12 @@
         <tr id="cache_con">
             <th></th>
             <td>
-                <select
-                    id="ExpirationPolicy" name="OutputCache.ExpirationPolicy" class="medium">
+                <select id="ExpirationPolicy" name="OutputCache.ExpirationPolicy" class="medium">
                     @foreach (var item in (string[])ViewData["Policys"])
                     {
                         <option>
-                            @Html.Raw(item)</option>
+                            @Html.Raw(item)
+                        </option>
                     }
                 </select>
                 <input class="mini" type="text" name="OutputCache.Duration" />

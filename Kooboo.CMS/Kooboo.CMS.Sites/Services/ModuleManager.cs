@@ -178,9 +178,9 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region ResolveModuleAction
-        protected virtual IModuleAction ResolveModuleAction(string moduleName)
+        protected virtual IModuleEvents ResolveModuleAction(string moduleName)
         {
-            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleAction>(moduleName);
+            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
         }
         #endregion
 
@@ -287,47 +287,47 @@ namespace Kooboo.CMS.Sites.Services
         }
         #endregion
 
-        #region Module Permissions
-        public IEnumerable<Permission> GetModulePermissions()
-        {
-            var modules = All();
-            List<Permission> permissions = new List<Permission>();
-            foreach (var moduleName in modules)
-            {
-                var menuTemplate = MenuFactory.GetMenuTemplate(moduleName);
-                if (menuTemplate != null)
-                {
-                    foreach (var item in menuTemplate.ItemContainers)
-                    {
-                        if (item is MenuItemTemplate)
-                        {
-                            FetchPermissions(moduleName, (MenuItemTemplate)item, permissions);
-                        }
-                    }
-                }
+        //#region Module Permissions
+        //public IEnumerable<Permission> GetModulePermissions()
+        //{
+        //    var modules = All();
+        //    List<Permission> permissions = new List<Permission>();
+        //    foreach (var moduleName in modules)
+        //    {
+        //        var menuTemplate = MenuFactory.GetMenuTemplate(moduleName);
+        //        if (menuTemplate != null)
+        //        {
+        //            foreach (var item in menuTemplate.ItemContainers)
+        //            {
+        //                if (item is MenuItemTemplate)
+        //                {
+        //                    FetchPermissions(moduleName, (MenuItemTemplate)item, permissions);
+        //                }
+        //            }
+        //        }
 
-            }
-            return permissions;
-        }
-        private void FetchPermissions(string moduleName, MenuItemTemplate menuItemTemplate, List<Permission> permissions)
-        {
-            if (menuItemTemplate.ReadOnlyProperties != null)
-            {
-                var permissionGroup = menuItemTemplate.ReadOnlyProperties["permissionGroup"];
-                var permissionName = menuItemTemplate.ReadOnlyProperties["PermissionName"];
-                if (!string.IsNullOrEmpty(permissionName))
-                {
-                    permissions.Add(new Permission() { AreaName = moduleName, Group = permissionGroup, Name = permissionName, DisplayName = permissionName });
-                }
-            }
-            foreach (var item in menuItemTemplate.ItemContainers)
-            {
-                if (item is MenuItemTemplate)
-                {
-                    FetchPermissions(moduleName, (MenuItemTemplate)item, permissions);
-                }
-            }
-        }
-        #endregion
+        //    }
+        //    return permissions;
+        //}
+        //private void FetchPermissions(string moduleName, MenuItemTemplate menuItemTemplate, List<Permission> permissions)
+        //{
+        //    if (menuItemTemplate.ReadOnlyProperties != null)
+        //    {
+        //        var permissionGroup = menuItemTemplate.ReadOnlyProperties["permissionGroup"];
+        //        var permissionName = menuItemTemplate.ReadOnlyProperties["PermissionName"];
+        //        if (!string.IsNullOrEmpty(permissionName))
+        //        {
+        //            permissions.Add(new Permission() { AreaName = moduleName, Group = permissionGroup, Name = permissionName, DisplayName = permissionName });
+        //        }
+        //    }
+        //    foreach (var item in menuItemTemplate.ItemContainers)
+        //    {
+        //        if (item is MenuItemTemplate)
+        //        {
+        //            FetchPermissions(moduleName, (MenuItemTemplate)item, permissions);
+        //        }
+        //    }
+        //}
+        //#endregion
     }
 }

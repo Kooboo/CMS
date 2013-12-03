@@ -17,7 +17,7 @@ using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Sites.View;
 using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Search;
-namespace Kooboo.CMS.ModuleArea.Controllers
+namespace Kooboo.CMS.ModuleArea.Areas.SampleModule.Controllers
 {
     public class ArticleController : ModuleControllerBase
     {

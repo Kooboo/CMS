@@ -1,0 +1,1 @@
+@Html.FrontHtml().ResizeImage(imagePath, width, height)

@@ -101,7 +101,7 @@ namespace Kooboo.CMS.Content.Persistence.FileServerProvider
 
         IEnumerable<MediaFolder> IContentElementProvider<MediaFolder>.All(Repository repository)
         {
-            throw new NotImplementedException();
+            return this.All(repository);
         }
 
         public IEnumerable<MediaFolder> All()

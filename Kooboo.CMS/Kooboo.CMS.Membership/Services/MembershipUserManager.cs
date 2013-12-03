@@ -325,7 +325,7 @@ namespace Kooboo.CMS.Membership.Services
         #endregion
 
         #region ForgotPassword
-        public MembershipUser ForgotPassword(Kooboo.CMS.Membership.Models.Membership membership, string userName)
+        public virtual MembershipUser ForgotPassword(Kooboo.CMS.Membership.Models.Membership membership, string userName)
         {
             var membershipUser = new MembershipUser() { Membership = membership, UserName = userName }.AsActual();
             List<DataViolationItem> violations = new List<DataViolationItem>();
@@ -348,7 +348,7 @@ namespace Kooboo.CMS.Membership.Services
         #endregion
 
         #region ResetPassword
-        public bool ResetPassword(Kooboo.CMS.Membership.Models.Membership membership, string userName, string activateCode, string password)
+        public virtual bool ResetPassword(Kooboo.CMS.Membership.Models.Membership membership, string userName, string activateCode, string password)
         {
             var membershipUser = new MembershipUser() { Membership = membership, UserName = userName }.AsActual();
 

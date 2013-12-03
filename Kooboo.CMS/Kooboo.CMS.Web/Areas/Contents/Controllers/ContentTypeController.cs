@@ -181,12 +181,8 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         #region Relations
         public virtual ActionResult Relations(string uuid)
         {
-            var model = Manager.GetRelationFolders(new Schema { Name = uuid, Repository = Repository })
-                .Select(o => new RelationModel()
-            {
-                RelationName = o.FriendlyName,
-                RelationType = "Folder".Localize()
-            });
+            var model = Manager.Relations(new Schema { Name = uuid, Repository = Repository });
+
             return View(model);
         }
         #endregion

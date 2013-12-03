@@ -46,6 +46,8 @@ namespace Kooboo.CMS.Content.Models
 
         Grid_Menu = 64,
         Create_Menu = 128,
-        Update_Menu = 256
+        Update_Menu = 256,
+
+        All = int.MaxValue
     }
 }

@@ -63,7 +63,7 @@
 
         var RuleSettingViewModel = function(){
             var self = this;
-            var rawViewModelData = @Html.Raw(JsonConvert.SerializeObject(Model, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }))  ;
+            var rawViewModelData = @Html.Raw(JsonConvert.SerializeObject(Model, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }));
             var viewModelMappingOptions = {
                 'RuleItems': {
                     create: function(options) {
@@ -117,7 +117,7 @@
             self.save = function() {
                 var $form = $currentDialog.find('form');
                 
-                if ($form == null || ($form && $form.valid())) {                    
+                if ($form == null || ($form && $form.valid())) {
                     if (self.RuleItem().isEdit) {
                         var oldColumn = ko.utils.arrayFirst(ruleSettingModel.ruleSetting.RuleItems(), function(item) {
                             return item.Name() === self.RuleItem().Name();
@@ -134,7 +134,7 @@
                 $currentDialog.dialog("close");
             };            
         };
-
+               
         var ruleSettingModel = new RuleSettingViewModel();
         ko.applyBindings(ruleSettingModel,$('#ruleSettingForm')[0]);    
 

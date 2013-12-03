@@ -1,0 +1,284 @@
+﻿
+@model Kooboo.CMS.Web.Areas.Contents.Models.TextContentGrid
+@using Kooboo.CMS.Content.Query
+@using Kooboo.CMS.Content.Models
+@using Kooboo.CMS.Web.Areas.Contents.Controllers
+@{
+    var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
+    var folder = (Kooboo.CMS.Content.Models.TextFolder)ViewData["Folder"];
+    var routes = ViewContext.RequestContext.AllRouteValues();    
+    var allowedEdit = (bool)ViewData["AllowedEdit"];
+    var allowedView = (bool)ViewData["AllowedView"];
+    var parentUUID = ViewContext.RequestContext.GetRequestValue("parentUUID") ?? ""; 
+    var childFolders = Model.ChildFolders==null? new TextFolder[0]:Model.ChildFolders.ToArray();
+
+}
+
+<div class="common-table fixed">
+ <div class="thead">
+    <table>
+        <thead>
+            <tr>
+                <th class="checkbox mutiple">
+                    <div>
+                        <input type="checkbox" class=" select-all" />
+                        @Html.IconImage("arrow")
+                        <ul class="hide">
+                            <li>Select:</li>
+                            <li class="all"><a href="javascript:;">All Elements</a></li>
+                            <li class="docs"><a href="javascript:;">Only Documents</a></li>
+                            @if (ViewBag.FolderPermission)
+                            {
+                                <li class="folders"><a href="javascript:;">Only Folders</a></li>
+                            }
+                            <li class="none"><a href="javascript:;">None</a></li>
+                        </ul>
+                    </div>
+                </th>
+                		<th class="Title @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Title",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Title", "Title", -1)</th>
+		<th class="Member @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Member",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Member", "Member", -1)</th>
+		<th class="UtcCreationDate @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "UtcCreationDate",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Creation date", "UtcCreationDate", -1)</th>
+		<th class="Published @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Published",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Published", "Published", -1)</th>
+
+                @if (folder.EmbeddedFolders != null)
+                {
+                    foreach (var s in folder.EmbeddedFolders)
+                    {
+                    <th>@Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(new TextFolder(Repository.Current, s)).FriendlyText
+                    </th>
+                    }
+                }
+                @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)
+                {
+                    <th class="action">
+                        @("Workflow".Localize())
+                    </th>
+                }
+                               
+                @if (schema.IsTreeStyle)
+                {
+                    <th class="action">
+                    </th> 
+                }
+            </tr>
+        </thead>
+    </table>
+</div>
+<div class="tbody">
+    <table>
+        <thead>
+            <tr>
+                <th class="checkbox mutiple">
+                    <div>
+                        <input type="checkbox" class=" select-all" />
+                        @Html.IconImage("arrow")
+                        <ul class="hide">
+                            <li>Select:</li>
+                            <li class="all"><a href="javascript:;">All Elements</a></li>
+                            <li class="docs"><a href="javascript:;">Only Documents</a></li>
+                            @if (ViewBag.FolderPermission)
+                            {
+                                <li class="folders"><a href="javascript:;">Only Folders</a></li>
+                            }
+                            <li class="none"><a href="javascript:;">None</a></li>
+                        </ul>
+                    </div>
+                </th>
+                		<th class="Title @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Title",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Title", "Title", -1)</th>
+		<th class="Member @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Member",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Member", "Member", -1)</th>
+		<th class="UtcCreationDate @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "UtcCreationDate",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Creation date", "UtcCreationDate", -1)</th>
+		<th class="Published @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Published",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Published", "Published", -1)</th>
+
+                @if (folder.EmbeddedFolders != null)
+                {
+                    foreach (var s in folder.EmbeddedFolders)
+                    {
+                    <th>@Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(new TextFolder(Repository.Current, s)).FriendlyText
+                    </th>
+                    }
+                }
+                @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)
+                {
+                    <th class="action">
+                        @("Workflow".Localize())
+                    </th>
+                }
+                               
+                @if (schema.IsTreeStyle)
+                {
+                    <th class="action">
+                    </th> 
+                }
+            </tr>
+        </thead>
+        <tbody>
+        @if (childFolders.Length == 0 && ViewBag.PagedList.TotalItemCount == 0)
+        {
+            <tr class="empty">
+                <td colspan="100">
+                    @("Empty".Localize())
+                </td>
+            </tr>
+        }
+        else{
+            foreach (dynamic item in childFolders)
+                {
+                    <tr class="foldertr @((item.Hidden == true)? "hidden-folder":"")">
+                        <td class="checkbox mutiple undraggable">
+                            @if (ViewBag.FolderPermission)
+                            {
+                                <input type="checkbox" name="select" class="select folder" id="@item.FullName" value="@item.FullName" data-id-property="UUID" />
+                            }
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.SchemaName))
+                            {
+                                <a href="@this.Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("FolderName", (object)(item.FullName)).Merge("FullName", (object)(item.FullName)))" >
+                                   @Html.IconImage("folder") @Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(item).FriendlyText</a>
+                            }
+                            else
+                            {
+                                <a href="@this.Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("controller", "TextFolder").Merge("FolderName", (object)(item.FullName)).Merge("FullName", (object)(item.FullName)))" >
+                                   @Html.IconImage("folder") @Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(item).FriendlyText</a>
+                            }
+                        </td>
+                        <td colspan="3">
+                        </td>
+                        @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)
+                        {
+                            <td colspan="1">
+                            </td>
+                        }
+                        @if (folder.EmbeddedFolders != null)
+                        {
+                            <td colspan="@folder.EmbeddedFolders.Count()">
+                            </td>
+                        }
+                      
+                        @if (schema.IsTreeStyle)
+                        {
+                            <td>
+                            </td>
+                        }
+                    </tr>
+                }
+            @AddTreeItems(ViewBag.PagedList, schema, allowedEdit, folder, "")
+        }
+            
+        </tbody>
+    </table>
+</div>
+</div>
+@helper AddTreeItems(IEnumerable<TextContent> items, Schema schema, bool allowedEdit, TextFolder folder, string parentChain)
+    {
+        var isRoot = string.IsNullOrEmpty(parentChain);
+        //column datasource
+        
+        if (Repository.Current.EnableWorkflow == true)
+        {
+            items = Kooboo.CMS.Content.Services.ServiceFactory.WorkflowManager.GetPendWorkflowItemForContents(Repository.Current, items.ToArray(), User.Identity.Name);
+        }
+        foreach (dynamic item in items)
+        {
+            var workflowItem = item._WorkflowItem_;
+            var hasworkflowItem = workflowItem != null;
+            var availableEdit = hasworkflowItem || (!hasworkflowItem && allowedEdit);
+    <tr id="@item.UUID" data-parent-chain='' class= "doctr  @((item.IsLocalized != null && item.IsLocalized == false) ? "unlocalized" : "localized") @((item.Published == null || item.Published == false) ? "unpublished" : "published") @(hasworkflowItem ? "hasWorkflowItem" : "")" >
+        <td class="checkbox mutiple @(ViewBag.Draggable? "draggable":"")">
+            <div>
+            @if(ViewBag.Draggable){
+            @Html.IconImage("drag")
+            }
+            @if (availableEdit)
+            {
+                <input type="checkbox" name="select" class="select doc" value="@item.UUID" data-id-property="UUID" data-sequence="@item.Sequence"/>
+            }
+            </div>
+        </td>
+       		<td>@if(Model.ShowTreeStyle){
+		<span class="expander">@Html.IconImage("arrow")</span>}
+<a href="@this.Url.Action("Edit","TextContent",ViewContext.RequestContext.AllRouteValues().Merge("UserKey", (object)(item.UserKey)).Merge("UUID",(object)(item.UUID)).Merge("return",Request.RawUrl))">@Html.IconImage("file document")@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Title)</a></td>
+		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Member)</td>
+		<td class="date">@(DateTime.Parse(item["UtcCreationDate"].ToString()).ToLocalTime().ToShortDateString())</td>
+		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Published)</td>
+        @if (folder.EmbeddedFolders != null)
+        {
+            foreach (var s in folder.EmbeddedFolders)
+            {
+                var embeddedFolder = Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(new TextFolder(Repository.Current, s));
+            <td class="action">
+                @Html.ActionLink(embeddedFolder.FriendlyText, "SubContent", new { SiteName = ViewContext.RequestContext.GetRequestValue("SiteName"), RepositoryName = ViewContext.RequestContext.GetRequestValue("RepositoryName"), ParentFolder = ViewContext.RequestContext.GetRequestValue("FolderName"), FolderName = s, parentUUID = (object)(item.UUID),@return =ViewContext.HttpContext.Request.RawUrl })
+            </td>
+            }
+        }
+        @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)
+        {
+            <td class="action">
+                @if (hasworkflowItem)
+                {
+                    <a href="@Url.Action("Process", "PendingWorkflow", ViewContext.RequestContext.AllRouteValues().Merge("UserKey", (object)(item.UserKey)).Merge("UUID", (object)(item.UUID)).Merge("RoleName", (object)(workflowItem.RoleName)).Merge("Name", (object)(workflowItem.Name)).Merge("return",Request.RawUrl))" class="o-icon process-workflow">@("Process workflow".Localize())</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("WorkflowHistory", "PendingWorkflow", ViewContext.RequestContext.AllRouteValues().Merge("UserKey", (object)(item.UserKey)).Merge("UUID", (object)(item.UUID)).Merge("return",Request.RawUrl))" class="o-icon workflow-history">@("Workflow history".Localize())</a>                      
+                }
+            </td>
+        }
+        
+       @if (schema.IsTreeStyle)
+         {<td class="action">
+            <a href="@this.Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("parentFolder",ViewContext.RequestContext.GetRequestValue("FolderName")).Merge("ParentUUID", (object)(item.UUID)).Merge("return",Request.RawUrl))" >@Html.IconImage("plus small")</a>
+        </td>}
+    </tr>
+        if (Model.ShowTreeStyle)
+        {
+    var nextParentChain  = parentChain + @item.UUID + "=";   
+        }
+        }
+}
+
+<table id="treeNode-template" style="display: none" data-model="JsonModel">
+    <tbody data-bind="foreach:{data:Model,as:'item'}">
+        <tr data-bind='css:item._TRClass_,attr:{id:item.UUID,"data-parent-chain":item._ParentChain_}'>
+            <td class="checkbox mutiple @(ViewBag.Draggable? "draggable":"")">
+                <div>
+                @if(ViewBag.Draggable){
+                @Html.IconImage("drag")
+                }
+                <input type="checkbox" name="select" class="select doc" data-bind="attr:{id:item.UUID, value:item.UUID, 'data-sequence':item.Sequence}" data-id-property="UUID" />
+                </div>
+            </td>
+            		<td class="treeStyle">
+		<span class="expander">@Html.IconImage("arrow")</span>
+		<a data-bind="attr:{href:item._EditUrl_}">@Html.IconImage("file document")<!--ko text: item.Title--><!--/ko--></a></td>		<td data-bind="html:item.Member"></td>
+            <td class="date" data-bind="html:item._LocalCreationDate_"></td>            
+            <td><span data-bind="text : (item.Published == true?'@("YES".Localize())': '-')"></span></td>            
+            <!-- ko foreach: {data:_EmbeddedFolders_,as:'folder'} -->
+            <td >
+
+                <a data-bind="text:folder.Text,attr:{href:folder.Link}" class="dialog-link"></a>
+
+            </td>
+            <!-- /ko -->
+            @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)
+            {
+                <td>
+                    @* @if (hasworkflowItem)
+                {
+                    <a href="@Url.Action("Process", "PendingWorkflow", ViewContext.RequestContext.AllRouteValues().Merge("UserKey", (object)(item.UserKey)).Merge("UUID", (object)(item.UUID)).Merge("RoleName", (object)(workflowItem.RoleName)).Merge("Name", (object)(workflowItem.Name)).Merge("return",Request.RawUrl))" class="o-icon process-workflow">@("Process workflow".Localize())</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("WorkflowHistory", "PendingWorkflow", ViewContext.RequestContext.AllRouteValues().Merge("UserKey", (object)(item.UserKey)).Merge("UUID", (object)(item.UUID)).Merge("return",Request.RawUrl))" class="o-icon workflow-history">@("Workflow history".Localize())</a>
+                }*@
+                </td>
+            }           
+            @if (schema.IsTreeStyle)
+            {
+                <td class="action">
+                    <a data-bind="attr:{href:item._CreateUrl_}">@Html.IconImage("plus small")</a>
+                </td>
+            }
+        </tr>
+    </tbody>
+</table>

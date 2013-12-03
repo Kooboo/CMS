@@ -15,11 +15,34 @@ using Kooboo.CMS.Content.EventBus.Content;
 using Kooboo.CMS.Content.Models;
 namespace Kooboo.CMS.PluginTemplate
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISubscriber), Key = "CustomContentEventSubscriber")]
     public class CustomContentEventSubscriber : ISubscriber
     {
         EventResult ISubscriber.Receive(IEventContext context)
         {
-            return null;
+            if (context is ContentEventContext)
+            {
+                var contentEventContext = (ContentEventContext)context;
+                switch (contentEventContext.ContentAction)
+                {
+                    case ContentAction.Add:
+                        break;
+                    case ContentAction.Delete:
+                        break;
+                    case ContentAction.PreAdd:
+                        break;
+                    case ContentAction.PreDelete:
+                        break;
+                    case ContentAction.PreUpdate:
+                        break;
+                    case ContentAction.Update:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return new EventResult() { IsCancelled = false };
         }
     }
 }

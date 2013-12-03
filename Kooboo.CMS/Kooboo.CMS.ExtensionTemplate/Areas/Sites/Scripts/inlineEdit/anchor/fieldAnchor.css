@@ -1,0 +1,96 @@
+﻿/*
+*   fieldAnchor
+*   author: ronglin
+*   create date: 2010.06.11
+*/
+
+.kb-fieldAnchor {
+	background: #F9F9F9;
+	border: 1px solid #BABABA;
+	cursor: default;
+	display: none;
+	font-size: 12px;
+	font-family: Arial,Helvetica,sans-serif;
+	height: 24px;
+	line-height: 1;
+	overflow: hidden;
+	position: absolute;
+	z-index: 4;
+	-moz-user-select: none;
+}
+
+.kb-fieldAnchor .kb-name {
+	float: left;
+	line-height: 20px;
+	margin: 2px 4px;
+}
+
+.kb-fieldAnchor .kb-state {
+	float: left;
+	margin-top: 2px;
+	margin-left: 4px;
+	margin-right: 4px;
+	line-height: 16px;
+	color: Red;
+}
+
+.kb-fieldAnchor .kb-con {
+	float: left;
+	cursor: default;
+	padding: 2px;
+}
+
+.kb-fieldAnchor .kb-btn {
+	background-position: center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	float: left;
+	margin: 0 4px;
+	padding: 2px;
+}
+
+.kb-fieldAnchor .kb-hover {
+	background-color: #C2D5F2;
+}
+
+.kb-fieldAnchor .kb-sep {
+	background: #DDD;
+	float: left;
+	height: 20px;
+	width: 1px;
+	cursor: default;
+}
+
+.kb-field {
+	border: 1px solid transparent;
+}
+
+.kb-field-hl {
+	/*border: 1px dashed #4282C3 !important;*/
+}
+
+.kb-field-empty {
+	min-width: 40px !important;
+	min-height: 20px !important;
+	line-height: 20px !important;
+	background-color: transparent !important;
+	color: #E1E5E2 !important;
+}
+
+.kb-field-mask {
+	position: absolute;
+	background-color: #84ACE9;
+	filter: alpha(opacity=40);
+	-moz-opacity: 0.4;
+	opacity: 0.4;
+}
+
+/*
+* image buttons
+*/
+
+.kb-fieldAnchor .btnEdit {
+	background-image: url(images/menu_edit.png);
+	height: 16px;
+	width: 16px;
+}

@@ -17,6 +17,8 @@
                 <tr>
                     <td>
                         <input type="radio" name="ModuleName" id="@Html.Raw(item["ModuleName"])" value="@Html.Raw(item["ModuleName"])" />
+                        <input type="hidden" id="@Html.Raw(item["ModuleName"])LinkToEntryName" value="@Html.Raw(item["LinkToEntryName"])" />
+                        <input type="hidden" id="@Html.Raw(item["ModuleName"])EntryName" value="@Html.Raw(item["EntryName"])" />
                         <input type="hidden" id="@Html.Raw(item["ModuleName"])EntryAction" value="@Html.Raw(item["EntryAction"])" />
                         <input type="hidden" id="@Html.Raw(item["ModuleName"])EntryController" value="@Html.Raw(item["EntryController"])" />
                         <input type="hidden" id="@Html.Raw(item["ModuleName"])Values" value="@Html.Raw(item["Values"])" />
@@ -30,6 +32,7 @@
     </table>
 </div>
 <div class="common-form in-dialog">
+    <input type="hidden" id="LinkToEntryName" name="Entry.LinkToEntryName" />
     <table>
         <tr>
             <th></th>
@@ -46,7 +49,7 @@
                     @("Entry Options".Localize())</label>
             </th>
             <td>
-                <select id="EntryOptions" class="medium">
+                <select id="EntryOptions" class="medium" name="Entry.Name">
                 </select>
             </td>
         </tr>
@@ -105,6 +108,16 @@
                         </tr>
                     </tfoot>
                 </table>
+            </td>
+        </tr>
+
+        <tr>
+            <th></th>
+            <td>
+                <input type="checkbox" id="skipError" name="SkipError" value="true" />
+                <input type="hidden" name="SkipError" value="false" />
+                <label for="skipError" class="inline">@("Skip error".Localize())</label>
+                <em class="tip">@Html.Raw("".Localize())</em>
             </td>
         </tr>
 

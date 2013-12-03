@@ -199,6 +199,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         private static Entry ParseModuleEntry(Dictionary<string, object> item)
         {
+            var linkToEntryName = item.Str("LinkToEntryName");
+            var name = item.Str("EntryName");
             var action = item.Str("EntryAction");
             var controller = item.Str("EntryController");
 
@@ -221,6 +223,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             return new Entry()
             {
+                LinkToEntryName = linkToEntryName,
+                Name = name,
                 Action = action,
                 Controller = controller,
                 Values = values
@@ -241,18 +245,24 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 var t = item.Str("Type");
                 if (t == PageDesignViewContent.TypeKey)
                 {
+                    bool skipError = false;
+                    bool.TryParse(item.Str("SkipError"), out skipError);
                     pos = new ViewPosition()
                     {
                         ViewName = item.Str("ViewName"),
+                        SkipError = skipError,
                         Parameters = ParseViewParameters(item.Str("Parameters")),
                         OutputCache = ParseJson<CacheSettings>(item.Str("OutputCache"))
                     };
                 }
                 else if (t == PageDesignModuleContent.TypeKey)
                 {
+                    bool skipError = false;
+                    bool.TryParse(item.Str("SkipError"), out skipError);
                     pos = new ModulePosition()
                     {
                         ModuleName = item.Str("ModuleName"),
+                        SkipError = skipError,
                         Exclusive = (item.Str("Exclusive") == "true"),
                         Entry = ParseModuleEntry(item)
                     };
@@ -353,6 +363,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     var setting = moduleInfo.GetModuleSettings(Site);
                     if (setting.Entry != null)
                     {
+                        item["LinkToEntryName"] = setting.Entry.LinkToEntryName;
+                        item["EntryName"] = setting.Entry.Name;
                         item.Add("EntryAction", setting.Entry.Action);
                         item.Add("EntryController", setting.Entry.Controller);
                         item.Add("Values", setting.Entry.Values == null ? "[]" : serializer.Serialize(setting.Entry.Values.ToList()));
@@ -364,6 +376,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                         {
                             options.Add(new
                             {
+                                LinkToEntryName = op.Entry.LinkToEntryName,
                                 Name = op.Name,
                                 EntryAction = op.Entry.Action,
                                 EntryController = op.Entry.Controller,

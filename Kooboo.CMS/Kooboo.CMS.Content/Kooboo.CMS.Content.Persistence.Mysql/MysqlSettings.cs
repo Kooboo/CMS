@@ -44,8 +44,11 @@ namespace Kooboo.CMS.Content.Persistence.Mysql
         }
         private static string GetSettingFile()
         {
-            return Path.Combine(Kooboo.Settings.BinDirectory, "Mysql.config");
-        }
+            var filePath = Path.Combine(Kooboo.Settings.BaseDirectory, "Mysql.config");
+            if (!File.Exists(filePath))
+                filePath = Path.Combine(Kooboo.Settings.BinDirectory, "Mysql.config");
+            return filePath;
+        }      
         public static MysqlSettings Instance
         {
             get

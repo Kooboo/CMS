@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             ViewData["LayoutSamples"] = ServiceFactory.LayoutItemTemplateManager.GetLayoutSamples(engineName);
             ViewData["ViewEngine"] = Kooboo.CMS.Sites.View.TemplateEngines.GetEngineByName(engineName);
             ViewBag.DefaultLayout = Kooboo.CMS.Sites.Services.ServiceFactory.LayoutItemTemplateManager.GetDefaultLayoutSample(engineName);
-            return View();
+            return base.Create(model);
         }
         [HttpPost]
         [ValidateInput(false)]
@@ -98,11 +98,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #region Relations
         public virtual ActionResult Relations(string uuid)
         {
-            var model = Manager.RelationsPages(new Layout() { Site = Site, UUID = uuid }).Select(o => new RelationModel
-            {
-                RelationName = o.FriendlyName,
-                RelationType = "Page".Localize()
-            });
+            var model = Manager.Relations(new Layout() { Site = Site, UUID = uuid });
             return View("Relations", model);
         }
         #endregion

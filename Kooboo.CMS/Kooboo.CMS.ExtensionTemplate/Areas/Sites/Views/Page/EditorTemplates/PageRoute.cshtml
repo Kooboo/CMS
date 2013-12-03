@@ -1,0 +1,12 @@
+﻿@model Kooboo.CMS.Sites.Models.PageRoute
+<fieldset>
+    <table>
+        <tbody>
+            @Html.EditorFor(m => m.LinkTarget, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.ExternalUrl, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.Identifier, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.RoutePath, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.Defaults)
+        </tbody>
+    </table>
+</fieldset>

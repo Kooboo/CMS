@@ -17,13 +17,15 @@
     </ul>
 }
 <div class="block common-form">
-        <h1 class="title">@ViewBag.Title</h1>
+    <h1 class="title">@ViewBag.Title</h1>
     @using (Html.BeginForm())
     { 
         <table>
             <tbody>
-                @Html.HiddenFor(m => m.Name)
-                @Html.DisplayFor(m => m.FolderName)
+                @Html.EditorFor(m => m.FolderName, new { IsEditing = true })
+                @Html.EditorFor(m => m.SendReceived)
+                @Html.EditorFor(m => m.SendToChildSites)
+                @Html.EditorFor(m => m.ChildLevel)
             </tbody>
         </table>      
     }

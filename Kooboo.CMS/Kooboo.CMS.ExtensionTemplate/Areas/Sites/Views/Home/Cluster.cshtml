@@ -1,0 +1,96 @@
+﻿@model Kooboo.Web.Mvc.Paging.PagedList<Kooboo.CMS.Sites.Models.SiteTree>
+@{
+	ViewBag.Title = "Site cluster".Localize();
+	Layout = "~/Views/Shared/Site.cshtml";
+}
+
+@section Panel{
+	@if (ServiceFactory.UserManager.AllowCreatingSite(User.Identity.Name))
+ {
+		<ul class="panel">
+			<li class="j_DropDown">
+				<a>
+					@Html.IconImage("add")
+					@Html.IconImage("arrow small white-down")
+					@("Create".Localize())
+				</a>
+				<ul class="j_DropDownContent hide">
+					<li><a href="@Url.Action("Create", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl })">
+						@("A new site".Localize())</a></li>
+					<li><a href="@Html.Raw(Url.Action("CreateSubSite", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl }))" title="@("New sub site".Localize())">
+						@("A new subsite".Localize())</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="@Url.Action("ImportSite", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl })">
+					@Html.IconImage("import")
+					@("Import".Localize())</a>
+			</li>
+		</ul>
+ }
+}
+
+@if (Model.Count() == 0)
+{
+	<div class="topbar">
+		<h1 class="title">@("Site cluster".Localize())</h1>
+	</div>
+	<div class="sitemap-panel clearfix">
+		<div class="blank">
+			<p>
+				@("You do not have any site yet, click the button below to create a site.".Localize())
+			</p>
+			@Html.ActionLink("Create a site", "Create", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl }, new { @class = "button" })
+		</div>
+	</div>
+}
+else
+{
+	<div class="topbar">
+		<h1 class="title">@("Site cluster".Localize())</h1>
+	</div>
+	<div class="block fixed">
+			@foreach (var siteTree in Model.Where(it => it.Root.Children.Count() == 0))
+	{        
+			<div class="site-tree">
+				@Html.Partial("SiteNode", siteTree.Root)
+			</div>
+	}
+
+		<ul class="site-tree">
+			@foreach (var siteTree in Model.Where(it => it.Root.Children.Count() > 0))
+	{   
+				<li class="tree-node active">
+					@Html.IconImage("tree-icon")
+					@Html.Partial("SiteNode", siteTree.Root)
+				</li>      
+	}
+		</ul>
+
+
+		<div class="pagination right">
+			@Html.Pager(Model, "", ViewContext.RequestContext.AllRouteValues(), null)
+		</div>
+
+	</div>
+}
+<script>
+	$(function () {
+		$('.tree-node').treeNode();
+		$('a.delete-site-link').on('click', function (e) {
+			e.preventDefault();
+			// show dialog
+			var id = new Date().getTime();
+			var handle = $(this).pop({
+				id: id,
+				height: 300,
+				dialogClass: 'warning-dialog',
+				frameHeight: "100%",
+				popupOnTop: true,
+				onclose: function () {
+				}
+			}).click();
+		})
+	});
+</script>
+@Html.Partial("ImportSite", new Kooboo.CMS.Web.Areas.Sites.Models.ImportSiteModel())

@@ -1,0 +1,32 @@
+﻿@model Kooboo.CMS.Content.Models.Workflow
+@{
+    ViewBag.Title = "Create workflow";
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+
+    @using (Html.BeginForm())
+    { 
+        @Html.ValidationSummary(true)
+        <table>
+            <tbody>
+                @Html.EditorFor(o => o.Name, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(o => o.Items)
+            </tbody>
+        </table>
+    }
+</div>

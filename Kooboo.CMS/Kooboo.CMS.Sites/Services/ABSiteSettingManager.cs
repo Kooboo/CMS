@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Sites.Services
         }
         public virtual IEnumerable<ABSiteSetting> All(string filterName)
         {
-            var list = _provider.All().Select(it => it.AsActual());
+            var list = _provider.All().Select(it => it.AsActual()).Where(it => it != null);
             if (!string.IsNullOrEmpty(filterName))
             {
                 list = list.Where(it => it.MainSite.Contains(filterName));

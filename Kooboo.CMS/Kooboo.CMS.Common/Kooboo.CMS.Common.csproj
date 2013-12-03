@@ -70,11 +70,13 @@
     <Compile Include="HttpApplicationHooker.cs" />
     <Compile Include="IBaseDir.cs" />
     <Compile Include="IHttpApplicationEvents.cs" />
+    <Compile Include="IntegrateIdBase.cs" />
     <Compile Include="ITimeZoneHelper.cs" />
     <Compile Include="ITypeActivtorStartupTask.cs" />
     <Compile Include="KeyValue.cs" />
     <Compile Include="Persistence\ISaveObservable.cs" />
     <Compile Include="Persistence\Non_Relational\IIdentifiable.cs" />
+    <Compile Include="Persistence\Non_Relational\RelationModel.cs" />
     <Compile Include="Persistence\Relational\IEntity.cs" />
     <Compile Include="Runtime\AppDomainTypeFinder.cs" />
     <Compile Include="Runtime\Dependency\AttributeInfo.cs" />

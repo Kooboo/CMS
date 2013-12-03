@@ -34,6 +34,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
     [MetadataFor(typeof(Page))]
     [Grid(Checkable = true, Draggable = true, IdProperty = "UUID", GridItemType = typeof(PageGridItem), EmptyText = "No sub pages")]
+    [GridColumn(GridItemColumnType = typeof(Inheritable_Status_GridItemColumn), HeaderText = "Inheritance", Order = 4)]
     [GridColumn(GridItemColumnType = typeof(Page_Draft_GridItemColumn), HeaderText = "Draft", Order = 6)]
     public class Page_Metadata
     {
@@ -67,11 +68,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [DataSource(typeof(PluginsDataSource))]
         public List<string> Plugins { get; set; }
 
-        [GridColumn(Order = 2, GridItemColumnType = typeof(Page_Navigation_ShowInMenu_GridItemColumn), GridColumnType = typeof(Page_Navigation_ShowInMenu_SortableGridColumn), HeaderText = "Show in menu")]
-        [GridColumn(Order = 3, GridColumnType = typeof(SortableGridColumn), HeaderText = "Display text")]
+        [GridColumn(Order = 2, GridColumnType = typeof(SortableGridColumn), HeaderText = "Display text")]
+        [GridColumn(Order = 3, GridItemColumnType = typeof(Page_Navigation_ShowInMenu_GridItemColumn), GridColumnType = typeof(Page_Navigation_ShowInMenu_SortableGridColumn), HeaderText = "Show in menu")]
         public Navigation Navigation { get; set; }
-
-
 
         public HtmlMeta HtmlMeta { get; set; }
 
@@ -157,7 +156,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Kooboo.CMS.Web.Models.RemoteEx("IsIdentifierAvailable", "*", RouteFields = "SiteName,UUID,parentPage", AdditionalFields = "Name")]
         public string Identifier { get; set; }
 
-        [Description("Customize the page URL to anyway you like.<br /> Use {key} to match the URL query string. <br />For example: {userkey}_othertext to replace parameter \"?userkey=\" into static URL")]
+        [Description("Customize the page URL to anyway you like.<br /> Use {key} to match the URL query string. <br />For example: {userkey}_othertext to replace parameter \"?userkey=\" into static URL.<br/>Use {*ModuleURL} to match all the query string after ModuleURL.")]
         [Display(Name = "URL path")]
         [RegularExpression("^([^\\?~/])([^\\?])*\\s*$", ErrorMessage = "The route URL cannot start with a '/' or '~' character and it cannot contain a '?' character.")]
         public string RoutePath { get; set; }

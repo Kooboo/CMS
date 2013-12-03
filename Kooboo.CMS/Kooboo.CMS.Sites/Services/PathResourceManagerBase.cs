@@ -14,36 +14,25 @@ using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Sites.Models;
 using System.IO;
 using Kooboo.Extensions;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Services
 {
-    public interface IManager<T>
-    {
-        IEnumerable<T> All(Site site, string filterName);
-        T Get(Site site, string name);
-        void Update(Site site, T @new, T @old);
-        void Add(Site site, T item);
-        void Remove(Site site, T item);
-
-        //void Export(Site site, string name, Stream outputStream);
-        //void Import(Site site, string name, Stream zipStream, bool @override);
-    }
-
-    public abstract class PathResourceManagerBase<T, TProvider> : IManager<T>
-        where T : PathResource
+    public abstract class PathResourceManagerBase<T, TProvider> : ManagerBase<T, TProvider>
+        where T : PathResource, ISiteObject, IPersistable, IIdentifiable
         where TProvider : ISiteElementProvider<T>
     {
+        #region .ctor
         public PathResourceManagerBase(TProvider provider)
+            : base(provider)
         {
-            Provider = provider;
-        }
-        public TProvider Provider
-        {
-            get;
-            set;
+
         }
 
-        public virtual IEnumerable<T> All(Site site, string filterName)
+        #endregion
+
+        #region All
+        public override IEnumerable<T> All(Site site, string filterName)
         {
             var r = Provider.All(site);
             if (!string.IsNullOrEmpty(filterName))
@@ -53,10 +42,10 @@ namespace Kooboo.CMS.Sites.Services
 
             return r;
         }
+        #endregion
 
-        public abstract T Get(Site site, string name);
-
-        public virtual void Update(Site site, T @new, T @old)
+        #region Update
+        public override void Update(Site site, T @new, T @old)
         {
             if (string.IsNullOrEmpty(@new.Name))
             {
@@ -65,6 +54,7 @@ namespace Kooboo.CMS.Sites.Services
 
             old.Site = site;
             @new.Site = site;
+
             if (!old.Exists())
             {
                 throw new ItemDoesNotExistException();
@@ -74,8 +64,10 @@ namespace Kooboo.CMS.Sites.Services
 
             Provider.Update(@new, @old);
         }
+        #endregion
 
-        public virtual void Add(Site site, T o)
+        #region Add
+        public override void Add(Site site, T o)
         {
             if (string.IsNullOrEmpty(o.Name))
             {
@@ -92,26 +84,6 @@ namespace Kooboo.CMS.Sites.Services
 
             Provider.Add(o);
         }
-
-        public virtual void Remove(Site site, T o)
-        {
-            //if (string.IsNullOrEmpty(o.Name))
-            //{
-            //    throw new NameIsReqiredException();
-            //}
-
-            o.Site = site;
-            //if (!o.Exists())
-            //{
-            //    throw new ItemDoesNotExistException();
-            //}
-            if (o.Exists())
-            {
-                Provider.Remove(o);
-            }
-
-        }
-
-
+        #endregion
     }
 }

@@ -34,97 +34,66 @@ namespace Kooboo.CMS.Form.Html
     var childFolders = Model.ChildFolders==null? new TextFolder[0]:Model.ChildFolders.ToArray();
 
 }}
+@helper RenderHeader(TextFolder folder,Schema schema){{
+        <thead>
+            <tr>
+                <th class=""checkbox mutiple"">
+                    <div>
+                        <input type=""checkbox"" class="" select-all"" />
+                        @Html.IconImage(""arrow"")
+                        <ul class=""hide"">
+                            <li>Select:</li>
+                            <li class=""all""><a href=""javascript:;"">All Elements</a></li>
+                            <li class=""docs""><a href=""javascript:;"">Only Documents</a></li>
+                            @if (ViewBag.FolderPermission)
+                            {{
+                                <li class=""folders""><a href=""javascript:;"">Only Folders</a></li>
+                            }}
+                            <li class=""none""><a href=""javascript:;"">None</a></li>
+                        </ul>
+                    </div>
+                </th>
+                {0}
+                @if (Repository.Current.EnableBroadcasting)
+                {{
+                    <th class=""IsLocalized @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, ""IsLocalized"", -1)"">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, ""Is localized"", ""IsLocalized"", -1)</th>
+                    <th class=""OriginalRepository @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, ""OriginalRepository"", -1)"">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, ""Original repository"", ""OriginalRepository"", -1)</th>
+                    <th class=""@SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, ""OriginalUpdateTimes"", -1)"">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, ""Original update times"", ""OriginalUpdateTimes"", -1)</th>
+                }}
+                @if (folder.EmbeddedFolders != null)
+                {{
+                    foreach (var s in folder.EmbeddedFolders)
+                    {{
+                    <th>@Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(new TextFolder(Repository.Current, s)).FriendlyText
+                    </th>
+                    }}
+                }}
+                @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)
+                {{
+                    <th class=""action"">
+                        @(""Workflow"".Localize())
+                    </th>
+                }}
+                               
+                @if (schema.IsTreeStyle)
+                {{
+                    <th class=""action"">
+                    </th> 
+                }}
+            </tr>
+        </thead>
+}}
 
 <div class=""common-table fixed"">
  <div class=""thead"">
     <table>
-        <thead>
-            <tr>
-                <th class=""checkbox mutiple"">
-                    <div>
-                        <input type=""checkbox"" class="" select-all"" />
-                        @Html.IconImage(""arrow"")
-                        <ul class=""hide"">
-                            <li>Select:</li>
-                            <li class=""all""><a href=""javascript:;"">All Elements</a></li>
-                            <li class=""docs""><a href=""javascript:;"">Only Documents</a></li>
-                            @if (ViewBag.FolderPermission)
-                            {{
-                                <li class=""folders""><a href=""javascript:;"">Only Folders</a></li>
-                            }}
-                            <li class=""none""><a href=""javascript:;"">None</a></li>
-                        </ul>
-                    </div>
-                </th>
-                {0}
-                @if (folder.EmbeddedFolders != null)
-                {{
-                    foreach (var s in folder.EmbeddedFolders)
-                    {{
-                    <th>@Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(new TextFolder(Repository.Current, s)).FriendlyText
-                    </th>
-                    }}
-                }}
-                @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)
-                {{
-                    <th class=""action"">
-                        @(""Workflow"".Localize())
-                    </th>
-                }}
-                               
-                @if (schema.IsTreeStyle)
-                {{
-                    <th class=""action"">
-                    </th> 
-                }}
-            </tr>
-        </thead>
+        @RenderHeader(folder,schema)
     </table>
 </div>
 <div class=""tbody"">
     <table>
-        <thead>
-            <tr>
-                <th class=""checkbox mutiple"">
-                    <div>
-                        <input type=""checkbox"" class="" select-all"" />
-                        @Html.IconImage(""arrow"")
-                        <ul class=""hide"">
-                            <li>Select:</li>
-                            <li class=""all""><a href=""javascript:;"">All Elements</a></li>
-                            <li class=""docs""><a href=""javascript:;"">Only Documents</a></li>
-                            @if (ViewBag.FolderPermission)
-                            {{
-                                <li class=""folders""><a href=""javascript:;"">Only Folders</a></li>
-                            }}
-                            <li class=""none""><a href=""javascript:;"">None</a></li>
-                        </ul>
-                    </div>
-                </th>
-                {0}
-                @if (folder.EmbeddedFolders != null)
-                {{
-                    foreach (var s in folder.EmbeddedFolders)
-                    {{
-                    <th>@Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(new TextFolder(Repository.Current, s)).FriendlyText
-                    </th>
-                    }}
-                }}
-                @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)
-                {{
-                    <th class=""action"">
-                        @(""Workflow"".Localize())
-                    </th>
-                }}
-                               
-                @if (schema.IsTreeStyle)
-                {{
-                    <th class=""action"">
-                    </th> 
-                }}
-            </tr>
-        </thead>
-        <tbody>
+       @RenderHeader(folder,schema)
+       <tbody>
         @if (childFolders.Length == 0 && ViewBag.PagedList.TotalItemCount == 0)
         {{
             <tr class=""empty"">
@@ -157,6 +126,11 @@ namespace Kooboo.CMS.Form.Html
                         </td>
                         <td colspan=""{2}"">
                         </td>
+                         @if(Repository.Current.EnableBroadcasting)
+                        {{
+                            <td colspan=""3"">
+                            </td>
+                        }}
                         @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)
                         {{
                             <td colspan=""1"">
@@ -209,6 +183,16 @@ namespace Kooboo.CMS.Form.Html
             </div>
         </td>
        {1}
+        @if(Repository.Current.EnableBroadcasting)
+        {{
+           <td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.IsLocalized)</td>
+           <td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.OriginalRepository)</td>
+           <td>@if(item.OriginalUpdateTimes>0){{
+                <a href='@Url.Action(""ShowOriginalVersions"",ViewContext.RequestContext.AllRouteValues().Merge(""UUID"",(string)(item.UUID)).Merge(""OriginalRepository"",(string)(item.OriginalRepository)).Merge(""OriginalFolder"",(string)(item.OriginalFolder)).Merge(""OriginalUUID"",(string)(item.OriginalUUID)).Merge(""startVersionId"",(int)(item.OriginalLastestVisitedVersionId)).Merge(""return"", ViewContext.HttpContext.Request.RawUrl))'>
+                @Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.OriginalUpdateTimes)
+                </a>
+               }}else{{ @(""-"")}}</td>
+        }}
         @if (folder.EmbeddedFolders != null)
         {{
             foreach (var s in folder.EmbeddedFolders)
@@ -257,13 +241,22 @@ namespace Kooboo.CMS.Form.Html
                 </div>
             </td>
             {4}
-            <td class=""date"" data-bind=""html:item._LocalCreationDate_""></td>            
-            <td><span data-bind=""text : (item.Published == true?'@(""YES"".Localize())': '-')""></span></td>            
+            <td class=""date"" data-bind=""html:item._LocalCreationDate_""></td>
+            <td><span data-bind=""text : (item.Published == true?'@(""YES"".Localize())': '-')""></span></td>
+            @if(Repository.Current.EnableBroadcasting)
+            {{
+               <td><span data-bind=""text : (item.IsLocalized == null || item.IsLocalized == true?'@(""YES"".Localize())': '-')""></span></td>
+               <td><span data-bind=""text : ((item.OriginalRepository == null || item.OriginalRepository =='')? '-':item.OriginalRepository)""></span></td>
+                <!-- ko if:item._ViewOriginalContentChangesURL_  -->                
+               <td> <a data-bind=""text:item.OriginalUpdateTimes,attr:{{href:item._ViewOriginalContentChangesURL_}}""></a></td>
+                <!-- /ko -->
+                <!-- ko ifnot:item._ViewOriginalContentChangesURL_  -->                
+               <td>-</td>
+                <!-- /ko -->
+            }}        
             <!-- ko foreach: {{data:_EmbeddedFolders_,as:'folder'}} -->
             <td >
-
                 <a data-bind=""text:folder.Text,attr:{{href:folder.Link}}"" class=""dialog-link""></a>
-
             </td>
             <!-- /ko -->
             @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)

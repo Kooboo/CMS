@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Kooboo.CMS.Sites.Models.LayoutSample>
+@using Kooboo.CMS.Sites.Models
+<ul class="layout-sample">
+    @{
+        int index = 0;
+        foreach (var item in Model)
+        { 
+        <li @(index == Model.Count() - 1 ? "class=\"last\"" : "")>
+            <a  rel="@item.Template " title="@item.Name " class="right">@Html.IconImage("insert")</a>
+            @item.Name
+        </li>
+            index++;
+        } 
+    }
+</ul>

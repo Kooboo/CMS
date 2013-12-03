@@ -119,5 +119,14 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         #endregion
 
+        #region Relations
+        public virtual ActionResult Relations(string uuid)
+        {
+            var abRuleSetting = new ABRuleSetting(Site, uuid);
+            var model = Manager.Relations(abRuleSetting);
+            return View("Relations", model);
+        }
+        #endregion
+
     }
 }

@@ -1,6 +1,6 @@
 
-copy "..\..\Kooboo.CMS.Member.Persistence.EntityFramework\bin\Release\Kooboo.CMS.Member.Persistence.EntityFramework.dll" "EntityFramework\Kooboo.CMS.Member.Persistence.EntityFramework.dll"
+copy "..\..\Kooboo.CMS.Membership.Persistence.EntityFramework\bin\Release\Kooboo.CMS.Membership.Persistence.EntityFramework.dll" "EntityFramework\"
 
 copy "..\..\..\Lib\EntityFramework\*.dll" "EntityFramework\*.*"
 
-..\7z a ..\Released\Membership_Providers.zip EntityFramework\*.*
+..\7z\7z a ..\Released\Membership_Providers.zip EntityFramework\*.*

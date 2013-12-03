@@ -1,0 +1,34 @@
+﻿@model Kooboo.CMS.ExtensionTemplate.Areas.BlogModule.Models.Blog
+@{
+    Layout = "~/Views/Shared/Blank.cshtml";
+    //ViewBag.Title = "Categories".Localize();   
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Cancel".Localize())</a>
+        </li>
+    </ul>
+}
+
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+
+    @using (Html.BeginForm())
+    {	 
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <table>
+            <tbody>
+                @Html.EditorFor(m => m.Title, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.Categories, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.Description)
+            </tbody>
+        </table>      
+    }
+</div>

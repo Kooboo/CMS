@@ -1,1 +1,1 @@
-@Url.FrontUrl().ScriptFileUrl("images/header-bg.png")
+@Url.FrontUrl().ScriptFileUrl("myscript.js")

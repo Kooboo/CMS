@@ -90,7 +90,7 @@ namespace Kooboo.CMS.Sites.View
         #endregion
 
         #region GetModulePositionIdForUrl
-        public string GetModulePositionIdForUrl(string moduleName, string currentModulePositionId, RouteValueDictionary routeValues)
+        internal string GetModulePositionIdForUrl(string moduleName, string currentModulePositionId, RouteValueDictionary routeValues)
         {
             string controller = routeValues["controller"].ToString();
             string action = routeValues["action"].ToString();
@@ -107,6 +107,35 @@ namespace Kooboo.CMS.Sites.View
             {
                 return modulePosition.PagePositionId;
             }
+        }
+
+        public string GetModulePositionIdForUrl(ModulePosition modulePosition, RouteValueDictionary routeValues, out Page page)
+        {
+            page = this.PageRequestContext.Page;
+            string modulePositionId = modulePosition.PagePositionId;
+
+            if (!string.IsNullOrEmpty(modulePosition.Entry.LinkToEntryName))
+            {
+                foreach (var item in Kooboo.CMS.Sites.Services.ServiceFactory.PageManager.All(this.PageRequestContext.Site, null))
+                {
+                    foreach (var position in item.PagePositions.OfType<ModulePosition>())
+                    {
+                        if (position.Entry != null && !string.IsNullOrEmpty(position.Entry.Name)
+                            && position.Entry.Name.EqualsOrNullEmpty(modulePosition.Entry.LinkToEntryName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            page = item;
+                            modulePositionId = position.PagePositionId;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                modulePositionId = GetModulePositionIdForUrl(modulePosition.ModuleName, modulePosition.PagePositionId, routeValues);
+            }
+
+            return modulePositionId;
+
         }
         #endregion
 

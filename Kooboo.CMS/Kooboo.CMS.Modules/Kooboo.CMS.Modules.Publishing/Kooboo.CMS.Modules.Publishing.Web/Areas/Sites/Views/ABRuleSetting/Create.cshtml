@@ -1,0 +1,84 @@
+﻿@model Kooboo.CMS.Sites.ABTest.ABRuleSetting
+@using Kooboo.CMS.Sites.ABTest;
+@{
+    ViewBag.Title = "Create A/B rule".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+
+    var allRules = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<IVisitRule>();
+    if (!string.IsNullOrEmpty(Model.RuleType))
+    {
+
+        ViewBag.Rule = allRules.Where(it => it.RuleType.EqualsOrNullEmpty(Model.RuleType, StringComparison.OrdinalIgnoreCase)).First();
+    }
+    
+}
+@section Panel{
+    <ul class="panel">
+        @if (string.IsNullOrEmpty(Model.RuleType))
+        {
+            <li>
+                <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                    @Html.IconImage("cancel") @("Back".Localize())</a>
+            </li>
+            <li>
+                <a data-download-form="">
+                    @Html.IconImage("next") @("Next".Localize())</a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="@ViewContext.RequestContext.GetRequestValue("Back")">
+                    @Html.IconImage("cancel") @("Back".Localize())</a>
+            </li>
+            <li>
+                <a id="submitVisitRule">
+                    @Html.IconImage("next") @("Next".Localize())</a>
+            </li>           
+        }
+    </ul>
+}
+@if (string.IsNullOrEmpty(Model.RuleType))
+{
+    <div class="common-form">
+        <h1 class="title">@ViewBag.Title</h1>
+        <div class="process-steps">
+            <div class="steps-inner">
+                <span class="current">@("Select rule type".Localize())<b></b></span>
+                <span>@("Add rule item".Localize())</span>
+                <span>@("Finished".Localize())</span>
+            </div>
+        </div>
+        <form method="get">
+            <input type="hidden" name="Back" value="@Request.RawUrl"/>
+            <input type="hidden" name="Return" value="@ViewContext.RequestContext.GetRequestValue("return")"/>
+            @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
+            @Html.Hidden("old_Key", "")
+            <table>
+                <tbody>
+                    @Html.EditorFor(m => m.Name, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" } } })
+                    @Html.EditorFor(m => m.RuleType, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" } } })
+                </tbody>
+            </table>
+        </form>
+    </div>
+}
+else
+{
+    <div class="common-form">
+        <form id="ruleSettingForm">
+            <h1 class="title">@ViewBag.Title</h1>
+            <div class="process-steps">
+                <div class="steps-inner">
+                    <a>@("Select rule type".Localize())</a>
+                    <span class="current">@("Add rule item".Localize())<b></b></span>
+                    <span>@("Finished".Localize())</span>
+                </div>
+            </div>
+            <div class="common-form">
+                @Html.Partial("_RuleSetting", ViewData)
+            </div>
+        </form>
+        @Html.Partial("_RuleSetting.Scripts", ViewData)
+    </div>
+}

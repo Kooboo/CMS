@@ -1,0 +1,13 @@
+﻿<div class="topbar">
+    <h1 class="title">@Html.ModuleHtml().ActionLink("Back", "Index", null, new { @class = "back" })</h1>
+</div>
+
+<article class="block article">
+    <header>
+        <h2 class="title">@Model.ProductName</h2>
+        <span class="date"></span>
+    </header>
+    <section class="content">
+        @Html.Raw(Model.ProductDetail)
+    </section>
+</article>

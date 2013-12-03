@@ -1,0 +1,124 @@
+﻿/*
+*   colorPicker
+*   author: ronglin
+*   create date: 2010.06.03
+*/
+
+.kb-colorPicker
+{
+    display: none;
+    position: absolute;
+    background-color: #f0f0f0;
+    border: 2px solid #4282C3;
+    color: #333333;
+    width: 368px;
+    text-align: left;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+    padding-bottom:4px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    z-index: 4;
+}
+
+.kb-colorPicker .kb-head
+{
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 12px;
+    background-color: #d0def0;
+    color: #000;
+    line-height: 1.5;
+}
+
+.kb-colorPicker .kb-bar
+{
+    width: 132px;
+    float: right;
+    margin-top:4px;
+    margin-right:4px;
+}
+
+.kb-colorPicker .kb-bar .kb-row
+{
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.kb-colorPicker .kb-bar .kb-left
+{
+    width: 66px;
+    height: 19px;
+    float: left;
+    line-height: 19px;
+}
+
+.kb-colorPicker .kb-bar .kb-right
+{
+    float: left;
+    width: 62px;
+    height: 17px;
+    background-color: #fff;
+    border: 1px solid #666666;
+}
+
+.kb-colorPicker .kb-bar .kb-text
+{
+    float: left;
+    width: 60px;
+    height: 15px;
+    border: 1px solid #666666;
+    margin: 0px;
+    padding: 1px;
+    background-color: #fff;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+.kb-colorPicker .kb-bar .kb-btn
+{
+    margin-left: 14px;
+    margin-top: 4px;
+    padding-top:2px;
+    width: 100px;
+    cursor: pointer;
+    background-color: #d0def0;
+    border: 1px solid #4282C3;
+    font-size: 12px;
+    font-family: Arial,Helvetica,sans-serif;
+    height: 16px;
+    text-align: center;
+}
+
+.kb-colorPicker .kb-bar .kb-btn-hl
+{
+    background-color: #ffffff;
+}
+
+.kb-colorPicker .kb-grid
+{
+    float: left;
+    margin-left:4px;
+    margin-top:4px;
+    border: 1px solid #ccc;
+    padding: 1px;
+    border-collapse: inherit;
+    cursor: pointer;
+    width:216px;
+}
+
+.kb-colorPicker .kb-grid var
+{
+    width: 10px;
+    height: 11px;
+    padding: 0px;
+    border: 1px solid #ffffff;
+    display:block;
+    float:left;
+}
+
+.kb-colorPicker .kb-grid var.hl
+{
+    border-color: #000000;
+}

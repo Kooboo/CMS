@@ -42,6 +42,9 @@
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\..\Lib\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -89,16 +92,27 @@
     <Compile Include="Controllers\ActionFilters\MemberAuthorizeAttribute.cs" />
     <Compile Include="Controllers\ActionFilters\OutputCacheFilterAttribute.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />
+    <Compile Include="DataRule\HttpDataRule.cs" />
+    <Compile Include="DataRule\Http\HttpDataRequest.cs" />
+    <Compile Include="DataRule\Http\IHttpDataRequest.cs" />
+    <Compile Include="DataRule\Http\JsonTextParser.cs" />
+    <Compile Include="DataRule\Http\XmlTextParser.cs" />
+    <Compile Include="DataRule\IContentDataRule.cs" />
+    <Compile Include="DataRule\Http\IResponseTextParser.cs" />
+    <Compile Include="DataRule\ResponseType.cs" />
     <Compile Include="Extension\ContactUsPlugin.cs" />
     <Compile Include="Extension\EmailPlugin.cs" />
     <Compile Include="Extension\IHttpMethodPagePlugin.cs" />
     <Compile Include="Extension\ICommonPagePlugin.cs" />
     <Compile Include="Extension\IPageRequestModule.cs" />
     <Compile Include="Extension\ISubmissionPlugin.cs" />
+    <Compile Include="Extension\ModuleArea\IModuleEvents.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleControllerContextExtensions.cs" />
+    <Compile Include="Extension\ModuleArea\ModulePathHelper.cs" />
     <Compile Include="Extension\ModuleArea\ModuleItemPath.cs" />
-    <Compile Include="Extension\ModuleArea\IModuleAction.cs" />
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />
     <Compile Include="Extension\PluginHelper.cs" />
+    <Compile Include="InitializeCurrentContext.cs" />
     <Compile Include="Membership\ActivateMemberModel.cs" />
     <Compile Include="Membership\ActivateMemberPlugin.cs" />
     <Compile Include="Membership\ChangeMemberPasswordModel.cs" />
@@ -132,6 +146,7 @@
     <Compile Include="Persistence\FileSystem\SubmissionSettingProvider.cs" />
     <Compile Include="NullSiteContextException.cs" />
     <Compile Include="Services\ABPageTestResultManager.cs" />
+    <Compile Include="Services\IManager.cs" />
     <Compile Include="Services\PageCachingManager.cs" />
     <Compile Include="Services\SubmissionSettingManager.cs" />
     <Compile Include="View\SecurityHelper.cs" />
@@ -403,7 +418,6 @@
     <Compile Include="Services\ManagerBase.cs" />
     <Compile Include="Services\ModuleManager.cs" />
     <Compile Include="Services\Namespace.cs" />
-    <Compile Include="Services\PagePublishingJob.cs" />
     <Compile Include="Services\SiteTemplateManager.cs" />
     <Compile Include="Services\SystemManager.cs" />
     <Compile Include="Services\ThemeManager.cs" />

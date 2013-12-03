@@ -69,6 +69,7 @@ namespace Kooboo.CMS.Sites.Services
 
         public static void SaveFilesOrder(string baseDir, IEnumerable<string> filesOrder)
         {
+            Kooboo.IO.IOUtility.EnsureDirectoryExists(baseDir);
             var orderFile = Path.Combine(baseDir, FileOrderHelper.OrderFileName);
             if (File.Exists(orderFile))
             {
@@ -622,6 +623,7 @@ namespace Kooboo.CMS.Sites.Services
 
                 if (fileEntry != null)
                 {
+                    Kooboo.IO.IOUtility.EnsureDirectoryExists(Path.GetDirectoryName(targetFileEntry.PhysicalPath));
                     File.Copy(fileEntry.PhysicalPath, targetFileEntry.PhysicalPath, true);
                 }
             }

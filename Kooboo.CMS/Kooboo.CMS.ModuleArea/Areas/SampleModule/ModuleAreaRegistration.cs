@@ -12,9 +12,9 @@ using System.IO;
 using Kooboo;
 using Kooboo.Web.Mvc;
 
-namespace Kooboo.CMS.ModuleArea
+namespace Kooboo.CMS.ModuleArea.Areas.SampleModule
 {
-    public class SampleAreaRegistration : AreaRegistration
+    public class ModuleAreaRegistration : AreaRegistration
     {
         public const string ModuleName = "SampleModule";
         public override string AreaName
@@ -35,7 +35,7 @@ namespace Kooboo.CMS.ModuleArea
                 , new[] { "Kooboo.CMS.ModuleArea.Controllers", "Kooboo.CMS.ModuleArea.Areas.SampleModule.Controllers", "Kooboo.Web.Mvc", "Kooboo.Web.Mvc.WebResourceLoader" }
             );
 
-            var menuFile = AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "Menu.config");
+            var menuFile = AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "CMSMenu.config");
             if (File.Exists(menuFile))
             {
                 Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu(AreaName, menuFile);

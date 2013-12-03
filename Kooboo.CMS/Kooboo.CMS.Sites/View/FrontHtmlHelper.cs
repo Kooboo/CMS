@@ -213,21 +213,34 @@ namespace Kooboo.CMS.Sites.View
         #region RenderView
         protected internal virtual IHtmlString RenderView(ViewPosition viewPosition)
         {
-            Func<IHtmlString> renderView = () => this.RenderView(viewPosition.ViewName, PageContext.GetPositionViewData(viewPosition.PagePositionId), viewPosition.ToParameterDictionary(), false);
-            if (viewPosition.EnabledCache)
+            try
             {
-                var cacheKey = string.Format("View OutputCache - Full page name:{0};Raw request url:{1};PagePositionId:{2};ViewName:{3};LayoutPositionId:{4}"
-                , PageContext.PageRequestContext.Page.FullName, PageContext.ControllerContext.HttpContext.Request.RawUrl, viewPosition.PagePositionId, viewPosition.ViewName, viewPosition.LayoutPositionId);
-                var cacheItemPolicy = viewPosition.OutputCache.ToCachePolicy();
-                return this.PageContext.PageRequestContext.Site.ObjectCache().GetCache<IHtmlString>(cacheKey,
-                          renderView,
-                      cacheItemPolicy);
+                Func<IHtmlString> renderView = () => this.RenderView(viewPosition.ViewName, PageContext.GetPositionViewData(viewPosition.PagePositionId), viewPosition.ToParameterDictionary(), false);
+                if (viewPosition.EnabledCache)
+                {
+                    var cacheKey = string.Format("View OutputCache - Full page name:{0};Raw request url:{1};PagePositionId:{2};ViewName:{3};LayoutPositionId:{4}"
+                    , PageContext.PageRequestContext.Page.FullName, PageContext.ControllerContext.HttpContext.Request.RawUrl, viewPosition.PagePositionId, viewPosition.ViewName, viewPosition.LayoutPositionId);
+                    var cacheItemPolicy = viewPosition.OutputCache.ToCachePolicy();
+                    return this.PageContext.PageRequestContext.Site.ObjectCache().GetCache<IHtmlString>(cacheKey,
+                              renderView,
+                          cacheItemPolicy);
+                }
+                else
+                {
+                    return renderView();
+                }
+            }
+            catch (Exception e)
+            {
+                if (viewPosition.SkipError)
+                {
+                    Kooboo.HealthMonitoring.Log.LogException(e);
+                    return new HtmlString("");
+                }
+
+                throw;
             }
 
-            else
-            {
-                return renderView();
-            }
         }
         #endregion
 
@@ -263,30 +276,26 @@ namespace Kooboo.CMS.Sites.View
             {
                 throw new KoobooException("The repository for site is null.");
             }
-            var dataRule = contentPosition.DataRule;
+            var dataRule = (IContentDataRule)(contentPosition.DataRule);
             var dataRuleContext = new DataRuleContext(this.PageContext.PageRequestContext.Site,
                 this.PageContext.PageRequestContext.Page) { ValueProvider = this.PageContext.PageRequestContext.GetValueProvider() };
-            var contentQuery = dataRule.Execute(dataRuleContext);
+
             string viewPath = "";
+            TakeOperation operation;
             var schema = dataRule.GetSchema(repository);
-            Object model = contentQuery;
             switch (contentPosition.Type)
             {
                 case ContentPositionType.Detail:
                     viewPath = schema.GetFormTemplate(FormType.Detail);
-                    model = contentQuery.FirstOrDefault();
+                    operation = TakeOperation.First;
                     break;
                 case ContentPositionType.List:
                 default:
-                    int top = 10;
-                    if (int.TryParse(((FolderDataRule)dataRule).Top, out top))
-                    {
-                        model = contentQuery.Take(top);
-                    }
-
                     viewPath = schema.GetFormTemplate(FormType.List);
+                    operation = TakeOperation.List;
                     break;
             }
+            var model = dataRule.Execute(dataRuleContext, operation, 0);
             return ViewRender.RenderViewInternal(this.Html, viewPath, null, model);
         }
         #endregion
@@ -614,25 +623,22 @@ namespace Kooboo.CMS.Sites.View
 
                     foreach (ModuleActionInvokedContext actionInvoked in PageContext.ModuleResults.Values)
                     {
-                        if (actionInvoked.ControllerContext.Controller is ModuleControllerBase)
-                        {
-                            if (!((ModuleControllerBase)actionInvoked.ControllerContext.Controller).EnableScript)
-                            {
-                                break;
-                            }
-                        }
                         var moduleRequestContext = (ModuleRequestContext)actionInvoked.ControllerContext.RequestContext;
-                        if (site.Mode == ReleaseMode.Debug)
+                        if (moduleRequestContext.ModuleContext.EnableScript)
                         {
-                            foreach (var script in ServiceFactory.ModuleManager.AllScripts(moduleRequestContext.ModuleContext.ModuleName))
+                            if (site.Mode == ReleaseMode.Debug)
                             {
-                                yield return this.Html.Script(UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath));
+                                foreach (var script in ServiceFactory.ModuleManager.AllScripts(moduleRequestContext.ModuleContext.ModuleName))
+                                {
+                                    yield return this.Html.Script(UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath));
+                                }
+                            }
+                            else
+                            {
+                                yield return this.Html.Script(this.PageContext.FrontUrl.ModuleScriptsUrl(moduleRequestContext.ModuleContext.ModuleName, baseUri, compressed).ToString());
                             }
                         }
-                        else
-                        {
-                            yield return this.Html.Script(this.PageContext.FrontUrl.ModuleScriptsUrl(moduleRequestContext.ModuleContext.ModuleName, baseUri, compressed).ToString());
-                        }
+
                     }
                 }
             }
@@ -749,16 +755,8 @@ namespace Kooboo.CMS.Sites.View
                 {
                     foreach (ModuleActionInvokedContext actionInvoked in PageContext.ModuleResults.Values)
                     {
-                        if (actionInvoked.ControllerContext.Controller is ModuleControllerBase)
-                        {
-                            if (!((ModuleControllerBase)actionInvoked.ControllerContext.Controller).EnableTheming)
-                            {
-                                break;
-                            }
-                        }
-
                         var moduleRequestContext = (ModuleRequestContext)actionInvoked.ControllerContext.RequestContext;
-                        if (moduleRequestContext.ModuleContext.ModuleSettings != null && !string.IsNullOrEmpty(moduleRequestContext.ModuleContext.ModuleSettings.ThemeName))
+                        if (moduleRequestContext.ModuleContext.EnableTheme && moduleRequestContext.ModuleContext.ModuleSettings != null && !string.IsNullOrEmpty(moduleRequestContext.ModuleContext.ModuleSettings.ThemeName))
                         {
                             string themeRuleBody;
                             var styles = ServiceFactory.ModuleManager.AllThemeFiles(moduleRequestContext.ModuleContext.ModuleName,

@@ -15,9 +15,10 @@ namespace Kooboo.CMS.Sites.DataRule
 {
     public enum DataRuleType
     {
-        Folder,
-        Schema,
-        Category
+        Folder = 0,
+        Schema = 1,
+        Category = 2,
+        Http = 3
         //Categorizable
     }
 }

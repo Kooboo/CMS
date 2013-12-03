@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Web
         #region RegisterRoutes
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.Add(new Route("api/metaweblog", null, new RouteValueDictionary(new { controller = "nonexistingcontroller" }),
+            routes.Add(new Route("api/metaweblog", new RouteValueDictionary(new { controller = "nonexistingcontroller" }), new RouteValueDictionary(new { controller = "nonexistingcontroller" }),
      new Kooboo.CMS.Web.Interoperability.MetaWeblog.MetaWeblogRouteHandler()));
 
             Kooboo.Web.Mvc.Routing.RouteTableRegister.RegisterRoutes(routes);
@@ -134,7 +134,9 @@ Thread information:
 
             ModelBinders.Binders.Add(typeof(DynamicDictionary), new DynamicDictionaryBinder());
             ModelBinders.Binders.Add(typeof(Kooboo.CMS.Sites.DataRule.IDataRule), new Kooboo.CMS.Web.Areas.Sites.ModelBinders.DataRuleBinder());
-            ModelBinders.Binders.Add(typeof(Kooboo.CMS.Sites.DataRule.DataRuleBase), new Kooboo.CMS.Web.Areas.Sites.ModelBinders.DataRuleBinder());
+            //ModelBinders.Binders.Add(typeof(Kooboo.CMS.Sites.DataRule.DataRuleBase), new Kooboo.CMS.Web.Areas.Sites.ModelBinders.DataRuleBinder());
+            //ModelBinders.Binders.Add(typeof(Kooboo.CMS.Sites.DataRule.HttpDataRule), new Kooboo.CMS.Web.Areas.Sites.ModelBinders.DataRuleBinder());
+
             ModelBinders.Binders.Add(typeof(Kooboo.CMS.Sites.Models.PagePosition), new Kooboo.CMS.Web.Areas.Sites.ModelBinders.PagePositionBinder());
             ModelBinders.Binders.Add(typeof(Kooboo.CMS.Sites.Models.Parameter), new Kooboo.CMS.Web.Areas.Sites.ModelBinders.ParameterBinder());
             #endregion

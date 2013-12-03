@@ -1,0 +1,55 @@
+﻿@using Kooboo.CMS.Web.Areas.Sites
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="robots" content="noindex,nofllow" />
+    <link rel="shortcut icon" href='@Url.Content("~/Images/favicon.ico")' />
+    <title>
+        @ViewBag.Title
+        @(" - Kooboo CMS".Localize())
+    </title>
+    @Html.ExternalResources("siteStyles")
+    @Html.ExternalResources("siteScripts")
+    <script type="text/javascript" src="~/Scripts/tiny_mce/tinymce.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/tiny_mce_extension.js"></script>
+    <!--[if lte IE 8]>
+    <script src="~/Scripts/html5shiv.js" type="text/javascript"></script>
+    <script src="~/Scripts/selectivizr-min.js" type="text/javascript"></script>
+    <![endif]-->
+    @RenderSection("ScriptCSS", false)
+</head>
+<body class="loading">
+    @Html.Partial("_Loading_Info")
+    <div id="body-container">
+        <header id="header">
+            <a class="logo" href="@Html.Raw(Url.Action("SiteMap", "Home", new { area = "Sites" }))" title="@("Back to site manager".Localize())">
+                <img src="@Html.Raw(Url.Content("~/Images/logo.png")) " alt="LOGO">
+                @Html.IconImage("home")
+            </a>
+            @RenderSection("Panel", false)
+            @Html.Partial("_QuickLinks")
+        </header>
+
+        <div id="main-container" class="clearfix">
+            <div id="main">
+                @RenderBody()
+            </div>
+            <aside id="sidebar">
+                @if (IsSectionDefined("Sidebar"))
+                { 
+                    @RenderSection("Sidebar", false)
+                }
+                else
+                { 
+                    @Html.Partial("_Sidebar")
+                }
+            </aside>
+        </div>
+        <footer id="footer">
+            @Html.Partial("Footer")
+        </footer>
+    </div>
+
+    @Html.Partial("Master.Script")
+</body>
+</html>

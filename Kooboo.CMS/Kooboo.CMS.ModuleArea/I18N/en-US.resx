@@ -785,4 +785,511 @@ Are you sure you want to use this size?</value>
   <data name="Initialize module" xml:space="preserve">
     <value>Initialize module</value>
   </data>
+  <data name="Text content" xml:space="preserve">
+    <value>Text content</value>
+  </data>
+  <data name="New folder" xml:space="preserve">
+    <value>New folder</value>
+  </data>
+  <data name="Template" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="Are you sure you want to reset these templates?" xml:space="preserve">
+    <value>Are you sure you want to reset these templates?</value>
+  </data>
+  <data name="Reset templates" xml:space="preserve">
+    <value>Reset templates</value>
+  </data>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Selectable" xml:space="preserve">
+    <value>Selectable</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="More..." xml:space="preserve">
+    <value>More...</value>
+  </data>
+  <data name="Copy content type" xml:space="preserve">
+    <value>Copy content type</value>
+  </data>
+  <data name="Advanced search" xml:space="preserve">
+    <value>Advanced search</value>
+  </data>
+  <data name="YES" xml:space="preserve">
+    <value>YES</value>
+  </data>
+  <data name="Add content" xml:space="preserve">
+    <value>Add content</value>
+  </data>
+  <data name="Are you sure you want to publish these items?" xml:space="preserve">
+    <value>Are you sure you want to publish these items?</value>
+  </data>
+  <data name="Are you sure you want to unpublish these items?" xml:space="preserve">
+    <value>Are you sure you want to unpublish these items?</value>
+  </data>
+  <data name="Localize" xml:space="preserve">
+    <value>Localize</value>
+  </data>
+  <data name="Re-broadcast" xml:space="preserve">
+    <value>Re-broadcast</value>
+  </data>
+  <data name="Versions" xml:space="preserve">
+    <value>Versions</value>
+  </data>
+  <data name="The templates have been reset." xml:space="preserve">
+    <value>The templates have been reset.</value>
+  </data>
+  <data name="Edit page" xml:space="preserve">
+    <value>Edit page</value>
+  </data>
+  <data name="Designer" xml:space="preserve">
+    <value>Designer</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigation</value>
+  </data>
+  <data name="HTML meta" xml:space="preserve">
+    <value>HTML meta</value>
+  </data>
+  <data name="URL route" xml:space="preserve">
+    <value>URL route</value>
+  </data>
+  <data name="Output cache" xml:space="preserve">
+    <value>Output cache</value>
+  </data>
+  <data name="DataRules" xml:space="preserve">
+    <value>DataRules</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="Are you sure you want to change the layout?" xml:space="preserve">
+    <value>Are you sure you want to change the layout?</value>
+  </data>
+  <data name="The title that can be used by this page, the value can be accessed via API: @Page_Context.Current.ContentTitle." xml:space="preserve">
+    <value>The title that can be used by this page, the value can be accessed via API: @Page_Context.Current.ContentTitle.</value>
+  </data>
+  <data name="Content title" xml:space="preserve">
+    <value>Content title</value>
+  </data>
+  <data name="Set as homepage" xml:space="preserve">
+    <value>Set as homepage</value>
+  </data>
+  <data name="Load the theme CSS files from the system selected theme folder." xml:space="preserve">
+    <value>Load the theme CSS files from the system selected theme folder.</value>
+  </data>
+  <data name="Script" xml:space="preserve">
+    <value>Script</value>
+  </data>
+  <data name="Load JavaScript files from the site script folder." xml:space="preserve">
+    <value>Load JavaScript files from the site script folder.</value>
+  </data>
+  <data name="The Type of page field is required." xml:space="preserve">
+    <value>The Type of page field is required.</value>
+  </data>
+  <data name="The type of your page used to mark them differently in the sitemap&lt;br /&gt;&lt;b&gt;Default: &lt;/b&gt; select this option if you do not know your page type&lt;br /&gt;&lt;b&gt;Static: &lt;/b&gt; contains only manually inputted static content &lt;br /&gt;&lt;b&gt;Dynamic:&lt;/b&gt; contains dynamic content from database either via the datarule or your own API query." xml:space="preserve">
+    <value>The type of your page used to mark them differently in the sitemap&lt;br /&gt;&lt;b&gt;Default: &lt;/b&gt; select this option if you do not know your page type&lt;br /&gt;&lt;b&gt;Static: &lt;/b&gt; contains only manually inputted static content &lt;br /&gt;&lt;b&gt;Dynamic:&lt;/b&gt; contains dynamic content from database either via the datarule or your own API query.</value>
+  </data>
+  <data name="Type of page" xml:space="preserve">
+    <value>Type of page</value>
+  </data>
+  <data name="The Search index field is required." xml:space="preserve">
+    <value>The Search index field is required.</value>
+  </data>
+  <data name="Search index" xml:space="preserve">
+    <value>Search index</value>
+  </data>
+  <data name="Include this page content in the search index." xml:space="preserve">
+    <value>Include this page content in the search index.</value>
+  </data>
+  <data name="The Require HTTPS field is required." xml:space="preserve">
+    <value>The Require HTTPS field is required.</value>
+  </data>
+  <data name="Require HTTPS" xml:space="preserve">
+    <value>Require HTTPS</value>
+  </data>
+  <data name="Force this page to use HTTPS, similar as the RequireHttpsAttribute in ASP.NET MVC." xml:space="preserve">
+    <value>Force this page to use HTTPS, similar as the RequireHttpsAttribute in ASP.NET MVC.</value>
+  </data>
+  <data name="Display text" xml:space="preserve">
+    <value>Display text</value>
+  </data>
+  <data name="Show in Crumb Path" xml:space="preserve">
+    <value>Show in Crumb Path</value>
+  </data>
+  <data name="Make this page accessible from the Crumb path API." xml:space="preserve">
+    <value>Make this page accessible from the Crumb path API.</value>
+  </data>
+  <data name="Make this page accessible from the menu API." xml:space="preserve">
+    <value>Make this page accessible from the menu API.</value>
+  </data>
+  <data name="Menu order" xml:space="preserve">
+    <value>Menu order</value>
+  </data>
+  <data name="The order of page in the menu API. Drag and drop to change them." xml:space="preserve">
+    <value>The order of page in the menu API. Drag and drop to change them.</value>
+  </data>
+  <data name="The title tag and value that appear in the page HTML header and also used by browsers as the page title. &lt;br /&gt;This value can be accessed via API: @Html.FrontHtml().HtmlTitle()" xml:space="preserve">
+    <value>The title tag and value that appear in the page HTML header and also used by browsers as the page title. &lt;br /&gt;This value can be accessed via API: @Html.FrontHtml().HtmlTitle()</value>
+  </data>
+  <data name="Html title" xml:space="preserve">
+    <value>Html title</value>
+  </data>
+  <data name="Used in SEO, see: http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html" xml:space="preserve">
+    <value>Used in SEO, see: http://googlewebmastercentral.blogspot.com/2009/02/specify-your-canonical.html</value>
+  </data>
+  <data name="Canonical" xml:space="preserve">
+    <value>Canonical</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="Keywords" xml:space="preserve">
+    <value>Keywords</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Custom fields for HTML meta values" xml:space="preserve">
+    <value>Custom fields for HTML meta values</value>
+  </data>
+  <data name="Custom meta fields" xml:space="preserve">
+    <value>Custom meta fields</value>
+  </data>
+  <data name="Link target" xml:space="preserve">
+    <value>Link target</value>
+  </data>
+  <data name="In this field you can insert an external URL in case a menu items need to link externally. e.g:http://forum.kooboo.com/. " xml:space="preserve">
+    <value>In this field you can insert an external URL in case a menu items need to link externally. e.g:http://forum.kooboo.com/. </value>
+  </data>
+  <data name="External URL" xml:space="preserve">
+    <value>External URL</value>
+  </data>
+  <data name="'Alternative name' is invalid." xml:space="preserve">
+    <value>'Alternative name' is invalid.</value>
+  </data>
+  <data name="Give your page an alternative name. This new name will be used when generating page links. Start with '/' to indicate using as absolute path." xml:space="preserve">
+    <value>Give your page an alternative name. This new name will be used when generating page links. Start with '/' to indicate using as absolute path.</value>
+  </data>
+  <data name="Alternative name" xml:space="preserve">
+    <value>Alternative name</value>
+  </data>
+  <data name="The route URL cannot start with a '/' or '~' character and it cannot contain a '?' character." xml:space="preserve">
+    <value>The route URL cannot start with a '/' or '~' character and it cannot contain a '?' character.</value>
+  </data>
+  <data name="Customize the page URL to anyway you like.&lt;br /&gt; Use {key} to match the URL query string. &lt;br /&gt;For example: {userkey}_othertext to replace parameter &quot;?userkey=&quot; into static URL" xml:space="preserve">
+    <value>Customize the page URL to anyway you like.&lt;br /&gt; Use {key} to match the URL query string. &lt;br /&gt;For example: {userkey}_othertext to replace parameter "?userkey=" into static URL</value>
+  </data>
+  <data name="URL path" xml:space="preserve">
+    <value>URL path</value>
+  </data>
+  <data name="Default values appended to the page URL query string" xml:space="preserve">
+    <value>Default values appended to the page URL query string</value>
+  </data>
+  <data name="Default values" xml:space="preserve">
+    <value>Default values</value>
+  </data>
+  <data name="No cache" xml:space="preserve">
+    <value>No cache</value>
+  </data>
+  <data name="Cache to disk" xml:space="preserve">
+    <value>Cache to disk</value>
+  </data>
+  <data name="The Cache to disk field is required." xml:space="preserve">
+    <value>The Cache to disk field is required.</value>
+  </data>
+  <data name="Cache in memory" xml:space="preserve">
+    <value>Cache in memory</value>
+  </data>
+  <data name="The Duration field is required." xml:space="preserve">
+    <value>The Duration field is required.</value>
+  </data>
+  <data name="The amount of time, in seconds, that a cache entry is to remain in the output cache. The default is 0, which indicates an infinite duration." xml:space="preserve">
+    <value>The amount of time, in seconds, that a cache entry is to remain in the output cache. The default is 0, which indicates an infinite duration.</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="The Expiration policy field is required." xml:space="preserve">
+    <value>The Expiration policy field is required.</value>
+  </data>
+  <data name="Expiration policy" xml:space="preserve">
+    <value>Expiration policy</value>
+  </data>
+  <data name="Add DataRule" xml:space="preserve">
+    <value>Add DataRule</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="DataName" xml:space="preserve">
+    <value>DataName</value>
+  </data>
+  <data name="Query type" xml:space="preserve">
+    <value>Query type</value>
+  </data>
+  <data name="List of contents in the selected folder" xml:space="preserve">
+    <value>List of contents in the selected folder</value>
+  </data>
+  <data name="First or default (one content item)" xml:space="preserve">
+    <value>First or default (one content item)</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Data Name" xml:space="preserve">
+    <value>Data Name</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Content filter" xml:space="preserve">
+    <value>Content filter</value>
+  </data>
+  <data name="Category folder" xml:space="preserve">
+    <value>Category folder</value>
+  </data>
+  <data name="Select a category" xml:space="preserve">
+    <value>Select a category</value>
+  </data>
+  <data name="Category filter" xml:space="preserve">
+    <value>Category filter</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="Sort filed" xml:space="preserve">
+    <value>Sort filed</value>
+  </data>
+  <data name="Sort direction" xml:space="preserve">
+    <value>Sort direction</value>
+  </data>
+  <data name="ASC" xml:space="preserve">
+    <value>ASC</value>
+  </data>
+  <data name="DESC" xml:space="preserve">
+    <value>DESC</value>
+  </data>
+  <data name="Enable paging" xml:space="preserve">
+    <value>Enable paging</value>
+  </data>
+  <data name="Page size" xml:space="preserve">
+    <value>Page size</value>
+  </data>
+  <data name="A const value OR dynamic value get from query string. eg: 10 OR {PageSize}" xml:space="preserve">
+    <value>A const value OR dynamic value get from query string. eg: 10 OR {PageSize}</value>
+  </data>
+  <data name="Page index" xml:space="preserve">
+    <value>Page index</value>
+  </data>
+  <data name="The page index parameter name. eg:{PageIndex}" xml:space="preserve">
+    <value>The page index parameter name. eg:{PageIndex}</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Equals" xml:space="preserve">
+    <value>Equals</value>
+  </data>
+  <data name="NotEquals" xml:space="preserve">
+    <value>NotEquals</value>
+  </data>
+  <data name="Greater than" xml:space="preserve">
+    <value>Greater than</value>
+  </data>
+  <data name="Less than" xml:space="preserve">
+    <value>Less than</value>
+  </data>
+  <data name="Contains" xml:space="preserve">
+    <value>Contains</value>
+  </data>
+  <data name="Start with" xml:space="preserve">
+    <value>Start with</value>
+  </data>
+  <data name="End with" xml:space="preserve">
+    <value>End with</value>
+  </data>
+  <data name="NotNull" xml:space="preserve">
+    <value>NotNull</value>
+  </data>
+  <data name="IsNull" xml:space="preserve">
+    <value>IsNull</value>
+  </data>
+  <data name="AND" xml:space="preserve">
+    <value>AND</value>
+  </data>
+  <data name="OR" xml:space="preserve">
+    <value>OR</value>
+  </data>
+  <data name="Then AND" xml:space="preserve">
+    <value>Then AND</value>
+  </data>
+  <data name="Then OR" xml:space="preserve">
+    <value>Then OR</value>
+  </data>
+  <data name="Invalid data rule name." xml:space="preserve">
+    <value>Invalid data rule name.</value>
+  </data>
+  <data name="This data rule name is being used by other datarules." xml:space="preserve">
+    <value>This data rule name is being used by other datarules.</value>
+  </data>
+  <data name="-Kooboo CMS" xml:space="preserve">
+    <value>-Kooboo CMS</value>
+  </data>
+  <data name="Save as draft" xml:space="preserve">
+    <value>Save as draft</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Add a view" xml:space="preserve">
+    <value>Add a view</value>
+  </data>
+  <data name="Add a module" xml:space="preserve">
+    <value>Add a module</value>
+  </data>
+  <data name="Add a data folder" xml:space="preserve">
+    <value>Add a data folder</value>
+  </data>
+  <data name="Add HTML" xml:space="preserve">
+    <value>Add HTML</value>
+  </data>
+  <data name="Add a HTML block" xml:space="preserve">
+    <value>Add a HTML block</value>
+  </data>
+  <data name="Add proxy" xml:space="preserve">
+    <value>Add proxy</value>
+  </data>
+  <data name="Are you sure you want to remove this item?" xml:space="preserve">
+    <value>Are you sure you want to remove this item?</value>
+  </data>
+  <data name="Edit view" xml:space="preserve">
+    <value>Edit view</value>
+  </data>
+  <data name="Edit HTML" xml:space="preserve">
+    <value>Edit HTML</value>
+  </data>
+  <data name="Edit module" xml:space="preserve">
+    <value>Edit module</value>
+  </data>
+  <data name="Edit data folder" xml:space="preserve">
+    <value>Edit data folder</value>
+  </data>
+  <data name="Edit HTML block" xml:space="preserve">
+    <value>Edit HTML block</value>
+  </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="Exclusive" xml:space="preserve">
+    <value>Exclusive</value>
+  </data>
+  <data name="If checked, links within this module will not contains URL parameters of other modules in the same page." xml:space="preserve">
+    <value>If checked, links within this module will not contains URL parameters of other modules in the same page.</value>
+  </data>
+  <data name="Entry Options" xml:space="preserve">
+    <value>Entry Options</value>
+  </data>
+  <data name="Entry Controller" xml:space="preserve">
+    <value>Entry Controller</value>
+  </data>
+  <data name="Initial MVC controller when this module first loaded on a page" xml:space="preserve">
+    <value>Initial MVC controller when this module first loaded on a page</value>
+  </data>
+  <data name="Entry Action" xml:space="preserve">
+    <value>Entry Action</value>
+  </data>
+  <data name="Initial MVC action when this module first loaded on a page" xml:space="preserve">
+    <value>Initial MVC action when this module first loaded on a page</value>
+  </data>
+  <data name="network error" xml:space="preserve">
+    <value>network error</value>
+  </data>
+  <data name="Please select a view" xml:space="preserve">
+    <value>Please select a view</value>
+  </data>
+  <data name="Please select a data folder" xml:space="preserve">
+    <value>Please select a data folder</value>
+  </data>
+  <data name="Please select a module" xml:space="preserve">
+    <value>Please select a module</value>
+  </data>
+  <data name="Please select a HTML block" xml:space="preserve">
+    <value>Please select a HTML block</value>
+  </data>
+  <data name="The item has been saved." xml:space="preserve">
+    <value>The item has been saved.</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="All Elements" xml:space="preserve">
+    <value>All Elements</value>
+  </data>
+  <data name="Only Documents" xml:space="preserve">
+    <value>Only Documents</value>
+  </data>
+  <data name="Only Folders" xml:space="preserve">
+    <value>Only Folders</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="Site" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Invalid folder name." xml:space="preserve">
+    <value>Invalid folder name.</value>
+  </data>
+  <data name="The name already exists." xml:space="preserve">
+    <value>The name already exists.</value>
+  </data>
+  <data name="New file" xml:space="preserve">
+    <value>New file</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="The Title field is required." xml:space="preserve">
+    <value>The Title field is required.</value>
+  </data>
+  <data name="Body" xml:space="preserve">
+    <value>Body</value>
+  </data>
+  <data name="CustomSettings" xml:space="preserve">
+    <value>CustomSettings</value>
+  </data>
 </root>

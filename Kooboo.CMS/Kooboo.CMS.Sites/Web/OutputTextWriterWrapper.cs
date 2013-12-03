@@ -49,4 +49,15 @@ namespace Kooboo.CMS.Sites.Web
             }
         }
     }
+
+    public static class RestoreToRawOutputTextWriterExtension
+    {
+        public static void RestoreRawOutput(this HttpResponseBase httpResponse)
+        {
+            if (httpResponse.Output is OutputTextWriterWrapper)
+            {
+                httpResponse.Output = ((OutputTextWriterWrapper)httpResponse.Output).GetRawOuputWriter();
+            }
+        }
+    }
 }

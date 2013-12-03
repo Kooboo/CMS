@@ -64,7 +64,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInitializer.cs" />
     <Compile Include="CustomContentEventSubscriber.cs" />
     <Compile Include="PagePluginSample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,9 +79,11 @@
     <Content Include="lib\Kooboo.CMS.Common.Runtime.Dependency.Ninject.dll" />
     <Content Include="lib\Kooboo.CMS.Content.dll" />
     <Content Include="lib\Kooboo.CMS.Form.dll" />
+    <Content Include="lib\Kooboo.CMS.Membership.dll" />
     <Content Include="lib\Kooboo.CMS.Search.dll" />
     <Content Include="lib\Kooboo.CMS.Sites.dll" />
     <Content Include="lib\Kooboo.CMS.Sites.TemplateEngines.Razor.dll" />
+    <Content Include="lib\Kooboo.CMS.Web.dll" />
     <Content Include="lib\Kooboo.dll" />
     <Content Include="lib\Lucene.Net.Contrib.Highlighter.dll" />
     <Content Include="lib\Lucene.Net.dll" />

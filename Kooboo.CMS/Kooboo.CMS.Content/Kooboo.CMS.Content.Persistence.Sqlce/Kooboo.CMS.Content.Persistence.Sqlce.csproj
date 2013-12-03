@@ -103,7 +103,7 @@
   <PropertyGroup>
     <PostBuildEvent>echo copy "$(TargetDir)\$(TargetFileName)" "..\..\..\..\Kooboo.CMS.Web\Bin\"
 echo copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\Kooboo.CMS.Web\Bin\"
-echo copy "..\..\..\..\..\Lib\SqlCE\*.dll" "..\..\..\..\Kooboo.CMS.Web\Bin\"</PostBuildEvent>
+echo copy "..\..\..\..\..\Lib\SQLCe\NativeBinaries\x86\*.dll" "..\..\..\..\Kooboo.CMS.Web\Bin\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

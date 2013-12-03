@@ -1,0 +1,21 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Modules.Publishing.Models.PublishingLog>
+@{
+    ViewBag.Title = "Outgoing queue logs".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+    @Html.Partial("_Search")
+</div>
+@Html.GridForModel2()

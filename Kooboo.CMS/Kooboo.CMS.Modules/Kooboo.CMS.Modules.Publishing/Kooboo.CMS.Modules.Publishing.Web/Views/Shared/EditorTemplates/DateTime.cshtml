@@ -1,0 +1,107 @@
+﻿@model DateTime?
+@{ 
+    Layout = ViewBag.Layout ?? "_TR.cshtml";
+    ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
+    var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString();
+
+
+    var editorHtmlAttributes = Html.GetUnobtrusiveValidationAttributes(propertyName, ViewData.ModelMetadata).Merge(ViewData.ModelMetadata.AdditionalValues, true);
+    var htmlAttributes = ViewBag.HtmlAttributes;
+    if (htmlAttributes != null)
+    {
+        if (htmlAttributes is IDictionary<string, object>)
+        {
+            editorHtmlAttributes.Merge((IDictionary<string, object>)htmlAttributes);
+        }
+        else
+        {
+            editorHtmlAttributes.Merge(new RouteValueDictionary(htmlAttributes));
+        }
+    }
+}
+
+@Html.TextBox(propertyName, Model.HasValue?Model.Value.ToLocalTime().ToString("yyyy/MM/dd HH:mm") : string.Empty, editorHtmlAttributes)
+@Html.ValidationMessage(ViewData.ModelMetadata, new { name = ViewData["name"] })
+<em class="tip" id="@ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName)_distance"></em>
+@if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+{
+    <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
+}
+<script>
+    $(function () {
+        var dayOfMillSeconds = 1000 * 60 * 60 * 24,
+            hoursOfMillSeconds = 1000 * 60 * 60,
+            minutesOfMillSeconds = 1000 * 60,
+            secondsOfMillSeconds = 1000;
+
+        var $distanceText = $("#@ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName)_distance");
+        var timePicker = $("#@ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName)").datetimepicker({
+            controlType: 'select',
+            dateFormat: 'yy/mm/dd',
+            timeFormat: 'HH:mm',
+            onClose: function () {
+                $(this).trigger("datetimepicker.blur");
+            }
+        }).on("datetimepicker.blur",function () {
+            var self = this,dateText=this.value;
+            if (this.timer) {
+                window.clearTimeout(this.timer);
+            }
+            var date = $(this).datetimepicker("getDate");
+            if (!date) {
+                try {
+                    date = new Date(dateText);
+                }
+                catch (e) { date = null; }
+            }
+            if (dateText&&date) {
+                self.timer = setTimeout(function () {
+                    var now = new Date();
+                    var displayText = "";
+                    if (date) {
+                        var millSeconds = date.getTime() - now.getTime();
+                        var distanceDay = 0, distanceHours = 0, distantceMinutes = 0, distanceSeconds = 0;
+                        if (millSeconds >= dayOfMillSeconds) {
+                            distanceDay = parseInt(millSeconds / dayOfMillSeconds);
+                            millSeconds = millSeconds - dayOfMillSeconds * distanceDay;
+                        }
+                        if (millSeconds >= hoursOfMillSeconds) {
+                            distanceHours = parseInt(millSeconds / hoursOfMillSeconds);
+                            millSeconds = millSeconds - hoursOfMillSeconds * distanceHours;
+                        }
+                        if (millSeconds >= minutesOfMillSeconds) {
+                            distantceMinutes = Math.floor(millSeconds / minutesOfMillSeconds);
+                            millSeconds = millSeconds - minutesOfMillSeconds * distantceMinutes;
+                        }
+                        if (millSeconds >= secondsOfMillSeconds) {
+                            distanceSeconds = Math.floor(millSeconds / secondsOfMillSeconds);
+                        }
+                        if (distanceDay > 0) {
+                            displayText += distanceDay + " @("days".Localize()) ";
+                        }
+                        if (distanceHours > 0) {
+                            displayText += distanceHours + " @("hours".Localize()) "
+                        }
+                        if (distantceMinutes > 0) {
+                            displayText += distantceMinutes + " @("minutes".Localize()) "
+                        }
+                        if (distanceSeconds > 0) {
+                            displayText += distanceSeconds + " @("seconds".Localize()) "
+                        }
+                        if (!displayText) {
+                            displayText = "@("Immediately".Localize())";
+                        }
+                        displayText = "@("From now".Localize()) : " + displayText;
+                        $distanceText.text(displayText);
+                    }
+                        self.timer = setTimeout(arguments.callee, 1 * 1000);
+                    }, 10);
+                } else {
+                    $distanceText.text("");
+                }
+        });
+        @if(Model.HasValue){
+            @:timePicker.datetimepicker("setDate", (new Date("@Model.Value.ToLocalTime().ToString("yyyy/MM/dd HH:mm")")))
+        }
+    });
+</script>

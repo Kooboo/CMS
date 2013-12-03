@@ -103,7 +103,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Validation
-        [CreateSiteAuthroziation]
+      
         public string CheckRepository(string name)
         {
             var repository = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager.Get(name);
@@ -121,7 +121,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 return (new { IsNew = true }).ToJSON();
             }
         }
-        [CreateSiteAuthroziation]
+       
         public JsonResult IsRepositoryAvaliable(string repository, bool? createNew)
         {
             if (createNew.HasValue && createNew.Value == false)
@@ -145,7 +145,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-        [CreateSiteAuthroziation]
+        
         public virtual ActionResult IsSiteNameAvailable(string name, string parent)
         {
             Site parentSite = null;

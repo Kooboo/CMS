@@ -109,4 +109,10 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="Lastest news" xml:space="preserve">
+    <value>Lastest news</value>
+  </data>
+  <data name="Lastest news from module" xml:space="preserve">
+    <value>Lastest news from module</value>
+  </data>
 </root>

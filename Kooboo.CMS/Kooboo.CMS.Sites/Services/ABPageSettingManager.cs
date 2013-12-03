@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Sites.Services
         #region All
         public override IEnumerable<ABPageSetting> All(Site site, string filterName)
         {
-            var list = _provider.All(site).Select(it => it.AsActual());
+            var list = _provider.All(site).Select(it => it.AsActual()).Where(it => it != null);
             if (!string.IsNullOrEmpty(filterName))
             {
                 list = list.Where(it => it.MainPage.Contains(filterName));
@@ -87,15 +87,15 @@ namespace Kooboo.CMS.Sites.Services
             var matchedPage = page;
             var ruleName = page.FullName;
 
-            string abpageRuleInCookie = null;
-            string abPageInCookie = null;
+            //string abpageRuleInCookie = null;
+            //string abPageInCookie = null;
 
-            ABPageTestTrackingHelper.TryGetABTestPage(httpContext.Request, site, out abpageRuleInCookie, out abPageInCookie);
-            var matchedRuleInCookie = false;
-            if (!string.IsNullOrEmpty(abpageRuleInCookie))
-            {
-                matchedRuleInCookie = abpageRuleInCookie.EqualsOrNullEmpty(ruleName, StringComparison.OrdinalIgnoreCase);
-            }
+            //ABPageTestTrackingHelper.TryGetABTestPage(httpContext.Request, site, out abpageRuleInCookie, out abPageInCookie);
+            //var matchedRuleInCookie = false;
+            //if (!string.IsNullOrEmpty(abpageRuleInCookie))
+            //{
+            //    matchedRuleInCookie = abpageRuleInCookie.EqualsOrNullEmpty(ruleName, StringComparison.OrdinalIgnoreCase);
+            //}
 
             var visitRule = Get(site, ruleName);
             if (visitRule != null)
@@ -107,27 +107,29 @@ namespace Kooboo.CMS.Sites.Services
                     foreach (var item in visitRule.Items)
                     {
                         var isMatched = false;
-                        if (matchedRuleInCookie && abPageInCookie.EqualsOrNullEmpty(item.PageName, StringComparison.OrdinalIgnoreCase))
+                        //if (matchedRuleInCookie && abPageInCookie.EqualsOrNullEmpty(item.PageName, StringComparison.OrdinalIgnoreCase))
+                        //{
+                        //    isMatched = true;
+                        //}
+                        //else
+                        //{
+                        var ruleItem = ruleSetting.RuleItems.Where(it => it.Name.EqualsOrNullEmpty(item.RuleItemName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                        if (ruleItem != null)
                         {
-                            isMatched = true;
-                        }
-                        else
-                        {
-                            var ruleItem = ruleSetting.RuleItems.Where(it => it.Name.EqualsOrNullEmpty(item.RuleItemName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                             isMatched = (ruleItem.IsMatch(httpContext.Request));
-                        }
+                            //}
 
-                        if (isMatched && !string.IsNullOrEmpty(item.PageName))
-                        {
-                            var rulePage = new Page(site, item.PageName).LastVersion().AsActual();
-                            if (rulePage != null)
+                            if (isMatched && !string.IsNullOrEmpty(item.PageName))
                             {
-                                matchedPage = rulePage;
-                                matchedRuleItem = item;
-                                break;
+                                var rulePage = new Page(site, item.PageName).LastVersion().AsActual();
+                                if (rulePage != null)
+                                {
+                                    matchedPage = rulePage;
+                                    matchedRuleItem = item;
+                                    break;
+                                }
                             }
                         }
-
                     }
 
                     OnRuleMatch(new PageMatchedContext() { HttpContext = httpContext, Site = site, RawPage = page, MatchedPage = matchedPage, ABPageSetting = visitRule, MatchedRuleItem = matchedRuleItem });

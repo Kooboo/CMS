@@ -1,0 +1,1 @@
+﻿.WhereCategory(ContentHelper.TextFolder("CategoryFolder").CreateQuery().WhereEquals("UUID",""))

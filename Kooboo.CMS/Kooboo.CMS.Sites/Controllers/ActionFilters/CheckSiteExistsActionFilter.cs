@@ -32,6 +32,7 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
 
         protected virtual void OnSiteNotExists(ActionExecutingContext filterContext)
         {
+            
             throw new HttpException(0x194, string.Format(SR.GetString("Path_not_found"), new object[] { filterContext.HttpContext.Request.Path }));
         }
     }

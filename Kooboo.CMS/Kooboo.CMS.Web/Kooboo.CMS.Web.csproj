@@ -25,6 +25,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -181,6 +182,7 @@
     <Compile Include="Areas\Contents\Models\Schema_Metadata.cs" />
     <Compile Include="Areas\Contents\Models\SelectableViewModel.cs" />
     <Compile Include="Areas\Contents\Models\SendingSetting_Metadata.cs" />
+    <Compile Include="Areas\Contents\Models\TextContentImportModel.cs" />
     <Compile Include="Areas\Contents\Models\TextContentDiffModel.cs" />
     <Compile Include="Areas\Contents\Models\TextContentGrid.cs" />
     <Compile Include="Areas\Contents\Models\TextFolder_Metadata.cs" />
@@ -219,6 +221,7 @@
     <Compile Include="Areas\Sites\Models\DataSources\SubmissionPluginsDataSource.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_HitTimes_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_ShowTimes_GridItemColumn.cs" />
+    <Compile Include="Areas\Sites\Models\Grid2\Inheritable_Status_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Page_Navigation_ShowInMenu_SortableGridColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Page_Navigation_ShowInMenu_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\HitReport_GridItemColumn.cs" />
@@ -252,7 +255,7 @@
     <Compile Include="KoobooCMSHttpApplicationEvents.cs" />
     <Compile Include="Models\AllPropertiesResolver.cs" />
     <Compile Include="Models\ImportModel.cs" />
-    <Compile Include="Models\RelationModel.cs" />
+    <Compile Include="Models\RelationModel_Metadata.cs" />
     <Compile Include="ReferrerCheckingModule.cs" />
     <Compile Include="SortByExtension.cs" />
     <Content Include="Areas\Account\Menu.config">
@@ -261,6 +264,10 @@
     <Content Include="Areas\Account\WebResources.config" />
     <Content Include="Areas\Contents\Menu.config">
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Contents\Views\TextContent\SelectCategories.cshtml" />
+    <Content Include="Areas\Contents\Views\TextContent\ShowOriginalVersions.cshtml">
+      <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Contents\WebResources.config">
       <SubType>Designer</SubType>
@@ -739,6 +746,8 @@
     <Content Include="Scripts\codemirror\theme\xq-dark.css" />
     <Content Include="Scripts\codemirror\theme\xq-light.css" />
     <Content Include="Scripts\d3.v3.min.js" />
+    <Content Include="Scripts\jquery-ui-timepicker-addon\jquery-ui-sliderAccess.js" />
+    <Content Include="Scripts\jquery-ui-timepicker-addon\jquery-ui-timepicker-addon.js" />
     <Content Include="Scripts\jquery.autosize.js" />
     <Content Include="Scripts\jquery.fileDownload.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
@@ -841,6 +850,7 @@
     <Content Include="Styles\images\icon-insert-page.png" />
     <Content Include="Styles\images\media-library.png" />
     <Content Include="Styles\InlineEditing.css" />
+    <Content Include="Styles\jquery-ui-timepicker-addon.css" />
     <Content Include="Styles\jquery-ui.css" />
     <Content Include="Styles\jQuery.jCrop\Jcrop.gif" />
     <Content Include="Styles\jQuery.jCrop\jquery.Jcrop.css" />
@@ -1841,7 +1851,6 @@
     <Content Include="Areas\Contents\Views\TextContent\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\Index.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\_AdvancedSearch.cshtml" />
-    <Content Include="Areas\Contents\Views\TextContent\SelectCategories.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\SubContent.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\Versions.cshtml" />
     <Content Include="Areas\Contents\Views\TextFolder\EditorTemplates\Categories.cshtml" />
@@ -2406,6 +2415,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ABRuleSetting\Finished.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Contents\Views\TextContent\Import.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Contents\Views\Shared\_TextContentGridBreadcrumb.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Home\UnsyncedPageNode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\EditorTemplates\Spinner.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Shared\_ChooseDataRuleType.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

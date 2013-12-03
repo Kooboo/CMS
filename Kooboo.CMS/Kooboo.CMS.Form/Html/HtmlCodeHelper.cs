@@ -101,7 +101,7 @@ namespace Kooboo.CMS.Form.Html
             {
                 return new HtmlString(item.Trim());
             }
-           
+
         }
     }
 }

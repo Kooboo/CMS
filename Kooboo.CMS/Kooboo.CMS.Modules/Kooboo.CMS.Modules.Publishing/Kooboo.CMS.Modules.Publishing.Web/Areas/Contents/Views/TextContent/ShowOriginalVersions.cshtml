@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Kooboo.CMS.Content.Versioning.VersionInfo>
+@{
+    ViewBag.Title = "Show original text content changed";
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+
+        <li><a href="@Url.Action("ShowOriginalDiff", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Two" data-command-type="Redirect">
+            @Html.IconImage("preview") @("Compare".Localize())</a></li>
+
+        <li>
+            <li class="j_DropDown">
+                <a>
+                    @Html.IconImage("cancel")
+                    @Html.IconImage("arrow small white-down")
+                    @("Back".Localize())
+                </a>
+                <ul class="j_DropDownContent hide">
+                    <li><a href="@ViewContext.RequestContext.GetRequestValue("return")">@("Back".Localize())</a></li>
+                    <li><a data-ajax="post"  href="@Url.Action("UpdateToRead", ViewContext.RequestContext.AllRouteValues())">@("Update to read".Localize())</a></li>
+                </ul>
+            </li>
+
+        </li>
+    </ul>
+}
+
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+</div>
+@Html.GridForModel2()

@@ -27,7 +27,7 @@ namespace Kooboo.CMS.Web.Grid2
         public override IHtmlString RenderItemColumn(ViewContext viewContext)
         {
             var tip = "-".Localize();
-            if (((bool)PropertyValue))
+            if (PropertyValue != null && ((bool)PropertyValue))
             {
                 tip = "YES".Localize();
             }

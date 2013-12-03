@@ -16,6 +16,7 @@ using Kooboo.CMS.Sites.Models;
 using System.Net.Sockets;
 using Kooboo.Extensions;
 using Kooboo.Globalization;
+using Kooboo.CMS.Common;
 namespace Kooboo.CMS.Sites.Services
 {
     public class DiagnosisResult
@@ -62,7 +63,8 @@ namespace Kooboo.CMS.Sites.Services
             DiagnosisItem item = new DiagnosisItem() { Name = "Cms_Data folder read/write permission".Localize() };
             try
             {
-                string cms_dataFolder = Path.Combine(Kooboo.Settings.BaseDirectory, PathEx.BasePath);
+                var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+                string cms_dataFolder = baseDir.Cms_DataPhysicalPath;
                 var tempFileName = Path.Combine(cms_dataFolder, "test.txt");
                 File.WriteAllText(tempFileName, "Test if Kooboo cms has read/write permission on this folder.".Localize());
                 File.Delete(tempFileName);

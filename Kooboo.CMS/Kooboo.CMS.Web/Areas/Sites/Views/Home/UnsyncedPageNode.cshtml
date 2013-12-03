@@ -1,0 +1,19 @@
+﻿@model Kooboo.CMS.Sites.Models.Page
+@{
+    var routeValues = ViewContext.RequestContext.AllRouteValues()
+.Merge("controller", "Page")
+.Merge("UUID", Model.FullName)
+.Merge("return", Request.RawUrl);
+}
+@if (Model != null)
+{
+    <div class="map-item unsynced">
+        <a title="@((Model.Navigation == null || string.IsNullOrEmpty(Model.Navigation.DisplayText)) ? Model.Name : Model.Navigation.DisplayText)">
+            @((Model.Navigation == null || string.IsNullOrEmpty(Model.Navigation.DisplayText)) ? Model.Name : Model.Navigation.DisplayText)</a>
+        <span class="arrow">@Html.IconImage("arrow-right")</span>
+        <ul>
+            <li><a href="@this.Url.Action("Localize1", "Page", routeValues)"  data-confirm="@("Are you sure you want to sync this item?".Localize())" data-ajax="POST">
+                @("Localize".Localize())</a></li>
+        </ul>
+    </div>
+} 

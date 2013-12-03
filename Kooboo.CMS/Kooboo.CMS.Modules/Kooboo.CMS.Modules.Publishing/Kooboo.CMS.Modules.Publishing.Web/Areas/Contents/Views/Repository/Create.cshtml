@@ -1,0 +1,39 @@
+﻿@model Kooboo.CMS.Content.Models.Repository
+@{
+    ViewBag.Title = "Create content database".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+
+
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    @using (Html.BeginForm())
+    { 
+        @Html.ValidationSummary(true)        
+        <table>
+            <tbody>
+                @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.DisplayName, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.UserKeyReplacePattern, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.UserKeyHyphens, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.EnableVersioning)
+                @Html.EditorFor(m => m.EnableWorkflow)
+                @Html.EditorFor(m => m.EnableBroadcasting)
+                @Html.EditorFor(m => m.StrictContentPermission)
+                @Html.EditorFor(m => m.ShowHiddenFolders)
+            </tbody>
+        </table>
+    }
+</div>

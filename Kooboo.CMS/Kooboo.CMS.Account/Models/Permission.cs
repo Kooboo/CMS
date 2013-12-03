@@ -94,7 +94,7 @@ namespace Kooboo.CMS.Account.Models
         public static Permission Sites_Templates_ViewPermission = new Permission() { AreaName = "Sites", Group = "Development", Name = "View" };
         public static Permission Sites_Templates_LabelPermission = new Permission() { AreaName = "Sites", Group = "Development", Name = "Label" };
         public static Permission Sites_Templates_FilePermission = new Permission() { AreaName = "Sites", Group = "Development", Name = "File", DisplayName = "Scripts/Themes/Custom files" };
-        public static Permission Sites_Development_ActionMappingPermission = new Permission() { AreaName = "Sites", Group = "Development", Name = "Action mapping", DisplayName = "Action mapping" };
+        public static Permission Sites_Templates_PageMappingPermission = new Permission() { AreaName = "Sites", Group = "Development", Name = "PageMapping", DisplayName = "Page mapping" };
         public static Permission Sites_Development_SubmissionPermission = new Permission() { AreaName = "Sites", Group = "Development", Name = "Submission setting" };
 
         public static Permission Sites_Extensions_PluginPermission = new Permission() { AreaName = "Sites", Group = "Extensions", Name = "Plugin" };

@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Content.Models.Paths
 
             return Path.Combine(repositoryPath.PhysicalPath, GetRootPath(typeof(T)));
         }
-        private static string GetRootPath(Type folderType)
+        public static string GetRootPath(Type folderType)
         {
             if (folderType == typeof(TextFolder))
             {

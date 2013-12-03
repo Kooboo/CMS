@@ -1,0 +1,358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D906BE0F-6E5D-4AE2-B259-DF72E5382157}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kooboo.CMS.Modules.Publishing.Web</RootNamespace>
+    <AssemblyName>Kooboo.CMS.Modules.Publishing.Web</AssemblyName>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkProfile />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PublishDatabases>false</PublishDatabases>
+    <PackageAsSingleFile>true</PackageAsSingleFile>
+    <DeployIisAppPath />
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Kooboo, Version=4.0.4622.21286, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Kooboo.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Account, Version=4.2.0.812, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Kooboo_CMS\Kooboo.CMS.Account.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Kooboo.CMS.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Content, Version=4.0.0.827, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Kooboo.CMS.Content.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Form, Version=4.0.0.827, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Kooboo.CMS.Form.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Search, Version=4.1.0.514, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Kooboo.CMS.Search.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Sites, Version=4.0.0.827, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Kooboo.CMS.Sites.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.CMS.Web, Version=4.2.0.812, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Kooboo_CMS\Kooboo.CMS.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Publishing\Menu.config" />
+    <Content Include="Areas\Publishing\module.config" />
+    <Content Include="Areas\Publishing\routes.config" />
+    <Content Include="Areas\Publishing\Sites.config" />
+    <Content Include="Areas\Publishing\Views\IncomingQueue\Index.cshtml" />
+    <Content Include="Areas\Publishing\Views\LocalPublishingQueue\Detail.cshtml" />
+    <Content Include="Areas\Publishing\Views\LocalPublishingQueue\Index.cshtml" />
+    <Content Include="Areas\Publishing\Views\LocalPublishingQueue\PublishPage.cshtml" />
+    <Content Include="Areas\Publishing\Views\LocalPublishingQueue\PublishTextContent.cshtml" />
+    <Content Include="Areas\Publishing\Views\LocalPublishingQueue\SelectTextContent.cshtml" />
+    <Content Include="Areas\Publishing\Views\LocalPublishingQueue\_AdvancedSearch.cshtml" />
+    <Content Include="Areas\Publishing\Views\LocalPublishingQueue\_Grid.Scripts.cshtml" />
+    <Content Include="Areas\Publishing\Views\OutgoingQueue\Edit.cshtml" />
+    <Content Include="Areas\Publishing\Views\OutgoingQueue\Index.cshtml" />
+    <Content Include="Areas\Publishing\Views\OutgoingQueue\Logs.cshtml" />
+    <Content Include="Areas\Publishing\Views\OutgoingQueue\_AdvancedSearch.cshtml" />
+    <Content Include="Areas\Publishing\Views\PublishingLog\Index.cshtml" />
+    <Content Include="Areas\Publishing\Views\PublishingLog\_AdvancedSearch.cshtml" />
+    <Content Include="Areas\Publishing\Views\PublishingQueue\Create.cshtml" />
+    <Content Include="Areas\Publishing\Views\PublishingQueue\Detail.cshtml" />
+    <Content Include="Areas\Publishing\Views\PublishingQueue\Index.cshtml" />
+    <Content Include="Areas\Publishing\Views\PublishingQueue\_AdvancedSearch.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemoteEndpointSetting\Create.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemoteEndpointSetting\Edit.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemoteEndpointSetting\Index.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemotePublishingQueue\Detail.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemotePublishingQueue\Index.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemotePublishingQueue\PublishPage.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemotePublishingQueue\PublishTextContent.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemotePublishingQueue\SelectTextContent.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemotePublishingQueue\_AdvancedSearch.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemotePublishingQueue\_Grid.Scripts.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemoteTextFolderMapping\Create.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemoteTextFolderMapping\Edit.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemoteTextFolderMapping\Index.cshtml" />
+    <Content Include="Areas\Publishing\Views\Web.config" />
+    <Content Include="Areas\Publishing\WebResources.config" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Areas\Publishing\Controllers\IncomingQueueController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Controllers\LocalPublishingQueueController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Controllers\OutgoingQueueController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Controllers\PublishingLogController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Controllers\PublishingQueueController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Controllers\RemoteEndpointSettingController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Controllers\RemotePublishingQueueController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Controllers\RemoteTextFolderMappingController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\LocalPagePublishingModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\CreateTextContentPublishingQueueViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\DataSources\PublishingObjectDataSource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\DataSources\PublishingTypeDataSource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\DataSources\QueueStatusDataSource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\DataSources\QueueTypeDataSource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\DataSources\RemoteEndpointSettingDataSource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\DataSources\RemotePublishingMappingDataSource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\DataSources\TextFoldersDataSource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\DeleteModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\Grid2\DetailGridItemColumn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\Grid2\OutgoingLogLinkGridItemColumn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\Grid2\ShortDateTimeGridItemColumnType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\Grid2\TooltipGridItemColumn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\IncomeQueue_Metadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\LocalPublishingQueue_Metadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\OutgoingQueue_Metadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\PublishingLog_Metadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\PublishingQueue_Metadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\RemoteEndpointSetting_Metadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\RemotePagePublishingModel.cs" />
+    <Compile Include="Areas\Publishing\Models\RemotePublishingQueue_Metadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\Models\RemoteTextFolderMapping_Metadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\ModuleAction.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\PublishingAreaRegistration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Publishing\QueryableExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\Publishing\Scripts\" />
+    <Folder Include="Areas\Publishing\Views\RemoteEndpointSetting\EditorTemplates\" />
+    <Folder Include="Areas\Publishing\Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\Mono.Math.dll" />
+    <Content Include="lib\Org.Mentalis.Security.Cryptography.dll" />
+    <Content Include="Menu.config" />
+    <Content Include="lib\CookComputing.XmlRpcV2.dll" />
+    <Content Include="lib\DiffPlex.dll" />
+    <Content Include="lib\DotNetOpenAuth.AspNet.dll" />
+    <Content Include="lib\DotNetOpenAuth.Core.dll" />
+    <Content Include="lib\DotNetOpenAuth.OAuth.Consumer.dll" />
+    <Content Include="lib\DotNetOpenAuth.OAuth.dll" />
+    <Content Include="lib\DotNetOpenAuth.OpenId.dll" />
+    <Content Include="lib\DotNetOpenAuth.OpenId.RelyingParty.dll" />
+    <Content Include="lib\HtmlAgilityPack.dll" />
+    <Content Include="lib\Ionic.Zip.Reduced.dll" />
+    <Content Include="lib\Kooboo.CMS.Account.dll" />
+    <Content Include="lib\Kooboo.CMS.Caching.dll" />
+    <Content Include="lib\Kooboo.CMS.Common.dll" />
+    <Content Include="lib\Kooboo.CMS.Common.Runtime.Dependency.Ninject.dll" />
+    <Content Include="lib\Kooboo.CMS.Content.dll" />
+    <Content Include="lib\Kooboo.CMS.Form.dll" />
+    <Content Include="lib\Kooboo.CMS.Membership.dll" />
+    <Content Include="lib\Kooboo.CMS.Search.dll" />
+    <Content Include="lib\Kooboo.CMS.Sites.dll" />
+    <Content Include="lib\Kooboo.CMS.Sites.TemplateEngines.Razor.dll" />
+    <Content Include="lib\Kooboo.CMS.Web.dll" />
+    <Content Include="lib\Kooboo.dll" />
+    <Content Include="lib\Lucene.Net.Contrib.Highlighter.dll" />
+    <Content Include="lib\Lucene.Net.dll" />
+    <Content Include="lib\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="lib\Newtonsoft.Json.dll" />
+    <Content Include="lib\Ninject.dll" />
+    <Content Include="lib\NuGet.Core.dll" />
+    <Content Include="lib\System.Net.Http.dll" />
+    <Content Include="lib\System.Web.Helpers.dll" />
+    <Content Include="lib\System.Web.Mvc.dll" />
+    <Content Include="lib\System.Web.Razor.dll" />
+    <Content Include="lib\System.Web.WebPages.Administration.dll" />
+    <Content Include="lib\System.Web.WebPages.Deployment.dll" />
+    <Content Include="lib\System.Web.WebPages.dll" />
+    <Content Include="lib\System.Web.WebPages.Razor.dll" />
+    <Content Include="LICENSE.txt" />
+    <Content Include="routes.config" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <Content Include="WebResources.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Kooboo.CMS.Modules.CMIS\Kooboo.CMS.Modules.CMIS.csproj">
+      <Project>{29b36d82-20e0-473c-9d90-edd5981587ec}</Project>
+      <Name>Kooboo.CMS.Modules.CMIS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.csproj">
+      <Project>{59201ee6-dd93-47ca-ba8c-2c4aca457978}</Project>
+      <Name>Kooboo.CMS.Modules.Publishing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target> -->
+  <Target Name="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349C5851-65DF-11DA-9384-00065B846F21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>31706</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:43482/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+    <MonoDevelop>
+      <Properties VerifyCodeBehindFields="true" VerifyCodeBehindEvents="true">
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="true" />
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)lib\*.*" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -20,6 +20,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
     /// </summary>
     public class ModuleControllerBase : Controller
     {
+        #region .ctor
         static ModuleControllerBase()
         {
 
@@ -28,7 +29,9 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         {
 
         }
+        #endregion
 
+        #region ModuleContext
         public ModuleContext ModuleContext
         {
             get
@@ -36,31 +39,37 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                 return ((ModuleRequestContext)(ControllerContext.RequestContext)).ModuleContext;
             }
         }
-        private bool enableTheming = true;
-        public virtual bool EnableTheming
+        #endregion
+
+        #region EnableTheme
+        public virtual bool EnableTheme
         {
             get
             {
-                return enableTheming;
+                return ModuleContext.EnableTheme;
             }
             set
             {
-                this.enableTheming = value;
+                ModuleContext.EnableTheme = value;
             }
         }
-        private bool enableScript = true;
+        #endregion
+
+        #region EnableScript
         public virtual bool EnableScript
         {
             get
             {
-                return enableScript;
+                return ModuleContext.EnableScript;
             }
             set
             {
-                enableScript = value;
+                ModuleContext.EnableScript = value;
             }
         }
+        #endregion
 
+        #region PageControllerContext
         public ControllerContext PageControllerContext
         {
             get
@@ -68,7 +77,9 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                 return ((ModuleRequestContext)(ControllerContext.RequestContext)).PageControllerContext;
             }
         }
+        #endregion
 
+        #region Json
         protected override JsonResult Json(object data, string contentType, System.Text.Encoding contentEncoding, JsonRequestBehavior behavior)
         {
             if (string.IsNullOrEmpty(contentType))
@@ -80,5 +91,6 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
             }
             return base.Json(data, contentType, contentEncoding, behavior);
         }
+        #endregion
     }
 }

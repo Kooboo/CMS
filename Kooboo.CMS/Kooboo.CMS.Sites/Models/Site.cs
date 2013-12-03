@@ -234,7 +234,8 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                return Path.Combine(Settings.BaseDirectory, PathEx.BasePath, PATH_NAME);
+                var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+                return Path.Combine(baseDir.Cms_DataPhysicalPath, PATH_NAME);
             }
         }
         public static readonly string PATH_NAME = "Sites";

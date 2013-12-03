@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.IO;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Versioning
 {
@@ -20,9 +21,10 @@ namespace Kooboo.CMS.Sites.Versioning
         private static string VersionPathName = "Versions";
         public VersionBasePath(DirectoryResource dir)
         {
-            var basePath = Path.Combine(Kooboo.Settings.BaseDirectory, PathEx.BasePath);
+            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+            var basePath = baseDir.Cms_DataPhysicalPath;
             var versionPath = Path.Combine(basePath, VersionPathName);
-            this.PhysicalPath = dir.PhysicalPath.Replace(basePath, versionPath);            
+            this.PhysicalPath = dir.PhysicalPath.Replace(basePath, versionPath);
         }
         public string PhysicalPath { get; set; }
         public bool Exists()

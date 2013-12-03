@@ -10,7 +10,9 @@
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
                 @Html.IconImage("cancel") @("Back".Localize())</a>
         </li>
-        <li><a href="@Url.Action("PreviewVersion", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">@("Preview".Localize())</a></li>
+        <li><a href="@Url.Action("PreviewVersion", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
+             @Html.IconImage("preview")
+            @("Preview".Localize())</a></li>
     </ul>
 }
 <div class="topbar clearfix">

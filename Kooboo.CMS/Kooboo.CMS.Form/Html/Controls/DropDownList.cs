@@ -32,7 +32,7 @@ namespace Kooboo.CMS.Form.Html.Controls
             StringBuilder sb = new StringBuilder(string.Format(@"@{{ var dropDownDefault_{0} =  @""{1}"";}}
                 <select name=""{0}"" class=""long"">", column.Name, column.DefaultValue.EscapeQuote()));
 
-            if (!string.IsNullOrEmpty(column.SelectionFolder))
+            if (column.SelectionSource == SelectionSource.TextFolder)
             {
                 string emptyOption = "";
                 if (column.AllowNull)

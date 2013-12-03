@@ -443,6 +443,9 @@
                     checkInput.attr('checked', true);
                     checkInput.trigger('change');
                 }
+            }            
+            if (this.outerValue.SkipError == 'true') {                
+                $('#skipError').attr('checked',true);
             }
             // OutputCache
             var dur, policy, outputCache = $.parseJSON(this.outerValue.OutputCache);
@@ -485,9 +488,41 @@
             var self = this;
             // init tinymce
             this.textarea = $('#Textarea1');
+            var mediaLibraryUrl = this.textarea.attr('media_library_url');
+
+            var chooseFileFromMediaLibrary = function (inputId, value, fileType, window) {
+
+                // execute popup
+                var topJQ = top._jQuery || top.jQuery;
+                var id = new Date().getTime();
+                topJQ.pop({
+                    id: id,
+                    url: mediaLibraryUrl,
+                    width: 900,
+                    height: 500,
+                    dialogClass: 'iframe-dialog',
+                    frameHeight: '100%',
+                    beforeLoad: function () {
+                    },
+                    onload: function (handle, pop, config) {
+                        top.onFileSelected = function (src, text, option) {
+                            var $srcInput = $('#' + inputId);
+                            $srcInput.val(src);
+                            var $descriptionInput = $srcInput.parent().parent().parent().next().find('input');
+                            $descriptionInput.val(text);
+                        };
+                        top.fileSelectPop = pop;
+                    },
+                    onclose: function (handle, pop, config) {
+
+                    }
+                });
+                tinymce.ztopKoobooDialog(id);
+            }
             tinyMCE.init($.extend({}, tinyMCE.getKoobooConfig({ autoresize: false }), {
                 elements: this.textarea.attr('id'),
-                media_library_url: this.textarea.attr('media_library_url'),
+                file_browser_callback: chooseFileFromMediaLibrary,
+                media_library_url: mediaLibraryUrl,
                 media_library_title: this.textarea.attr('media_library_title'),
                 editor_selector: "richeditor",
                 relative_urls: undefined,
@@ -655,8 +690,16 @@
         EntryActionInput: null,
         EntryControllerInput: null,
         EntryOptionsSelect: null,
+        setSelectedOptionByText: function (select, entryName) {
+            select.find('option').each(function () {
+                if ($(this).text() == entryName) {
+                    $(this).attr("selected", "selected");
+                }
+            });
+        },
         initialize: function () {
             ProcessModule.superclass.initialize.call(this);
+            this.LinkToEntryNameInput = $('input[id="LinkToEntryName"]');
             this.EntryActionInput = $('input[id="EntryAction"]');
             this.EntryControllerInput = $('input[id="EntryController"]');
             this.ValuesTemplate = $('#DefaultValuesTemplate');
@@ -675,25 +718,34 @@
                 }
                 // set module default settings
                 var module = $(this).val();
+                self.LinkToEntryNameInput.val($('input[id="' + module + 'LinkToEntryName"]').val());
                 self.EntryActionInput.val($('input[id="' + module + 'EntryAction"]').val());
                 self.EntryControllerInput.val($('input[id="' + module + 'EntryController"]').val());
-                if (self.ValuesTemplate.data('KO_ViewModel')) {
-                    self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON($('input[id="' + module + 'Values"]').val()));
-                }
+                var entryName = $('input[id="' + module + 'EntryName"]').val();
+
 
                 var optionsHtml = [], options = $.parseJSON($('input[id="' + module + 'EntryOptions"]').val());
                 if (options && options.length) {
                     optionsHtml.push('<option></option>');
                     $.each(options, function (index, op) {
-                        optionsHtml.push("<option action='" + op.EntryAction + "' controller='" + op.EntryController + "' values='" + ko.toJSON(op.Values) + "'>" + op.Name + '</option>');
+                        optionsHtml.push("<option action='" + op.EntryAction + "' controller='" + op.EntryController + "' values='" + ko.toJSON(op.Values) + "' linkToEntryName='" + op.LinkToEntryName + "'>" + op.Name + '</option>');
                     });
                 }
-                self.EntryOptionsSelect.html(optionsHtml.join(''));
+                self.EntryOptionsSelect.append(optionsHtml.join(''));
+
+                if (self.ValuesTemplate.data('KO_ViewModel')) {
+                    self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON($('input[id="' + module + 'Values"]').val()));
+                }
+
+                if (entryName) {
+                    self.setSelectedOptionByText(self.EntryOptionsSelect, entryName);
+                }
             });
             this.EntryOptionsSelect.change(function () {
                 var op = $(this).children().eq(this.selectedIndex);
                 var action = op.attr('action'), controller = op.attr('controller');
                 var values = op.attr('values');
+                self.LinkToEntryNameInput.val(op.attr('linkToEntryName'));
                 self.EntryActionInput.val(action); self.EntryControllerInput.val(controller);
                 self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON(values));
             });
@@ -702,26 +754,41 @@
         restoreValue: function () {
             ProcessModule.superclass.restoreValue.call(this);
             var self = this;
+
             // 
-            var moduleName = this.outerValue.ModuleName;
+            var moduleName = self.outerValue.ModuleName;
             if (moduleName) { $('input[name="ModuleName"][value="' + moduleName + '"]').attr('checked', true).trigger('change'); }
-            //
-            var exclusive = this.outerValue.Exclusive;
-            if (exclusive == 'true') { $('input[name="Exclusive"]').attr('checked', true); }
-            //
-            var action = this.outerValue.EntryAction;
-            if (action) { this.EntryActionInput.val(action); }
-            //
-            var controller = this.outerValue.EntryController;
-            if (controller) { this.EntryControllerInput.val(controller); }
 
-            var values = this.outerValue.Values;
-
-            if (values) {
-                setTimeout(function () {
-                    self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON(values));
-                }, 200);
+            if (this.outerValue.SkipError == 'true') {
+                $('#skipError').attr('checked', true);
             }
+            setTimeout(function () {
+                var entryName = self.outerValue.EntryName;
+                if (entryName) {
+                    self.setSelectedOptionByText(self.EntryOptionsSelect, entryName);
+                }
+
+                var linkToEntryName = self.outerValue.LinkToEntryName;
+                if (linkToEntryName) {
+                    self.LinkToEntryNameInput.val(linkToEntryName);
+                }
+
+                //
+                var exclusive = self.outerValue.Exclusive;
+                if (exclusive == 'true') { $('input[name="Exclusive"]').attr('checked', true); }
+                //
+                var action = self.outerValue.EntryAction;
+                if (action) { self.EntryActionInput.val(action); }
+                //
+                var controller = self.outerValue.EntryController;
+                if (controller) { self.EntryControllerInput.val(controller); }
+
+                var values = self.outerValue.Values;
+
+                if (values) {
+                    self.ValuesTemplate.data('KO_ViewModel').renew($.parseJSON(values));
+                }
+            }, 200);
         },
 
         validateForm: function (context) {

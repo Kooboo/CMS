@@ -1,0 +1,3 @@
+﻿@model Kooboo.CMS.Sites.Models.View
+@Html.Raw(Html.TextAreaFor(o=>o.Body, new { rows = 20 ,cols=20 }))
+@Html.Raw(Html.Partial("TaskPanel", Model))

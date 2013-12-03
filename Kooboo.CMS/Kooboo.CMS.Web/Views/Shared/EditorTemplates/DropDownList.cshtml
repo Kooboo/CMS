@@ -22,7 +22,7 @@
     var items = ViewData.ModelMetadata.GetDataSource().GetSelectListItems(ViewContext.RequestContext, "").SetActiveItem(Model).ToArray();
 }
 
-<select name="@propertyName" id="@id" @Html.GenerateHtmlAttributes(editorHtmlAttributes)>
+<select name="@ViewData.TemplateInfo.GetFullHtmlFieldName(propertyName)" id="@id" @Html.GenerateHtmlAttributes(editorHtmlAttributes)>
     @foreach (var item in items)
     {
         IDictionary<string, object> htmlAttribute = null;

@@ -8,4 +8,4 @@ md Remote
 copy "..\..\Kooboo.CMS.Caching.NotifyRemote\bin\Release\Kooboo.CMS.Caching.NotifyRemote.dll" "Remote\Kooboo.CMS.Caching.NotifyRemote.dll"
 
 
-..\7z a ..\Released\Caching_Sync.zip Azure\*.* Remote\*.*
+..\7z\7z a ..\Released\Caching_Sync.zip Azure\*.* Remote\*.*

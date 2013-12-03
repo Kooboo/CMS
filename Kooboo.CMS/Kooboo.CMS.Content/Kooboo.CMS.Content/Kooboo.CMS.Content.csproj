@@ -74,8 +74,10 @@
     <Compile Include="EventBus\Content\ContentWorkflowSubscriber.cs" />
     <Compile Include="EventBus\Content\ContentImageCropSubscriber.cs" />
     <Compile Include="EventBus\EventResult.cs" />
+    <Compile Include="Formatter\ITextContentFormater.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CategoryFolder.cs" />
+    <Compile Include="Models\ContentIntegrateId.cs" />
     <Compile Include="Models\FolderHelper.cs" />
     <Compile Include="Models\MediaFolder.cs" />
     <Compile Include="Models\ContentBase.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="Persistence\ITextContentFileProvider.cs" />
     <Compile Include="Persistence\IWorkflowProvider.cs" />
     <Compile Include="Persistence\RepositoryOfflineException.cs" />
+    <Compile Include="Formatter\TextContentXLIFFFormatter.cs" />
     <Compile Include="Query\Expressions\ExpressionValueHelper.cs" />
     <Compile Include="Query\Expressions\WhereNotInExpression.cs" />
     <Compile Include="Query\Expressions\WhereCategoryExpression.cs" />

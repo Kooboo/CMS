@@ -2434,6 +2434,12 @@
   <ItemGroup>
     <Content Include="Areas\Sites\Views\Shared\_ChooseDataRuleType.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\CopyAssemblyFiles.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\AbortInstallation.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

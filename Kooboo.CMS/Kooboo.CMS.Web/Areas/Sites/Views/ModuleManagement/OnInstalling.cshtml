@@ -11,6 +11,10 @@
 @section Panel{
     <ul class="panel">
         <li>
+            <a href="@Url.Action("AbortInstallation", ViewContext.RequestContext.AllRouteValues())" data-confirm="@("Are you sure to cancel the module installation?".Localize())">
+                @Html.IconImage("cancel") @("Cancel".Localize())</a>
+        </li>
+        <li>
             <a data-ajaxform="">
                 @Html.IconImage("next") @("Next".Localize())</a>
         </li>

@@ -142,39 +142,7 @@ namespace Kooboo.CMS.Sites.Services
         {
             return ModuleInfo.Get(moduleName);
         }
-        #endregion
-
-        #region Install
-        public virtual ModuleInfo Install(string moduleName, Stream moduleStream, ref StringBuilder log)
-        {
-            return ModuleInstaller.Install(moduleName, moduleStream, ref log);
-        }
-
-        public virtual void OnInstalling(string moduleName, ControllerContext controllerContext)
-        {
-            var moduleAction = ResolveModuleAction(moduleName);
-
-            moduleAction.OnInstalling(controllerContext);
-        }
-        #endregion
-
-        #region Uninstall
-        public virtual void Uninstall(string moduleName)
-        {
-            ModuleUninstaller.Uninstall(moduleName);
-        }
-
-        public virtual void OnUnistalling(string moduleName, ControllerContext controllerContext)
-        {
-            var moduleAction = ResolveModuleAction(moduleName);
-
-            if (moduleAction != null)
-            {
-                moduleAction.OnUninstalling(controllerContext);
-            }
-        }
-        #endregion
-
+        #endregion      
         #endregion
 
         #region ResolveModuleAction

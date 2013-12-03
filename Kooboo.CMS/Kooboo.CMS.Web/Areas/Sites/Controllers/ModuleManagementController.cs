@@ -21,6 +21,7 @@ using Kooboo.CMS.Sites.Persistence;
 using Kooboo.Web.Mvc;
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Management;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
@@ -28,9 +29,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
     public class ModuleManagementController : Kooboo.CMS.Sites.AreaControllerBase
     {
         #region .ctor
-        public ModuleManagementController(ModuleManager moduleManager)
+        IModuleInstaller _moduleInstaller;
+        IModuleUninstaller _moduleUninstaller;
+        public ModuleManagementController(ModuleManager moduleManager, IModuleInstaller moduleInstaller, IModuleUninstaller moduleUninstaller)
         {
             Manager = moduleManager;
+            _moduleInstaller = moduleInstaller;
+            _moduleUninstaller = moduleUninstaller;
         }
         public ModuleManager Manager { get; set; }
         #endregion
@@ -58,28 +63,59 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 {
                     var moduleFile = this.Request.Files["ModuleFile"];
 
-                    StringBuilder log = new StringBuilder();
                     var moduleName = System.IO.Path.GetFileNameWithoutExtension(moduleFile.FileName);
-                    var moduleInfo = Manager.Install(moduleName, moduleFile.InputStream, ref log);
+                    var errorMessage = _moduleInstaller.Unzip(ref moduleName, moduleFile.InputStream);
 
-                    if (moduleInfo == null && log.Length != 0)
+                    if (!string.IsNullOrEmpty(errorMessage))
                     {
                         data.Success = false;
-                        data.AddMessage(log.ToString());
+                        data.AddMessage(errorMessage);
                     }
                     else
                     {
-                        if (!string.IsNullOrEmpty(moduleInfo.InstallingTemplate))
-                        {
-                            data.RedirectUrl = Url.Action("OnInstalling", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleInfo.ModuleName));
-                        }
-                        else
-                        {
-                            data.RedirectUrl = Url.Action("InstallComplete", ControllerContext.RequestContext.AllRouteValues());
-                        }
+                        //copy the assembly files to bin folder.
+                        data.RedirectUrl = Url.Action("CopyAssemblyFiles", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleName));
+
                     }
                 });
             }
+
+            return Json(data);
+        }
+        public virtual ActionResult CopyAssemblyFiles(string moduleName)
+        {
+            var conflictedAssemblies = _moduleInstaller.CheckConflictedAssemblyReferences(moduleName);
+            if (conflictedAssemblies.Count() > 0)
+            {
+                return View(conflictedAssemblies);
+            }
+            else
+            {
+                _moduleInstaller.CopyAssemblies(moduleName, false);
+                return Redirect(FininshedOrRunCustomInstallingEvent(moduleName));
+            }
+        }
+        private string FininshedOrRunCustomInstallingEvent(string moduleName)
+        {
+            var moduleInfo = ModuleInfo.Get(moduleName);
+            if (!string.IsNullOrEmpty(moduleInfo.InstallingTemplate))
+            {
+                return Url.Action("OnInstalling", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleName));
+            }
+            else
+            {
+                return Url.Action("InstallComplete", ControllerContext.RequestContext.AllRouteValues());
+            }
+        }
+        [HttpPost]
+        public virtual ActionResult CopyAssemblyFiles(string moduleName, bool @override)
+        {
+            var data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+               {
+                   _moduleInstaller.CopyAssemblies(moduleName, @override);
+                   resultData.RedirectUrl = FininshedOrRunCustomInstallingEvent(moduleName);
+               });
 
             return Json(data);
         }
@@ -97,7 +133,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 data.RunWithTry((resultData) =>
                 {
-                    Manager.OnInstalling(moduleName, ControllerContext);
+                    _moduleInstaller.RunEvent(moduleName, ControllerContext);
                     resultData.RedirectUrl = Url.Action("InstallComplete", ControllerContext.RequestContext.AllRouteValues());
                 });
             }
@@ -106,6 +142,17 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         public virtual ActionResult InstallComplete(string moduleName, string @return)
         {
+            return View();
+        }
+
+        public virtual ActionResult AbortInstallation(string moduleName)
+        {
+            // to stop the installation. Do the clear job, remove the unziped module area folder.
+            if (!string.IsNullOrEmpty(moduleName))
+            {
+                _moduleUninstaller.RemoveAssemblies(moduleName);
+                _moduleUninstaller.DeleteModuleArea(moduleName);
+            }
             return View();
         }
         #endregion
@@ -129,6 +176,53 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 return RedirectToAction("DeleteModuleFiles", ControllerContext.RequestContext.AllRouteValues());
             }
         }
+
+        public virtual ActionResult OnUninstalling(string uuid)
+        {
+            ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
+            return View(moduleInfo);
+        }
+        [HttpPost]
+        public virtual ActionResult OnUninstalling(string uuid, FormCollection form)
+        {
+            var data = new JsonResultData(ModelState);
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    _moduleUninstaller.RunEvent(uuid, ControllerContext);
+                    resultData.RedirectUrl = Url.Action("DeleteModuleFiles", ControllerContext.RequestContext.AllRouteValues());
+                });
+            }
+
+            return Json(data);
+        }
+        public virtual ActionResult DeleteModuleFiles(string uuid)
+        {
+            return View();
+        }
+        [HttpPost]
+        public virtual ActionResult DeleteModuleFiles(string uuid, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+            {
+                if (!string.IsNullOrEmpty(uuid))
+                {
+                    _moduleUninstaller.RemoveAssemblies(uuid);
+                    _moduleUninstaller.DeleteModuleArea(uuid);
+                }
+                resultData.RedirectUrl = Url.Action("UninstallComplete", ControllerContext.RequestContext.AllRouteValues());
+            });
+            return Json(data);
+        }
+
+        public virtual ActionResult UninstallComplete(string moduleName, string @return)
+        {
+            return View();
+        }
+        #endregion
+
         [HttpPost]
         public virtual ActionResult Exclude(string uuid, SiteModuleRelationModel[] model, string @return)
         {
@@ -148,54 +242,6 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             });
             return Json(data);
         }
-
-        public virtual ActionResult OnUninstalling(string uuid)
-        {
-            ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
-            return View(moduleInfo);
-        }
-        [HttpPost]
-        public virtual ActionResult OnUninstalling(string uuid, FormCollection form)
-        {
-            var data = new JsonResultData(ModelState);
-            if (ModelState.IsValid)
-            {
-                data.RunWithTry((resultData) =>
-                {
-                    Manager.OnUnistalling(uuid, ControllerContext);
-                    resultData.RedirectUrl = Url.Action("DeleteModuleFiles", ControllerContext.RequestContext.AllRouteValues());
-                });
-            }
-
-            return Json(data);
-        }
-        public virtual ActionResult DeleteModuleFiles(string uuid)
-        {
-            return View();
-        }
-        [HttpPost]
-        public virtual ActionResult DeleteModuleFiles(string uuid, string @return)
-        {
-            var data = new JsonResultData(ModelState);
-            data.RunWithTry((resultData) =>
-            {
-
-                if (!string.IsNullOrEmpty(uuid))
-                {
-                    Manager.Uninstall(uuid);
-                }
-
-                resultData.RedirectUrl = Url.Action("UninstallComplete", ControllerContext.RequestContext.AllRouteValues());
-            });
-            return Json(data);
-        }
-
-        public virtual ActionResult UninstallComplete(string moduleName, string @return)
-        {
-            return View();
-        }
-        #endregion
-
         #region Relation
         public virtual ActionResult Relation(string uuid)
         {

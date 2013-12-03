@@ -106,10 +106,22 @@
     <Compile Include="Extension\ICommonPagePlugin.cs" />
     <Compile Include="Extension\IPageRequestModule.cs" />
     <Compile Include="Extension\ISubmissionPlugin.cs" />
+    <Compile Include="Extension\Management\AssemblyReferences.cs" />
+    <Compile Include="Extension\Management\AssemblyReferenceData.cs" />
+    <Compile Include="Extension\Management\AssemblyReferenceCollection.cs" />
+    <Compile Include="Extension\Management\ConflictedAssemblyReference.cs" />
     <Compile Include="Extension\ModuleArea\IModuleEvents.cs" />
+    <Compile Include="Extension\Management\IAssemblyReferences.cs" />
+    <Compile Include="Extension\ModuleArea\Management\IModuleInstaller.cs" />
+    <Compile Include="Extension\ModuleArea\Management\IModuleUninstaller.cs" />
+    <Compile Include="Extension\ModuleArea\Management\ModuleInstaller.cs" />
+    <Compile Include="Extension\ModuleArea\Management\ModuleUninstaller.cs" />
+    <Compile Include="Extension\ModuleArea\Management\ModuleVersioning.cs" />
     <Compile Include="Extension\ModuleArea\ModuleControllerContextExtensions.cs" />
     <Compile Include="Extension\ModuleArea\ModulePathHelper.cs" />
     <Compile Include="Extension\ModuleArea\ModuleItemPath.cs" />
+    <Compile Include="Extension\ModuleArea\Management\IModuleVersioning.cs" />
+    <Compile Include="Extension\ModuleArea\ModuleStreamEntry.cs" />
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />
     <Compile Include="Extension\PluginHelper.cs" />
     <Compile Include="InitializeCurrentContext.cs" />
@@ -198,11 +210,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extension\ModuleArea\ModuleInfo.cs" />
-    <Compile Include="Extension\ModuleArea\ModuleInstaller.cs" />
     <Compile Include="Extension\ModuleArea\ModuleMenu.cs" />
     <Compile Include="Extension\ModuleArea\ModuleRoute.cs" />
     <Compile Include="Extension\ModuleArea\ModuleSettings.cs" />
-    <Compile Include="Extension\ModuleArea\ModuleUninstaller.cs" />
     <Compile Include="Extension\ModuleArea\ModuleUrlHelper.cs" />
     <Compile Include="Extension\ModuleArea\ModuleViewHelperExtension.cs" />
     <Compile Include="Extension\ModuleArea\ModuleHttpContext.cs" />

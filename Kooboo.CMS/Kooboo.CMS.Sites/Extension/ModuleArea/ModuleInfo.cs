@@ -54,7 +54,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
 
         #endregion
 
-        #region GetModuleInfo
+        #region Get
         public static ModuleInfo Get(string moduleName)
         {
             ModulePath modulePath = new ModulePath(moduleName);

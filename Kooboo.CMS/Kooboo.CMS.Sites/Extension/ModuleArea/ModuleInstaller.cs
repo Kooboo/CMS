@@ -38,32 +38,22 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
             //    return false;
             //}
             ModuleInfo moduleInfo = null;
-            using (ZipFile zipFile = ZipFile.Read(moduleStream))
+            using (ModuleStreamEntry moduleEntry = new ModuleStreamEntry(moduleName, moduleStream))
             {
-                string dirName;
-                var moduleConfigEntry = ParseZipFile(zipFile, out dirName);
-                if (moduleConfigEntry == null)
+                if (!moduleEntry.IsValid())
                 {
                     log.Append("The module is invalid.".Localize());
                     return null;
                 }
 
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    moduleConfigEntry.Extract(ms);
-                    ms.Position = 0;
-                    moduleInfo = ModuleInfo.Get(ms);
-                }
+                moduleInfo = moduleEntry.ModuleInfo;
                 if (moduleInfo == null)
                 {
+                    log.Append("The module.config file is invalid.".Localize());
                     return null;
                 }
-                if (string.IsNullOrEmpty(moduleInfo.ModuleName))
-                {
-                    moduleInfo.ModuleName = moduleName;
-                }
 
-                ModulePath modulePath = new ModulePath(moduleInfo.ModuleName);
+                ModulePath modulePath = new ModulePath(moduleEntry.ModuleName);
                 var modulePhysicalPath = modulePath.PhysicalPath;
 
                 if (Directory.Exists(modulePath.PhysicalPath))
@@ -71,20 +61,8 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                     log.Append("The module name already exists.".Localize());
                     return null;
                 }
-                var webconfigEntry = zipFile["web.config"];
-                if (webconfigEntry != null)
-                {
-                    zipFile.RemoveEntry(webconfigEntry);
-                }
-                zipFile.ExtractAll(modulePhysicalPath, ExtractExistingFileAction.OverwriteSilently);
 
-                if (!string.IsNullOrEmpty(dirName))
-                {
-                    var subDir = Path.Combine(modulePhysicalPath, dirName);
-                    Kooboo.IO.IOUtility.CopyDirectory(subDir, modulePhysicalPath);
-                    Kooboo.IO.IOUtility.DeleteDirectory(subDir, true);
-                }
-
+                moduleEntry.Extract(modulePhysicalPath);
             }
             return moduleInfo;
         }

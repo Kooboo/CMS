@@ -15,6 +15,7 @@ namespace Kooboo
     /// <summary>
     /// 
     /// </summary>
+    [Obsolete]
     public static class ApplicationInitialization
     {
         #region Fields
@@ -23,7 +24,7 @@ namespace Kooboo
             public Action InitializeMethod { get; set; }
             public int Priority { get; set; }
         }
-        private static List<InitializationItem> items = new List<InitializationItem>(); 
+        private static List<InitializationItem> items = new List<InitializationItem>();
         #endregion
 
         #region Methods
@@ -50,7 +51,7 @@ namespace Kooboo
                 items.Clear();
             }
 
-        } 
+        }
         #endregion
     }
 }

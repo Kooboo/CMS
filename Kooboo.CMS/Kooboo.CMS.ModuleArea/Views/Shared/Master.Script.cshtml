@@ -36,7 +36,7 @@
 
         //#region Initialize the js culture
         Globalize.culture('@Html.Raw(culture.Name)');
-        var mediaLibraryUrl = '@Html.Raw(mediaLibraryUrl)';
+        var mediaLibraryUrl = '@mediaLibraryUrl';
 
         var chooseFileFromMediaLibrary = function (inputId, value, fileType, window) {
 

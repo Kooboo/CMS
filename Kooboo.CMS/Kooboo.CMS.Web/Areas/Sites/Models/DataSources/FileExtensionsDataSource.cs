@@ -42,6 +42,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
                 items.Add(new SelectListItem() { Text = ".js", Value = ".js" });
                 items.Add(new SelectListItem() { Text = ".css", Value = ".css" });
                 items.Add(new SelectListItem() { Text = ".txt", Value = ".txt" });
+                items.Add(new SelectListItem() { Text = ".less", Value = ".less" });
             }
             return items;
         }

@@ -2,7 +2,7 @@
 @using Kooboo.CMS.Web
 @Html.IncludeLocalizationScripts()
 @{
-    var route = ViewContext.RequestContext.AllRouteValues();
+    var route = ViewContext.RequestContext.AllRouteValues().Merge("search", null);
     var culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
     var tinymceLang = "en";
     var tinymceLangFile = Server.MapPath(string.Format("~/Scripts/tiny_mce/langs/{0}.js", culture.Name));

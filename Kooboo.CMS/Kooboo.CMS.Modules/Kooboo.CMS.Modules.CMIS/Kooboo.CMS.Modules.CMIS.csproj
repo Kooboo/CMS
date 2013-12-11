@@ -78,6 +78,7 @@
     <Compile Include="Models\cmisPropertyUri.cs" />
     <Compile Include="Models\GeneratedClasses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IMeidaPathField.cs" />
     <Compile Include="Services\IAclService.cs" />
     <Compile Include="Services\IDiscoveryService.cs" />
     <Compile Include="Services\Implementation\ContextHelper.cs" />

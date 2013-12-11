@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace Kooboo.CMS.Modules.Publishing.Services
 {
@@ -26,7 +27,8 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         TextContentManager _textContentManager;
         ITextContentProvider _textContentProvider;
         IPublishingLogProvider _publishingLogProvider;
-        public IncomeQueueManager(IIncomeQueueProvider incomeQueueProvider, PageManager pageManager, ITextContentProvider textContentProvider, TextContentManager textContentManager, IPublishingLogProvider publishingLogProvider)
+        MediaContentManager _mediaContentManager;
+        public IncomeQueueManager(IIncomeQueueProvider incomeQueueProvider, PageManager pageManager, ITextContentProvider textContentProvider, TextContentManager textContentManager, IPublishingLogProvider publishingLogProvider, MediaContentManager mediaContentManager)
             : base(incomeQueueProvider)
         {
             this._incomeQueueProvider = incomeQueueProvider;
@@ -34,6 +36,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             this._textContentProvider = textContentProvider;
             this._textContentManager = textContentManager;
             this._publishingLogProvider = publishingLogProvider;
+            this._mediaContentManager = mediaContentManager;
         }
         #endregion
 
@@ -240,11 +243,21 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             var textContent = (Dictionary<string, object>)queueItem.Object;
             var values = textContent.ToNameValueCollection();
             var files = values.GetFilesFromValues();
+            var medias = values.GetMediaFromValues();
             var categories = values.GetCategories().Select(it => new TextContent(repository.Name, "", it.CategoryFolder) { UUID = it.CategoryUUID }).ToArray();
 
             var textFolder = new TextFolder(repository, values["FolderName"]);
             _textContentManager.Delete(repository, textFolder, values["UUID"]);
             _textContentManager.Add(textFolder.Repository, textFolder, values, files, categories, values["UserId"]);
+
+            for (int i = 0, len = medias.Count; i < len; i++)
+            {
+                var physicalPath = Kooboo.Web.Url.UrlUtility.MapPath(medias[i].FileName);
+                var folderPath = Path.GetDirectoryName(physicalPath);
+                var fileName = Path.GetFileName(physicalPath);
+                this._mediaContentManager.Add(textFolder.Repository, new MediaFolder(textFolder.Repository, folderPath),
+                    fileName, medias[i].InputStream, false);
+            }
         }
         #endregion
     }

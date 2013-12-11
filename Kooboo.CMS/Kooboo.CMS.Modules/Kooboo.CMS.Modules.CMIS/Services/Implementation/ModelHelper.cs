@@ -145,8 +145,27 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
                     values[key] = "";
                 }
             }
+            
             return files;
         }
+
+        public static HttpFileCollectionBase GetMediaFromValues(this NameValueCollection values)
+        {
+            IMediaPathField mediaPathField = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IMediaPathField>();
+            HttpFileCollectionImp files = new HttpFileCollectionImp();
+            string key="_____MediaBinaryString_____",str = values[key];
+            if (!string.IsNullOrWhiteSpace(str))
+            {
+                var binarys = mediaPathField.ToBinaryStream(str);
+                foreach (var keyValue in binarys)
+                {
+                    files.AddFile(key, keyValue.Key, "", keyValue.Value);
+                }
+                values[key] = "";
+            }
+            return files;
+        }
+
         public static IEnumerable<Category> GetCategories(this NameValueCollection values)
         {
             var categoriesString = values["___Categories___"];
@@ -200,13 +219,28 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
             var categoriesString = ToCategoriesString(categories);
             items.Add(new cmisPropertyString() { localName = "___Categories___", propertyDefinitionId = CmisPropertyDefinitionId.ParentId, value = new[] { categoriesString } });
 
+            var mediaValues = new List<string>();
+            var mediaPathField = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IMediaPathField>();
             foreach (var item in textContent)
             {
                 if (!item.Key.StartsWith("__"))
                 {
                     items.Add(ToCmisProperty(item));
+                    if (item.Value is string && mediaPathField.IsMediaPathField(item.Value.ToString()))
+                    {
+                        mediaValues.Add(item.Value.ToString());
+                    }
                 }
-
+            }
+            if (mediaValues.Count > 0)
+            {
+                var mediaBinaryString = mediaPathField.ToBinaryString(mediaValues.ToArray());
+                items.Add(new cmisPropertyString()
+                {
+                    localName = "_____MediaBinaryString_____",
+                    propertyDefinitionId = "_____MediaBinaryString_____",
+                    value = new[] { mediaBinaryString }
+                });
             }
             properties.Items = items.ToArray();
             return properties;

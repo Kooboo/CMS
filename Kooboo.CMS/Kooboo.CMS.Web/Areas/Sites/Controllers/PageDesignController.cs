@@ -359,8 +359,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     var item = new NameValueCollection();
                     item.Add("ModuleName", name);
                     model.Add(item);
-                    var moduleInfo = ModuleInfo.Get(name);
-                    var setting = moduleInfo.GetModuleSettings(Site);
+                    var moduleContext = new ModuleContext(name, Site);
+                    var moduleInfo = new ModuleContext(name, Site).ModuleInfo;
+                    var setting = moduleContext.GetModuleSettings();
                     if (setting.Entry != null)
                     {
                         item["LinkToEntryName"] = setting.Entry.LinkToEntryName;

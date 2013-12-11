@@ -1,0 +1,27 @@
+﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo
+@{
+    ViewBag.Title = "Module reinstallation".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Finished".Localize())
+            </a>
+        </li>
+    </ul>
+}
+
+<div class="common-form">
+    <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <a>@("Upload module file".Localize())</a>
+            <a>@("Run reinstallation event".Localize())</a>
+            <span class="current">@("Finished".Localize())<b></b></span>
+        </div>
+    </div>
+    <p class="process-steps-tip">@Html.Raw(string.Format("The module has been reinstalled."))</p>
+</div>
+

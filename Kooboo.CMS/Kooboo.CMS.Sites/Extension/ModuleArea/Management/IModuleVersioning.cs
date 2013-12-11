@@ -10,7 +10,14 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
 {
     public interface IModuleVersioning
     {
-        void SaveModuleVersion(ModuleStreamEntry moduleStreamEntry);
-        Stream GetModuleByVersion(string moduleName, string verion);
+        IEnumerable<InstallationContext> AllInstallationLogs(string moduleName);
+        void LogInstallation(string moduleName, InstallationContext upgradingContext);
+        InstallationContext GetLastestInstallation(string moduleName);
+        void LogModuleFile(ModuleStreamEntry moduleStreamEntry);
+        bool IsModuleVersionExists(string moduleName, string version);
+
+        Stream GetModuleStream(string moduleName, string verion);
+
+        void RemoveVersion(string moduleName);
     }
 }

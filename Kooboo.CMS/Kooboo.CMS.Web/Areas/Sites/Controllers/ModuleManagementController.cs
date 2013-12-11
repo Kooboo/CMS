@@ -31,11 +31,16 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #region .ctor
         IModuleInstaller _moduleInstaller;
         IModuleUninstaller _moduleUninstaller;
-        public ModuleManagementController(ModuleManager moduleManager, IModuleInstaller moduleInstaller, IModuleUninstaller moduleUninstaller)
+        IModuleReinstaller _moduleReinstaller;
+        IModuleVersioning _moduleVersioning;
+        public ModuleManagementController(ModuleManager moduleManager, IModuleInstaller moduleInstaller, IModuleUninstaller moduleUninstaller,
+            IModuleReinstaller moduleReinstaller, IModuleVersioning moduleVersioning)
         {
             Manager = moduleManager;
             _moduleInstaller = moduleInstaller;
             _moduleUninstaller = moduleUninstaller;
+            _moduleReinstaller = moduleReinstaller;
+            _moduleVersioning = moduleVersioning;
         }
         public ModuleManager Manager { get; set; }
         #endregion
@@ -64,7 +69,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     var moduleFile = this.Request.Files["ModuleFile"];
 
                     var moduleName = System.IO.Path.GetFileNameWithoutExtension(moduleFile.FileName);
-                    var errorMessage = _moduleInstaller.Unzip(ref moduleName, moduleFile.InputStream);
+                    var errorMessage = _moduleInstaller.Unzip(ref moduleName, moduleFile.InputStream, User.Identity.Name);
 
                     if (!string.IsNullOrEmpty(errorMessage))
                     {
@@ -75,14 +80,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     {
                         //copy the assembly files to bin folder.
                         data.RedirectUrl = Url.Action("CopyAssemblyFiles", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleName));
-
                     }
                 });
             }
 
             return Json(data);
         }
-        public virtual ActionResult CopyAssemblyFiles(string moduleName)
+        public virtual ActionResult CopyAssemblyFiles(string moduleName, string type)
         {
             var conflictedAssemblies = _moduleInstaller.CheckConflictedAssemblyReferences(moduleName);
             if (conflictedAssemblies.Count() > 0)
@@ -92,29 +96,29 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             else
             {
                 _moduleInstaller.CopyAssemblies(moduleName, false);
-                return Redirect(FininshedOrRunCustomInstallingEvent(moduleName));
+                return Redirect(FininshedOrRunCustomInstallingEvent(moduleName, type));
             }
         }
-        private string FininshedOrRunCustomInstallingEvent(string moduleName)
+        private string FininshedOrRunCustomInstallingEvent(string moduleName, string type)
         {
             var moduleInfo = ModuleInfo.Get(moduleName);
-            if (!string.IsNullOrEmpty(moduleInfo.InstallingTemplate))
+            if (!string.IsNullOrEmpty(type) && type.ToLower() == "reinstall")
             {
-                return Url.Action("OnInstalling", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleName));
+                return Url.Action("OnReinstalling", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleName));
             }
             else
             {
-                return Url.Action("InstallComplete", ControllerContext.RequestContext.AllRouteValues());
+                return Url.Action("OnInstalling", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleName));
             }
         }
         [HttpPost]
-        public virtual ActionResult CopyAssemblyFiles(string moduleName, bool @override)
+        public virtual ActionResult CopyAssemblyFiles(string moduleName, bool @override, string type)
         {
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
                {
                    _moduleInstaller.CopyAssemblies(moduleName, @override);
-                   resultData.RedirectUrl = FininshedOrRunCustomInstallingEvent(moduleName);
+                   resultData.RedirectUrl = FininshedOrRunCustomInstallingEvent(moduleName, type);
                });
 
             return Json(data);
@@ -155,6 +159,88 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
             return View();
         }
+        #endregion
+
+        #region Reinstall
+        [HttpGet]
+        public virtual ActionResult Reinstall(string uuid, string versionRange)
+        {
+            if (!string.IsNullOrEmpty(versionRange))
+            {
+                VersionRange range = VersionRange.Create(versionRange);
+                using (var moduleStream = _moduleVersioning.GetModuleStream(uuid, range.TargetVersion))
+                {
+                    var errorMessage = _moduleReinstaller.Unzip(uuid, moduleStream, User.Identity.Name);
+                    if (string.IsNullOrEmpty(errorMessage))
+                    {
+                        return Redirect(Url.Action("CopyAssemblyFiles", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", uuid).Merge("type", "Reinstall")));
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMessage = errorMessage;
+                        return View();
+                    }
+
+                }
+            }
+            else
+            {
+                return View();
+            }
+        }
+        [HttpPost]
+        public virtual ActionResult Reinstall(string uuid, InstallModuleModel installModel, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    var moduleFile = this.Request.Files["ModuleFile"];
+
+                    var errorMessage = _moduleReinstaller.Unzip(uuid, moduleFile.InputStream, User.Identity.Name);
+
+                    if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        data.Success = false;
+                        data.AddMessage(errorMessage);
+                    }
+                    else
+                    {
+                        //copy the assembly files to bin folder.
+                        data.RedirectUrl = Url.Action("CopyAssemblyFiles", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", uuid).Merge("type", "Reinstall"));
+                    }
+                });
+            }
+
+            return Json(data);
+        }
+
+        public virtual ActionResult OnReinstalling(string moduleName)
+        {
+            ModuleInfo moduleInfo = ModuleInfo.Get(moduleName);
+            return View(moduleInfo);
+        }
+        [HttpPost]
+        public virtual ActionResult OnReinstalling(string moduleName, FormCollection form)
+        {
+            var data = new JsonResultData(ModelState);
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    _moduleReinstaller.RunEvent(moduleName, ControllerContext);
+                    resultData.RedirectUrl = Url.Action("ReinstallComplete", ControllerContext.RequestContext.AllRouteValues());
+                });
+            }
+
+            return Json(data);
+        }
+        public virtual ActionResult ReinstallComplete(string moduleName, string @return)
+        {
+            return View();
+        }
+
         #endregion
 
         #region Uninstall
@@ -211,6 +297,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 {
                     _moduleUninstaller.RemoveAssemblies(uuid);
                     _moduleUninstaller.DeleteModuleArea(uuid);
+                    _moduleUninstaller.RemoveVersions(uuid);
                 }
                 resultData.RedirectUrl = Url.Action("UninstallComplete", ControllerContext.RequestContext.AllRouteValues());
             });
@@ -223,6 +310,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         #endregion
 
+        #region Exclude
         [HttpPost]
         public virtual ActionResult Exclude(string uuid, SiteModuleRelationModel[] model, string @return)
         {
@@ -242,6 +330,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             });
             return Json(data);
         }
+        #endregion
+
         #region Relation
         public virtual ActionResult Relation(string uuid)
         {
@@ -264,6 +354,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 return Json("The name already exists.", JsonRequestBehavior.AllowGet);
             }
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region Versioning
+        public ActionResult Versions(string uuid)
+        {
+            return View(_moduleVersioning.AllInstallationLogs(uuid));
         }
         #endregion
     }

@@ -142,7 +142,7 @@ namespace Kooboo.CMS.Sites.Services
         {
             return ModuleInfo.Get(moduleName);
         }
-        #endregion      
+        #endregion
         #endregion
 
         #region ResolveModuleAction
@@ -206,7 +206,7 @@ namespace Kooboo.CMS.Sites.Services
                 var moduleAction = ResolveModuleAction(moduleName);
                 if (moduleAction != null)
                 {
-                    moduleAction.OnIncluded(new Site(siteName));
+                    moduleAction.OnIncluded(ModuleContext.Create(moduleName, new Site(siteName)));
                 }
             }
             catch (Exception e)
@@ -226,7 +226,7 @@ namespace Kooboo.CMS.Sites.Services
                 var moduleAction = ResolveModuleAction(moduleName);
                 if (moduleAction != null)
                 {
-                    moduleAction.OnExcluded(new Site(siteName));
+                    moduleAction.OnExcluded(ModuleContext.Create(moduleName, new Site(siteName)));
                 }
             }
             catch (Exception e)

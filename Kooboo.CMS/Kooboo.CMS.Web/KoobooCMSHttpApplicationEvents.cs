@@ -122,8 +122,8 @@ Thread information:
             #endregion
 
             //ViewEngine for module.            
-            ViewEngines.Engines.Insert(0, new Kooboo.CMS.Sites.Extension.ModuleArea.ModuleRazorViewEngine());
-            ViewEngines.Engines.Insert(1, new Kooboo.CMS.Sites.Extension.ModuleArea.ModuleWebFormViewEngine());
+            ViewEngines.Engines.Insert(0, new Kooboo.CMS.Sites.Extension.ModuleArea.Runtime.ModuleRazorViewEngine());
+            ViewEngines.Engines.Insert(1, new Kooboo.CMS.Sites.Extension.ModuleArea.Runtime.ModuleWebFormViewEngine());
             ViewEngines.Engines.Insert(2, new CustomRazorViewEngine());
 
 

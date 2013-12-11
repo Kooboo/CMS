@@ -39,6 +39,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
 namespace Kooboo.CMS.Sites.View
 {
     /// <summary>
@@ -624,7 +625,7 @@ namespace Kooboo.CMS.Sites.View
                     foreach (ModuleActionInvokedContext actionInvoked in PageContext.ModuleResults.Values)
                     {
                         var moduleRequestContext = (ModuleRequestContext)actionInvoked.ControllerContext.RequestContext;
-                        if (moduleRequestContext.ModuleContext.EnableScript)
+                        if (moduleRequestContext.ModuleContext.FrontEndContext.EnableScript)
                         {
                             if (site.Mode == ReleaseMode.Debug)
                             {
@@ -756,11 +757,11 @@ namespace Kooboo.CMS.Sites.View
                     foreach (ModuleActionInvokedContext actionInvoked in PageContext.ModuleResults.Values)
                     {
                         var moduleRequestContext = (ModuleRequestContext)actionInvoked.ControllerContext.RequestContext;
-                        if (moduleRequestContext.ModuleContext.EnableTheme && moduleRequestContext.ModuleContext.ModuleSettings != null && !string.IsNullOrEmpty(moduleRequestContext.ModuleContext.ModuleSettings.ThemeName))
+                        if (moduleRequestContext.ModuleContext.FrontEndContext.EnableTheme && moduleRequestContext.ModuleContext.FrontEndContext.ModuleSettings != null && !string.IsNullOrEmpty(moduleRequestContext.ModuleContext.FrontEndContext.ModuleSettings.ThemeName))
                         {
                             string themeRuleBody;
                             var styles = ServiceFactory.ModuleManager.AllThemeFiles(moduleRequestContext.ModuleContext.ModuleName,
-                                    moduleRequestContext.ModuleContext.ModuleSettings.ThemeName, out themeRuleBody);
+                                    moduleRequestContext.ModuleContext.FrontEndContext.ModuleSettings.ThemeName, out themeRuleBody);
 
                             if (site.Mode == ReleaseMode.Debug)
                             {
@@ -772,7 +773,7 @@ namespace Kooboo.CMS.Sites.View
                             else
                             {
                                 yield return this.Html.Stylesheet(this.PageContext.FrontUrl.
-                                    ModuleThemeUrl(moduleRequestContext.ModuleContext.ModuleName, moduleRequestContext.ModuleContext.ModuleSettings.ThemeName, baseUri)
+                                    ModuleThemeUrl(moduleRequestContext.ModuleContext.ModuleName, moduleRequestContext.ModuleContext.FrontEndContext.ModuleSettings.ThemeName, baseUri)
                                     .ToString());
                             }
                             yield return new HtmlString(themeRuleBody);

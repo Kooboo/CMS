@@ -15,6 +15,7 @@ using Kooboo.CMS.Sites.View;
 using System.Web.Mvc;
 using Kooboo.Web.Mvc;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
     public class ModuleRoute : Route
@@ -42,11 +43,11 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                 if (Page_Context.Current.Initialized)
                 {
                     Page page = null;
-                    var modulePositionId = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetModulePositionIdForUrl(moduleContext.ModulePosition, mergedValues, out page);
+                    var modulePositionId = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetModulePositionIdForUrl(moduleContext.FrontEndContext.ModulePosition, mergedValues, out page);
 
                     var encodedModuleUrl = ModuleUrlHelper.Encode(moduleUrl);
 
-                    var routeValues = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetRouteValuesWithModuleUrl(modulePositionId, encodedModuleUrl, moduleContext.ModulePosition.Exclusive);
+                    var routeValues = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetRouteValuesWithModuleUrl(modulePositionId, encodedModuleUrl, moduleContext.FrontEndContext.ModulePosition.Exclusive);
 
                     var pageUrl = Page_Context.Current.FrontUrl.PageUrl(page.FullName, routeValues).ToString();
                     var routeVirtualPath = pageUrl;

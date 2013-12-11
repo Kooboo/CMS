@@ -3,20 +3,18 @@
     ViewBag.Title = "Module installation".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
     var installingTemplate = Model.InstallingTemplate;
-    if (!installingTemplate.StartsWith("~/"))
+    if (!string.IsNullOrEmpty(installingTemplate) && !installingTemplate.StartsWith("~/"))
     {
-        installingTemplate = new ModulePathHelper(Model.ModuleName).GetViewPath(installingTemplate).VirtualPath;
+        installingTemplate = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(installingTemplate).VirtualPath;
     }
 }
 @section Panel{
     <ul class="panel">
-        <li>
-            <a href="@Url.Action("AbortInstallation", ViewContext.RequestContext.AllRouteValues())" data-confirm="@("Are you sure to cancel the module installation?".Localize())">
-                @Html.IconImage("cancel") @("Cancel".Localize())</a>
-        </li>
+      
         <li>
             <a data-ajaxform="">
-                @Html.IconImage("next") @("Next".Localize())</a>
+                @Html.IconImage("next") @("Next".Localize())
+            </a>
         </li>
     </ul>
 }
@@ -25,13 +23,21 @@
     <div class="process-steps">
         <div class="steps-inner">
             <a>@("Upload module file".Localize())</a>
-            <span class="current">@("Run installation action".Localize())<b></b></span>
+            <span class="current">@("Run installation event".Localize())<b></b></span>
             <span>@("Finished".Localize())</span>
         </div>
     </div>
     @using (Html.BeginForm())
     {
-        @Html.Partial(installingTemplate, null, new ViewDataDictionary())
-    }
-</div>
+        if (string.IsNullOrEmpty(installingTemplate))
+        {
+            <p>@("Confirm to run the 'OnInstalling' event which defined in module.".Localize())</p>
+        }
+        else
+        {
+            @Html.Partial(installingTemplate, null, new ViewDataDictionary())
 
+        }
+    }
+
+</div>

@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Modules.Publishi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Modules.CMIS", "Kooboo.CMS.Modules.CMIS\Kooboo.CMS.Modules.CMIS.csproj", "{29B36D82-20E0-473C-9D90-EDD5981587EC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CMIS", "CMIS", "{D64EFACC-7F31-46A7-B8FF-94F95451046C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Publishing", "Publishing", "{EF0C2C73-A6EC-4FBA-81FE-93311E40386B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{29B36D82-20E0-473C-9D90-EDD5981587EC} = {D64EFACC-7F31-46A7-B8FF-94F95451046C}
+		{D906BE0F-6E5D-4AE2-B259-DF72E5382157} = {EF0C2C73-A6EC-4FBA-81FE-93311E40386B}
+		{59201EE6-DD93-47CA-BA8C-2C4ACA457978} = {EF0C2C73-A6EC-4FBA-81FE-93311E40386B}
 	EndGlobalSection
 EndGlobal

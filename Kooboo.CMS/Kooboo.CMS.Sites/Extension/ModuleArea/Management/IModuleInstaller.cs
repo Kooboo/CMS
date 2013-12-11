@@ -23,7 +23,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         /// <param name="defaultModuleName">It will be the upload file name, when the developer assign a different module in the module.config, the value will be changed to it.</param>
         /// <param name="moduleStream">The module stream.</param>
         /// <returns>error message</returns>
-        string Unzip(ref string moduleName, Stream moduleStream);
+        string Unzip(ref string moduleName, Stream moduleStream, string user);
 
         IEnumerable<ConflictedAssemblyReference> CheckConflictedAssemblyReferences(string moduleName);
 

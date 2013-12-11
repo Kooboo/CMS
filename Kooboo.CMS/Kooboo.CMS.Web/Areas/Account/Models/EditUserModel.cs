@@ -49,19 +49,18 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
             this.IsLockedOut = user.IsLockedOut;
             this.UICulture = user.UICulture;
         }
-        public User ToUser()
+        public User ToUser(User userToUpdate)
         {
-            User user = new User();
-            user.UserName = this.UserName;
-            user.Email = this.Email;
-            user.IsAdministrator = this.IsAdministrator;
-            user.IsLockedOut = this.IsLockedOut;
-            if (user.IsLockedOut == true)
+            userToUpdate.UserName = this.UserName;
+            userToUpdate.Email = this.Email;
+            userToUpdate.IsAdministrator = this.IsAdministrator;
+            userToUpdate.IsLockedOut = this.IsLockedOut;
+            if (userToUpdate.IsLockedOut == true)
             {
-                user.UtcLastLockoutDate = DateTime.UtcNow;
+                userToUpdate.UtcLastLockoutDate = DateTime.UtcNow;
             }
-            user.UICulture = this.UICulture;
-            return user;
+            userToUpdate.UICulture = this.UICulture;
+            return userToUpdate;
         }
     }
 }

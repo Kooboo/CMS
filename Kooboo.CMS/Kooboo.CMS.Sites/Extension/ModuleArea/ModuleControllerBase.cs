@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,11 +47,11 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         {
             get
             {
-                return ModuleContext.EnableTheme;
+                return ModuleContext.FrontEndContext.EnableTheme;
             }
             set
             {
-                ModuleContext.EnableTheme = value;
+                ModuleContext.FrontEndContext.EnableTheme = value;
             }
         }
         #endregion
@@ -60,11 +61,11 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         {
             get
             {
-                return ModuleContext.EnableScript;
+                return ModuleContext.FrontEndContext.EnableScript;
             }
             set
             {
-                ModuleContext.EnableScript = value;
+                ModuleContext.FrontEndContext.EnableScript = value;
             }
         }
         #endregion

@@ -1,0 +1,51 @@
+﻿<div class="block treeview">
+    <ul id="J_DataTree" data-bind="template: { name: 'folder-trees-template', foreach: metadata.folderTrees}">
+    </ul>
+</div>
+<div class="common-form">
+    <table>
+        <tr>
+            <th>
+                <label>@("Query type".Localize())</label>
+            </th>
+            <td>
+                <ul class="radio-list">
+                    <li>
+                        <input type="radio" id="List" name="TakeOperation" data-bind="checked:DataRuleSetting().TakeOperation" value="0" />
+                        <label for="List" class="inline">@("List of contents in the selected folder".Localize())</label>
+                    </li>
+                    <li>
+                        <input type="radio" id="First" name="TakeOperation" data-bind="checked:DataRuleSetting().TakeOperation" value="1" />
+                        <label for="First" class="inline">@("First or default (one content item)".Localize())</label>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+    <p class="buttons">
+        <button data-bind="visible:DataRuleSetting().IsNew,click:GotoPreviousStep" type="button">« @("Previous".Localize())</button>
+        <button type="submit" data-bind="click:GotoNextStep">@("Next".Localize()) »</button>
+        <a class="button gray"  data-bind="click:CancelSaveDataRule">@("Cancel".Localize())</a>
+    </p>
+</div>
+
+<script type="text/html" id="folder-trees-template">
+    <li class="tree-node clearfix">
+        <span>
+            @Html.IconImage("folder")
+            <input type="radio" name="DataRule.FolderName" data-bind="uniqueId: true,value:$data.Folder.NamePaths.join('~')">
+            <label data-bind="uniqueFor: 'after',text:$data.Folder.NamePaths.join('/')"></label>
+        </span>
+
+        <!-- ko if: $data.Children.length > 0 -->
+        @Html.IconImage("tree-icon")
+        <ul data-bind="template: { name: 'folder-trees-template', foreach: $data.Children}">
+        </ul>
+        <!-- /ko -->
+    </li>
+</script>
+<script>
+    $(function () {
+        $('#J_DataTree li.tree-node').treeNode();
+    })
+</script>

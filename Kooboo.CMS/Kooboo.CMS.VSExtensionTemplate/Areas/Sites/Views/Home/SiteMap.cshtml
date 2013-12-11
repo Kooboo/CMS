@@ -1,0 +1,73 @@
+﻿@model Kooboo.CMS.Sites.Models.SiteMap
+@{
+    ViewBag.Title = "Start - Sitemap".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+}
+<div class="topbar">
+    <h1 class="title left">
+        @("Start".Localize())</h1>
+    <ul class="sitemap-description right">
+        <li><span class="static">A</span>
+            @("Static page".Localize())</li>
+        <li><span class="dynamic">A</span>
+            @("Dynamic page".Localize())</li>
+        <li><span class="inherited">A</span>
+            @("Inherited page".Localize())</li>
+        <li><span class="unsynced">A</span>
+            @("Unsynced page".Localize())</li>
+        <li><span class="unpublished">A</span>
+            @("Unpublished page".Localize())</li>
+        <li><span class="show-in-menu">A</span>
+            @("Show in menu".Localize())</li>
+        <li><span class="abpage">ab</span>
+            @("A/B Test".Localize())</li>
+    </ul>
+
+</div>
+<div class="block fixed">
+    <div class="sitemap-panel clearfix">
+        @if (Model.Root == null)
+        {
+            var layouts = ServiceFactory.LayoutManager.All(Site.Current, "").ToArray();
+            <div class="blank">
+                <p>
+                    @("You haven't created any page yet, please click the button below to create a home page first!".Localize())
+                </p>
+                <div class="dropdown-button">
+                    <span>@("Create a page".Localize())</span>
+                    @Html.IconImage("arrow-down")
+                    <ul>
+                        @if (layouts.Length == 0)
+                        {
+                            <li>@("Create a layout first".Localize())</li>
+                        }
+                        else
+                        {
+                            foreach (var l in layouts)
+                            {
+                            <li>
+                                @Html.ActionLink(l.Name, "Create", "Page", ViewContext.RequestContext.AllRouteValues().Merge("FullName", "").Merge("Layout", l.Name).Merge("IsDefault", true).Merge("return", ViewContext.HttpContext.Request.RawUrl), new RouteValueDictionary())
+                            </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+        else
+        {
+            <ul class="site-tree">
+                <li class="tree-node active">
+                    @Html.IconImage("tree-icon")
+
+                    @Html.Partial("SiteMapNode", Model.Root, new ViewDataDictionary(ViewData) { { "IsRoot", true } })
+                </li>
+            </ul>
+        }
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.tree-node').treeNode();
+    });
+</script>

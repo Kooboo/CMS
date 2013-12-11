@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Sites.Extension.Management;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events;
 using Kooboo.Globalization;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #endregion
 
         #region Unzip
-        public string Unzip(ref string moduleName, Stream moduleStream)
+        public string Unzip(ref string moduleName, Stream moduleStream, string user)
         {
             string error = "";
             using (ModuleStreamEntry moduleEntry = new ModuleStreamEntry(moduleName, moduleStream))
@@ -38,14 +39,14 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
                 if (!moduleEntry.IsValid())
                 {
                     error = "The module is invalid.".Localize();
-                    return null;
+                    return error;
                 }
 
                 var moduleInfo = moduleEntry.ModuleInfo;
                 if (moduleInfo == null)
                 {
                     error = "The module.config file is invalid.".Localize();
-                    return null;
+                    return error;
                 }
 
                 moduleName = moduleEntry.ModuleName;
@@ -56,11 +57,12 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
                 if (Directory.Exists(modulePath.PhysicalPath))
                 {
                     error = "The module name already exists.".Localize();
-                    return null;
+                    return error;
                 }
 
                 //save the module version
-                this._moduleVersioning.SaveModuleVersion(moduleEntry);
+                this._moduleVersioning.LogInstallation(moduleName, new InstallationContext(moduleInfo.ModuleName, moduleInfo.Version, DateTime.UtcNow) { User = user });
+                this._moduleVersioning.LogModuleFile(moduleEntry);
 
                 moduleEntry.Extract(modulePhysicalPath);
             }
@@ -99,7 +101,6 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
             var binPath = Settings.BinDirectory;
             foreach (var item in assemblyFiles)
             {
-                string newVersion = null;
                 var fileName = Path.GetFileName(item);
                 var fileNameInBin = Path.Combine(binPath, fileName);
                 var exists = File.Exists(fileNameInBin);
@@ -115,14 +116,14 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #region RunEvent
         public void RunEvent(string moduleName, ControllerContext controllerContext)
         {
-            var moduleAction = ResolveModuleAction(moduleName);
+            var moduleEvents = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleInstallingEvents>(moduleName);
 
-            moduleAction.OnInstalling(controllerContext);
+            if (moduleEvents != null)
+            {
+                moduleEvents.OnInstalling(new ModuleContext(moduleName), controllerContext);
+            }
         }
-        private IModuleEvents ResolveModuleAction(string moduleName)
-        {
-            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
-        }
+
         #endregion
     }
 }

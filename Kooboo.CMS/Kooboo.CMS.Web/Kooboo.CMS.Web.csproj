@@ -222,12 +222,16 @@
     <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_HitTimes_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_ShowTimes_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Inheritable_Status_GridItemColumn.cs" />
+    <Compile Include="Areas\Sites\Models\Grid2\InstallationContext_GridItem.cs" />
+    <Compile Include="Areas\Sites\Models\Grid2\InstallationContext_TargetVersion_Column.cs" />
+    <Compile Include="Areas\Sites\Models\Grid2\InstallationContext_SourceVersion_Column.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Page_Navigation_ShowInMenu_SortableGridColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Page_Navigation_ShowInMenu_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\HitReport_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\HtmlMeta_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ImportRepositoryModel.cs" />
     <Compile Include="Areas\Sites\Models\ImportSiteModel.cs" />
+    <Compile Include="Areas\Sites\Models\InstallationContext_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\LanguageVisitRule_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\PagePermission_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ProxyPosition_Metadata.cs" />
@@ -2439,6 +2443,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\AbortInstallation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\Reinstall.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\OnReinstalling.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\ReinstallComplete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\Versions.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

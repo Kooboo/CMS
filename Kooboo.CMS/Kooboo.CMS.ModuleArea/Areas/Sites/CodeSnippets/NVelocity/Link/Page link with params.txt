@@ -1,1 +1,0 @@
-$Html.FrontHtml().PageLink("Link Text", "Index", "%{UserKey = 'Value'}", "%{title = 'Title'}")

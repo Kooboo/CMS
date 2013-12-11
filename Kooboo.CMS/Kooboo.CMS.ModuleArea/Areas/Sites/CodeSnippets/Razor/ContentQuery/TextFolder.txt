@@ -1,1 +1,0 @@
-ContentHelper.TextFolder(folderName)

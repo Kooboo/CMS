@@ -13,16 +13,17 @@ using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.Web.Routing;
 using Kooboo.Globalization;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
+using System.Web;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
     public class ModuleContext
     {
         #region Create
-        public static ModuleContext Create(Site site, string moduleName, ModuleSettings moduleSettings, ModulePosition position)
+        public static ModuleContext Create(string moduleName, Site site, ModuleSettings moduleSettings, ModulePosition position)
         {
-
-            var context = new ModuleContext(site, moduleName, moduleSettings, position);
+            var context = new ModuleContext(moduleName, site, moduleSettings, position);
 
             if (!System.IO.Directory.Exists(context.ModulePath.PhysicalPath))
             {
@@ -30,87 +31,85 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
             }
             return context;
         }
-        #endregion
-
-        #region ModuleContext
-        protected ModuleContext(Site site, string moduleName, ModuleSettings moduleSettings, ModulePosition position)
+        public static ModuleContext Create(string moduleName, Site site)
         {
-            this.Site = site;
-            ModuleName = moduleName;
-            this.ModuleSettings = moduleSettings;
-            this.ModulePosition = position;
-            this.ModuleInfo = ModuleInfo.Get(moduleName);
+            return new ModuleContext(moduleName, site);
         }
         #endregion
 
-        #region ModuleName
+        #region Current
+
+        public static ModuleContext Current
+        {
+            get
+            {
+                if (HttpContext.Current == null)
+                {
+                    throw new ApplicationException("The module context must be run in http context.");
+                }
+                return (ModuleContext)(HttpContext.Current.Items["___ModuleContext"]);
+            }
+            set
+            {
+                if (HttpContext.Current == null)
+                {
+                    throw new ApplicationException("The module context must be run in http context.");
+                }
+                HttpContext.Current.Items["___ModuleContext"] = value;
+            }
+        }
+        #endregion
+
+        #region .ctor
+        public ModuleContext(string moduleName, Site site, ModuleSettings moduleSettings, ModulePosition position)
+            : this(moduleName, site)
+        {
+            this.FrontEndContext = new FrontEndContext(moduleName, moduleSettings, position);
+        }
+
+        public ModuleContext(string moduleName, Site site)
+        {
+            this.Site = site;
+            ModuleName = moduleName;
+
+        }
+        public ModuleContext(string moduleName)
+            : this(moduleName, null)
+        {
+
+        }
+        #endregion
+
+        #region Properties
         public string ModuleName { get; private set; }
-        #endregion
 
-        #region ModuleInfo
-        public ModuleInfo ModuleInfo { get; private set; }
-        #endregion
+        ModuleInfo _moduleInfo;
+        public ModuleInfo ModuleInfo
+        {
+            get
+            {
+                if (_moduleInfo==null)
+                {
+                    _moduleInfo = ModuleInfo.Get(this.ModuleName);
+                }                
+                return _moduleInfo;
+            }
+        }
 
-        #region ModulePath
         public ModulePath ModulePath
         {
             get
             {
-                return new ModulePath(this.ModuleName);
+                return new ModulePath(this.ModuleName, this.Site);
             }
         }
-        #endregion
 
-        #region Site
         public Site Site { get; private set; }
         #endregion
 
-        #region RouteTable
-        public RouteCollection RouteTable
-        {
-            get
-            {
-                return RouteTables.GetRouteTable(this.ModuleName);
-            }
-        }
+        #region FrontEndContext
+        public FrontEndContext FrontEndContext { get; private set; }
         #endregion
 
-        #region ModuleSettings
-        public ModuleSettings ModuleSettings { get; private set; }
-        #endregion
-
-        #region ModulePosition
-        public ModulePosition ModulePosition { get; private set; }
-        #endregion
-
-        #region EnableTheme
-        private bool enableTheme = true;
-        public virtual bool EnableTheme
-        {
-            get
-            {
-                return enableTheme;
-            }
-            set
-            {
-                this.enableTheme = value;
-            }
-        }
-        #endregion
-
-        #region EnableScript
-        private bool enableScript = true;
-        public virtual bool EnableScript
-        {
-            get
-            {
-                return enableScript;
-            }
-            set
-            {
-                enableScript = value;
-            }
-        }
-        #endregion
     }
 }

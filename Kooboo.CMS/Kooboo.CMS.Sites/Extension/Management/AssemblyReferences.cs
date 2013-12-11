@@ -108,7 +108,7 @@ namespace Kooboo.CMS.Sites.Extension.Management
         #region GetReferenceDataFile
         private string GetReferenceDataFile()
         {
-            var metaDir = Path.Combine(_baseDir.CMSBaseDir, "META");
+            var metaDir = Path.Combine(_baseDir.Cms_DataPhysicalPath, "META");
             if (!Directory.Exists(metaDir))
             {
                 Directory.CreateDirectory(metaDir);

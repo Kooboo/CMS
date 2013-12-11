@@ -21,7 +21,14 @@ namespace Kooboo.CMS.Sites.Services
     public class SiteManager : PathResourceManagerBase<Site, ISiteProvider>
     {
         #region .ctor
-        public SiteManager(ISiteProvider provider) : base(provider) { }
+        public SiteManager(ISiteProvider provider)
+            : base(provider)
+        {
+            if (!(provider is Kooboo.CMS.Sites.Persistence.Caching.SiteProvider))
+            {
+                throw new Exception("Expect caching provider");
+            }
+        }
         #endregion
 
         #region All

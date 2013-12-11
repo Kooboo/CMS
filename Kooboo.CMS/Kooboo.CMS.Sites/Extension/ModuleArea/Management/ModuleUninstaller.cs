@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Sites.Extension.Management;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,22 +22,23 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
     {
         #region .ctor
         IAssemblyReferences _assemblyReferences;
-        public ModuleUninstaller(IAssemblyReferences assemblyReferences)
+        IModuleVersioning _moduleVersioning;
+        public ModuleUninstaller(IAssemblyReferences assemblyReferences, IModuleVersioning moduleVersioning)
         {
             this._assemblyReferences = assemblyReferences;
+            this._moduleVersioning = moduleVersioning;
         }
         #endregion
 
         #region RunEvent
         public void RunEvent(string moduleName, ControllerContext controllerContext)
         {
-            var moduleAction = ResolveModuleAction(moduleName);
+            var moduleEvents = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleUninstallingEvents>(moduleName);
 
-            moduleAction.OnInstalling(controllerContext);
-        }
-        private IModuleEvents ResolveModuleAction(string moduleName)
-        {
-            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
+            if (moduleEvents != null)
+            {
+                moduleEvents.OnUninstalling(new ModuleContext(moduleName), controllerContext);
+            }
         }
         #endregion
 
@@ -81,6 +83,14 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         {
             ModulePath modulePath = new ModulePath(moduleName);
             Kooboo.IO.IOUtility.DeleteDirectory(modulePath.PhysicalPath, true);
+        }
+        #endregion
+
+
+        #region RemoveVersions
+        public void RemoveVersions(string moduleName)
+        {
+            _moduleVersioning.RemoveVersion(moduleName);
         }
         #endregion
     }

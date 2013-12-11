@@ -1,27 +1,29 @@
 ﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo
 @{
-    ViewBag.Title = "Unistall module".Localize();
+    ViewBag.Title = "Module unistallation".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
     var uninstallingTemplate = Model.UninstallingTemplate;
     if (!uninstallingTemplate.StartsWith("~/"))
     {
-        uninstallingTemplate = new ModulePathHelper(Model.ModuleName).GetViewPath(uninstallingTemplate).VirtualPath;
+        uninstallingTemplate = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(uninstallingTemplate).VirtualPath;
     }
 }
 @section Panel{
     <ul class="panel">
-         <li>
+        <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
+                @Html.IconImage("cancel") @("Back".Localize())
+            </a>
         </li>
         <li>
             <a data-ajaxform="">
-                @Html.IconImage("next") @("Next".Localize())</a>
-        </li>       
+                @Html.IconImage("next") @("Next".Localize())
+            </a>
+        </li>
     </ul>
 }
 <div class="common-form">
-    <h1 class="title">@ViewBag.Title</h1>
+    <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
     <div class="process-steps">
         <div class="steps-inner">
             <span class="current">@("Run uninstallation action".Localize())<b></b></span>
@@ -31,7 +33,15 @@
     </div>
     @using (Html.BeginForm())
     {
-        @Html.Partial(uninstallingTemplate,null,new ViewDataDictionary())
+
+        if (string.IsNullOrEmpty(uninstallingTemplate))
+        {
+            <p>@("Confirm to run the 'OnUninstalling' event which defined in module.".Localize())</p>
+        }
+        else
+        {
+            @Html.Partial(uninstallingTemplate, null, new ViewDataDictionary())
+        }
     }
 </div>
 

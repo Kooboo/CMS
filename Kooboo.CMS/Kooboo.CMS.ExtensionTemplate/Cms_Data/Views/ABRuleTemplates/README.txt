@@ -1,1 +1,0 @@
-The folder is used to place custom A\B test rule templates.

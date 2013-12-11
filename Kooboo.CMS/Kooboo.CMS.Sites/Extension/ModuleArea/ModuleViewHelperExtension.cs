@@ -18,6 +18,7 @@ using System.Globalization;
 using System.Web.Mvc.Html;
 using Kooboo.Web.Mvc;
 using System.Collections;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
@@ -312,7 +313,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         private string TagPostModule(string rawUrl)
         {
             var moduleContext = ((ModuleRequestContext)this.ViewContext.RequestContext).ModuleContext;
-            return Kooboo.Web.Url.UrlUtility.AddQueryParam(rawUrl, Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter, moduleContext.ModulePosition.PagePositionId);
+            return Kooboo.Web.Url.UrlUtility.AddQueryParam(rawUrl, Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter, moduleContext.FrontEndContext.ModulePosition.PagePositionId);
 
         }
 
@@ -484,7 +485,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         private string TagPostModule(string rawUrl)
         {
             var moduleContext = ((ModuleRequestContext)this.ViewContext.RequestContext).ModuleContext;
-            return Kooboo.Web.Url.UrlUtility.AddQueryParam(rawUrl, Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter, moduleContext.ModulePosition.PagePositionId);
+            return Kooboo.Web.Url.UrlUtility.AddQueryParam(rawUrl, Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter, moduleContext.FrontEndContext.ModulePosition.PagePositionId);
 
         }
 
@@ -579,7 +580,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         {
             CheckContext(htmlHelper.ViewContext.RequestContext);
             var moduleRequestContext = (ModuleRequestContext)htmlHelper.ViewContext.RequestContext;
-            return new ModuleHtmlHelper(htmlHelper.ViewContext, htmlHelper.ViewDataContainer, moduleRequestContext.ModuleContext.RouteTable);
+            return new ModuleHtmlHelper(htmlHelper.ViewContext, htmlHelper.ViewDataContainer, moduleRequestContext.ModuleContext.FrontEndContext.RouteTable);
         }
         private static void CheckContext(RequestContext requestContext)
         {
@@ -592,27 +593,27 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         {
             CheckContext(htmlHelper.ViewContext.RequestContext);
             var moduleRequestContext = (ModuleRequestContext)htmlHelper.ViewContext.RequestContext;
-            return new ModuleHtmlHelper<TModel>(htmlHelper.ViewContext, htmlHelper.ViewDataContainer, moduleRequestContext.ModuleContext.RouteTable);
+            return new ModuleHtmlHelper<TModel>(htmlHelper.ViewContext, htmlHelper.ViewDataContainer, moduleRequestContext.ModuleContext.FrontEndContext.RouteTable);
         }
 
         public static UrlHelper ModuleUrl(this UrlHelper urlHelper)
         {
             CheckContext(urlHelper.RequestContext);
             var moduleRequestContext = (ModuleRequestContext)urlHelper.RequestContext;
-            return new UrlHelper(urlHelper.RequestContext, moduleRequestContext.ModuleContext.RouteTable);
+            return new UrlHelper(urlHelper.RequestContext, moduleRequestContext.ModuleContext.FrontEndContext.RouteTable);
         }
 
         public static AjaxHelper ModuleAjax(this AjaxHelper ajaxHelper)
         {
             CheckContext(ajaxHelper.ViewContext.RequestContext);
             var moduleRequestContext = (ModuleRequestContext)ajaxHelper.ViewContext.RequestContext;
-            return new AjaxHelper(ajaxHelper.ViewContext, ajaxHelper.ViewDataContainer, moduleRequestContext.ModuleContext.RouteTable);
+            return new AjaxHelper(ajaxHelper.ViewContext, ajaxHelper.ViewDataContainer, moduleRequestContext.ModuleContext.FrontEndContext.RouteTable);
         }
         public static AjaxHelper<TModel> ModuleAjax<TModel>(this AjaxHelper<TModel> ajaxHelper)
         {
             CheckContext(ajaxHelper.ViewContext.RequestContext);
             var moduleRequestContext = (ModuleRequestContext)ajaxHelper.ViewContext.RequestContext;
-            return new AjaxHelper<TModel>(ajaxHelper.ViewContext, ajaxHelper.ViewDataContainer, moduleRequestContext.ModuleContext.RouteTable);
+            return new AjaxHelper<TModel>(ajaxHelper.ViewContext, ajaxHelper.ViewDataContainer, moduleRequestContext.ModuleContext.FrontEndContext.RouteTable);
         }
     }
 }

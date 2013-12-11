@@ -20,12 +20,15 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
     /// 1. Run uninstall event
     /// 2. Remove the assembly files from Bin folder(Remove the reference record from the sharing assemblies).
     /// 3. Delete the module area folder
+    /// 4. Remove the module versions
     /// </summary>
     public interface IModuleUninstaller
     {
         void RunEvent(string moduleName, ControllerContext controllerContext);
         void RemoveAssemblies(string moduleName);
         void DeleteModuleArea(string moduleName);
+
+        void RemoveVersions(string moduleName);
 
     }
 }

@@ -28,7 +28,15 @@ namespace Kooboo.CMS.Sites.Services
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(PageManager))]
     public class PageManager : PathResourceManagerBase<Page, IPageProvider>
     {
-        public PageManager(IPageProvider provider) : base(provider) { }
+        public PageManager(IPageProvider provider)
+            : base(provider)
+        {
+
+            if (!(provider is Kooboo.CMS.Sites.Persistence.Caching.PageProvider))
+            {
+                throw new Exception("Expect caching provider");
+            }
+        }
 
         #region Providers
         public IVersionLogger<Models.Page> VersiongLogger

@@ -1,1 +1,0 @@
-The folder is used to place the shared views£¬the same with the folder of "Views\Shared" but has higher priority then it.

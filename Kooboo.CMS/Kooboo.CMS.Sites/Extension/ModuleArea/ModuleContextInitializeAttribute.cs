@@ -17,14 +17,9 @@ using Kooboo.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
-    public class ModuleContextInitializeAttribute : System.Web.Mvc.IActionFilter
+    public class ModuleContextInitializeAttribute : System.Web.Mvc.ActionFilterAttribute
     {
-        public void OnActionExecuted(System.Web.Mvc.ActionExecutedContext filterContext)
-        {
-
-        }
-
-        public void OnActionExecuting(System.Web.Mvc.ActionExecutingContext filterContext)
+        public override void OnActionExecuting(System.Web.Mvc.ActionExecutingContext filterContext)
         {
             if (ModuleContext.Current == null)
             {

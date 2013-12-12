@@ -21,9 +21,9 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
     public class ModuleContext
     {
         #region Create
-        public static ModuleContext Create(string moduleName, Site site, ModuleSettings moduleSettings, ModulePosition position)
+        public static ModuleContext Create(string moduleName, Site site, ModulePosition position)
         {
-            var context = new ModuleContext(moduleName, site, moduleSettings, position);
+            var context = new ModuleContext(moduleName, site, position);
 
             if (!System.IO.Directory.Exists(context.ModulePath.PhysicalPath))
             {
@@ -61,10 +61,10 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         #endregion
 
         #region .ctor
-        public ModuleContext(string moduleName, Site site, ModuleSettings moduleSettings, ModulePosition position)
+        public ModuleContext(string moduleName, Site site, ModulePosition position)
             : this(moduleName, site)
         {
-            this.FrontEndContext = new FrontEndContext(moduleName, moduleSettings, position);
+            this.FrontEndContext = new FrontEndContext(moduleName,this.GetModuleSettings(), position);
         }
 
         public ModuleContext(string moduleName, Site site)
@@ -88,10 +88,10 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         {
             get
             {
-                if (_moduleInfo==null)
+                if (_moduleInfo == null)
                 {
                     _moduleInfo = ModuleInfo.Get(this.ModuleName);
-                }                
+                }
                 return _moduleInfo;
             }
         }

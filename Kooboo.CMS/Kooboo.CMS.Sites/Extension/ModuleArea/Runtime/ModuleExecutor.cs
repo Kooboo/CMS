@@ -28,23 +28,27 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Runtime
             try
             {
                 HttpContext context = HttpContext.Current;
-                var moduleSettings = new ModuleContext(modulePosition.ModuleName, site).GetModuleSettings();
-                if (modulePosition.Entry != null)
-                {
-                    moduleSettings.Entry = modulePosition.Entry;
-                }
-                var settings = moduleSettings;
+
                 var positionId = modulePosition.PagePositionId;
                 var moduleName = modulePosition.ModuleName;
 
-                ModuleContext moduleContext = ModuleContext.Create(moduleName, site, settings, modulePosition);
+                ModuleContext moduleContext = ModuleContext.Create(moduleName, site, modulePosition);
                 ModuleContext.Current = moduleContext;
 
                 if (string.IsNullOrEmpty(moduleUrl))
                 {
-                    if (settings != null && settings.Entry != null)
+                    var entry = modulePosition.Entry;
+                    if (entry == null)
                     {
-                        moduleUrl = GetEntryUrl(context, moduleContext, settings.Entry);
+                        var moduleSetting = moduleContext.GetModuleSettings();
+                        if (moduleSetting != null)
+                        {
+                            entry = moduleSetting.Entry;
+                        }
+                    }
+                    if (entry != null)
+                    {
+                        moduleUrl = GetEntryUrl(context, moduleContext, entry);
                         if (!string.IsNullOrEmpty(moduleUrl) && !moduleUrl.StartsWith("~"))
                         {
                             moduleUrl = "~" + moduleUrl;
@@ -173,6 +177,9 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Runtime
         {
             try
             {
+                //switch the module context for the view render.
+                ModuleContext.Current = actionInvokedContext.ControllerContext.GetModuleContext();
+
                 return actionInvoker.ExecuteActionResult(actionInvokedContext);
             }
             catch (Exception e)

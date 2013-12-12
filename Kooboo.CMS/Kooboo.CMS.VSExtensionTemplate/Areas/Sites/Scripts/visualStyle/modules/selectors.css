@@ -1,0 +1,99 @@
+﻿/*
+*   selectors
+*   author: ronglin
+*   create date: 2011.12.28
+*/
+
+.vs-selectors {
+	border: 1px solid #CCC;
+	float: left;
+	width: 250px;
+	height: 100%;
+}
+
+.vs-selectors .search {
+	position: relative;
+	height: 22px;
+	overflow: hidden;
+	border-left: 2px solid #EEE;
+	border-right: 2px solid #EEE;
+	border-top: 3px solid #EEE;
+	border-bottom: 3px solid #EEE;
+}
+
+.vs-selectors .search label {
+	position: absolute;
+	color: #aaa;
+	font-size: 12px;
+	margin-left: 2px;
+	line-height: 22px;
+	cursor: text;
+}
+
+.vs-selectors .search .txt {
+	border: 1px solid transparent;
+	padding: 1px 18px 1px 1px;
+	width: 198px;
+}
+
+.vs-selectors .search .txt:focus {
+	border:1px solid #F1CA7E;
+}
+
+.vs-selectors .search .go, .vs-selectors .search .clear {
+	cursor:pointer;
+	width: 24px;
+	height: 22px;
+}
+.vs-selectors .search .clear {
+	background:url("images/selectors_clear.png") no-repeat center;
+	border:none;
+	visibility:hidden;
+	margin-left:-22px;
+	text-indent:-99999px;
+}
+.vs-selectors .search .go {
+	background:url("images/selectors_go.png") no-repeat center;
+	border:none;
+	text-indent:-99999px;
+	color:transparent;
+}
+
+.vs-selectors .content {
+	height: 350px;
+	border-top: 1px solid #ccc;
+	overflow-y: auto;
+}
+
+.vs-selectors .content .item {
+	cursor: pointer;
+	line-height: 20px;
+	padding-left: 2px;
+	padding-right: 2px;
+	border-bottom: 1px solid #aaa;
+}
+
+.vs-selectors .content .item.notice {
+	background-color: #eee;
+}
+
+.vs-selectors .content .item.select {
+	background-color: #ccc;
+}
+
+.vs-selectors .content .item .changed {
+	width: 16px;
+	height: 16px;
+	float: left;
+	display: none;
+	margin-top: 2px;
+	margin-right: 2px;
+	background-repeat: no-repeat;
+	background-image: url("images/selectors_changed.png");
+}
+
+.vs-selectors .content .item .text em {
+	background-color: red;
+	font-style: normal;
+	color: #fff;
+}

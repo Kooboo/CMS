@@ -1,10 +1,10 @@
 ﻿@using Kooboo.CMS.Web
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
     @RenderSection("HeadContentFirst", false)
-    @Html.ExternalResources("siteStyles")    
+    @Html.ExternalResources("siteStyles")
     @Html.ExternalResources("siteScripts")
     @Html.IncludeLocalizationScripts()
     <script type="text/javascript" src="@Url.Content("~/Scripts/tiny_mce/tinymce.min.js")"></script>
@@ -19,7 +19,7 @@
             selectHtmlBlock: '@("Please select a HTML block".Localize())'
         };
     </script>
-    <script type="text/javascript" src="@Html.Raw(Url.Content("~/Areas/Sites/Scripts/pageDesign/page.js"))"></script>  
+    <script type="text/javascript" src="@Html.Raw(Url.Content("~/Areas/Sites/Scripts/pageDesign/page.js"))"></script>
     @RenderSection("HeadContent", false)
 </head>
 <body class="in-dialog">
@@ -27,10 +27,13 @@
         @RenderBody()
         <input type="hidden" name="IsEdit" id="IsEdit" value="@Html.Raw(ViewData["IsEdit"])" />
         <input type="hidden" name="Order" id="Order" />
-        <input type="hidden" name="PagePositionId" id="PagePositionId" />
+        @if (ViewBag.PagePositionIdRendered != true)
+        {
+            <input type="hidden" name="PagePositionId" id="PagePositionId" />
+        }
         <p class="buttons">
             <button type="submit">@("OK".Localize())</button>
-            <a class="button action gray" type="button" id="btnCancel">@("Cancel".Localize())</a>
+            <a class="button action gray" id="btnCancel">@("Cancel".Localize())</a>
         </p>
     </form>
 </body>

@@ -1227,7 +1227,7 @@
     <Content Include="Styles\select2\spinner.gif" />
     <Content Include="Styles\validation.css" />
     <Content Include="Areas\HelloWorld\Views\Admin\Index.cshtml" />
-    <None Include="Areas\HelloWorld\Views\Home\Index.cshtml" />
+    <Content Include="Areas\HelloWorld\Views\Home\Index.cshtml" />
     <Content Include="Areas\Sites\CodeSnippets\NVelocity\ContentQuery\CreateQuery.txt" />
     <Content Include="Areas\Sites\CodeSnippets\NVelocity\ContentQuery\MediaFolder.txt" />
     <Content Include="Areas\Sites\CodeSnippets\NVelocity\ContentQuery\Order\OrderBy.txt" />
@@ -2100,7 +2100,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>mk bin
+    <PreBuildEvent>md bin
 copy  /Y ..\lib\*.* ..\bin\</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

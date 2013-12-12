@@ -44,9 +44,30 @@
             </td>
         </tr>
         <tr>
+            <th></th>
+            <td>
+                <input type="checkbox" id="skipError" name="SkipError" value="true" />
+                <input type="hidden" name="SkipError" value="false" />
+                <label for="skipError" class="inline">@("Skip error".Localize())</label>
+                <em class="tip">@Html.Raw("Skip the module error avoid to break down the page running.".Localize())</em>
+            </td>
+        </tr>
+        <tr>
             <th>
                 <label for="EntryController">
-                    @("Entry Options".Localize())</label>
+                    @("Position ID".Localize())
+                </label>
+            </th>
+            <td>
+                <input type="text" class="medium" name="PagePositionId" id="PagePositionId" />
+                <em class="tip">@("Set friendly id will be used in ModuleUrl.".Localize())</em>
+            </td>
+            @{ViewBag.PagePositionIdRendered = true;}
+        </tr>
+        <tr>
+            <th>
+                <label for="EntryController">
+                    @("Entry name".Localize())</label>
             </th>
             <td>
                 <select id="EntryOptions" class="medium" name="Entry.Name">
@@ -56,7 +77,7 @@
         <tr>
             <th>
                 <label for="EntryController">
-                    @("Entry Controller".Localize())</label>
+                    @("Entry controller".Localize())</label>
             </th>
             <td>
                 <input type="text" class="medium" id="EntryController" name="Entry.Controller" />
@@ -66,14 +87,13 @@
         <tr>
             <th>
                 <label for="EntryAction">
-                    @("Entry Action".Localize())</label>
+                    @("Entry action".Localize())</label>
             </th>
             <td>
                 <input type="text" class="medium" id="EntryAction" name="Entry.Action" />
                 <em class="tip">@("Initial MVC action when this module first loaded on a page".Localize())</em>
             </td>
         </tr>
-
         <tr>
             <th>
                 <label for="">
@@ -109,18 +129,7 @@
                     </tfoot>
                 </table>
             </td>
-        </tr>
-
-        <tr>
-            <th></th>
-            <td>
-                <input type="checkbox" id="skipError" name="SkipError" value="true" />
-                <input type="hidden" name="SkipError" value="false" />
-                <label for="skipError" class="inline">@("Skip error".Localize())</label>
-                <em class="tip">@Html.Raw("".Localize())</em>
-            </td>
-        </tr>
-
+        </tr>      
     </table>
 </div>
 <script type="text/javascript">

@@ -28,7 +28,7 @@ namespace Kooboo.CMS.VSExtensionTemplate.Areas.HelloWorld
         public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
-               ModuleName + "_default",
+               this.GetType().Namespace + "_" + ModuleName + "_default",
                 ModuleName + "/{controller}/{action}",
                 new { controller = "Admin", action = "Index" }
                 , null

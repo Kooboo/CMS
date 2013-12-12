@@ -25,10 +25,11 @@ namespace Kooboo.CMS.Sites.View
     public class ModuleUrlContext
     {
         #region .ctor
-        public ModuleUrlContext(PageRequestContext pageRequextContext, string moduleUrl)
+        public ModuleUrlContext(PageRequestContext pageRequextContext, string moduleUrl, int moduleCount)
         {
             this.PageRequestContext = pageRequextContext;
             this.ModuleUrl = moduleUrl;
+            this.ModuleCountInPage = moduleCount;
             ParseModuleRouteValues(moduleUrl);
         }
         #endregion
@@ -36,8 +37,8 @@ namespace Kooboo.CMS.Sites.View
         #region Static fields
         public static string PostModuleParameter = "_PostModule";
         public static string ModuleUrlSegment = "ModuleUrl";
-        public static string ModuleUrlSplitterFormat = "({0})";
-        readonly static Regex ModuleUrlSplitterRegex = new Regex("\\([^/]*\\)", RegexOptions.Compiled);
+        public static string ModuleUrlSplitterFormat = "__{0}__";
+        readonly static Regex ModuleUrlSplitterRegex = new Regex("__[^/]*__", RegexOptions.Compiled);
 
         #endregion
 
@@ -45,6 +46,7 @@ namespace Kooboo.CMS.Sites.View
         public PageRequestContext PageRequestContext { get; private set; }
         public RouteValueDictionary ModuleRouteValues { get; private set; }
         public string ModuleUrl { get; private set; }
+        public int ModuleCountInPage { get; set; }
         #endregion
 
         #region ParseModuleRouteValues
@@ -84,6 +86,13 @@ namespace Kooboo.CMS.Sites.View
             {
                 //Decode the module url before using. Because the other module urls will be used when next page url generating.
                 return "~" + ModuleUrlHelper.Decode(ModuleRouteValues[moduleUrlSplitter].ToString());
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(ModuleUrl) && this.ModuleCountInPage == 1)
+                {
+                    return "~/" + this.ModuleUrl;
+                }
             }
             return string.Empty;
         }
@@ -152,27 +161,34 @@ namespace Kooboo.CMS.Sites.View
             {
                 moduleRouteValues = new RouteValueDictionary(ModuleRouteValues);
             }
-            var moduleUrlSpliter = string.Format(ModuleUrlSplitterFormat, modulePositionId);
-            if (!string.IsNullOrEmpty(moduleUrl) && moduleUrl != "/")
+            if (ModuleCountInPage > 1)
             {
-                moduleRouteValues[moduleUrlSpliter] = moduleUrl;
+                var moduleUrlSpliter = string.Format(ModuleUrlSplitterFormat, modulePositionId);
+                if (!string.IsNullOrEmpty(moduleUrl) && moduleUrl != "/")
+                {
+                    moduleRouteValues[moduleUrlSpliter] = moduleUrl;
+                }
+                else
+                {
+                    if (moduleRouteValues.ContainsKey(moduleUrlSpliter))
+                    {
+                        moduleRouteValues.Remove(moduleUrlSpliter);
+                    }
+                }
+
+                StringBuilder moduleUrlBuilder = new StringBuilder();
+                foreach (var item in moduleRouteValues)
+                {
+                    //item.Value start with '/'
+                    moduleUrlBuilder.AppendFormat("{0}/{1}/", item.Key, item.Value.ToString().TrimStart('/'));
+                }
+
+                values[ModuleUrlSegment] = moduleUrlBuilder.ToString().TrimEnd('/');
             }
             else
             {
-                if (moduleRouteValues.ContainsKey(moduleUrlSpliter))
-                {
-                    moduleRouteValues.Remove(moduleUrlSpliter);
-                }
+                values[ModuleUrlSegment] = moduleUrl;
             }
-
-            StringBuilder moduleUrlBuilder = new StringBuilder();
-            foreach (var item in moduleRouteValues)
-            {
-                //item.Value start with '/'
-                moduleUrlBuilder.AppendFormat("{0}/{1}/", item.Key, item.Value.ToString().TrimStart('/'));
-            }
-
-            values[ModuleUrlSegment] = moduleUrlBuilder.ToString().TrimEnd('/');
             //values.Remove(PostModuleParameter);
             return values;
         }
@@ -302,7 +318,7 @@ namespace Kooboo.CMS.Sites.View
             }
 
             var moduleUrl = AllQueryString[ModuleUrlContext.ModuleUrlSegment];
-            ModuleUrlContext = new ModuleUrlContext(this, moduleUrl);
+            ModuleUrlContext = new ModuleUrlContext(this, moduleUrl, page.PagePositions.OfType<ModulePosition>().Count());
         }
         #endregion
 

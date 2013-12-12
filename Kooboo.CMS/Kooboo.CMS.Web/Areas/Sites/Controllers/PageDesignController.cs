@@ -258,7 +258,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 else if (t == PageDesignModuleContent.TypeKey)
                 {
                     bool skipError = false;
-                    bool.TryParse(item.Str("SkipError"), out skipError);
+                    bool.TryParse(item.Str("SkipError"), out skipError);                    
                     pos = new ModulePosition()
                     {
                         ModuleName = item.Str("ModuleName"),

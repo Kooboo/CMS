@@ -35,7 +35,21 @@ namespace Kooboo.CMS.Sites.Models
         /// </summary>
         /// <value>The page position ID.</value>
         [DataMember(Order = 1)]
-        public string PagePositionId { get { return pagePositionId; } set { pagePositionId = value; } }
+        public string PagePositionId
+        {
+            get { return pagePositionId; }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    pagePositionId = UniqueIdGenerator.GetInstance().GetBase32UniqueId(5);
+                }
+                else
+                {
+                    pagePositionId = value;
+                }
+            }
+        }
         [DataMember(Order = 2)]
         public string LayoutPositionId
         {

@@ -1,0 +1,80 @@
+﻿<div class="block member-form common-form">
+    <form class="ajaxForm" action="@Url.FrontUrl().SubmissionUrl("ValidateMember", new { returnUrl = ViewContext.RequestContext.GetRequestValue("returnUrl") })" method="post">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <div class="member-form-main">
+            <table>
+                <tr class="field">
+                    <th>
+                        <label for="UserName">@("Username".Label())</label>
+                    </th>
+                    <td>
+                        <input class="" data-val="true" data-val-required="@("Required".RawLabel())" id="UserName" name="UserName"
+                            type="text" value="" autocomplete="off">
+                        @Html.ValidationMessage("UserName")
+                    </td>
+                </tr>
+                <tr class="field">
+                    <th>
+                        <label for="Password">@("Password".Label())</label>
+                    </th>
+                    <td>
+                        <input class="" data-val="true" data-val-required="@("Required".RawLabel())" id="Password" name="Password"
+                            type="password" autocomplete="off">
+                        @Html.ValidationMessage("Password")
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <input type="checkbox" id="rememberMe" name="RememberMe" value="true" />
+                        <label class="inline" for="rememberMe">@("Remember me".Label())</label>
+                        <input type="hidden" name="RememberMe" value="false" />
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <button type="submit">@("Login".Label())</button><br>
+                        <a href="@Url.FrontUrl().PageUrl("Member/ForgotPassword")">@("Forgot password?".Label())</a><br>
+                          @Html.FrontHtml().PageLink("Register a new account".Label(), "Member/Register")
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+    <div class="member-form-side">
+        @{
+            var membershipConnects = Page_Context.Current.ExternalLogin().GetMembershipConnects();
+ }
+        @if (membershipConnects.Count() > 0)
+        {
+
+            <h2>@("Login with social accounts".Label())
+            </h2>
+
+
+
+            <form action="@(Page_Context.Current.ExternalLogin().ExternalLoginUrl(ViewContext.RequestContext.GetRequestValue("ReturnUrl")))" method="post">
+
+                @Html.AntiForgeryToken()
+                <ul>
+                    @foreach (var p in membershipConnects)
+                    {
+                        if (p.Enabled)
+                        {
+                        <li>
+                            <button type="submit" name="connectName" value="@p.Name" title="Log in using your @p.DisplayName account" class="@p.Name.ToLower()">@p.DisplayName</button>
+                        </li>    
+                        }
+                    }
+                </ul>
+
+            </form>
+        }
+        <div>
+        @Html.Raw("<b>Note</b>: You need to configure Fackbook or <br > Twitter settings before using them.".Label())
+        </div>
+    </div>
+
+</div>

@@ -12,7 +12,7 @@ using System.IO;
 using Kooboo;
 using Kooboo.Web.Mvc;
 
-namespace Kooboo.CMS.ExtensionTemplate.Areas.EmptyModule
+namespace Kooboo.CMS.VSExtensionTemplate.Areas.HelloWorld
 {
     public class ModuleAreaRegistration : AreaRegistration
     {

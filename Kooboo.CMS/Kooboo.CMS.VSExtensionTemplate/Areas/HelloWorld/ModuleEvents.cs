@@ -14,7 +14,7 @@ using System.Text;
 using System.Web.Mvc;
 using Kooboo.CMS.Sites.Extension;
 using Kooboo.CMS.Sites.Models;
-namespace Kooboo.CMS.ExtensionTemplate.Areas.EmptyModule
+namespace Kooboo.CMS.VSExtensionTemplate.Areas.HelloWorld
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleEvents), Key = ModuleAreaRegistration.ModuleName)]
     public class ModuleEvents : IModuleEvents

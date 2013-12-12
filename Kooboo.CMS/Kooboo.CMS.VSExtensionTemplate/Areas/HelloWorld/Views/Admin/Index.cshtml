@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Shared/Site.cshtml";
+    ViewBag.Title = "Hello world".Localize();
+}
+
+@section Panel{
+    <ul class="panel">
+        <li>
+        </li>
+    </ul>
+}
+
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    <ul>
+        <li>Module installation path: @ModuleContext.Current.ModulePath.GetModuleInstallationFilePath().PhysicalPath</li>
+        <li>Module shared data path: @ModuleContext.Current.ModulePath.GetModuleSharedFilePath().PhysicalPath</li>
+        <li>Module private data path: @ModuleContext.Current.ModulePath.GetModuleLocalFilePath().PhysicalPath</li>
+    </ul>
+</div>
+

@@ -83,6 +83,8 @@
     <Compile Include="AreaControllerBase.cs" />
     <Compile Include="Assemblies.cs" />
     <Compile Include="Caching\CacheExtensions.cs" />
+    <Compile Include="Contact\ContactSiteModel.cs" />
+    <Compile Include="Contact\ContactSitePlugin.cs" />
     <Compile Include="Controllers\ActionFilters\CachedContentResult.cs" />
     <Compile Include="Controllers\ActionFilters\CheckRequireHttpsAttribute.cs" />
     <Compile Include="Controllers\ActionFilters\CheckSiteExistsActionFilter.cs" />

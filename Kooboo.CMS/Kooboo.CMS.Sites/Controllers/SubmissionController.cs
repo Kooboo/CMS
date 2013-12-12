@@ -42,7 +42,7 @@ namespace Kooboo.CMS.Sites.Controllers
             var submissionSetting = _submissionSettingManager.Get(Site, submissionName);
             if (submissionSetting == null)
             {
-                throw new ArgumentNullException("The submission setting does not exists.");
+                throw new ArgumentNullException("The submission setting does not exist.");
             }
             var pluginType = Type.GetType(submissionSetting.PluginType);
             var submissionPlugin = (ISubmissionPlugin)TypeActivator.CreateInstance(pluginType);

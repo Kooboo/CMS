@@ -11,7 +11,7 @@ using System.Web;
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
     [MetadataFor(typeof(InstallationContext))]
-    [Grid(Checkable = true, IdProperty = "VersionRange")]
+    [Grid(Checkable = true, IdProperty = "InstallationFileName")]
     public class InstallationContext_Metadata
     {
         [GridColumn(Order = 1, HeaderText = "Source version", GridItemColumnType = typeof(InstallationContext_SourceVersion_Column))]

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
 {
     /// <summary>
-    /// Module installation steps:
+    /// Module installation steps:(未来更好的安装流程可能是在上传文件后，显示Module的版本号等信息后再确认一次是否要继续安装。目前不确定是否需要这一步。)
     /// 1. Unzip uploaded stream
     /// 2. Check conflict assembly references
     /// 2. Copy assemblies

@@ -20,7 +20,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.Grid2
             {
                 var installationContext = (InstallationContext)this.DataItem;
                 IModuleVersioning moduleVersioning = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IModuleVersioning>();
-                return moduleVersioning.IsModuleVersionExists(installationContext.ModuleName, installationContext.VersionRange.TargetVersion);
+                return moduleVersioning.IsInstallationFileExists(installationContext);
             }
         }
     }

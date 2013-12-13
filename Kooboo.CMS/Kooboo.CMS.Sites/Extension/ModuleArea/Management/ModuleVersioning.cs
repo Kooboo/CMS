@@ -79,53 +79,61 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         }
         #endregion
 
-        #region LogModuleFile
-
-        private string GetModuleWithVersionFile(string moduleName, string version)
+        private string GetModuleHistoryPath(string moduleName)
         {
-            var moduleVersionFile = Path.Combine(_moduleHistoryPath, moduleName);
-
-            return Path.Combine(moduleVersionFile, version + ".zip");
-
+            var path = Path.Combine(_moduleHistoryPath, moduleName);
+            Kooboo.IO.IOUtility.EnsureDirectoryExists(path);
+            return path;
         }
 
-        public void LogModuleFile(ModuleStreamEntry moduleStreamEntry)
+
+        private string GetInstallationVersionFilePath(string moduleName, string version)
         {
-            var moduleWithVersionFile = GetModuleWithVersionFile(moduleStreamEntry.ModuleName, moduleStreamEntry.ModuleInfo.Version);
-            moduleStreamEntry.SaveTo(moduleWithVersionFile);
+            var moduleHistoryPath = GetModuleHistoryPath(moduleName);
+
+            return Path.Combine(moduleHistoryPath, version + "-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".zip");
+
+        }
+        public string SaveInstallationFile(ModuleStreamEntry moduleStreamEntry)
+        {
+            var installationFile = GetInstallationVersionFilePath(moduleStreamEntry.ModuleName, moduleStreamEntry.ModuleInfo.Version);
+            moduleStreamEntry.SaveTo(installationFile);
+            return Path.GetFileName(installationFile);
         }
 
-        #endregion
-
-        #region GetModuleStream
-        public Stream GetModuleStream(string moduleName, string version)
+        public bool IsInstallationFileExists(InstallationContext installationContext)
         {
-            var moduleWithVersionFile = GetModuleWithVersionFile(moduleName, version);
-            if (File.Exists(moduleWithVersionFile))
+            var installationFilePath = GetInstallationFilePath(installationContext.ModuleName, installationContext.InstallationFileName);
+            return File.Exists(installationFilePath);
+        }
+
+        private string GetInstallationFilePath(string moduleName, string installationFile)
+        {
+            var moduleHistoryPath = GetModuleHistoryPath(moduleName);
+            var installationFilePath = Path.Combine(moduleHistoryPath, installationFile);
+            return installationFilePath;
+        }
+
+        public Stream GetInstallationStream(InstallationContext installationContext)
+        {
+            return GetInstallationStream(installationContext.ModuleName, installationContext.InstallationFileName);
+        }
+        public Stream GetInstallationStream(string moduleName, string installationFile)
+        {
+            var installationFilePath = GetInstallationFilePath(moduleName, installationFile);
+            if (File.Exists(installationFilePath))
             {
-                using (var fs = new FileStream(moduleWithVersionFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var fs = new FileStream(installationFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     return new MemoryStream(fs.ReadData());
                 }
             }
             return null;
         }
-        #endregion
-
-        #region RemoveVersion
-        public void RemoveVersion(string moduleName)
+        public void RemoveHistory(string moduleName)
         {
-            var moduleVersion = Path.Combine(_moduleHistoryPath, moduleName);
-            Kooboo.IO.IOUtility.DeleteDirectory(moduleVersion, true);
+            var moduleHistoryPath = GetModuleHistoryPath(moduleName);
+            Kooboo.IO.IOUtility.DeleteDirectory(moduleHistoryPath, true);
         }
-        #endregion
-
-        #region IsModuleVersionExists
-        public bool IsModuleVersionExists(string moduleName, string version)
-        {
-            var moduleWithVersionFile = GetModuleWithVersionFile(moduleName, version);
-            return File.Exists(moduleWithVersionFile);
-        }
-        #endregion
     }
 }

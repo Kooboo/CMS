@@ -138,7 +138,7 @@
     <Compile Include="Extension\ModuleArea\ModulePathHelper.cs" />
     <Compile Include="Extension\ModuleArea\ModuleItemPath.cs" />
     <Compile Include="Extension\ModuleArea\Management\IModuleVersioning.cs" />
-    <Compile Include="Extension\ModuleArea\ModuleStreamEntry.cs" />
+    <Compile Include="Extension\ModuleArea\Management\ModuleStreamEntry.cs" />
     <Compile Include="Extension\ModuleArea\ModuleViewHelperExtension.cs" />
     <Compile Include="Extension\ModuleArea\Runtime\ModuleActionResultExecutor.cs" />
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />

@@ -14,7 +14,7 @@ using Kooboo.Web.Mvc;
 
 namespace Kooboo.CMS.VSExtensionTemplate.Areas.HelloWorld
 {
-    public class ModuleAreaRegistration : AreaRegistration
+    public class ModuleAreaRegistration : Kooboo.CMS.Common.AreaRegistrationEx
     {
         public const string ModuleName = "HelloWorld";
         public override string AreaName

@@ -5,8 +5,19 @@
     var reinstallingTemplate = Model.ReinstallingTemplate;
     if (!string.IsNullOrEmpty(reinstallingTemplate) && !reinstallingTemplate.StartsWith("~/"))
     {
-        reinstallingTemplate = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(reinstallingTemplate).VirtualPath;
+        var viewPath = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(reinstallingTemplate);
+        if (File.Exists(viewPath.PhysicalPath))
+        {
+            reinstallingTemplate = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(reinstallingTemplate).VirtualPath;
+        }
+        else
+        {
+            reinstallingTemplate = null;
+        }
+
     }
+    var installationContext = (Kooboo.CMS.Sites.Extension.ModuleArea.Management.InstallationContext)ViewBag.InstallationContext;
+
 }
 @section Panel{
     <ul class="panel">
@@ -26,7 +37,24 @@
             <span>@("Finished".Localize())</span>
         </div>
     </div>
-
+    <table>
+        <tr>
+            <th>@("Module name".Localize())</th>
+            <td>@installationContext.ModuleName</td>
+        </tr>
+        <tr>
+            <th>@("Source version".Localize())</th>
+            <td>@installationContext.VersionRange.SourceVersion</td>
+        </tr>
+        <tr>
+            <th>@("Target version".Localize())</th>
+            <td>@installationContext.VersionRange.TargetVersion</td>
+        </tr>
+        <tr>
+            <th>@("Kooboo CMS".Localize())</th>
+            <td>@Model.KoobooCMSVersion</td>
+        </tr>
+    </table>
     @using (Html.BeginForm())
     {
         if (string.IsNullOrEmpty(reinstallingTemplate))

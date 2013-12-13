@@ -258,7 +258,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 else if (t == PageDesignModuleContent.TypeKey)
                 {
                     bool skipError = false;
-                    bool.TryParse(item.Str("SkipError"), out skipError);                    
+                    bool.TryParse(item.Str("SkipError"), out skipError);
                     pos = new ModulePosition()
                     {
                         ModuleName = item.Str("ModuleName"),
@@ -362,7 +362,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     var moduleContext = new ModuleContext(name, Site);
                     var moduleInfo = new ModuleContext(name, Site).ModuleInfo;
                     var setting = moduleContext.GetModuleSettings();
-                    if (setting.Entry != null)
+                    if (setting != null && setting.Entry != null)
                     {
                         item["LinkToEntryName"] = setting.Entry.LinkToEntryName;
                         item["EntryName"] = setting.Entry.Name;

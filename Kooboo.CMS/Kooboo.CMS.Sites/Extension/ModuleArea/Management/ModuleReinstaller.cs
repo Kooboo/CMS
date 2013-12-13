@@ -64,8 +64,8 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
                 }
                 //save the module version
                 var currentModuleInfo = ModuleInfo.Get(moduleName);
-                this._moduleVersioning.LogInstallation(moduleName, new InstallationContext(moduleInfo.ModuleName, currentModuleInfo.Version, moduleInfo.Version, DateTime.UtcNow) { User = user });
-                this._moduleVersioning.LogModuleFile(moduleEntry);
+                var installationFile = this._moduleVersioning.SaveInstallationFile(moduleEntry);
+                this._moduleVersioning.LogInstallation(moduleName, new InstallationContext(moduleInfo.ModuleName, currentModuleInfo.Version, moduleInfo.Version, DateTime.UtcNow) { User = user, InstallationFileName = installationFile });
 
                 //unstall the current version
                 this._moduleUninstaller.RemoveAssemblies(moduleName);

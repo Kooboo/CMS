@@ -126,6 +126,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         public virtual ActionResult OnInstalling(string moduleName)
         {
+            ViewBag.InstallationContext = _moduleVersioning.GetLastestInstallation(moduleName);
             ModuleInfo moduleInfo = ModuleInfo.Get(moduleName);
             return View(moduleInfo);
         }
@@ -163,12 +164,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         #region Reinstall
         [HttpGet]
-        public virtual ActionResult Reinstall(string uuid, string versionRange)
+        public virtual ActionResult Reinstall(string uuid, string installationFileName)
         {
-            if (!string.IsNullOrEmpty(versionRange))
+            if (!string.IsNullOrEmpty(installationFileName))
             {
-                VersionRange range = VersionRange.Create(versionRange);
-                using (var moduleStream = _moduleVersioning.GetModuleStream(uuid, range.TargetVersion))
+                using (var moduleStream = _moduleVersioning.GetInstallationStream(uuid, installationFileName))
                 {
                     var errorMessage = _moduleReinstaller.Unzip(uuid, moduleStream, User.Identity.Name);
                     if (string.IsNullOrEmpty(errorMessage))
@@ -218,6 +218,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         public virtual ActionResult OnReinstalling(string moduleName)
         {
+            ViewBag.InstallationContext = _moduleVersioning.GetLastestInstallation(moduleName);
             ModuleInfo moduleInfo = ModuleInfo.Get(moduleName);
             return View(moduleInfo);
         }
@@ -253,18 +254,19 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 return View(sites.Select(it => new SiteModuleRelationModel(it)));
             }
-            if (!string.IsNullOrEmpty(moduleInfo.UninstallingTemplate))
-            {
-                return RedirectToAction("OnUninstalling", ControllerContext.RequestContext.AllRouteValues());
-            }
-            else
-            {
-                return RedirectToAction("DeleteModuleFiles", ControllerContext.RequestContext.AllRouteValues());
-            }
+            //if (!string.IsNullOrEmpty(moduleInfo.UninstallingTemplate))
+            //{
+            return RedirectToAction("OnUninstalling", ControllerContext.RequestContext.AllRouteValues());
+            //}
+            //else
+            //{
+            //    return RedirectToAction("DeleteModuleFiles", ControllerContext.RequestContext.AllRouteValues());
+            //}
         }
 
         public virtual ActionResult OnUninstalling(string uuid)
         {
+            ViewBag.InstallationContext = _moduleVersioning.GetLastestInstallation(uuid);
             ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
             return View(moduleInfo);
         }

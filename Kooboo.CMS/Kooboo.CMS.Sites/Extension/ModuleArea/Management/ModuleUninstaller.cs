@@ -90,7 +90,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #region RemoveVersions
         public void RemoveVersions(string moduleName)
         {
-            _moduleVersioning.RemoveVersion(moduleName);
+            _moduleVersioning.RemoveHistory(moduleName);
         }
         #endregion
     }

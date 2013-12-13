@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Kooboo.CMS.Sites.Extension.ModuleArea
+namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
 {
     public class ModuleStreamEntry : IDisposable
     {

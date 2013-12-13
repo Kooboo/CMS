@@ -38,5 +38,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         public string User { get; set; }
         public DateTime UtcDatetime { get; set; }
         public VersionRange VersionRange { get; set; }
+
+        public string InstallationFileName { get; set; }
     }
 }

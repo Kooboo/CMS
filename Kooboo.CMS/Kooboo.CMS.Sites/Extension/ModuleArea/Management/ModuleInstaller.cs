@@ -61,8 +61,9 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
                 }
 
                 //save the module version
-                this._moduleVersioning.LogInstallation(moduleName, new InstallationContext(moduleInfo.ModuleName, moduleInfo.Version, DateTime.UtcNow) { User = user });
-                this._moduleVersioning.LogModuleFile(moduleEntry);
+                var installationFile = this._moduleVersioning.SaveInstallationFile(moduleEntry);
+                this._moduleVersioning.LogInstallation(moduleName, new InstallationContext(moduleInfo.ModuleName, moduleInfo.Version, DateTime.UtcNow) { User = user, InstallationFileName = installationFile });
+
 
                 moduleEntry.Extract(modulePhysicalPath);
             }

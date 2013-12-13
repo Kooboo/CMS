@@ -1,0 +1,62 @@
+﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo
+@{
+    ViewBag.Title = "Module unistallation".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+    var uninstallingTemplate = Model.UninstallingTemplate;
+    if (!uninstallingTemplate.StartsWith("~/"))
+    {
+        var viewPath = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(uninstallingTemplate);
+        if (File.Exists(viewPath.PhysicalPath))
+        {
+            uninstallingTemplate = viewPath.VirtualPath;
+        }
+        else
+        {
+            uninstallingTemplate = null;
+        }
+    }
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())
+            </a>
+        </li>
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())
+            </a>
+        </li>
+    </ul>
+}
+<div class="common-form">
+    <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <span class="current">@("Show module info".Localize())<b></b></span>
+            <span>@("Run uninstallation".Localize())</span>
+            <span>@("Finished".Localize())</span>
+        </div>
+    </div>
+    @using (Html.BeginForm())
+    {
+        <input type="hidden" name="ModuleName" value="@Model.ModuleName" />
+        <table>
+            <tr>
+                <th>@("Module name".Localize())</th>
+                <td>@Model.ModuleName</td>
+            </tr>
+            <tr>
+                <th>@("Module version".Localize())</th>
+                <td>@Model.Version</td>
+            </tr>
+            <tr>
+                <th>@("Kooboo CMS version".Localize())</th>
+                <td>@Model.KoobooCMSVersion</td>
+            </tr>
+        </table>
+    }
+</div>
+
+

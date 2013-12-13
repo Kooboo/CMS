@@ -20,73 +20,15 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleReinstaller))]
     public class ModuleReinstaller : IModuleReinstaller
     {
-        IModuleInstaller _moduleInstaller;
-        IModuleUninstaller _moduleUninstaller;
-        IModuleVersioning _moduleVersioning;
-        public ModuleReinstaller(IModuleInstaller moduleInstaller, IModuleUninstaller moduleUninstaller, IModuleVersioning moduleVersioning)
+        #region .ctor
+        ModuleInstaller _moduleInstaller;
+        ModuleUninstaller _moduleUninstaller;
+        IInstallationFileManager _installationFileManager;
+        public ModuleReinstaller(ModuleInstaller moduleInstaller, ModuleUninstaller moduleUninstaller, IInstallationFileManager moduleVersioning)
         {
             this._moduleInstaller = moduleInstaller;
             this._moduleUninstaller = moduleUninstaller;
-            this._moduleVersioning = moduleVersioning;
-        }
-        public string Unzip(string moduleName, System.IO.Stream moduleStream, string user)
-        {
-            //remove the old module
-            string error = "";
-            using (ModuleStreamEntry moduleEntry = new ModuleStreamEntry(moduleName, moduleStream))
-            {
-                if (!moduleEntry.IsValid())
-                {
-                    error = "The module is invalid.".Localize();
-                    return error;
-                }
-
-                var moduleInfo = moduleEntry.ModuleInfo;
-                if (moduleInfo == null)
-                {
-                    error = "The module.config file is invalid.".Localize();
-                    return error;
-                }
-                if (!moduleName.EqualsOrNullEmpty(moduleEntry.ModuleName, StringComparison.OrdinalIgnoreCase))
-                {
-                    error = "The uploading module is a different module, reinstallation aborted.".Localize();
-                    return error;
-                }
-                moduleName = moduleEntry.ModuleName;
-
-                ModulePath modulePath = new ModulePath(moduleEntry.ModuleName);
-                var modulePhysicalPath = modulePath.PhysicalPath;
-
-                if (!Directory.Exists(modulePath.PhysicalPath))
-                {
-                    error = "The module does not exist.".Localize();
-                    return error;
-                }
-                //save the module version
-                var currentModuleInfo = ModuleInfo.Get(moduleName);
-                var installationFile = this._moduleVersioning.SaveInstallationFile(moduleEntry);
-                this._moduleVersioning.LogInstallation(moduleName, new InstallationContext(moduleInfo.ModuleName, currentModuleInfo.Version, moduleInfo.Version, DateTime.UtcNow) { User = user, InstallationFileName = installationFile });
-
-                //unstall the current version
-                this._moduleUninstaller.RemoveAssemblies(moduleName);
-                this._moduleUninstaller.DeleteModuleArea(moduleName);
-
-                moduleEntry.Extract(modulePhysicalPath);
-            }
-            return error;
-        }
-
-        #region CheckConflictedAssemblyReferences
-        public IEnumerable<Extension.Management.ConflictedAssemblyReference> CheckConflictedAssemblyReferences(string moduleName)
-        {
-            return _moduleInstaller.CheckConflictedAssemblyReferences(moduleName);
-        }
-        #endregion
-
-        #region CopyAssemblies
-        public void CopyAssemblies(string moduleName, bool overrideSystemVersion)
-        {
-            _moduleInstaller.CopyAssemblies(moduleName, overrideSystemVersion);
+            this._installationFileManager = moduleVersioning;
         }
         #endregion
 
@@ -97,10 +39,37 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
 
             if (moduleEvents != null)
             {
-                var installationContext = _moduleVersioning.GetLastestInstallation(moduleName);
+                var installationContext = _installationFileManager.GetLastestInstallation(moduleName);
                 moduleEvents.OnReinstalling(new ModuleContext(moduleName), controllerContext, installationContext);
             }
         }
         #endregion
+
+        public UploadModuleResult Upload(string moduleName, Stream moduleStream, string user)
+        {
+            var result = _moduleInstaller.Upload(moduleName, moduleStream, user);
+            result.SourceModuleInfo = ModuleInfo.Get(moduleName);
+            return result;
+        }
+
+        public void RunReinstallation(string moduleName, ControllerContext controllerContext, bool overrideFiles, string user)
+        {
+            ModuleInfo sourceModuleInfo = ModuleInfo.Get(moduleName);
+
+            _moduleUninstaller.RemoveAssemblies(moduleName);
+            _moduleUninstaller.RemoveModuleArea(moduleName);
+            _moduleInstaller.CopyFiles(moduleName, overrideFiles);
+            RunEvent(moduleName, controllerContext);
+
+            ModuleInfo targetModuleInfo = ModuleInfo.Get(moduleName);
+            var installationFile = this._installationFileManager.ArchiveTempInstallationPath(moduleName, targetModuleInfo.Version);
+            this._installationFileManager.LogInstallation(moduleName, new InstallationContext(sourceModuleInfo.ModuleName, sourceModuleInfo.Version, targetModuleInfo.Version, DateTime.UtcNow) { User = user, InstallationFileName = installationFile });
+        }
+
+
+        public IPath GetTempInstallationPath(string moduleName)
+        {
+            return _moduleInstaller.GetTempInstallationPath(moduleName);
+        }
     }
 }

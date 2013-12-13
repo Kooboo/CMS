@@ -1,7 +1,14 @@
-﻿@model Kooboo.CMS.Web.Areas.Sites.Models.InstallModuleModel
+﻿@using Kooboo.CMS.Sites.Extension.ModuleArea.Management;
+@model Kooboo.CMS.Web.Areas.Sites.Models.InstallModuleModel
+
 @{
     ViewBag.Title = "Module reinstallation".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
+    UploadModuleResult uploadModuleResult = null;
+    if (ViewBag.UploadModuleResult != null)
+    {
+        uploadModuleResult = (UploadModuleResult)ViewBag.UploadModuleResult;
+    }
 }
 @section Panel{
     <ul class="panel">
@@ -18,21 +25,19 @@
     </ul>
 }
 <div class="common-form">
-    <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
+    <h1 class="title">@ViewBag.Title</h1>
     <div class="process-steps">
         <div class="steps-inner">
             <span class="current">@("Upload module file".Localize())<b></b></span>
-            <span>@("Run reinstall event".Localize())</span>
+            <span>@("Run reinstallation".Localize())</span>
             <span>@("Finished".Localize())</span>
         </div>
     </div>
-    @if (ViewBag.ErrorMessage != null)
+    @using (Html.BeginForm(ViewContext.RequestContext.GetRequestValue("Action").ToString(),
+        ViewContext.RequestContext.GetRequestValue("Controller").ToString(), ViewContext.RequestContext.AllRouteValues(), FormMethod.Post,
+        new Dictionary<string, object>() { { "enctype", "multipart/form-data" } }))
     {
-        @ViewBag.ErrorMessage
-    }
-    else
-    {
-        using (Html.BeginForm())
+        if (uploadModuleResult == null || @uploadModuleResult.IsValid == false)
         {
             <table>
                 <tbody>
@@ -40,5 +45,71 @@
                 </tbody>
             </table>
         }
+        else
+        {
+            <input type="hidden" name="ModuleName" value="@uploadModuleResult.ModuleName" />
+            <table>
+                <thead>
+                    <tr><th></th>
+                        <th>
+                            @("Module name".Localize())
+                        </th>
+                        <th>
+                            @("Module version".Localize())
+                        </th>
+                        <th>
+                            @("Kooboo CMS version".Localize())
+                        </th>
+                    </tr>
+                </thead>
+
+                <tr>     
+                    <td>@("Source".Localize())</td>           
+                    <td>@uploadModuleResult.SourceModuleInfo.ModuleName</td>
+                    <td>@uploadModuleResult.SourceModuleInfo.Version</td>
+                    <td>@uploadModuleResult.SourceModuleInfo.KoobooCMSVersion</td>
+                </tr>
+                <tr>
+                    <td>@("Target".Localize())</td>    
+                    <td>@uploadModuleResult.TargetModuleInfo.ModuleName</td>
+                    <td>@uploadModuleResult.TargetModuleInfo.Version</td>
+                    <td>@uploadModuleResult.TargetModuleInfo.KoobooCMSVersion</td>
+                </tr>
+               
+            </table>
+            if (uploadModuleResult.ConflictedAssemblies.Count() > 0)
+            {
+                <table>                    
+                    <thead>
+                        <tr>
+                            <th>@("Assembly file".Localize())</th>
+                            <th>@("System version".Localize())</th>
+                            <th>@("Module version".Localize())</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in uploadModuleResult.ConflictedAssemblies)
+                        {
+                            <tr>
+                                <td>@item.ReferenceData.AssemblyName</td>
+                                <td>@item.ReferenceData.Version</td>
+                                <td>@item.ConflictedVersion</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
     }
 </div>
+<script>
+    $(function () {
+        $('input[name="ModuleFile"]').change(function () {
+            if ($(this).val() != '') {
+                window.leaveConfirm.unbind();
+                this.form.submit();
+            }
+        });
+    })
+</script>

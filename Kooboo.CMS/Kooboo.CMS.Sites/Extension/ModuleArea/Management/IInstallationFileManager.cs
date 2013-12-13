@@ -8,17 +8,20 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
 {
-    public interface IModuleVersioning
+    public interface IInstallationFileManager
     {
+        #region InstallationContext
         IEnumerable<InstallationContext> AllInstallationLogs(string moduleName);
         void LogInstallation(string moduleName, InstallationContext installationContext);
         InstallationContext GetLastestInstallation(string moduleName);
+        #endregion
+        IPath GetTempInstallationPath(string moduleName);
         /// <summary>
         /// Save the installation file
         /// </summary>
         /// <param name="moduleStreamEntry">The module stream entry.</param>
         /// <returns></returns>
-        string SaveInstallationFile(ModuleStreamEntry moduleStreamEntry);
+        string ArchiveTempInstallationPath(string moduleName, string version);
         bool IsInstallationFileExists(InstallationContext installationContext);
         Stream GetInstallationStream(InstallationContext installationContext);
         Stream GetInstallationStream(string moduleName, string installationFile);

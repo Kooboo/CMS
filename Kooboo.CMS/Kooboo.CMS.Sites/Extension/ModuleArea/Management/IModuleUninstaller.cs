@@ -24,11 +24,6 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
     /// </summary>
     public interface IModuleUninstaller
     {
-        void RunEvent(string moduleName, ControllerContext controllerContext);
-        void RemoveAssemblies(string moduleName);
-        void DeleteModuleArea(string moduleName);
-
-        void RemoveVersions(string moduleName);
-
+        void RunUninstall(string moduleName, ControllerContext controllerContext);
     }
 }

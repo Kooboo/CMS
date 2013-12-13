@@ -15,7 +15,6 @@
             uninstallingTemplate = null;
         }
     }
-    var installationContext = (Kooboo.CMS.Sites.Extension.ModuleArea.Management.InstallationContext)ViewBag.InstallationContext;
 }
 @section Panel{
     <ul class="panel">
@@ -35,33 +34,18 @@
     <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
     <div class="process-steps">
         <div class="steps-inner">
-            <span class="current">@("Run uninstallation action".Localize())<b></b></span>
-            <span>@("Remove module files".Localize())</span>
+            <span>@("Show module info".Localize())</span>
+            <span class="current">@("Run uninstallation".Localize())<b></b></span>
             <span>@("Finished".Localize())</span>
         </div>
-    </div>
-    <table>
-        <tr>
-            <th>@("Module name".Localize())</th>
-            <td>@installationContext.ModuleName</td>
-        </tr>
-        <tr>
-            <th>@("Module version".Localize())</th>
-            <td>@installationContext.VersionRange.TargetVersion</td>
-        </tr>
-        <tr>
-            <th>@("Target Kooboo CMS".Localize())</th>
-            <td>@Model.KoobooCMSVersion</td>
-        </tr>
-    </table>
+    </div>    
     @using (Html.BeginForm())
     {
-
-        if (string.IsNullOrEmpty(uninstallingTemplate))
-        {
-            <p>@("Confirm to run the 'OnUninstalling' event which defined in module.".Localize())</p>
-        }
-        else
+        <ul>
+            <li>@("1. Run the 'OnUninstalling' event which defined in the module.".Localize())</li>
+            <li>@("2. Remove the module file from Kooboo CMS system.".Localize())</li>
+        </ul>
+        if (!string.IsNullOrEmpty(uninstallingTemplate))
         {
             @Html.Partial(uninstallingTemplate, null, new ViewDataDictionary())
         }

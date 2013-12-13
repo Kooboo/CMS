@@ -7,21 +7,22 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
+using Ionic.Zip;
 namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleVersioning))]
-    public class ModuleVersioning : IModuleVersioning
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IInstallationFileManager))]
+    public class InstallationFileManager : IInstallationFileManager
     {
         #region .ctor
         IBaseDir _baseDir;
-        string _moduleHistoryPath;
-        public ModuleVersioning(IBaseDir baseDir)
+        IPath _moduleInstallationPath;
+        public InstallationFileManager(IBaseDir baseDir)
         {
             _baseDir = baseDir;
-            _moduleHistoryPath = Path.Combine(_baseDir.Cms_DataPhysicalPath, "ModuleHistory");
-            if (!Directory.Exists(_moduleHistoryPath))
+            _moduleInstallationPath = new CommonPath() { PhysicalPath = Path.Combine(_baseDir.Cms_DataPhysicalPath, "ModuleInstallations"), VirtualPath = Kooboo.Web.Url.UrlUtility.Combine(_baseDir.Cms_DataVirtualPath, "ModuleInstallations") };
+            if (!Directory.Exists(_moduleInstallationPath.PhysicalPath))
             {
-                Directory.CreateDirectory(_moduleHistoryPath);
+                Directory.CreateDirectory(_moduleInstallationPath.PhysicalPath);
             }
         }
         #endregion
@@ -37,7 +38,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #region LogInstallation
         private string GetInstallationLogFile(string moduleName)
         {
-            var logFile = Path.Combine(_moduleHistoryPath, moduleName, "InstallationLogs.txt");
+            var logFile = Path.Combine(_moduleInstallationPath.PhysicalPath, moduleName, "InstallationLogs.txt");
 
             return logFile;
         }
@@ -79,10 +80,10 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         }
         #endregion
 
-        private string GetModuleHistoryPath(string moduleName)
+        private IPath GetModuleHistoryPath(string moduleName)
         {
-            var path = Path.Combine(_moduleHistoryPath, moduleName);
-            Kooboo.IO.IOUtility.EnsureDirectoryExists(path);
+            var path = new CommonPath() { PhysicalPath = Path.Combine(_moduleInstallationPath.PhysicalPath, moduleName), VirtualPath = Kooboo.Web.Url.UrlUtility.Combine(_moduleInstallationPath.VirtualPath, moduleName) };
+            Kooboo.IO.IOUtility.EnsureDirectoryExists(path.PhysicalPath);
             return path;
         }
 
@@ -91,13 +92,19 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         {
             var moduleHistoryPath = GetModuleHistoryPath(moduleName);
 
-            return Path.Combine(moduleHistoryPath, version + "-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".zip");
+            return Path.Combine(moduleHistoryPath.PhysicalPath, version + "-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".zip");
 
         }
-        public string SaveInstallationFile(ModuleStreamEntry moduleStreamEntry)
+        public string ArchiveTempInstallationPath(string moduleName, string version)
         {
-            var installationFile = GetInstallationVersionFilePath(moduleStreamEntry.ModuleName, moduleStreamEntry.ModuleInfo.Version);
-            moduleStreamEntry.SaveTo(installationFile);
+            var installationFile = GetInstallationVersionFilePath(moduleName, version);
+            var tempInstallationPath = GetTempInstallationPath(moduleName);
+            using (ZipFile zip = new ZipFile(Encoding.UTF8))
+            {
+                zip.AddDirectory(tempInstallationPath.PhysicalPath);
+                zip.Save(installationFile);
+            }
+            Kooboo.IO.IOUtility.DeleteDirectory(tempInstallationPath.PhysicalPath, true);
             return Path.GetFileName(installationFile);
         }
 
@@ -110,7 +117,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         private string GetInstallationFilePath(string moduleName, string installationFile)
         {
             var moduleHistoryPath = GetModuleHistoryPath(moduleName);
-            var installationFilePath = Path.Combine(moduleHistoryPath, installationFile);
+            var installationFilePath = Path.Combine(moduleHistoryPath.PhysicalPath, installationFile);
             return installationFilePath;
         }
 
@@ -133,7 +140,16 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         public void RemoveHistory(string moduleName)
         {
             var moduleHistoryPath = GetModuleHistoryPath(moduleName);
-            Kooboo.IO.IOUtility.DeleteDirectory(moduleHistoryPath, true);
+            Kooboo.IO.IOUtility.DeleteDirectory(moduleHistoryPath.PhysicalPath, true);
+        }
+        public IPath GetTempInstallationPath(string moduleName)
+        {
+            var path = GetModuleHistoryPath(moduleName);
+            return new CommonPath()
+            {
+                PhysicalPath = Path.Combine(path.PhysicalPath, "TEMP"),
+                VirtualPath = Kooboo.Web.Url.UrlUtility.Combine(path.VirtualPath, "TEMP")
+            };
         }
     }
 }

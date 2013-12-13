@@ -1,8 +1,8 @@
-﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo
+﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.Management.InstallingModule
 @{
-    ViewBag.Title = "Module installation".Localize();
+    ViewBag.Title = "Module reinstallation".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
-    var reinstallingTemplate = Model.ReinstallingTemplate;
+    var reinstallingTemplate = Model.ModuleInfo.ReinstallingTemplate;
     if (!string.IsNullOrEmpty(reinstallingTemplate) && !reinstallingTemplate.StartsWith("~/"))
     {
         var viewPath = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(reinstallingTemplate);
@@ -16,7 +16,6 @@
         }
 
     }
-    var installationContext = (Kooboo.CMS.Sites.Extension.ModuleArea.Management.InstallationContext)ViewBag.InstallationContext;
 
 }
 @section Panel{
@@ -33,39 +32,21 @@
     <div class="process-steps">
         <div class="steps-inner">
             <a>@("Upload module file".Localize())</a>
-            <span class="current">@("Run reinstallation event".Localize())<b></b></span>
+            <span class="current">@("Run reinstallation".Localize())<b></b></span>
             <span>@("Finished".Localize())</span>
         </div>
     </div>
-    <table>
-        <tr>
-            <th>@("Module name".Localize())</th>
-            <td>@installationContext.ModuleName</td>
-        </tr>
-        <tr>
-            <th>@("Source version".Localize())</th>
-            <td>@installationContext.VersionRange.SourceVersion</td>
-        </tr>
-        <tr>
-            <th>@("Target version".Localize())</th>
-            <td>@installationContext.VersionRange.TargetVersion</td>
-        </tr>
-        <tr>
-            <th>@("Kooboo CMS".Localize())</th>
-            <td>@Model.KoobooCMSVersion</td>
-        </tr>
-    </table>
     @using (Html.BeginForm())
     {
-        if (string.IsNullOrEmpty(reinstallingTemplate))
-        {
-            <p>@("Confirm to run the 'OnReinstalling' event which defined in module.".Localize())</p>
-        }
-        else
+        <ul>
+            <li>@("1. Copy the module file into Kooboo CMS system.".Localize())</li>
+            <li>@("2. Run the 'OnReinstalling' event which defined in the module.".Localize())</li>
+        </ul>
+        if (!string.IsNullOrEmpty(reinstallingTemplate))
         {
             @Html.Partial(reinstallingTemplate, null, new ViewDataDictionary())
-
         }
+
     }
 </div>
 

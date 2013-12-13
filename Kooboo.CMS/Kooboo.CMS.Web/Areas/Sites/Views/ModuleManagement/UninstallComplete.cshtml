@@ -1,13 +1,14 @@
 ﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo
 @{
-    ViewBag.Title = "Module unistallation".Localize(); 
+    ViewBag.Title = "Module unistallation".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
-    <ul class="panel">       
+    <ul class="panel">
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Finished".Localize())</a>
+                @Html.IconImage("cancel") @("Finished".Localize())
+            </a>
         </li>
     </ul>
 }
@@ -15,8 +16,8 @@
     <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
     <div class="process-steps">
         <div class="steps-inner">
-            <a>@("Run uninstallation action".Localize())</a>
-            <a>@("Remove module files".Localize())</a>
+            <span>@("Show module info".Localize())</span>
+            <a>@("Run uninstallation".Localize())</a>
             <span class="current">@("Finished".Localize())<b></b></span>
         </div>
     </div>

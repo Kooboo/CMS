@@ -22,8 +22,8 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
     {
         #region .ctor
         IAssemblyReferences _assemblyReferences;
-        IModuleVersioning _moduleVersioning;
-        public ModuleUninstaller(IAssemblyReferences assemblyReferences, IModuleVersioning moduleVersioning)
+        IInstallationFileManager _moduleVersioning;
+        public ModuleUninstaller(IAssemblyReferences assemblyReferences, IInstallationFileManager moduleVersioning)
         {
             this._assemblyReferences = assemblyReferences;
             this._moduleVersioning = moduleVersioning;
@@ -31,7 +31,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #endregion
 
         #region RunEvent
-        public void RunEvent(string moduleName, ControllerContext controllerContext)
+        private void RunEvent(string moduleName, ControllerContext controllerContext)
         {
             var moduleEvents = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleUninstallingEvents>(moduleName);
 
@@ -43,7 +43,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #endregion
 
         #region RemoveAssemblies
-        public void RemoveAssemblies(string moduleName)
+        internal void RemoveAssemblies(string moduleName)
         {
             var binPath = Settings.BinDirectory;
             foreach (var item in GetAssemblyFiles(moduleName))
@@ -78,8 +78,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #endregion
 
         #region DeleteModuleArea
-
-        public void DeleteModuleArea(string moduleName)
+        internal void RemoveModuleArea(string moduleName)
         {
             ModulePath modulePath = new ModulePath(moduleName);
             Kooboo.IO.IOUtility.DeleteDirectory(modulePath.PhysicalPath, true);
@@ -93,5 +92,13 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
             _moduleVersioning.RemoveHistory(moduleName);
         }
         #endregion
+
+        public void RunUninstall(string moduleName, ControllerContext controllerContext)
+        {
+            RunEvent(moduleName, controllerContext);
+            RemoveAssemblies(moduleName);
+            RemoveModuleArea(moduleName);
+            RemoveVersions(moduleName);
+        }
     }
 }

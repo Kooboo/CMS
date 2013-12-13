@@ -36,8 +36,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     }
 
     public class InstallModuleModel
-    {
-        [Required]
+    {       
         [UIHint("File")]
         [AdditionalMetadata("accept", ".zip")]
         [Display(Name = "Select file source")]

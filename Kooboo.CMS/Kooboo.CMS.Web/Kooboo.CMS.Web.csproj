@@ -2286,13 +2286,10 @@
     <Content Include="Areas\Sites\Views\Page\EditorTemplates\Naviation_Order.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\ModuleManagement\OnInstalling.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\InstallComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\ModuleManagement\OnUninstalling.cshtml" />
+    <Content Include="Areas\Sites\Views\ModuleManagement\Uninstall.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\DeleteModuleFiles.cshtml" />
@@ -2439,22 +2436,22 @@
     <Content Include="Areas\Sites\Views\Shared\_ChooseDataRuleType.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\ModuleManagement\CopyAssemblyFiles.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\Sites\Views\ModuleManagement\AbortInstallation.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\Reinstall.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\ModuleManagement\OnReinstalling.cshtml" />
+    <Content Include="Areas\Sites\Views\ModuleManagement\RunReinstallation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\ReinstallComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\Versions.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\RunInstallation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\ModuleManagement\RunUninstallation.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

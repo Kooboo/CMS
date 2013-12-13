@@ -1,17 +1,26 @@
-﻿@model Kooboo.CMS.Web.Areas.Sites.Models.InstallModuleModel
+﻿@using Kooboo.CMS.Sites.Extension.ModuleArea.Management;
+@model Kooboo.CMS.Web.Areas.Sites.Models.InstallModuleModel
+
 @{
     ViewBag.Title = "Module installation".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
+    UploadModuleResult uploadModuleResult = null;
+    if (ViewBag.UploadModuleResult != null)
+    {
+        uploadModuleResult = (UploadModuleResult)ViewBag.UploadModuleResult;
+    }
 }
 @section Panel{
     <ul class="panel">
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
+                @Html.IconImage("cancel") @("Back".Localize())
+            </a>
         </li>
         <li>
             <a data-ajaxform="">
-                @Html.IconImage("next") @("Next".Localize())</a>
+                @Html.IconImage("next") @("Next".Localize())
+            </a>
         </li>
     </ul>
 }
@@ -20,19 +29,72 @@
     <div class="process-steps">
         <div class="steps-inner">
             <span class="current">@("Upload module file".Localize())<b></b></span>
-            <span>@("Run installation event".Localize())</span>
+            <span>@("Run installation".Localize())</span>
             <span>@("Finished".Localize())</span>
         </div>
     </div>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm(ViewContext.RequestContext.GetRequestValue("Action").ToString(),
+        ViewContext.RequestContext.GetRequestValue("Controller").ToString(), ViewContext.RequestContext.AllRouteValues(), FormMethod.Post,
+        new Dictionary<string, object>() { { "enctype", "multipart/form-data" } }))
     {
-               
-        <table>
-            <tbody>
-                @Html.EditorFor(m => m.ModuleFile, new { HtmlAttributes = new { @class = "medium" } })
-            </tbody>
-        </table>
-               
+        if (uploadModuleResult == null || @uploadModuleResult.IsValid == false)
+        {
+            <table>
+                <tbody>
+                    @Html.EditorFor(m => m.ModuleFile, new { HtmlAttributes = new { @class = "medium" } })
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <input type="hidden" name="ModuleName" value="@uploadModuleResult.ModuleName" />
+            <table>
+                <tr>
+                    <th>@("Module name".Localize())</th>
+                    <td>@uploadModuleResult.ModuleName</td>
+                </tr>
+                <tr>
+                    <th>@("Module version".Localize())</th>
+                    <td>@uploadModuleResult.TargetModuleInfo.Version</td>
+                </tr>
+                <tr>
+                    <th>@("Kooboo CMS version".Localize())</th>
+                    <td>@uploadModuleResult.TargetModuleInfo.KoobooCMSVersion</td>
+                </tr>
+            </table>
+            if (uploadModuleResult.ConflictedAssemblies.Count() > 0)
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th>@("Assembly file".Localize())</th>
+                            <th>@("System version".Localize())</th>
+                            <th>@("Module version".Localize())</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in uploadModuleResult.ConflictedAssemblies)
+                        {
+                            <tr>
+                                <td>@item.ReferenceData.AssemblyName</td>
+                                <td>@item.ReferenceData.Version</td>
+                                <td>@item.ConflictedVersion</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
     }
 </div>
-
+<script>
+    $(function () {
+        $('input[name="ModuleFile"]').change(function () {
+            if ($(this).val() != '') {
+                window.leaveConfirm.unbind();
+                this.form.submit();
+            }
+        });
+    })
+</script>

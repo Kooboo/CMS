@@ -2292,9 +2292,6 @@
     <Content Include="Areas\Sites\Views\ModuleManagement\Uninstall.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\ModuleManagement\DeleteModuleFiles.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\GoingToUninstall.cshtml" />
   </ItemGroup>
   <ItemGroup>

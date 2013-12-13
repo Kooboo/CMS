@@ -14,8 +14,8 @@ using System.Text;
 
 namespace Kooboo.CMS.Modules.Publishing.Persistence
 {
-    public interface IIncomeQueueProvider : IPublishingProvider<IncomeQueue>
+    public interface IIncomingQueueProvider : IPublishingProvider<IncomingQueue>
     {
-        IEnumerable<IncomeQueue> GetJobItems(int maxItems);
+        IEnumerable<IncomingQueue> GetJobItems(int maxItems);
     }
 }

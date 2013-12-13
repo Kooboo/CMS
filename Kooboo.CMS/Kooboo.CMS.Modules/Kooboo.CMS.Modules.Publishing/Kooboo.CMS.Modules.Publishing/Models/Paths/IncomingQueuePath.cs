@@ -8,17 +8,17 @@ using System.Text;
 
 namespace Kooboo.CMS.Modules.Publishing.Models.Paths
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPath<IncomeQueue>))]
-    public class IncomeQueuePath : IPath<IncomeQueue>
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPath<IncomingQueue>))]
+    public class IncomingQueuePath : IPath<IncomingQueue>
     {
-        const string PATH_NAME = "IncomeQueues";
-        public IncomeQueuePath(IBaseDir baseDir)
+        const string PATH_NAME = "IncomingQueue";
+        public IncomingQueuePath(IBaseDir baseDir)
         {
             this.PhysicalPath = Path.Combine(baseDir.Cms_DataPhysicalPath, PathHelper.PublishingFolderName, PATH_NAME);
             this.VirtualPath = UrlUtility.Combine(baseDir.Cms_DataVirtualPath, PathHelper.PublishingFolderName, PATH_NAME);
         }
 
-        public IncomeQueuePath(IncomeQueue entity, IBaseDir baseDir)
+        public IncomingQueuePath(IncomingQueue entity, IBaseDir baseDir)
         {
             this.PhysicalPath = Path.Combine(baseDir.Cms_DataPhysicalPath,PathHelper.PublishingFolderName, PATH_NAME);
             this.VirtualPath = UrlUtility.Combine(baseDir.Cms_DataVirtualPath, PathHelper.PublishingFolderName, PATH_NAME);

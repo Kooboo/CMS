@@ -1,0 +1,1042 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kooboo.CMS.Content</name>
+    </assembly>
+    <members>
+        <member name="T:Kooboo.CMS.Content.APIs.IContentAPI">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.APIs.IContentAPI.Add(Kooboo.CMS.Content.Models.TextContent,System.Collections.Generic.IEnumerable{Kooboo.CMS.Content.Models.ContentFile})">
+            <summary>
+            Adds the specified text content.
+            </summary>
+            <param name="textContent">Content of the text.</param>
+            <param name="contentFiles">The content files.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.APIs.IContentAPI.Update(Kooboo.CMS.Content.Models.TextContent,Kooboo.CMS.Content.Models.TextContent)">
+            <summary>
+            Updates the specified text content.
+            </summary>
+            <param name="textContent">Content of the text.</param>
+            <param name="oldTextContnet">The old text contnet.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.APIs.IContentAPI.Delete(Kooboo.CMS.Content.Models.TextContent)">
+            <summary>
+            Deletes the specified content UUID.
+            </summary>
+            <param name="contentUUID">The content UUID.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.APIs.IContentAPI.AddCategories(Kooboo.CMS.Content.Models.TextContent,Kooboo.CMS.Content.Models.TextContent[])">
+            <summary>
+            Adds the categories.
+            </summary>
+            <param name="textContent">Content of the text.</param>
+            <param name="categories">The categories.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.APIs.IContentAPI.RemoveCategories(Kooboo.CMS.Content.Models.TextContent,Kooboo.CMS.Content.Models.TextContent[])">
+            <summary>
+            Removes the categories.
+            </summary>
+            <param name="textContent">Content of the text.</param>
+            <param name="categories">The categories.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.APIs.IContentAPI.RemoveAllCategories(Kooboo.CMS.Content.Models.TextContent)">
+            <summary>
+            Removes all categories.
+            </summary>
+            <param name="textContent">Content of the text.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.APIs.IContentAPI.Copy(Kooboo.CMS.Content.Models.TextContent,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Copies the specified text content.
+            </summary>
+            <param name="textContent">Content of the text.</param>
+            <param name="resetValues">The reset values.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.DateTimeHelper.Parse(System.String)">
+            <summary>
+            Parses from ticks OR datetime string.
+            </summary>
+            <param name="strValue">The STR value.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Content.EventBus.Content.CascadingContentDeletingSubscriber">
+            <summary>
+            Delete the child contents when the content deleted.
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.Category">
+            <summary>
+            内容维护时的类别关系数据
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.Category.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.Category.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Category.ContentUUID">
+            <summary>
+            内容的UUID
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Category.CategoryFolder">
+            <summary>
+            类别目录
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Category.CategoryUUID">
+            <summary>
+            类别内容的UUID
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.CategoryFolder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.CategoryFolder.FolderName">
+            <summary>
+            Gets or sets the name of the folder.
+            </summary>
+            <value>
+            The name of the folder.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.CategoryFolder.SingleChoice">
+            <summary>
+            Gets or sets a value indicating whether [single choice].
+            </summary>
+            <value>
+              <c>true</c> if [single choice]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.ContentIntegrateId">
+            <summary>
+            the content integrate id composite of Repository, FolderName and UUID.
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.FolderHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.FolderHelper.CombineFullName(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            合成完整名称
+            </summary>
+            <param name="names">The names.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.FolderHelper.SplitFullName(System.String)">
+            <summary>
+            分隔完整名称
+            </summary>
+            <param name="fullName">The full name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.FolderHelper.Parse``1(Kooboo.CMS.Content.Models.Repository,System.String)">
+            <summary>
+            根据完整名称取得目录对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository">The repository.</param>
+            <param name="fullName">The full name.</param>
+            <returns></returns>        
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.Folder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.IRepositoryElement">
+            <summary>
+            属于内容数据库的对象接口
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.IRepositoryElement.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.IRepositoryElement.Repository">
+            <summary>
+            Gets or sets the repository.
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.Folder.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.Folder"/> class.
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.Folder.#ctor(Kooboo.CMS.Content.Models.Repository,System.String,Kooboo.CMS.Content.Models.Folder)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.Folder"/> class.
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="name">The name.</param>
+            <param name="parent">The parent.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.Folder.#ctor(Kooboo.CMS.Content.Models.Repository,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.Folder"/> class.
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="fullName">The full name.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.Folder.#ctor(Kooboo.CMS.Content.Models.Repository,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.Folder"/> class.
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="namePath">The name path.</param>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Folder.Parent">
+            <summary>
+            Gets or sets the parent.
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.ContentBase">
+            <summary>
+            内容对象基类
+            </summary>
+            <summary>
+            ContentBase对IPersistable的实现
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.ContentBase.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.ContentBase"/> class.
+            </summary>
+            <param name="dictionary">The dictionary.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.ContentBase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.ContentBase"/> class.
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.ContentBase.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.ContentBase"/> class.
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="folderName">Name of the folder.</param>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentBase.Id">
+            <summary>
+            在关系型数据库中，这是一个自增长Id值，
+            在非关系型数据库中，这个值可能为空
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentBase.UUID">
+            <summary>
+            内容的唯一主键
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentBase.Repository">
+            <summary>
+            内容对应的仓库名称
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentBase.FolderName">
+            <summary>
+            内容所在的目录名称
+            </summary>
+            <value>
+            The name of the folder.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentBase.UserKey">
+            <summary>
+            根据Summary字段生成的一个友好的唯一主键值，一般用于在URL中传递。
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentBase.UtcCreationDate">
+            <summary>
+            内容的创建时间，UTC时间
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentBase.UtcLastModificationDate">
+            <summary>
+            内容的最后修改时间，UTC时间
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentBase.Published">
+             <summary>
+            内容的发布状态
+             </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentBase.UserId">
+            <summary>
+            维护内容的用户ID
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentBase.IntegrateId">
+            <summary>
+            The content integrate id composite of Repository, FolderName and UUID. example: Repository#FolderName#UUID
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.ContentFile">
+            <summary>
+            内容上传的附件
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentFile.Name">
+            <summary>
+            附件对应的字段名
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentFile.FileName">
+            <summary>
+            附件的文件名
+            </summary>
+            <value>
+            The name of the file.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.ContentFile.Stream">
+            <summary>
+            文件流
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.ContentType">
+            <summary>
+            什么类型的内容
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.ContentType.Unknown">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.ContentType.Text">
+            <summary>
+            文本内容
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.ContentType.Media">
+            <summary>
+            media二进制文件
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.IPersistableExtensions">
+            <summary>
+            可持久化对象的扩展方法
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(Kooboo.CMS.Content.Models.Repository)">
+            <summary>
+            用这个方法取得完整的对象
+            相当于Provider.Get(id)
+            </summary>
+            <param name="repository">The repository.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(Kooboo.CMS.Content.Models.Schema)">
+            <summary>
+            用这个方法取得完整的对象
+            相当于Provider.Get(id)
+            </summary>
+            <param name="schema">The schema.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual``1(``0)">
+            <summary>
+            用这个方法取得完整的对象
+            相当于Provider.Get(id)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="folder">The folder.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(Kooboo.CMS.Content.Models.Workflow)">
+            <summary>
+            用这个方法取得完整的对象
+            相当于Provider.Get(id)
+            </summary>
+            <param name="workflow">The workflow.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.MediaContentMetadata.Title">
+            <summary>
+            Gets or sets the title
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.MediaContentMetadata.AlternateText">
+            <summary>
+            Gets or sets the alternate text.
+            Alt for the image tag.
+            </summary>
+            <value>
+            The alternate text.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.MediaContentMetadata.Description">
+            <summary>
+            Gets or sets the description.
+            </summary>
+            <value>
+            The description.
+            </value>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.MediaContent">
+            <summary>
+            Media 二进制文件内容
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.MediaContent.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.MediaContent"/> class.
+            </summary>
+            <param name="dictionary">The dictionary.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.MediaContent.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.MediaContent"/> class.
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.MediaContent.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.MediaContent"/> class.
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="folderName">Name of the folder.</param>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.MediaContent.FileName">
+            <summary>
+            Gets or sets the name of the file.
+            </summary>
+            <value>
+            The name of the file.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.MediaContent.VirtualPath">
+            <summary>
+            Gets or sets the virtual path.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.MediaContent.PhysicalPath">
+            <summary>
+            Gets the physical path.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.MediaContent.Url">
+            <summary>
+            Gets the URL.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.MediaContent.ContentType">
+            <summary>
+            Gets the type of the content.
+            </summary>
+            <value>
+            The type of the content.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.MediaContent.ContentFile">
+            <summary>
+            Gets or sets the content file.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.MediaContent.Size">
+            <summary>
+            Gets or sets the size.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.MediaContent.FileType">
+            <summary>
+            Gets the type of the file.
+            </summary>
+            <value>
+            The type of the file.
+            </value>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.OrderDirection">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.OrderSetting">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.FolderExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.FolderExtensions.GetSchema(Kooboo.CMS.Content.Models.TextFolder)">
+            <summary>
+            取目录对应的Schema(Content type)
+            </summary>
+            <param name="folder">The folder.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.FolderExtensions.GetFormTemplate(Kooboo.CMS.Content.Models.TextFolder,Kooboo.CMS.Content.Models.FormType)">
+            <summary>
+            查找内容目录下是否有自定义的内容模板，如果有，则优先使用该模板。
+            </summary>
+            <param name="folder">The folder.</param>
+            <param name="formType">Type of the form.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.FolderExtensions.GetFolderFormTemplate(Kooboo.CMS.Content.Models.TextFolder,Kooboo.CMS.Content.Models.FormType)">
+            <summary>
+            Gets the folder form template.
+            </summary>
+            <param name="textFolder">The text folder.</param>
+            <param name="type">The type.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.TextContent">
+            <summary>
+            文本内容
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.TextContent.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.TextContent"/> class.
+            </summary>
+            <param name="dictionary">The dictionary.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.TextContent.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.TextContent"/> class.
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.TextContent.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.TextContent"/> class.
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="schemaName">Name of the schema.</param>
+            <param name="folderName">Name of the folder.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.TextContent.HasAttachment">
+            <summary>
+            内容是否有附件
+            </summary>
+            <returns>
+              <c>true</c> if this instance has attachment; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.TextContent.OnSaving">
+            <summary>
+            Called when [saving].
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.TextContent.SchemaName">
+            <summary>
+            内容对应的Schema(Content type)
+            </summary>
+            <value>
+            The name of the schema.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.TextContent.ParentFolder">
+            <summary>
+            内嵌内容的父目录
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.TextContent.ParentUUID">
+             <summary>
+            内嵌内容的父内容的UUID
+             </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.TextContent.ContentType">
+            <summary>
+            Gets the type of the content.
+            </summary>
+            <value>
+            The type of the content.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.TextContent.OriginalUUID">
+            <summary>
+            内容被广播过来的源UUID
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.TextContent.OriginalRepository">
+            <summary>
+            内容被广播过来的源仓库
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.TextContent.OriginalFolder">
+            <summary>
+            内容被广播过来的源目录
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.TextContent.IsLocalized">
+             <summary>
+            内容被广播过来后是否本地化了
+             </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.TextContent.Sequence">
+            <summary>
+            内容的排序顺序
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.TextContent.ContentFiles">
+            <summary>
+            保存时，要存储的附件
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.TextFolder.Visible">
+            <summary>
+            Gets a value indicating whether this <see cref="T:Kooboo.CMS.Content.Models.TextFolder"/> is visible.
+            determine by Repository.ShowHiddenFolder and Hidden value.
+            </summary>
+            <value>
+              <c>true</c> if visible; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Persistence.Caching.DependencyRegistrar">
+            <summary>
+            用于注册包装Provider的 CacheProvider
+            执行时序会相对较晚，因为需要对任何人的注册进行包装。
+            如果开发人员不希望被包装的话，那就装注册时序设置为大于100
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Persistence.ITextContentProvider.QueryCategories(Kooboo.CMS.Content.Models.TextContent)">
+            <summary>
+            Queries the categories.        
+            </summary>
+            <param name="content">The content.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Services.BroadcastingContentHelper">
+            <summary>
+            内容广播的辅助方法
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Services.BroadcastingContentHelper.ExcludeBasicFields(Kooboo.CMS.Content.Models.ContentBase)">
+            <summary>
+            排序系统字段的其它自定义字段值
+            </summary>
+            <param name="content">The content.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Services.BroadcastingContentHelper.GetContentsByOriginalUUID(Kooboo.CMS.Content.Models.TextFolder,System.String)">
+            <summary>
+            根据源内容查询广播的内容
+            </summary>
+            <param name="folder">The folder.</param>
+            <param name="originalUUID">The original UUID.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.ContentAction">
+            <summary>
+            用于在Content bus事件中判断当前的事件类型
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.ContentAction.Add">
+            <summary>
+            内容添加成功后
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.ContentAction.Update">
+            <summary>
+            内容修改成功后
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.ContentAction.Delete">
+            <summary>
+            内容删除成功后
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.ContentAction.PreAdd">
+            <summary>
+            内容添加前
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.ContentAction.PreUpdate">
+            <summary>
+            内容修改前
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.ContentAction.PreDelete">
+            <summary>
+            内容删除前
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.ContentExtensions">
+            <summary>
+            方便内容取得辅助对象的扩展方法
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.ContentExtensions.GetRepository(Kooboo.CMS.Content.Models.ContentBase)">
+            <summary>
+            Gets the repository.
+            </summary>
+            <param name="content">The content.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.ContentExtensions.GetFolder(Kooboo.CMS.Content.Models.TextContent)">
+            <summary>
+            Gets the folder.
+            </summary>
+            <param name="content">The content.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.ContentExtensions.GetFolder(Kooboo.CMS.Content.Models.MediaContent)">
+            <summary>
+            Gets the folder.
+            </summary>
+            <param name="content">The content.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.ContentExtensions.GetSchema(Kooboo.CMS.Content.Models.TextContent)">
+            <summary>
+            Gets the schema.
+            </summary>
+            <param name="textContent">Content of the text.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.ContentExtensions.GetSummary(Kooboo.CMS.Content.Models.ContentBase)">
+            <summary>
+            Gets the summary.
+            </summary>
+            <param name="content">The content.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.ContentExtensions.Exist(Kooboo.CMS.Content.Models.MediaContent)">
+            <summary>
+            Exists the specified content.
+            </summary>
+            <param name="content">The content.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.FormType">
+            <summary>
+            模板类型
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.FormType.Grid">
+            <summary>
+            列表
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.FormType.Create">
+            <summary>
+            新建
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.FormType.Update">
+            <summary>
+            修改
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.FormType.Selectable">
+            <summary>
+            类别选择
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.FormType.List">
+            <summary>
+            用于前台的列表显示
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.FormType.Detail">
+            <summary>
+            用于前台的内容详细显示
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.Repository">
+            <summary>
+            
+            </summary>
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.Repository.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.Repository"/> class.
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.Repository.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Content.Models.Repository"/> class.
+            </summary>
+            <param name="name">The name.</param>
+        </member>
+        <member name="F:Kooboo.CMS.Content.Models.Repository.userKeyReplacePattern">
+            <summary>
+            Gets or sets a value indicating whether [enable custom template].
+            </summary>
+            <value>
+            	<c>true</c> if [enable custom template]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Repository.Current">
+            <summary>
+            Gets or sets the current.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Repository.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Repository.DisplayName">
+            <summary>
+            Gets or sets the display name.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Repository.EnableBroadcasting">
+            <summary>
+            Gets or sets a value indicating whether [enable broadcasting].
+            </summary>
+            <value>
+              <c>true</c> if [enable broadcasting]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Repository.UserKeyReplacePattern">
+            <summary>
+            Gets or sets the user key replace pattern.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Repository.UserKeyHyphens">
+            <summary>
+            Gets or sets the user key hyphens.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Repository.EnableVersioning">
+            <summary>
+            Gets or sets the enable versioning.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Repository.EnableWorkflow">
+            <summary>
+            Gets or sets a value indicating whether [enable workflow].
+            </summary>
+            <value>
+              <c>true</c> if [enable workflow]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Repository.StrictContentPermission">
+            <summary>
+            是否使用相对严格的权限模式，就是当目录没有指定权限设置时，非管理员用户无法看到
+            </summary>
+            <value>
+            	<c>true</c> if [strict content permission]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.RepositoryExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.RepositoryExtensions.CreateTransaction(Kooboo.CMS.Content.Models.Repository)">
+            <summary>
+            Creates the transaction.
+            </summary>
+            <param name="repository">The repository.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.Column">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Column.Name">
+            <summary>
+            Gets or sets the name.
+            Unable to update.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.ColumnComparer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Content.Models.Schema.TitleColumn">
+            <summary>
+            =GetSummarizeColumn
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.Binder.TextContentBinder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.SchemaExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.SchemaExtensions.GenerateForm(Kooboo.CMS.Content.Models.Schema,Kooboo.CMS.Content.Models.FormType)">
+            <summary>
+            生成Schema模板
+            </summary>
+            <param name="schema">The schema.</param>
+            <param name="formType">Type of the form.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.SchemaExtensions.GetControlType(Kooboo.CMS.Content.Models.Column)">
+            <summary>
+            获取Column对应的控件
+            </summary>
+            <param name="column">The column.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.SchemaExtensions.GetFormTemplate(Kooboo.CMS.Content.Models.Schema,Kooboo.CMS.Content.Models.FormType)">
+            <summary>
+            取得Schema的模板相对路径
+            </summary>
+            <param name="schema">The schema.</param>
+            <param name="formType">Type of the form.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Models.SchemaExtensions.GetFormFilePhysicalPath(Kooboo.CMS.Content.Models.Schema,Kooboo.CMS.Content.Models.FormType)">
+            <summary>
+            取得Schema的模板物理路径
+            </summary>
+            <param name="schema">The schema.</param>
+            <param name="type">The type.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.UUIDGenerator">
+            <summary>
+            UUID生成器
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Models.UserKeyGenerator">
+            <summary>
+            UserKey生成器
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Services.MediaContentManager">
+            <summary>
+            Media内容管理
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Services.FolderTreeNode`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Services.FolderManager`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Services.FolderManager`1.Get(Kooboo.CMS.Content.Models.Repository,System.String)">
+            <summary>
+            Gets the specified repository.
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="fullName">The full name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Services.FolderManager`1.All(Kooboo.CMS.Content.Models.Repository,System.String,System.String)">
+            <summary>
+            Alls the specified repository.
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="filterName">Name of the filter.</param>
+            <param name="fullName">The full name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Services.FolderManager`1.All(Kooboo.CMS.Content.Models.Repository,System.String)">
+            <summary>
+            Alls the specified repository.
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="filterName">Name of the filter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Services.FolderManager`1.ChildFolders(`0)">
+            <summary>
+            Childs the folders.
+            </summary>
+            <param name="parent">The parent.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Services.FolderManager`1.ChildFolders(`0,System.String)">
+            <summary>
+            Childs the folders.
+            </summary>
+            <param name="parent">The parent.</param>
+            <param name="filterName">Name of the filter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Services.FolderManager`1.Import(Kooboo.CMS.Content.Models.Repository,System.IO.Stream,System.String,System.Boolean)">
+            <summary>
+            Imports the specified repository.
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="stream">The stream.</param>
+            <param name="fullName">The full name.</param>
+            <param name="override">if set to <c>true</c> [@override].</param>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Services.MediaFolderManager">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Services.ItemTemplate">
+            <summary>
+            项目模板
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Services.ItemTemplateManager">
+            <summary>
+            项目模板管理
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Services.SchemaManager.GetForm(Kooboo.CMS.Content.Models.Repository,System.String,Kooboo.CMS.Content.Models.FormType)">
+            <summary>
+            Gets the form.
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="schemaName">Name of the schema.</param>
+            <param name="formType">Type of the form.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Services.SchemaManager.SaveForm(Kooboo.CMS.Content.Models.Repository,System.String,System.String,Kooboo.CMS.Content.Models.FormType)">
+            <summary>
+            Saves the form into custom template
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="schemaName">Name of the schema.</param>
+            <param name="body">The body.</param>
+            <param name="formType">Type of the form.</param>
+        </member>
+        <member name="T:Kooboo.CMS.Content.Services.CategoryContents">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Content.Services.TextContentManager.UpdateSpecifiedFields(Kooboo.CMS.Content.Models.Repository,Kooboo.CMS.Content.Models.Schema,System.String,System.Collections.Specialized.NameValueCollection,System.String,System.Boolean)">
+            <summary>
+            Updates the specified field values
+            </summary>
+            <param name="repository">The repository.</param>
+            <param name="schema">The schema.</param>
+            <param name="uuid">The UUID.</param>
+            <param name="fieldValues">The field values.</param>
+            <param name="userName">Name of the user.</param>
+        </member>
+    </members>
+</doc>

@@ -10,7 +10,7 @@ using System.Web;
 
 namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
 {
-    [MetadataFor(typeof(IncomeQueue))]
+    [MetadataFor(typeof(IncomingQueue))]
     [Grid(IdProperty = "UUID", Checkable = true)]
     public class IncomeQueue_Metadata
     {

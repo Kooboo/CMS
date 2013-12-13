@@ -16,19 +16,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Text.RegularExpressions;
+using Kooboo.CMS.Modules.CMIS.Services;
 
 namespace Kooboo.CMS.Modules.Publishing.Services
 {
-    public class IncomeQueueManager : ManagerBase<Kooboo.CMS.Modules.Publishing.Models.IncomeQueue>
+    public class IncomingQueueManager : ManagerBase<Kooboo.CMS.Modules.Publishing.Models.IncomingQueue>
     {
         #region .ctor
-        IIncomeQueueProvider _incomeQueueProvider;
+        IIncomingQueueProvider _incomeQueueProvider;
         PageManager _pageManager;
         TextContentManager _textContentManager;
         ITextContentProvider _textContentProvider;
         IPublishingLogProvider _publishingLogProvider;
+        IMediaPathField _mediaPathField;
         MediaContentManager _mediaContentManager;
-        public IncomeQueueManager(IIncomeQueueProvider incomeQueueProvider, PageManager pageManager, ITextContentProvider textContentProvider, TextContentManager textContentManager, IPublishingLogProvider publishingLogProvider, MediaContentManager mediaContentManager)
+        MediaFolderManager _mediaFolderManager;
+        public IncomingQueueManager(IIncomingQueueProvider incomeQueueProvider, PageManager pageManager, ITextContentProvider textContentProvider, 
+            TextContentManager textContentManager, IPublishingLogProvider publishingLogProvider, IMediaPathField mediaPathField,
+            MediaContentManager mediaContentManager, MediaFolderManager mediaFolderManager)
             : base(incomeQueueProvider)
         {
             this._incomeQueueProvider = incomeQueueProvider;
@@ -36,14 +42,16 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             this._textContentProvider = textContentProvider;
             this._textContentManager = textContentManager;
             this._publishingLogProvider = publishingLogProvider;
+            this._mediaPathField = mediaPathField;
             this._mediaContentManager = mediaContentManager;
+            this._mediaFolderManager = mediaFolderManager;
         }
         #endregion
 
         #region Get
-        public virtual IncomeQueue Get(string uuid)
+        public virtual IncomingQueue Get(string uuid)
         {
-            return new IncomeQueue(uuid).AsActual();
+            return new IncomingQueue(uuid).AsActual();
         }
         #endregion
 
@@ -52,14 +60,14 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         {
             foreach (string uuid in uuids)
             {
-                var model = new IncomeQueue(uuid).AsActual();
+                var model = new IncomingQueue(uuid).AsActual();
                 this._incomeQueueProvider.Remove(model);
             }
         }
         #endregion
 
         #region ProcessQueueItem
-        public virtual void ProcessQueueItem(IncomeQueue queueItem)
+        public virtual void ProcessQueueItem(IncomingQueue queueItem)
         {
             Exception exception = null;
             QueueStatus logStatus = QueueStatus.OK;
@@ -110,7 +118,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             AddLog(queueItem, logStatus, exception);
         }
 
-        protected virtual void AddLog(IncomeQueue queueItem, QueueStatus logStatus, Exception e = null)
+        protected virtual void AddLog(IncomingQueue queueItem, QueueStatus logStatus, Exception e = null)
         {
             PublishingLog log = new PublishingLog()
             {
@@ -137,7 +145,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             _publishingLogProvider.Add(log);
         }
 
-        protected virtual void PublishPage(ref IncomeQueue queueItem)
+        protected virtual void PublishPage(ref IncomingQueue queueItem)
         {
             var site = new Site(queueItem.SiteName).AsActual();
             Page page;
@@ -200,13 +208,13 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             page.CacheToDisk = properties.CacheToDisk;
         }
         #region NoSuchObjectMessage
-        private void NoSuchSiteMessage(ref IncomeQueue queueItem)
+        private void NoSuchSiteMessage(ref IncomingQueue queueItem)
         {
             queueItem.Status = QueueStatus.Warning;
             queueItem.Message = string.Format("No such site:{0}".Localize(), queueItem.ObjectUUID);
         }
         #endregion
-        protected virtual void PublishTextContent(ref IncomeQueue queueItem)
+        protected virtual void PublishTextContent(ref IncomingQueue queueItem)
         {
             var site = new Site(queueItem.SiteName).AsActual();
 
@@ -238,26 +246,63 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             NoSuchSiteMessage(ref queueItem);
         }
 
-        private void AddOrUpdateContent(Repository repository, IncomeQueue queueItem)
+        private Regex _repositoryNameRegex = new Regex(@"(.*/Cms_Data/Contents/)(\w+)(/Media/(?<mediaFolder>.*?)/([\w-]+)\.(\w{2,4}))");
+        private void AddOrUpdateContent(Repository repository, IncomingQueue queueItem)
         {
             var textContent = (Dictionary<string, object>)queueItem.Object;
             var values = textContent.ToNameValueCollection();
             var files = values.GetFilesFromValues();
             var medias = values.GetMediaFromValues();
+            var newVirtualPathDict = new Dictionary<string,string>();
+            for (int i = 0, len = medias.Count; i < len; i++)
+            {
+                var virtualPath = this._repositoryNameRegex.Replace(medias[i].FileName, string.Format("$1{0}$3", repository.Name));
+                var folder = this._repositoryNameRegex.Match(virtualPath).Groups["mediaFolder"].Value;
+
+                if (!string.IsNullOrWhiteSpace(virtualPath))
+                {
+                    newVirtualPathDict.Add(medias[i].FileName, virtualPath);
+                    
+                    var physicalPath = Kooboo.Web.Url.UrlUtility.MapPath(virtualPath);
+
+                    var mediaFolder = new MediaFolder(repository, folder);
+                    if (mediaFolder.AsActual() == null)
+                    {
+                        this._mediaFolderManager.Add(repository, mediaFolder);
+                    }
+
+                    var folderPath = Path.GetDirectoryName(physicalPath);
+
+                    var fileName = Path.GetFileName(physicalPath);
+
+                    this._mediaContentManager.Add(repository, mediaFolder,
+                        fileName, medias[i].InputStream, false);
+                }
+            }
+
+            foreach (var prop in values.AllKeys)
+            {
+                if (!prop.StartsWith("__"))
+                {
+                    if (values[prop] != null && values[prop] is string && this._mediaPathField.IsMediaPathField(values[prop].ToString()))
+                    {
+                        var fieldValue = values[prop].ToString();
+                        foreach (var key in newVirtualPathDict.Keys)
+                        {
+                            fieldValue = fieldValue.Replace(key, newVirtualPathDict[key]);
+                        }
+                        values[prop] = fieldValue;
+                    }
+                }
+            }
+
             var categories = values.GetCategories().Select(it => new TextContent(repository.Name, "", it.CategoryFolder) { UUID = it.CategoryUUID }).ToArray();
 
             var textFolder = new TextFolder(repository, values["FolderName"]);
             _textContentManager.Delete(repository, textFolder, values["UUID"]);
             _textContentManager.Add(textFolder.Repository, textFolder, values, files, categories, values["UserId"]);
 
-            for (int i = 0, len = medias.Count; i < len; i++)
-            {
-                var physicalPath = Kooboo.Web.Url.UrlUtility.MapPath(medias[i].FileName);
-                var folderPath = Path.GetDirectoryName(physicalPath);
-                var fileName = Path.GetFileName(physicalPath);
-                this._mediaContentManager.Add(textFolder.Repository, new MediaFolder(textFolder.Repository, folderPath),
-                    fileName, medias[i].InputStream, false);
-            }
+            
         }
         #endregion
     }

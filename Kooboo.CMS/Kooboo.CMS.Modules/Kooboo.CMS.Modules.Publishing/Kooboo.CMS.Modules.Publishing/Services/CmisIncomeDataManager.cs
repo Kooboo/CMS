@@ -24,9 +24,9 @@ namespace Kooboo.CMS.Modules.Publishing.Services
     public class CmisIncomeDataManager : Kooboo.CMS.Modules.CMIS.Services.Implementation.IIncomeDataManager
     {
         #region .ctor
-        IIncomeQueueProvider _incomeQueueProvider;
+        IIncomingQueueProvider _incomeQueueProvider;
         ITextContentBinder _textContentBinder;
-        public CmisIncomeDataManager(IIncomeQueueProvider incomeQueueProvider, ITextContentBinder binder)
+        public CmisIncomeDataManager(IIncomingQueueProvider incomeQueueProvider, ITextContentBinder binder)
         {
             this._incomeQueueProvider = incomeQueueProvider;
             this._textContentBinder = binder;
@@ -51,7 +51,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                 textContent.UUID = values["UUID"];
             }
 
-            IncomeQueue incomeQueue = new IncomeQueue()
+            IncomingQueue incomeQueue = new IncomingQueue()
             {
                 Message = null,
                 Object = new Dictionary<string, object>(textContent),
@@ -78,7 +78,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
             textContent = _textContentBinder.Bind(schema, textContent, values);
 
-            IncomeQueue incomeQueue = new IncomeQueue()
+            IncomingQueue incomeQueue = new IncomingQueue()
             {
                 Message = null,
                 Object = new Dictionary<string, object>(textContent),
@@ -104,7 +104,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             var content = textFolder.CreateQuery().WhereEquals("UUID", integrateId.ContentUUID).FirstOrDefault();
             if (content != null)
             {
-                IncomeQueue incomeQueue = new IncomeQueue()
+                IncomingQueue incomeQueue = new IncomingQueue()
                 {
                     Message = null,
                     Object = null,
@@ -128,7 +128,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #region Page
         public string AddPage(Site site, Page page, string vendor)
         {
-            IncomeQueue incomeQueue = new IncomeQueue()
+            IncomingQueue incomeQueue = new IncomingQueue()
             {
                 Message = null,
                 Object = page,
@@ -150,7 +150,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
         public string UpdatePage(Site site, Page page, string vendor)
         {
-            IncomeQueue incomeQueue = new IncomeQueue()
+            IncomingQueue incomeQueue = new IncomingQueue()
             {
                 Message = null,
                 Object = page,
@@ -172,7 +172,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
         public void DeletePage(Site site, string pageId, string vendor)
         {
-            IncomeQueue incomeQueue = new IncomeQueue()
+            IncomingQueue incomeQueue = new IncomingQueue()
             {
                 Message = null,
                 Object = null,

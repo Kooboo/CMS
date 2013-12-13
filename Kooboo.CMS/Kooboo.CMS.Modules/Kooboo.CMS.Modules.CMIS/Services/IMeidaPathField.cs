@@ -139,7 +139,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services
             if (paths.Count > 0)
             {
                 StringBuilder sb = new StringBuilder(BinaryStringHeader);
-                foreach (var path in paths)
+                foreach (var path in paths.Distinct(StringComparer.OrdinalIgnoreCase))
                 {
                     var physicalPath = Kooboo.Web.Url.UrlUtility.MapPath(path);
                     if (File.Exists(physicalPath))

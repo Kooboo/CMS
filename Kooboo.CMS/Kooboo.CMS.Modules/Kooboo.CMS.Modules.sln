@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Modules.Publishing.Web", "Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\Kooboo.CMS.Modules.Publishing.Web.csproj", "{D906BE0F-6E5D-4AE2-B259-DF72E5382157}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Modules.Publishing", "Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.csproj", "{59201EE6-DD93-47CA-BA8C-2C4ACA457978}"
@@ -36,8 +34,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{29B36D82-20E0-473C-9D90-EDD5981587EC} = {D64EFACC-7F31-46A7-B8FF-94F95451046C}
-		{D906BE0F-6E5D-4AE2-B259-DF72E5382157} = {EF0C2C73-A6EC-4FBA-81FE-93311E40386B}
 		{59201EE6-DD93-47CA-BA8C-2C4ACA457978} = {EF0C2C73-A6EC-4FBA-81FE-93311E40386B}
+		{D906BE0F-6E5D-4AE2-B259-DF72E5382157} = {EF0C2C73-A6EC-4FBA-81FE-93311E40386B}
+		{29B36D82-20E0-473C-9D90-EDD5981587EC} = {D64EFACC-7F31-46A7-B8FF-94F95451046C}
 	EndGlobalSection
 EndGlobal

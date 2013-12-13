@@ -1,0 +1,1074 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kooboo.CMS.Sites</name>
+    </assembly>
+    <members>
+        <member name="P:Kooboo.CMS.Sites.ABTest.VisitRuleBase.RuleType">
+            <summary>
+            The DataMember on this field is only used for the JSON.NET serializer.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.ABTest.VisitRuleBase.DisplayText">
+            <summary>
+            The DataMember on this field is only used for the JSON.NET serializer.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.ABTest.VisitRuleBase.TemplateVirtualPath">
+            <summary>
+            The DataMember on this field is only used for the JSON.NET serializer.
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Extension.ICommonPagePlugin">
+            <summary>
+            The base interface for page plugin, you have to implement the IPagePlugin OR IHttpMethodPagePlugin to create a page plugin.
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.IHttpMethodPagePlugin.HttpGet(Kooboo.CMS.Sites.View.Page_Context,Kooboo.CMS.Sites.View.PagePositionContext)">
+            <summary>
+            Write the page plug-in code when the page doing the Get request.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="positionContext">The position context.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.IHttpMethodPagePlugin.HttpPost(Kooboo.CMS.Sites.View.Page_Context,Kooboo.CMS.Sites.View.PagePositionContext)">
+            <summary>
+            Write the page plug-in code when the page doing the Post request.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="positionContext">The position context.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.DataRule.IDataRule.Execute(Kooboo.CMS.Sites.DataRule.DataRuleContext,Kooboo.CMS.Sites.Models.TakeOperation,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="dataRuleContext"></param>
+            <param name="operation">The type of the query, List all data, get the first item or query the count.</param>
+            <param name="cachingDuration">The cache time, in second.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.DataRule.HttpDataRule.URL">
+            <summary>
+            josn?key={key}
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.Management.IAssemblyReferences.RemoveReference(System.String,System.String)">
+            <summary>
+            Remove the reference.
+            </summary>
+            <param name="assemblyFile"></param>
+            <param name="user"></param>
+            <returns>No others used,available to remove.</returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleInstallingEvents.OnInstalling(Kooboo.CMS.Sites.Extension.ModuleArea.ModuleContext,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Called when [installing].
+            Will only enabled when the module have install template(The InstallingTemplate property in ModuleInfo)
+            </summary>
+            <param name="moduleContext">The module context.</param>
+            <param name="controllerContext">The controller context.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents.OnIncluded(Kooboo.CMS.Sites.Extension.ModuleArea.ModuleContext)">
+            <summary>
+            The event when site includeded.
+            </summary>
+            <param name="moduleContext">The module context.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents.OnExcluded(Kooboo.CMS.Sites.Extension.ModuleArea.ModuleContext)">
+            <summary>
+            The event when site excluded.
+            </summary>
+            <param name="moduleContext">The module context.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleUninstallingEvents.OnUninstalling(Kooboo.CMS.Sites.Extension.ModuleArea.ModuleContext,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Called when [uninstalling].
+            Will only enabled when the module have install template(The InstallingTemplate property in ModuleInfo)
+            </summary>
+            <param name="moduleContext">The module context.</param>
+            <param name="controllerContext">The controller context.</param>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Extension.ModuleArea.Management.IModuleInstaller">
+            <summary>
+            Module installation steps:(未来更好的安装流程可能是在上传文件后，显示Module的版本号等信息后再确认一次是否要继续安装。目前不确定是否需要这一步。)
+            1. Unzip uploaded stream
+            2. Check conflict assembly references
+            2. Copy assemblies
+            3. Run module installing event
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.Management.IModuleInstaller.Unzip(System.String@,System.IO.Stream,System.String)">
+            <summary>
+            Unzips the specified default module name.
+            </summary>
+            <param name="defaultModuleName">It will be the upload file name, when the developer assign a different module in the module.config, the value will be changed to it.</param>
+            <param name="moduleStream">The module stream.</param>
+            <returns>error message</returns>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Extension.ModuleArea.Management.IModuleUninstaller">
+            <summary>
+            Uninstall module steps:
+            1. Run uninstall event
+            2. Remove the assembly files from Bin folder(Remove the reference record from the sharing assemblies).
+            3. Delete the module area folder
+            4. Remove the module versions
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Extension.ModuleArea.Management.IModuleReinstaller">
+            <summary>
+            upgrade steps:
+            1. Upgrade the module area file(Delete the older folder and unzip the new module files,copy the new files to bin folder) 
+            2. Run upgrading event
+            3. Run the upgradation files(1.0.0.0-2.0.0.0.sql,etc)
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Extension.ModuleArea.Management.ModuleInstaller">
+            <summary>
+            Module installation steps:
+            1. Unzip
+            2. Check conflict assembly references
+            2. Copy assemblies
+            3. Run module installing event
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.Management.IModuleVersioning.SaveInstallationFile(Kooboo.CMS.Sites.Extension.ModuleArea.Management.ModuleStreamEntry)">
+            <summary>
+            Save the installation file
+            </summary>
+            <param name="moduleStreamEntry">The module stream entry.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.ModuleControllerContextExtensions.GetModuleName(System.Web.Mvc.ControllerContext)">
+            <summary>
+            Get the module name from controller context.
+            </summary>
+            <param name="controllerContext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.SecurityHelper.Encrypt(Kooboo.CMS.Sites.Models.Site,System.String)">
+            <summary>
+            Encrypts the specified original string.
+            </summary>
+            <param name="site">The site.</param>
+            <param name="plainText">The plain string.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException">The string which needs to be encrypted can not be null.</exception>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Controllers.ResourceController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Controllers.ResourceController.ResizeImage(System.String,System.Int32,System.Int32,System.Nullable{System.Boolean},System.Nullable{System.Int32})">
+            <summary>
+            Resizes the image.
+            </summary>
+            <param name="url">The URL.</param>
+            <param name="width">The width.</param>
+            <param name="height">The height.</param>
+            <param name="preserverAspectRatio">The preserver aspect ratio.保持比例</param>
+            <param name="quality">The quality.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.DataRule.WhereClauseToContentQueryHelper.BuildLogicalExpression(Kooboo.CMS.Sites.DataRule.Logical,Kooboo.CMS.Content.Query.Expressions.IWhereExpression,Kooboo.CMS.Content.Query.Expressions.IWhereExpression)">
+            <summary>
+            Build And/Or Expression
+            </summary>
+            <param name="logical"></param>
+            <param name="left"></param>
+            <param name="right"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.IPagePlugin.Execute(Kooboo.CMS.Sites.View.Page_Context,Kooboo.CMS.Sites.View.PagePositionContext)">
+            <summary>
+            Executes the specified page view context.
+            </summary>
+            <param name="pageContext">The page context.</param>
+            <param name="positionContext">The value will be null when executing a plugin in page.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Extension.ModuleArea.ModuleAreaControllerBase">
+            <summary>
+            The base controller of back end
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.Runtime.ModuleControllerActionInvoker.GetFilters(System.Web.Mvc.ControllerContext,System.String)">
+            <summary>
+            Gets the filters.
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="actionName">Name of the action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.Runtime.ModuleControllerActionInvoker.InvokeActionWithoutExecuteResult(Kooboo.CMS.Sites.Models.ModulePosition,System.Web.Mvc.ControllerContext,System.String)">
+            <summary>
+            Invokes the action return ActionResult
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="actionName">Name of the action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Extension.ModuleArea.Runtime.ModuleControllerActionInvoker.ExecuteActionResult(Kooboo.CMS.Sites.Extension.ModuleArea.Runtime.ModuleActionInvokedContext)">
+            <summary>
+            Executes the action result.
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="actionResult">The action result.</param>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Extension.ModuleArea.ModuleControllerBase">
+            <summary>
+            The base controller of front end
+            The other option is to use the ModulActionFilter, it will allow you to inherit from the Controller instead of ModuleControllerBase
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.PathResource.Parse(System.String)">
+            <summary>
+            Parses the object.
+            </summary>
+            <param name="physicalPath">The physical path. <example>d:\cms\sites\site1\themes\default</example></param>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.PathResource.ParseObject(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Parses the object.
+            </summary>
+            <param name="relativePaths">The relative paths. <example>{"site1","themes","default"}</example> </param>
+            <returns>the remaining paths.<example>{"site1"}</example></returns>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.PathResource.RelativePaths">
+            <summary>
+            <example>new string[] {"themes","default"} </example>
+            </summary>
+            <value>The relative paths.</value>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.FileResource.ParseObject(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Parses the object.
+            </summary>
+            <param name="relativePaths">The relative paths. <example>{"site1","themes","default","style.css"}</example></param>
+            <returns>
+            the remaining paths.<example>{"site1","themes","default"}</example>
+            </returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.AssemblyFile.ParseObject(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Parses the object.
+            </summary>
+            <param name="relativePaths">The relative paths. <example>{"site1","scripts","js.js"}</example></param>
+            <returns>
+            the remaining paths.<example>{"site1"}</example>
+            </returns>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Models.IInheritable`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Models.IInheritable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.IInheritable.HasParentVersion">
+            <summary>
+            Determines whether [has parent version].
+            </summary>
+            <returns>
+              <c>true</c> if [has parent version]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.IInheritable.IsLocalized(Kooboo.CMS.Sites.Models.Site)">
+            <summary>
+            Determines whether the specified site is localized.
+            </summary>
+            <param name="site">The site.</param>
+            <returns>
+              <c>true</c> if the specified site is localized; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.IInheritable.Site">
+            <summary>
+            Gets the site.
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.IInheritable`1.LastVersion">
+            <summary>
+            Lasts the version.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.IInheritable`1.LastVersion(Kooboo.CMS.Sites.Models.Site)">
+            <summary>
+            Lasts the version.
+            </summary>
+            <param name="site">The site.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.CacheSettings.Duration">
+            <summary>
+            The time, in seconds, that the page or view is cached. 
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.ThemeFile.ParseObject(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Parses the object.
+            </summary>
+            <param name="relativePaths">The relative paths. <example>{"site1","themes","default","style1.css"}</example></param>
+            <returns>
+            the remaining paths.<example>{"site1"}</example>
+            </returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.Template.ParseObject(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Parses the object.
+            </summary>
+            <param name="relativePaths">The relative paths. <example>{"site1","template","layout","template1"}</example></param>
+            <returns>
+            the remaining paths.<example>{"site1"}</example>
+            </returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.View.CombineDefaultParameters(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            传入的参数跟默认参数合并
+            </summary>
+            <param name="parameters">The parameters.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.DataRuleSetting.CachingDuration">
+            <summary>
+            The time, in seconds, that the data rule is cached. 
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.ScriptFile.ParseObject(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Parses the object.
+            </summary>
+            <param name="relativePaths">The relative paths. <example>{"site1","scripts","js.js"}</example></param>
+            <returns>
+            the remaining paths.<example>{"site1"}</example>
+            </returns>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Models.LayoutPosition">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.Layout.Positions">
+            <summary>
+            public set method is only use in serialization.
+            </summary>
+            <value>The positions.</value>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.PageRoute.LinkTarget">
+            <summary>
+            Gets or sets the link target.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.PageRoute.Identifier">
+            <summary>
+            页面的别名URL，通过对这个字段赋不同的值可以实现不同的URL展示方式：
+            1. 普通字符串，比如：detail，那就会带上父页面的virutal path，比如：news/detail
+            2. 以/开头，比如：/detail，此时返回的URL就会是：/detail
+            3. *，此时的它的virtual path会直接使用父页面的virtual path，只是查找方式会再多一些复杂的逻辑判断
+            4. 以#开头，此时可以满足一些特殊的URL需求，比如： news/{userKey}/detail， 此时的URL应该设置：#detail 
+            
+            关于*和#的使用约束，假设存在这样的一个URL地址：
+            /travel-info/airport-transportation/*lodan/#airport/*date
+            那么，必须在对应的页面上必须要有相应的URLPath的设置才能正确解析和生成：
+            1. travel-info和airport-transportation没有特殊限制
+            2. lodan 的UrlPath必须设置：{UserKey}（一个变量）
+            3. airport的UrlPath必须设置：{UserKey} （也是一个变量）
+            4. date的UrlPath必须包含两个变量，并且将上一个#的Identifier带进来：{UserKey1}/airport/{UserKey2}
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.PageRoute.TrimmedIdentifier">
+            <summary>
+            去掉#的Identifier
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.PageRoute.ExternalUrl">
+            <summary>
+            用来给页面设置一个外部链接，如果这个值不为空，那页面在生成URL的时候会直接返回这个链接。
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Models.PagePermission">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.Page.#ctor(Kooboo.CMS.Sites.Models.Site,System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Sites.Models.Page"/> class.
+            </summary>
+            <param name="site">The site.</param>
+            <param name="pageNamePaths">The page name paths. <example>{"parent","child"}</example></param>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.Page.Layout">
+            <summary>
+            wrap for Layout
+            </summary>
+            <value>The name of the layout template.</value>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.Page.FullName">
+            <summary>
+            完整的页面名称，比如：Page1~Page2~Page3
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.Page.FriendlyName">
+            <summary>
+            友好的页面名称，比如：Page1/Page2/Page3
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.Page.PageNamePaths">
+            <summary>
+            页面名称路径
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.Page.VirtualPath">
+            <summary>
+            虚拟路径，用于生成页面URL的前缀，用页面完整名称和别号来生成，有一种特殊别名是：*
+            1. 如果有别名，则直接用别名来生成页面URL
+                1.1 如果别名是*，则去找父页面的虚拟路径来作为它的路径，一级一级往上找，直到找到不是*的父页面。
+                1.2 如果别名是以/开头，则将当直接当然绝对路径来处理，往上找父页面的路径来拼接
+                1.3 如果别名不是以/开头，则往上找所有的父页面的路径来拼接相对路径。
+            2. 如果没有设置别名，直接用页面的完整路径来生成URL
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.PagePosition.PagePositionId">
+            <summary>
+            used to set the dynamic control id, also used to set the module url token.
+            </summary>
+            <value>The page position ID.</value>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.ModulePosition.Exclusive">
+            <summary>
+            The page url with this module will exclude other module urls
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.Theme.ParseObject(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Parses the object.
+            </summary>
+            <param name="relativePaths">The relative paths.  <example>{"site1","themes","default"}</example></param>
+            <returns>the remaining paths. <example>{"site1"}</example></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.Site.TrimBasePhysicalPath(System.String)">
+            <summary>
+            Trims the base physical path.
+            </summary>
+            <param name="physicalPath">The physical path.<example>d:\cms\sites\site1\themes\default</example></param>
+            <returns>trimed physical path <example>themes\default</example> </returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.Site.ParseSiteFromPhysicalPath(System.String)">
+            <summary>
+            Parses the site from physical path.
+            </summary>
+            <param name="physicalPath">The physical path.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Models.Site.ParseSiteFromRelativePath(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Parses the site from relative path.
+            </summary>
+            <param name="relativePaths">The relative paths.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.Site.FullDomains">
+            <summary>
+            站点的所有完整域，所有域名加上SitePath
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.Site.PhysicalPath">
+            <summary>
+            The physical base path of site
+            </summary>
+            <value>The physical path.</value>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.Site.TimeZoneId">
+            <summary>
+            1  站点的设置加了一个时区设置
+            2. 在添加内容的时候，所有的时间都认为是这个时区的时间
+            3. 在存储到数据库的时候，自动把时间转换成UTC世界
+            4. 在查询和独取得时候，会自动把UTC 时间转换成站点设置的时区时间 
+            5. 开发人员的代码中，需要保存的时间和使用的时间，都是假设站点时区的时间
+            6. 遇到像生日之类的，与时区无关的时间，开发人员可以设计用datetimepicker控件，但是存储的时候使用string存储。避免具有时间的时区性。
+            </summary>
+            <value>
+            The time zone id.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Models.Site.SSLDetection">
+            <summary>
+            Gets or sets the SSL detection.
+            To detect the request if is a SSL request accoding to the HTTP header/Querystring.
+            It is because in the master/slave mode, the slave server will only get HTTP request even the user sending a HTTPS request. The master server will send the HTTPS flag via HTTP header or querystring. 
+            see:https://github.com/plack/Plack/wiki/How-to-detect-reverse-proxy-and-SSL-frontend
+            </summary>
+            <value>
+            The SSL detection.
+            </value>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.ABTest.RandomVisitRule">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.ABTest.RandomVisitRule.Percent">
+            <summary>
+            Gets or sets the percent.
+            The value 10 means 10%
+            </summary>
+            <value>
+            The percent.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.ABTest.CustomRuleBase.RuleType">
+            <summary>
+            The DataMember on this field is only used for the JSON.NET serializer.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.ABTest.CustomRuleBase.DisplayText">
+            <summary>
+            The DataMember on this field is only used for the JSON.NET serializer.
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.ABTest.CustomRuleBase.TemplateVirtualPath">
+            <summary>
+            The DataMember on this field is only used for the JSON.NET serializer.
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.ABTest.IPVisitRule">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.ABTest.IPVisitRule.RegexPattern">
+            <summary>
+            The ip regular expression pattern
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.ABTest.QueryStringVisitRule">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Parsers.ThemeRule.RegularCssHackFileParser">
+            <summary>
+            Default implementation 
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Persistence.Caching.DependencyRegistrar">
+            <summary>    
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Persistence.ISiteProvider.AllSites">
+            <summary>
+            Alls the sites. Include all the child sites.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Persistence.FileSystem.SiteProvider.Create(Kooboo.CMS.Sites.Models.Site,System.String,System.IO.Stream,Kooboo.CMS.Sites.Persistence.CreateSiteSetting)">
+            <summary>
+            1. Extract the site files.
+            2. Create and initialize the repository if the repository doest not exsits.
+            </summary>
+            <param name="parentSite"></param>
+            <param name="siteName"></param>
+            <param name="packageStream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Persistence.FileSystem.SiteProvider.Export(Kooboo.CMS.Sites.Models.Site,System.IO.Stream,System.Boolean,System.Boolean)">
+            <summary>
+            1. export repository as a zip file.
+            2. offline the site.
+            3. zip the site directory as a zip file.
+            4. online the site.
+            </summary>
+            <param name="site"></param>
+            <param name="outputStream"></param>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.Services.AssemblyManager">
+            <summary>
+            Plugin 管理
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Services.FileEntry.RelativePath">
+            <summary>
+            the relative path from current root dir
+            <example>
+            The full virtual path: '..\Cms_Data\Sites\aaa\Sites\cn1\Themes\Theme1', the RelativeVirtualPathFromRoot will be: 'Theme1'
+            Hide '..\Cms_Data\Sites\aaa\Sites\cn1\Themes\'
+            </example>
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.Services.DirectoryEntry.RelativePath">
+            <summary>
+            the relative path from current root dir
+            <example>
+            The full virtual path: '..\Cms_Data\Sites\aaa\Sites\cn1\Themes\Theme1', the RelativeVirtualPathFromRoot will be: 'Theme1'
+            Hide '..\Cms_Data\Sites\aaa\Sites\cn1\Themes\'
+            </example>
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Services.PageManager.All(Kooboo.CMS.Sites.Models.Site,System.String)">
+            <summary>
+            Query the all pages including the sub pages.
+            </summary>
+            <param name="site"></param>
+            <param name="filterName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Services.PageManager.GetPageByUrl(Kooboo.CMS.Sites.Models.Site,System.String)">
+            <summary>
+            根据传入的URL来查找页面：
+            1. 标准查找
+            2. 在标准查找之后，再去做一遍查找
+             2.1 如果路径等于页面的绝对路径就不再继续查找
+             2.2 反之，根据剩下的路径长度，决定查询几层的别名为*的子页面，如果能一级一级找到，则返回子页面。如果找不到，则返回标准找到的结果。
+            </summary>
+            <param name="site">The site.</param>
+            <param name="url">The URL.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Services.SiteManager.UseSharedDB(Kooboo.CMS.Sites.Models.Site)">
+            <summary>
+            Determine if the site uses a shared DB.
+            </summary>
+            <param name="site">The site.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.View.ContentHelper">
+            <summary>
+            封装View中做查询需要创建Folder的代码
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.View.FrontHtmlHelper">
+            <summary>
+            The html helper for Kooboo CMS page, similar MVC HtmlHelper. 
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.RenderView(System.String)">
+            <summary>
+            Renders the view.
+            </summary>
+            <param name="viewName">Name of the view.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.RenderView(System.String,System.Object)">
+            <summary>
+            Renders the view.
+            </summary>
+            <param name="viewName">Name of the view.</param>
+            <param name="model">The model.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.RenderView(System.String,System.Web.Mvc.ViewDataDictionary,System.Object)">
+            <summary>
+            Renders the view.
+            </summary>
+            <param name="viewName">Name of the view.</param>
+            <param name="viewData">The view data.</param>
+            <param name="parameters">The parameters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.RenderView(System.String,System.Web.Mvc.ViewDataDictionary)">
+            <summary>
+            Renders the view.
+            </summary>
+            <param name="viewName">Name of the view.</param>
+            <param name="viewData">The view data.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.RenderView(System.String,System.Web.Mvc.ViewDataDictionary,System.Object,System.Boolean)">
+            <summary>
+            Renders the view.
+            </summary>
+            <param name="viewName">Name of the view.</param>
+            <param name="viewData">The view data.</param>
+            <param name="parameters">The parameters.</param>
+            <param name="executeDataRule">if set to <c>true</c> [execute data rule].</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.IncludeScript(System.String)">
+            <summary>
+            Includes a script file to current page.
+            </summary>    
+            <param name="script">The script.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.IncludeStylesheet(System.String)">
+            <summary>
+            Includes the stylesheet.
+            </summary>
+            <param name="html">The HTML.</param>
+            <param name="style">The style.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.IncludeStylesheet(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="style"></param>
+            <param name="media"></param>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.RegisterScripts">
+            <summary>
+            Registers the scripts to the view.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.RegisterScripts(System.Boolean)">
+            <summary>
+            Registers the scripts.
+            </summary>
+            <param name="compressed">if set to <c>true</c> [compressed].</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.RegisterAbsoluteScripts(System.String)">
+            <summary>
+            Registers the absolute scripts.
+            </summary>
+            <param name="baseUri">The base URI.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.RegisterAbsoluteScripts(System.String,System.Boolean)">
+            <summary>
+            Registers the absolute scripts.
+            </summary>
+            <param name="baseUri">The base URI.</param>
+            <param name="compressed">if set to <c>true</c> [compressed].</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.RegisterStyles">
+            <summary>
+            Registers the styles.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.RegisterStyles(System.String)">
+            <summary>
+            Registers the styles to the view.
+            </summary>     
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.HtmlTitle">
+            <summary>
+            HTMLs the title.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontHtmlHelper.HtmlTitle(System.String)">
+            <summary>
+            HTMLs the title.
+            </summary>
+            <param name="defaultTitle">The HTML title.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.View.InvalidPageRouteException">
+            <summary>
+            View中使用的UrlHelper，类似于MVC的UrlHelper
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.SiteScriptsUrl">
+            <summary>
+            The URL for combined site scripts.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.SiteScriptsUrl(System.String)">
+            <summary>
+            The URL for combined site scripts.
+            </summary>
+            <param name="baseUri">The base URI.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.SiteScriptsUrl(System.String,System.Boolean)">
+            <summary>
+            The URL for combined site scripts.
+            </summary>
+            <param name="baseUri">The base URI.</param>
+            <param name="compressed">if set to <c>true</c> [compressed].</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.SiteThemeUrl">
+            <summary>
+            Sites the theme URL.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.SiteThemeUrl(System.String,System.String)">
+            <summary>
+            the site theme URL.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.MediaContentUrl(System.String,System.String)">
+            <summary>
+            Get the media content url.
+            </summary>
+            <param name="fullFoldername"></param>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.ModuleScriptsUrl(System.String)">
+            <summary>
+            The URL for module scripts.
+            </summary>
+            <param name="moduleName">Name of the module.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.ModuleScriptsUrl(System.String,System.String)">
+            <summary>
+            The URL for module scripts.
+            </summary>
+            <param name="moduleName">Name of the module.</param>
+            <param name="baseUri">The base URI.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.ModuleScriptsUrl(System.String,System.String,System.Boolean)">
+            <summary>
+            The URL for module scripts.
+            </summary>
+            <param name="moduleName">Name of the module.</param>
+            <param name="baseUri">The base URI.</param>
+            <param name="compressed">if set to <c>true</c> [compressed].</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.ModuleThemeUrl(System.String,System.String)">
+            <summary>
+            Modules the theme URL.
+            </summary>
+            <param name="moduleName">Name of the module.</param>
+            <param name="themeName">Name of the theme.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.ResizeImageUrl(System.String,System.Int32,System.Int32)">
+            <summary>
+            Resizes the image URL.
+            </summary>
+            <param name="imagePath">The image path.</param>
+            <param name="width">The width.</param>
+            <param name="height">The height.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.ResizeImageUrl(System.String,System.Int32,System.Int32,System.Nullable{System.Boolean},System.Nullable{System.Int32})">
+            <summary>
+            Resizes the image URL.
+            </summary>
+            <param name="imagePath">The image path.</param>
+            <param name="width">The width.</param>
+            <param name="height">The height.</param>
+            <param name="preserverAspectRatio">The preserver aspect ratio.</param>
+            <param name="quality">The quality.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.ThemeFileUrl(System.String)">
+            <summary>
+            the file URL under the theme of current site.
+            </summary>
+            <param name="relativeUrl">The relative URL.<example>images/logo.png</example></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.ResourceCDNUrl(System.String)">
+            <summary>
+            Resources the URL. Using the ResourceDomain to generate the resource absolute url.
+            </summary>
+            <param name="relativeUrl">The relative URL.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.FileUrl(System.String,System.Boolean)">
+            <summary>
+            The file URL.
+            </summary>
+            <param name="relativeFilePath">The relative file path.</param>
+            <param name="withCDNResolving">if set to <c>true</c> [with CDN resolving].</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.FrontUrlHelper.ScriptFileUrl(System.String,System.Boolean)">
+            <summary>
+            Get the file url under "Scripts" folder.
+            </summary>
+            <param name="relativeScriptFilePath">The relative file path.</param>
+            <param name="withCDNResolving">if set to <c>true</c> [with CDN resolving].</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.View.FrontViewControl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.View.MenuHelper">
+            <summary>
+            是与菜单和面包屑相关的辅助方法
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.View.PageRequestContext">
+            <summary>
+            是用于存放一些只读的CMS上下文信息。。
+            比如： Site,Page,解析后的QueryString和RouteValues,还有一些ModuleUrl的处理。
+            这个类的作用有点类似于MVC的RequestContext
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.PageRequestContext.#ctor(System.Web.Mvc.ControllerContext,Kooboo.CMS.Sites.Models.Site,Kooboo.CMS.Sites.Models.Page,Kooboo.CMS.Sites.Web.FrontRequestChannel,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Sites.View.PageRequestContext"/> class.
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="site">The site.</param>
+            <param name="page">The page.</param>
+            <param name="requestChannel">The request channel.</param>
+            <param name="pageRequestUrl">The page request URL.</param>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.PageRequestContext.#ctor(System.Web.Mvc.ControllerContext,Kooboo.CMS.Sites.Models.Site,Kooboo.CMS.Sites.Models.Site,Kooboo.CMS.Sites.Models.Page,Kooboo.CMS.Sites.Models.Page,Kooboo.CMS.Sites.Web.FrontRequestChannel,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Kooboo.CMS.Sites.View.PageRequestContext"/> class.
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="rawSite">The raw.</param>
+            <param name="site">The site.</param>
+            <param name="page">The page.</param>
+            <param name="requestChannel">The request channel.</param>
+            <param name="pageRequestUrl">The page request url with out page virtual path.</param>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.View.PageRequestContext.RawSite">
+            <summary>        
+            The raw site before executing the visit rule.
+            </summary>
+            <value>
+            The raw site.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.View.PageRequestContext.RawPage">
+            <summary>
+            The raw page before executing the visit rule.
+            </summary>
+            <value>
+            The raw page.
+            </value>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.View.Page_Context">
+            <summary>
+            这个是页面当前执行的上下文对象，它会包含有对RequestContext的引用，有点类似于ControllerContext
+            它带有一些可改变的页面使用对象，比如：PageLayout的动态设置，PageTheme的动态设置，HtmlMeta的动态设置，Styles和Scripts的动态增加，概念请求上下文判断是否启用InlineEditing和StyleEditing
+            这些都是只对当前页面请求有效的，不会持久化，也不会影响该页面的其它请求的上下文。
+            这个类还有：DataRule和ViewData(所有View位置）的缓存，View参数的获取和动态赋值
+            </summary>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.View.Page_Context.EvaluateStringFormulas(System.String)">
+            <summary>
+            Kooboo_{title}
+            </summary>
+            <param name="formula"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.View.Page_Context.EnableTrace">
+            <summary>
+            Enable to generate the trace info, e.g: <!-- View1 -->
+            </summary>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.View.Page_Context.PageLayout">
+            <summary>
+            Gets or sets the page layout.
+            </summary>
+            <value>
+            The page layout.
+            </value>
+        </member>
+        <member name="P:Kooboo.CMS.Sites.View.Page_Context.PageTheme">
+            <summary>
+            Gets or sets the page theme.
+            </summary>
+            <value>
+            The page theme.
+            </value>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Globalization.SiteLabel.Label(System.String)">
+            <summary>
+            Label with inline-editing.
+            </summary>
+            <param name="defaultValue">The default value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Globalization.SiteLabel.Label(System.String,System.String,System.String)">
+            <summary>
+            Label with inline-editing.
+            </summary>
+            <param name="defaultValue">The default value.</param>
+            <param name="key">The key.</param>
+            <param name="category">The category.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Globalization.SiteLabel.Label(System.String,System.String,System.String,Kooboo.CMS.Sites.Models.Site)">
+            <summary>
+            Label with inline-editing.
+            </summary>
+            <param name="defaultValue">The default value.</param>
+            <param name="key">The key.</param>
+            <param name="category">The category.</param>
+            <param name="site">The site.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Globalization.SiteLabel.RawLabel(System.String)">
+            <summary>
+            Raws the label. Label without inline editing.
+            </summary>
+            <param name="defaultValue">The default value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Globalization.SiteLabel.RawLabel(System.String,System.String,System.String)">
+            <summary>
+            Raws the label. Label without inline editing.
+            </summary>
+            <param name="defaultValue">The default value.</param>
+            <param name="key">The key.</param>
+            <param name="category">The category.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kooboo.CMS.Sites.Globalization.SiteLabel.RawLabel(System.String,System.String,System.String,Kooboo.CMS.Sites.Models.Site)">
+            <summary>
+            Raws the label. Label without inline editing.
+            </summary>
+            <param name="defaultValue">The default value.</param>
+            <param name="key">The key.</param>
+            <param name="category">The category.</param>
+            <param name="site">The site.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.View.SubmissionHelper">
+            <summary>
+            前台添加，删除，修改数据的辅助类
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.View.ViewHelper">
+            <summary>
+            For NVelocity
+            </summary>
+        </member>
+        <member name="T:Kooboo.CMS.Sites.ABTest.UserAgentVisitRule">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Sites.Web.FrontRequestChannel.Debug">
+            <summary>
+            s~site1
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Sites.Web.FrontRequestChannel.Host">
+            <summary>
+            www.site1.com
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Sites.Web.FrontRequestChannel.HostNPath">
+            <summary>
+            www.kooboo.com/site1
+            </summary>
+        </member>
+        <member name="F:Kooboo.CMS.Sites.Web.FrontRequestChannel.Design">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -68,11 +68,11 @@
     <Compile Include="Jobs\ProcessPublishingQueueJob.cs" />
     <Compile Include="Jobs\ProcessRemotePublishingQueueJob.cs" />
     <Compile Include="Models\GoingActionInfo.cs" />
-    <Compile Include="Models\IncomeQueue.cs" />
+    <Compile Include="Models\IncomingQueue.cs" />
     <Compile Include="Models\IPublishingQueueItem.cs" />
     <Compile Include="Models\LocalPublishingQueue.cs" />
     <Compile Include="Models\OutgoingQueue.cs" />
-    <Compile Include="Models\Paths\IncomeQueuePath.cs" />
+    <Compile Include="Models\Paths\IncomingQueuePath.cs" />
     <Compile Include="Models\Paths\IPath.cs" />
     <Compile Include="Models\Paths\LocalPublishingQueuePath.cs" />
     <Compile Include="Models\Paths\OutgoingQueuePath.cs" />
@@ -94,7 +94,7 @@
     <Compile Include="Models\RemotePublishingQueue.cs" />
     <Compile Include="Models\RemoteTextFolderMapping.cs" />
     <Compile Include="Persistence\Default\FileSystemProviderBase.cs" />
-    <Compile Include="Persistence\Default\IncomeQueueProvider.cs" />
+    <Compile Include="Persistence\Default\IncomingQueueProvider.cs" />
     <Compile Include="Persistence\Default\LocalPublishingQueueProvider.cs" />
     <Compile Include="Persistence\Default\OutgoingLogProvider.cs" />
     <Compile Include="Persistence\Default\OutgoingQueueProvider.cs" />
@@ -102,7 +102,7 @@
     <Compile Include="Persistence\Default\RemoteEndpointSettingProvider.cs" />
     <Compile Include="Persistence\Default\RemotePublishingQueueProvider.cs" />
     <Compile Include="Persistence\Default\RemoteTextFolderMappingProvider.cs" />
-    <Compile Include="Persistence\IIncomeQueueProvider.cs" />
+    <Compile Include="Persistence\IIncomingQueueProvider.cs" />
     <Compile Include="Persistence\ILocalPublishingQueueProvider.cs" />
     <Compile Include="Persistence\IOutgoingQueueProvider.cs" />
     <Compile Include="Persistence\IPublishingLogProvider.cs" />
@@ -113,7 +113,7 @@
     <Compile Include="Persistence\IRemoteTextFolderMappingProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CmisIncomeDataManager.cs" />
-    <Compile Include="Services\IncomeQueueManager.cs" />
+    <Compile Include="Services\IncomingQueueManager.cs" />
     <Compile Include="Services\LocalPublishingQueueManager.cs" />
     <Compile Include="Services\ManagerBase.cs" />
     <Compile Include="Services\OutgoingQueueManager.cs" />

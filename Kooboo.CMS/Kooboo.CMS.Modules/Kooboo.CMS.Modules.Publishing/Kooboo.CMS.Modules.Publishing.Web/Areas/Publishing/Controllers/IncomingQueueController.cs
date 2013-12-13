@@ -14,9 +14,9 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
     public class IncomingQueueController : AreaControllerBase
     {
         #region .ctor
-        private readonly IncomeQueueManager _manager;
+        private readonly IncomingQueueManager _manager;
 
-        public IncomingQueueController(IncomeQueueManager manager)
+        public IncomingQueueController(IncomingQueueManager manager)
         {
             this._manager = manager;
         }

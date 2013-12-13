@@ -18,9 +18,9 @@ namespace Kooboo.CMS.Modules.Publishing.Jobs
    public  class ProcessIncomeQueueJob: Kooboo.Job.IJob
     {
         #region .ctor
-        IIncomeQueueProvider _incomeQueueProvider;
-        IncomeQueueManager _incomeQueueManager;
-        public ProcessIncomeQueueJob(IIncomeQueueProvider incomeQueueProvider, IncomeQueueManager incomeQueueManager)
+        IIncomingQueueProvider _incomeQueueProvider;
+        IncomingQueueManager _incomeQueueManager;
+        public ProcessIncomeQueueJob(IIncomingQueueProvider incomeQueueProvider, IncomingQueueManager incomeQueueManager)
         {
             this._incomeQueueProvider = incomeQueueProvider;
             this._incomeQueueManager = incomeQueueManager;

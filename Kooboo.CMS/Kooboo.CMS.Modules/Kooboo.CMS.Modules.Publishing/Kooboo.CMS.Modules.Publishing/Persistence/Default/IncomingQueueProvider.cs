@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Kooboo.CMS.Modules.Publishing.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IIncomeQueueProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<IncomeQueue>))]
-    public class IncomeQueueProvider : FileSystemProviderBase<IncomeQueue>, IIncomeQueueProvider
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IIncomingQueueProvider))]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<IncomingQueue>))]
+    public class IncomingQueueProvider : FileSystemProviderBase<IncomingQueue>, IIncomingQueueProvider
     {
-        public override IEnumerable<IncomeQueue> All()
+        public override IEnumerable<IncomingQueue> All()
         {
             return base.All();
         }
@@ -25,18 +25,18 @@ namespace Kooboo.CMS.Modules.Publishing.Persistence.Default
         #endregion
 
         #region CreateQuery
-        public IQueryable<IncomeQueue> CreateQuery()
+        public IQueryable<IncomingQueue> CreateQuery()
         {
             return this.All().AsQueryable();
         }
 
-        public IQueryable<IncomeQueue> CreateQuery(string siteName)
+        public IQueryable<IncomingQueue> CreateQuery(string siteName)
         {
             return this.All().Where(it => it.SiteName.Equals(siteName, StringComparison.OrdinalIgnoreCase)).AsQueryable();
         }
         #endregion
 
-        public IEnumerable<IncomeQueue> GetJobItems(int maxItems)
+        public IEnumerable<IncomingQueue> GetJobItems(int maxItems)
         {
             return this.CreateQuery().Where(it => it.Status == QueueStatus.Pending)
                .OrderBy(it => it.UtcCreationDate).Take(maxItems);

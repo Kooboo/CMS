@@ -20,7 +20,7 @@ namespace Kooboo.CMS.Modules.Publishing.Models
     [DataContract]
     [KnownType(typeof(Dictionary<string, object>))]
     [KnownType(typeof(Kooboo.CMS.Sites.Models.Page))]
-    public partial class IncomeQueue : IIdentifiable, ISiteObject
+    public partial class IncomingQueue : IIdentifiable, ISiteObject
     {
         [DataMember]
         public string UUID { get; set; }
@@ -51,14 +51,14 @@ namespace Kooboo.CMS.Modules.Publishing.Models
     }
     #endregion
 
-    public partial class IncomeQueue : IPersistable
+    public partial class IncomingQueue : IPersistable
     {
-        public IncomeQueue()
+        public IncomingQueue()
         {
             this.UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
         }
 
-        public IncomeQueue(string uuid)
+        public IncomingQueue(string uuid)
         {
             this.UUID = uuid;
         }

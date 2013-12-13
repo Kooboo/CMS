@@ -38,5 +38,30 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing
         {
             // Add code here that will be executed when the module uninstalling.
         }
+
+        public void OnInstalling(ModuleContext moduleContext, ControllerContext controllerContext)
+        {
+            
+        }
+
+        public void OnUninstalling(ModuleContext moduleContext, ControllerContext controllerContext)
+        {
+            
+        }
+
+        public void OnExcluded(ModuleContext moduleContext)
+        {
+            
+        }
+
+        public void OnIncluded(ModuleContext moduleContext)
+        {
+            
+        }
+
+        public void OnReinstalling(ModuleContext moduleContext, ControllerContext controllerContext, Sites.Extension.ModuleArea.Management.InstallationContext installationContext)
+        {
+            
+        }
     }
 }

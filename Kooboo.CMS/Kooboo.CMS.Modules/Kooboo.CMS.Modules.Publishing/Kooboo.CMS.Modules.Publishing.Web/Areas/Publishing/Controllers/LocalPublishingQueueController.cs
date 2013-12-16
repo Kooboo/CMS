@@ -1,6 +1,6 @@
 ﻿using Kooboo.Web.Mvc;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-
+using Kooboo.Globalization;
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Modules.Publishing.Models;
@@ -20,6 +20,7 @@ using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Content.Query.Expressions;
 using Kooboo.CMS.Web.Areas.Contents.Models;
 using Kooboo.CMS.Web;
+using Kooboo.CMS.Sites.Services;
 
 namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
 {
@@ -77,11 +78,11 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             var resultEntry = new JsonResultData(ModelState);
             if (ModelState.IsValid)
             {
-                if (!model.UtcTimeToPublish.HasValue && !model.UtcTimeToUnpublish.HasValue)
+                if (model.Schedule && !model.UtcTimeToPublish.HasValue && !model.UtcTimeToUnpublish.HasValue)
                 {
-                    resultEntry.AddErrorMessage("UtcTimeToPublish and UtcTimeToUnpublish can not be both empty");
+                    resultEntry.AddErrorMessage("UtcTimeToPublish and UtcTimeToUnpublish can not be both empty".Localize());
                 }
-                else
+                else if (model.Schedule)
                 {
                     foreach (string uuid in model.Pages)
                     {
@@ -92,7 +93,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                             UserId = User.Identity.Name,
                             UtcCreationDate = DateTime.UtcNow,
                             ObjectUUID = uuid,
-                            ObjectTitle=uuid,
+                            ObjectTitle = uuid,
                             Status = QueueStatus.Pending
                         };
                         if (model.UtcTimeToPublish.HasValue)
@@ -108,6 +109,15 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                         {
                             _manager.Add(queue);
                         });
+                    }
+                    resultEntry.RedirectUrl = @return;
+                }
+                else
+                {
+                    foreach (string uuid in model.Pages)
+                    {
+                        var page = new Page(Site, uuid);
+                        Kooboo.CMS.Sites.Services.ServiceFactory.PageManager.Publish(page,false,false,false,DateTime.UtcNow,DateTime.UtcNow, User.Identity.Name);
                     }
                     resultEntry.RedirectUrl = @return;
                 }
@@ -128,11 +138,11 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             var resultEntry = new JsonResultData(ModelState);
             if (ModelState.IsValid)
             {
-                if (!model.UtcTimeToPublish.HasValue && !model.UtcTimeToUnpublish.HasValue)
+                if (model.Schedule && !model.UtcTimeToPublish.HasValue && !model.UtcTimeToUnpublish.HasValue)
                 {
-                    resultEntry.AddErrorMessage("UtcTimeToPublish and UtcTimeToUnpublish can not be both empty");
+                    resultEntry.AddErrorMessage("UtcTimeToPublish and UtcTimeToUnpublish can not be both empty".Localize());
                 }
-                else
+                else if (model.Schedule)
                 {
                     TextFolder textFolder = new TextFolder(Repository.Current, model.LocalFolderId).AsActual();
                     for (int i = 0, j = model.TextContents.Length; i < j; i++)
@@ -164,6 +174,15 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                     }
                     resultEntry.RedirectUrl = @return;
                 }
+                else
+                {
+                    TextFolder textFolder = new TextFolder(Repository.Current, model.LocalFolderId).AsActual();
+                    foreach (string uuid in model.TextContents)
+                    {
+                        Kooboo.CMS.Content.Services.ServiceFactory.TextContentManager.Update(textFolder, uuid, "Published", true, User.Identity.Name);
+                    }
+                    resultEntry.RedirectUrl = @return;
+                }
             }
             return Json(resultEntry);
         }
@@ -188,7 +207,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             //Skip the child folders on the embedded folder grid.
             if (!page.HasValue || page.Value <= 1)
             {
-                childFolders = ServiceFactory.TextFolderManager.ChildFoldersWithSameSchema(textFolder).Select(it => it.AsActual());
+                childFolders = Kooboo.CMS.Content.Services.ServiceFactory.TextFolderManager.ChildFoldersWithSameSchema(textFolder).Select(it => it.AsActual());
             }
 
             var query = textFolder.CreateQuery();

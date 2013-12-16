@@ -110,6 +110,7 @@
     <Content Include="Areas\Publishing\module.config" />
     <Content Include="Areas\Publishing\routes.config" />
     <Content Include="Areas\Publishing\Sites.config" />
+    <Content Include="Areas\Publishing\Styles\main.css" />
     <Content Include="Areas\Publishing\Views\IncomingQueue\Index.cshtml" />
     <Content Include="Areas\Publishing\Views\LocalPublishingQueue\Detail.cshtml" />
     <Content Include="Areas\Publishing\Views\LocalPublishingQueue\Index.cshtml" />
@@ -171,6 +172,7 @@
     <Compile Include="Areas\Publishing\Controllers\RemoteTextFolderMappingController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\Publishing\Models\DataSources\PagesDataSource.cs" />
     <Compile Include="Areas\Publishing\Models\LocalPagePublishingModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -297,6 +299,8 @@
     <Content Include="LICENSE.txt" />
     <Content Include="routes.config" />
     <Content Include="Web.config" />
+    <Content Include="Areas\Publishing\Views\LocalPublishingQueue\EditorTemplates\Page_DropDownList.cshtml" />
+    <Content Include="Areas\Publishing\Views\RemotePublishingQueue\EditorTemplates\Page_DropDownList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

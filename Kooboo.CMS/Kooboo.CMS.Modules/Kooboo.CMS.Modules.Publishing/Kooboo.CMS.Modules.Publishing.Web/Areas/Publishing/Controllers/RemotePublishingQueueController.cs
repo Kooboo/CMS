@@ -3,7 +3,7 @@ using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Content.Models;
-
+using Kooboo.Globalization;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models;
 using System;
@@ -77,7 +77,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             {
                 if (model.Schedule && !model.UtcTimeToPublish.HasValue && !model.UtcTimeToUnpublish.HasValue)
                 {
-                    resultEntry.AddErrorMessage("UtcTimeToPublish and UtcTimeToUnpublish can not be both empty.");
+                    resultEntry.AddErrorMessage("UtcTimeToPublish and UtcTimeToUnpublish can not be both empty.".Localize());
                 }
                 else
                 {

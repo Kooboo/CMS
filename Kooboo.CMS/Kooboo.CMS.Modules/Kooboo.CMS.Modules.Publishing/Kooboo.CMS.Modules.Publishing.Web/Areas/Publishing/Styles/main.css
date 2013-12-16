@@ -1,0 +1,11 @@
+.select2-results .status {
+    float: right;
+}
+
+    .select2-results .status.published {
+        color: #68AF27;
+    }
+
+    .select2-results .status.unpublished {
+        color: #C22439;
+    }

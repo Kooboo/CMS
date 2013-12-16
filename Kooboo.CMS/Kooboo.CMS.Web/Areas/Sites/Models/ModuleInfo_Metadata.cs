@@ -39,7 +39,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     {       
         [UIHint("File")]
         [AdditionalMetadata("accept", ".zip")]
-        [Display(Name = "Select file source")]
+        [Display(Name = "Module package")]
         public string ModuleFile { get; set; }
     }
 

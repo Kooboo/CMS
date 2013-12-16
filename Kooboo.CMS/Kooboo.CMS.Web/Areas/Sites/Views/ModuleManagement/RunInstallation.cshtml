@@ -26,26 +26,36 @@
         </li>
     </ul>
 }
-<div class="common-form">
+<div class="block">
     <h1 class="title">@ViewBag.Title</h1>
     <div class="process-steps">
         <div class="steps-inner">
-            <a>@("Upload module file".Localize())</a>
-            <span class="current">@("Run installation".Localize())<b></b></span>
-            <span>@("Finished".Localize())</span>
+            <span>@("Choose module package".Localize())</span>
+            <span class="current">@("Installation".Localize())<b></b></span>
+            <span>@("Result".Localize())</span>
         </div>
+    </div>
+    <div class="content">
+        <p>We are now ready to install your module package, in this step, we are going to:</p>
+        <ol>
+            <li><strong>@("Copy the module file into Kooboo CMS system.".Localize())</strong></li>
+            <li><strong>@("Run the 'Installing' events defined in the module.".Localize())</strong></li>
+        </ol>
+        @if (!string.IsNullOrEmpty(installingTemplate))
+        {
+            <p>Please modify the configuration:</p>
+        }
     </div>
     @using (Html.BeginForm())
     {
-        <ul>
-            <li>@("1. Copy the module file into Kooboo CMS system.".Localize())</li>
-            <li>@("2. Run the 'OnInstalling' event which defined in the module.".Localize())</li>
-        </ul>
         if (!string.IsNullOrEmpty(installingTemplate))
         {
             @Html.Partial(installingTemplate, null, new ViewDataDictionary())
         }
 
     }
+    <div class="content">
+        <p>If you are ready, click the <strong>Next</strong> button to start the installation.</p>
+    </div>
 
 </div>

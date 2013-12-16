@@ -12,7 +12,7 @@
         </li>
         <li>
             <a href="@Url.Action("Reinstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
-                @Html.IconImage("reinstall") @("Reinstall".Localize())
+                @Html.IconImage("reset") @("Reinstall".Localize())
             </a>
         </li>
     </ul>

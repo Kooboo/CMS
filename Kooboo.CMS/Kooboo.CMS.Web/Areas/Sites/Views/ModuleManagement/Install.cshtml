@@ -14,7 +14,7 @@
     <ul class="panel">
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())
+                @Html.IconImage("cancel") @("Cancel".Localize())
             </a>
         </li>
         <li>
@@ -24,13 +24,13 @@
         </li>
     </ul>
 }
-<div class="common-form">
+<div class="block">
     <h1 class="title">@ViewBag.Title</h1>
     <div class="process-steps">
         <div class="steps-inner">
-            <span class="current">@("Upload module file".Localize())<b></b></span>
-            <span>@("Run installation".Localize())</span>
-            <span>@("Finished".Localize())</span>
+            <span class="current">@("Choose module package".Localize())<b></b></span>
+            <span>@("Installation".Localize())</span>
+            <span>@("Result".Localize())</span>
         </div>
     </div>
     @using (Html.BeginForm(ViewContext.RequestContext.GetRequestValue("Action").ToString(),
@@ -39,52 +39,72 @@
     {
         if (uploadModuleResult == null || @uploadModuleResult.IsValid == false)
         {
-            <table>
-                <tbody>
-                    @Html.EditorFor(m => m.ModuleFile, new { HtmlAttributes = new { @class = "medium" } })
-                </tbody>
-            </table>
+            <div class="common-form">
+                <table>
+                    <tbody>
+                        @Html.EditorFor(m => m.ModuleFile, new { HtmlAttributes = new { @class = "medium" } })
+                    </tbody>
+                </table>
+            </div>
         }
         else
         {
             <input type="hidden" name="ModuleName" value="@uploadModuleResult.ModuleName" />
-            <table>
-                <tr>
-                    <th>@("Module name".Localize())</th>
-                    <td>@uploadModuleResult.ModuleName</td>
-                </tr>
-                <tr>
-                    <th>@("Module version".Localize())</th>
-                    <td>@uploadModuleResult.TargetModuleInfo.Version</td>
-                </tr>
-                <tr>
-                    <th>@("Kooboo CMS version".Localize())</th>
-                    <td>@uploadModuleResult.TargetModuleInfo.KoobooCMSVersion</td>
-                </tr>
-            </table>
-            if (uploadModuleResult.ConflictedAssemblies.Count() > 0)
-            {
-                <table>
-                    <thead>
-                        <tr>
-                            <th>@("Assembly file".Localize())</th>
-                            <th>@("System version".Localize())</th>
-                            <th>@("Module version".Localize())</th>
-                        </tr>
-                    </thead>
+            <div class="columns clearfix">
+                <div class="col-32">
+                    <div class="content">
+                        <p>This is the basic infomation about the module</p>
+                    </div>
+                    <div class="block box">
+                        <div class="container">
+                            <div class="common-form">
+                                <table>
+                                    <tr>
+                                        <th>@("Module name".Localize())</th>
+                                        <td><strong>@uploadModuleResult.ModuleName</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>@("Module version".Localize())</th>
+                                        <td><strong>@uploadModuleResult.TargetModuleInfo.Version</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>@("Kooboo CMS version".Localize())</th>
+                                        <td><strong>@uploadModuleResult.TargetModuleInfo.KoobooCMSVersion</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @if (uploadModuleResult.ConflictedAssemblies.Count() > 0)
+                    {
+                        <div class="content">
+                            <p>//Text here to warning the overwrite of assembly files.</p>
+                        </div>
+                        <div class="simple-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>@("Assembly file".Localize())</th>
+                                        <th>@("System version".Localize())</th>
+                                        <th>@("Module version".Localize())</th>
+                                    </tr>
+                                </thead>
 
-                    <tbody>
-                        @foreach (var item in uploadModuleResult.ConflictedAssemblies)
-                        {
-                            <tr>
-                                <td>@item.ReferenceData.AssemblyName</td>
-                                <td>@item.ReferenceData.Version</td>
-                                <td>@item.ConflictedVersion</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
+                                <tbody>
+                                    @foreach (var item in uploadModuleResult.ConflictedAssemblies)
+                                    {
+                                        <tr>
+                                            <td>@item.ReferenceData.AssemblyName</td>
+                                            <td>@item.ReferenceData.Version</td>
+                                            <td>@item.ConflictedVersion</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
         }
     }
 </div>

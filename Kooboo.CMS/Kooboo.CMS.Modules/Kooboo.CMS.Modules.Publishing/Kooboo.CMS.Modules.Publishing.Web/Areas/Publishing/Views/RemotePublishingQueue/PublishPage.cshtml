@@ -63,17 +63,14 @@
             setTip($publishTime.val(), this.value);
         });
         
-        function setTip(pubDateText, unpubDateText) {
-            var dayOfMillSeconds = 1000 * 60 * 60 * 24,
+        var dayOfMillSeconds = 1000 * 60 * 60 * 24,
                 hoursOfMillSeconds = 1000 * 60 * 60,
                 minutesOfMillSeconds = 1000 * 60,
-                secondsOfMillSeconds = 1000,
-                displayText = "";
+                secondsOfMillSeconds = 1000;
+        function setTip(pubDateText, unpubDateText) {
+            var displayText = "";
             if (unpubDateText) {
-                var pubDate = new Date(), unpubDate = new Date(unpubDateText);
-                if (pubDateText) {
-                    pubDate = new Date(pubDateText);
-                }
+                var pubDate = pubDateText ? new Date(pubDateText) : new Date(), unpubDate = new Date(unpubDateText);
                 var millSeconds = unpubDate.getTime() - pubDate.getTime();
                 var distanceDay = 0, distanceHours = 0, distantceMinutes = 0, distanceSeconds = 0;
                 if (millSeconds > 0) {

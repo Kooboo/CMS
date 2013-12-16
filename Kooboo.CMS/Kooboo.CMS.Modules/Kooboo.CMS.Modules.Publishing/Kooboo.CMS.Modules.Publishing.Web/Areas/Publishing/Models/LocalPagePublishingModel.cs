@@ -10,8 +10,8 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
 {
     public class LocalPagePublishingModel
     {
-        [DataSource(typeof(Kooboo.CMS.Web.Areas.Sites.Models.DataSources.PagesDataSource))]
-        [UIHint("Multiple_DropDownList")]
+        [DataSource(typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.DataSources.PagesDataSource))]
+        [UIHint("Page_DropDownList")]
         [DisplayName("Pages")]
         [Required(ErrorMessage="Required")]
         public string[] Pages { get; set; }       

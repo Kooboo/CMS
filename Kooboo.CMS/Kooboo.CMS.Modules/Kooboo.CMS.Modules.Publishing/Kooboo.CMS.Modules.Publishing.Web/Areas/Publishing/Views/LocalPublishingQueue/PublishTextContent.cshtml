@@ -21,7 +21,15 @@
         @Html.ValidationSummary(true)
         <table id="local_publish_page">
             <tbody>
-                @Html.EditorFor(m=>m.LocalFolderId,new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.LocalFolderId, new { HtmlAttributes = new { @class = "medium" } })
+                <tr>
+                    <th>
+                        @("Schedule".Localize())
+                    </th>
+                    <td>
+                        <input type="checkbox" value="true" style="float: none" name="Schedule" id="Schedule" defaultvalue="False">
+                    </td>
+                </tr>
                 @Html.EditorFor(m => m.UtcTimeToPublish, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.UtcTimeToUnpublish, new { HtmlAttributes = new { @class = "medium" } })
                 <tr>
@@ -156,11 +164,17 @@
 </script>
 <script type="text/javascript">
     $(function () {
+        var $datetimeTR = $("#publish_LocalTextContent_Form tr").filter(":gt(1)").filter(":lt(2)");
+        $("#Schedule").change(function () {
+            $datetimeTR[this.checked ? "show" : "hide"]();
+        }).trigger("change");
+    });
+    $(function () {
         var $publishTime = $("#UtcTimeToPublish"), $unpublishTime = $("#UtcTimeToUnpublish"),
-            $distanceText = $("#UtcTimeToUnpublish_distance");
+            $distanceText = $("#UtcTimeToUnpublish_distance"),schedule=$("#Schedule")[0];
         $("#publish_LocalTextContent_Form").on("submit", function () {
             var pubDateText = $publishTime.val(), unpubDateText = $unpublishTime.val();
-            if (!(pubDateText || unpubDateText)) {
+            if (schedule.checked&&!(pubDateText || unpubDateText)) {
                 window.info.show("@("PublishTime and UnpublishTime Can not be both empty.".Localize())",false);
                 return false;
             }
@@ -173,17 +187,14 @@
             setTip($publishTime.val(), this.value);
         });
         
-        function setTip(pubDateText, unpubDateText) {
-            var dayOfMillSeconds = 1000 * 60 * 60 * 24,
+        var dayOfMillSeconds = 1000 * 60 * 60 * 24,
                 hoursOfMillSeconds = 1000 * 60 * 60,
                 minutesOfMillSeconds = 1000 * 60,
-                secondsOfMillSeconds = 1000,
-                displayText = "";
+                secondsOfMillSeconds = 1000;
+        function setTip(pubDateText, unpubDateText) {
+            var displayText = "";
             if (unpubDateText) {
-                var pubDate = new Date(), unpubDate = new Date(unpubDateText);
-                if (pubDateText) {
-                    pubDate = new Date(pubDateText);
-                }
+                var pubDate = pubDateText ? new Date(pubDateText) : new Date(), unpubDate = new Date(unpubDateText);
                 var millSeconds = unpubDate.getTime() - pubDate.getTime();
                 var distanceDay = 0, distanceHours = 0, distantceMinutes = 0, distanceSeconds = 0;
                 if (millSeconds > 0) {

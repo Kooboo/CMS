@@ -148,7 +148,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         {
             var bucketDocumentKey = ModelExtensions.GetBucketDocumentKey(ModelExtensions.PageDraftDataType, page.FullName);
 
-            return DataHelper.QueryByKey<Page>(page.Site, ModelExtensions.GetQueryView(ModelExtensions.PageDataType), bucketDocumentKey, createModel);
+            return DataHelper.QueryByKey<Page>(page.Site, bucketDocumentKey, createModel);
         }
 
         public void SaveAsDraft(Page page)
@@ -167,7 +167,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         {
             var bucketDocumentKey = ModelExtensions.GetBucketDocumentKey(ModelExtensions.PageDataType, dummy.FullName);
 
-            return DataHelper.QueryByKey<Page>(dummy.Site, ModelExtensions.GetQueryView(ModelExtensions.PageDataType), bucketDocumentKey, createModel);
+            return DataHelper.QueryByKey<Page>(dummy.Site, bucketDocumentKey, createModel);
         }
 
         public void Add(Models.Page item)

@@ -27,7 +27,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
                     Username = "sa",
                     Password = "abc123",
                     BucketRAM = 100,//RamQuotaMB must be at least 100
-                    Urls = new List<Uri>() { new Uri("http://192.168.1.125:8091/pools") }
+                    Urls = new List<Uri>() { new Uri("http://127.0.0.1:8091/pools") }
                 };
                 instance.Save();
             }

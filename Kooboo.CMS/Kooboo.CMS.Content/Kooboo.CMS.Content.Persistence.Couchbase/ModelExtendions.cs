@@ -146,17 +146,15 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
 
         private static IList<IViewRow> MatchByFirstKey(Repository repository, string viewName, string firstKey)
         {
-            using (var bucket = repository.GetClient())
+            var bucket = repository.GetClient();
+            var view = bucket.GetView(repository.GetDefaultViewDesign(), viewName).Stale(StaleMode.False);
+            if (!string.IsNullOrEmpty(firstKey))
             {
-                var view = bucket.GetView(repository.GetDefaultViewDesign(), viewName).Stale(StaleMode.False);
-                if (!string.IsNullOrEmpty(firstKey))
-                {
-                    var startKey = new string[] { firstKey, "\u0000" }; //string.Format("[\"0\",\"{0}\"]", contentUUID);
-                    var endKey = new string[] { firstKey, "\uefff" };//string.Format("[\"ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ\",\"{0}\"]", contentUUID);
-                    view.StartKey(startKey).EndKey(endKey).WithInclusiveEnd(true);
-                }
-                return view.ToList();
+                var startKey = new string[] { firstKey, "\u0000" }; //string.Format("[\"0\",\"{0}\"]", contentUUID);
+                var endKey = new string[] { firstKey, "\uefff" };//string.Format("[\"ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ\",\"{0}\"]", contentUUID);
+                view.StartKey(startKey).EndKey(endKey).WithInclusiveEnd(true);
             }
+            return view.ToList();
         }
         public static Category ToCategory(this IViewRow row)
         {

@@ -43,7 +43,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.UserProvider
         {
             var bucketDocumentKey = ModelExtensions.GetBucketDocumentKey(ModelExtensions.UserDataType, dummy.UUID);
 
-            return DataHelper.QueryByKey<User>(dummy.Site, ModelExtensions.GetQueryView(ModelExtensions.UserDataType), bucketDocumentKey, createModel);
+            return DataHelper.QueryByKey<User>(dummy.Site,bucketDocumentKey, createModel);
         }
         #endregion
 

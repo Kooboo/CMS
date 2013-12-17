@@ -22,6 +22,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         public static string LabelDataType = "Label";
         public static string LabelCategoryDataType = "LabelCategory";
         public static string UserDataType = "User";
+        public static string SiteDataType = "SiteSetting";
 
         public static string GetBucketDocumentKey(string dataType, string uuid)
         {
@@ -88,7 +89,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         public static T ToModel<T>(Site site, string key, string json, Func<Site, string, T> createModel)
            where T : IPersistable
         {
-          
+
             var rawKey = ModelExtensions.GetRawDocumentKey(key);
 
             var dummy = createModel(site, rawKey);

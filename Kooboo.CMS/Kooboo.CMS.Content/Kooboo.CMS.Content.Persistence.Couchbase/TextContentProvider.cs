@@ -21,38 +21,35 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
         {
             if (categories != null && categories.Length > 0)
             {
-                using (var bucket = content.GetRepository().GetClient())
+                var bucket = content.GetRepository().GetClient();
+
+                categories.ForEach((it, index) =>
                 {
-                    categories.ForEach((it, index) =>
-                    {
-                        bucket.ExecuteStore(StoreMode.Set, it.GetDocumentKey(), it.ToJson(), PersistTo.One);
-                    });
-                }
+                    bucket.ExecuteStore(StoreMode.Set, it.GetDocumentKey(), it.ToJson(), PersistTo.One);
+                });
             }
         }
 
         public void ClearCategories(Models.TextContent content)
         {
-            using (var bucket = content.GetRepository().GetClient())
+            var bucket = content.GetRepository().GetClient();
+
+            var view = bucket.GetView(content.GetRepository().GetDefaultViewDesign(), "CategorisData_By_ContentUUID").Stale(StaleMode.False).Reduce(false);
+            var ret = view.Where(it => it.Info["value"].ToString().Equals(content.UUID)).Select(it => it.ItemId);
+            ret.ForEach((key, index) =>
             {
-                var view = bucket.GetView(content.GetRepository().GetDefaultViewDesign(), "CategorisData_By_ContentUUID").Stale(StaleMode.False).Reduce(false);
-                var ret = view.Where(it => it.Info["value"].ToString().Equals(content.UUID)).Select(it => it.ItemId);
-                ret.ForEach((key, index) =>
-                {
-                    bucket.Remove(key);
-                });
-            }
+                bucket.Remove(key);
+            });
         }
 
         public void DeleteCategories(Models.TextContent content, params Models.Category[] categories)
         {
-            using (var bucket = content.GetRepository().GetClient())
+            var bucket = content.GetRepository().GetClient();
+
+            categories.ForEach((it, index) =>
             {
-                categories.ForEach((it, index) =>
-                {
-                    bucket.ExecuteRemove(it.GetDocumentKey(), PersistTo.One);
-                });
-            }
+                bucket.ExecuteRemove(it.GetDocumentKey(), PersistTo.One);
+            });
         }
         #endregion
 
@@ -71,14 +68,14 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
 
         public void ImportCategoryData(Models.Repository repository, IEnumerable<Models.Category> data)
         {
-            using (var bucket = repository.GetClient())
+            var bucket = repository.GetClient();
+
+            ////导入站点不用PersistTo
+            data.ForEach((it, index) =>
             {
-                ////导入站点不用PersistTo
-                data.ForEach((it, index) =>
-                {
-                    bucket.Store(StoreMode.Set, it.GetDocumentKey(), it.ToJson());
-                });
-            }
+                bucket.Store(StoreMode.Set, it.GetDocumentKey(), it.ToJson());
+            });
+
         }
 
         public void ImportSchemaData(Models.Schema schema, IEnumerable<IDictionary<string, object>> data)
@@ -86,14 +83,13 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
             var ret = data.Select(it => new TextContent(it) { Repository = schema.Repository.GetBucketName() });
             if (ret.Count() > 0)
             {
-                using (var bucket = schema.Repository.GetClient())
+                var bucket = schema.Repository.GetClient();
+
+                //导入站点不用PersistTo
+                ret.ForEach((it, index) =>
                 {
-                    //导入站点不用PersistTo
-                    ret.ForEach((it, index) =>
-                    {
-                        bucket.Store(StoreMode.Add, it.UUID, it.ToJson());
-                    });
-                }
+                    bucket.Store(StoreMode.Add, it.UUID, it.ToJson());
+                });
             }
         }
         #endregion
@@ -111,21 +107,19 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
             content.StoreFiles();
 
             ((IPersistable)content).OnSaving();
-            using (var bucket = content.GetRepository().GetClient())
-            {
-                //bucket.Store(StoreMode.Set, "Schema." + content.UUID, content.ToJson());
-                bucket.ExecuteStore(StoreMode.Set, content.UUID, content.ToJson(), PersistTo.One);
-            }
+            var bucket = content.GetRepository().GetClient();
+
+            //bucket.Store(StoreMode.Set, "Schema." + content.UUID, content.ToJson());
+            bucket.ExecuteStore(StoreMode.Set, content.UUID, content.ToJson(), PersistTo.One);
             ((IPersistable)content).OnSaved();
         }
 
         public void Delete(Models.TextContent content)
         {
-            using (var bucket = content.GetRepository().GetClient())
-            {
-                bucket.ExecuteRemove(content.UUID, PersistTo.One);
-                TextContentFileHelper.DeleteFiles(content);
-            }
+            var bucket = content.GetRepository().GetClient();
+
+            bucket.ExecuteRemove(content.UUID, PersistTo.One);
+            TextContentFileHelper.DeleteFiles(content);
         }
 
         public object Execute(IContentQuery<Models.TextContent> query)
@@ -143,10 +137,9 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
 
             @new.StoreFiles();
             ((IPersistable)@new).OnSaving();
-            using (var bucket = old.GetRepository().GetClient())
-            {
-                bucket.ExecuteStore(StoreMode.Replace, old.UUID, @new.ToJson(), PersistTo.One);
-            }
+            var bucket = old.GetRepository().GetClient();
+
+            bucket.ExecuteStore(StoreMode.Replace, old.UUID, @new.ToJson(), PersistTo.One);
             ((IPersistable)@new).OnSaved();
         }
         #endregion

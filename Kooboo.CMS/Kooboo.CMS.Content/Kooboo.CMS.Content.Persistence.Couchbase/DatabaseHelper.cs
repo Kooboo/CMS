@@ -14,7 +14,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
 {
     public static class DatabaseHelper
     {
-
+        private static Dictionary<string, CouchbaseClient> couchbaseClients = new Dictionary<string, CouchbaseClient>(StringComparer.OrdinalIgnoreCase);
         public static CouchbaseClientConfiguration GetCouchbaseClientConfiguration()
         {
             CouchbaseClientConfiguration cf = new CouchbaseClientConfiguration();
@@ -29,16 +29,24 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
 
         public static CouchbaseClient GetClient(this Repository repository)
         {
-            var cf = GetCouchbaseClientConfiguration();
-            cf.Bucket = repository.GetBucketName();
-            cf.BucketPassword = repository.GetBucketPassword();
-            // performance 
-            //if (!ExistBucket(cf.Bucket))
-            //{
-            //    return null;
-            //}
-            CouchbaseClient client = new CouchbaseClient(cf);
-            return client;
+            var key = repository.Name;
+            if (!couchbaseClients.ContainsKey(key))
+            {
+                lock (couchbaseClients)
+                {
+                    var cf = GetCouchbaseClientConfiguration();
+                    cf.Bucket = repository.GetBucketName();
+                    cf.BucketPassword = repository.GetBucketPassword();
+                    // performance 
+                    //if (!ExistBucket(cf.Bucket))
+                    //{
+                    //    return null;
+                    //}
+                    CouchbaseClient client = new CouchbaseClient(cf);
+                    couchbaseClients[key] = client;
+                }
+            }
+            return couchbaseClients[key];
         }
 
         public static CouchbaseCluster GetCouchbaseCluster()
@@ -79,7 +87,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
             return cc.DeleteDesignDocument(bucket, name);
         }
 
-      
+
 
         public static bool CreateDefaultViews(this Repository repository)
         {

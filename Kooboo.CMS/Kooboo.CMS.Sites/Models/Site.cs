@@ -387,7 +387,6 @@ namespace Kooboo.CMS.Sites.Models
         }
         #endregion
 
-
         #region IPersistable Members
         public string UUID
         {
@@ -456,6 +455,13 @@ namespace Kooboo.CMS.Sites.Models
                 return 1;
             }
             return this.FullName.CompareTo(((Site)obj).FullName);
+        }
+        #endregion
+        #region ISiteObject
+        Site ISiteObject.Site
+        {
+            get { return this; }
+            set { }
         }
         #endregion
     }

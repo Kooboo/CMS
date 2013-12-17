@@ -233,8 +233,6 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
 
                     var uuidList = couchbaseCursor.Select(it => GetUUID(it)).ToArray();
                     return this.ContentQuery.Repository.GetClient().ExecuteGet(uuidList).Select(it => it.Value.ToContent());
-
-                    break;
             }
             return result;
         }

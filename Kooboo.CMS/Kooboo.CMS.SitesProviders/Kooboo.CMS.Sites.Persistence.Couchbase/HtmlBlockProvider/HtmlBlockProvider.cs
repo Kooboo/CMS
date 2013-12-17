@@ -94,7 +94,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
         {
             var bucketDocumentKey = ModelExtensions.GetBucketDocumentKey(ModelExtensions.HtmlBlockDataType, dummy.Name);
 
-            return DataHelper.QueryByKey<HtmlBlock>(dummy.Site, ModelExtensions.GetQueryView(ModelExtensions.HtmlBlockDataType), bucketDocumentKey, createModel);
+            return DataHelper.QueryByKey<HtmlBlock>(dummy.Site, bucketDocumentKey, createModel);
         }
 
         public void Add(Models.HtmlBlock item)
@@ -197,7 +197,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
         #region Clear
         public void Clear(Site site)
         {
-           
+
 
         }
         #endregion

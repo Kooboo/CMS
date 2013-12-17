@@ -63,7 +63,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
         {
             var key = ModelExtensions.GetBucketDocumentKey(ModelExtensions.LabelDataType, GetElementKey(name, category, culture));
 
-            return DataHelper.QueryByKey<Element>(this.Site, ModelExtensions.GetQueryView(ModelExtensions.LabelDataType), key);
+            return DataHelper.QueryByKey<Element>(this.Site, key);
         }
         #endregion
 

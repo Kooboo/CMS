@@ -42,20 +42,23 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         private void ParseModuleStream()
         {
             _moduleConfigEntry = ParseZipFile(_zip, out _moduleDirName);
-            using (MemoryStream ms = new MemoryStream())
+            if (_moduleConfigEntry!=null)
             {
-                _moduleConfigEntry.Extract(ms);
-                ms.Position = 0;
-                _moduleInfo = ModuleInfo.Get(ms);
-            }
-            if (!string.IsNullOrEmpty(_moduleInfo.ModuleName))
-            {
-                _moduleName = _moduleInfo.ModuleName;
-            }
-            else
-            {
-                _moduleInfo.ModuleName = _moduleName;
-            }
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    _moduleConfigEntry.Extract(ms);
+                    ms.Position = 0;
+                    _moduleInfo = ModuleInfo.Get(ms);
+                }
+                if (!string.IsNullOrEmpty(_moduleInfo.ModuleName))
+                {
+                    _moduleName = _moduleInfo.ModuleName;
+                }
+                else
+                {
+                    _moduleInfo.ModuleName = _moduleName;
+                }
+            }          
         }
         private static ZipEntry ParseZipFile(ZipFile zipFile, out string dirName)
         {

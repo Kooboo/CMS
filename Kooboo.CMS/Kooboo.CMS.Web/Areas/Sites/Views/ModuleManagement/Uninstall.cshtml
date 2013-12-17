@@ -20,7 +20,7 @@
     <ul class="panel">
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())
+                @Html.IconImage("cancel") @("Cancel".Localize())
             </a>
         </li>
         <li>
@@ -30,32 +30,45 @@
         </li>
     </ul>
 }
-<div class="common-form">
+<div class="block">
     <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
     <div class="process-steps">
         <div class="steps-inner">
-            <span class="current">@("Show module info".Localize())<b></b></span>
-            <span>@("Run uninstallation".Localize())</span>
-            <span>@("Finished".Localize())</span>
+            <span class="current">@("Module info".Localize())<b></b></span>
+            <span>@("Uninstallation".Localize())</span>
+            <span>@("Result".Localize())</span>
         </div>
     </div>
     @using (Html.BeginForm())
     {
         <input type="hidden" name="ModuleName" value="@Model.ModuleName" />
-        <table>
-            <tr>
-                <th>@("Module name".Localize())</th>
-                <td>@Model.ModuleName</td>
-            </tr>
-            <tr>
-                <th>@("Module version".Localize())</th>
-                <td>@Model.Version</td>
-            </tr>
-            <tr>
-                <th>@("Kooboo CMS version".Localize())</th>
-                <td>@Model.KoobooCMSVersion</td>
-            </tr>
-        </table>
+        <div class="columns clearfix">
+            <div class="col-31">
+                <div class="content">
+                    <p>This is the basic infomation about the module</p>
+                </div>
+                <div class="block box">
+                    <div class="container">
+                        <div class="common-form">
+                            <table>
+                                <tr>
+                                    <th>@("Module name".Localize())</th>
+                                    <td><strong>@Model.ModuleName</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>@("Module version".Localize())</th>
+                                    <td><strong>@Model.Version</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>@("Kooboo CMS version".Localize())</th>
+                                    <td><strong>@Model.KoobooCMSVersion</strong></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 </div>
 

@@ -115,13 +115,16 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
                 if (result.IsValid)
                 {
                     moduleName = moduleEntry.ModuleName;
+                    var existsModule = ModuleInfo.Get(moduleName);
+                    if (existsModule != null)
+                    {
+                        result.ModuleExists = true;
+                    }
 
                     tempInstallationPath = _installationFileManager.GetTempInstallationPath(moduleName);
 
                     moduleEntry.Extract(tempInstallationPath.PhysicalPath);
-
-
-
+                    
                     result.ModuleName = moduleName;
                     result.TempInstallationPath = tempInstallationPath;
                     result.TargetModuleInfo = moduleInfo;

@@ -21,6 +21,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
             this.IsValid = true;
         }
         public bool IsValid { get; set; }
+        public bool ModuleExists { get; set; }
         public string ModuleName { get; set; }
         public ModuleInfo SourceModuleInfo { get; set; }
         public ModuleInfo TargetModuleInfo { get; set; }

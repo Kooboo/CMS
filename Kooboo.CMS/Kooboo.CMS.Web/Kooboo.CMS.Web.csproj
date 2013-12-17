@@ -1994,44 +1994,6 @@
     <Content Include="routes.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kooboo.CMS.Account\Kooboo.CMS.Account.csproj">
-      <Project>{61ed004c-9e20-4680-af2b-0723fe7648bb}</Project>
-      <Name>Kooboo.CMS.Account</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
-      <Project>{570CD9D3-75D2-468A-8245-45BDCA57432E}</Project>
-      <Name>Kooboo.CMS.Caching</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
-      <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
-      <Name>Kooboo.CMS.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Content\Kooboo.CMS.Content\Kooboo.CMS.Content.csproj">
-      <Project>{C5A5186D-6F8E-4BB9-AF0E-74F0993B48DA}</Project>
-      <Name>Kooboo.CMS.Content</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Form\Kooboo.CMS.Form.csproj">
-      <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
-      <Name>Kooboo.CMS.Form</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Membership\Kooboo.CMS.Membership.csproj">
-      <Project>{3df23643-4bd1-4564-82b9-9ec594ad05b6}</Project>
-      <Name>Kooboo.CMS.Membership</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Search\Kooboo.CMS.Search.csproj">
-      <Project>{C7B73E67-D226-41CB-A86D-410276B265A1}</Project>
-      <Name>Kooboo.CMS.Search</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Sites\Kooboo.CMS.Sites.csproj">
-      <Project>{ffd8e9f0-61b6-4b0d-a803-5beccd2a6578}</Project>
-      <Name>Kooboo.CMS.Sites</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
-      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
-      <Name>Kooboo</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
@@ -2449,6 +2411,44 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\ModuleManagement\RunUninstallation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kooboo.CMS.Account\Kooboo.CMS.Account.csproj">
+      <Project>{61ed004c-9e20-4680-af2b-0723fe7648bb}</Project>
+      <Name>Kooboo.CMS.Account</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
+      <Project>{570cd9d3-75d2-468a-8245-45bdca57432e}</Project>
+      <Name>Kooboo.CMS.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
+      <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
+      <Name>Kooboo.CMS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Content\Kooboo.CMS.Content\Kooboo.CMS.Content.csproj">
+      <Project>{c5a5186d-6f8e-4bb9-af0e-74f0993b48da}</Project>
+      <Name>Kooboo.CMS.Content</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Form\Kooboo.CMS.Form.csproj">
+      <Project>{c4f32215-efad-45c9-8276-6126681c3589}</Project>
+      <Name>Kooboo.CMS.Form</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Membership\Kooboo.CMS.Membership.csproj">
+      <Project>{3df23643-4bd1-4564-82b9-9ec594ad05b6}</Project>
+      <Name>Kooboo.CMS.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Search\Kooboo.CMS.Search.csproj">
+      <Project>{c7b73e67-d226-41cb-a86d-410276b265a1}</Project>
+      <Name>Kooboo.CMS.Search</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.Sites\Kooboo.CMS.Sites.csproj">
+      <Project>{ffd8e9f0-61b6-4b0d-a803-5beccd2a6578}</Project>
+      <Name>Kooboo.CMS.Sites</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
+      <Name>Kooboo</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

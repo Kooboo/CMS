@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLastAction xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Kooboo.CMS.Search.Models">
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>To cn article</ContentSummary>
+		<Action>Add</Action>
+		<UtcActionDate>2013-12-13T10:45:22.2586057Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>To cn article</ContentSummary>
+		<Action>Delete</Action>
+		<UtcActionDate>2013-12-13T10:45:22.0895846Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>file content </ContentSummary>
+		<Action>Add</Action>
+		<UtcActionDate>2013-12-13T06:19:04.3523876Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>file content </ContentSummary>
+		<Action>Delete</Action>
+		<UtcActionDate>2013-12-13T06:19:04.1933676Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>file content </ContentSummary>
+		<Action>Add</Action>
+		<UtcActionDate>2013-12-09T08:40:52.5309266Z</UtcActionDate>
+	</LastAction>
+</ArrayOfLastAction>

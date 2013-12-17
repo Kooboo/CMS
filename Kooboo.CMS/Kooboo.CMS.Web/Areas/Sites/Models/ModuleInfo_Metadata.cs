@@ -35,13 +35,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         public string KoobooCMSVersion { get; set; }
     }
 
-    public class InstallModuleModel
-    {       
-        [UIHint("File")]
-        [AdditionalMetadata("accept", ".zip")]
-        [Display(Name = "Module package")]
-        public string ModuleFile { get; set; }
-    }
+    //public class InstallModuleModel
+    //{       
+    //    [UIHint("File")]
+    //    [AdditionalMetadata("accept", ".zip")]
+    //    [Display(Name = "Module package")]
+    //    public string ModuleFile { get; set; }
+    //}
 
     [Grid(IdProperty = "ModuleName", Checkable = true, GridItemType = typeof(ModuleInSite_GridItem))]
     public class ModuleListInSiteModel

@@ -65,7 +65,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
             ModulePath modulePath = new ModulePath(moduleName);
             if (!Directory.Exists(modulePath.PhysicalPath))
             {
-                throw new Exception(string.Format("The module does not exist.Module name:{0}".Localize(), moduleName));
+                return null;
             }
             string moduleInfoPath = GetModuleInfoPath(moduleName);
             var moduleInfo = DataContractSerializationHelper.Deserialize<ModuleInfo>(moduleInfoPath);

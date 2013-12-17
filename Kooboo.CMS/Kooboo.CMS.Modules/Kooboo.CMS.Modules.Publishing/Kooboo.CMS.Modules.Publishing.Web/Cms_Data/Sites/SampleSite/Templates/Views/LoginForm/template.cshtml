@@ -1,0 +1,93 @@
+﻿<div class="block login-form" id="loginForm">
+    <form class="ajaxForm" action="@Url.FrontUrl().SubmissionUrl("ValidateMember")" method="post">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <h6 class="title">@("Login".Label())</h6>
+        <table>
+            <tr class="field">
+                <th>
+                    <label for="UserName">@("Username".Label()):</label>
+                </th>
+                <td>
+                    <input class="" data-val="true" data-val-required="@("Required".RawLabel())" id="UserName" name="UserName"
+                    type="text" value="">
+                    <span class="field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true"
+                        name=""></span>
+                </td>
+            </tr>
+            <tr class="field">
+                <th>
+                    <label for="Password">@("Password".Label()):</label>
+                </th>
+                <td>
+                    <input class="" data-val="true" data-val-required="@("Required".RawLabel())" id="Password" name="Password"
+                    type="password">
+                    <span class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"
+                        name=""></span>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input type="checkbox" id="rememberMe" name="RememberMe" value="true" />
+                    <label class="inline" for="rememberMe">@("Remember me".Label())</label>
+                    <input type="hidden" name="RememberMe" value="false" />
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <button type="submit">@("Login".Label())</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    @*<script type="text/javascript">
+
+        $('#logonForm').each(function () {
+            var form = $(this);
+            form.ajaxForm({
+                sync: true,
+                beforeSerialize: function ($form, options) {
+                },
+                beforeSend: function () {
+                    var form = $(this);
+                    form.find("[type=submit]").addClass("disabled").attr("disabled", true);
+                },
+                beforeSubmit: function (arr, $form, options) {
+                },
+                success: function (responseData, statusText, xhr, $form) {
+                    form.find("[type=submit]").removeClass("disabled").removeAttr("disabled");
+                    if (!responseData.Success) {
+                        var validator = form.validate();
+                        //                            var errors = [];
+                        for (var i = 0; i < responseData.FieldErrors.length; i++) {
+                            var obj = {};
+                            var fieldName = responseData.FieldErrors[i].FieldName;
+                            if (fieldName == "") {
+                                fieldName = "UserName";
+                            }
+                            obj[fieldName] = responseData.FieldErrors[i].ErrorMessage;
+                            validator.showErrors(obj);
+                        }
+                    }
+                    else {
+                        if (responseData.RedirectUrl != null) {
+                            location.href = responseData.RedirectUrl;
+                        }
+                        else {
+                            location.reload();
+                        }
+
+                    }
+                },
+                error: function () {
+                    var form = $(this);
+                    form.find("[type=submit]").removeClass('disabled').removeAttr('disabled');
+                }
+
+            });
+        })
+
+    </script>*@
+</div>

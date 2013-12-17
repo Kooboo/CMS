@@ -21,7 +21,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.Grid2
             }
             else
             {
-                return new HtmlString("");
+                return new HtmlString("-");
             }
         }
     }

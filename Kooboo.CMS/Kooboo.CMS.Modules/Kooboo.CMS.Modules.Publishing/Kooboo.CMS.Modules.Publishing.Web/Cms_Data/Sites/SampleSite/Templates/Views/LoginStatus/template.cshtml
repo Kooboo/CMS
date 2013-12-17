@@ -1,0 +1,18 @@
+﻿@if (ViewContext.HttpContext.Membership().GetMember().Identity.IsAuthenticated)
+{
+
+    <li><a href="@Url.FrontUrl().PageUrl("Member/Profile")"><strong>[@ViewContext.HttpContext.Membership().GetMember().Identity.Name]</strong></a></li>
+
+    <li>
+        <form action="@Url.FrontUrl().SubmissionUrl("SignOutMember")" method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit">@("Sign Out".Label())</button>
+        </form>
+    </li>
+
+}
+else
+{ 
+    <li><a  href="@Url.FrontUrl().PageUrl("Member/Login")">@("Member Login".Label())</a></li>
+    <li><a href="@Url.FrontUrl().PageUrl("Member/Register")">@("Register".Label())</a></li>
+} 

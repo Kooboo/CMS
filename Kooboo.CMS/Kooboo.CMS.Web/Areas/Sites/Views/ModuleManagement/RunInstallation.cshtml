@@ -18,7 +18,11 @@
 }
 @section Panel{
     <ul class="panel">
-
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Cancel".Localize())
+            </a>
+        </li>
         <li>
             <a data-ajaxform="">
                 @Html.IconImage("next") @("Next".Localize())

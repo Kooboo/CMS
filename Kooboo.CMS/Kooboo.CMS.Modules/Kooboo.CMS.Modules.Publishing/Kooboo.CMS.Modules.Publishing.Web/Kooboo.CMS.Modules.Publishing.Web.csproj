@@ -106,6 +106,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="7z\7-zip.dll" />
+    <Content Include="7z\7z.dll" />
+    <Content Include="7z\7z.exe" />
+    <Content Include="7z\ignores.txt" />
     <Content Include="Areas\Publishing\Menu.config" />
     <Content Include="Areas\Publishing\module.config" />
     <Content Include="Areas\Publishing\routes.config" />
@@ -301,6 +305,7 @@
     <Content Include="Web.config" />
     <Content Include="Areas\Publishing\Views\LocalPublishingQueue\EditorTemplates\Page_DropDownList.cshtml" />
     <Content Include="Areas\Publishing\Views\RemotePublishingQueue\EditorTemplates\Page_DropDownList.cshtml" />
+    <Content Include="Areas\Publishing\PackModule.bat" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

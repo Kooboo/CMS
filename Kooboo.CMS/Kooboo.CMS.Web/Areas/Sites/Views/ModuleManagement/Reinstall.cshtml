@@ -1,14 +1,10 @@
 ﻿@using Kooboo.CMS.Sites.Extension.ModuleArea.Management;
-@model Kooboo.CMS.Web.Areas.Sites.Models.InstallModuleModel
+@model UploadModuleResult
 
 @{
     ViewBag.Title = "Module reinstallation".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
-    UploadModuleResult uploadModuleResult = null;
-    if (ViewBag.UploadModuleResult != null)
-    {
-        uploadModuleResult = (UploadModuleResult)ViewBag.UploadModuleResult;
-    }
+    var isValidUpload = Model != null && ViewData.ModelState.IsValid == true;
 }
 @section Panel{
     <ul class="panel">
@@ -17,11 +13,14 @@
                 @Html.IconImage("cancel") @("Cancel".Localize())
             </a>
         </li>
-        <li>
-            <a data-ajaxform="">
-                @Html.IconImage("next") @("Next".Localize())
-            </a>
-        </li>
+        @if (isValidUpload)
+        {
+            <li>
+                <a data-ajaxform="">
+                    @Html.IconImage("next") @("Next".Localize())
+                </a>
+            </li>
+        }
     </ul>
 }
 <div class="block">
@@ -37,19 +36,34 @@
         ViewContext.RequestContext.GetRequestValue("Controller").ToString(), ViewContext.RequestContext.AllRouteValues(), FormMethod.Post,
         new Dictionary<string, object>() { { "enctype", "multipart/form-data" } }))
     {
-        if (uploadModuleResult == null || @uploadModuleResult.IsValid == false)
+        <div class="common-form">
+            <table>
+                <tbody>
+                    <tr>
+                        <th><label>@("Module file".Localize())</label></th>
+                        <td>
+                            <a class="upload-button button upload" title="Please upload">
+                                <span>
+                                    <input type="file" name="ModuleFile" accept="" />
+                                </span>
+                                @if (isValidUpload == false)
+                                {
+                                    @("Upload".Localize())
+                                }
+                                else
+                                {
+                                    @("Upload a new module".Localize())
+                                }
+                            </a>
+                            @Html.ValidationMessageForInput("ModuleFile")
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        if (Model != null && ViewData.ModelState.IsValid == true)
         {
-            <div class="common-form">
-                <table>
-                    <tbody>
-                        @Html.EditorFor(m => m.ModuleFile, new { HtmlAttributes = new { @class = "medium" } })
-                    </tbody>
-                </table>
-            </div>
-        }
-        else
-        {
-            <input type="hidden" name="ModuleName" value="@uploadModuleResult.ModuleName" />
+            <input type="hidden" name="ModuleName" value="@Model.ModuleName" />
             <div class="content">
                 <p>Below is the basic infomation about the current module and the new one.</p>
             </div>
@@ -62,15 +76,15 @@
                                 <table>
                                     <tr>
                                         <th>@("Module name".Localize())</th>
-                                        <td><strong>@uploadModuleResult.SourceModuleInfo.ModuleName</strong></td>
+                                        <td><strong>@Model.SourceModuleInfo.ModuleName</strong></td>
                                     </tr>
                                     <tr>
                                         <th>@("Module version".Localize())</th>
-                                        <td><strong>@uploadModuleResult.SourceModuleInfo.Version</strong></td>
+                                        <td><strong>@Model.SourceModuleInfo.Version</strong></td>
                                     </tr>
                                     <tr>
                                         <th>@("Kooboo CMS version".Localize())</th>
-                                        <td><strong>@uploadModuleResult.SourceModuleInfo.KoobooCMSVersion</strong></td>
+                                        <td><strong>@Model.SourceModuleInfo.KoobooCMSVersion</strong></td>
                                     </tr>
                                 </table>
                             </div>
@@ -85,15 +99,15 @@
                                 <table>
                                     <tr>
                                         <th>@("Module name".Localize())</th>
-                                        <td><strong>@uploadModuleResult.TargetModuleInfo.ModuleName</strong></td>
+                                        <td><strong>@Model.TargetModuleInfo.ModuleName</strong></td>
                                     </tr>
                                     <tr>
                                         <th>@("Module version".Localize())</th>
-                                        <td><strong>@uploadModuleResult.TargetModuleInfo.Version</strong></td>
+                                        <td><strong>@Model.TargetModuleInfo.Version</strong></td>
                                     </tr>
                                     <tr>
                                         <th>@("Kooboo CMS version".Localize())</th>
-                                        <td><strong>@uploadModuleResult.TargetModuleInfo.KoobooCMSVersion</strong></td>
+                                        <td><strong>@Model.TargetModuleInfo.KoobooCMSVersion</strong></td>
                                     </tr>
                                 </table>
                             </div>
@@ -101,7 +115,7 @@
                     </div>
                 </div>
             </div>
-            if (uploadModuleResult.ConflictedAssemblies.Count() > 0)
+            if (Model.ConflictedAssemblies.Count() > 0)
             {
                 <div class="columns clearfix">
                     <div class="col-32">
@@ -119,7 +133,7 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach (var item in uploadModuleResult.ConflictedAssemblies)
+                                    @foreach (var item in Model.ConflictedAssemblies)
                                     {
                                         <tr>
                                             <td>@item.ReferenceData.AssemblyName</td>

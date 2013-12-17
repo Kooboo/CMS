@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLastAction xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Kooboo.CMS.Search.Models">
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>file content </ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-12-13T06:17:31.4801689Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>file content </ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2013-11-27T08:06:09.5694205Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>file content </ContentSummary>
+		<Action>Add</Action>
+		<UtcActionDate>2013-11-26T09:55:24.5422822Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>To cn article</ContentSummary>
+		<Action>Add</Action>
+		<UtcActionDate>2013-10-31T02:06:25.1162718Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>Lorem ipsum dolor sit amet 2</ContentSummary>
+		<Action>Delete</Action>
+		<UtcActionDate>2013-10-30T09:35:53.3402514Z</UtcActionDate>
+	</LastAction>
+</ArrayOfLastAction>

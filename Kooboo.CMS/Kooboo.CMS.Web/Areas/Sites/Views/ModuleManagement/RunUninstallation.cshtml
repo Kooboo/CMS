@@ -20,7 +20,7 @@
     <ul class="panel">
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())
+                @Html.IconImage("cancel") @("Cancel".Localize())
             </a>
         </li>
         <li>
@@ -30,26 +30,36 @@
         </li>
     </ul>
 }
-<div class="common-form">
+<div class="block">
     <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
     <div class="process-steps">
         <div class="steps-inner">
-            <span>@("Show module info".Localize())</span>
-            <span class="current">@("Run uninstallation".Localize())<b></b></span>
-            <span>@("Finished".Localize())</span>
+            <span>@("Module info".Localize())</span>
+            <span class="current">@("Uninstallation".Localize())<b></b></span>
+            <span>@("Result".Localize())</span>
         </div>
-    </div>    
+    </div>
+    <div class="content">
+        <p>We are now ready to uninstall the module, in this step, we are going to:</p>
+        <ol>
+            <li><strong>@("Run the 'Uninstalling' events defined in the module.".Localize())</strong></li>
+            <li><strong>@("Remove the module files from Kooboo CMS system.".Localize())</strong></li>
+        </ol>
+        @if (!string.IsNullOrEmpty(uninstallingTemplate))
+        {
+            <p>Please modify the configuration:</p>
+        }
+    </div>
     @using (Html.BeginForm())
     {
-        <ul>
-            <li>@("1. Run the 'OnUninstalling' event which defined in the module.".Localize())</li>
-            <li>@("2. Remove the module file from Kooboo CMS system.".Localize())</li>
-        </ul>
         if (!string.IsNullOrEmpty(uninstallingTemplate))
         {
             @Html.Partial(uninstallingTemplate, null, new ViewDataDictionary())
         }
     }
+    <div class="content">
+        <p>If you are ready, click the <strong>Next</strong> button to start the uninstallation.</p>
+    </div>
 </div>
 
 

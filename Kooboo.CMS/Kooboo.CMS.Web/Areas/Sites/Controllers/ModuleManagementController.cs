@@ -59,7 +59,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return View();
         }
         [HttpPost]
-        public virtual ActionResult Install(InstallModuleModel installModel, string moduleName, string @return)
+        public virtual ActionResult Install(string moduleName, string @return)
         {
             if (this.Request.Files.Count > 0)
             {
@@ -67,12 +67,15 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
                 moduleName = System.IO.Path.GetFileNameWithoutExtension(moduleFile.FileName);
                 var result = _moduleInstaller.Upload(moduleName, moduleFile.InputStream, User.Identity.Name);
-                ViewBag.UploadModuleResult = result;
                 if (result.IsValid == false)
                 {
                     ViewData.ModelState.AddModelError("ModuleFile", "The module is invalid".Localize());
                 }
-                return View();
+                if (result.ModuleExists == true)
+                {
+                    ViewData.ModelState.AddModelError("ModuleFile", "The module already exists, please use 'Reinstall' option to upgrade the module.".Localize());
+                }
+                return View(result);
             }
             else
             {
@@ -198,7 +201,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
 
         [HttpPost]
-        public virtual ActionResult Reinstall(string uuid, InstallModuleModel installModel, string @return)
+        public virtual ActionResult Reinstall(string uuid, string @return, FormCollection form)
         {
             if (this.Request.Files.Count > 0)
             {
@@ -206,12 +209,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
                 uuid = System.IO.Path.GetFileNameWithoutExtension(moduleFile.FileName);
                 var result = _moduleReinstaller.Upload(uuid, moduleFile.InputStream, User.Identity.Name);
-                ViewBag.UploadModuleResult = result;
                 if (result.IsValid == false)
                 {
                     ViewData.ModelState.AddModelError("ModuleFile", "The module is invalid".Localize());
                 }
-                return View();
+                return View(result);
             }
             else
             {

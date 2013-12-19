@@ -132,7 +132,11 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
 
         [HttpPost]
         public ActionResult PublishTextContent(CreateTextContentPublishingQueueViewModel model, string @return)
-        {
+        {           
+            if (model.TextFolderMappings == null || model.TextFolderMappings.Length == 0)
+            {
+                ModelState.AddModelError("TextFolderMappings", "Required".Localize());
+            }
             var resultEntry = new JsonResultData(ModelState);
             if (ModelState.IsValid)
             {

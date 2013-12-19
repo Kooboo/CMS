@@ -61,20 +61,14 @@
   <data name="Sample site" xml:space="preserve">
     <value>Sample site</value>
   </data>
-  <data name="Member Login" xml:space="preserve">
-    <value>Member Login</value>
-  </data>
-  <data name="Register" xml:space="preserve">
-    <value>Register</value>
+  <data name="Sign Out" xml:space="preserve">
+    <value>Sign Out</value>
   </data>
   <data name="Articles" xml:space="preserve">
     <value>Articles</value>
   </data>
   <data name="Copyright &amp;copy; 2009 - 2013 Kooboo team" xml:space="preserve">
     <value>Copyright &amp;copy; 2009 - 2013 Kooboo team</value>
-  </data>
-  <data name="Admin Login" xml:space="preserve">
-    <value>Admin Login</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
@@ -88,35 +82,35 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="Redirect to" xml:space="preserve">
+    <value>Redirect to</value>
+  </data>
+  <data name="Current page" xml:space="preserve">
+    <value>Current page</value>
+  </data>
+  <data name="Admin page" xml:space="preserve">
+    <value>Admin page</value>
+  </data>
   <data name="Remember me" xml:space="preserve">
     <value>Remember me</value>
   </data>
-  <data name="Forgot password?" xml:space="preserve">
-    <value>Forgot password?</value>
+  <data name="About us" xml:space="preserve">
+    <value>About us</value>
   </data>
-  <data name="Register a new account" xml:space="preserve">
-    <value>Register a new account</value>
+  <data name="LogOn" xml:space="preserve">
+    <value>LogOn</value>
   </data>
-  <data name="Login with social accounts" xml:space="preserve">
-    <value>Login with social accounts</value>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
   </data>
-  <data name="&lt;b&gt;Note&lt;/b&gt;: You need to configure Fackbook or &lt;br &gt; Twitter settings before using them." xml:space="preserve">
-    <value>&lt;b&gt;Note&lt;/b&gt;: You need to configure Fackbook or &lt;br &gt; Twitter settings before using them.</value>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
   </data>
-  <data name="Register member" xml:space="preserve">
-    <value>Register member</value>
+  <data name="ddd" xml:space="preserve">
+    <value>ddd</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="Confirm password" xml:space="preserve">
-    <value>Confirm password</value>
-  </data>
-  <data name="'Confirm password' and 'Password' do not match." xml:space="preserve">
-    <value>'Confirm password' and 'Password' do not match.</value>
-  </data>
-  <data name="Sign up" xml:space="preserve">
-    <value>Sign up</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
   </data>
   <data name="HelloWorldModule" xml:space="preserve">
     <value>HelloWorldModule</value>

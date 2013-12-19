@@ -246,7 +246,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             NoSuchSiteMessage(ref queueItem);
         }
 
-        private Regex _repositoryNameRegex = new Regex(@"(.*/Cms_Data/Contents/)(\w+)(/Media/(?<mediaFolder>.*?)/([\w-]+)\.(\w{2,4}))");
+        private Regex _repositoryNameRegex = new Regex(@"(.*/Cms_Data/Contents/)(\w+)(/Media/(?<mediaFolder>.*?)/([^/./\\:*?\""<>|]+)\.(\w{2,4}))");
         private void AddOrUpdateContent(Repository repository, IncomingQueue queueItem)
         {
             var textContent = (Dictionary<string, object>)queueItem.Object;

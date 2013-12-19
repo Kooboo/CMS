@@ -32,12 +32,12 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         public LocalPublishingQueueController(LocalPublishingQueueManager manager)
         {
             this._manager = manager;
-        } 
+        }
         #endregion
 
         #region Index
-        public ActionResult Index(string siteName, string search,int? publishingObject,int? publishingType,int? status,
-            string sortField,string sortDir)
+        public ActionResult Index(string siteName, string search, int? publishingObject, int? publishingType, int? status,
+            string sortField, string sortDir)
         {
             var query = this._manager.CreateQuery(siteName);
             if (!string.IsNullOrWhiteSpace(search))
@@ -63,7 +63,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                 query = query.OrderByDescending(it => it.UtcCreationDate);
             }
             return View(query.ToList());
-        } 
+        }
         #endregion
 
         #region PublishPage
@@ -117,13 +117,13 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                     foreach (string uuid in model.Pages)
                     {
                         var page = new Page(Site, uuid);
-                        Kooboo.CMS.Sites.Services.ServiceFactory.PageManager.Publish(page,false,false,false,DateTime.UtcNow,DateTime.UtcNow, User.Identity.Name);
+                        Kooboo.CMS.Sites.Services.ServiceFactory.PageManager.Publish(page, false, false, false, DateTime.UtcNow, DateTime.UtcNow, User.Identity.Name);
                     }
                     resultEntry.RedirectUrl = @return;
                 }
             }
             return Json(resultEntry);
-        } 
+        }
         #endregion
 
         #region PublishTextContent
@@ -187,11 +187,11 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             return Json(resultEntry);
         }
 
-        public virtual ActionResult SelectTextContent(string siteName,string folderName, string selected, int? page, int? pageSize, string search, 
+        public virtual ActionResult SelectTextContent(string siteName, string folderName, string selected, int? page, int? pageSize, string search,
              string sortField = null, string sortDir = null)
         {
             var site = SiteHelper.Parse(siteName);
-            var repository=site.GetRepository();
+            var repository = site.GetRepository();
             var textFolder = (TextFolder)(FolderHelper.Parse<TextFolder>(repository, folderName).AsActual());
 
             var singleChoice = string.Equals("True", Request.RequestContext.GetRequestValue("SingleChoice"), StringComparison.OrdinalIgnoreCase);
@@ -210,9 +210,9 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                 childFolders = Kooboo.CMS.Content.Services.ServiceFactory.TextFolderManager.ChildFoldersWithSameSchema(textFolder).Select(it => it.AsActual());
             }
 
-            var query = textFolder.CreateQuery();
+            var query = textFolder.CreateQuery().DefaultOrder();
 
-            query = query.SortBy(sortField,sortDir);
+            query = query.SortBy(sortField, sortDir);
 
 
             bool showTreeStyle = schema.IsTreeStyle;
@@ -275,7 +275,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                 //TODO:Prompt "Can not find the entity object".
             }
             return View(model);
-        } 
+        }
         #endregion
 
         #region Delete
@@ -296,7 +296,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                 });
             }
             return Json(resultEntry);
-        } 
+        }
         #endregion
     }
 }

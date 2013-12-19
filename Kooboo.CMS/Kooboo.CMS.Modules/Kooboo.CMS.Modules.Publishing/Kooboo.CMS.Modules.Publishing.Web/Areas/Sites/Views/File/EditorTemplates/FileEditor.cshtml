@@ -58,6 +58,10 @@
                 '.txt': function () {
                     this.common();
                     codeMirrorAPI.setOption('mode', 'text/html');
+                },
+                '.less': function () {
+                    this.common();
+                    codeMirrorAPI.setOption('mode', 'css');
                 }
             },
             option: {
@@ -65,6 +69,9 @@
 
                 },
                 '.css': {
+
+                },
+                '.less': {
 
                 },
                 '.txt': {
@@ -75,7 +82,7 @@
                 }
             },
             handle: function (extension) {
-                var quickExp = /.js|.css|.txt|.rule/i;
+                var quickExp = /.js|.css|.txt|.less|.rule/i;
 
                 var group = quickExp.exec(extension);
 
@@ -99,7 +106,7 @@
         };
         var fileExtension = $('#FileExtension');
         if (fileExtension.length) {
-            var quickExp = /.js|.css|.txt|.rule/;
+            var quickExp = /.js|.css|.txt|.less|.rule/;
 
             fileExtension.change(function () {
                 dic.handle($(this).val());

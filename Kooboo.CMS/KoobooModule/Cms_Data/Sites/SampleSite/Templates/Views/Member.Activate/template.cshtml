@@ -1,8 +1,0 @@
-﻿@if (ViewBag.MembershipSuccess)
-{
-    <div class="member-form-hint">@("The member has been actived".Label()), you can @Html.FrontHtml().PageLink("login".Label(), "Member/Login") now.</div>
-}
-else
-{
-    <div class="member-form-hint">@("Activation occurs errors.".Label())</div>
-}

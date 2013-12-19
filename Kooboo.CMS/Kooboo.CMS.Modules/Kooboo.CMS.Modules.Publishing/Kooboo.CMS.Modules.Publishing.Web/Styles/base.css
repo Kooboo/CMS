@@ -117,6 +117,31 @@ a.button.upload input {
 	top: 0;
 }
 
+a.upload-link {
+	position: relative;
+}
+
+a.upload-link span {
+	filter: alpha(opacity=0);
+	height: 100%;
+	left: 0;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 9999;
+}
+
+a.upload-link input {
+	cursor: pointer;
+	font-size: 32px;
+	height: 100px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
 .dropdown-button {
 	background: #0078B1;
 	cursor: pointer;

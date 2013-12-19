@@ -1,31 +1,44 @@
-﻿@model DateTime
+﻿@model DateTime?
 @{
-    DateTime dt = DateTime.MinValue;
-    if (Model.Kind == DateTimeKind.Utc)
+    DateTime? dt = null;
+    if (Model.HasValue)
     {
-        dt = Model.ToLocalTime();
+        if (Model.Value.Kind == DateTimeKind.Utc)
+        {
+            dt = Model.Value.ToLocalTime();
+        }
+        else
+        {
+            dt = Model;
+        }
     }
-    else
-    {
-        dt = Model;
-    }
+
 }
 <tr>
     <th>
         <label for="@ViewData.ModelMetadata.PropertyName">
-            @ViewData.ModelMetadata.GetDisplayName().Localize()</label>
+            @ViewData.ModelMetadata.GetDisplayName().Localize()
+        </label>
         @if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
         {
             <a href="#" class="tooltip-link" title="@ViewData.ModelMetadata.Description "></a>
         }
     </th>
     <td>
-        @if (string.IsNullOrEmpty(ViewData.ModelMetadata.DisplayFormatString)){
-            @dt
+        @if (Model.HasValue)
+        {
+            @("-")
         }
         else
-        { 
-            @dt.ToString(ViewData.ModelMetadata.DisplayFormatString)
+        {
+            if (string.IsNullOrEmpty(ViewData.ModelMetadata.DisplayFormatString))
+            {
+                @dt
+            }
+            else
+            {
+                @dt.Value.ToString(ViewData.ModelMetadata.DisplayFormatString)
+            }
         }
     </td>
 </tr>

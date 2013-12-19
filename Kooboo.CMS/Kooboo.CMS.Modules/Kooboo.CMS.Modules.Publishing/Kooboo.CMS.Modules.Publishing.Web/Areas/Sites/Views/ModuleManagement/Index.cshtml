@@ -8,14 +8,30 @@
     <ul class="panel">
         <li>
             <a href="@Url.Action("Install", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">
-                @Html.IconImage("add") @("Install".Localize())</a>
+                @Html.IconImage("add") @("Install".Localize())
+            </a>
         </li>
-        <li><a href="@Url.Action("GoingToUninstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single"  data-command-type="Redirect">
-            @Html.IconImage("delete") @("Uninstall".Localize())</a></li>
+        <li>
+            <a href="@Url.Action("GoingToUninstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
+                @Html.IconImage("delete") @("Uninstall".Localize())
+            </a>
+        </li>
+        <li>
+            <a href='@Url.Action("Reinstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))' data-show-on-check="Single" data-command-type="Redirect">
+                @Html.IconImage("reset") @("Reinstall".Localize())
+            </a>
+        </li>
 
-
-        <li><a href="@Url.Action("Relation", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show module relations"))" data-show-on-check="Single" data-command-type="Redirect">
-            @Html.IconImage("relation") @("Relation".Localize())</a></li>
+        <li>
+            <a href="@Url.Action("Relation", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show module relations"))" data-show-on-check="Single" data-command-type="Redirect">
+                @Html.IconImage("relation") @("Relation".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Versions", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
+                @Html.IconImage("version") @("Versions".Localize())
+            </a>
+        </li>
     </ul>
 }
 
@@ -42,7 +58,7 @@ else
     </div>
     <div class="block fixed" id="module_list">
         @foreach (var module in Model)
-        {        
+        {
             <div class="content-block module">
                 @Html.Partial("_ModuleNode", module)
             </div>

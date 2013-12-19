@@ -12,11 +12,23 @@
     <div id="body-container">
         <header id="header" class="clearfix">
             <h1 class="logo">
-                <a href='@Url.FrontUrl().PageUrl("Articles")'>
-                    <img src="@Url.FrontUrl().FileUrl("logo.png")" alt="Logo">@("Sample site".Label())</a></h1>
+                <a href='@Url.FrontUrl().PageUrl("Articles")'><img src="@Url.FrontUrl().FileUrl("logo.png")" alt="Logo">@("Sample site".Label())</a></h1>
             @Html.FrontHtml().RenderView("Menu", ViewData)
             <ul class="quicklinks right">
-                @Html.FrontHtml().RenderView("LoginStatus")
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    <li>[ <strong>@User.Identity.Name</strong> ]</li>
+
+                    <li>[ <a href="@Url.Action("SignOut", "LogOn", new { area = "Account", returnUrl = Request.RawUrl })">@("Sign Out".Label())</a>]</li>
+                }
+                else
+                { 
+
+
+
+                    <li>[ <a id="login-link" href="#loginForm">@("LogOn".Label())</a> ]</li>
+                }
             </ul>
         </header>
         <div id="main-container" class="clearfix">
@@ -26,7 +38,9 @@
 
             @Html.FrontHtml().Position("mainContainer")
         </div>
-       @Html.FrontHtml().RenderView("Footer",ViewData)
+        <footer id="footer">
+            <p class="copyright">@("Copyright &copy; 2009 - 2013 Kooboo team".Label())</p>
+        </footer>
     </div>
     <div class="hide">
         @Html.FrontHtml().RenderView("LoginForm", ViewData)

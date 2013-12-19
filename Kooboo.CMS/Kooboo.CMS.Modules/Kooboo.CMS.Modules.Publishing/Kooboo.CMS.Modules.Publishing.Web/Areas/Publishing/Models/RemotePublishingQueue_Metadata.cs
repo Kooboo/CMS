@@ -65,7 +65,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
         //[GridColumn(Order = 9, HeaderText = "Processed unpublish time", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2.ShortDateTimeGridItemColumnType))]
         //public DateTime? UtcProcessedUnpublishTime { get; set; }
 
-        [GridColumn(Order = 10, HeaderText = "RetryTimes", GridColumnType = typeof(SortableGridColumn))]
+        [GridColumn(Order = 10, HeaderText = "Retry times", GridColumnType = typeof(SortableGridColumn))]
         public int RetryTimes { get; set; }
 
         [GridColumn(Order = 11, HeaderText = "User", GridColumnType = typeof(SortableGridColumn))]

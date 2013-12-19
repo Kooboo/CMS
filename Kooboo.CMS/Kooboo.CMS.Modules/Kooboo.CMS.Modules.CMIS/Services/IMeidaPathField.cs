@@ -29,7 +29,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services
         #endregion
 
         #region IsMidiaPathField
-        private Regex _mediaRegex = new Regex(@"(/Cms_Data/Contents/(\w+)/Media/(.*?)/([\w-]+)\.(\w{2,4}))");
+        private Regex _mediaRegex = new Regex(@"(/Cms_Data/Contents/(\w+)/Media/(.*?)/([^/./\\:*?\""<>|]+)\.(\w{2,4}))");
         public bool IsMediaPathField(string fieldValue)
         {
             return !string.IsNullOrWhiteSpace(fieldValue) && this._mediaRegex.IsMatch(fieldValue);
@@ -66,8 +66,8 @@ namespace Kooboo.CMS.Modules.CMIS.Services
                     var physicalPath = Kooboo.Web.Url.UrlUtility.MapPath(path);
                     if (File.Exists(physicalPath))
                     {
-                            var stringData = BinaryFileToString(physicalPath);
-                            sb.AppendFormat("{0}$$${1}|||", path, stringData);
+                        var stringData = BinaryFileToString(physicalPath);
+                        sb.AppendFormat("{0}$$${1}|||", path, stringData);
                     }
                 }
 
@@ -141,7 +141,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services
                 StringBuilder sb = new StringBuilder(BinaryStringHeader);
                 foreach (var path in paths.Distinct(StringComparer.OrdinalIgnoreCase))
                 {
-                    var physicalPath = Kooboo.Web.Url.UrlUtility.MapPath(path);
+                    var physicalPath = Kooboo.Web.Url.UrlUtility.MapPath(System.Web.HttpUtility.UrlDecode(path));
                     if (File.Exists(physicalPath))
                     {
                         var stringData = BinaryFileToString(physicalPath);

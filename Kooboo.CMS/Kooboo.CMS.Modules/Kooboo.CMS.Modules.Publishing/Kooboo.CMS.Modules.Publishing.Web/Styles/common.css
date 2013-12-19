@@ -114,6 +114,23 @@ body.loading .block.loading {
 	z-index: 6001;
 }
 
+/* Message
+----------------------------------------------------------*/
+.block.message {
+	background: #F3F3F3;
+	border-left: 5px solid #CCC;
+	display: inline-block;
+	font-size: 16px;
+	min-height: 60px;
+	min-width: 400px;
+	padding: 10px;
+}
+
+.block.message.success {
+	border-color: #5BA52E;
+	color: #5BA52E;
+}
+
 /* Icons
 ----------------------------------------------------------*/
 img.icon {
@@ -1852,8 +1869,13 @@ body .select2-results .select2-result-label {
 	width: 100%;
 }
 
+.simple-table th,
 .simple-table td {
 	padding: 5px;
+}
+
+.simple-table thead th {
+	background: #E1E1E1;
 }
 
 /* Common grid
@@ -1978,6 +2000,43 @@ body .select2-results .select2-result-label {
 	width: auto;
 }
 
+/* Box block
+----------------------------------------------------------*/
+.block.box {
+	border: 1px solid #CCC;
+	margin-bottom: 20px;
+}
+
+.block.box .title {
+	background: #E1E1E1;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px 10px;
+}
+
+.block.box .container {
+	padding: 10px;
+}
+
+/* Columns
+----------------------------------------------------------*/
+.columns > div {
+	float: left;
+}
+
+.columns > div:first-child {
+	margin: 0;
+}
+
+.columns .col-31 {
+	margin-left: 3%;
+	width: 30%;
+}
+
+.columns .col-32 {
+	margin-left: 3%;
+	width: 63%;
+}
 
 /* Command
 ----------------------------------------------------------*/
@@ -2251,15 +2310,16 @@ body .select2-results .select2-result-label {
 }
 
 .process-steps .steps-inner {
-	overflow-x: hidden;
+	overflow: hidden;
 	position: absolute;
 }
 
 .process-steps a, .process-steps span {
+	float: left;
 	position: relative;
-	display: inline-block;
+	display: block;
 	text-align: center;
-	height: 30px;
+	height: 33px;
 	line-height: 30px;
 	font-size: 14px;
 	color: #ccc;
@@ -2288,7 +2348,7 @@ body .select2-results .select2-result-label {
 	display: block;
 	width: 9999px;
 	height: 3px;
-	bottom: -3px;
+	bottom: 0;
 	right: 50%;
 	z-index: 2;
 	background: #0078B1;

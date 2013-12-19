@@ -49,38 +49,17 @@
 </div>
 <div class="tbody">
     <table>
-        <thead>
-            <tr>
-                <th class="checkbox">
-                    <input type="checkbox" class="select-all" />
-                </th>
-                		<th class="Title @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Title",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Title", "Title", -1)</th>
-		<th class="Readings @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Readings",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Readings", "Readings", -1)</th>
-		<th class="UtcCreationDate @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "UtcCreationDate",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Creation date", "UtcCreationDate", -1)</th>
-		<th class="Published @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Published",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Published", "Published", -1)</th>
-
-            </tr>
-        </thead>
         <tbody>
         @if (childFolders.Length == 0 && Model.Contents.TotalItemCount == 0)
         {
             <tr class="empty">
-                <td colspan="100">
+                <td>
                     @("Empty".Localize())
                 </td>
             </tr>
         }
         else{
-            if(folder.Parent != null){
-                    <tr class="folderTr">
-                        <td></td>
-                        <td>
-                            <a class="f-icon folder" href="@this.Url.Action("SelectCategories", ViewContext.RequestContext.AllRouteValues().Merge("FolderName", (object)(folder.Parent.FullName)).Merge("FullName", (object)(folder.Parent.FullName)))">...</a>
-                        </td>
-                        <td colspan="3"></td>
-                    </tr>
-             }
-             foreach (dynamic item in childFolders)
+              foreach (dynamic item in childFolders)
                 {
                     <tr class="folderTr">
                         <td>                            

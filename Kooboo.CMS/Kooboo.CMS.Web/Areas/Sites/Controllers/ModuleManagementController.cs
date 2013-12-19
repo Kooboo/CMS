@@ -69,7 +69,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 var result = _moduleInstaller.Upload(moduleName, moduleFile.InputStream, User.Identity.Name);
                 if (result.IsValid == false)
                 {
-                    ViewData.ModelState.AddModelError("ModuleFile", "The module is invalid".Localize());
+                    ViewData.ModelState.AddModelError("ModuleFile", "Invalid module file".Localize());
                 }
                 if (result.ModuleExists == true)
                 {
@@ -185,13 +185,12 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 using (var moduleStream = _moduleVersioning.GetInstallationStream(uuid, installationFileName))
                 {
-                    var result = _moduleReinstaller.Upload(uuid, moduleStream, User.Identity.Name);
-                    ViewBag.UploadModuleResult = result;
+                    var result = _moduleReinstaller.Upload(uuid, moduleStream, User.Identity.Name);                 
                     if (result.IsValid == false)
                     {
-                        ViewData.ModelState.AddModelError("ModuleFile", "The module is invalid".Localize());
+                        ViewData.ModelState.AddModelError("ModuleFile", "Invalid module file".Localize());
                     }
-                    return View();
+                    return View(result);
                 }
             }
             else
@@ -211,7 +210,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 var result = _moduleReinstaller.Upload(uuid, moduleFile.InputStream, User.Identity.Name);
                 if (result.IsValid == false)
                 {
-                    ViewData.ModelState.AddModelError("ModuleFile", "The module is invalid".Localize());
+                    ViewData.ModelState.AddModelError("ModuleFile", "Invalid module file".Localize());
                 }
                 return View(result);
             }

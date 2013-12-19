@@ -146,14 +146,14 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region ResolveModuleAction
-        protected virtual IModuleEvents ResolveModuleAction(string moduleName)
+        protected virtual Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents ResolveModuleAction(string moduleName)
         {
-            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
+            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents>(moduleName);
         }
         #endregion
 
         #region Site&Module relation
-        private static class ModuleData
+        private static class ModuleRelationData
         {
             static System.Threading.ReaderWriterLockSlim sitesModuleRelationLocker = new System.Threading.ReaderWriterLockSlim();
             public static List<string> GetSitesInModule(string moduleName)
@@ -166,7 +166,8 @@ namespace Kooboo.CMS.Sites.Services
                 sitesModuleRelationLocker.EnterReadLock();
                 try
                 {
-                    var list = Serialization.DeserializeSettings<List<string>>(filePath);
+                    var jsonData = Kooboo.IO.IOUtility.ReadAsString(filePath);
+                    var list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(jsonData);
                     return list;
                 }
                 finally
@@ -180,7 +181,8 @@ namespace Kooboo.CMS.Sites.Services
                 sitesModuleRelationLocker.EnterWriteLock();
                 try
                 {
-                    Serialization.Serialize(sites, filePath);
+                    var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(sites, Newtonsoft.Json.Formatting.Indented);
+                    Kooboo.IO.IOUtility.SaveStringToFile(filePath, jsonData);
                 }
                 finally
                 {
@@ -189,17 +191,18 @@ namespace Kooboo.CMS.Sites.Services
             }
             private static string GetSitesModuleRelationDataFile(string moduleName)
             {
-                ModuleItemPath entryPath = new ModuleItemPath(moduleName, "Sites.config");
-                return entryPath.PhysicalPath;
+                var modulePath = new ModulePath(moduleName);
+                var relation = modulePath.GetModuleSharedFilePath("Sites.txt");
+                return relation.PhysicalPath;
             }
         }
         public virtual void AddSiteToModule(string moduleName, string siteName)
         {
-            var list = ModuleData.GetSitesInModule(moduleName);
+            var list = ModuleRelationData.GetSitesInModule(moduleName);
             if (!list.Contains(siteName, StringComparer.OrdinalIgnoreCase))
             {
                 list.Add(siteName);
-                ModuleData.SaveSitesInModule(moduleName, list);
+                ModuleRelationData.SaveSitesInModule(moduleName, list);
             }
             try
             {
@@ -217,9 +220,9 @@ namespace Kooboo.CMS.Sites.Services
 
         public virtual void RemoveSiteFromModule(string moduleName, string siteName)
         {
-            var list = ModuleData.GetSitesInModule(moduleName);
+            var list = ModuleRelationData.GetSitesInModule(moduleName);
             list.RemoveAll(s => s.EqualsOrNullEmpty(siteName, StringComparison.OrdinalIgnoreCase));
-            ModuleData.SaveSitesInModule(moduleName, list);
+            ModuleRelationData.SaveSitesInModule(moduleName, list);
 
             try
             {
@@ -237,11 +240,11 @@ namespace Kooboo.CMS.Sites.Services
         }
         public virtual IEnumerable<Site> AllSitesInModule(string moduleName)
         {
-            return ModuleData.GetSitesInModule(moduleName).Select(it => new Site(it).AsActual()).Where(it => it != null);
+            return ModuleRelationData.GetSitesInModule(moduleName).Select(it => new Site(it).AsActual()).Where(it => it != null);
         }
         public virtual bool SiteIsInModule(string moduleName, string siteName)
         {
-            return ModuleData.GetSitesInModule(moduleName).Contains(siteName, StringComparer.OrdinalIgnoreCase);
+            return ModuleRelationData.GetSitesInModule(moduleName).Contains(siteName, StringComparer.OrdinalIgnoreCase);
         }
         public virtual IEnumerable<string> AllModulesForSite(string siteName)
         {

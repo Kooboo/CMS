@@ -36,7 +36,9 @@
             <label for="Description">Description</label>
             </th>
             <td>
-            <textarea name="Description" id="Description" class="Description tinymce" media_library_url="@Url.Action("Selection","MediaContent",ViewContext.RequestContext.AllRouteValues()))" media_library_title ="@("Selected Files".Localize())" rows="10" cols="100">@( Model.Description ?? "")</textarea>            
+            
+<textarea name="Description" id="Description" class="Description tinymce" media_library_url="@Url.Action("Selection","MediaContent",ViewContext.RequestContext.AllRouteValues()))"  media_library_title ="@("Selected Files".Localize())" rows="10" cols="100">@( Model.Description ?? "")</textarea>
+            
             @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Description"], null)
             
             </td>          

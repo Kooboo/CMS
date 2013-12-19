@@ -13,7 +13,10 @@
     var childFolders = Model.ChildFolders==null? new TextFolder[0]:Model.ChildFolders.ToArray();
 
 }
-@helper RenderHeader(TextFolder folder,Schema schema){
+
+<div class="common-table fixed">
+ <div class="thead">
+    <table>
         <thead>
             <tr>
                 <th class="checkbox mutiple">
@@ -33,14 +36,9 @@
                     </div>
                 </th>
                 		<th class="Title @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Title",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Title", "Title", -1)</th>
-		<th class="Member @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Member",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Member", "Member", -1)</th>
 		<th class="UtcCreationDate @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "UtcCreationDate",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Creation date", "UtcCreationDate", -1)</th>
 		<th class="Published @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Published",-1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Published", "Published", -1)</th>
 
-                @if (Repository.Current.EnableBroadcasting)
-                {
-                    <th class="IsLocalized @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "IsLocalized", -1)">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, "IsLocalized", "IsLocalized", -1)</th>
-                }
                 @if (folder.EmbeddedFolders != null)
                 {
                     foreach (var s in folder.EmbeddedFolders)
@@ -63,22 +61,15 @@
                 }
             </tr>
         </thead>
-}
-
-<div class="common-table fixed">
- <div class="thead">
-    <table>
-        @RenderHeader(folder,schema)
     </table>
 </div>
 <div class="tbody">
     <table>
-       @RenderHeader(folder,schema)
-       <tbody>
+        <tbody>
         @if (childFolders.Length == 0 && ViewBag.PagedList.TotalItemCount == 0)
         {
             <tr class="empty">
-                <td colspan="100">
+                <td>
                     @("Empty".Localize())
                 </td>
             </tr>
@@ -105,13 +96,8 @@
                                    @Html.IconImage("folder") @Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(item).FriendlyText</a>
                             }
                         </td>
-                        <td colspan="3">
+                        <td colspan="2">
                         </td>
-                         @if(Repository.Current.EnableBroadcasting)
-                        {
-                            <td colspan="1">
-                            </td>
-                        }
                         @if (Repository.Current.EnableWorkflow && folder.EnabledWorkflow)
                         {
                             <td colspan="1">
@@ -166,13 +152,8 @@
        		<td>@if(Model.ShowTreeStyle){
 		<span class="expander">@Html.IconImage("arrow")</span>}
 <a href="@this.Url.Action("Edit","TextContent",ViewContext.RequestContext.AllRouteValues().Merge("UserKey", (object)(item.UserKey)).Merge("UUID",(object)(item.UUID)).Merge("return",Request.RawUrl))">@Html.IconImage("file document")@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Title)</a></td>
-		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Member)</td>
 		<td class="date">@(DateTime.Parse(item["UtcCreationDate"].ToString()).ToLocalTime().ToShortDateString())</td>
 		<td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.Published)</td>
-        @if(Repository.Current.EnableBroadcasting)
-        {
-           <td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.IsLocalized)</td>
-        }
         @if (folder.EmbeddedFolders != null)
         {
             foreach (var s in folder.EmbeddedFolders)
@@ -222,7 +203,7 @@
             </td>
             		<td class="treeStyle">
 		<span class="expander">@Html.IconImage("arrow")</span>
-		<a data-bind="attr:{href:item._EditUrl_}">@Html.IconImage("file document")<!--ko text: item.Title--><!--/ko--></a></td>		<td data-bind="html:item.Member"></td>
+		<a data-bind="attr:{href:item._EditUrl_}">@Html.IconImage("file document")<!--ko text: item.Title--><!--/ko--></a></td>
             <td class="date" data-bind="html:item._LocalCreationDate_"></td>            
             <td><span data-bind="text : (item.Published == true?'@("YES".Localize())': '-')"></span></td>            
             <!-- ko foreach: {data:_EmbeddedFolders_,as:'folder'} -->

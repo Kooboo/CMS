@@ -18,7 +18,7 @@
         </li>
         <li>
             <a href='@Url.Action("Reinstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))' data-show-on-check="Single" data-command-type="Redirect">
-                @Html.IconImage("reinstall") @("Reinstall".Localize())
+                @Html.IconImage("reset") @("Reinstall".Localize())
             </a>
         </li>
 
@@ -29,7 +29,7 @@
         </li>
         <li>
             <a href="@Url.Action("Versions", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
-                @Html.IconImage("versions") @("Versions".Localize())
+                @Html.IconImage("version") @("Versions".Localize())
             </a>
         </li>
     </ul>

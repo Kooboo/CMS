@@ -3,7 +3,7 @@
 @using Kooboo.CMS.Common.Runtime;
 
 @{
-   
+
     var moduleManager = EngineContext.Current.Resolve<ModuleManager>();
     var sites = moduleManager.AllSitesInModule(Model.ModuleName).Count();
 
@@ -11,11 +11,14 @@
 
 <div class="content-block-header">
     @Model.ModuleName
-    <input type="radio" name="select" class="select" value="@Model.UUID" id="@Model.UUID"  data-id-property="UUID"><label for="@Model.UUID"></label><span class="corner"></span>
+    <input type="radio" name="select" class="select" value="@Model.UUID" id="@Model.UUID" data-id-property="UUID"><label for="@Model.UUID"></label><span class="corner"></span>
 </div>
 
-<ul>  
+<ul>
     <li>
-        @("Sites in use:") @sites
+        @("Version:".Localize()) @Model.Version
+    </li>
+    <li>
+        @("Sites in use:".Localize()) @sites
     </li>
 </ul>

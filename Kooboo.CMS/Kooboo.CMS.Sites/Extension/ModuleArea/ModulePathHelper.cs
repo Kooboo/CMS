@@ -122,6 +122,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         //    };
         //}
         //#endregion
+        const string ModuleDataFolderName = "ModuleData";
 
         #region GetModuleInstallationFilePath
         public static IPath GetModuleInstallationFilePath(this ModulePath modulePath, params string[] moduleInstallationFilePaths)
@@ -142,8 +143,8 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         public static IPath GetModuleSharedFilePath(this ModulePath modulePath, params string[] extraPaths)
         {
             var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
-            var physicalPaths = new[] { baseDir.Cms_DataPhysicalPath, "Modules", modulePath.ModuleName };
-            var virtualPaths = new[] { baseDir.Cms_DataVirtualPath, "Modules", modulePath.ModuleName };
+            var physicalPaths = new[] { baseDir.Cms_DataPhysicalPath, ModuleDataFolderName, modulePath.ModuleName };
+            var virtualPaths = new[] { baseDir.Cms_DataVirtualPath, ModuleDataFolderName, modulePath.ModuleName };
             if (extraPaths != null && extraPaths.Length > 0)
             {
                 physicalPaths = physicalPaths.Concat(extraPaths).ToArray();
@@ -167,8 +168,8 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
             {
                 throw new Exception("The site is null, can not get the local file path".Localize());
             }
-            var physicalPaths = new[] { modulePath.Site.PhysicalPath, "Modules", modulePath.ModuleName };
-            var virtualPaths = new[] { modulePath.Site.VirtualPath, "Modules", modulePath.ModuleName };
+            var physicalPaths = new[] { modulePath.Site.PhysicalPath, ModuleDataFolderName, modulePath.ModuleName };
+            var virtualPaths = new[] { modulePath.Site.VirtualPath, ModuleDataFolderName, modulePath.ModuleName };
             if (extraPaths != null && extraPaths.Length > 0)
             {
                 physicalPaths = physicalPaths.Concat(extraPaths).ToArray();

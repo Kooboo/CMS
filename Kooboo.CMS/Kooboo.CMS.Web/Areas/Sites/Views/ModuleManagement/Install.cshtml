@@ -27,47 +27,49 @@
     <h1 class="title">@ViewBag.Title</h1>
     <div class="process-steps">
         <div class="steps-inner">
-            <span class="current">@("Choose module package".Localize())<b></b></span>
+            <span class="current">@("Module selection".Localize())<b></b></span>
             <span>@("Installation".Localize())</span>
-            <span>@("Result".Localize())</span>
+            <span>@("Finish".Localize())</span>
         </div>
     </div>
     @using (Html.BeginForm(ViewContext.RequestContext.GetRequestValue("Action").ToString(),
         ViewContext.RequestContext.GetRequestValue("Controller").ToString(), ViewContext.RequestContext.AllRouteValues(), FormMethod.Post,
         new Dictionary<string, object>() { { "enctype", "multipart/form-data" } }))
     {
-        <div class="common-form">
-            <table>
-                <tbody>
-                    <tr>
-                        <th><label>@("Module file".Localize())</label></th>
-                        <td>
-                            <a class="upload-button button upload" title="Please upload">
-                                <span>
-                                    <input type="file" name="ModuleFile" accept="" />
-                                </span>
-                                @if (isValidUpload == false)
-                                {
-                                    @("Upload".Localize())
-                                }
-                                else
-                                {
-                                    @("Upload a new module".Localize())
-                                }
-                            </a>
-                            @Html.ValidationMessageForInput("ModuleFile")
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        if (Model != null && ViewData.ModelState.IsValid == true)
+        if (isValidUpload == false)
+        {
+            <div class="common-form">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th><label>@("Upload module installation file".Localize())</label></th>
+                            <td>
+                                <a class="upload-button button upload" title="Please upload">
+                                    <span>
+                                        <input type="file" name="ModuleFile" accept="" />
+                                    </span>
+                                    @("Select file".Localize())
+                                </a>
+                                @Html.ValidationMessageForInput("ModuleFile")
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
         {
             <input type="hidden" name="ModuleName" value="@Model.ModuleName" />
             <div class="columns clearfix">
                 <div class="col-32">
                     <div class="content">
-                        <p>This is the basic infomation about the module</p>
+                        <p>
+                           @("You have uploaded below module installation file. If this is not the module file you want, ".Localize())<a class="upload-link" title="@("Click to select file".Localize())">
+                                <span>
+                                    <input type="file" name="ModuleFile" accept="" />
+                                </span>@("click here".Localize())
+                            </a> @("to select a new module file.".Localize())
+                        </p>
                     </div>
                     <div class="block box">
                         <div class="container">
@@ -82,7 +84,7 @@
                                         <td><strong>@Model.TargetModuleInfo.Version</strong></td>
                                     </tr>
                                     <tr>
-                                        <th>@("Kooboo CMS version".Localize())</th>
+                                        <th>@("Target CMS version".Localize())</th>
                                         <td><strong>@Model.TargetModuleInfo.KoobooCMSVersion</strong></td>
                                     </tr>
                                 </table>
@@ -92,7 +94,7 @@
                     @if (Model.ConflictedAssemblies.Count() > 0)
                     {
                         <div class="content">
-                            <p>//Text here to warning the overwrite of assembly files.</p>
+                            <p>@("We are about to overwrite the following assembly files. If files that you do not want to overwrite, please remove them from module installation zip file.".Localize())</p>
                         </div>
                         <div class="simple-table">
                             <table>

@@ -307,7 +307,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                     break;
             }
             var show_on_selector = $related.data('show-on-selector');
-            if (show_on_selector) {               
+            if (show_on_selector) {
                 if ($all_checkeds.closest(itemTag + ':not(' + show_on_selector + ')').length > 0) {
                     $related.hide();
                 }
@@ -1061,12 +1061,16 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         (function leaveConfirm() {
             var $window = $(window);
             var canLeave = true;
+            var comfirm = function () {
+                if (canLeave == false) {
+                    return msg;
+                }
+            };
             var bind = function (msg) {
-                $window.bind('beforeunload', function () {
-                    if (canLeave == false) {
-                        return msg;
-                    }
-                });
+                $window.bind('beforeunload', comfirm);
+            }
+            var unbind = function (msg) {
+                $window.unbind('beforeunload', comfirm);
             }
             var stop = function () {
                 canLeave = false;
@@ -1074,7 +1078,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             var pass = function () {
                 canLeave = true;
             }
-            window.leaveConfirm = { bind: bind, stop: stop, pass: pass };
+            window.leaveConfirm = { bind: bind, unbind: unbind, stop: stop, pass: pass };
         })();
 
         //$.validator.methods.number = function (value, element) {
@@ -1093,6 +1097,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         $(document).siteSwitch();
         $(document).dialogLink();
         $(document).linkPost();
+
         $(document).clickableLegend();
 
         //lanauge selection

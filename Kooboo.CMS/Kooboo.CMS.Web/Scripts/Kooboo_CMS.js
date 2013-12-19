@@ -1061,12 +1061,14 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         (function leaveConfirm() {
             var $window = $(window);
             var canLeave = true;
+            var _msg = null;
             var comfirm = function () {
                 if (canLeave == false) {
-                    return msg;
+                    return _msg;
                 }
             };
             var bind = function (msg) {
+                _msg = msg;
                 $window.bind('beforeunload', comfirm);
             }
             var unbind = function (msg) {

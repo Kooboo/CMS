@@ -1061,12 +1061,18 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         (function leaveConfirm() {
             var $window = $(window);
             var canLeave = true;
+            var _msg = null;
+            var comfirm = function () {
+                if (canLeave == false) {
+                    return _msg;
+                }
+            };
             var bind = function (msg) {
-                $window.bind('beforeunload', function () {
-                    if (canLeave == false) {
-                        return msg;
-                    }
-                });
+                _msg = msg;
+                $window.bind('beforeunload', comfirm);
+            }
+            var unbind = function (msg) {
+                $window.unbind('beforeunload', comfirm);
             }
             var stop = function () {
                 canLeave = false;
@@ -1074,7 +1080,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             var pass = function () {
                 canLeave = true;
             }
-            window.leaveConfirm = { bind: bind, stop: stop, pass: pass };
+            window.leaveConfirm = { bind: bind, unbind: unbind, stop: stop, pass: pass };
         })();
 
         //$.validator.methods.number = function (value, element) {

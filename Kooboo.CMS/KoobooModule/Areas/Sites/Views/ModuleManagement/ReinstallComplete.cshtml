@@ -7,21 +7,33 @@
     <ul class="panel">
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Finished".Localize())
+                @Html.IconImage("cancel") @("Finish".Localize())
             </a>
         </li>
     </ul>
 }
 
-<div class="common-form">
+<div class="block">
     <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
     <div class="process-steps">
         <div class="steps-inner">
-            <a>@("Upload module file".Localize())</a>
-            <a>@("Run reinstallation event".Localize())</a>
-            <span class="current">@("Finished".Localize())<b></b></span>
+            <span>@("Module selection".Localize())</span>
+            <span>@("Installation".Localize())</span>
+            <span class="current">@("Finish".Localize())<b></b></span>
         </div>
     </div>
-    <p class="process-steps-tip">@Html.Raw(string.Format("The module has been reinstalled."))</p>
+    <div class="block content">
+        <p></p>
+        <b>@("Your module has been updated".Localize())</b>
+        <p></p>
+        <p></p>
+        <ul>
+            <li>@("To use the module in one site, go to the Extension\\Module under that website and include this module".Localize())</li>
+
+            <li>
+                @("To add one module to a page, go to page visual designer, and add a module into the right layout position".Localize())
+            </li>
+        </ul>
+    </div>
 </div>
 

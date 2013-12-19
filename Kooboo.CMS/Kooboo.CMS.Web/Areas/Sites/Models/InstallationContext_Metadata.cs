@@ -14,8 +14,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     [Grid(Checkable = true, IdProperty = "InstallationFileName")]
     public class InstallationContext_Metadata
     {
-        [GridColumn(Order = 1, HeaderText = "Source version", GridItemColumnType = typeof(InstallationContext_SourceVersion_Column))]
-        [GridColumn(Order = 2, HeaderText = "Target version", GridItemColumnType = typeof(InstallationContext_TargetVersion_Column))]
+        [GridColumn(Order = 1, HeaderText = "Version", GridItemColumnType = typeof(InstallationContext_TargetVersion_Column))]
+        [GridColumn(Order = 2, HeaderText = "From source", GridItemColumnType = typeof(InstallationContext_SourceVersion_Column))]
         public VersionRange VersionRange { get; set; }
 
         [GridColumn(Order = 3)]

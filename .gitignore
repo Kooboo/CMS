@@ -6,7 +6,6 @@ _svn
 Cms_Data/
 I18N/
 Release/
-Modules/
 Publish/
 Kooboo.Connect/Web
 *.suo

@@ -15,6 +15,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Web.Mvc.WebResourceLoader.Configuration;
+using Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource;
 namespace Kooboo.Web.Mvc.WebResourceLoader
 {
     public class WebResourceController : Controller
@@ -107,8 +108,17 @@ namespace Kooboo.Web.Mvc.WebResourceLoader
             {
                 foreach (FileInfoElement fileInfo in files)
                 {
-                    string content = System.IO.File.ReadAllText(Server.MapPath(fileInfo.Filename));
+                    string content;
+                    var dynamicResource = DynamicClientResourceFactory.Default.ResolveProvider(fileInfo.Filename);
 
+                    if (dynamicResource != null)
+                    {
+                        content = dynamicResource.Parse(fileInfo.Filename);
+                    }
+                    else
+                    {
+                        content = System.IO.File.ReadAllText(Server.MapPath(fileInfo.Filename));
+                    }
                     switch (settings.MimeType)
                     {
                         case "text/css":

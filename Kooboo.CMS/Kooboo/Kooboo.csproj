@@ -257,6 +257,8 @@
     <Compile Include="Web\Mvc\SelectListItemEx.cs" />
     <Compile Include="Web\Mvc\SelectListItemTree.cs" />
     <Compile Include="Web\Mvc\ViewDataDictionaryExtensions.cs" />
+    <Compile Include="Web\Mvc\WebResourceLoader\DynamicClientResource\IDynamicClientResource.cs" />
+    <Compile Include="Web\Mvc\WebResourceLoader\DynamicClientResource\DynamicClientResourceFactory.cs" />
     <Compile Include="Web\Routing\BoundUrl.cs" />
     <Compile Include="Web\Routing\ContentPathSegment.cs" />
     <Compile Include="Web\Routing\LiteralSubsegment.cs" />

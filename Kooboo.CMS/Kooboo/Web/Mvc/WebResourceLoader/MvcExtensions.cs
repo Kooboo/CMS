@@ -17,6 +17,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Kooboo.Web.Mvc.WebResourceLoader.Configuration;
+using Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource;
 
 
 namespace Kooboo.Web.Mvc.WebResourceLoader
@@ -69,12 +70,35 @@ namespace Kooboo.Web.Mvc.WebResourceLoader
                 case "text/javascript":
                 case "text/ecmascript":
                     {
-                        ReferenceFomatter formatter = (filename, mimeType, attribs) => string.Format("<script src=\"{0}\" type=\"{1}\"{2}></script>", filename, settings.MimeType, attribs);
+                        ReferenceFomatter formatter = (filename, mimeType, attribs) =>
+                        {
+                            var dynamicCss = DynamicClientResourceFactory.Default.ResolveProvider(filename);
+                            if (dynamicCss != null)
+                            {
+                                return dynamicCss.RegisterResource(filename);
+                            }
+                            else
+                            {
+                                return string.Format("<script src=\"{0}\" type=\"{1}\"{2}></script>", filename, settings.MimeType, attribs);
+                            }
+                        };
                         return OutputReferences(htmlHelper.ViewContext, conditions, settings, attributes, formatter, areaName, baseUri);
                     }
                 case "text/css":
                     {
-                        ReferenceFomatter formatter = (filename, mimeType, attribs) => string.Format("<link rel=\"Stylesheet\" href=\"{0}\" type=\"{1}\"{2} />", filename, settings.MimeType, attribs);
+                        ReferenceFomatter formatter = (filename, mimeType, attribs) =>
+                        {
+                            var dynamicCss = DynamicClientResourceFactory.Default.ResolveProvider(filename);
+                            if (dynamicCss != null)
+                            {
+                                return dynamicCss.RegisterResource(filename);
+                            }
+                            else
+                            {
+                                return string.Format("<link rel=\"Stylesheet\" href=\"{0}\" type=\"{1}\"{2} />", filename, settings.MimeType, attribs);
+                            }
+                        };
+
                         return OutputReferences(htmlHelper.ViewContext, conditions, settings, attributes, formatter, areaName, baseUri);
                     }
 
@@ -143,6 +167,10 @@ namespace Kooboo.Web.Mvc.WebResourceLoader
                                 fileUrl = Kooboo.Web.Url.UrlUtility.ToHttpAbsolute(baseUrl, fileUrl);
                             }
                             sb.AppendLine(formatter.Invoke(fileUrl, settings.MimeType, attributes));
+                        }
+                        foreach (var item in DynamicClientResourceFactory.Default.ResolveAllProviders())
+                        {
+                            sb.AppendLine(item.RegisterClientParser());
                         }
                         break;
                 }

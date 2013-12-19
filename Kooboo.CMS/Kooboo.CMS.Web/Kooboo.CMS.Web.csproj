@@ -57,7 +57,17 @@
     <Reference Include="DiffPlex">
       <HintPath>..\..\Lib\DiffPlex.dll</HintPath>
     </Reference>
+    <Reference Include="dotless.AspNet">
+      <HintPath>..\..\Lib\dotLess\dotless.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="dotless.Core, Version=1.3.1.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\dotLess\dotless.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\Lib\dotLess\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -257,6 +267,8 @@
     </Compile>
     <Compile Include="Interoperability\MetaWeblog\MetaWeblogRouteHandler.cs" />
     <Compile Include="KoobooCMSHttpApplicationEvents.cs" />
+    <Compile Include="Misc\DynamicClientResourceDIFactory.cs" />
+    <Compile Include="Misc\LessCssProvider.cs" />
     <Compile Include="Models\AllPropertiesResolver.cs" />
     <Compile Include="Models\ImportModel.cs" />
     <Compile Include="Models\RelationModel_Metadata.cs" />
@@ -755,6 +767,7 @@
     <Content Include="Scripts\jquery.autosize.js" />
     <Content Include="Scripts\jquery.fileDownload.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
+    <Content Include="Scripts\less.js" />
     <Content Include="Scripts\selectivizr-min.js" />
     <Content Include="Scripts\tiny_mce\langs\en.js" />
     <Content Include="Scripts\tiny_mce\langs\zh-cn.js" />
@@ -889,7 +902,6 @@
     <Content Include="Styles\images\line-end.png" />
     <Content Include="Styles\images\line.png" />
     <Content Include="Styles\images\stripe.png" />
-    <Content Include="Styles\reset.css" />
     <Content Include="Styles\select2\select2.css" />
     <Content Include="Styles\select2\select2.png" />
     <Content Include="Styles\select2\select2x2.png" />
@@ -2449,6 +2461,9 @@
       <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
       <Name>Kooboo</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\reset.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

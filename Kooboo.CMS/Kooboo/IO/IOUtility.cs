@@ -682,6 +682,14 @@ namespace Kooboo.IO
             DirectoryInfo dir = new DirectoryInfo(path);
             return dir.EnumerateFiles(searchPattern).Where(it => (it.Attributes & FileAttributes.Hidden) != FileAttributes.Hidden);
         }
+
+        public static IEnumerable<string> EnumerateFilesByExtensions(string path, params string[] extensions)
+        {
+            if (extensions == null)
+                throw new ArgumentNullException("extensions");
+            IEnumerable<string> files = Directory.EnumerateFiles(path);
+            return files.Where(f => extensions.Contains(Path.GetExtension(f)));
+        }
         #endregion
         #endregion
     }

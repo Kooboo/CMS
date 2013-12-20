@@ -15,6 +15,7 @@ using Kooboo.CMS.Sites.Services;
 using Kooboo.Drawing;
 using Kooboo.IO;
 using Kooboo.Web.Mvc.WebResourceLoader;
+using Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,16 +38,27 @@ namespace Kooboo.CMS.Sites.Controllers
             var site = new Site(siteName);
             var scripts = ServiceFactory.ScriptManager.GetFiles(site, "");
 
-            Output(CompressJavascript(scripts.Select(it => it.PhysicalPath), compressed), "text/javascript", 2592000, "*");
+            Output(CompressJavascript(scripts, compressed), "text/javascript", 2592000, "*");
 
             return null;
         }
-        private string CompressJavascript(IEnumerable<string> jsFiles, bool? compressed)
+        private string CompressJavascript(IEnumerable<IPath> jsFiles, bool? compressed)
         {
             StringBuilder sb = new StringBuilder();
             foreach (var file in jsFiles)
             {
-                sb.Append(IOUtility.ReadAsString(file) + ";\n");
+                string content;
+                var dynamicResource = DynamicClientResourceFactory.Default.ResolveProvider(file.VirtualPath);
+
+                if (dynamicResource != null)
+                {
+                    content = dynamicResource.Parse(file.VirtualPath);
+                }
+                else
+                {
+                    content = IOUtility.ReadAsString(file.PhysicalPath);
+                }
+                sb.Append(content + ";\n");
             }
 
             if (!compressed.HasValue || compressed.Value == true)
@@ -64,7 +76,7 @@ namespace Kooboo.CMS.Sites.Controllers
         {
             var scripts = Services.ServiceFactory.ModuleManager.AllScripts(moduleName);
 
-            Output(CompressJavascript(scripts.Select(it => it.PhysicalPath), compressed), "text/javascript", 2592000, "*");
+            Output(CompressJavascript(scripts, compressed), "text/javascript", 2592000, "*");
 
             return null;
         }
@@ -85,11 +97,18 @@ namespace Kooboo.CMS.Sites.Controllers
             StringBuilder sb = new StringBuilder();
             foreach (var file in cssFiles)
             {
-                using (FileStream fileStream = new FileStream(file.PhysicalPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                string content;
+                var dynamicResource = DynamicClientResourceFactory.Default.ResolveProvider(file.PhysicalPath);
+
+                if (dynamicResource != null)
                 {
-                    var content = fileStream.ReadString();
-                    sb.AppendFormat("{0}\n", CSSMinify.Minify(Url, file.VirtualPath, Request.Url.AbsolutePath, content));
+                    content = dynamicResource.Parse(file.VirtualPath);
                 }
+                else
+                {
+                    content = IOUtility.ReadAsString(file.PhysicalPath);
+                }
+                sb.AppendFormat("{0}\n", CSSMinify.Minify(Url, file.VirtualPath, Request.Url.AbsolutePath, content));
             }
             return sb.ToString();
         }

@@ -14,6 +14,7 @@ namespace Kooboo.CMS.Web.Misc
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IDynamicClientResource), Key = "less")]
     public class LessCssProvider : LessCssHttpHandlerBase, IDynamicClientResource
     {
+
         public IEnumerable<string> SupportedFileExtensions
         {
             get { return new[] { ".less" }; }
@@ -67,6 +68,11 @@ namespace Kooboo.CMS.Web.Misc
             var parser = new Parser(stylizer, importer);
             var lessEngine = new LessEngine(parser);
             return lessEngine;
+        }
+
+        public ResourceType ResourceType
+        {
+            get { return Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource.ResourceType.Stylesheet; }
         }
     }
 

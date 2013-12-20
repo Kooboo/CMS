@@ -15,6 +15,7 @@ namespace Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource
 {
     public interface IDynamicClientResource
     {
+        ResourceType ResourceType { get; }
         IEnumerable<string> SupportedFileExtensions { get; }
         bool Accept(string fileName);
         string RegisterResource(string filePath);

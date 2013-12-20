@@ -24,17 +24,6 @@ namespace Kooboo.CMS.Sites.Models
             : base(theme, fileName)
         {
         }
-        public override string FileExtension
-        {
-            get
-            {
-                return ".css";
-            }
-            set
-            {
-
-            }
-        }        
     }
 
     public partial class StyleFile :  IInheritable<StyleFile>

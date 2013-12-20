@@ -40,6 +40,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
 using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
+using Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource;
 namespace Kooboo.CMS.Sites.View
 {
     /// <summary>
@@ -596,7 +597,20 @@ namespace Kooboo.CMS.Sites.View
                 {
                     foreach (var script in siteScripts)
                     {
-                        scripts.Add(this.Html.Script(Kooboo.Web.Url.UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath)));
+                        var virtualPath = Kooboo.Web.Url.UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath);
+                        var dynamicScript = DynamicClientResourceFactory.Default.ResolveProvider(virtualPath);
+                        if (dynamicScript != null)
+                        {
+                            scripts.Add(new HtmlString(dynamicScript.RegisterResource(virtualPath)));
+                        }
+                        else
+                        {
+                            scripts.Add(this.Html.Script(virtualPath));
+                        }
+                    }
+                    foreach (var item in DynamicClientResourceFactory.Default.ResolveAllProviders().Where(it => it.ResourceType == ResourceType.Javascript))
+                    {
+                        scripts.Add(new HtmlString(item.RegisterClientParser()));
                     }
                 }
                 else
@@ -612,7 +626,7 @@ namespace Kooboo.CMS.Sites.View
             //        return GetScriptsBySite(site.Parent, baseUrl);
             //    }
             //}
-            return scripts;
+            return scripts.Distinct(new IHtmlStringComparer());
         }
         private IEnumerable<IHtmlString> IncludeModulesScripts(bool compressed, string baseUri = null)
         {
@@ -721,9 +735,10 @@ namespace Kooboo.CMS.Sites.View
         }
         private IEnumerable<IHtmlString> IncludeThemeStyles(Site site, string themeName, string baseUri = null)
         {
+            List<IHtmlString> htmlStrings = new List<IHtmlString>();
             if (this.PageContext.PageRequestContext.Site.EnableJquery)
             {
-                yield return Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, null, "jQuery-Styles", null, baseUri);
+                htmlStrings.Add(Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, null, "jQuery-Styles", null, baseUri));
             }
 
             string themeRuleBody;
@@ -736,16 +751,32 @@ namespace Kooboo.CMS.Sites.View
                 {
                     foreach (var style in styles)
                     {
-                        yield return this.Html.Stylesheet(UrlUtility.ToHttpAbsolute(baseUri, style.VirtualPath));
+                        var virtualPath = UrlUtility.ToHttpAbsolute(baseUri, style.VirtualPath);
+                        var dynamicCss = DynamicClientResourceFactory.Default.ResolveProvider(virtualPath);
+                        if (dynamicCss != null)
+                        {
+
+                            htmlStrings.Add(new HtmlString(dynamicCss.RegisterResource(virtualPath)));
+                        }
+                        else
+                        {
+                            htmlStrings.Add(this.Html.Stylesheet(virtualPath));
+                        }
+                    }
+                    foreach (var item in DynamicClientResourceFactory.Default.ResolveAllProviders().Where(it => it.ResourceType == ResourceType.Stylesheet))
+                    {
+                        htmlStrings.Add(new HtmlString(item.RegisterClientParser()));
                     }
                 }
                 else
                 {
-                    yield return this.Html.Stylesheet(this.PageContext.FrontUrl.SiteThemeUrl(baseUri, themeName).ToString());
+                    htmlStrings.Add(this.Html.Stylesheet(this.PageContext.FrontUrl.SiteThemeUrl(baseUri, themeName).ToString()));
                 }
             }
 
-            yield return new HtmlString(themeRuleBody);
+            htmlStrings.Add(new HtmlString(themeRuleBody));
+
+            return htmlStrings.Distinct(new IHtmlStringComparer());
         }
         private IEnumerable<IHtmlString> IncludeModuleThemeStyles(string baseUri = null)
         {

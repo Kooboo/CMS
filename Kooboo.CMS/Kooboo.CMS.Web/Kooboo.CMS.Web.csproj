@@ -1074,7 +1074,6 @@
     <Content Include="Areas\Account\Views\Users\ResetPassword.cshtml" />
     <Content Include="Areas\Account\Views\Shared\FrontLayout.cshtml" />
     <Content Include="Areas\Account\Views\Shared\CommonLayout.cshtml" />
-    <Content Include="Areas\Sites\Views\Page\EditorTemplates\CustomFields.cshtml" />
     <Content Include="favicon.ico" />
     <Content Include="Scripts\jquery.numeric.js" />
     <Content Include="Scripts\jquery-globalize\cultures\globalize.culture.af-ZA.js" />

@@ -9,6 +9,8 @@ using dotless.Core.Input;
 using dotless.Core.Parser;
 using dotless.Core.Stylizers;
 using dotless.Core.Importers;
+using dotless.Core.Parser.Infrastructure;
+using dotless.Core.Parser.Tree;
 namespace Kooboo.CMS.Web.Misc
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IDynamicClientResource), Key = "less")]
@@ -59,13 +61,20 @@ namespace Kooboo.CMS.Web.Misc
                 return Path.Combine(_basePath, path);
             }
         }
-
+        public class RawUrlNodeProvider : DefaultNodeProvider, INodeProvider
+        {
+            dotless.Core.Parser.Tree.Url INodeProvider.Url(dotless.Core.Parser.Infrastructure.Nodes.Node value, IImporter importer, NodeLocation location)
+            {
+                //ignore the raw imported file path. It is the default behavior in less.js
+                return new Url(value);
+            }
+        }
         private ILessEngine GetLessEngine(string physicalPath)
         {
             var basePath = Path.GetDirectoryName(physicalPath);
             var stylizer = new PlainStylizer();
             var importer = new Importer(new FileReader(new BasePathResolver(basePath)));
-            var parser = new Parser(stylizer, importer);
+            var parser = new Parser(stylizer, importer) { NodeProvider = new RawUrlNodeProvider() };
             var lessEngine = new LessEngine(parser);
             return lessEngine;
         }

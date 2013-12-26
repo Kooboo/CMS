@@ -266,6 +266,11 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 var leftVisitor = VisitInner(expression.Left);
                 leftClause = leftVisitor.WhereClause;
                 leftViewName = leftVisitor.ViewName;
+                if (leftVisitor.OrderClause!=null)
+                {
+                    this.OrderClause = leftVisitor.OrderClause;    
+                }
+                
                 this.eqUserKeys.AddRange(leftVisitor.EQUserKeys);
             }
 
@@ -276,6 +281,10 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 var rightVisitor = VisitInner(expression.Right);
                 rightClause = rightVisitor.WhereClause;
                 rightViewName = rightVisitor.ViewName;
+                if (rightVisitor.OrderClause != null)
+                {
+                    this.OrderClause = rightVisitor.OrderClause;
+                }
                 this.eqUserKeys.AddRange(rightVisitor.EQUserKeys);
             }
 
@@ -306,6 +315,10 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 var leftVisitor = VisitInner(expression.Left);
                 leftClause = leftVisitor.WhereClause;
                 leftViewName = leftVisitor.ViewName;
+                if (leftVisitor.OrderClause != null)
+                {
+                    this.OrderClause = leftVisitor.OrderClause;
+                }
             }
 
             string rightClause = "";
@@ -315,6 +328,10 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 var rightVisitor = VisitInner(expression.Right);
                 rightClause = rightVisitor.WhereClause;
                 rightViewName = rightVisitor.ViewName;
+                if (rightVisitor.OrderClause != null)
+                {
+                    this.OrderClause = rightVisitor.OrderClause;
+                }
             }
 
             if (!string.IsNullOrEmpty(leftClause) && !string.IsNullOrEmpty(rightClause))

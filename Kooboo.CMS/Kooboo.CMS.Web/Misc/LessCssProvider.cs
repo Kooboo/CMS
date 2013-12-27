@@ -14,9 +14,13 @@ using dotless.Core.Parser.Tree;
 namespace Kooboo.CMS.Web.Misc
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IDynamicClientResource), Key = "less")]
-    public class LessCssProvider : LessCssHttpHandlerBase, IDynamicClientResource
+    public class LessCssProvider : IDynamicClientResource
     {
-
+        #region IDynamicClientResource
+        public ResourceType ResourceType
+        {
+            get { return Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource.ResourceType.Stylesheet; }
+        }
         public IEnumerable<string> SupportedFileExtensions
         {
             get { return new[] { ".less" }; }
@@ -48,7 +52,10 @@ namespace Kooboo.CMS.Web.Misc
                 return lessEngine.TransformToCss(source, null);
             }
             return "";
-        }
+        } 
+        #endregion
+
+        #region GetLessEngine
         public class BasePathResolver : IPathResolver
         {
             string _basePath;
@@ -76,13 +83,9 @@ namespace Kooboo.CMS.Web.Misc
             var importer = new Importer(new FileReader(new BasePathResolver(basePath)));
             var parser = new Parser(stylizer, importer) { NodeProvider = new RawUrlNodeProvider() };
             var lessEngine = new LessEngine(parser);
-            return lessEngine;
+            return lessEngine;            
         }
-
-        public ResourceType ResourceType
-        {
-            get { return Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource.ResourceType.Stylesheet; }
-        }
+        #endregion
     }
 
 

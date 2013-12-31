@@ -257,11 +257,10 @@ namespace Kooboo.CMS.Sites.Services
             {
                 site.DisplayName = "";
                 site.Domains = null;
-            }
-            Update(site);
+            }            
             Provider.Initialize(site);
             Provider.Online(site);
-
+            Update(site);
             return site;
         }
 

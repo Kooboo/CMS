@@ -305,13 +305,13 @@
     </li>
     <li data-bind="if:$data.IsEditing">
         <div class="filter-form clearfix">
-            <h5>Filter:</h5>
+            <h5></h5>
             <table>
                 <tbody>
                     <tr>
                         <td>
                             <select class="short" data-bind="options:metadata.logicList,optionsText:'Text',optionsValue:'Value',value:$data.LogicalTemp"></select>
-                            <select class="medium" data-bind="options:$root.GetSchemaColumns($root.DataRuleSetting().DataRule.FolderName()),optionsText:'Name',optionsValue:'Name',value:$data.FieldNameTemp "></select>
+                            <select class="medium" data-bind="options:$root.GetSchemaColumns($data.FolderName),optionsText:'Name',optionsValue:'Name',value:$data.FieldNameTemp "></select>
                         </td>
                     </tr>
                     <tr>

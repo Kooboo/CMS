@@ -51,7 +51,7 @@ namespace Kooboo.Web.Url
             if (virtualPaths.Length < 1)
                 return null;
 
-            return RawCombine(virtualPaths.Select(it => it.Contains("/") ? it : Uri.EscapeUriString(it)).ToArray());
+            return RawCombine(virtualPaths.Where(it => !string.IsNullOrEmpty(it)).Select(it => it.Contains("/") ? it : Uri.EscapeUriString(it)).ToArray());
         }
 
         /// <summary>

@@ -102,7 +102,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [GridColumn(Order = 7, HeaderText = "Preview", GridItemColumnType = typeof(Page_Preview_GridItemColumn))]
         public string VirtualPath { get; set; }
 
-        [UIHint("CustomFields")]
+        [DisplayName("Custom fields")]
+        [UIHint("Dictionary")]
         public Dictionary<string, string> CustomFields { get; set; }
 
         [Display(Name = "Content title")]

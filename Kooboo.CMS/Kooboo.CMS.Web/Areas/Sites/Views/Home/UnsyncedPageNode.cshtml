@@ -7,13 +7,18 @@
 }
 @if (Model != null)
 {
-    <div class="map-item unsynced">
-        <a title="@((Model.Navigation == null || string.IsNullOrEmpty(Model.Navigation.DisplayText)) ? Model.Name : Model.Navigation.DisplayText)">
-            @((Model.Navigation == null || string.IsNullOrEmpty(Model.Navigation.DisplayText)) ? Model.Name : Model.Navigation.DisplayText)</a>
-        <span class="arrow">@Html.IconImage("arrow-right")</span>
+    <div class="map-item unsynchronized">
+        <span class="status">@Html.IconImage("status")</span>
+        <span class="text trigger" title="@((Model.Navigation == null || string.IsNullOrEmpty(Model.Navigation.DisplayText)) ? Model.Name : Model.Navigation.DisplayText)">
+            @((Model.Navigation == null || string.IsNullOrEmpty(Model.Navigation.DisplayText)) ? Model.Name : Model.Navigation.DisplayText)
+            @Html.IconImage("arrow white-right")
+        </span>
         <ul>
-            <li><a href="@this.Url.Action("Localize1", "Page", routeValues)"  data-confirm="@("Are you sure you want to sync this item?".Localize())" data-ajax="POST">
-                @("Localize".Localize())</a></li>
+            <li>
+                <a href="@this.Url.Action("Localize1", "Page", routeValues)" data-confirm="@("Are you sure you want to sync this item?".Localize())" data-ajax="POST">
+                    @("Localize".Localize())
+                </a>
+            </li>
         </ul>
     </div>
 } 

@@ -15,21 +15,25 @@
 .Merge("UUID", Model.Page.FullName)
 .Merge("return", Request.RawUrl);
 
-    <div class="map-item @( isLocal ? "" : "inherited") @(isStaticPage ? "static" : "dynamic") @(!Model.Page.Published == true ? "unpublished" : "") @(Model.Page.Navigation.Show ? "show-in-menu" : "") @(isABTestPage == true ? "abpage" : "")">
-        <a title="@((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)">
-            @((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)</a>
-        <span class="arrow">@Html.IconImage("arrow-right")</span>
-
+    <div class="map-item @( isLocal ? "" : "inherited") @(isStaticPage ? "static" : "dynamic") @(!Model.Page.Published == true ? "unpublished" : "") @(Model.Page.Navigation.Show ? "show-in-menu" : "") @(isABTestPage == true ? "ab-testing" : "")">
+        <span class="status">@Html.IconImage("status")</span>
+        <span class="text trigger" title="@((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)">
+            <span>@((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)</span>
+            @Html.IconImage("arrow white-right")
+        </span>
         @if (isLocal)
-        {  
+        {
             <ul>
                 @if (isStaticPage)
-                { 
-                    <li><a href="@FrontUrlHelper.Preview(Url, Kooboo.CMS.Sites.Models.Site.Current, Model.Page, null)" target="_blank">
-                        @("Preview".Localize())</a></li>
+                {
+                    <li>
+                        <a href="@FrontUrlHelper.Preview(Url, Kooboo.CMS.Sites.Models.Site.Current, Model.Page, null)" target="_blank">
+                            @("Preview".Localize())
+                        </a>
+                    </li>
                 }
                 @if (hasEditPagePermission)
-                {  
+                {
                     <li class="@(hasDraft == true ? "has-sub" : "")">
                         @if (!hasDraft)
                         {
@@ -38,7 +42,8 @@
                         else
                         {
                             <a>
-                                @("Edit".Localize())</a>
+                                @("Edit".Localize())
+                            </a>
                             <ul>
                                 <li>
                                     @Html.ActionLink("Edit".Localize(), "Edit", routeValues)
@@ -52,81 +57,89 @@
                     <li>
                         @Html.ActionLink("Copy".Localize(), "Copy", routeValues)
                     </li>
-                    <li class="has-sub"><a href="#">
-                        @("New sub page".Localize())
-                    </a>
+                    <li class="has-sub">
+                        <a href="#">
+                            @("New sub page".Localize())
+                        </a>
                         @Html.Partial("_LayoutList", ViewBag.IsRoot == true ? new RouteValueDictionary(routeValues) : new RouteValueDictionary(routeValues).Merge("parentPage", Model.Page.FullName))
                     </li>
-                        if (ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_PublishPermission))
+                    if (ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_PublishPermission))
+                    {
+                        if (!Model.Page.HasParentVersion())
                         {
-                            if (!Model.Page.HasParentVersion())
-                            {
-                    <li>
-                        @Html.ActionLink("Delete".Localize(), "Delete1", "Page", routeValues, new RouteValueDictionary { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete this page?".Localize() } })
-                    </li>
-                            }
-                            else
-                            {
-                    <li>
-                        @Html.ActionLink("Unlocalize".Localize(), "Unlocalize", routeValues, new RouteValueDictionary { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete this page?".Localize() } })
-                    </li>
-                            }
-
-                            if (!Model.Page.Published.Value)
-                            {
-                    <li>
-                        @Html.ActionLink("Publish".Localize(), "Publish", routeValues, new RouteValueDictionary { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to publish this page?".Localize() } })
-                    </li>
-                            }
-                            else
-                            {
-                    <li>
-                        @Html.ActionLink("Unpublish".Localize(), "Unpublish", routeValues, new RouteValueDictionary { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to unpublish this page?".Localize() } })
-                    </li>
-                            }   
-                                           
-                    <li>
-                        @Html.ActionLink("Move To".Localize(), "Move", routeValues, new RouteValueDictionary())
-                    </li>
+                            <li>
+                                @Html.ActionLink("Delete".Localize(), "Delete1", "Page", routeValues, new RouteValueDictionary { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete this page?".Localize() } })
+                            </li>
                         }
+                        else
+                        {
+                            <li>
+                                @Html.ActionLink("Unlocalize".Localize(), "Unlocalize", routeValues, new RouteValueDictionary { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to delete this page?".Localize() } })
+                            </li>
+                        }
+
+                        if (!Model.Page.Published.Value)
+                        {
+                            <li>
+                                @Html.ActionLink("Publish".Localize(), "Publish", routeValues, new RouteValueDictionary { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to publish this page?".Localize() } })
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                @Html.ActionLink("Unpublish".Localize(), "Unpublish", routeValues, new RouteValueDictionary { { "data-ajax", "POST" }, { "data-confirm", "Are you sure you want to unpublish this page?".Localize() } })
+                            </li>
+                        }
+
+                        <li>
+                            @Html.ActionLink("Move To".Localize(), "Move", routeValues, new RouteValueDictionary())
+                        </li>
+                    }
                 }
             </ul>
         }
         else
-        { 
+        {
             <ul>
                 @if (isStaticPage)
-                { 
-                    <li><a href="@FrontUrlHelper.Preview(Url, Kooboo.CMS.Sites.Models.Site.Current, Model.Page, null)"
-                title="preview" target="_blank">
-                        @("Preview".Localize())</a></li>
+                {
+                    <li>
+                        <a href="@FrontUrlHelper.Preview(Url, Kooboo.CMS.Sites.Models.Site.Current, Model.Page, null)"
+                           title="preview" target="_blank">
+                            @("Preview".Localize())
+                        </a>
+                    </li>
                 }
-                <li><a href="@this.Url.Action("Localize1", "Page", routeValues) " data-confirm="@("Are you sure you want to localize this item?".Localize())" data-ajax="POST">
-                    @("Localize".Localize())
-                </a></li>
+                <li>
+                    <a href="@this.Url.Action("Localize1", "Page", routeValues) " data-confirm="@("Are you sure you want to localize this item?".Localize())" data-ajax="POST">
+                        @("Localize".Localize())
+                    </a>
+                </li>
             </ul>
         }
     </div>
-        if (Model.Children.Count() > 0)
-        {
-    <ul>
-        @foreach (var item in Model.Children)
-        {
-            ViewBag.IsRoot = false;
-            <li class="tree-node active">
-                @if (item.Children.Count() > 0)
+    if (Model.Children.Count() > 0)
+    {
+        <div class="children">
+            <ul>
+                @foreach (var item in Model.Children)
                 {
-                    @Html.IconImage("tree-icon")
+                    ViewBag.IsRoot = false;
+                    <li class="tree-node clearfix active">
+                        @if (item.Children.Count() > 0)
+                        {
+                            @Html.IconImage("tree-icon")
+                        }
+                        @Html.Partial("SiteMapNode", item)
+                    </li>
                 }
-                @Html.Partial("SiteMapNode", item)
-            </li>
-        }
-         @foreach (var unsyncedPage in ServiceFactory.PageManager.GetUnsyncedSubPages(Kooboo.CMS.Sites.Models.Site.Current, Model.Page.FullName))
-        {
-            <li class="tree-node active">
-                @Html.Partial("UnsyncedPageNode", unsyncedPage)
-            </li>
-        }
-    </ul>
-        } 
+                @foreach (var unsyncedPage in ServiceFactory.PageManager.GetUnsyncedSubPages(Kooboo.CMS.Sites.Models.Site.Current, Model.Page.FullName))
+                {
+                    <li class="tree-node active">
+                        @Html.Partial("UnsyncedPageNode", unsyncedPage)
+                    </li>
+                }
+            </ul>
+        </div>
+    }
 } 

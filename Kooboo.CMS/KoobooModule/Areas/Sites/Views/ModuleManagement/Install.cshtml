@@ -60,11 +60,11 @@
         else
         {
             <input type="hidden" name="ModuleName" value="@Model.ModuleName" />
-            <div class="columns clearfix">
-                <div class="col-32">
+            <div class="columns">
+                <div class="span8">
                     <div class="content">
                         <p>
-                           @("You have uploaded below module installation file. If this is not the module file you want, ".Localize())<a class="upload-link" title="@("Click to select file".Localize())">
+                            @("You have uploaded below module installation file. If this is not the module file you want, ".Localize())<a class="upload-link" title="@("Click to select file".Localize())">
                                 <span>
                                     <input type="file" name="ModuleFile" accept="" />
                                 </span>@("click here".Localize())

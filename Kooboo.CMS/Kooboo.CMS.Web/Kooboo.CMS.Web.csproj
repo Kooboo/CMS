@@ -866,8 +866,11 @@
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
     <Content Include="Styles\Diff\Main.css" />
+    <Content Include="Styles\fonts\opensans-bold-webfont.svg" />
+    <Content Include="Styles\fonts\opensans-extrabold-webfont.svg" />
     <Content Include="Styles\fonts\opensans-light-webfont.svg" />
     <Content Include="Styles\fonts\opensans-regular-webfont.svg" />
+    <Content Include="Styles\fonts\opensans-semibold-webfont.svg" />
     <Content Include="Styles\images\icon-insert-page.png" />
     <Content Include="Styles\images\media-library.png" />
     <Content Include="Styles\InlineEditing.css" />
@@ -875,7 +878,6 @@
     <Content Include="Styles\jquery-ui.css" />
     <Content Include="Styles\jQuery.jCrop\Jcrop.gif" />
     <Content Include="Styles\jQuery.jCrop\jquery.Jcrop.css" />
-    <Content Include="Styles\reset.css" />
     <Content Include="Styles\validation.css" />
     <Content Include="Views\Shared\Import.cshtml" />
     <Content Include="Areas\Sites\WebResources.config">
@@ -899,8 +901,6 @@
     <Content Include="Scripts\Kooboo_CMS.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\underscore.js" />
-    <Content Include="Styles\base.css" />
-    <Content Include="Styles\common.css" />
     <Content Include="Styles\ie.css" />
     <Content Include="Styles\images\arrows.png" />
     <Content Include="Styles\images\icons.png" />
@@ -2474,6 +2474,51 @@
     <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\tinymce.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\base.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\main.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\less-element.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\icon.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\sitemap.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\grid.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\common.less" />
+    <Content Include="Styles\reset.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\ui.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\fonts\opensans-bold-webfont.eot" />
+    <Content Include="Styles\fonts\opensans-bold-webfont.ttf" />
+    <Content Include="Styles\fonts\opensans-bold-webfont.woff" />
+    <Content Include="Styles\fonts\opensans-extrabold-webfont.eot" />
+    <Content Include="Styles\fonts\opensans-extrabold-webfont.ttf" />
+    <Content Include="Styles\fonts\opensans-extrabold-webfont.woff" />
+    <Content Include="Styles\fonts\opensans-semibold-webfont.eot" />
+    <Content Include="Styles\fonts\opensans-semibold-webfont.ttf" />
+    <Content Include="Styles\fonts\opensans-semibold-webfont.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\form.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\table.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\column.less" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

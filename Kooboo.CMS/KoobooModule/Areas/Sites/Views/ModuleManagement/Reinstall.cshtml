@@ -69,8 +69,8 @@
                     </a> @("to select a new module file.".Localize())
                 </p>
             </div>
-            <div class="columns clearfix">
-                <div class="col-31">
+            <div class="columns">
+                <div class="span4">
                     <div class="block box">
                         <div class="title">@("Current version:".Localize())</div>
                         <div class="container">
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-31">
+                <div class="span4">
                     <div class="block box">
                         <div class="title">@("New version:".Localize())</div>
                         <div class="container">
@@ -119,8 +119,8 @@
             </div>
             if (Model.ConflictedAssemblies.Count() > 0)
             {
-                <div class="columns clearfix">
-                    <div class="col-32">
+                <div class="columns">
+                    <div class="span8">
                         <div class="content">
                             <p>@("We are about to overwrite the following assembly files. If files that you do not want to overwrite, please remove them from module installation zip file.".Localize())</p>
                         </div>

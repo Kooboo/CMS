@@ -7,7 +7,8 @@
     <th>@(string.IsNullOrEmpty(Model.Label) ? Model.Name : Model.Label)</th>
     <td>
         <div id="@containerId" class="mediafile">
-            <input id="@Model.Name" name="@Model.Name" type="hidden" value='@valueGetter' data-bind="value:fieldValue"/>
+            <input id="@Model.Name" name="@Model.Name" type="hidden" value='@valueGetter' data-bind="value:fieldValue" @Html.Raw(Kooboo.CMS.Form.Html.ValidationExtensions.GetUnobtrusiveValidationAttributeString(Model)) />
+            @Html.ValidationMessageForColumn(Model,new Dictionary<string, object>())
             <ul class="clearfix" data-bind="foreach:data">
                 <!-- ko if: isImage -->
                 <li class="img">

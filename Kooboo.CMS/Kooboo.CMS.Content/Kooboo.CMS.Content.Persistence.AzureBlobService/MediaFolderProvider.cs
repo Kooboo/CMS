@@ -155,7 +155,10 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             locker.EnterReadLock();
             try
             {
-                return ToMediaFolders(parent.Repository, GetList(parent.Repository)).Where(it => it.Parent == parent);
+                var query = ToMediaFolders(parent.Repository, GetList(parent.Repository));
+                //loop bug in azure
+                query = query.Where(it => (parent == null && it.Parent == null) || (it.Parent != null && it.Parent.UUID == parent.UUID));
+                return query;
             }
             finally
             {

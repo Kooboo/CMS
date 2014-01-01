@@ -43,7 +43,11 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 
             if (!string.IsNullOrEmpty(fileName))
             {
-                var blob = blobClient.GetBlobReference(mediaFolder.GetMediaFolderItemPath(fileName));
+                var blob = blobClient.GetBlockBlobReference(mediaFolder.GetMediaFolderItemPath(fileName));
+                if (!blob.Exists())
+                {
+                    return new CloudBlob[] { };
+                }
                 blob.FetchAttributes();
                 return new[] { blob };
             }
@@ -284,11 +288,16 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         {
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
 
-            var oldContentBlob = blobClient.GetBlobReference(oldMediaContent.GetMediaBlobPath());
-            var newContentBlob = blobClient.GetBlobReference(newMediaContent.GetMediaBlobPath());
-            newContentBlob.CopyFromBlob(oldContentBlob);
+            var oldContentBlob = blobClient.GetBlockBlobReference(oldMediaContent.GetMediaBlobPath());
+            var newContentBlob = blobClient.GetBlockBlobReference(newMediaContent.GetMediaBlobPath());
+            if (oldContentBlob.Exists() && !newContentBlob.Exists())
+            {
+                newContentBlob.CopyFromBlob(oldContentBlob);
+                newContentBlob.Metadata["FileName"] = newMediaContent.FileName;
+                newContentBlob.SetMetadata();
+                oldContentBlob.DeleteIfExists();
+            }
 
-            oldContentBlob.DeleteIfExists();
         }
 
         public void Add(MediaContent content)

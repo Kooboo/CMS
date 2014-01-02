@@ -667,7 +667,7 @@ namespace Kooboo.CMS.Sites.Services
         }
         #endregion
 
-        protected virtual void FlushWebResourceCache(Site site, PathResource resource)
+        public virtual void FlushWebResourceCache(Site site, PathResource resource)
         {
             site = site.AsActual();
             var ticks = DateTime.UtcNow.ToString("yyyyMMddHHmmss");

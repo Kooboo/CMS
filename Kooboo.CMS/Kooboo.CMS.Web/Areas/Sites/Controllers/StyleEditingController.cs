@@ -25,6 +25,15 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
     [Authorization(AreaName = "Sites", Group = "Page", Name = "Style editing", Order = 1)]
     public class StyleEditingController : Kooboo.CMS.Sites.AreaControllerBase
     {
+        #region .ctor
+        public ThemeManager ThemeManager { get; private set; }
+        public StyleEditingController(ThemeManager themeManager)
+        {
+            ThemeManager = themeManager;
+        }
+        #endregion
+
+        #region EditPage
         public virtual ActionResult FrontEnd(string siteName, bool? _draft_)
         {
             var manager = ServiceFactory.GetService<ThemeManager>();
@@ -38,7 +47,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             // ret
             return View();
         }
+        #endregion
 
+        #region Save
         [HttpPost]
         public virtual ActionResult SaveFile(string siteName, string filePath, string fileContent, bool? _draft_)
         {
@@ -48,31 +59,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 // save content
                 filePath = Server.MapPath(filePath);
                 System.IO.File.WriteAllText(filePath, fileContent, System.Text.Encoding.UTF8);
-                // update version
-                string styleVersion = null;
-                var versionPrefix = string.Empty;
-                var version = this.Site.Version.Trim();
-                for (var i = version.Length - 1; i > -1; i--)
-                {
-                    var charAt = version[i];
-                    if (char.IsNumber(charAt))
-                    {
-                        styleVersion = charAt + styleVersion;
-                    }
-                    else
-                    {
-                        versionPrefix = version.Substring(0, i);
-                        break;
-                    }
-                }
-                styleVersion = styleVersion ?? "0";
-                styleVersion = (int.Parse(styleVersion) + 1).ToString();
-                this.Site.Version = versionPrefix + "." + styleVersion;
-                ServiceFactory.SiteManager.Update(this.Site);
+                ThemeManager.FlushWebResourceCache(Site, null);
             });
             return Json(data);
         }
+        #endregion
 
+        #region Js resources
         public virtual ActionResult Localization()
         {
             var json = (new
@@ -158,5 +151,6 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             // ret
             return JavaScript(string.Format("var __localization = {0};", json));
         }
+        #endregion
     }
 }

@@ -661,7 +661,7 @@ namespace Kooboo.CMS.Sites.Models
             }
         }
 
-        private bool? enableStyleEdting = true;
+        private bool? enableStyleEdting = false;
         [DataMember(Order = 23)]
         public bool? EnableStyleEdting
         {
@@ -669,7 +669,7 @@ namespace Kooboo.CMS.Sites.Models
             {
                 if (enableStyleEdting == null)
                 {
-                    enableStyleEdting = true;
+                    enableStyleEdting = false;
                 }
                 return enableStyleEdting;
             }

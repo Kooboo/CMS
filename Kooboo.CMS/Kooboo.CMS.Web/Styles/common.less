@@ -255,13 +255,18 @@ body {
 	}
 
 	#header & {
-		ul a:hover {
-			background: #F3F3F3;
-		}
+		ul a {
+			color: #000;
+			white-space: nowrap;
 
-		ul a:active {
-			background: #006CAD;
-			color: #FFF;
+			&:hover {
+				background: #F3F3F3;
+			}
+
+			&:active {
+				background: #006CAD;
+				color: #FFF;
+			}
 		}
 
 		.active > a {

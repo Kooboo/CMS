@@ -24,6 +24,11 @@ input, button, select, textarea {
 	font: inherit;
 }
 
+	input[type="checkbox"]:focus,
+	input[type="radio"]:focus {
+		outline: 1px dotted #000;
+	}
+
 /* Checkbox & Radio list
 ----------------------------------------------------------*/
 .checkbox-list li,
@@ -409,6 +414,7 @@ input, button, select, textarea {
 }
 
 	.common-form input:focus,
+	.common-form select:focus,
 	.common-form textarea:focus {
 		border-color: #666;
 	}

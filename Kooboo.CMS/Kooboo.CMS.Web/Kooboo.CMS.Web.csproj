@@ -874,6 +874,8 @@
     <Content Include="Styles\fonts\opensans-regular-webfont.svg" />
     <Content Include="Styles\fonts\opensans-semibold-webfont.svg" />
     <Content Include="Styles\images\icon-insert-page.png" />
+    <Content Include="Styles\images\line-x.png" />
+    <Content Include="Styles\images\line-y.png" />
     <Content Include="Styles\images\media-library.png" />
     <Content Include="Styles\InlineEditing.css" />
     <Content Include="Styles\jquery-ui-timepicker-addon.css" />

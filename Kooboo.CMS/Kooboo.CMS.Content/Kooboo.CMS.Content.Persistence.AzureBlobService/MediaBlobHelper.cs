@@ -66,7 +66,36 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             {
                 blob.Metadata["Size"] = mediaContent.ContentFile.Stream.Length.ToString();
             }
+            if (mediaContent.Metadata != null)
+            {
+                if (!string.IsNullOrEmpty(mediaContent.Metadata.AlternateText))
+                {
+                    blob.Metadata["AlternateText"] = mediaContent.Metadata.AlternateText;
+                }
+                else if(blob.Metadata.AllKeys.Contains("AlternateText"))
+                {
+                    blob.Metadata.Remove("AlternateText");
+                }
 
+                if (!string.IsNullOrEmpty(mediaContent.Metadata.Description))
+                {
+                    blob.Metadata["Description"] = mediaContent.Metadata.Description;
+                }
+                else if (blob.Metadata.AllKeys.Contains("Description"))
+                {
+                    blob.Metadata.Remove("Description");
+                }
+
+                if (!string.IsNullOrEmpty(mediaContent.Metadata.Title))
+                {
+                    blob.Metadata["Title"] = mediaContent.Metadata.Title;
+                }
+                else if (blob.Metadata.AllKeys.Contains("Title"))
+                {
+                    blob.Metadata.Remove("Title");
+                }
+                
+            }
 
             blob.Properties.ContentType = Kooboo.IO.IOUtility.MimeType(mediaContent.FileName);
             return blob;
@@ -89,6 +118,14 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             mediaContent.UUID = mediaContent.FileName;
             mediaContent.UserId = blob.Metadata["UserId"];
             mediaContent.VirtualPath = blob.Uri.ToString();
+            if (mediaContent.Metadata == null)
+            {
+                mediaContent.Metadata = new MediaContentMetadata();
+            }
+
+            mediaContent.Metadata.AlternateText = blob.Metadata["AlternateText"];
+            mediaContent.Metadata.Description = blob.Metadata["Description"];
+            mediaContent.Metadata.Title = blob.Metadata["Title"];
             return mediaContent;
         } 
         #endregion

@@ -84,6 +84,9 @@ namespace Kooboo.CMS.Content.Persistence
         void Add(MediaContent content, bool @overrided);
         void Move(MediaFolder sourceFolder, string oldFileName, MediaFolder targetFolder, string newFileName);
 
+        Stream GetContentStream(MediaContent content);
+        void SaveContentStream(MediaContent content,Stream stream);
+
         void InitializeMediaContents(Repository repository);        
     }
 }

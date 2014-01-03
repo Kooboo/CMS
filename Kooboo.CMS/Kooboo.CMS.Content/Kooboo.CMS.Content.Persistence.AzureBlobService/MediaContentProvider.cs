@@ -316,7 +316,6 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             var contentBlob = blobClient.GetBlobReference(@new.GetMediaBlobPath());
 
             contentBlob = @new.MediaContentToBlob(contentBlob);
-
             contentBlob.SetMetadata();
 
             @new.VirtualPath = contentBlob.Uri.ToString();
@@ -410,6 +409,35 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             foreach (var item in fileMediaFolderProvider.ChildFolders(mediaFolder))
             {
                 ImportMediaFolderDataCascading(item);
+            }
+        }
+
+
+        public Stream GetContentStream(MediaContent content)
+        {
+            var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
+            var contentBlob = blobClient.GetBlobReference(content.GetMediaBlobPath());
+
+            var stream = new MemoryStream();
+            if (contentBlob.Exists())
+            {
+                contentBlob.DownloadToStream(stream);
+            }
+            return stream;
+        }
+
+        public void SaveContentStream(MediaContent content, Stream stream)
+        {
+            if (stream.Length == 0)
+            {
+                return;
+            }
+            var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
+            var contentBlob = blobClient.GetBlobReference(content.GetMediaBlobPath());
+
+            if (contentBlob.Exists())
+            {
+                contentBlob.UploadFromStream(stream);
             }
         }
     }

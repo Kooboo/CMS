@@ -346,6 +346,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
             Manager.Provider.Export(model, Response.OutputStream);
         }
+
+        [HttpPost]
+        public virtual void ExportAll()
+        {
+            var allViews = Manager.Provider.All(Site).ToArray();
+            Export(allViews);
+        }
         #endregion
         #endregion
 

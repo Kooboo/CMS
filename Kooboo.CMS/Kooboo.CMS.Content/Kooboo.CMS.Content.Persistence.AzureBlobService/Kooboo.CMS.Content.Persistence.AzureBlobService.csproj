@@ -56,6 +56,7 @@
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
     <Compile Include="AssemblyInitializer.cs" />
+    <Compile Include="BlobNameEncoder.cs" />
     <Compile Include="CloudBlobExtension.cs" />
     <Compile Include="DependencyRegistrar.cs" />
     <Compile Include="TextContentBlobHelper.cs" />
@@ -84,9 +85,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>echo copy "$(TargetDir)\$(TargetFileName)" "..\..\..\..\Kooboo.CMS.Web\Bin\"
-echo copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\Kooboo.CMS.Web\Bin\"
-echo copy "..\..\..\..\..\Lib\Azure\*.dll" "..\..\..\..\Kooboo.CMS.Web\Bin\"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)\$(TargetFileName)" "..\..\..\..\Kooboo.CMS.Web\Bin\"
+copy "$(TargetDir)\$(TargetName).pdb" "..\..\..\..\Kooboo.CMS.Web\Bin\"
+copy "..\..\..\..\..\Lib\Azure\*.dll" "..\..\..\..\Kooboo.CMS.Web\Bin\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -149,7 +149,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         {
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
 
-            var container = blobClient.GetContainerReference(repository.Name.ToLower());
+            var container = blobClient.GetContainerReference(BlobNameEncoder.EncodeContainerName(repository.Name));
 
             var created = container.CreateIfNotExist();
             if (created)
@@ -166,7 +166,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         {
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
 
-            var container = blobClient.GetContainerReference(repository.Name.ToLower());
+            var container = blobClient.GetContainerReference(BlobNameEncoder.EncodeContainerName(repository.Name));
 
             container.Delete();
         } 

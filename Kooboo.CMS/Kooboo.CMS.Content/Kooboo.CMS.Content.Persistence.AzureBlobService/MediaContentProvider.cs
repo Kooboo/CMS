@@ -429,13 +429,23 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         public Stream GetContentStream(MediaContent content)
         {
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
-            var contentBlob = blobClient.GetBlobReference(content.GetMediaBlobPath());
+            var path=string.Empty;
+            if(string.IsNullOrEmpty(content.GetRepository().Name))
+            {
+                path = content.VirtualPath.Substring(AzureBlobServiceSettings.Instance.Endpoint.Length);
+            }
+            else
+            {
+                path = content.GetMediaBlobPath();
+            }
+            var contentBlob =  blobClient.GetBlobReference(path);
 
             var stream = new MemoryStream();
             if (contentBlob.Exists())
             {
                 contentBlob.DownloadToStream(stream);
             }
+            stream.Position = 0;
             return stream;
         }
 

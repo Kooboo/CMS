@@ -19,6 +19,7 @@ using Kooboo.CMS.Content.Query.Expressions;
 using System.Linq.Expressions;
 using Kooboo.CMS.Content.Query;
 using System.IO;
+using Kooboo.CMS.Content.Query.Translator;
 
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
@@ -26,7 +27,6 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 
     public class QueryExpressionTranslator : Kooboo.CMS.Content.Query.Translator.ExpressionVisitor
     {
-
         public CallType CallType { get; set; }
         private int? Skip { get; set; }
         private int? Take { get; set; }
@@ -199,7 +199,8 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 
         protected override void VisitOrder(Query.Expressions.OrderExpression expression)
         {
-            ThrowNotSupported();
+            OrderFields.Add(new OrderField() { FieldName = expression.FieldName, Descending = expression.Descending });
+            //ThrowNotSupported();
         }
 
         protected override void VisitWhereBetweenOrEqual(Query.Expressions.WhereBetweenOrEqualExpression expression)
@@ -356,6 +357,18 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             var blobs = translator.Translate(query.Expression, blobClient, mediaQuery.MediaFolder)
                 .Where(it => it != null)
                 .Select(it => it.BlobToMediaContent(new MediaContent(mediaQuery.Repository.Name, mediaQuery.MediaFolder.FullName)));
+
+            foreach (var item in translator.OrderFields)
+            {
+                if (item.Descending)
+                {
+                    blobs = blobs.OrderByDescending(it => it.GetType().GetProperty(item.FieldName).GetValue(it,null));
+                }
+                else
+                {
+                    blobs = blobs.OrderBy(it => it.GetType().GetProperty(item.FieldName).GetValue(it,null));
+                }
+            }
             //translator.Visite(query.Expression);
 
             switch (translator.CallType)

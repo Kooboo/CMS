@@ -18,12 +18,17 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
     {
         public static string Encode(string moduleUrl)
         {
-            return moduleUrl.Replace("?", "~~");
+            var encoded = moduleUrl.Replace("?", "~~");
+            encoded = encoded.Replace("&amp;", "$$");
+            encoded = encoded.Replace("&", "$$");
+            return encoded;
         }
         public static string Decode(string encodedModuleUrl)
         {
             var url = HttpUtility.UrlDecode(encodedModuleUrl);
-            return encodedModuleUrl.Replace("~~", "?");
+            var decoded = encodedModuleUrl.Replace("~~", "?");
+            decoded = decoded.Replace("$$", "&");
+            return decoded;
         }
         public static string RemoveApplicationPath(string moduleUrl, string applicationPath)
         {

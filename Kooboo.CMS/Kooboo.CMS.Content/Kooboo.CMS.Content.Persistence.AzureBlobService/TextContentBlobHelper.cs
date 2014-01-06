@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         public static string GetTextContentDirectoryPath(this TextContent textContent)
         {
             var textFolder = textContent.GetFolder();
-            return UrlUtility.Combine(new string[] { textFolder.Repository.Name.ToLower(), TextContentFileDirectoryName }
+            return UrlUtility.Combine(new string[] { BlobNameEncoder.EncodeContainerName(textFolder.Repository.Name), TextContentFileDirectoryName }
                .Concat(textFolder.NamePaths)
                .Concat(new[] { textContent.UUID })
                .ToArray());

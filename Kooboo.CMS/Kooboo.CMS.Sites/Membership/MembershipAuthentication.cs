@@ -88,15 +88,22 @@ namespace Kooboo.CMS.Sites.Membership
                 var authCookie = GetAuthCookie(_site, _httpContext.Request.Cookies);
                 if (authCookie != null && authCookie.Expires < DateTime.Now)
                 {
-                    var encryptedTicket = authCookie.Value;
-                    var ticket = FormsAuthentication.Decrypt(encryptedTicket);
-                    if (!ticket.Expired)
+                    try
                     {
-                        var membershipUser = GetMembershipUser(ticket.Name);
-                        if (membershipUser != null)
+                        var encryptedTicket = authCookie.Value;
+                        var ticket = FormsAuthentication.Decrypt(encryptedTicket);
+                        if (!ticket.Expired)
                         {
-                            memberPrincipal = new GenericPrincipal(new FormsIdentity(ticket), membershipUser.MembershipGroups);
+                            var membershipUser = GetMembershipUser(ticket.Name);
+                            if (membershipUser != null)
+                            {
+                                memberPrincipal = new GenericPrincipal(new FormsIdentity(ticket), membershipUser.MembershipGroups);
+                            }
                         }
+                    }
+                    catch (Exception e)
+                    {
+                        Kooboo.HealthMonitoring.Log.LogException(e);
                     }
                 }
 

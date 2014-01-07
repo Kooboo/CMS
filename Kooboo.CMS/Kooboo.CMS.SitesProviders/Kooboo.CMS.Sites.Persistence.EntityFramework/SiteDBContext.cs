@@ -31,6 +31,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework
             builder.Configurations.Add(new System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<LabelProvider.CategoryEntity>());
             builder.Configurations.Add(new System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<LabelProvider.LabelEntity>());
             builder.Configurations.Add(new UserProvider.Mapping.SiteUserMapping());
+            builder.Configurations.Add(new SiteProvider.Mapping.SiteSettingMapping());
 
             dbCompiledModel = builder.Build(new System.Data.Entity.Infrastructure.DbProviderInfo(SiteEntitySetting.Instance.ProviderInvariantName, SiteEntitySetting.Instance.ProviderManifestToken)).Compile();
 
@@ -53,5 +54,6 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework
         public DbSet<LabelProvider.CategoryEntity> LabelCategories { get; set; }
         public DbSet<LabelProvider.LabelEntity> Labels { get; set; }
         public DbSet<UserProvider.SiteUserEntity> SiteUsers { get; set; }
+        public DbSet<SiteProvider.SiteEntity> SiteSettings { get; set; }
     }
 }

@@ -149,7 +149,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
             CopyFiles(moduleName, @overrideFiles);
         }
         public void RunInstallation(string moduleName, ControllerContext controllerContext, string user)
-        {           
+        {
             RunEvent(moduleName, controllerContext);
             ModuleInfo moduleInfo = ModuleInfo.Get(moduleName);
             var installationFile = this._installationFileManager.ArchiveTempInstallationPath(moduleName, moduleInfo.Version);
@@ -170,14 +170,17 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
             var binPath = Settings.BinDirectory;
             foreach (var item in assemblyFiles)
             {
-                var fileName = Path.GetFileName(item);
-                var fileNameInBin = Path.Combine(binPath, fileName);
-                var exists = File.Exists(fileNameInBin);
-                if (!exists || (exists && overrideSystemVersion))
+                if (!_assemblyReferences.IsSystemAssembly(item))
                 {
-                    File.Copy(item, fileNameInBin, overrideSystemVersion);
+                    var fileName = Path.GetFileName(item);
+                    var fileNameInBin = Path.Combine(binPath, fileName);
+                    var exists = File.Exists(fileNameInBin);
+                    if (!exists || (exists && overrideSystemVersion))
+                    {
+                        File.Copy(item, fileNameInBin, overrideSystemVersion);
+                    }
+                    _assemblyReferences.AddReference(fileNameInBin, moduleName);
                 }
-                _assemblyReferences.AddReference(fileNameInBin, moduleName);
             }
         }
         #endregion

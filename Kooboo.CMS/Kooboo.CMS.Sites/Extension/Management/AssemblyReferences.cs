@@ -77,7 +77,7 @@ namespace Kooboo.CMS.Sites.Extension.Management
                 {
                     var fileName = Path.GetFileName(item);
                     var version = GetAssemblyVersion(item);
-                    list.Add(new AssemblyReferenceData(fileName, version, "System"));
+                    list.Add(new AssemblyReferenceData(fileName, version, "System") { IsSystemAssembly = true });
                 }
                 return list;
             }
@@ -120,6 +120,20 @@ namespace Kooboo.CMS.Sites.Extension.Management
         #endregion
 
         #region Check
+        public bool IsSystemAssembly(string assemblyFile)
+        {
+            var referenceCollection = GetReferenceCollection();
+            var fileName = Path.GetFileName(assemblyFile);
+            var reference = referenceCollection[fileName];
+            if (reference == null)
+            {
+                return false;
+            }
+            else
+            {
+                return reference.IsSystemAssembly;
+            }
+        }
         public IEnumerable<ConflictedAssemblyReference> Check(IEnumerable<string> assemblies)
         {
             var referenceCollection = GetReferenceCollection();

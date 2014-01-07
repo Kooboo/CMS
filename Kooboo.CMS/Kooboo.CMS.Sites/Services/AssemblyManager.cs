@@ -154,11 +154,13 @@ namespace Kooboo.CMS.Sites.Services
             var files = GetFiles(site);
             foreach (var file in files)
             {
-                var fileInBin = GetAssemblyBinFilePath(file.FileName);
-                if (!File.Exists(fileInBin))
+                if (!_assemblyReferences.IsSystemAssembly(file.PhysicalPath))
                 {
-                    File.Copy(file.PhysicalPath, fileInBin);
+                    var fileInBin = GetAssemblyBinFilePath(file.FileName);
+
+                    File.Copy(file.PhysicalPath, fileInBin, true);
                     _assemblyReferences.AddReference(file.PhysicalPath, GetReferenceName(site));
+
                 }
             }
             //foreach (var file in files)

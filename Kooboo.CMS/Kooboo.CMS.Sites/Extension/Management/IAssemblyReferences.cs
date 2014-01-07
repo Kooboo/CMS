@@ -8,7 +8,7 @@ namespace Kooboo.CMS.Sites.Extension.Management
     public interface IAssemblyReferences
     {
         IEnumerable<ConflictedAssemblyReference> Check(IEnumerable<string> assemblyFiles);
-
+        bool IsSystemAssembly(string assemblyFile);
         void AddReference(string assemblyFile, string user);
 
         /// <summary>

@@ -119,26 +119,26 @@ namespace Kooboo.CMS.Sites.Models
         }
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            //StringBuilder sb = new StringBuilder();
 
-            if (parameters != null)
-            {
-                foreach (var item in parameters)
-                {
-                    sb.AppendFormat("{0}:{1},", item.Name, item.Value);
-                }
-                if (sb.Length > 0)
-                {
-                    sb.Remove(sb.Length - 1, 1);
-                }
-            }
+            //if (parameters != null)
+            //{
+            //    foreach (var item in parameters)
+            //    {
+            //        sb.AppendFormat("{0}:{1},", item.Name, item.Value);
+            //    }
+            //    if (sb.Length > 0)
+            //    {
+            //        sb.Remove(sb.Length - 1, 1);
+            //    }
+            //}
 
             var s = "View:" + this.ViewName;
 
-            if (sb.Length > 0)
-            {
-                s = s + "(" + sb + ")";
-            }
+            //if (sb.Length > 0)
+            //{
+            //    s = s + "(" + sb + ")";
+            //}
 
             return s;
         }

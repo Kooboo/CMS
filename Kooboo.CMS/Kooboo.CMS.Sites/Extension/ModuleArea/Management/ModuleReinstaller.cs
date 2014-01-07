@@ -35,12 +35,15 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #region RunEvent
         public void RunEvent(string moduleName, System.Web.Mvc.ControllerContext controllerContext)
         {
-            var moduleEvents = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleReinstallingEvents>(moduleName);
-
-            if (moduleEvents != null)
+            var moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleReinstallingEvents>(moduleName);
+            if (moduleEvent == null)
+            {
+                moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
+            }
+            if (moduleEvent != null)
             {
                 var installationContext = _installationFileManager.GetLastestInstallation(moduleName);
-                moduleEvents.OnReinstalling(new ModuleContext(moduleName), controllerContext, installationContext);
+                moduleEvent.OnReinstalling(new ModuleContext(moduleName), controllerContext, installationContext);
             }
         }
         #endregion
@@ -51,16 +54,20 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
             result.SourceModuleInfo = ModuleInfo.Get(moduleName);
             return result;
         }
-
-        public void RunReinstallation(string moduleName, ControllerContext controllerContext, bool overrideFiles, string user)
+        public void CopyAssemblies(string moduleName, bool @overrideFiles)
         {
             ModuleInfo sourceModuleInfo = ModuleInfo.Get(moduleName);
 
             _moduleUninstaller.RemoveAssemblies(moduleName);
             _moduleUninstaller.RemoveModuleArea(moduleName);
             _moduleInstaller.CopyFiles(moduleName, overrideFiles);
-            RunEvent(moduleName, controllerContext);
+        }
 
+        public void RunReinstallation(string moduleName, ControllerContext controllerContext, string user)
+        {
+            ModuleInfo sourceModuleInfo = ModuleInfo.Get(moduleName);
+
+            RunEvent(moduleName, controllerContext);
             ModuleInfo targetModuleInfo = ModuleInfo.Get(moduleName);
             var installationFile = this._installationFileManager.ArchiveTempInstallationPath(moduleName, targetModuleInfo.Version);
             this._installationFileManager.LogInstallation(moduleName, new InstallationContext(sourceModuleInfo.ModuleName, sourceModuleInfo.Version, targetModuleInfo.Version, DateTime.UtcNow) { User = user, InstallationFileName = installationFile });

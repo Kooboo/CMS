@@ -148,7 +148,12 @@ namespace Kooboo.CMS.Sites.Services
         #region ResolveModuleAction
         protected virtual Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents ResolveModuleAction(string moduleName)
         {
-            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents>(moduleName);
+            var moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents>(moduleName);
+            if (moduleEvent == null)
+            {
+                moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
+            }
+            return moduleEvent;
         }
         #endregion
 

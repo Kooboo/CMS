@@ -36,14 +36,21 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         UploadModuleResult Upload(string moduleName, Stream moduleStream, string user);
 
         /// <summary>
+        /// Copies the assemblies.
+        /// </summary>
+        /// <param name="moduleName">Name of the module.</param>
+        /// <param name="overrideFiles">if set to <c>true</c> [override files].</param>
+        void CopyAssemblies(string moduleName, bool @overrideFiles);
+
+        /// <summary>
         /// 执行安装动作
         /// 1. 将临时安装目录的文件拷贝到Areas目录，并且Bin目录拷贝到系统Bin目录
         /// 2. 执行安装事件。
         /// </summary>
         /// <param name="moduleName">Name of the module.</param>
         /// <param name="controllerContext">The controller context.</param>
-        /// <param name="overrideFiles">if set to <c>true</c> [override files].</param>
-        void RunReinstallation(string moduleName, ControllerContext controllerContext, bool @overrideFiles, string user);
+        /// <param name="user">The user.</param>
+        void RunReinstallation(string moduleName, ControllerContext controllerContext, string user);
 
         IPath GetTempInstallationPath(string moduleName);
     }

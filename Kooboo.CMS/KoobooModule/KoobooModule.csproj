@@ -341,7 +341,6 @@
     <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\reset.css" />
     <Content Include="Cms_Data\Sites\SampleSite\Themes\Default\Theme.rule" />
     <Content Include="Cms_Data\Sites\SampleSite\Users\admin.config" />
-    <Content Include="Cms_Data\Sites\SampleSite\WebEvents\2013-12-18.log" />
     <Content Include="Cms_Data\SiteTemplates\Empty.zip" />
     <Content Include="Cms_Data\SiteTemplates\SampleSite.png" />
     <Content Include="Cms_Data\SiteTemplates\SampleSite.zip" />

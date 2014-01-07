@@ -124,7 +124,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
                     tempInstallationPath = _installationFileManager.GetTempInstallationPath(moduleName);
 
                     moduleEntry.Extract(tempInstallationPath.PhysicalPath);
-                    
+
                     result.ModuleName = moduleName;
                     result.TempInstallationPath = tempInstallationPath;
                     result.TargetModuleInfo = moduleInfo;
@@ -144,9 +144,12 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
             return result;
         }
 
-        public void RunInstallation(string moduleName, ControllerContext controllerContext, bool @overrideFiles, string user)
+        public void CopyAssemblies(string moduleName, bool @overrideFiles)
         {
             CopyFiles(moduleName, @overrideFiles);
+        }
+        public void RunInstallation(string moduleName, ControllerContext controllerContext, string user)
+        {           
             RunEvent(moduleName, controllerContext);
             ModuleInfo moduleInfo = ModuleInfo.Get(moduleName);
             var installationFile = this._installationFileManager.ArchiveTempInstallationPath(moduleName, moduleInfo.Version);
@@ -182,11 +185,14 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #region RunEvent
         private void RunEvent(string moduleName, ControllerContext controllerContext)
         {
-            var moduleEvents = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleInstallingEvents>(moduleName);
-
-            if (moduleEvents != null)
+            var moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleInstallingEvents>(moduleName);
+            if (moduleEvent == null)
             {
-                moduleEvents.OnInstalling(new ModuleContext(moduleName), controllerContext);
+                moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
+            }
+            if (moduleEvent != null)
+            {
+                moduleEvent.OnInstalling(new ModuleContext(moduleName), controllerContext);
             }
         }
 

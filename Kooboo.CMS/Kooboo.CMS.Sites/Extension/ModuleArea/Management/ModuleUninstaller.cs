@@ -33,11 +33,14 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #region RunEvent
         private void RunEvent(string moduleName, ControllerContext controllerContext)
         {
-            var moduleEvents = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleUninstallingEvents>(moduleName);
-
-            if (moduleEvents != null)
+            var moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleUninstallingEvents>(moduleName);
+            if (moduleEvent == null)
             {
-                moduleEvents.OnUninstalling(new ModuleContext(moduleName), controllerContext);
+                moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
+            }
+            if (moduleEvent != null)
+            {
+                moduleEvent.OnUninstalling(new ModuleContext(moduleName), controllerContext);
             }
         }
         #endregion

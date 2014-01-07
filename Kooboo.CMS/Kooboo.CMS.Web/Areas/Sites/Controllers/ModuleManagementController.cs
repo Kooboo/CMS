@@ -91,6 +91,21 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 return Json(data);
             }
         }
+
+        [HttpPost]
+        public virtual ActionResult CopyInstallationFiles(string moduleName)
+        {
+            var data = new JsonResultData(ModelState);
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    _moduleInstaller.CopyAssemblies(moduleName, true);
+                });
+            }
+
+            return Json(data);
+        }
         public virtual ActionResult RunInstallation(string moduleName)
         {
             var tempInstallationPath = _moduleInstaller.GetTempInstallationPath(moduleName);
@@ -104,7 +119,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 data.RunWithTry((resultData) =>
                 {
-                    _moduleInstaller.RunInstallation(moduleName, ControllerContext, true, User.Identity.Name);
+                    _moduleInstaller.RunInstallation(moduleName, ControllerContext, User.Identity.Name);
                     resultData.RedirectUrl = Url.Action("InstallComplete", ControllerContext.RequestContext.AllRouteValues());
                 });
             }
@@ -185,7 +200,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 using (var moduleStream = _moduleVersioning.GetInstallationStream(uuid, installationFileName))
                 {
-                    var result = _moduleReinstaller.Upload(uuid, moduleStream, User.Identity.Name);                 
+                    var result = _moduleReinstaller.Upload(uuid, moduleStream, User.Identity.Name);
                     if (result.IsValid == false)
                     {
                         ViewData.ModelState.AddModelError("ModuleFile", "Invalid module file".Localize());
@@ -229,6 +244,22 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
         }
 
+        [HttpPost]
+        public virtual ActionResult CopyReinstallationFiles(string moduleName)
+        {
+            var data = new JsonResultData(ModelState);
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    _moduleReinstaller.CopyAssemblies(moduleName, true);
+                });
+            }
+
+            return Json(data);
+
+        }
+
         public virtual ActionResult RunReinstallation(string moduleName)
         {
             var tempInstallationPath = _moduleInstaller.GetTempInstallationPath(moduleName);
@@ -242,7 +273,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 data.RunWithTry((resultData) =>
                 {
-                    _moduleReinstaller.RunReinstallation(moduleName, ControllerContext, true, User.Identity.Name);
+                    _moduleReinstaller.RunReinstallation(moduleName, ControllerContext, User.Identity.Name);
                     resultData.RedirectUrl = Url.Action("ReinstallComplete", ControllerContext.RequestContext.AllRouteValues());
                 });
             }

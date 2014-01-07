@@ -1,0 +1,12 @@
+﻿@model Kooboo.CMS.Sites.ABTest.RandomVisitRule
+<form class="common-form">
+    <h3 class="title">@("Random".Localize())</h3>
+    <table>
+        @Html.EditorFor(it => it.Name, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-val-uniquerulename", "This name is being used by other items.".Localize() }, { "data-bind", "value:RuleItem().Name,attr:{disabled:RuleItem().isEdit}" } } })
+        @Html.EditorFor(it => it.Percent, new { HtmlAttributes = new RouteValueDictionary() { { "class", "medium" }, { "data-bind", "value:RuleItem().Percent" } } })        
+    </table>
+    <p class="buttons">
+        <input type="button" class="button" data-bind="click:save" value="@("Save".Localize())">
+        <a class="button gray" data-bind="click:cancel">@("Cancel".Localize())</a>
+    </p>
+</form>

@@ -24,8 +24,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Required(ErrorMessage = "Required")]
         public string Name { get; set; }
         [Required]
-        [Display(Name = "Query string name")]
-        [Description("The name of query string in URL.")]
+        [Display(Name = "Query string key")]
+        [Description("The key of query string in URL.")]
         public string QueryName { get; set; }
         [Display(Name = "Query string value")]
         public string QueryValue { get; set; }

@@ -1,0 +1,27 @@
+﻿<table>
+    <tr>
+        <th>
+            Test1:
+        </th>
+        <td>
+            <input type="hidden" name="Parameters[0].Name" value="DateTime" />
+            <input type="hidden" name="Parameters[0].DataType" value="DateTime" />
+            <input type="text" name="Parameters[0].Value" value="" />
+            <script type="text/javascript">
+                $(function () {
+                    $('[name="Parameters[0].Value"]').datepicker();
+                });
+            </script>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Test2:
+        </th>
+        <td>
+            <input type="hidden" name="Parameters[1].Name" value="String" />
+            <input type="hidden" name="Parameters[1].DataType" value="String" />
+            <input type="text" name="Parameters[1].Value" value="" />
+        </td>
+    </tr>
+</table>

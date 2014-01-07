@@ -52,7 +52,7 @@ namespace Kooboo.CMS.Sites.Versioning
         public static void LogVersion<T>(T o)
                         where T : DirectoryResource
         {
-            if (Site.Current.EnableVersioning.HasValue ? Site.Current.EnableVersioning.Value : true)
+            if (Site.Current == null || (Site.Current.EnableVersioning.HasValue ? Site.Current.EnableVersioning.Value : true))
             {
                 ResolveVersionLogger<T>().LogVersion(o);
             }

@@ -1,0 +1,45 @@
+﻿@model Kooboo.CMS.Web.Areas.Contents.Models.SelectableViewModel
+@{
+    Layout = "~/Views/Shared/Popup.cshtml";
+
+    var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
+    var folder = (Kooboo.CMS.Content.Models.TextFolder)ViewData["Folder"];
+
+    if (folder != null)
+    {
+        ViewBag.Title = folder.FriendlyText;
+    }
+    var parentUUID = ViewContext.RequestContext.GetRequestValue("parentUUID") ?? "";
+    var folderPermission = Kooboo.CMS.Web.Authorizations.AuthorizationHelpers.Authorize(ViewContext.RequestContext, Kooboo.CMS.Account.Models.Permission.Contents_FolderPermission);
+
+    var pagedList = Model.Contents;
+    ViewBag.Draggable = false;
+    ViewBag.EnableSort = false;
+    ViewBag.IsTreeStyle = true;
+    
+}
+<div id="main-container">
+    <div class="wrap">
+        <div class="topbar clearfix">
+            <h1 class="title">
+                @ViewBag.Title</h1>
+            @Html.Partial("_Search")
+        </div>
+
+        @Html.Partial(ViewData["Template"].ToString(), Model)
+
+        @if (folder.EnablePaging.HasValue && folder.EnablePaging.Value == true)
+        {
+            <div class="pagination">
+                @Html.Pager(pagedList)
+            </div>
+        }
+
+        <p class="buttons">
+            <button class="form-button save">
+                @("OK".Localize())</button>
+            <a class="button gray cancel action">@("Cancel".Localize())</a>
+        </p>
+    </div>
+</div>
+@Html.Partial("_Grid.Scripts")

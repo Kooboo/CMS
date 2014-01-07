@@ -1,0 +1,34 @@
+﻿@using Kooboo.CMS.Content.Models
+@using Kooboo.CMS.Sites.DataRule
+@using Newtonsoft.Json
+@model Kooboo.CMS.Sites.Models.View
+
+
+<div class="block">
+    <h6 class="title active">
+        @Html.IconImage("arrow")
+        @("DataRules".Localize())</h6>
+    <div class="container" id="grid-field-container">
+        <div>
+            <ul data-bind="foreach:$root.DataRuleList">
+                <li class="clearfix">
+                    <span class="left" data-bind="text:DataName"></span>
+                    <a  class="action" data-bind="click:$root.DeleteDataRule" title="@("Remove".Localize())">@Html.IconImage("minus small")</a>
+                    <a  class="action" data-bind="click:$root.EditDataRule" title="@("Edit".Localize())">@Html.IconImage("edit small")</a>
+                    <!-- ko if: DataRule.DataRuleType() ==1 -->
+                    <a  class="action" data-bind="click:$root.InsertCodeSnippet" title="@("Html code".Localize())">@Html.IconImage("csharp")</a>
+                    <a  class="action" data-bind="click:$root.InsertCodeSnippet" title="@("Html With Inline editing".Localize())">@Html.IconImage("inline-edit")</a>
+                    <!-- /ko -->
+                </li>
+            </ul>
+        </div>
+        <p class="actions clearfix">
+            <a class="action right" data-bind="click:AddDataRule" title="@("Add DataRule".Localize())">@Html.IconImage("plus small")</a>
+        </p>
+       @Html.Partial("_DataRulesJsonToFormInput")
+    </div>
+</div>
+<div class="hide">
+    @Html.Partial("_EditDataRule")
+</div>
+@Html.Partial("DataRules.Scripts", Model.DataRules)

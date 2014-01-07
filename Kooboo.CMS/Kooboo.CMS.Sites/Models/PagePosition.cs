@@ -21,6 +21,12 @@ namespace Kooboo.CMS.Sites.Models
 {
     [DataContract(Name = "PagePosition")]
     [KnownTypeAttribute(typeof(PagePosition))]
+    [KnownTypeAttribute(typeof(ViewPosition))]
+    [KnownTypeAttribute(typeof(ModulePosition))]
+    [KnownTypeAttribute(typeof(HtmlPosition))]
+    [KnownType(typeof(ContentPosition))]
+    [KnownTypeAttribute(typeof(HtmlBlockPosition))]
+    [KnownTypeAttribute(typeof(ProxyPosition))]
     public abstract class PagePosition
     {
         private string pagePositionId = UniqueIdGenerator.GetInstance().GetBase32UniqueId(5);
@@ -29,7 +35,21 @@ namespace Kooboo.CMS.Sites.Models
         /// </summary>
         /// <value>The page position ID.</value>
         [DataMember(Order = 1)]
-        public string PagePositionId { get { return pagePositionId; } set { pagePositionId = value; } }
+        public string PagePositionId
+        {
+            get { return pagePositionId; }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    pagePositionId = UniqueIdGenerator.GetInstance().GetBase32UniqueId(5);
+                }
+                else
+                {
+                    pagePositionId = value;
+                }
+            }
+        }
         [DataMember(Order = 2)]
         public string LayoutPositionId
         {
@@ -87,6 +107,9 @@ namespace Kooboo.CMS.Sites.Models
         [DataMember(Order = 10)]
         public CacheSettings OutputCache { get; set; }
 
+        [DataMember]
+        public bool SkipError { get; set; }
+
         public bool EnabledCache
         {
             get
@@ -98,7 +121,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             StringBuilder sb = new StringBuilder();
 
-            if (parameters!=null)
+            if (parameters != null)
             {
                 foreach (var item in parameters)
                 {
@@ -108,7 +131,7 @@ namespace Kooboo.CMS.Sites.Models
                 {
                     sb.Remove(sb.Length - 1, 1);
                 }
-            }          
+            }
 
             var s = "View:" + this.ViewName;
 
@@ -151,6 +174,9 @@ namespace Kooboo.CMS.Sites.Models
         /// </summary>
         [DataMember(Order = 11)]
         public bool Exclusive { get; set; }
+
+        [DataMember]
+        public bool SkipError { get; set; }
 
         public override string ToString()
         {

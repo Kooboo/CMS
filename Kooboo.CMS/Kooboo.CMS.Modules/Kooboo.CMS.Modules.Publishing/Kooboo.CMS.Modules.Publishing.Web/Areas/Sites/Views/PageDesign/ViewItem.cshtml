@@ -1,0 +1,56 @@
+﻿@model Kooboo.CMS.Sites.Models.View
+<li class="tree-node clearfix">
+    <span>
+        @Html.IconImage("folder")
+        @{
+            var parameterTemplateDelayRender = true;
+            var id = Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(16); 
+        }
+        <input type="radio" id="@id" value="@Html.Raw(Model.Name)" name="ViewName" />
+        <label class="inline" for="@id">@Html.Raw(Model.Name)</label>
+        @if (Model.ParameterTemplate != null)
+        {
+            <div class="parameterTemplate" style="display: none;">
+                @if (parameterTemplateDelayRender)
+                {
+                    @Html.Raw(HttpUtility.UrlEncode(Html.Partial(Model.ParameterTemplate, Model).ToHtmlString()))
+                }
+                else
+                { 
+                    @Html.Raw(Html.Partial(Model.ParameterTemplate, Model))
+                }
+            </div>
+        }
+        else if (Model.Parameters != null && Model.Parameters.Count > 0)
+        {
+            <div class="definedParameters" style="display: none;">
+                <table>
+                    @{var index = -1;}
+                    @foreach (var p in Model.Parameters)
+                    {
+                        index++;
+                        <tr>
+                            <th>
+                                @p.Name:
+                            </th>
+                            <td>
+                                <input type="hidden" no_submit_name="Parameters[@index].Name" value="@p.Name" />
+                                <input type="hidden" no_submit_name="Parameters[@index].DataType" value="@p.DataType" />
+                                @if (p.DataType == Kooboo.CMS.Common.DataType.Bool)
+                                {
+                                    var check = (p.Value != null && p.Value.ToString().ToLower() == "true") ? "checked=\"checked\"" : "";
+                    
+                                    <input no_submit_name="Parameters[@index].Value" type="checkbox" value="true" @check />
+                                }
+                                else
+                                {
+                                    <input no_submit_name="Parameters[@index].Value" type="text" value="@(p.Value is DateTime ? ((DateTime)p.Value).ToLocalTime().ToShortDateString() : p.Value)" />
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+    </span>
+</li>

@@ -53,7 +53,6 @@
     <Compile Include="..\..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
-    <Compile Include="DependencyRegistrar.cs" />
     <Compile Include="FileServerProviderSettings.cs" />
     <Compile Include="MediaContentProvider.cs" />
     <Compile Include="MediaFolderProvider.cs" />
@@ -62,13 +61,13 @@
     <Compile Include="TextContentFileProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Kooboo\Kooboo.csproj">
-      <Project>{347E47E5-3132-4BAD-B935-8282A2B16CF5}</Project>
-      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
+      <Name>Kooboo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Content.FileServer.Interfaces\Kooboo.CMS.Content.FileServer.Interfaces.csproj">
       <Project>{AF3A1665-74B6-4A34-A795-64A1914AF749}</Project>

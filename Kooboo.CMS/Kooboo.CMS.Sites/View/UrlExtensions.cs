@@ -20,7 +20,17 @@ namespace Kooboo.CMS.Sites.View
     {
         public static FrontUrlHelper FrontUrl(this UrlHelper url)
         {
-            return Page_Context.Current.FrontUrl;
+            if (Page_Context.Current.Initialized)
+            {
+                return Page_Context.Current.FrontUrl;
+            }
+            //Throw "Unable to cast object of type 'Kooboo.CMS.Sites.Extension.ModuleArea.ModuleHttpRequest' to type 'Kooboo.CMS.Sites.Web.FrontHttpRequestWrapper'."
+            FrontRequestChannel requestChannel = FrontRequestChannel.Unknown;
+            if (url.RequestContext.HttpContext.Request is FrontHttpRequestWrapper)
+            {
+                requestChannel = ((FrontHttpRequestWrapper)url.RequestContext.HttpContext.Request).RequestChannel;
+            }
+            return new FrontUrlHelper(url, Site.Current, requestChannel);
         }
         public static FrontUrlHelper FrontUrl(this UrlHelper url, Site site, FrontRequestChannel requestChannel = FrontRequestChannel.Host)
         {

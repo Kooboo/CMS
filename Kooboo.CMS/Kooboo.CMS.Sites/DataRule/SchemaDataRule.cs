@@ -23,7 +23,7 @@ namespace Kooboo.CMS.Sites.DataRule
         [DataMember(Order = 13)]
         public string SchemaName { get; set; }
 
-        public override Content.Query.IContentQuery<Content.Models.TextContent> Execute(DataRuleContext dataRuleContext)
+        public override IContentQuery<Content.Models.TextContent> GetContentQuery(DataRuleContext dataRuleContext)
         {
             var site = dataRuleContext.Site;
             var repositoryName = site.Repository;

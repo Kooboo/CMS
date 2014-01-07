@@ -1,0 +1,75 @@
+﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo
+@{
+    ViewBag.Title = "Module unistallation".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+    var uninstallingTemplate = Model.UninstallingTemplate;
+    if (!uninstallingTemplate.StartsWith("~/"))
+    {
+        var viewPath = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(uninstallingTemplate);
+        if (File.Exists(viewPath.PhysicalPath))
+        {
+            uninstallingTemplate = viewPath.VirtualPath;
+        }
+        else
+        {
+            uninstallingTemplate = null;
+        }
+    }
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Cancel".Localize())
+            </a>
+        </li>
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())
+            </a>
+        </li>
+    </ul>
+}
+<div class="block">
+    <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <span class="current">@("Module info".Localize())<b></b></span>
+            <span>@("Uninstallation".Localize())</span>
+            <span>@("Finish".Localize())</span>
+        </div>
+    </div>
+    @using (Html.BeginForm())
+    {
+        <input type="hidden" name="ModuleName" value="@Model.ModuleName" />
+        <div class="columns clearfix">
+            <div class="col-31">
+                <div class="content">
+                    <p>@Html.Raw("You are about to uninstall the following modules, click <strong>Next</strong> to continue.".Localize())</p>
+                </div>
+                <div class="block box">
+                    <div class="container">
+                        <div class="common-form">
+                            <table>
+                                <tr>
+                                    <th>@("Module name".Localize())</th>
+                                    <td><strong>@Model.ModuleName</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>@("Module version".Localize())</th>
+                                    <td><strong>@Model.Version</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>@("Kooboo CMS version".Localize())</th>
+                                    <td><strong>@Model.KoobooCMSVersion</strong></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+

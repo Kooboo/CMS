@@ -45,6 +45,7 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         }
         public virtual void RegisterServices(IEnumerable<AttributeInfo<DependencyAttribute>> services)
         {
+            services = services.OrderBy(it => it.Attribute.Order);
             foreach (var info in services)
             {
                 Type serviceType = info.Attribute.ServiceType ?? info.DecoratedType;

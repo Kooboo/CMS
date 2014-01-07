@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Sites.DataRule
 
         //[DataMember(Order = 13)]
         //public new string FolderName { get; set; }
-        public override Content.Query.IContentQuery<Content.Models.TextContent> Execute(DataRuleContext dataRuleContext)
+        public override IContentQuery<Content.Models.TextContent> GetContentQuery(DataRuleContext dataRuleContext)
         {
             var site = dataRuleContext.Site;
             var repository = Sites.Models.ModelExtensions.GetRepository(site);
@@ -101,10 +101,10 @@ namespace Kooboo.CMS.Sites.DataRule
                 contentQuery = contentQuery.WhereEquals("Published", true); //default query published=true.
             return contentQuery;
         }
-
+        [DataMember]
         public override DataRuleType DataRuleType
         {
-            get { return DataRule.DataRuleType.Folder; }
+            get { return DataRule.DataRuleType.Folder; }            
         }
 
         public override Schema GetSchema(Repository repository)

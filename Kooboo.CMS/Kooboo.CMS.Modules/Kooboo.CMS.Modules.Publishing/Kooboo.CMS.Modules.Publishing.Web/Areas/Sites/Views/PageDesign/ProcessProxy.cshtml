@@ -1,0 +1,43 @@
+﻿@model ProxyPosition
+@{
+    Layout = "Design.cshtml";
+}
+@section HeadContentFirst{
+    <script type="text/javascript">
+        function getDesignerType(types) { return types['proxy']; }
+    </script>
+}
+<h1 class="title">@("Proxy:".Localize())</h1>
+<div class="common-form in-dialog">
+    <table>
+        <tbody>
+            @Html.EditorFor(m => m.Host, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.RequestPath, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.NoProxy)
+            <tr>
+                <th>@("Cache settings".Localize())</th>
+                <td>
+                    <input type="checkbox" id="enablecache" />
+                    <label class="inline" for="enablecache">
+                        @("Enable".Localize())
+                    </label>
+                </td>
+            </tr>
+            <tr id="cache_con">
+                <th></th>
+                <td>
+                    <select
+                        id="ExpirationPolicy" name="OutputCache.ExpirationPolicy" class="medium">
+                        @foreach (var item in (string[])ViewData["Policys"])
+                        {
+                            <option>
+                                @Html.Raw(item)</option>
+                        }
+                    </select>
+                    <input class="mini" type="text" name="OutputCache.Duration" />
+                    @("Second".Localize())
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

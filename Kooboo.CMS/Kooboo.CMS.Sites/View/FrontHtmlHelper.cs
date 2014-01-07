@@ -25,6 +25,7 @@ using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Html;
 using Kooboo.Web.Mvc.Paging;
 using Kooboo.Web.Url;
+using Kooboo.CMS.Sites.Membership;
 //# define Page_Trace
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
+using Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource;
 namespace Kooboo.CMS.Sites.View
 {
     /// <summary>
@@ -100,24 +103,7 @@ namespace Kooboo.CMS.Sites.View
 
         public virtual IHtmlString Position(string positionID, string defaultContent)
         {
-            if (PageContext.PageRequestContext.RequestChannel == FrontRequestChannel.Design)
-            {
-                return new PageDesignHolder(this, positionID);
-            }
-            else
-            {
-                var positions = (PageContext.PageRequestContext.Page.PagePositions ?? new List<PagePosition>()).Where(it => it.LayoutPositionId.Equals(positionID, StringComparison.InvariantCultureIgnoreCase)).ToArray();
-                if (positions.Length == 0)
-                {
-                    return new HtmlString(defaultContent);
-                }
-                else
-                {
-                    var htmlStrings = RenderPositionContents(positions).ToArray();
-                    return new AggregateHtmlString(htmlStrings);
-                }
-
-            }
+            return Position(positionID, () => defaultContent);
         }
         public virtual IHtmlString Position(string positionID, Func<string> defaultContentFunc)
         {
@@ -130,6 +116,7 @@ namespace Kooboo.CMS.Sites.View
                 var positions = GetContentsForPosition(positionID);
                 if (positions.Length == 0)
                 {
+                    defaultContentFunc = defaultContentFunc == null ? () => "" : defaultContentFunc;
                     return new HtmlString(defaultContentFunc());
                 }
                 else
@@ -138,6 +125,26 @@ namespace Kooboo.CMS.Sites.View
                     return new AggregateHtmlString(htmlStrings);
                 }
 
+            }
+        }
+
+        public virtual IHtmlString Position(string positionID, bool requireMembershipAuthentication, params string[] membershipGroups)
+        {
+            if (PageContext.PageRequestContext.RequestChannel == FrontRequestChannel.Design)
+            {
+                return new PageDesignHolder(this, positionID);
+            }
+            else
+            {
+                if (requireMembershipAuthentication)
+                {
+                    var permission = new PagePermission() { RequireMember = requireMembershipAuthentication, AllowGroups = membershipGroups };
+                    if (!permission.Authorize(Html.ViewContext.HttpContext.Membership().GetMember()))
+                    {
+                        return new HtmlString("");
+                    }
+                }
+                return Position(positionID);
             }
         }
         #endregion
@@ -208,21 +215,34 @@ namespace Kooboo.CMS.Sites.View
         #region RenderView
         protected internal virtual IHtmlString RenderView(ViewPosition viewPosition)
         {
-            Func<IHtmlString> renderView = () => this.RenderView(viewPosition.ViewName, PageContext.GetPositionViewData(viewPosition.PagePositionId), viewPosition.ToParameterDictionary(), false);
-            if (viewPosition.EnabledCache)
+            try
             {
-                var cacheKey = string.Format("View OutputCache - Full page name:{0};Raw request url:{1};PagePositionId:{2};ViewName:{3};LayoutPositionId:{4}"
-                , PageContext.PageRequestContext.Page.FullName, PageContext.ControllerContext.HttpContext.Request.RawUrl, viewPosition.PagePositionId, viewPosition.ViewName, viewPosition.LayoutPositionId);
-                var cacheItemPolicy = viewPosition.OutputCache.ToCachePolicy();
-                return this.PageContext.PageRequestContext.Site.ObjectCache().GetCache<IHtmlString>(cacheKey,
-                          renderView,
-                      cacheItemPolicy);
+                Func<IHtmlString> renderView = () => this.RenderView(viewPosition.ViewName, PageContext.GetPositionViewData(viewPosition.PagePositionId), viewPosition.ToParameterDictionary(), false);
+                if (viewPosition.EnabledCache)
+                {
+                    var cacheKey = string.Format("View OutputCache - Full page name:{0};Raw request url:{1};PagePositionId:{2};ViewName:{3};LayoutPositionId:{4}"
+                    , PageContext.PageRequestContext.Page.FullName, PageContext.ControllerContext.HttpContext.Request.RawUrl, viewPosition.PagePositionId, viewPosition.ViewName, viewPosition.LayoutPositionId);
+                    var cacheItemPolicy = viewPosition.OutputCache.ToCachePolicy();
+                    return this.PageContext.PageRequestContext.Site.ObjectCache().GetCache<IHtmlString>(cacheKey,
+                              renderView,
+                          cacheItemPolicy);
+                }
+                else
+                {
+                    return renderView();
+                }
+            }
+            catch (Exception e)
+            {
+                if (viewPosition.SkipError)
+                {
+                    Kooboo.HealthMonitoring.Log.LogException(e);
+                    return new HtmlString("");
+                }
+
+                throw;
             }
 
-            else
-            {
-                return renderView();
-            }
         }
         #endregion
 
@@ -258,30 +278,26 @@ namespace Kooboo.CMS.Sites.View
             {
                 throw new KoobooException("The repository for site is null.");
             }
-            var dataRule = contentPosition.DataRule;
+            var dataRule = (IContentDataRule)(contentPosition.DataRule);
             var dataRuleContext = new DataRuleContext(this.PageContext.PageRequestContext.Site,
                 this.PageContext.PageRequestContext.Page) { ValueProvider = this.PageContext.PageRequestContext.GetValueProvider() };
-            var contentQuery = dataRule.Execute(dataRuleContext);
+
             string viewPath = "";
+            TakeOperation operation;
             var schema = dataRule.GetSchema(repository);
-            Object model = contentQuery;
             switch (contentPosition.Type)
             {
                 case ContentPositionType.Detail:
                     viewPath = schema.GetFormTemplate(FormType.Detail);
-                    model = contentQuery.FirstOrDefault();
+                    operation = TakeOperation.First;
                     break;
                 case ContentPositionType.List:
                 default:
-                    int top = 10;
-                    if (int.TryParse(((FolderDataRule)dataRule).Top, out top))
-                    {
-                        model = contentQuery.Take(top);
-                    }
-
                     viewPath = schema.GetFormTemplate(FormType.List);
+                    operation = TakeOperation.List;
                     break;
             }
+            var model = dataRule.Execute(dataRuleContext, operation, 0);
             return ViewRender.RenderViewInternal(this.Html, viewPath, null, model);
         }
         #endregion
@@ -508,6 +524,7 @@ namespace Kooboo.CMS.Sites.View
                 if (PageContext.InlineEditing)
                 {
                     yield return InlineEditingVariablesScript();
+                    yield return this.Html.Script("~/Scripts/tiny_mce/tinymce.min.js");
                     //Inline editing的脚本样式不能用CDN
                     yield return Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, "Sites", "inlineEditingJs", null, null);
                 }
@@ -572,6 +589,7 @@ namespace Kooboo.CMS.Sites.View
         private IEnumerable<IHtmlString> GetScriptsBySite(Site site, bool compressed, string baseUri = null)
         {
             List<IHtmlString> scripts = new List<IHtmlString>();
+
             var siteScripts = ServiceFactory.ScriptManager.GetFiles(site, "");
             if (siteScripts != null && siteScripts.Count() > 0)
             {
@@ -579,7 +597,20 @@ namespace Kooboo.CMS.Sites.View
                 {
                     foreach (var script in siteScripts)
                     {
-                        scripts.Add(this.Html.Script(Kooboo.Web.Url.UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath)));
+                        var virtualPath = Kooboo.Web.Url.UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath);
+                        var dynamicScript = DynamicClientResourceFactory.Default.ResolveProvider(virtualPath);
+                        if (dynamicScript != null)
+                        {
+                            scripts.Add(new HtmlString(dynamicScript.RegisterResource(virtualPath)));
+                        }
+                        else
+                        {
+                            scripts.Add(this.Html.Script(virtualPath));
+                        }
+                    }
+                    foreach (var item in DynamicClientResourceFactory.Default.ResolveAllProviders().Where(it => it.ResourceType == ResourceType.Javascript))
+                    {
+                        scripts.Add(new HtmlString(item.RegisterClientParser()));
                     }
                 }
                 else
@@ -587,6 +618,7 @@ namespace Kooboo.CMS.Sites.View
                     scripts.Add(this.Html.Script(this.PageContext.FrontUrl.SiteScriptsUrl(baseUri, compressed).ToString()));
                 }
             }
+
             //else
             //{
             //    if (site.Parent != null)
@@ -594,7 +626,7 @@ namespace Kooboo.CMS.Sites.View
             //        return GetScriptsBySite(site.Parent, baseUrl);
             //    }
             //}
-            return scripts;
+            return scripts.Distinct(new IHtmlStringComparer());
         }
         private IEnumerable<IHtmlString> IncludeModulesScripts(bool compressed, string baseUri = null)
         {
@@ -606,25 +638,22 @@ namespace Kooboo.CMS.Sites.View
 
                     foreach (ModuleActionInvokedContext actionInvoked in PageContext.ModuleResults.Values)
                     {
-                        if (actionInvoked.ControllerContext.Controller is ModuleControllerBase)
-                        {
-                            if (!((ModuleControllerBase)actionInvoked.ControllerContext.Controller).EnableScript)
-                            {
-                                break;
-                            }
-                        }
                         var moduleRequestContext = (ModuleRequestContext)actionInvoked.ControllerContext.RequestContext;
-                        if (site.Mode == ReleaseMode.Debug)
+                        if (moduleRequestContext.ModuleContext.FrontEndContext.EnableScript)
                         {
-                            foreach (var script in ServiceFactory.ModuleManager.AllScripts(moduleRequestContext.ModuleContext.ModuleName))
+                            if (site.Mode == ReleaseMode.Debug)
                             {
-                                yield return this.Html.Script(UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath));
+                                foreach (var script in ServiceFactory.ModuleManager.AllScripts(moduleRequestContext.ModuleContext.ModuleName))
+                                {
+                                    yield return this.Html.Script(UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath));
+                                }
+                            }
+                            else
+                            {
+                                yield return this.Html.Script(this.PageContext.FrontUrl.ModuleScriptsUrl(moduleRequestContext.ModuleContext.ModuleName, baseUri, compressed).ToString());
                             }
                         }
-                        else
-                        {
-                            yield return this.Html.Script(this.PageContext.FrontUrl.ModuleScriptsUrl(moduleRequestContext.ModuleContext.ModuleName, baseUri, compressed).ToString());
-                        }
+
                     }
                 }
             }
@@ -706,9 +735,10 @@ namespace Kooboo.CMS.Sites.View
         }
         private IEnumerable<IHtmlString> IncludeThemeStyles(Site site, string themeName, string baseUri = null)
         {
+            List<IHtmlString> htmlStrings = new List<IHtmlString>();
             if (this.PageContext.PageRequestContext.Site.EnableJquery)
             {
-                yield return Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, null, "jQuery-Styles", null, baseUri);
+                htmlStrings.Add(Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, null, "jQuery-Styles", null, baseUri));
             }
 
             string themeRuleBody;
@@ -721,16 +751,32 @@ namespace Kooboo.CMS.Sites.View
                 {
                     foreach (var style in styles)
                     {
-                        yield return this.Html.Stylesheet(UrlUtility.ToHttpAbsolute(baseUri, style.VirtualPath));
+                        var virtualPath = UrlUtility.ToHttpAbsolute(baseUri, style.VirtualPath);
+                        var dynamicCss = DynamicClientResourceFactory.Default.ResolveProvider(virtualPath);
+                        if (dynamicCss != null)
+                        {
+
+                            htmlStrings.Add(new HtmlString(dynamicCss.RegisterResource(virtualPath)));
+                        }
+                        else
+                        {
+                            htmlStrings.Add(this.Html.Stylesheet(virtualPath));
+                        }
+                    }
+                    foreach (var item in DynamicClientResourceFactory.Default.ResolveAllProviders().Where(it => it.ResourceType == ResourceType.Stylesheet))
+                    {
+                        htmlStrings.Add(new HtmlString(item.RegisterClientParser()));
                     }
                 }
                 else
                 {
-                    yield return this.Html.Stylesheet(this.PageContext.FrontUrl.SiteThemeUrl(baseUri, themeName).ToString());
+                    htmlStrings.Add(this.Html.Stylesheet(this.PageContext.FrontUrl.SiteThemeUrl(baseUri, themeName).ToString()));
                 }
             }
 
-            yield return new HtmlString(themeRuleBody);
+            htmlStrings.Add(new HtmlString(themeRuleBody));
+
+            return htmlStrings.Distinct(new IHtmlStringComparer());
         }
         private IEnumerable<IHtmlString> IncludeModuleThemeStyles(string baseUri = null)
         {
@@ -741,20 +787,12 @@ namespace Kooboo.CMS.Sites.View
                 {
                     foreach (ModuleActionInvokedContext actionInvoked in PageContext.ModuleResults.Values)
                     {
-                        if (actionInvoked.ControllerContext.Controller is ModuleControllerBase)
-                        {
-                            if (!((ModuleControllerBase)actionInvoked.ControllerContext.Controller).EnableTheming)
-                            {
-                                break;
-                            }
-                        }
-
                         var moduleRequestContext = (ModuleRequestContext)actionInvoked.ControllerContext.RequestContext;
-                        if (moduleRequestContext.ModuleContext.ModuleSettings != null && !string.IsNullOrEmpty(moduleRequestContext.ModuleContext.ModuleSettings.ThemeName))
+                        if (moduleRequestContext.ModuleContext.FrontEndContext.EnableTheme && moduleRequestContext.ModuleContext.FrontEndContext.ModuleSettings != null && !string.IsNullOrEmpty(moduleRequestContext.ModuleContext.FrontEndContext.ModuleSettings.ThemeName))
                         {
                             string themeRuleBody;
                             var styles = ServiceFactory.ModuleManager.AllThemeFiles(moduleRequestContext.ModuleContext.ModuleName,
-                                    moduleRequestContext.ModuleContext.ModuleSettings.ThemeName, out themeRuleBody);
+                                    moduleRequestContext.ModuleContext.FrontEndContext.ModuleSettings.ThemeName, out themeRuleBody);
 
                             if (site.Mode == ReleaseMode.Debug)
                             {
@@ -766,7 +804,7 @@ namespace Kooboo.CMS.Sites.View
                             else
                             {
                                 yield return this.Html.Stylesheet(this.PageContext.FrontUrl.
-                                    ModuleThemeUrl(moduleRequestContext.ModuleContext.ModuleName, moduleRequestContext.ModuleContext.ModuleSettings.ThemeName, baseUri)
+                                    ModuleThemeUrl(moduleRequestContext.ModuleContext.ModuleName, moduleRequestContext.ModuleContext.FrontEndContext.ModuleSettings.ThemeName, baseUri)
                                     .ToString());
                             }
                             yield return new HtmlString(themeRuleBody);

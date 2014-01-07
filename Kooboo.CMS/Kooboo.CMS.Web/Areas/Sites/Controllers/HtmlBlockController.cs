@@ -30,10 +30,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             : base(manager) { }
 
         #region CURD
-        public override ActionResult Create()
+        public override ActionResult Create(HtmlBlock model)
         {
             ViewBag.ExternalCssSetting = this.GetExternalCssSetting();
-            return base.Create();
+            return base.Create(model);
         }
 
         public override ActionResult Edit(string uuid)
@@ -91,11 +91,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #region Relations
         public virtual ActionResult Relations(string uuid)
         {
-            var model = Manager.RelationsPages(new HtmlBlock() { Site = Site, UUID = uuid }).Select(o => new RelationModel
-            {
-                RelationName = o.FriendlyName,
-                RelationType = "Page".Localize()
-            });
+            var model = Manager.Relations(new HtmlBlock() { Site = Site, UUID = uuid });
             return View("Relations", model);
         }
         #endregion

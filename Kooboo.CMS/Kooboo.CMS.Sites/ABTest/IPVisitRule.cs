@@ -55,5 +55,11 @@ namespace Kooboo.CMS.Sites.ABTest
             get { return "return this.RegexPattern();"; }
             set { }
         }
+
+
+        public string RuleTypeDisplayName
+        {
+            get { return "User IP"; }
+        }
     }
 }

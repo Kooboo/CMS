@@ -103,6 +103,7 @@ namespace Kooboo.CMS.Sites.Models
                 parameters = value;
             }
         }
+        
         public static string ParameterTemplateFileName = "ParameterTemplate.cshtml";
         public string ParameterTemplate
         {

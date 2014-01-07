@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Kooboo.CMS.Sites.Models.HtmlBlock>
+@{
+    Layout = "Design.cshtml";
+}
+@section HeadContent{
+    <script type="text/javascript">
+        function getDesignerType(types) { return types['htmlBlock']; }
+    </script>
+}
+
+<h1 class="title">@("HTML block:".Localize())</h1>
+<div class="simple-table">
+    <table>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="radio" name="BlockName" value="@Html.Raw(item.Name)" />
+                        <label for="@Html.Raw(item.Name)">@Html.Raw(item.Name)</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

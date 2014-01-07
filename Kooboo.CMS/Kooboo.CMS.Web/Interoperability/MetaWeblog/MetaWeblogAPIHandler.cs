@@ -23,10 +23,18 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
-namespace Kooboo.CMS.Content.Interoperability.MetaWeblog
+namespace Kooboo.CMS.Web.Interoperability.MetaWeblog
 {
     public class MetaWeblogAPIHandler : XmlRpcService, IMetaWeblog, IBlogger
     {
+        #region .ctor
+        public MetaWeblogAPIHandler(string repositoryName)
+        {
+            this.repositoryName = repositoryName;
+        }
+        #endregion
+
+        #region MetaWeblogHelper
         private static class MetaWeblogHelper
         {
             public static string CompositePostId(TextContent content)
@@ -41,6 +49,9 @@ namespace Kooboo.CMS.Content.Interoperability.MetaWeblog
                 return s[1];
             }
         }
+        #endregion
+
+        #region fields
         private string repositoryName;
         public string RepositoryName
         {
@@ -68,6 +79,9 @@ namespace Kooboo.CMS.Content.Interoperability.MetaWeblog
                 return Repository.Current;
             }
         }
+        #endregion
+
+        #region CheckUserPassword
         private void CheckUserPassword(string userName, string password)
         {
             if (Repository == null)
@@ -81,7 +95,7 @@ namespace Kooboo.CMS.Content.Interoperability.MetaWeblog
             bool allow = false;
             if (Kooboo.CMS.Sites.Models.Site.Current != null)
             {
-                allow = CMS.Sites.Services.ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, userName, CMS.Account.Models.Permission.Contents_ContentPermission);
+                allow = CMS.Sites.Services.ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, userName, Kooboo.CMS.Account.Models.Permission.Contents_ContentPermission);
             }
             else
             {
@@ -92,6 +106,7 @@ namespace Kooboo.CMS.Content.Interoperability.MetaWeblog
                 throw new KoobooException("The user have no permission to edit content.".Localize());
             }
         }
+        #endregion
 
         #region IMetaWeblog Members
 
@@ -110,8 +125,9 @@ namespace Kooboo.CMS.Content.Interoperability.MetaWeblog
             values["description"] = post.description;
             values["body"] = post.description;
             values["userKey"] = userKey;
+            values["published"] = publish.ToString();
 
-            ServiceFactory.GetService<TextContentManager>().Update(Repository, textFolder, content.UUID, values);
+            ServiceFactory.GetService<TextContentManager>().Update(Repository, textFolder, content.UUID, values, username);
 
 
             var old_categories = GetCategories(textFolder, content);
@@ -196,7 +212,7 @@ namespace Kooboo.CMS.Content.Interoperability.MetaWeblog
                 categories = GetCategories(folder, it),
                 dateCreated = it.UtcCreationDate,
                 description = it["description"] == null ? "" : it["description"].ToString(),
-                postid = it.UUID,
+                postid = MetaWeblogHelper.CompositePostId(it),
                 title = it["title"] == null ? "" : it["title"].ToString(),
                 userid = it.UserId
             }).ToArray();
@@ -262,6 +278,8 @@ namespace Kooboo.CMS.Content.Interoperability.MetaWeblog
         }
 
         #endregion
+
+        #region getUsersBlogs
         public BlogInfo[] getUsersBlogs(string appKey, string username, string password)
         {
             CheckUserPassword(username, password);
@@ -280,69 +298,7 @@ namespace Kooboo.CMS.Content.Interoperability.MetaWeblog
                 url = ""
             }).ToArray();
         }
-        //#region IBlogger Members
-
-
-
-
-        //public bool deletePost(string appKey, string postid, string username, string password, bool publish)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public object editPost(string appKey, string postid, string username, string password, string content, bool publish)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //CookComputing.Blogger.Category[] IBlogger.getCategories(string blogid, string username, string password)
-        //{
-        //    CheckUserPassword(username, password);
-
-        //    var folder = (TextFolder)(FolderHelper.Parse(Repository, blogid).AsActual());
-        //    var categories = GetFolderCategories(folder);
-
-        //    return categories.Select(it => new CookComputing.Blogger.Category()
-        //    {
-        //        categoryid = MetaWeblogHelper.CompositePostId(it),
-        //        description = it.GetSummarize(),
-        //        title = it.GetSummarize(),
-        //        htmlUrl = "",
-        //        rssUrl = ""
-        //    }).ToArray();
-        //}
-
-        //public CookComputing.Blogger.Post getPost(string appKey, string postid, string username, string password)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public CookComputing.Blogger.Post[] getRecentPosts(string appKey, string blogid, string username, string password, int numberOfPosts)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public string getTemplate(string appKey, string blogid, string username, string password, string templateType)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public UserInfo getUserInfo(string appKey, string username, string password)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public string newPost(string appKey, string blogid, string username, string password, string content, bool publish)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public bool setTemplate(string appKey, string blogid, string username, string password, string template, string templateType)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //#endregion
+        #endregion
 
         #region IBlogger Members
 

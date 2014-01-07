@@ -20,9 +20,11 @@ namespace Kooboo.CMS.Content.Services
     public class ReceivingSettingManager : ManagerBase<ReceivingSetting, IReceivingSettingProvider>
     {
         #region .ctor
-        public ReceivingSettingManager(IReceivingSettingProvider provider)
+        ITextContentProvider _textContentProvider;
+        public ReceivingSettingManager(IReceivingSettingProvider provider, ITextContentProvider textContentProvider)
             : base(provider)
         {
+            _textContentProvider = textContentProvider;
         }
         #endregion
 
@@ -115,8 +117,14 @@ namespace Kooboo.CMS.Content.Services
                                 values["Published"] = originalContent.Published.Value.ToString();
                             }
                         }
+                        drivedContent.OriginalLastestVisitedVersionId = Kooboo.CMS.Content.Versioning.VersionManager.AllVersionInfos(originalContent).Max(it => it.Version);
                         var categoriesOfDrivedContent = GetAllCategories(drivedContent);
                         Services.ServiceFactory.TextContentManager.Update(repository, targetFolder, drivedContent.UUID, values, null, DateTime.UtcNow, categoriesOfOriginalContent, categoriesOfDrivedContent);
+                    }
+                    else
+                    {
+                        drivedContent.OriginalUpdateTimes = drivedContent.OriginalUpdateTimes + 1;
+                        _textContentProvider.Update(drivedContent, drivedContent);
                     }
                 }
             }

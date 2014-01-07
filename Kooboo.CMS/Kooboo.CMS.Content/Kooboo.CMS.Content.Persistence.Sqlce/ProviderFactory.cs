@@ -18,7 +18,9 @@ using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.CMS.Content.Persistence.Sqlce
 {
-    public class ProviderFactory : Default.ProviderFactory, Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
+
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProviderFactory), Order = 2)]
+    public class ProviderFactory : Default.ProviderFactory
     {
         #region IProviderFactory Members
 
@@ -30,17 +32,17 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce
 
         #endregion
 
-        public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
-        {
-            containerManager.AddComponent<IProviderFactory, ProviderFactory>();
-            containerManager.AddComponent<ISchemaProvider, SchemaProvider>();
-            containerManager.AddComponent<IContentProvider<TextContent>, TextContentProvider>();
-            containerManager.AddComponent<ITextContentProvider, TextContentProvider>();
-        }
+        //public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
+        //{
+        //    containerManager.AddComponent<IProviderFactory, ProviderFactory>();
+        //    containerManager.AddComponent<ISchemaProvider, SchemaProvider>();
+        //    containerManager.AddComponent<IContentProvider<TextContent>, TextContentProvider>();
+        //    containerManager.AddComponent<ITextContentProvider, TextContentProvider>();
+        //}
 
-        public int Order
-        {
-            get { return 1; }
-        }
+        //public int Order
+        //{
+        //    get { return 1; }
+        //}
     }
 }

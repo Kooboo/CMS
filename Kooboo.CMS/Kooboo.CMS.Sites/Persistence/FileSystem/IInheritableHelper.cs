@@ -63,10 +63,12 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                         }
                     }
 
-                    if (o.AsActual() == null)
-                    {
-                        continue;
-                    }
+                    // The provider used in AsActual is possibly different with the current provider.
+                    // the AsActual method is not recommended used in Provider level.
+                    //if (o.AsActual() == null)
+                    //{
+                    //    continue;
+                    //}
 
                     yield return o;
                 }

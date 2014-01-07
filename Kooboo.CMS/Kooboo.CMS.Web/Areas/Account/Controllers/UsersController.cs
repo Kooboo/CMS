@@ -88,7 +88,8 @@ namespace Kooboo.CMS.Web.Areas.Account.Controllers
             {
                 data.RunWithTry((resultData) =>
                 {
-                    UserManager.Update(model.UserName, model.ToUser());
+                    var userToUpdate = UserManager.Get(model.UserName);
+                    UserManager.Update(model.UserName, model.ToUser(userToUpdate));
                     resultData.RedirectUrl = @return;
                 });
             }

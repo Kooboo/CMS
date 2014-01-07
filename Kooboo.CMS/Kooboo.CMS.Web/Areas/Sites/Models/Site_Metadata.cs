@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Sites.Models;
@@ -26,7 +27,7 @@ using System.Web.Routing;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
-   
+
     [MetadataFor(typeof(Site))]
     public class Site_Metadata
     {
@@ -81,6 +82,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         public string Repository { get; set; }
 
 
+        [Description("Select a membership data source for the site.")]
+        [UIHint("DropDownList")]
+        [DataSource(typeof(MembershipDataSource))]
+        public string Membership { get; set; }
+
         [Display(Name = "Enable inline editing")]
         [Description("Enables you to edit content from the front end of your website.")]
         public bool? InlineEditing { get; set; }
@@ -115,5 +121,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [UIHint("DropDownList")]
         [DataSource(typeof(TimeZonesDataSource))]
         public string TimeZoneId { get; set; }
+
+        [UIHint("KeyValueEquality")]
+        [Display(Name = "Alternate SSL detection")]
+        [Description("Alternate SSL detection via HTTP header, please fill in http header name and value. <a href='https://github.com/plack/Plack/wiki/How-to-detect-reverse-proxy-and-SSL-frontend' target='_blank'>Click</a> for more.")]
+        public KeyValue<string, string> SSLDetection { get; set; }
     }
 }

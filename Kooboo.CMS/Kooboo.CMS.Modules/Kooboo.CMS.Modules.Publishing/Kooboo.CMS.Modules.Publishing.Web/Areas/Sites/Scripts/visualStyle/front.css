@@ -1,0 +1,28 @@
+﻿/*
+*   front
+*   author: ronglin
+*   create date: 2012.02.15
+*/
+
+.vs-visualstyle-front {
+    position:fixed;
+    display:block;
+    right:50px;
+    top:50px;
+    left:auto;
+    bottom:auto;
+    padding:5px;
+    border:1px solid #555;
+    background-color:#ddd;
+    z-index:9999;
+}
+
+.vs-visualstyle-front .btnAble{
+    display:block;
+    width:36px;
+    height:36px;
+    cursor:pointer;
+    background-color:#ddd;
+    background-repeat:no-repeat;
+    background-image:url("modules/images/visualstyle_front_turnon.gif");
+}

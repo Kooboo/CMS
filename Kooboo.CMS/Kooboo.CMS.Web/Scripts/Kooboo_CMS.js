@@ -135,14 +135,20 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         return this.find('a[data-ajax]').click(function (e) {
             e.preventDefault();
             var $self = $(this), url = $self.attr('href'), post = function () {
-
-                $.ajax({
-                    url: url,
-                    success: function (response, statusText, xhr) {
-                        parse_JsonResultData(response, statusText, xhr);
-                    },
-                    type: $self.data('ajax')
-                });
+                var type = $self.data('ajax');
+                if (type.toLowerCase() == "download") {
+                    $.fileDownload(url, {
+                        httpMethod: "POST"
+                    });
+                } else {
+                    $.ajax({
+                        url: url,
+                        success: function (response, statusText, xhr) {
+                            parse_JsonResultData(response, statusText, xhr);
+                        },
+                        type: type
+                    });
+                }
             };
             if ($self.data('confirm')) {
                 if (confirm($self.data('confirm'))) {
@@ -268,6 +274,46 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
 
         return api;
     }
+    $.fn.reset_check_relateds = function (options) {
+        var $check_relateds = options.check_relateds;
+        var checkedSelector = options.selector;
+        var itemTag = options.itemTag || "tr";
+        var action = options.action;
+
+        var $items = $(this);
+        var $all_checkeds = $items.find(checkedSelector);
+        if (typeof (action) == 'function') {
+            action($all_checkeds);
+        }
+        $check_relateds.hide();
+        $check_relateds.each(function () {
+            var $related = $(this);
+            var show_on_check = $related.data('show-on-check');
+            switch (show_on_check) {
+                case 'Single':
+                    if ($all_checkeds.length == 1) {
+                        $related.show();
+                    }
+                    break;
+                case 'Two':
+                    if ($all_checkeds.length == 2) {
+                        $related.show();
+                    }
+                    break;
+                case 'Any':
+                    if ($all_checkeds.length > 0) {
+                        $related.show();
+                    }
+                    break;
+            }
+            var show_on_selector = $related.data('show-on-selector');
+            if (show_on_selector) {
+                if ($all_checkeds.closest(itemTag + ':not(' + show_on_selector + ')').length > 0) {
+                    $related.hide();
+                }
+            }
+        });
+    };
     $.fn.checkableTable = function () {
         var $check_relateds = $('[data-show-on-check]');
         var table = $(this);
@@ -292,39 +338,8 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
 
         // var all_checkboxes = table.find("input:checkbox.select");
         var $selectAll = table.find("input:checkbox.select-all");
-
-        function reset_check_relateds() {
-            var $all_checkeds = table.find('input:checkbox.select:checked');
-            $check_relateds.hide();
-            $check_relateds.each(function () {
-                var $related = $(this);
-                var show_on_check = $related.data('show-on-check');
-                switch (show_on_check) {
-                    case 'Single':
-                        if ($all_checkeds.length == 1) {
-                            $related.show();
-                        }
-                        break;
-                    case 'Two':
-                        if ($all_checkeds.length == 2) {
-                            $related.show();
-                        }
-                        break;
-                    case 'Any':
-                        if ($all_checkeds.length > 0) {
-                            $related.show();
-                        }
-                        break;
-                }
-                var show_on_selector = $related.data('show-on-selector');
-                if (show_on_selector) {
-                    if ($all_checkeds.closest('tr:not(' + show_on_selector + ')').length > 0) {
-                        $related.hide();
-                    }
-                }
-            });
-        }
-        reset_check_relateds();
+        var selector = 'input:checkbox.select:checked';
+        table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
 
         $selectAll.change(function () {
             if ($(this).attr("checked")) {
@@ -332,7 +347,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             } else {
                 table.find("input:checkbox.select").attr("checked", false).parents('tr').removeClass('active');
             }
-            reset_check_relateds();
+            table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
         });
 
         var selectOptional = function () {
@@ -347,71 +362,47 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             optionUl.find("li.none").click(function () {
                 $("input:checkbox").attr("checked", false);
                 $("input:checkbox").parents('tbody tr').removeClass('active');
-                reset_check_relateds();
+                table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
             });
             optionUl.find("li.all").click(function () {
                 $("input:checkbox").attr("checked", true);
                 $("input:checkbox").parents('tbody tr').addClass('active');
-                reset_check_relateds();
+                table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
             });
             optionUl.find("li.docs").click(function () {
                 $("input:checkbox").attr("checked", false);
                 $("input:checkbox").parents('tbody tr').removeClass('active');
                 $("input:checkbox.doc").attr("checked", true);
                 $("input:checkbox.doc").parents('tbody tr').addClass('active');
-                reset_check_relateds();
+                table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
             });
             optionUl.find("li.folders").click(function () {
                 $("input:checkbox").attr("checked", false);
                 $("input:checkbox").parents('tbody tr').removeClass('active');
                 $("input:checkbox.folder").attr("checked", true);
                 $("input:checkbox.folder").parents('tbody tr').addClass('active');
-                reset_check_relateds();
+                table.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
             });
         };
         selectOptional();
 
-        table.find('tbody tr').checkableTR();
+        var trCollection = table.find('tbody tr');
+        trCollection.checkableTR(trCollection);
 
         return table;
     };
-    $.fn.checkableTR = function () {
+    $.fn.checkableTR = function (trCollection) {
         var $tr = $(this);
         var $check_relateds = $('[data-show-on-check]');
-        function reset_check_relateds() {
-            var $all_checkeds = $tr.closest('tbody').find('input:checkbox.select:checked');
-            $check_relateds.hide();
-            $check_relateds.each(function () {
-                var $related = $(this);
-                var show_on_check = $related.data('show-on-check');
-                switch (show_on_check) {
-                    case 'Single':
-                        if ($all_checkeds.length == 1) {
-                            $related.show();
-                        }
-                        break;
-                    case 'Two':
-                        if ($all_checkeds.length == 2) {
-                            $related.show();
-                        }
-                        break;
-                    case 'Any':
-                        if ($all_checkeds.length > 0) {
-                            $related.show();
-                        }
-                        break;
-                }
-                var show_on_selector = $related.data('show-on-selector');
-                if (show_on_selector) {
-                    if ($all_checkeds.closest('tr:not(' + show_on_selector + ')').length > 0) {
-                        $related.hide();
-                    }
-                }
-            });
-        }
+        var trCollection = trCollection || $(this);
+        var selector = 'input:checkbox.select:checked';
+        var $tbody = $tr.closest('tbody');
         $tr.click(function () {
             var $self = $(this);
-            var $checkbox = $self.find('input:checkbox');
+            var $checkbox = $self.find('input:checkbox,input:radio');
+            if ($checkbox.is("input:radio")) {
+                trCollection.removeClass('active');
+            }
             if ($checkbox.attr('disabled') != 'disabled') {
                 $self.toggleClass('active');
                 if ($self.hasClass('active')) {
@@ -419,15 +410,19 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                 } else {
                     $checkbox.removeAttr('checked');
                 }
-                reset_check_relateds();
+                $tbody.reset_check_relateds({ check_relateds: $check_relateds, selector: selector });
             }
         });
     }
-    $.fn.grid = function () {
+    $.fn.grid = function (options) {
+        options = $.extend({
+            checkSelector: "input:checkbox[name=select][checked],input:radio[name=select][checked]"
+        }, options);
+
         var $table = $(this);
         var getSelecteds = function () {
             var selectedData = {};
-            var selected = $table.find("input:checkbox[name=select][checked]");
+            var selected = $table.find(options.checkSelector);
 
             selected.each(function (i) {
                 var current = $(this);
@@ -475,7 +470,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
 
         $('[data-command-type="Redirect"]').click(function () {
             var $self = $(this);
-            var $selected = $table.find("input:checkbox[name=select][checked]");
+            var $selected = $table.find(options.checkSelector);
             var id = $selected.data("id-property");
             var selectedValues = [];
             $selected.each(function () {
@@ -556,16 +551,16 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
     $.fn.treeNode = function () {
         var handler = $(this);
         handler.find('.tree-icon').click(function () {
-            $(this).siblings('ul').toggle('fast').parent().toggleClass('active');
+            $(this).siblings('.children,ul').toggle('fast').parent().toggleClass('active');
         });
     };
     $.fn.mapItem = function () {
         var dom = $(this);
-        var mapItemArrow = dom.find('.map-item .arrow');
+        var menuTrigger = dom.find('.map-item .trigger');
         $(document).click(function () {
-            mapItemArrow.siblings('ul').hide('fast');
+            menuTrigger.siblings('ul').hide('fast');
         });
-        return mapItemArrow.bind('click', function (e) {
+        return menuTrigger.bind('click', function (e) {
             e.stopPropagation();
             var menu = $(this).siblings('ul');
             $('.map-item > ul:visible').not(menu).hide('fast');
@@ -618,47 +613,21 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         var grid = $(this);
         var $check_relateds = $('[data-show-on-check]');
         $check_relateds.hide();
-        function reset_check_relateds() {
-            var $all_checkeds = grid.find('input:checkbox.select:checked');
+        var selector = 'input:checkbox.select:checked';
+        var checkedAction = function ($all_checkeds) {
             if ($all_checkeds.length > 0) {
                 grid.addClass('active');
             }
             else {
                 grid.removeClass('active');
             }
-            $check_relateds.hide();
-            $check_relateds.each(function () {
-                var $related = $(this);
-                var show_on_check = $related.data('show-on-check');
-                switch (show_on_check) {
-                    case 'Single':
-                        if ($all_checkeds.length == 1) {
-                            $related.show();
-                        }
-                        break;
-                    case 'Two':
-                        if ($all_checkeds.length == 2) {
-                            $related.show();
-                        }
-                        break;
-                    case 'Any':
-                        if ($all_checkeds.length > 0) {
-                            $related.show();
-                        }
-                        break;
-                }
-                var show_on_selector = $related.data('show-on-selector');
-                if (show_on_selector) {
-                    if ($all_checkeds.closest('tr:not(' + show_on_selector + ')').length > 0) {
-                        $related.hide();
-                    }
-                }
-            });
         }
+        grid.reset_check_relateds({ check_relateds: $check_relateds, selector: selector, action: checkedAction });
+
         grid.find('input:checkbox[name="select"]').click(function (e) {
             e.stopPropagation();
             $(this).parents('li').toggleClass('active');
-            reset_check_relateds();
+            grid.reset_check_relateds({ check_relateds: $check_relateds, selector: selector, action: checkedAction });
         });
     };
     (function popup_ext() {
@@ -1092,12 +1061,18 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         (function leaveConfirm() {
             var $window = $(window);
             var canLeave = true;
+            var _msg = null;
+            var comfirm = function () {
+                if (canLeave == false) {
+                    return _msg;
+                }
+            };
             var bind = function (msg) {
-                $window.bind('beforeunload', function () {
-                    if (canLeave == false) {
-                        return msg;
-                    }
-                });
+                _msg = msg;
+                $window.bind('beforeunload', comfirm);
+            }
+            var unbind = function (msg) {
+                $window.unbind('beforeunload', comfirm);
             }
             var stop = function () {
                 canLeave = false;
@@ -1105,25 +1080,8 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             var pass = function () {
                 canLeave = true;
             }
-            window.leaveConfirm = { bind: bind, stop: stop, pass: pass };
+            window.leaveConfirm = { bind: bind, unbind: unbind, stop: stop, pass: pass };
         })();
-        if (typeof (ko) != 'undefined') {
-            ko.bindingHandlers.uniqueId = {
-                init: function (element) {
-                    element.id = ko.bindingHandlers.uniqueId.prefix + (++ko.bindingHandlers.uniqueId.counter);
-                },
-                counter: 0,
-                prefix: "unique"
-            };
-
-            ko.bindingHandlers.uniqueFor = {
-                init: function (element, valueAccessor) {
-                    var after = ko.bindingHandlers.uniqueId.counter + (ko.utils.unwrapObservable(valueAccessor()) === "after" ? 0 : 1);
-                    element.setAttribute("for", ko.bindingHandlers.uniqueId.prefix + after);
-                }
-            };
-
-        }
 
         //$.validator.methods.number = function (value, element) {
         //    return value == "" || !isNaN(Globalize.parseFloat(value));
@@ -1141,6 +1099,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         $(document).siteSwitch();
         $(document).dialogLink();
         $(document).linkPost();
+
         $(document).clickableLegend();
 
         //lanauge selection
@@ -1299,6 +1258,37 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                 }, 100);
             }
         });
+    });
+
+    //knockout extension
+    $(function () {
+        if (typeof (ko) != 'undefined') {
+            ko.bindingHandlers.uniqueId = {
+                init: function (element) {
+                    element.id = ko.bindingHandlers.uniqueId.prefix + (++ko.bindingHandlers.uniqueId.counter);
+                },
+                counter: 0,
+                prefix: "unique"
+            };
+
+            ko.bindingHandlers.uniqueFor = {
+                init: function (element, valueAccessor) {
+                    var after = ko.bindingHandlers.uniqueId.counter + (ko.utils.unwrapObservable(valueAccessor()) === "after" ? 0 : 1);
+                    element.setAttribute("for", ko.bindingHandlers.uniqueId.prefix + after);
+                }
+            };
+
+            if (!ko.bindingHandlers.stopBinding) {
+                ko.bindingHandlers.stopBinding = {
+                    init: function (element, valueAccessor) {
+                        var stop = ko.utils.unwrapObservable(valueAccessor());
+                        return { controlsDescendantBindings: stop !== false };
+                    }
+                };
+                //
+                ko.virtualElements.allowedBindings.stopBinding = true;
+            }
+        }
     });
 })(jQuery);
 

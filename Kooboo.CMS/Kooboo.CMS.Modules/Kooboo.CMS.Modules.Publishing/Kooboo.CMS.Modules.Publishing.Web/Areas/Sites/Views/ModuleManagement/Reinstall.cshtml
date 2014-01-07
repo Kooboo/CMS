@@ -1,0 +1,164 @@
+﻿@using Kooboo.CMS.Sites.Extension.ModuleArea.Management;
+@model UploadModuleResult
+
+@{
+    ViewBag.Title = "Module reinstallation".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+    var isValidUpload = Model != null && ViewData.ModelState.IsValid == true;
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Cancel".Localize())
+            </a>
+        </li>
+        @if (isValidUpload)
+        {
+            <li>
+                <a data-ajaxform="">
+                    @Html.IconImage("next") @("Next".Localize())
+                </a>
+            </li>
+        }
+    </ul>
+}
+<div class="block">
+    <h1 class="title">@ViewBag.Title</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <span class="current">@("Module selection".Localize())<b></b></span>
+            <span>@("Installation".Localize())</span>
+            <span>@("Finish".Localize())</span>
+        </div>
+    </div>
+    @using (Html.BeginForm(ViewContext.RequestContext.GetRequestValue("Action").ToString(),
+        ViewContext.RequestContext.GetRequestValue("Controller").ToString(), ViewContext.RequestContext.AllRouteValues(), FormMethod.Post,
+        new Dictionary<string, object>() { { "enctype", "multipart/form-data" } }))
+    {
+        if (isValidUpload == false)
+        {
+            <div class="common-form">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th><label>@("Upload new module file".Localize())</label></th>
+                            <td>
+                                <a class="upload-button button upload" title="Please upload">
+                                    <span>
+                                        <input type="file" name="ModuleFile" accept="" />
+                                    </span>
+                                    @("Select file".Localize())
+                                </a>
+                                @Html.ValidationMessageForInput("ModuleFile")
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <input type="hidden" name="ModuleName" value="@Model.ModuleName" />
+            <div class="content">
+                <p>
+                    @("You have uploaded below new module installation file. If this is not the module file you want,".Localize()) <a class="upload-link" title="@("Click to select file".Localize())">
+                        <span>
+                            <input type="file" name="ModuleFile" accept="" />
+                        </span>@("clike here".Localize())
+                    </a> @("to select a new module file.".Localize())
+                </p>
+            </div>
+            <div class="columns clearfix">
+                <div class="col-31">
+                    <div class="block box">
+                        <div class="title">@("Current version:".Localize())</div>
+                        <div class="container">
+                            <div class="common-form">
+                                <table>
+                                    <tr>
+                                        <th>@("Module name".Localize())</th>
+                                        <td><strong>@Model.SourceModuleInfo.ModuleName</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>@("Module version".Localize())</th>
+                                        <td><strong>@Model.SourceModuleInfo.Version</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>@("Kooboo CMS version".Localize())</th>
+                                        <td><strong>@Model.SourceModuleInfo.KoobooCMSVersion</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-31">
+                    <div class="block box">
+                        <div class="title">@("New version:".Localize())</div>
+                        <div class="container">
+                            <div class="common-form">
+                                <table>
+                                    <tr>
+                                        <th>@("Module name".Localize())</th>
+                                        <td><strong>@Model.TargetModuleInfo.ModuleName</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>@("Module version".Localize())</th>
+                                        <td><strong>@Model.TargetModuleInfo.Version</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>@("Kooboo CMS version".Localize())</th>
+                                        <td><strong>@Model.TargetModuleInfo.KoobooCMSVersion</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            if (Model.ConflictedAssemblies.Count() > 0)
+            {
+                <div class="columns clearfix">
+                    <div class="col-32">
+                        <div class="content">
+                            <p>@("We are about to overwrite the following assembly files. If files that you do not want to overwrite, please remove them from module installation zip file.".Localize())</p>
+                        </div>
+                        <div class="simple-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>@("Assembly file".Localize())</th>
+                                        <th>@("System version".Localize())</th>
+                                        <th>@("Module version".Localize())</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in Model.ConflictedAssemblies)
+                                    {
+                                        <tr>
+                                            <td>@item.ReferenceData.AssemblyName</td>
+                                            <td>@item.ReferenceData.Version</td>
+                                            <td>@item.ConflictedVersion</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>
+<script>
+    $(function () {
+        $('input[name="ModuleFile"]').change(function () {
+            if ($(this).val() != '') {
+                window.leaveConfirm.unbind();
+                this.form.submit();
+            }
+        });
+    })
+</script>

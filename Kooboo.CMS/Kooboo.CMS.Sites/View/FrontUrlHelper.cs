@@ -109,10 +109,10 @@ namespace Kooboo.CMS.Sites.View
                 {
                     if (HttpContext.Current.Request.IsSecureConnection)
                     {
-                        if (!requireSSL.Value)
-                        {
-                            url = "http://" + HttpContext.Current.Request.Url.Host + url;
-                        }
+                        //if (!requireSSL.Value)
+                        //{
+                        //    url = "http://" + HttpContext.Current.Request.Url.Host + url;
+                        //}
                     }
                     else if (requireSSL.Value)
                     {
@@ -323,12 +323,17 @@ namespace Kooboo.CMS.Sites.View
 
             return new HtmlString(UrlUtility.ToHttpAbsolute(resourceDomain, relativeUrl));
         }
+        public virtual IHtmlString FileUrl(string relativeFilePath)
+        {
+            return FileUrl(relativeFilePath, true);
+        }
         /// <summary>
         /// The file URL.
         /// </summary>
         /// <param name="relativeFilePath">The relative file path.</param>
+        /// <param name="withCDNResolving">if set to <c>true</c> [with CDN resolving].</param>
         /// <returns></returns>
-        public virtual IHtmlString FileUrl(string relativeFilePath)
+        public virtual IHtmlString FileUrl(string relativeFilePath, bool withCDNResolving)
         {
             Site site = this.Site;
             var dir = Path.GetDirectoryName(relativeFilePath);
@@ -343,15 +348,27 @@ namespace Kooboo.CMS.Sites.View
                 file = new CustomFile(customDir, Path.GetFileName(relativeFilePath));
             }
             file = file.LastVersion();
-            return ResourceCDNUrl(file.VirtualPath);
-        }
+            if (withCDNResolving)
+            {
+                return ResourceCDNUrl(file.VirtualPath);
+            }
+            else
+            {
+                return new HtmlString(Url.Content(file.VirtualPath));
+            }
 
+        }
+        public virtual IHtmlString ScriptFileUrl(string relativeScriptFilePath)
+        {
+            return ScriptFileUrl(relativeScriptFilePath, true);
+        }
         /// <summary>
         /// Get the file url under "Scripts" folder.
         /// </summary>
         /// <param name="relativeScriptFilePath">The relative file path.</param>
+        /// <param name="withCDNResolving">if set to <c>true</c> [with CDN resolving].</param>
         /// <returns></returns>
-        public virtual IHtmlString ScriptFileUrl(string relativeScriptFilePath)
+        public virtual IHtmlString ScriptFileUrl(string relativeScriptFilePath, bool withCDNResolving)
         {
             Site site = this.Site;
             var dir = Path.GetDirectoryName(relativeScriptFilePath);
@@ -378,8 +395,15 @@ namespace Kooboo.CMS.Sites.View
                     }
                 } while (site != null);
             }
-
-            return ResourceCDNUrl(fileVirtualPath);
+            if (withCDNResolving)
+            {
+                return ResourceCDNUrl(fileVirtualPath);
+            }
+            else
+            {
+                return new HtmlString(Url.Content(fileVirtualPath));
+            }
+            
         }
         #endregion
 

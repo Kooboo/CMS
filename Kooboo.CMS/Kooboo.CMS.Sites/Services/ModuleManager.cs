@@ -6,21 +6,21 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Ionic.Zip;
+using Kooboo.CMS.Account.Models;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Sites.Extension.ModuleArea;
+using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Parsers.ThemeRule;
+using Kooboo.CMS.Sites.Persistence;
+using Kooboo.Web.Mvc.Menu;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using Kooboo.CMS.Sites.Extension.ModuleArea;
-using System.IO;
-using Kooboo.CMS.Sites.Parsers.ThemeRule;
-using Ionic.Zip;
-using Kooboo.CMS.Sites.Models;
-using Kooboo.CMS.Sites.Persistence;
-using Kooboo.CMS.Account.Models;
-using Kooboo.Web.Mvc.Menu;
 using System.Web;
 using System.Web.Mvc;
-
 namespace Kooboo.CMS.Sites.Services
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ModuleManager))]
@@ -143,46 +143,17 @@ namespace Kooboo.CMS.Sites.Services
             return ModuleInfo.Get(moduleName);
         }
         #endregion
-
-        #region Install
-        public virtual ModuleInfo Install(string moduleName, Stream moduleStream, ref StringBuilder log)
-        {
-            return ModuleInstaller.Install(moduleName, moduleStream, ref log);
-        }
-
-        public virtual void OnInstalling(string moduleName, ControllerContext controllerContext)
-        {
-            var moduleAction = ResolveModuleAction(moduleName);
-
-            moduleAction.OnInstalling(controllerContext);
-        }
-        #endregion
-
-        #region Uninstall
-        public virtual void Uninstall(string moduleName)
-        {
-            ModuleUninstaller.Uninstall(moduleName);
-        }
-
-        public virtual void OnUnistalling(string moduleName, ControllerContext controllerContext)
-        {
-            var moduleAction = ResolveModuleAction(moduleName);
-
-            moduleAction.OnUninstalling(controllerContext);
-        }
-        #endregion
-
         #endregion
 
         #region ResolveModuleAction
-        protected virtual IModuleAction ResolveModuleAction(string moduleName)
+        protected virtual Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents ResolveModuleAction(string moduleName)
         {
-            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleAction>(moduleName);
+            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents>(moduleName);
         }
         #endregion
 
         #region Site&Module relation
-        private static class ModuleData
+        private static class ModuleRelationData
         {
             static System.Threading.ReaderWriterLockSlim sitesModuleRelationLocker = new System.Threading.ReaderWriterLockSlim();
             public static List<string> GetSitesInModule(string moduleName)
@@ -195,7 +166,8 @@ namespace Kooboo.CMS.Sites.Services
                 sitesModuleRelationLocker.EnterReadLock();
                 try
                 {
-                    var list = Serialization.DeserializeSettings<List<string>>(filePath);
+                    var jsonData = Kooboo.IO.IOUtility.ReadAsString(filePath);
+                    var list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(jsonData);
                     return list;
                 }
                 finally
@@ -209,7 +181,8 @@ namespace Kooboo.CMS.Sites.Services
                 sitesModuleRelationLocker.EnterWriteLock();
                 try
                 {
-                    Serialization.Serialize(sites, filePath);
+                    var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(sites, Newtonsoft.Json.Formatting.Indented);
+                    Kooboo.IO.IOUtility.SaveStringToFile(filePath, jsonData);
                 }
                 finally
                 {
@@ -218,24 +191,25 @@ namespace Kooboo.CMS.Sites.Services
             }
             private static string GetSitesModuleRelationDataFile(string moduleName)
             {
-                ModuleItemPath entryPath = new ModuleItemPath(moduleName, "Sites.config");
-                return entryPath.PhysicalPath;
+                var modulePath = new ModulePath(moduleName);
+                var relation = modulePath.GetModuleSharedFilePath("Sites.txt");
+                return relation.PhysicalPath;
             }
         }
         public virtual void AddSiteToModule(string moduleName, string siteName)
         {
-            var list = ModuleData.GetSitesInModule(moduleName);
+            var list = ModuleRelationData.GetSitesInModule(moduleName);
             if (!list.Contains(siteName, StringComparer.OrdinalIgnoreCase))
             {
                 list.Add(siteName);
-                ModuleData.SaveSitesInModule(moduleName, list);
+                ModuleRelationData.SaveSitesInModule(moduleName, list);
             }
             try
             {
                 var moduleAction = ResolveModuleAction(moduleName);
                 if (moduleAction != null)
                 {
-                    moduleAction.OnIncluded(new Site(siteName));
+                    moduleAction.OnIncluded(ModuleContext.Create(moduleName, new Site(siteName)));
                 }
             }
             catch (Exception e)
@@ -246,16 +220,16 @@ namespace Kooboo.CMS.Sites.Services
 
         public virtual void RemoveSiteFromModule(string moduleName, string siteName)
         {
-            var list = ModuleData.GetSitesInModule(moduleName);
+            var list = ModuleRelationData.GetSitesInModule(moduleName);
             list.RemoveAll(s => s.EqualsOrNullEmpty(siteName, StringComparison.OrdinalIgnoreCase));
-            ModuleData.SaveSitesInModule(moduleName, list);
+            ModuleRelationData.SaveSitesInModule(moduleName, list);
 
             try
             {
                 var moduleAction = ResolveModuleAction(moduleName);
                 if (moduleAction != null)
                 {
-                    moduleAction.OnExcluded(new Site(siteName));
+                    moduleAction.OnExcluded(ModuleContext.Create(moduleName, new Site(siteName)));
                 }
             }
             catch (Exception e)
@@ -264,13 +238,13 @@ namespace Kooboo.CMS.Sites.Services
             }
 
         }
-        public virtual IEnumerable<string> AllSitesInModule(string moduleName)
+        public virtual IEnumerable<Site> AllSitesInModule(string moduleName)
         {
-            return ModuleData.GetSitesInModule(moduleName).Where(it => new Site(it).Exists());
+            return ModuleRelationData.GetSitesInModule(moduleName).Select(it => new Site(it).AsActual()).Where(it => it != null);
         }
         public virtual bool SiteIsInModule(string moduleName, string siteName)
         {
-            return ModuleData.GetSitesInModule(moduleName).Contains(siteName, StringComparer.OrdinalIgnoreCase);
+            return ModuleRelationData.GetSitesInModule(moduleName).Contains(siteName, StringComparer.OrdinalIgnoreCase);
         }
         public virtual IEnumerable<string> AllModulesForSite(string siteName)
         {
@@ -284,47 +258,47 @@ namespace Kooboo.CMS.Sites.Services
         }
         #endregion
 
-        #region Module Permissions
-        public IEnumerable<Permission> GetModulePermissions()
-        {
-            var modules = All();
-            List<Permission> permissions = new List<Permission>();
-            foreach (var moduleName in modules)
-            {
-                var menuTemplate = MenuFactory.GetMenuTemplate(moduleName);
-                if (menuTemplate != null)
-                {
-                    foreach (var item in menuTemplate.ItemContainers)
-                    {
-                        if (item is MenuItemTemplate)
-                        {
-                            FetchPermissions(moduleName, (MenuItemTemplate)item, permissions);
-                        }
-                    }
-                }
+        //#region Module Permissions
+        //public IEnumerable<Permission> GetModulePermissions()
+        //{
+        //    var modules = All();
+        //    List<Permission> permissions = new List<Permission>();
+        //    foreach (var moduleName in modules)
+        //    {
+        //        var menuTemplate = MenuFactory.GetMenuTemplate(moduleName);
+        //        if (menuTemplate != null)
+        //        {
+        //            foreach (var item in menuTemplate.ItemContainers)
+        //            {
+        //                if (item is MenuItemTemplate)
+        //                {
+        //                    FetchPermissions(moduleName, (MenuItemTemplate)item, permissions);
+        //                }
+        //            }
+        //        }
 
-            }
-            return permissions;
-        }
-        private void FetchPermissions(string moduleName, MenuItemTemplate menuItemTemplate, List<Permission> permissions)
-        {
-            if (menuItemTemplate.ReadOnlyProperties != null)
-            {
-                var permissionGroup = menuItemTemplate.ReadOnlyProperties["permissionGroup"];
-                var permissionName = menuItemTemplate.ReadOnlyProperties["PermissionName"];
-                if (!string.IsNullOrEmpty(permissionName))
-                {
-                    permissions.Add(new Permission() { AreaName = moduleName, Group = permissionGroup, Name = permissionName, DisplayName = permissionName });
-                }
-            }
-            foreach (var item in menuItemTemplate.ItemContainers)
-            {
-                if (item is MenuItemTemplate)
-                {
-                    FetchPermissions(moduleName, (MenuItemTemplate)item, permissions);
-                }
-            }
-        }
-        #endregion
+        //    }
+        //    return permissions;
+        //}
+        //private void FetchPermissions(string moduleName, MenuItemTemplate menuItemTemplate, List<Permission> permissions)
+        //{
+        //    if (menuItemTemplate.ReadOnlyProperties != null)
+        //    {
+        //        var permissionGroup = menuItemTemplate.ReadOnlyProperties["permissionGroup"];
+        //        var permissionName = menuItemTemplate.ReadOnlyProperties["PermissionName"];
+        //        if (!string.IsNullOrEmpty(permissionName))
+        //        {
+        //            permissions.Add(new Permission() { AreaName = moduleName, Group = permissionGroup, Name = permissionName, DisplayName = permissionName });
+        //        }
+        //    }
+        //    foreach (var item in menuItemTemplate.ItemContainers)
+        //    {
+        //        if (item is MenuItemTemplate)
+        //        {
+        //            FetchPermissions(moduleName, (MenuItemTemplate)item, permissions);
+        //        }
+        //    }
+        //}
+        //#endregion
     }
 }

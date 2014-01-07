@@ -21,6 +21,8 @@ using Kooboo.CMS.Content.FileServer.Interfaces;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 namespace Kooboo.CMS.Content.Persistence.FileServerProvider
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IMediaFolderProvider), Order = 2)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<MediaFolder>), Order = 2)]
     public class MediaFolderProvider : IMediaFolderProvider
     {
         public IQueryable<MediaFolder> ChildFolders(MediaFolder parent)
@@ -99,7 +101,7 @@ namespace Kooboo.CMS.Content.Persistence.FileServerProvider
 
         IEnumerable<MediaFolder> IContentElementProvider<MediaFolder>.All(Repository repository)
         {
-            throw new NotImplementedException();
+            return this.All(repository);
         }
 
         public IEnumerable<MediaFolder> All()

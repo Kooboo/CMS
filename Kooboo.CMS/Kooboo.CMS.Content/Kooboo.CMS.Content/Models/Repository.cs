@@ -82,9 +82,9 @@ namespace Kooboo.CMS.Content.Models
         /// <value>
         /// 	<c>true</c> if [enable custom template]; otherwise, <c>false</c>.
         /// </value>
-        [Obsolete("Put the custom template into 'CustomTemplates' which is a sub folder of schema.")]
-        [DataMember(Order = 11)]
-        public bool EnableCustomTemplate { get; set; }
+        //[Obsolete("Put the custom template into 'CustomTemplates' which is a sub folder of schema.")]
+        //[DataMember(Order = 11)]
+        //public bool EnableCustomTemplate { get; set; }
 
         private string userKeyReplacePattern;
         /// <summary>
@@ -222,6 +222,7 @@ namespace Kooboo.CMS.Content.Models
         }
 
         #endregion
+
         #region override object
         public static bool operator ==(Repository obj1, Repository obj2)
         {

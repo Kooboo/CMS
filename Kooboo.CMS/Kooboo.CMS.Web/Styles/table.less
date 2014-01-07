@@ -1,0 +1,427 @@
+
+/* Common table
+----------------------------------------------------------*/
+.common-table table {
+	width: 100%;
+}
+
+.common-table th {
+	font-size: 14px;
+	font-weight: normal;
+	height: 20px;
+	padding: 5px;
+	white-space: nowrap;
+}
+
+.common-form .common-table th {
+	width: auto;
+}
+
+.common-table th:first-child,
+.common-table td:first-child {
+	padding-left: 20px;
+}
+
+.common-table th.nocheckbox,
+.common-table td.nocheckbox {
+	padding-left: 10px;
+	width: 0;
+}
+
+.common-table .checkbox,
+.common-form .common-table .checkbox {
+	width: 13px;
+}
+
+.common-table th.checkbox:hover {
+	background: #F9F9F9;
+}
+
+.common-table th.checkbox.mutiple {
+	cursor: pointer;
+	padding: 0;
+}
+
+.common-table td.checkbox.mutiple {
+	padding-right: 15px;
+}
+
+.common-table th.checkbox.mutiple div {
+	padding: 9px 15px 8px 20px;
+	position: relative;
+}
+
+.common-table .checkbox.mutiple .icon.arrow {
+	background-position: 0 -12px;
+	height: 4px;
+	position: absolute;
+	right: 4px;
+	top: 14px;
+	width: 7px;
+}
+
+.common-table .checkbox.mutiple ul {
+	background: #FFF;
+	border: 2px solid #CCC;
+	left: 20px;
+	position: absolute;
+	top: 100%;
+	white-space: nowrap;
+}
+
+.common-table .checkbox.mutiple li {
+	padding: 0 5px;
+}
+
+	.common-table .checkbox.mutiple li a {
+		color: #0078B1;
+		display: block;
+		margin: 0 -5px;
+		padding: 0 5px;
+	}
+
+		.common-table .checkbox.mutiple li a:hover {
+			background: #F1F1F1;
+		}
+
+.common-table .checkbox input {
+	display: block;
+}
+
+.common-table th.action,
+.common-table td.action {
+	text-align: center;
+	white-space: nowrap;
+	width: 16px;
+}
+
+.common-table th.sort a {
+	color: #000;
+	display: block;
+	height: 20px;
+	margin: -5px;
+	padding: 5px;
+}
+
+.common-table th.sort img.icon {
+	display: inline;
+	height: 11px;
+	margin-left: 5px;
+	width: 8px;
+}
+
+.common-table th.sort.desc .icon {
+	background-position: 0 -24px;
+}
+
+.common-table th.sort.asc .icon {
+	background-position: -8px -24px;
+}
+
+.common-table td {
+	cursor: default;
+	line-height: 1.2;
+	padding: 5px;
+	text-decoration: none;
+	-moz-transition: all 0.2s ease-in-out 0s;
+	-webkit-transition: all 0.2s ease-in-out 0s;
+	transition: all 0.2s ease-in-out 0s;
+	vertical-align: top;
+}
+
+.common-table tr:hover td {
+	background: #E7E7E7;
+}
+
+.common-table tr.empty td {
+	background: #F1F1F1 !important;
+	color: #000 !important;
+	font-weight: bold;
+	padding: 5px;
+	text-align: center;
+}
+
+.common-table tr.active td {
+	background: #0078B1;
+	color: #FFF;
+}
+
+.common-table tr.active a {
+	color: #FFF;
+}
+
+.common-table td.common {
+	width: 300px;
+}
+
+.common-table td.short,
+.common-table td.type,
+.common-table td.date,
+.common-table td.size {
+	white-space: nowrap;
+	width: 100px;
+}
+
+.common-table tbody td .text {
+	float: left;
+	line-height: 16px;
+	margin-right: 3px;
+}
+/* Icon */
+.common-table .icon.folder {
+	float: left;
+	margin: 2px 5px 0 0;
+}
+
+.common-table .active .icon.folder {
+	background-position: -16px -135px;
+}
+
+.common-table .icon.file {
+	float: left;
+	margin: 1px 5px 0 0;
+}
+
+.common-table td .action {
+	float: left;
+	margin-right: 5px;
+}
+
+	.common-table td.action .action {
+		float: none;
+		margin: 0;
+	}
+
+.common-table .editor {
+	float: left;
+	margin-right: 5px;
+	resize: none;
+	width: 400px;
+}
+
+.common-table input.editor {
+	width: 140px;
+}
+
+/* Tree */
+.common-table .expander {
+	cursor: pointer;
+	float: left;
+	height: 16px;
+	margin-right: 3px;
+	width: 10px;
+}
+
+	.common-table .expander .arrow {
+		background-position: -7px -6px;
+		height: 9px;
+		margin-top: 4px;
+		width: 6px;
+	}
+
+	.common-table .expander:hover .arrow {
+		background-position: -13px -6px;
+	}
+
+	.common-table .expander.active .arrow {
+		background-position: -19px -6px;
+		height: 6px;
+	}
+
+	.common-table .expander.active:hover .arrow {
+		background-position: -25px -6px;
+		height: 6px;
+	}
+
+.common-table tr.hidden-folder .icon.folder {
+	filter: alpha(opacity=50);
+	opacity: 0.5;
+}
+/* Drag */
+.common-table .draggable,
+.common-form .common-table .draggable {
+	width: 0;
+}
+
+	.common-table .draggable.checkbox,
+	.common-form .common-table .draggable.checkbox {
+		width: 13px;
+	}
+
+	.common-table .draggable div {
+		padding-top: 2px;
+		position: relative;
+	}
+
+	.common-table .draggable .icon.drag {
+		cursor: move;
+		left: -16px;
+		position: absolute;
+		top: 0;
+	}
+
+.common-table .nocheckbox.draggable .icon.drag {
+	left: -4px;
+}
+
+.common-table tr.accept {
+	background: #CCC;
+}
+
+.common-table tbody tr.ui-sortable-helper td {
+	background: #E7E7E7;
+	filter: alpha(opacity=70);
+	opacity: 0.7;
+}
+
+/* Simple table
+----------------------------------------------------------*/
+.simple-table {
+	margin-bottom: 60px;
+}
+
+	.simple-table .title {
+		font-family: "Segoe UI Light", "Helvetica Neue", openSansLight, Arial, Helvetica, sans-serif;
+		font-size: 20px;
+		font-weight: normal;
+	}
+
+	.simple-table table {
+		background: #F9F9F9;
+		border: 1px solid #CCC;
+		width: 100%;
+	}
+
+	.simple-table th,
+	.simple-table td {
+		padding: 5px;
+	}
+
+	.simple-table thead th {
+		background: #E1E1E1;
+	}
+
+
+/* Common grid
+----------------------------------------------------------*/
+.common-grid {
+	padding: 20px;
+
+	ul {
+		margin-bottom: 20px;
+	}
+
+	li {
+		float: left;
+		margin: 0 6px 6px 0;
+		padding: 3px;
+		position: relative;
+
+		&:hover {
+			background: #E1E1E1;
+
+			input {
+				.opacity(100);
+			}
+		}
+
+		&.active {
+			background: #0078B1;
+		}
+
+		input {
+			.opacity(0);
+			position: absolute;
+			right: 5px;
+			top: 5px;
+			z-index: 3;
+
+			&:checked {
+				.opacity(100);
+
+				& ~ .checked {
+					border-left: 42px solid transparent;
+					border-top: 42px solid #0078B1;
+					display: block;
+					height: 0;
+					position: absolute;
+					right: 0;
+					top: 0;
+					width: 0;
+					z-index: 2;
+				}
+			}
+		}
+	}
+
+	a {
+		background: #0078B1;
+		color: #FFF;
+		display: block;
+		font-size: 14px;
+		position: relative;
+		width: 240px;
+
+		.info {
+			bottom: 0;
+			left: 0;
+			padding: 5px;
+			position: absolute;
+			right: 0;
+
+			.icon {
+				float: left;
+				margin: 2px 2px 0 0;
+			}
+		}
+	}
+
+	.folder a {
+		height: 120px;
+	}
+
+	.file {
+		a {
+			background: #AAA;
+			height: 80px;
+		}
+
+		&.image {
+			a {
+				height: 120px;
+				width: auto;
+			}
+
+			img {
+				display: block;
+				height: 100%;
+			}
+		}
+	}
+
+	&.active li input {
+		.opacity(50);
+	}
+	/* In dialog */
+	.in-dialog & {
+		padding: 20px 0;
+
+		ul a {
+			width: 200px;
+		}
+
+		.folder a {
+			height: 80px;
+		}
+
+		.file a {
+			background: #AAA;
+			height: 60px;
+		}
+
+		.file.image a {
+			height: 80px;
+			width: auto;
+		}
+	}
+}

@@ -1,0 +1,850 @@
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:02:10
+Event time (UTC): 2013/12/17 0:02:10
+Event ID: 89375f37ef3a4acc986818f39921e2e8
+Event sequence: 338
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387238530410
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 81
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:07:10
+Event time (UTC): 2013/12/17 0:07:10
+Event ID: 208800154c184fd3a1f1b18e7c02402a
+Event sequence: 340
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387238830413
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 57
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:12:10
+Event time (UTC): 2013/12/17 0:12:10
+Event ID: b3f403d589354ea68a17f67e4994cecf
+Event sequence: 342
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387239130410
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 15
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:17:10
+Event time (UTC): 2013/12/17 0:17:10
+Event ID: b30526f7eb9c4057b3137365f4568eb3
+Event sequence: 344
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387239430412
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 66
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:22:10
+Event time (UTC): 2013/12/17 0:22:10
+Event ID: f95c49b9e981445db1781338410f9882
+Event sequence: 346
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387239730417
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 66
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:27:10
+Event time (UTC): 2013/12/17 0:27:10
+Event ID: b4a2f73392a34867b18a46c099d98f12
+Event sequence: 348
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387240030410
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 52
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:32:10
+Event time (UTC): 2013/12/17 0:32:10
+Event ID: 52f454e18b3a49fe891d586804965cc2
+Event sequence: 350
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387240330412
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 81
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:37:10
+Event time (UTC): 2013/12/17 0:37:10
+Event ID: 3c40a2b5ff8549f68dc13b8460bbb04f
+Event sequence: 352
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387240630429
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 52
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:42:10
+Event time (UTC): 2013/12/17 0:42:10
+Event ID: 7fbb6f425d3741e190ef99ca9c232edd
+Event sequence: 354
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387240930406
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 77
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:47:10
+Event time (UTC): 2013/12/17 0:47:10
+Event ID: ed7c48ee9a794fa4923b81f57070f480
+Event sequence: 356
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387241230410
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 15
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:52:10
+Event time (UTC): 2013/12/17 0:52:10
+Event ID: 4fa1e0e3e3a54d56941ce120b959dbf8
+Event sequence: 358
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387241530419
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 50
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 8:57:10
+Event time (UTC): 2013/12/17 0:57:10
+Event ID: d68e6a3db90e40ef9ea05ad7a284bba5
+Event sequence: 360
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387241830413
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 66
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 9:02:10
+Event time (UTC): 2013/12/17 1:02:10
+Event ID: ccbeb9c00692422f8e226ea0f52a5c59
+Event sequence: 362
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387242130411
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 11
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 9:07:10
+Event time (UTC): 2013/12/17 1:07:10
+Event ID: 2c5b4f44a2304232a941303e28d4e2bd
+Event sequence: 364
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387242430434
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 55
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 9:12:10
+Event time (UTC): 2013/12/17 1:12:10
+Event ID: da978d6ee2854c18a3fbbee56a05c090
+Event sequence: 366
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387242730407
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 27
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 9:17:10
+Event time (UTC): 2013/12/17 1:17:10
+Event ID: d52da27cf43b429cb05bede0a0f230b3
+Event sequence: 368
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387243030413
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 53
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------
+Event code: 100000
+Event message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+Event time: 2013/12/17 9:22:10
+Event time (UTC): 2013/12/17 1:22:10
+Event ID: 3a717ef129ae4d278940293ca3266530
+Event sequence: 370
+Event detail code: 0
+
+Application information:
+    Application domain: /LM/W3SVC/12/ROOT-1-130316683010221616
+    Trust level: Full
+    Application Virtual Path: /
+    Application Path: I:\Github\Kooboo_CMS\Kooboo.CMS\Kooboo.CMS.Modules\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\
+    Machine name: JIFENG-PC
+
+Exception information:
+    Exception type: System.Web.HttpException
+    Exception message: Path '/a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping' was not found.
+
+Request information:
+    Request URL: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping?requestUrl=http%3A%2F%2Flocalhost%3A43482%2FPublishing%2FRemoteEndpointSetting%2FCreate%3FsiteName%3DSampleSite%26return%3D%252FPublishing%252FRemoteEndpointSetting%253FsiteName%253DSampleSite&browserName=Internet+Explorer&_=1387243330402
+    Request path: /a18e497f4eca41d588f76e50b723ef8f/arterySignalR/ping
+    User host address: ::1
+    User: admin
+    Is authenticated: True
+    Authentication Type: Forms
+    Thread account name: JIFENG-PC\Jifeng
+
+Thread information:
+    Thread ID: 57
+    Thread account name: JIFENG-PC\Jifeng
+    Is impersonating: False
+    Stack trace:    at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.CreatePageRequestContext(ControllerContext controllerContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 66
+   at Kooboo.CMS.Sites.Controllers.ActionFilters.PageExecutionFilterAttribute.OnActionExecuting(ActionExecutingContext filterContext) in d:\Source_For_GitHub\CMS\Kooboo.CMS\Kooboo.CMS.Sites\Controllers\ActionFilters\PageExecutionFilterAttribute.cs:line 40
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass13.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+
+
+Custom event details: 
+--------------------------------------------------------------------------------------------------------

@@ -1,0 +1,162 @@
+﻿/*
+*   editors
+*   author: ronglin
+*   create date: 2011.12.28
+*/
+
+.vs-editors {
+	border: 1px solid #CCC;
+	float: left;
+	width: 250px;
+	height: 100%;
+	margin-left: 5px;
+}
+.vs-editors .content {
+	overflow-y: auto;
+}
+.vs-editors .content .group {
+	clear: both;
+}
+.vs-editors .content .group .head {
+	background-color: #EEE;
+	border-top: 2px solid #fff;
+	border-left: 2px solid #fff;
+	border-right: 2px solid #fff;
+	padding-left: 2px;
+	padding-right: 2px;
+	cursor: pointer;
+}
+.vs-editors .content .group .head.hover {
+	background-color: #CCC;
+}
+.vs-editors .content .group .head.select {
+	background-color: #CCC;
+}
+.vs-editors .content .group .body {
+	display: none;
+	padding: 2px;
+}
+.vs-editors .content .group .body .item {
+	overflow: hidden;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	clear: both;
+}
+.vs-editors .content .group .body .item > span {
+	margin-left: 2px;
+	display: block;
+	float: left;
+}
+.vs-editors .content .group .body .item > span.title {
+	line-height: 20px;
+}
+.vs-editors .content .group .body .item > span.edit {
+	float: right;
+}
+.vs-editors .content .group .body .item .status {
+	width: 10px;
+	height: 10px;
+	margin-top: 5px;
+	margin-left: 0px;
+	background-image: url("images/editors_item_enable.png");
+}
+.vs-editors .content .group .body .item.disabled .status {
+	background-image: url("images/editors_item_disable.png");
+}
+.vs-editors .content .group .body .item .important {
+	width: 10px;
+	height: 10px;
+	margin-top: 5px;
+	background-image: url("images/editors_item_important_not.png");
+}
+.vs-editors .content .group .body .item.important .important {
+	background-image: url("images/editors_item_important.png");
+}
+.vs-editors .content .group .body .item span.title,
+.vs-editors .content .group .body .item span.status,
+.vs-editors .content .group .body .item span.important {
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+}
+.vs-editors .content .group .body .item.propertied span.title,
+.vs-editors .content .group .body .item.propertied span.status,
+.vs-editors .content .group .body .item.propertied span.important {
+    filter: alpha(opacity=100);
+    -moz-opacity: 1;
+    opacity: 1;
+}
+.vs-editors .content .group .body .item.propertied span.status,
+.vs-editors .content .group .body .item.propertied span.important {
+    cursor: pointer;
+}
+
+/*
+* item components style
+*/
+.vs-editors .content .group .body .item input[type="text"] {
+	height: 18px;
+	padding: 1px;
+	border: 1px solid #ccc;
+}
+.vs-editors .content .group .body .item input[type="text"]:hover, .vs-editors .content .group .body .item input[type="text"]:focus {
+	border: 1px solid #4282c3;
+}
+
+/* textjs */
+.vs-editors .content .group .body .item .textjs input.text {
+	width: 130px;
+}
+
+/* numberjs */
+.vs-editors .content .group .body .item .numberjs input.text {
+	width: 130px;
+}
+
+/* unitjs */
+.vs-editors .content .group .body .item .unitjs input.text {
+	width: 100px;
+}
+.vs-editors .content .group .body .item .unitjs input.unit {
+	width: 25px;
+	margin-left: 1px;
+}
+
+/* combojs */
+.vs-editors .content .group .body .item .combojs input.text {
+	width: 130px;
+}
+
+/* colorjs */
+.vs-editors .content .group .body .item .colorjs input.text {
+	width: 107px;
+}
+.vs-editors .content .group .body .item .colorjs .kb-colorPickerButton {
+	vertical-align: top;
+	margin-left: 1px;
+}
+.vs-editors .content .group .body .item .colorjs .kb-colorPickerButton var {
+	border: 1px solid #ccc;
+}
+.vs-editors .content .group .body .item .colorjs .kb-colorPickerButton .kb-hl {
+	border: 1px solid #4282c3;
+}
+
+/* filejs */
+.vs-editors .content .group .body .item .filejs input.text {
+	width: 107px;
+	float: right;
+}
+.vs-editors .content .group .body .item .filejs .butn {
+	float: right;
+	height: 20px;
+	width: 20px;
+	margin-left: 1px;
+	border: 1px solid #ccc;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-image: url("images/editors_item_fileselect.gif");
+}
+.vs-editors .content .group .body .item .filejs .butn.hover {
+	border: 1px solid #4282c3;
+}

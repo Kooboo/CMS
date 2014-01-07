@@ -1,0 +1,71 @@
+﻿@model  IEnumerable<Kooboo.CMS.Sites.Extension.Management.ConflictedAssemblyReference>
+@{
+    ViewBag.Title = "Module installation".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@Url.Action("AbortInstallation", ViewContext.RequestContext.AllRouteValues())" data-confirm="@("Are you sure to cancel the module installation?".Localize())">
+                @Html.IconImage("cancel") @("Cancel".Localize())</a>
+        </li>
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <span class="current">@("Upload module file".Localize())<b></b></span>
+            <span>@("Run install action".Localize())</span>
+            <span>@("Finished".Localize())</span>
+        </div>
+    </div>
+    @using (Html.BeginForm())
+    {
+               
+        <p>@("The following assembly files already exists in Kooboo CMS, but have different versions. ".Localize())</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>@("Assembly file".Localize())</th>
+                    <th>@("Exists version".Localize())</th>
+                    <th>@("Module version".Localize())</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ReferenceData.AssemblyName</td>
+                        <td>@item.ReferenceData.Version</td>
+                        <td>@item.ConflictedVersion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <table>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <label for="KeepSystem">@("Keep the system version".Localize())</label>
+                        <input type="radio" id="KeepSystem" name="override" value="false" />
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <label for="OverrideSystem">@("Use the module version".Localize())</label>
+                        <input type="radio" id="OverrideSystem" name="override" value="true" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>
+

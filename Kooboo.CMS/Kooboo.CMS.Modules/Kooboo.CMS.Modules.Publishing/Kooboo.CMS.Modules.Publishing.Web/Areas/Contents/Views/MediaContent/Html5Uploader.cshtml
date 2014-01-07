@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Multi-file upload".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section ScriptCSS{
+    <script src="@(Url.Content("~/Scripts/html5uploader/vendor/jquery.ui.widget.js"))" type="text/javascript"></script>
+    <script src="@(Url.Content("~/Scripts/html5uploader/jquery.iframe-transport.js"))" type="text/javascript"></script>
+    <script src="@(Url.Content("~/Scripts/html5uploader/jquery.fileupload.js"))" type="text/javascript"></script>
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+
+
+<div class="block file-uploader">
+    <h1 class="title">
+        @ViewBag.Title
+        <strong>@ViewContext.RequestContext.GetRequestValue("FolderName")</strong>
+    </h1>
+    <div id="dropzone" class="dropzone">
+        @("Drop files here".Localize())<br />
+        @("or".Localize())
+        <br />
+        <a class="button upload">@("Select files".Localize())
+            <span>
+                <input id="fileupload" type="file" name="files[]" data-url="@(Url.Action("Create", ViewContext.RequestContext.AllRouteValues()))" multiple /></span>
+        </a>
+    </div>
+    <ul class="file-list" id="statusTemplate" data-bind="foreach: files">
+        <li>
+            <span class="left" data-bind="text: filename"></span>
+            <!-- ko if: progress() < 100 -->
+            <span class="right progress">
+                <span class="value" data-bind="text: progress().toString()+'%'"></span>
+                <span class="bar" data-bind="style: {width:progress().toString()+'%'}"></span>
+            </span>
+            <!-- /ko -->
+            <!-- ko if: progress()==100 -->
+            <!-- ko if: editUrl()!=null -->
+            <a data-bind="attr:{href: editUrl}" class="right dialog-link" title="Edit">@Html.IconImage("edit small")</a>
+            <!-- /ko -->
+            <!-- /ko -->
+        </li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        function FileListViewModel() {
+            // Data
+            var self = this;
+            self.files = ko.observableArray([]);
+        }
+        var model = new FileListViewModel();
+        ko.applyBindings(model, $('#statusTemplate')[0]);
+
+        $('#fileupload').fileupload({
+            autoUpload: true,
+            dropZone: $('#dropzone'),
+            dataType: 'json',
+
+            add: function (e, data) {
+                $.each(data.files, function (index, file) {
+                    var fileModel = { filename: ko.observable(file.name), progress: ko.observable(0), editUrl: ko.observable('') };
+                    file.fileModel = fileModel;
+                    model.files.push(fileModel);
+                });
+                data.submit();
+            },
+            progress: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                data.files[0].fileModel.progress(progress);
+            },
+            onComplete: function (e, data) {
+                data.files[0].fileModel.progress(100);
+            },
+            done: function (e, data) {
+                data.files[0].fileModel.progress(100);
+                data.files[0].fileModel.editUrl(data.result.RedirectUrl);
+                $('a.dialog-link').unbind('click').one('click', function (e) {
+                    e.preventDefault();
+                    var handle = $(this).pop({
+                        width: 800,
+                        height: 580,
+                        frameHeight: "100%",
+                        popupOnTop: true,
+                        dialogClass: 'iframe-dialog',
+                        onclose: function () {
+                        }
+                    }).click();
+                });
+            }
+        });
+    });
+</script>

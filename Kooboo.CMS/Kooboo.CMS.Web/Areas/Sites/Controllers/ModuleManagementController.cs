@@ -20,16 +20,27 @@ using Kooboo.CMS.Sites;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.Web.Mvc;
 using Kooboo.CMS.Common;
-
+using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Management;
+using Kooboo.Globalization;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.RequiredLogOnAttribute(RequiredAdministrator = true, Order = 99)]
     public class ModuleManagementController : Kooboo.CMS.Sites.AreaControllerBase
     {
         #region .ctor
-        public ModuleManagementController(ModuleManager moduleManager)
+        IModuleInstaller _moduleInstaller;
+        IModuleUninstaller _moduleUninstaller;
+        IModuleReinstaller _moduleReinstaller;
+        IInstallationFileManager _moduleVersioning;
+        public ModuleManagementController(ModuleManager moduleManager, IModuleInstaller moduleInstaller, IModuleUninstaller moduleUninstaller,
+            IModuleReinstaller moduleReinstaller, IInstallationFileManager moduleVersioning)
         {
             Manager = moduleManager;
+            _moduleInstaller = moduleInstaller;
+            _moduleUninstaller = moduleUninstaller;
+            _moduleReinstaller = moduleReinstaller;
+            _moduleVersioning = moduleVersioning;
         }
         public ModuleManager Manager { get; set; }
         #endregion
@@ -48,89 +59,68 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return View();
         }
         [HttpPost]
-        public virtual ActionResult Install(InstallModuleModel installModel, string @return)
+        public virtual ActionResult Install(string moduleName, string @return)
         {
-            var data = new JsonResultData(ModelState);
-            if (ModelState.IsValid)
+            if (this.Request.Files.Count > 0)
             {
-                data.RunWithTry((resultData) =>
+                var moduleFile = this.Request.Files["ModuleFile"];
+
+                moduleName = System.IO.Path.GetFileNameWithoutExtension(moduleFile.FileName);
+                var result = _moduleInstaller.Upload(moduleName, moduleFile.InputStream, User.Identity.Name);
+                if (result.IsValid == false)
                 {
-                    var moduleFile = this.Request.Files["ModuleFile"];
-
-                    StringBuilder log = new StringBuilder();
-                    var moduleName = System.IO.Path.GetFileNameWithoutExtension(moduleFile.FileName);
-
-                    var moduleInfo = Manager.Install(moduleName, moduleFile.InputStream, ref log);
-
-                    if (moduleInfo == null && log.Length != 0)
-                    {
-                        data.Success = false;
-                        data.AddMessage(log.ToString());
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(moduleInfo.InstallingTemplate))
-                        {
-                            data.RedirectUrl = Url.Action("OnInstalling", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleName));
-                        }
-                        else
-                        {
-                            data.RedirectUrl = @return;
-                        }
-                    }
-                });
+                    ViewData.ModelState.AddModelError("ModuleFile", "Invalid module file".Localize());
+                }
+                if (result.ModuleExists == true)
+                {
+                    ViewData.ModelState.AddModelError("ModuleFile", "The module already exists, please use 'Reinstall' option to upgrade the module.".Localize());
+                }
+                return View(result);
             }
+            else
+            {
+                var data = new JsonResultData(ModelState);
+                if (ModelState.IsValid)
+                {
+                    data.RunWithTry((resultData) =>
+                    {
+                        data.RedirectUrl = Url.Action("RunInstallation", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", moduleName));
+                    });
+                }
 
-            return Json(data);
+                return Json(data);
+            }
         }
-
-        public virtual ActionResult OnInstalling(string moduleName)
+        public virtual ActionResult RunInstallation(string moduleName)
         {
-            ModuleInfo moduleInfo = ModuleInfo.Get(moduleName);
-            return View(moduleInfo);
+            var tempInstallationPath = _moduleInstaller.GetTempInstallationPath(moduleName);
+            return View(new InstallingModule(moduleName, tempInstallationPath));
         }
         [HttpPost]
-        public virtual ActionResult OnInstalling(string moduleName, FormCollection form)
+        public virtual ActionResult RunInstallation(string moduleName, FormCollection form)
         {
             var data = new JsonResultData(ModelState);
             if (ModelState.IsValid)
             {
                 data.RunWithTry((resultData) =>
                 {
-                    Manager.OnInstalling(moduleName, ControllerContext);
+                    _moduleInstaller.RunInstallation(moduleName, ControllerContext, true, User.Identity.Name);
                     resultData.RedirectUrl = Url.Action("InstallComplete", ControllerContext.RequestContext.AllRouteValues());
                 });
             }
 
             return Json(data);
         }
+
         public virtual ActionResult InstallComplete(string moduleName, string @return)
         {
             return View();
         }
+
         #endregion
 
         #region Uninstall
-        public virtual ActionResult OnUninstalling(string uuid)
-        {
-            ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
-            return View(moduleInfo);
-        }
-        [HttpPost]
-        public virtual ActionResult OnUninstalling(string uuid, FormCollection form)
-        {
-            var data = new JsonResultData(ModelState);
-            if (ModelState.IsValid)
-            {
-                data.RunWithTry((resultData) =>
-                {
-                    Manager.OnUnistalling(uuid, ControllerContext);
-                    resultData.RedirectUrl = Url.Action("Uninstall", ControllerContext.RequestContext.AllRouteValues());
-                });
-            }
 
-            return Json(data);
-        }
         public virtual ActionResult GoingToUninstall(string uuid)
         {
             ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
@@ -138,45 +128,164 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             var sites = Manager.AllSitesInModule(uuid);
             if (sites.Count() > 0)
             {
-                return View();
+                return View(sites.Select(it => new SiteModuleRelationModel(it)));
             }
-            if (!string.IsNullOrEmpty(moduleInfo.UninstallingTemplate))
-            {
-                return RedirectToAction("OnUninstalling", ControllerContext.RequestContext.AllRouteValues());
-            }
-            else
-            {
-                return RedirectToAction("Uninstall", ControllerContext.RequestContext.AllRouteValues());
-            }
+            return RedirectToAction("Uninstall", ControllerContext.RequestContext.AllRouteValues());
         }
         public virtual ActionResult Uninstall(string uuid)
         {
-            return View();
+            ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
+            return View(moduleInfo);
         }
         [HttpPost]
-        public virtual ActionResult Uninstall(string uuid, string @return)
+        public virtual ActionResult Uninstall(string uuid, FormCollection form)
         {
             var data = new JsonResultData(ModelState);
-            data.RunWithTry((resultData) =>
+            if (ModelState.IsValid)
             {
-
-                if (!string.IsNullOrEmpty(uuid))
+                data.RunWithTry((resultData) =>
                 {
-                    Manager.Uninstall(uuid);
+                    data.RedirectUrl = Url.Action("RunUninstallation", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", uuid));
+                });
+            }
+
+            return Json(data);
+        }
+        public virtual ActionResult RunUninstallation(string uuid)
+        {
+            ModuleInfo moduleInfo = ModuleInfo.Get(uuid);
+            return View(moduleInfo);
+        }
+        [HttpPost]
+        public virtual ActionResult RunUninstallation(string uuid, FormCollection form)
+        {
+            var data = new JsonResultData(ModelState);
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    _moduleUninstaller.RunUninstall(uuid, ControllerContext);
+                    resultData.RedirectUrl = Url.Action("UninstallComplete", ControllerContext.RequestContext.AllRouteValues());
+                });
+            }
+
+            return Json(data);
+        }
+        public virtual ActionResult UninstallComplete(string moduleName, string @return)
+        {
+            return View();
+        }
+        #endregion
+
+        #region Reinstall
+        [HttpGet]
+        public virtual ActionResult Reinstall(string uuid, string installationFileName)
+        {
+            if (!string.IsNullOrEmpty(installationFileName))
+            {
+                using (var moduleStream = _moduleVersioning.GetInstallationStream(uuid, installationFileName))
+                {
+                    var result = _moduleReinstaller.Upload(uuid, moduleStream, User.Identity.Name);                 
+                    if (result.IsValid == false)
+                    {
+                        ViewData.ModelState.AddModelError("ModuleFile", "Invalid module file".Localize());
+                    }
+                    return View(result);
+                }
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public virtual ActionResult Reinstall(string uuid, string @return, FormCollection form)
+        {
+            if (this.Request.Files.Count > 0)
+            {
+                var moduleFile = this.Request.Files["ModuleFile"];
+
+                uuid = System.IO.Path.GetFileNameWithoutExtension(moduleFile.FileName);
+                var result = _moduleReinstaller.Upload(uuid, moduleFile.InputStream, User.Identity.Name);
+                if (result.IsValid == false)
+                {
+                    ViewData.ModelState.AddModelError("ModuleFile", "Invalid module file".Localize());
+                }
+                return View(result);
+            }
+            else
+            {
+                var data = new JsonResultData(ModelState);
+                if (ModelState.IsValid)
+                {
+                    data.RunWithTry((resultData) =>
+                    {
+                        data.RedirectUrl = Url.Action("RunReinstallation", ControllerContext.RequestContext.AllRouteValues().Merge("ModuleName", uuid));
+                    });
                 }
 
-                resultData.RedirectUrl = @return;
+                return Json(data);
+            }
+        }
+
+        public virtual ActionResult RunReinstallation(string moduleName)
+        {
+            var tempInstallationPath = _moduleInstaller.GetTempInstallationPath(moduleName);
+            return View(new InstallingModule(moduleName, tempInstallationPath));
+        }
+        [HttpPost]
+        public virtual ActionResult RunReinstallation(string moduleName, FormCollection form)
+        {
+            var data = new JsonResultData(ModelState);
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    _moduleReinstaller.RunReinstallation(moduleName, ControllerContext, true, User.Identity.Name);
+                    resultData.RedirectUrl = Url.Action("ReinstallComplete", ControllerContext.RequestContext.AllRouteValues());
+                });
+            }
+
+            return Json(data);
+        }
+        public virtual ActionResult ReinstallComplete(string moduleName, string @return)
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region Exclude
+        [HttpPost]
+        public virtual ActionResult Exclude(string uuid, SiteModuleRelationModel[] model, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+
+            data.RunWithTry((resultData) =>
+            {
+                if (ModelState.IsValid)
+                {
+                    foreach (var item in model)
+                    {
+                        Manager.RemoveSiteFromModule(uuid, item.UUID);
+                    }
+
+                    resultData.RedirectUrl = @return;
+                }
             });
             return Json(data);
         }
         #endregion
 
-        #region Relations
-        public virtual ActionResult Relations(string uuid)
+        #region Relation
+        public virtual ActionResult Relation(string uuid)
         {
-            var model = Manager.AllSitesInModule(uuid).Select(siteName => new RelationModel()
+            var model = Manager.AllSitesInModule(uuid).Select(site => new RelationModel()
             {
-                RelationName = siteName,
+                DisplayName = site.FriendlyName,
+                ObjectUUID = site.FullName,
+                RelationObject = site,
                 RelationType = "Site"
             });
             return View("Relations", model);
@@ -191,6 +300,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 return Json("The name already exists.", JsonRequestBehavior.AllowGet);
             }
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region Versioning
+        public ActionResult Versions(string uuid)
+        {
+            return View(_moduleVersioning.AllInstallationLogs(uuid));
         }
         #endregion
     }

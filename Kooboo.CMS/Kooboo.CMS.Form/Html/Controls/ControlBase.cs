@@ -55,6 +55,14 @@ namespace Kooboo.CMS.Form.Html.Controls
         {
             return newValue;
         }
+
+        public virtual string DataType
+        {
+            get { return null; }
+        }
         #endregion
+
+
+
     }
 }

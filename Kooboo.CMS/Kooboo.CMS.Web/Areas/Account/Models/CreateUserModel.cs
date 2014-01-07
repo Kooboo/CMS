@@ -72,7 +72,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
             user.IsLockedOut = this.IsLockedOut;
             if (user.IsLockedOut == true)
             {
-                user.LastLockoutDate = DateTime.UtcNow;
+                user.UtcLastLockoutDate = DateTime.UtcNow;
             }
             user.Password = this.Password;
             user.UICulture = this.UICulture;

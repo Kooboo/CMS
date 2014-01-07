@@ -32,9 +32,16 @@ namespace Kooboo.CMS.Common.Formula
             var s = formula;
             foreach (Match match in matches)
             {
-                var value = valueProvider.GetValue(match.Groups["Name"].Value);
-                var htmlValue = value == null ? "" : value.ToString();
-                s = s.Replace(match.Value, htmlValue);
+                var key = match.Groups["Name"].Value;
+                int intKey;
+                //ignore {0},{1}... it is the format string.
+                if (!int.TryParse(key, out intKey))
+                {
+                    var value = valueProvider.GetValue(match.Groups["Name"].Value);
+                    var htmlValue = value == null ? "" : value.ToString();
+                    s = s.Replace(match.Value, htmlValue);
+                }
+
             }
             return s;
         }

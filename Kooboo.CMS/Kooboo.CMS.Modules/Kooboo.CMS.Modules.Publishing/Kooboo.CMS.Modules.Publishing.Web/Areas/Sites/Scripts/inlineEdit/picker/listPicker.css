@@ -1,0 +1,42 @@
+﻿/*
+*   listPicker
+*   author: ronglin
+*   create date: 2010.05.28
+*/
+
+.kb-listPicker
+{
+    display: none;
+    position: absolute;
+    background-color: #f0f0f0;
+    border: 2px solid #4282C3;
+    text-align: left;
+    overflow: auto;
+    overflow-x: hidden;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    z-index: 4;
+}
+
+.kb-listPicker .kb-con
+{
+    width: 100%;
+    padding: 4px;
+    -moz-user-select: none;
+}
+
+.kb-listPicker .kb-item
+{
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    padding: 2px;
+    border-bottom: 1px solid #cccccc;
+}
+
+.kb-listPicker .kb-hl
+{
+    background-color: #ccc;
+}

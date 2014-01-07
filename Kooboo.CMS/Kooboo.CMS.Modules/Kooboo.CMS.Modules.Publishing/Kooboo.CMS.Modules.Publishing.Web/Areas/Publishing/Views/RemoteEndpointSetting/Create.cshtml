@@ -1,0 +1,113 @@
+﻿@model Kooboo.CMS.Modules.Publishing.Models.RemoteEndpointSetting
+@{
+    ViewBag.Title = "Create remote site setting".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    @using (Html.BeginForm())
+    { 
+        @Html.ValidationSummary(true)
+        <table>
+            <tbody>
+                @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.CmisService, new { HtmlAttributes = new { @class = "medium cmis-config" } })
+                @Html.EditorFor(m => m.CmisUserName, new { HtmlAttributes = new { @class = "medium cmis-config" } })
+                @Html.EditorFor(m => m.CmisPassword, new { HtmlAttributes = new { @class = "medium cmis-config" } })
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(m => m.RemoteRepositoryId)
+                    </th>
+                    <td>
+                        @Html.DropDownListFor(m => m.RemoteRepositoryId, new List<System.Web.Mvc.SelectListItem>(), new { @class = "medium" })
+                        <a id="refresh_RemoteRepositoryId" href="javascript:;" style="display: inline-block; margin-left: -5px;">
+                            @Html.IconImage("reget")
+                        </a>
+                        @Html.ValidationMessageFor(m => m.RemoteRepositoryId)
+                        <em class="tip">
+                            @("You can reget remote site list when the refresh button is lighten.".Localize())
+                        </em>
+                    </td>
+                </tr>
+                @Html.EditorFor(m => m.MaxRetryTimes, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.Enabled)
+            </tbody>
+        </table>
+    }
+</div>
+<script>
+    $(function () {
+        var $cmisService = $("#CmisService"), $cmisUserName = $("#CmisUserName"),
+            $cmisPassword = $("#CmisPassword"), $remoteRepository = $("#RemoteRepositoryId"),
+            $refreshButton = $("#refresh_RemoteRepositoryId img");
+        var oldConfig = {
+            CmisService: $cmisService.val(),
+            CmisUserName: $cmisUserName.val(),
+            CmisPassword: $cmisPassword.val()
+        };
+        var newConfig = {
+            CmisService: $cmisService.val(),
+            CmisUserName: $cmisUserName.val(),
+            CmisPassword: $cmisPassword.val()
+        };
+
+        $(".cmis-config").blur(function () {
+            newConfig[this.name] = this.value;
+            var isChange = oldConfig[this.name] != newConfig[this.name];
+            if (isChange&&newConfig.CmisService && newConfig.CmisUserName && newConfig.CmisPassword) {
+                $refreshButton[isChange ? "addClass" : "removeClass"]("on");
+            }
+            oldConfig[this.name] = this.value;
+        });
+
+        $refreshButton.on("click", function () {
+            var self = $(this);
+            if (self.hasClass("on")) {
+                var defer = loadRemoteRepositories();
+                defer.done(function () {
+                    self.removeClass("on");
+                });
+            }
+            return false;
+        });
+
+        function loadRemoteRepositories() {
+            $remoteRepository.empty();
+            var defer=$.ajax({
+                url: "@Url.Action("GetRemoteRepositories",ViewContext.RequestContext.AllRouteValues())",
+                type: "POST",
+                dataType: "json",
+                data: newConfig,
+                beforeSend: function () {
+                    window.loading.show();
+                }
+            });
+            defer.done(function (data) {
+                if (data.Success == false) {
+                    window.info.show(data.Messages, false);
+                } else {
+                    var childHtml = '';
+                    for (var ix in data.Model) {
+                        childHtml += '<option value="' + data.Model[ix].id + '">' + data.Model[ix].text + '</option>';
+                    }
+                    $remoteRepository.html(childHtml);
+                }
+            }).always(function () {
+                window.loading.hide();
+            });
+            return defer.promise();
+        }
+    });
+</script>

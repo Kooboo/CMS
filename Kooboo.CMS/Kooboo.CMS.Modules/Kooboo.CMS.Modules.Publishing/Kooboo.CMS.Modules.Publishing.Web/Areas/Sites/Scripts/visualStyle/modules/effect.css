@@ -1,0 +1,9 @@
+﻿/*
+*   effect
+*   author: ronglin
+*   create date: 2011.2.10
+*/
+
+.vs-effect{
+    z-index:1; /* set effect.css not empty to fix Opear issue on ReleaseMode */
+}

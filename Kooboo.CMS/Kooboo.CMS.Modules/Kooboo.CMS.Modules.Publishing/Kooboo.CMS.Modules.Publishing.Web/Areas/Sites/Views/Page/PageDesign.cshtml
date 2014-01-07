@@ -1,0 +1,52 @@
+﻿@model bool
+<div class="designer">
+    <ul class="actions clearfix">
+        <li>
+            <button id="btnUndo" title="@("Undo".Localize())" disabled="disabled">@Html.IconImage("undo")</button></li>
+        <li>
+            <button id="btnRedo" title="@("Redo".Localize())" disabled="disabled">@Html.IconImage("redo")</button></li>
+    </ul>
+    <div id="container" class="container">
+        @*<div id="iframeLoading">
+            @("Loading...".Localize())
+        </div>*@
+        <div id="iframeMask">
+        </div>
+        @{
+            var siteName = ViewContext.RequestContext.GetRequestValue("siteName");
+            var pageName = ViewContext.RequestContext.GetRequestValue("UUID");
+            var create = Model;
+            if (create) { pageName = null; }
+            // ...
+            var resources = new System.Text.StringBuilder();
+            resources.AppendFormat("<script type=\"text/javascript\" src=\"{0}\"></script>", Html.Raw(Kooboo.Web.Url.UrlUtility.ToHttpAbsolute(Request.Url.AbsoluteUri,Url.Action("Settings", "PageDesign", new { siteName = siteName })))).AppendLine();
+            resources.Append(Html.Raw(Html.ExternalResources(AreaHelpers.GetAreaName(Html.ViewContext.RouteData),"pageDesignJs",null,Request.Url.AbsoluteUri).ToString()));
+            var js = Html.Raw(resources.ToString());
+            var css = Html.Raw(Html.ExternalResources(AreaHelpers.GetAreaName(Html.ViewContext.RouteData), "pageDesignCss", null, Request.Url.AbsoluteUri).ToString());
+            var url = Html.Raw(Url.Action("Design", "PageDesign", new
+            {
+                siteName = siteName
+                ,
+                pageName = pageName
+                ,
+                layout = ViewContext.RequestContext.GetRequestValue("layout")
+                ,
+                draft = ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower() == "draft"
+                ,
+                version = ViewContext.RequestContext.GetRequestValue("version")
+            }));
+        }
+        <input name="PagePositionsJson" type="hidden" />
+        <input id="PageDesignJs" type="hidden" value="@Html.Raw(js)" />
+        <input id="PageDesignCss" type="hidden" value="@Html.Raw(css)" />
+        <input id="PageDesignUrl" type="hidden" value="@Html.Raw(url)" />
+        <script type="text/javascript">
+            var __pageDesign = {
+                leaveConfirm: '@("Are you sure you want to leave the current page? All your changes might be lost.".Localize())',
+                undoBtnTitle: '@("Undo".Localize())',
+                redoBtnTitle: '@("Redo".Localize())'
+            };
+        </script>
+        <script type="text/javascript" src="@Html.Raw(Url.Content("~/Areas/Sites/Scripts/pageDesign/nest.js"))"></script>
+    </div>
+</div>

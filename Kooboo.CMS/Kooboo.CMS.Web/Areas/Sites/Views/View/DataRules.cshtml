@@ -15,8 +15,10 @@
                     <span class="left" data-bind="text:DataName"></span>
                     <a  class="action" data-bind="click:$root.DeleteDataRule" title="@("Remove".Localize())">@Html.IconImage("minus small")</a>
                     <a  class="action" data-bind="click:$root.EditDataRule" title="@("Edit".Localize())">@Html.IconImage("edit small")</a>
+                    <!-- ko if: DataRule.DataRuleType() ==0 -->
                     <a  class="action" data-bind="click:$root.InsertCodeSnippet" title="@("Html code".Localize())">@Html.IconImage("csharp")</a>
                     <a  class="action" data-bind="click:$root.InsertCodeSnippet" title="@("Html With Inline editing".Localize())">@Html.IconImage("inline-edit")</a>
+                    <!-- /ko -->
                 </li>
             </ul>
         </div>

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Services
 {
@@ -20,7 +21,11 @@ namespace Kooboo.CMS.Sites.Services
     {
         protected override string BasePath
         {
-            get { return Path.Combine(Settings.BaseDirectory, PathEx.BasePath, "ImportedSites"); }
+            get
+            {
+                var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+                return Path.Combine(baseDir.Cms_DataPhysicalPath, "ImportedSites");
+            }
         }
     }
 }

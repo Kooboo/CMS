@@ -78,7 +78,7 @@ namespace Kooboo.CMS.Sites.Services
                     if (siteUser != null && siteUser.Roles != null)
                     {
                         allow = siteUser.Roles.Select(it => Kooboo.CMS.Account.Services.ServiceFactory.RoleManager.Get(it))
-                                .Any(it => it.HasPermission(permission));
+                                .Any(it => it != null && it.HasPermission(permission));
                     }
                 }
 

@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.Controllers.ActionFilters
 {
-    public class CustomOutputTextWriterFilter : ActionFilterAttribute
+    public class CustomOutputTextWriterFilter : ActionFilterAttribute, IExceptionFilter
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -25,6 +25,11 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
             {
                 outputTextWriterWrapper.Render(filterContext.HttpContext.Response);
             }
+        }
+
+        public void OnException(ExceptionContext filterContext)
+        {
+            filterContext.HttpContext.Response.RestoreRawOutput();
         }
     }
 }

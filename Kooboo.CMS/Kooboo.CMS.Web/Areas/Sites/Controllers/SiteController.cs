@@ -58,12 +58,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         protected virtual ActionResult CreateSite([Bind(Exclude = "Parent")]Site site, string parent, string template)
         {
-
             var data = new JsonResultData(ViewData.ModelState);
 
             if (ModelState.IsValid)
             {
-
                 data.RunWithTry((resultData) =>
                 {
                     Site parentSite = null;
@@ -105,7 +103,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Validation
-        [CreateSiteAuthroziation]
+      
         public string CheckRepository(string name)
         {
             var repository = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager.Get(name);
@@ -123,7 +121,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 return (new { IsNew = true }).ToJSON();
             }
         }
-        [CreateSiteAuthroziation]
+       
         public JsonResult IsRepositoryAvaliable(string repository, bool? createNew)
         {
             if (createNew.HasValue && createNew.Value == false)
@@ -147,7 +145,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-        [CreateSiteAuthroziation]
+        
         public virtual ActionResult IsSiteNameAvailable(string name, string parent)
         {
             Site parentSite = null;
@@ -317,11 +315,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     Site createdSite = null;
                     if (Request.Files.Count > 0)
                     {
-                        createdSite = ServiceFactory.SiteManager.Create(parent, model.Name, model.Repository, Request.Files[0].InputStream, User.Identity.Name);
+                        createdSite = ServiceFactory.SiteManager.Import(parent, model.Name, Request.Files[0].InputStream, model.ToSiteSetting(), User.Identity.Name, model.KeepSiteSetting);
                     }
                     else
                     {
-                        createdSite = ServiceFactory.SiteManager.Import(parent, model.Name, model.Repository, model.File, User.Identity.Name);
+                        createdSite = ServiceFactory.SiteManager.Import(parent, model.Name, model.File, model.ToSiteSetting(), User.Identity.Name, model.KeepSiteSetting);
                     }
 
                     resultData.RedirectUrl = Url.Action("SiteMap", new { controller = "Home", siteName = createdSite.FullName });
@@ -389,7 +387,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         #region ONLINE OFFLINE
 
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Settings", Order = 1)]
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
         public virtual ActionResult SwitchOffOn(string siteName)
         {
             var isOnLine = ServiceFactory.SiteManager.IsOnline(siteName);
@@ -412,7 +410,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region ClearCache
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Settings", Order = 1)]
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
         [HttpPost]
         public virtual ActionResult ClearCache()
         {
@@ -436,13 +434,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Settings
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Settings", Order = 1)]
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
         public virtual ActionResult Settings()
         {
             return View(Site.AsActual());
         }
 
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Settings", Order = 1)]
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
         [HttpPost]
         public virtual ActionResult Settings(Site model)
         {
@@ -483,6 +481,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     site.EnableStyleEdting = model.EnableStyleEdting;
                     site.TimeZoneId = model.TimeZoneId;
                     site.HtmlMeta = model.HtmlMeta;
+                    site.Membership = model.Membership;
+                    site.SSLDetection = model.SSLDetection;
 
                     ServiceFactory.SiteManager.Update(site);
                     resultData.AddMessage("Site setting has been changed.".Localize());
@@ -554,7 +554,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 data.RunWithTry((resultData) =>
                 {
-                    var createdSite = Kooboo.CMS.Sites.Services.ServiceFactory.SiteManager.Copy(Site, model.Name, model.Repository);
+                    if (string.IsNullOrEmpty(model.Membership))
+                    {
+                        model.Membership = Site.AsActual().Membership;
+                    }
+                    var createdSite = Kooboo.CMS.Sites.Services.ServiceFactory.SiteManager.Copy(Site, model.Name, model.ToSiteSetting());
 
                     resultData.RedirectUrl = Url.Action("SiteMap", new { controller = "Home", siteName = createdSite.FullName });
                 });

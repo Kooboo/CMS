@@ -34,20 +34,21 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
 
         public string Name { get; set; }
 
-        [GridColumn(Order = 1, HeaderText = "Folder name", GridColumnType = typeof(SortableGridColumn))]
+        [GridColumn(Order = 1, HeaderText = "Folder name", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn))]
         [UIHint("MultiFolderTree")]
         [Display(Name = "Folder name")]
         //[RemoteEx("IsNameAvailable", "*", RouteFields = "RepositoryName")]
         public string FolderName { get; set; }
 
         [GridColumn(Order = 2, HeaderText = "Send received", GridItemColumnType = typeof(BooleanGridItemColumn))]
-        [Display(Name = "Send recieved content")]
-        [Description("Broadcasting contents that received from other websites.")]
+        [Display(Name = "Send received content")]
+        [Description("Broadcasting contents that received from other websites.s")]
         [UIHint("BooleanEx")]
         public bool? SendReceived { get; set; }
 
+        [GridColumn(Order = 3, HeaderText = "Send to sub sites", GridItemColumnType = typeof(BooleanGridItemColumn))]
         [DisplayName("Send to sub sites")]
-        [Description("broadcast the content to the selected child websites.")]        
+        [Description("Configure the receiving settings for subsites automatically.")]
         public bool? SendToChildSites { get; set; }
 
         [UIHint("RadioButtonList")]

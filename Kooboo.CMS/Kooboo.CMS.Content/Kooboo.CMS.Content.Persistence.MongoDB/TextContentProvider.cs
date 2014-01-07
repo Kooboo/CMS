@@ -21,6 +21,8 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Content.Persistence.MongoDB
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentProvider), Order = 2)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IContentProvider<TextContent>), Order = 2)]
     public class TextContentProvider : ITextContentProvider
     {
         #region Categories

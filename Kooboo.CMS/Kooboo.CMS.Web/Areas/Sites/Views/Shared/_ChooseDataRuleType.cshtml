@@ -1,0 +1,28 @@
+﻿<div class="common-form data-rule-type">
+    <table>
+        <tr>
+            <th>
+                <label>@("Data rule type".Localize())</label>
+            </th>
+            <td>
+                <ul class="radio-list">
+                    <li>
+                        <input type="radio" id="internal_query" name="DataRuleType" data-bind="checked:DataRuleType" value="0" />
+                        <label for="internal_query" class="inline">@("Kooboo content repository".Localize())</label>
+                        <em class="tip">@("Directly query content from Kooboo data folder.".Localize())</em>
+                    </li>
+                    <li><br /></li>
+                    <li>
+                        <input type="radio" id="query_from_http" name="DataRuleType" data-bind="checked:DataRuleType" value="3" />
+                        <label for="query_from_http" class="inline">@("Query from HTTP".Localize())</label>
+                        <em class="tip">@("Query content from HTTP URI, HTTP URI must response with a Json or XML data source.".Localize())</em>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+    <p class="buttons">        
+        <button type="submit" data-bind="click:onChooseDataRuleType">@("Next".Localize()) »</button>
+        <a class="button gray" data-bind="click:CancelSaveDataRule">@("Cancel".Localize())</a>
+    </p>
+</div>

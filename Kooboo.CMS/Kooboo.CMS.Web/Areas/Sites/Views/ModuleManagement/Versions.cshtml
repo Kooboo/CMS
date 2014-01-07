@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Kooboo.CMS.Sites.Extension.ModuleArea.Management.InstallationContext>
+@{
+    ViewBag.Title = "Module versions".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Reinstall", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect">
+                @Html.IconImage("reset") @("Reinstall".Localize())
+            </a>
+        </li>
+    </ul>
+}
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title
+    </h1>
+</div>
+<div class="block common-form">
+    @Html.GridForModel2()
+</div>

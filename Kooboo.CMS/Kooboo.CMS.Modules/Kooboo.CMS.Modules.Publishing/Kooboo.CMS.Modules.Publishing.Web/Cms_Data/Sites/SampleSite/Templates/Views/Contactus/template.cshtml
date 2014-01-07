@@ -1,0 +1,28 @@
+﻿<div class="common-form">
+    <h6 class="title">Contact us</h6>
+    <form method="post" action="@Url.FrontUrl().SubmissionUrl("ContactUs")">
+        @Html.AntiForgeryToken()
+        <!-- this contact form will send an email to the email address defined in system/settings/smtp-->
+        @*<input type="file" name="image"/>*@
+        @*<input type="hidden" name="SuccessedUrl" value='@Url.FrontUrl().PageUrl("Thankyou")'/>*@
+        @*<input type="hidden" name="FailedUrl" value='@Url.FrontUrl().PageUrl("Failed")'/>*@
+        <p class="field">
+            <label for="from">From:</label>
+            <input type="text" id="from" name="From" data-val-required="From is required" data-val="true" @Validator.Regex(Kooboo.RegexPatterns.EmailAddress, "The email is invalid.").ClientValidationRule.GenerateHtmlAttributes() />
+            @Html.ValidationMessageForInput("From")
+        </p>
+        <p class="field">
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="Subject" data-val-required="Subject is required" data-val="true" />
+            @Html.ValidationMessageForInput("Subject")
+        </p>
+        <p class="field">
+            <label for="body">body:</label>
+            <textarea id="body" name="Body" cols="20" rows="10"></textarea>
+        </p>
+        <div class="buttons">
+            <button type="submit" name="submit">Submit</button>
+        </div>
+    </form>
+
+</div>

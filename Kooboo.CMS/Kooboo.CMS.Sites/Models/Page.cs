@@ -21,6 +21,7 @@ using System.Collections.Specialized;
 using System.Collections;
 using Kooboo.Dynamic;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using System.Security.Principal;
 namespace Kooboo.CMS.Sites.Models
 {
     public enum PageType
@@ -196,14 +197,35 @@ namespace Kooboo.CMS.Sites.Models
     [DataContract]
     public class PagePermission
     {
-        /// <summary>
-        /// <example>?,*,User1,Role1</example>
-        /// </summary>
-        /// <value>The allowed.</value>
-        [DataMember(Order = 1)]
-        public string Allowed { get; set; }
-        [DataMember(Order = 3)]
-        public string Denied { get; set; }
+        [DataMember]
+        public bool RequireMember { get; set; }
+        [DataMember]
+        public string[] AllowGroups { get; set; }
+        [DataMember]
+        public bool AuthorizeMenu { get; set; }
+        [DataMember]
+        public string UnauthorizedUrl { get; set; }
+
+        public bool Authorize(IPrincipal principal)
+        {
+            var allow = true;
+            if (this.RequireMember)
+            {
+                if (!principal.Identity.IsAuthenticated)
+                {
+                    allow = false;
+                }
+                else
+                {
+                    var groups = this.AllowGroups;
+                    if (groups != null && groups.Length > 0 && !groups.Any<string>(new Func<string, bool>(principal.IsInRole)))
+                    {
+                        allow = false;
+                    }
+                }
+            }
+            return allow;
+        }
     }
 
     public static class PageHelper
@@ -229,7 +251,7 @@ namespace Kooboo.CMS.Sites.Models
     {
         public static Func<Site, Page, bool> IsLocalizeFunc = delegate(Site site, Page page)
         {
-            return (new Page(site, page.PageNamePaths.ToArray())).Exists();
+            return (new Page(site, page.PageNamePaths.ToArray())).AsActual() != null;
         };
         public Page()
         {
@@ -433,6 +455,7 @@ namespace Kooboo.CMS.Sites.Models
         #region EmptyPage
         public static Func<Page> Activator = () => new Page();
         #endregion
+
         #region override PathResource
 
         string _fullName = null;
@@ -626,7 +649,7 @@ namespace Kooboo.CMS.Sites.Models
             this.Site = sourcePage.Site;
             this.Parent = sourcePage.Parent;
         }
-        void IPersistable.OnSaved()
+        public void OnSaved()
         {
             this.IsDummy = false;
         }
@@ -718,6 +741,10 @@ namespace Kooboo.CMS.Sites.Models
 
         public virtual bool HasParentVersion()
         {
+            if (this.Parent != null && this.Parent.IsLocalized(this.Site))
+            {
+                return false;
+            }
             var parentSite = this.Site.Parent;
             while (parentSite != null)
             {

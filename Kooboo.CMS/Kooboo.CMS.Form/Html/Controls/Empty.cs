@@ -43,5 +43,11 @@ namespace Kooboo.CMS.Form.Html.Controls
         {
             get { return false; }
         }
+
+
+        public string DataType
+        {
+            get { return null; }
+        }
     }
 }

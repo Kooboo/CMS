@@ -18,32 +18,63 @@ namespace Kooboo.CMS.Web.Areas.Sites
 {
     public static class MenuExtensions
     {
-        public static Menu SetCurrentSite(this Menu menu, ViewContext viewContext)
+        #region SetCurrentSite
+        public static Kooboo.Web.Mvc.Menu.Menu SetCurrentSite(this Kooboo.Web.Mvc.Menu.Menu menu, ViewContext viewContext)
         {
             var siteName = viewContext.RequestContext.GetRequestValue("siteName");
             if (siteName != null)
             {
                 foreach (var item in menu.Items)
                 {
-                    SetCurrentRepository(item, siteName.ToString());
-                }   
+                    SetCurrentSite(item, siteName.ToString());
+                }
             }
             return menu;
         }
-        private static void SetCurrentRepository(this MenuItem menuItem, string siteName)
+        private static void SetCurrentSite(this MenuItem menuItem, string siteName)
         {
             menuItem.RouteValues["siteName"] = siteName;
             if (menuItem.Items != null)
             {
                 foreach (var item in menuItem.Items)
                 {
-
                     if (item.Items != null)
                     {
-                        SetCurrentRepository(item, siteName);
+                        SetCurrentSite(item, siteName);
                     }
                 }
             }
-        }      
+        }
+        #endregion
+
+        #region SetCurrentRepository
+        public static Kooboo.Web.Mvc.Menu.Menu SetCurrentRepository(this Kooboo.Web.Mvc.Menu.Menu menu, ViewContext viewContext)
+        {
+            var repositoryName = viewContext.RequestContext.GetRequestValue("repositoryName");
+            if (repositoryName != null)
+            {
+                foreach (var item in menu.Items)
+                {
+                    SetCurrentRepository(item, repositoryName.ToString());
+                }
+            }
+            return menu;
+        }
+        private static void SetCurrentRepository(this MenuItem menuItem, string repositoryName)
+        {
+            menuItem.RouteValues["repositoryName"] = repositoryName;
+            if (menuItem.Items != null)
+            {
+                foreach (var item in menuItem.Items)
+                {
+                    if (item.Items != null)
+                    {
+                        SetCurrentRepository(item, repositoryName);
+                    }
+                }
+            }
+        }
+
+        #endregion
     }
 }

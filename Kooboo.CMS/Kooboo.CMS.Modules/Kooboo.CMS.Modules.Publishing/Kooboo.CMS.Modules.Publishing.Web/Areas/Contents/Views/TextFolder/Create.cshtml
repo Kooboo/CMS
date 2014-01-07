@@ -1,0 +1,137 @@
+﻿@model Kooboo.CMS.Content.Models.TextFolder
+@{
+    ViewBag.Title = "New folder".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    @using (Html.BeginForm())
+    { 
+        @Html.ValidationSummary(true)
+        <div class="tabs">
+            <ul class="tab-index clearfix">
+                <li class="active"><a href="#basicInfo">@("Basic info".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                <li><a href="#permissionSetting">@("Permission Setting".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                <li class="extend"><a href="#relationFolders">@("Relation folders".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                <li class="extend"><a href="#contentManagement">@("Content management".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+            </ul>
+            <div class="tab-content active" id="basicInfo">
+                <table>
+                    <tbody>
+                        @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.DisplayName, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.SchemaName, new { HtmlAttributes = new { @class = "medium" } })
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-content" id="permissionSetting">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <ul class="radio-list">
+                                    <li>
+                                        <input type="radio" name="EnabledWorkflow" value="False" id="EnabledWorkflow_False"
+                                            checked="checked" />
+                                        <label class="inline" for="EnabledWorkflow_False">
+                                            @("Role base".Localize())</label></li>
+                                    <li>
+                                        <input type="radio" name="EnabledWorkflow" value="True" id="EnabledWorkflow_True" />
+                                        <label class="inline" for="EnabledWorkflow_True">
+                                            @("Workflow".Localize())</label></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        @Html.EditorFor(m => m.WorkflowName, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.Roles, new { HtmlAttributes = new { @class = "medium" } })
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-content" id="relationFolders">
+                <table>
+                    <tbody>
+                        @Html.EditorFor(m => m.Categories, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.EmbeddedFolders, new { HtmlAttributes = new { @class = "medium" } })
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-content" id="contentManagement">
+                <table>
+                    <tbody>
+                        @Html.EditorFor(o => o.Sortable)
+                        @Html.EditorFor(m => m.Hidden)
+                        @Html.EditorFor(o => o.EnablePaging)
+                        @Html.EditorFor(m => m.PageSize, new { HtmlAttributes = new { @class = "medium" } })
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('.tabs').koobooTab();
+        var contentType = $('#SchemaName').change(function () {
+            handleContentType($(this));
+        });
+
+        function handleContentType(contentType) {
+            if (!contentType.val()) {
+                $('#EnabledWorkflow_True').hide().next().hide();
+                $('.tab-index .extend').hide();
+            } else {
+                $('#EnabledWorkflow_True').show().next().show();
+                $('.tab-index .extend').show();
+            }
+        }
+
+        handleContentType(contentType);
+
+        function initPermission(radio) {
+
+            var effect, workflowSetting = $('#WorkflowName'),
+            roleSetting = $('#Roles');
+            if (radio.filter('[checked]').val() == 'True') {
+                workflowSetting.removeAttr('disabled').parents('tr:eq(0)').show(effect);
+                roleSetting.parents('tr:eq(0)').hide(effect).find('select').attr('disabled', 'disabled');
+            } else {
+                roleSetting.parents('tr:eq(0)').show(effect).find('select.select-data-field').removeAttr('disabled');
+                workflowSetting.attr('disabled', 'disabled').parents('tr:eq(0)').hide(effect);
+            }
+        }
+
+        var permissionToggle = $(':radio[name=EnabledWorkflow]').change(function () {
+            initPermission(permissionToggle);
+        });
+
+        initPermission(permissionToggle);
+
+        function enablePaging(enabled) {
+            if (enabled) {
+                $('#PageSize').removeAttr('disabled');
+            }
+            else {
+                $('#PageSize').attr('disabled', true);
+            }
+        }
+
+        var $enablePaging = $('#EnablePaging');
+        $enablePaging.change(function () {
+            enablePaging($enablePaging.attr("checked"));
+        });
+        enablePaging($enablePaging.attr("checked"));
+    });
+</script>

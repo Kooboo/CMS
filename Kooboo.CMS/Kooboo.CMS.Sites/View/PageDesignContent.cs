@@ -74,6 +74,7 @@ namespace Kooboo.CMS.Sites.View
             : base(pos)
         {
             this.Parameter.Add("ViewName", PageDesignContent.Code(pos.ViewName));
+            this.Parameter.Add("SkipError", pos.SkipError.ToString().ToLower());
             if (pos.OutputCache != null)
             {
                 var outputCacheJson = new
@@ -125,8 +126,11 @@ namespace Kooboo.CMS.Sites.View
         {
             this.Parameter.Add("ModuleName", PageDesignContent.Code(pos.ModuleName));
             this.Parameter.Add("Exclusive", pos.Exclusive.ToString().ToLower());
+            this.Parameter.Add("SkipError", pos.SkipError.ToString().ToLower());            
             if (pos.Entry != null)
             {
+                this.Parameter["LinkToEntryName"] = pos.Entry.LinkToEntryName;
+                this.Parameter["EntryName"] = pos.Entry.Name;
                 this.Parameter.Add("EntryAction", pos.Entry.Action);
                 this.Parameter.Add("EntryController", pos.Entry.Controller);
                 this.Parameter.Add("Values", pos.Entry.Values == null ? "[]" : pos.Entry.Values.ToList().ToJSON());

@@ -1,0 +1,62 @@
+﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.Management.InstallingModule
+@{
+    ViewBag.Title = "Module installation".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+    var installingTemplate = Model.ModuleInfo.InstallingTemplate;
+    if (!string.IsNullOrEmpty(installingTemplate) && !installingTemplate.StartsWith("~/"))
+    {
+        var viewPath = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(installingTemplate);
+        if (File.Exists(viewPath.PhysicalPath))
+        {
+            installingTemplate = viewPath.VirtualPath;
+        }
+        else
+        {
+            installingTemplate = null;
+        }
+    }
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Cancel".Localize())
+            </a>
+        </li>
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())
+            </a>
+        </li>
+    </ul>
+}
+<div class="block">
+    <h1 class="title">@ViewBag.Title</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <span>@("Module selection".Localize())</span>
+            <span class="current">@("Installation".Localize())<b></b></span>
+            <span>@("Finish".Localize())</span>
+        </div>
+    </div>
+    <div class="content">
+        <p>@("We are about to install your module. In this step, we will perform the following actions:".Localize())</p>
+        <ol>
+            <li><strong>@("Copy the module files into Kooboo CMS system.".Localize())</strong></li>
+            <li><strong>@("Run the 'Installation' events defined by module developers".Localize())</strong></li>
+        </ol>
+        
+    </div>
+    @using (Html.BeginForm())
+    {
+        if (!string.IsNullOrEmpty(installingTemplate))
+        {
+            @Html.Partial(installingTemplate, null, new ViewDataDictionary())
+        }
+
+    }
+    <div class="content">
+        <p>@Html.Raw("When you are ready, click the <strong>Next</strong> button to start the installation.".Localize())</p>
+    </div>
+
+</div>

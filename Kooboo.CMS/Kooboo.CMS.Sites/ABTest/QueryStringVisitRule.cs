@@ -54,5 +54,9 @@ namespace Kooboo.CMS.Sites.ABTest
             get { return "return this.QueryName()  + '=' + this.QueryValue();"; }
             set { }
         }
+        public string RuleTypeDisplayName
+        {
+            get { return "URL querystring"; }
+        }
     }
 }

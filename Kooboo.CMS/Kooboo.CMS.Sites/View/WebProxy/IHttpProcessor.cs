@@ -88,10 +88,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 }
                 else
                 {
-                    if (httpContext.Response.Output is OutputTextWriterWrapper)
-                    {
-                        httpContext.Response.Output = ((OutputTextWriterWrapper)httpContext.Response.Output).GetRawOuputWriter();
-                    }
+                    httpContext.Response.RestoreRawOutput();
                     httpContext.Response.ContentType = contentType;
                     httpContext.Response.Clear();
                     int bytesRead;

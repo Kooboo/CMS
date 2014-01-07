@@ -1,0 +1,20 @@
+#foreach($item in $ViewBag.{0})
+#each
+	<li{2}>{1}</li>
+#before
+
+#after
+
+#between
+
+#odd
+
+#even
+
+#nodata
+
+#beforeall
+	<ul class=""list"">
+#afterall
+	</ul>
+#end

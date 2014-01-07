@@ -13,6 +13,7 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Binder;
 using Kooboo.CMS.Content.Models.Paths;
+using Kooboo.CMS.Content.Persistence;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Content.Query.Expressions;
 using Kooboo.CMS.Content.Services;
@@ -27,6 +28,7 @@ using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Paging;
 using Kooboo.Web.Script.Serialization;
 using Kooboo.Web.Url;
+using Kooboo.Web;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -36,9 +38,10 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.CMS.Content.Formatter;
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {
-     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
+    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
     [ValidateInput(false)]
     public class TextContentController : ContentControllerBase
     {
@@ -47,13 +50,15 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         TextFolderManager TextFolderManager { get; set; }
         WorkflowManager WorkflowManager { get; set; }
         ITextContentBinder Binder { get; set; }
+        ITextContentProvider _textContentProvider;
         public TextContentController(TextContentManager textContentManager, TextFolderManager textFolderManager,
-            WorkflowManager workflowManager, ITextContentBinder binder)
+            WorkflowManager workflowManager, ITextContentBinder binder, ITextContentProvider textContentProvider)
         {
             TextContentManager = textContentManager;
             TextFolderManager = textFolderManager;
             WorkflowManager = workflowManager;
             Binder = binder;
+            _textContentProvider = textContentProvider;
         }
         #endregion
 
@@ -84,6 +89,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             SchemaPath schemaPath = new SchemaPath(schema);
             ViewData["Folder"] = textFolder;
             ViewData["Schema"] = schema;
+            ViewData["Menu"] = textFolder.GetFormTemplate(FormType.Grid_Menu);
             ViewData["Template"] = textFolder.GetFormTemplate(FormType.Grid);
             ViewData["WhereClause"] = whereClause;
 
@@ -210,6 +216,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             SchemaPath schemaPath = new SchemaPath(schema);
             ViewData["Folder"] = textFolder;
             ViewData["Schema"] = schema;
+            ViewData["Menu"] = textFolder.GetFormTemplate(FormType.Create_Menu);
             ViewData["Template"] = textFolder.GetFormTemplate(FormType.Create);
             SetPermissionData(textFolder);
 
@@ -271,6 +278,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             SchemaPath schemaPath = new SchemaPath(schema);
             ViewData["Folder"] = textFolder;
             ViewData["Schema"] = schema;
+            ViewData["Menu"] = textFolder.GetFormTemplate(FormType.Update_Menu);
             ViewData["Template"] = textFolder.GetFormTemplate(FormType.Update);
             SetPermissionData(textFolder);
             var content = schema.CreateQuery().WhereEquals("UUID", uuid).FirstOrDefault();
@@ -284,7 +292,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
         [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
         [HttpPost]
-        public virtual ActionResult Edit(string folderName, string uuid, FormCollection form, string @return)
+        public virtual ActionResult Edit(string folderName, string uuid, FormCollection form, string @return, bool localize = false)
         {
             var data = new JsonResultData();
             try
@@ -304,6 +312,10 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                     content = TextContentManager.Update(Repository, textFolder, uuid, form,
                     Request.Files, DateTime.UtcNow, addedCategories, removedCategories, User.Identity.Name);
 
+                    if (localize == true)
+                    {
+                        TextContentManager.Localize(textFolder, uuid);
+                    }
 
                     data.RedirectToOpener = true;
 
@@ -529,7 +541,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
         #region Version Diff
 
-        public virtual ActionResult Versions(string folderName, string parentFolder, string uuid)
+        public virtual ActionResult Versions(string folderName, string uuid)
         {
             TextFolder textFolder = new TextFolder(Repository, folderName).AsActual();
             var schema = textFolder.GetSchema().AsActual();
@@ -538,9 +550,9 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             var versions = VersionManager.AllVersionInfos(textContent);
             return View(versions);
         }
-        public virtual ActionResult Diff(string folderName, string parentFolder, string uuid, string version)
+        public virtual ActionResult Diff(string repositoryName, string folderName, string uuid, string version)
         {
-            TextFolder textFolder = new TextFolder(Repository, folderName).AsActual();
+            TextFolder textFolder = new TextFolder(new Repository(repositoryName), folderName).AsActual();
             var schema = textFolder.GetSchema().AsActual();
 
             var versions = version.Split(',');
@@ -574,7 +586,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             }
 
 
-            return View(model);
+            return View("Diff", model);
         }
         [HttpPost]
         public virtual ActionResult RevertTo(string folderName, string schemaName, string uuid, Kooboo.CMS.Content.Versioning.VersionInfo[] model, string @return)
@@ -592,13 +604,65 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             return Json(data);
         }
 
+        #region Original content versions
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="OriginalRepository"></param>
+        /// <param name="OriginalFolder"></param>
+        /// <param name="OriginalUUID"></param>
+        /// <param name="startVersionId"></param>
+        /// <returns></returns>
+        public virtual ActionResult ShowOriginalVersions(string OriginalRepository, string OriginalFolder, string OriginalUUID, int startVersionId = 0)
+        {
+            TextFolder textFolder = new TextFolder(new Repository(OriginalRepository), OriginalFolder).AsActual();
+            var schema = textFolder.GetSchema().AsActual();
+
+            var textContent = schema.CreateQuery().WhereEquals("UUID", OriginalUUID).FirstOrDefault();
+            var versions = VersionManager.AllVersionInfos(textContent).Where(it => it.Version > startVersionId);
+            return View(versions);
+        }
+        public virtual ActionResult ShowOriginalDiff(string originalRepository, string originalFolder, string originalUUID, string version)
+        {
+            return Diff(originalRepository, originalFolder, originalUUID, version);
+        }
+        public virtual ActionResult UpdateToRead(string repositoryName, string folderName, string uuid, string originalRepository, string originalFolder, string originalUUID, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+            {
+                var repository = new Repository(repositoryName);
+                var textFolder = new TextFolder(repository, folderName);
+                var textContent = textFolder.CreateQuery().WhereEquals("UUID", uuid).FirstOrDefault();
+                if (textContent != null)
+                {
+                    textContent.OriginalUpdateTimes = 0;
+                    var originalTextFolder = new TextFolder(new Repository(originalRepository), originalFolder).AsActual();
+                    if (originalTextFolder != null)
+                    {
+                        var originalContent = originalTextFolder.CreateQuery().WhereEquals("UUID", originalUUID).FirstOrDefault();
+                        if (originalContent != null)
+                        {
+                            var maxVersion = VersionManager.AllVersionInfos(textContent).Max(it => it.Version);
+                            textContent.OriginalLastestVisitedVersionId = maxVersion;
+                        }
+                    }
+
+                    _textContentProvider.Update(textContent, textContent);
+                }
+
+                data.RedirectUrl = @return;
+            });
+            return Json(data);
+        }
+        #endregion
         #endregion
 
         #region Publish
         // Kooboo.CMS.Account.Models.Permission.Contents_ContentPermission
         [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
         [HttpPost]
-        public virtual ActionResult Publish(string folderName, string parentFolder, string uuid)
+        public virtual ActionResult Publish(string folderName, string uuid)
         {
             var data = new JsonResultData(ModelState);
 
@@ -623,7 +687,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         }
 
         [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
-        public virtual ActionResult BatchPublish(string folderName, string parentFolder, string[] docs)
+        public virtual ActionResult BatchPublish(string folderName, string[] docs)
         {
             var data = new JsonResultData(ModelState);
 
@@ -649,7 +713,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
         }
         [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
-        public virtual ActionResult BatchUnpublish(string folderName, string parentFolder, string[] docs)
+        public virtual ActionResult BatchUnpublish(string folderName, string[] docs)
         {
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
@@ -919,11 +983,54 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                     Text = it.FriendlyText,
                     Link = url.Action("SubContent", new { SiteName = requestContext.GetRequestValue("SiteName"), RepositoryName = Repository.Name, ParentFolder = item.FolderName, FolderName = it.FullName, parentUUID = (object)(item.UUID) })
                 });
+                if (item.OriginalUpdateTimes > 0)
+                {
+                    item["_ViewOriginalContentChangesURL_"] = @Url.Action("ShowOriginalVersions", this.ControllerContext.RequestContext.AllRouteValues().Merge("UUID", (string)(item.UUID)).Merge("OriginalRepository", (string)(item.OriginalRepository))
+                        .Merge("OriginalFolder", (string)(item.OriginalFolder)).Merge("OriginalUUID", (string)(item.OriginalUUID)).Merge("startVersionId", (int)(item.OriginalLastestVisitedVersionId))
+                        .Merge("return", @return));
+                }
             }
             data.Model = contents;
 
             return new Json_netResult() { Data = data, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
+        }
+        #endregion
+
+        #region Import
+        public virtual ActionResult Import(TextContentImportModel model)
+        {
+            ModelState.Clear();
+            return View(model);
+        }
+        [HttpPost]
+        public virtual ActionResult Import(TextContentImportModel model, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+            {
+                model.TextContentExporter.Import(new TextFolder(Repository, model.FolderName), model.File.InputStream);
+                data.RedirectUrl = @return;
+            });
+            return Json(data);
+        }
+        #endregion
+
+        #region Export
+        public virtual void Export(string formatter, string folderName, string[] docs)
+        {
+            var exporter = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ITextContentFormater>(formatter.ToLower());
+            var fileName = folderName + exporter.FileExtension;
+            Response.AttachmentHeader(fileName);
+
+            var textFolder = new TextFolder(Repository, folderName);
+
+            var contentQuery = textFolder.CreateQuery();
+            foreach (var item in docs)
+            {
+                contentQuery = contentQuery.Or(new WhereEqualsExpression(null, "UUID", item));
+            }
+            exporter.Export(contentQuery, Response.OutputStream);
         }
         #endregion
     }

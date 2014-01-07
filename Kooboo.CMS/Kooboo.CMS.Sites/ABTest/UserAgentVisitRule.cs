@@ -39,7 +39,7 @@ namespace Kooboo.CMS.Sites.ABTest
                 var userAgent = httpRequest.UserAgent;
                 if (!string.IsNullOrEmpty(userAgent))
                 {
-                    matched = Regex.IsMatch(userAgent, RegexPattern);
+                    matched = Regex.IsMatch(userAgent, RegexPattern, RegexOptions.IgnoreCase);
                 }
             }
             return matched;
@@ -55,6 +55,10 @@ namespace Kooboo.CMS.Sites.ABTest
         {
             get { return "return this.RegexPattern();"; }
             set { }
+        }
+        public string RuleTypeDisplayName
+        {
+            get { return "Browser useragent"; }
         }
     }
 }

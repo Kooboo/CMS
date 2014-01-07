@@ -1,0 +1,195 @@
+﻿<script type="text/javascript">
+    (function ($) {
+        $.fn.moveContent = function () {
+            return this.each(function () {
+                $(this).droppable({ 
+                    drop: function (e, ui) {
+                        var uuid = typeof ($($(ui.draggable)[0])).attr('id') != "undefined" ? $($(ui.draggable)[0]).attr('id') : "";
+                        var parentUUID = typeof ($(this)).attr('id') != "undefined" ? $(this).attr('id') : "";
+                        var parentChain = typeof ($(this)).data('parent-chain') != "undefined" ? $(this).data('parent-chain') : "";
+                        if (parentChain.indexOf(uuid) == -1 && uuid != parentUUID) {
+                            $.ajax({
+                                url: '@Html.Raw(Server.HtmlDecode(this.Url.Action("MoveContent",
+                                    ViewContext.RequestContext.AllRouteValues().Merge("UUID", "").Merge("ParentUUID", "").Merge("return", Request.RawUrl))))',
+                                data: { uuid: uuid, parentUUID: parentUUID },
+                                type: 'post',
+                                success: function (response) {
+                                    parse_JsonResultData(response);
+                                }
+                            });
+                        }
+                        else {
+
+                        }
+                    },
+                    hoverClass: "accept"
+                });
+            });
+        };
+        $.fn.lazyTreeNode = function () {
+            var $tr = $(this);
+            $tr.each(function (index, tr) {
+                var $selfTR = $(tr);
+                $selfTR.data('expend', function () {
+                    var childNode = $selfTR.data('childNode');
+                    if (childNode != null) {
+                        childNode.show();
+                    }
+                    else {
+                        var id = $selfTR.attr('id');
+                        var parentChain = $selfTR.attr('parentChain');
+                        var url = '@Html.Raw(Url.Action("QueryByParentUUID", ViewContext.RequestContext.AllRouteValues().Merge("return", Request.RawUrl)))';
+                        $.ajax(url,
+                        {
+                            type: 'POST',
+                            data: 'parentUUID=' + id + "&parentChain=" + (parentChain == undefined ? "" : parentChain),
+                            success: function (data, textStatus, jqXHR) {
+                                if (data.Model.length == 0) {
+                                    $selfTR.find('.expander img').remove();
+                                    $selfTR.data('childNode', $(''));
+                                }
+                                else {
+                                    var template = $('#treeNode-template').clone();
+                                    ko.applyBindings(data, template[0]);
+                                    var tbody = template.children('tbody');
+
+                                    var parentPadding = parseInt($selfTR.find('.expander').parent().css("padding-left").replace("px", ""));
+                                    tbody.find('.treeStyle').css('padding-left', parentPadding + 15);
+                                    var html = $(tbody.html());                               
+                                    $selfTR.after(html);
+                                    html.lazyTreeNode();
+                                    html.filter('tr').moveContent(); //only tr can be move, otherwise will throw exception on firefox and IE.
+                                    html.checkableTR();
+
+                                    //used in the Categories.ascx
+                                    parent.jQuery($selfTR).triggerHandler('treeNodeLoaded', [html]);
+
+                                    $selfTR.data('childNode', html);
+                                }
+                                window.loading.hide();
+                            }
+                        });
+                    }
+                    $selfTR.find('.expander').addClass('active');
+                });
+                $selfTR.data('collapse', function () {
+                    var childNode = $selfTR.data('childNode');
+                    _.each($(childNode),function(node){
+                       var  $node =$(node);                      
+                        if ($node && $node.hide) {
+                            if ($node.data('collapse')) {
+                                $node.data('collapse')();
+                            }
+                            $node.hide();
+                        }
+                    });
+                    $selfTR.find('.expander').removeClass('active');
+                });
+
+                $selfTR.find('.expander').click(function (e) {
+                    e.stopPropagation();
+                    var handler = $(this);
+                    var tr = handler.parent().parent();
+                    var collapsed = !(handler.hasClass('active'));
+                    if (collapsed) {
+                        tr.data('expend')();
+                    }
+                    else {
+                        tr.data('collapse')();
+                    }
+                });
+            });
+        };
+
+        $.fn.sortContent= function(parentchain)
+        {
+            $table = $(this);
+            var $siblings = [];
+            var selector = 'tbody tr[data-parent-chain="' + parentchain + '"]';
+            $siblings = $table.find(selector);
+
+            var items = $siblings.find('input[type=checkbox]');
+            var uuidList = [];
+            var sequenceList = [];
+            _.each(items, function (item) {
+                var $item = $(item);
+                uuidList.push($item.val());
+                sequenceList.push($item.data('sequence'));
+            });
+            sequenceList = _.sortBy(sequenceList, function (item) {
+                return 0 - item;
+            });         
+
+            var sortData = {};
+            _.each(uuidList, function (item, index) {                               
+                sortData['list[' + index + '].UUID']= item;
+                sortData['list[' + index + '].Sequence']=  sequenceList[index];
+            });
+
+            $.ajax({
+                url: '@Html.Raw(this.Url.Action("Sort", ViewContext.RequestContext.AllRouteValues()))',
+                data: sortData,
+                type: 'post',
+                success: function (response) {
+                    parse_JsonResultData(response);
+                },
+                error: function () {
+                }
+            });
+        };
+
+
+    })(jQuery);
+
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        var sortable = @ViewBag.EnableSort.ToString().ToLower();
+        var isTreeStyle = @ViewBag.IsTreeStyle.ToString().ToLower();
+
+        var $table = $(".common-table table");     
+        $table.checkableTable();
+        $table.mixedGrid();
+        var $doctr = $table.find('tbody tr.doctr');
+        $doctr.lazyTreeNode();
+        @if (ViewBag.Draggable)
+        {                      
+        <text>
+        var tbody = $table.find('tbody').sortable({
+            helper: fixHelper,            
+            refreshPositions: true,
+            revert: true,
+            handle: 'td.draggable .drag',
+            cancel: 'tr.folderTr',
+            start: function (event, ui) {      
+                if (sortable) {
+                    ui.placeholder.html('<td colspan="100"></td>');                   
+                }                    
+                var parentchain = ui.item.data('parent-chain');
+                var $siblings = [];
+
+                var selector = 'tbody tr[data-parent-chain="' + parentchain + '"]';
+                $siblings = $table.find(selector);
+
+                $siblings.each(function (index, item) {
+                    var $item = $(item);
+                    if ($item.data('collapse')) {
+                        $item.data('collapse')();
+                    }
+                });
+            },           
+            update: function (e, ui) {
+                var parentchain = ui.item.data('parent-chain');
+                $table.sortContent(parentchain);   
+            },
+            cursor: 'move',
+            placeholder: sortable? "":"ui-state-highlight holder"
+        });
+        if (isTreeStyle) {
+            $table.find('tr').moveContent();
+        }    
+        </text>
+        }
+    });
+</script>

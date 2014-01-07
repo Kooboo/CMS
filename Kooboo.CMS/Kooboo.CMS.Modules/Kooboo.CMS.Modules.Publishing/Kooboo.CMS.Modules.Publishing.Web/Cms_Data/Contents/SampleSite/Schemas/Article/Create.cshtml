@@ -1,0 +1,78 @@
+﻿
+@using Kooboo.CMS.Content.Models;
+@using Kooboo.CMS.Content.Query;
+@{ var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
+    var allowedEdit = (bool)ViewData["AllowedEdit"];
+    var allowedView = (bool)ViewData["AllowedView"];
+    var parentUUID = ViewContext.RequestContext.AllRouteValues()["parentUUID"];
+    var parentFolder=ViewContext.RequestContext.AllRouteValues()["parentFolder"];
+}
+@using(Html.BeginForm(ViewContext.RequestContext.AllRouteValues()["action"].ToString()
+    , ViewContext.RequestContext.AllRouteValues()["controller"].ToString()
+    , ViewContext.RequestContext.AllRouteValues()
+    , FormMethod.Post
+    , new RouteValueDictionary(new { enctype = "multipart/form-data" })))
+{
+    <table><tr>
+            <th>
+            <label for="Title">Title</label>
+            </th>
+            <td>
+            <input class='long' id="Title" name="Title" type="text" value="@(Model.Title ?? "")" />            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Title"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="Summary">Summary</label>
+            </th>
+            <td>
+            <textarea class="extra-large" name="Summary" >@(Model.Summary ?? "")</textarea>             
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Summary"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="Description">Description</label>
+            </th>
+            <td>
+            <textarea name="Description" id="Description" class="Description tinymce" media_library_url="@Url.Action("Selection","MediaContent",ViewContext.RequestContext.AllRouteValues()))" media_library_title ="@("Selected Files".Localize())" rows="10" cols="100">@( Model.Description ?? "")</textarea>            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Description"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="Readings">Readings</label>
+            </th>
+            <td>
+            <input class="long" id="Readings" name="Readings" type="text" value="@(Model.Readings ?? "")"  data-val-number="The field Readings must be a number." data-val="true"/>            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Readings"], null)
+            
+            </td>          
+            </tr><tr>
+            <th>
+            <label for="File">File</label>
+            </th>
+            <td>
+            <input id="File" name="File" type="file" data-value="@(Model.File ?? "")" class='filestyle' />            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["File"], null)
+            
+            </td>          
+            </tr>
+            @if (allowedEdit) {
+                <tr>
+            <th>
+           
+            </th>
+            <td>
+            <input id='Published' name="Published" type="checkbox" @(Convert.ToBoolean(Model.Published)?"checked":"") value="true"/>
+                                    <input type="hidden" value="false" name="Published"/>
+            <label class="inline" for="Published">Published</label>
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["Published"], null)
+            </td>          
+            </tr>
+            }
+    @Html.Action("Categories", ViewContext.RequestContext.AllRouteValues())
+    
+    </table>
+}

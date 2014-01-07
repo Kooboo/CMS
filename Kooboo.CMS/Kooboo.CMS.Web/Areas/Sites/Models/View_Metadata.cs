@@ -26,6 +26,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
     [MetadataFor(typeof(View))]
     [Grid(Checkable = true, IdProperty = "UUID", GridItemType = typeof(InheritablGridItem))]
+    [GridColumn(GridItemColumnType = typeof(Inheritable_Status_GridItemColumn), HeaderText = "Inheritance", Order = 2)]
     public class View_Metadata
     {
         [GridColumn(Order = 1, GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(InheritableEditGridActionItemColumn))]
@@ -37,7 +38,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [UIHintAttribute("TemplateEditor")]
         public string Body { get; set; }
 
-        [GridColumn(Order = 2, GridColumnType = typeof(SortableGridColumn))]
+        [GridColumn(Order = 3, GridColumnType = typeof(SortableGridColumn))]
         public Site Site { get; set; }
 
         [UIHint("Plugins")]

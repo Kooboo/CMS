@@ -1,0 +1,80 @@
+@model IColumn
+@{
+    var containerId = Model.Name + "_Container";
+    var valueGetter = new HtmlString("@(Model." + Model.Name + ")");
+}
+<tr>
+    <th>@(string.IsNullOrEmpty(Model.Label) ? Model.Name : Model.Label)</th>
+    <td>
+        <div id="@containerId" class="mediafile">
+            <input id="@Model.Name" name="@Model.Name" type="hidden" value='@valueGetter' data-bind="value:fieldValue"/>
+            <ul class="clearfix" data-bind="foreach:data">
+                <!-- ko if: isImage -->
+                <li class="img">
+                    <span class="preview"></span>
+                    <a class="action" data-bind="click: $parent.removeItem">@@Html.IconImage("minus small")</a>
+                    <img data-bind="attr:{src:Url}" height="100" width="100">
+                </li>
+                <!-- /ko -->
+                <!-- ko ifnot: isImage -->
+                <li>
+                    <span class="left" data-bind="{text:FileName}"></span>
+                    <a class="action right" data-bind="click: $parent.removeItem">@@Html.IconImage("minus small")</a>
+                </li>
+                <!-- /ko -->
+            </ul>
+            <ul class="clearfix" data-bind="foreach:files">
+                <li>
+                    <input type="file" name="@Model.Name" />
+                    <a class="action right" data-bind="click: $parent.removeFile">@@Html.IconImage("minus small")</a>
+                </li>
+            </ul>
+            <a class="action add" data-bind="click:$data.addFile">@@Html.IconImage("plus small")</a>
+            @Html.Raw(FormHelper.Tooltip(Model.Tooltip))
+        </div>
+        <script>
+            $(function () {
+                function MultiFile_ViewModel(initValue) {
+                    var self = this;
+                    function getFileName(url) {
+                        return _.last(url.split('/'));
+                    }
+                    function isImage(url) {
+                        return /.jpg$|.png$|.gif$|.bmp$|.jpeg$/i.test(url);
+                    }
+                    var items = [];
+                    _.each(initValue.split('|'), function (item) {
+                        if (item != '') {
+                            items.push({ Url: item, FileName: getFileName(item), isImage: isImage(item) });
+                        }
+                    });
+                    self.data = ko.observableArray(items);
+                    self.data.sort();
+                    self.removeItem = function () {
+                        self.data.remove(this);
+                    };
+
+                    self.fieldValue = ko.computed(function () {
+                        var urls = [];
+                        _.each(this.data(), function (item) {
+                            urls.push(item.Url);
+                        });
+                        return urls.join('|');
+                    }, this);
+
+                    self.files = ko.observableArray([]);
+                    self.addFile = function () {
+                        self.files.push({});
+                    };
+                    self.removeFile = function () {
+                        self.files.remove(this);
+                    };
+                }
+                var multiFileViewModel = new MultiFile_ViewModel('@valueGetter');
+                var multiFileTemplate = $('#@containerId');
+                ko.applyBindings(multiFileViewModel, multiFileTemplate[0]);             
+            });
+        </script>
+    </td>
+
+</tr>

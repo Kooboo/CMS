@@ -92,9 +92,9 @@
     <Compile Include="Services\TextContentFileService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Kooboo\Kooboo.csproj">
-      <Project>{347E47E5-3132-4BAD-B935-8282A2B16CF5}</Project>
-      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
+    <ProjectReference Include="..\..\Kooboo.CMS.Common.Runtime.Dependency.Ninject\Kooboo.CMS.Common.Runtime.Dependency.Ninject.csproj">
+      <Project>{94a4a4ba-f5eb-44cb-9cd3-b240b80ce686}</Project>
+      <Name>Kooboo.CMS.Common.Runtime.Dependency.Ninject</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
@@ -103,6 +103,10 @@
     <ProjectReference Include="..\..\Kooboo.CMS.Form\Kooboo.CMS.Form.csproj">
       <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
       <Name>Kooboo.CMS.Form</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
+      <Name>Kooboo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Content.FileServer.Interfaces\Kooboo.CMS.Content.FileServer.Interfaces.csproj">
       <Project>{AF3A1665-74B6-4A34-A795-64A1914AF749}</Project>
@@ -126,7 +130,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
-          <DevelopmentServerPort>8628</DevelopmentServerPort>
+          <DevelopmentServerPort>8626</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
@@ -139,6 +143,10 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

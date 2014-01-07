@@ -1,0 +1,29 @@
+﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo
+@{
+    ViewBag.Title = "Module installation".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())
+            </a>
+        </li>
+    </ul>
+}
+<div class="common-form">
+    <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <a>@("Upload module file".Localize())</a>
+            <span class="current">@("Run reinstallation event".Localize())<b></b></span>
+            <span>@("Finished".Localize())</span>
+        </div>
+    </div>
+    @using (Html.BeginForm())
+    {
+        <p>@("Confirm to run the 'OnReinstalling' event which defined in module.".Localize())</p>
+    }
+</div>
+

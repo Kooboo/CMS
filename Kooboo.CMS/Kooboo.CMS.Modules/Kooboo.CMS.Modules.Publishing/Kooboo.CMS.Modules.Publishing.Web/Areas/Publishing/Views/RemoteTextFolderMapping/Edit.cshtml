@@ -1,0 +1,90 @@
+﻿@model Kooboo.CMS.Modules.Publishing.Models.RemoteTextFolderMapping
+@{
+    ViewBag.Title = "Map local text folder to remote folder".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    @using (Html.BeginForm())
+    { 
+        @Html.ValidationSummary(true)
+        <table>
+            <tbody>
+                @Html.DisplayFor(m=>m.Name)
+                @Html.EditorFor(m => m.LocalFolderId, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.RemoteEndpoint, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.RemoteFolderId, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.Enabled)
+            </tbody>
+        </table>
+    }
+</div>
+<script>
+    $(function () {
+        var $remoteEndpoint = $("#RemoteEndpoint"),$remoteFolderId = $("#RemoteFolderId");
+        var oldEndPoint = $remoteEndpoint.val(), newEndPoint = $remoteEndpoint.val(), oldRemoteFolder = "@(Model.RemoteFolderId)";
+
+        if (oldRemoteFolder) {
+            var defer = loadRemoteFolders(oldEndPoint, oldRemoteFolder);
+            defer.fail(function () {
+                $remoteFolderId.empty().html('<option value="' + oldRemoteFolder + '">' + oldRemoteFolder + '</option>').val(oldRemoteFolder);
+
+            });
+        }
+
+        $("#RemoteEndpoint").blur(function () {
+            newEndPoint = this.value;
+            var isChange = oldEndPoint!=newEndPoint;
+            if (isChange) {
+                $remoteFolderId.empty();
+                if (newEndPoint) {
+                    loadRemoteFolders(newEndPoint);
+                }
+            }
+            oldEndPoint = this.value;
+        });
+
+        function loadRemoteFolders(endPoint, selected) {
+            var defer=$.ajax({
+                url: "@Url.Action("GetRemoteFolders", ViewContext.RequestContext.AllRouteValues())",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    endPoint: endPoint
+                },
+                beforeSend: function () {
+                    window.loading.show();
+                }
+            });
+            defer.done(function (data) {
+                if (data.Success == false) {
+                    window.info.show(data.Messages, false);
+                } else {
+                    var childHtml = '';
+                    for (var ix in data.Model) {
+                        childHtml += '<option value="' + data.Model[ix].id + '">' + data.Model[ix].text + '</option>';
+                    }
+                    $remoteFolderId.empty().html(childHtml);
+                    if (selected) {
+                        $remoteFolderId.val(selected);
+                    }
+                }
+            }).always(function () {
+                window.loading.hide();
+            });
+            return defer.promise();
+        }
+    });
+</script>

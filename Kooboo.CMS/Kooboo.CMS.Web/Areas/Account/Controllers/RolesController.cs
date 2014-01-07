@@ -43,9 +43,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Controllers
         [HttpGet]
         public virtual ActionResult Create()
         {
-            return View(new CreateRoleModel(new Role(), ServiceFactory.RoleManager.AllPermissions().Concat(
-                Kooboo.CMS.Sites.Services.ServiceFactory.ModuleManager.GetModulePermissions()
-                )));
+            return View(new CreateRoleModel(new Role(), ServiceFactory.RoleManager.AllPermissions()));
         }
         [HttpPost]
         public virtual ActionResult Create(CreateRoleModel model, string @return)
@@ -71,9 +69,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Controllers
         public virtual ActionResult Edit(string uuid)
         {
             var role = ServiceFactory.RoleManager.Get(uuid);
-            return View(new CreateRoleModel(role, ServiceFactory.RoleManager.AllPermissions().Concat(
-                Kooboo.CMS.Sites.Services.ServiceFactory.ModuleManager.GetModulePermissions()
-                )));
+            return View(new CreateRoleModel(role, ServiceFactory.RoleManager.AllPermissions()));
         }
         [HttpPost]
         public virtual ActionResult Edit(CreateRoleModel model, string @return)

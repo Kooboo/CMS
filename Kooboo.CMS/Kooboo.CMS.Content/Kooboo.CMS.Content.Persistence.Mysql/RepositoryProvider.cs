@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common;
+using Kooboo.CMS.Content.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ using System.Text;
 
 namespace Kooboo.CMS.Content.Persistence.Mysql
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IRepositoryProvider), Order = 2)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(Kooboo.CMS.Common.Persistence.Non_Relational.IProvider<Repository>), Order = 2)]
     public class RepositoryProvider : Kooboo.CMS.Content.Persistence.Default.RepositoryProvider
     {
         #region .ctor

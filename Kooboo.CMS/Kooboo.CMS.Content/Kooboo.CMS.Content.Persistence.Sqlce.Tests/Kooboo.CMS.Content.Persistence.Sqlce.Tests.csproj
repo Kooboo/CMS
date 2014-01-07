@@ -64,11 +64,11 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Kooboo.CMS.Form\Kooboo.CMS.Form.csproj">
       <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
-      <Name>Kooboo.Form</Name>
+      <Name>Kooboo.CMS.Form</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Kooboo\Kooboo.csproj">
-      <Project>{347E47E5-3132-4BAD-B935-8282A2B16CF5}</Project>
-      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
+    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
+      <Name>Kooboo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Content.Persistence.Sqlce\Kooboo.CMS.Content.Persistence.Sqlce.csproj">
       <Project>{59542D3A-9B97-48E6-B6CD-019579E7E8F2}</Project>

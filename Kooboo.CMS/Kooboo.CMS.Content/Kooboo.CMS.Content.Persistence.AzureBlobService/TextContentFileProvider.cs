@@ -13,6 +13,7 @@ using System.Text;
 using Microsoft.WindowsAzure.StorageClient;
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentFileProvider), Order = 2)]
     public class TextContentFileProvider : ITextContentFileProvider
     {
         public string Save(Models.TextContent content, Models.ContentFile file)

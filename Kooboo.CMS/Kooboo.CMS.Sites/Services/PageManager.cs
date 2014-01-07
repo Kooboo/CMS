@@ -28,7 +28,15 @@ namespace Kooboo.CMS.Sites.Services
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(PageManager))]
     public class PageManager : PathResourceManagerBase<Page, IPageProvider>
     {
-        public PageManager(IPageProvider provider) : base(provider) { }
+        public PageManager(IPageProvider provider)
+            : base(provider)
+        {
+
+            if (!(provider is Kooboo.CMS.Sites.Persistence.Caching.PageProvider))
+            {
+                throw new Exception("Expect caching provider");
+            }
+        }
 
         #region Providers
         public IVersionLogger<Models.Page> VersiongLogger
@@ -50,6 +58,12 @@ namespace Kooboo.CMS.Sites.Services
 
         #region Page
 
+        /// <summary>
+        /// Query the all pages including the sub pages.
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="filterName"></param>
+        /// <returns></returns>
         public override IEnumerable<Page> All(Site site, string filterName)
         {
             var pages = Provider.All(site);
@@ -57,7 +71,8 @@ namespace Kooboo.CMS.Sites.Services
             {
                 pages = pages.Select(it => it.AsActual())
                    .Where(it => it.Name.Contains(filterName, StringComparison.CurrentCultureIgnoreCase)
-                       || (it.Navigation != null && !string.IsNullOrEmpty(it.Navigation.DisplayText) && it.Navigation.DisplayText.Contains(filterName, StringComparison.CurrentCultureIgnoreCase)));
+                       || (it.Navigation != null && !string.IsNullOrEmpty(it.Navigation.DisplayText) && it.Navigation.DisplayText.Contains(filterName, StringComparison.CurrentCultureIgnoreCase))
+                       || it.VirtualPath.Contains(filterName, StringComparison.OrdinalIgnoreCase));
             }
 
             return pages.Select(it => it.AsActual()).OrderBy(it => it.Navigation.Order).ToArray();
@@ -79,13 +94,14 @@ namespace Kooboo.CMS.Sites.Services
         {
             List<Page> list = new List<Page>();
             var parentPage = new Page(site, PageHelper.SplitFullName(parentPageName).ToArray());
-            var pages = Provider.ChildPages(parentPage.LastVersion());
+            var pages = ((IPageProvider)this.Provider).ChildPages(parentPage.LastVersion(site)).Select(it => it.LastVersion(site));
 
             if (!string.IsNullOrEmpty(filterName))
             {
                 pages = pages.Select(it => it.AsActual())
                    .Where(it => it.Name.Contains(filterName, StringComparison.CurrentCultureIgnoreCase)
-                       || (it.Navigation != null && !string.IsNullOrEmpty(it.Navigation.DisplayText) && it.Navigation.DisplayText.Contains(filterName, StringComparison.CurrentCultureIgnoreCase)));
+                       || (it.Navigation != null && !string.IsNullOrEmpty(it.Navigation.DisplayText) && it.Navigation.DisplayText.Contains(filterName, StringComparison.CurrentCultureIgnoreCase))
+                       || it.VirtualPath.Contains(filterName, StringComparison.OrdinalIgnoreCase));
             }
 
             foreach (var page in pages)
@@ -398,7 +414,19 @@ namespace Kooboo.CMS.Sites.Services
         }
         public virtual void Publish(Page page, bool publishDraft, string userName)
         {
-            Publish(page, false, publishDraft, false, DateTime.Now, DateTime.Now, userName);
+            page = page.AsActual();
+            if (page != null)
+            {
+                if (publishDraft)
+                {
+                    page = Provider.GetDraft(page);
+                    Provider.RemoveDraft(page);
+                }
+                page.Published = true;
+                page.UserName = userName;
+                Provider.Update(page, page);
+                VersionManager.LogVersion(page);
+            }
         }
         public virtual void Publish(Page page, bool publishSchedule, bool publishDraft, bool period, DateTime publishDate, DateTime offlineDate, string userName)
         {
@@ -616,5 +644,35 @@ namespace Kooboo.CMS.Sites.Services
         }
         #endregion
 
+        #region GetUnsyncedSubPage
+        public IEnumerable<Page> GetUnsyncedSubPages(Site site, string fullPageName)
+        {
+            if (site.Parent != null)
+            {
+                var page = new Page(site, fullPageName).LastVersion(site);
+                if (page.IsLocalized(site))
+                {
+                    var parent = site.Parent;
+                    List<Page> pagesInParentSites = new List<Page>();
+
+                    while (parent != null)
+                    {
+                        var parentPage = new Page(parent, fullPageName).LastVersion(parent);
+                        if (parentPage.IsLocalized(parent))
+                        {
+                            pagesInParentSites.AddRange(this.ChildPages(parent, fullPageName, null));
+                        }
+                        parent = parent.Parent;
+                    }
+
+                    var childPages = this.ChildPages(site, fullPageName, null);
+
+                    return pagesInParentSites.Where(it => !childPages.Any(cp => it.FullName.EqualsOrNullEmpty(cp.FullName, StringComparison.OrdinalIgnoreCase)));
+                }
+            }
+
+            return new Page[0];
+        }
+        #endregion
     }
 }

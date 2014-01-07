@@ -15,6 +15,7 @@ using System.Web.Routing;
 using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Menu;
 using System.Web.Mvc;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
 
 
 

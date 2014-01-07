@@ -14,6 +14,8 @@ using System.Web.Routing;
 using Kooboo.CMS.Sites.View;
 using System.Web.Mvc;
 using Kooboo.Web.Mvc;
+using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
     public class ModuleRoute : Route
@@ -40,13 +42,20 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                 var mergedValues = Kooboo.Web.Mvc.RouteValuesHelpers.MergeRouteValues(null, null, this.Defaults, values, true);
                 if (Page_Context.Current.Initialized)
                 {
-                    var modulePositionId = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetModulePositionIdForUrl(moduleContext.ModulePosition.ModuleName, moduleContext.ModulePosition.PagePositionId, mergedValues);
+                    Page page = null;
+                    var modulePositionId = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetModulePositionIdForUrl(moduleContext.FrontEndContext.ModulePosition, mergedValues, out page);
 
                     var encodedModuleUrl = ModuleUrlHelper.Encode(moduleUrl);
 
-                    var routeValues = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetRouteValuesWithModuleUrl(modulePositionId, encodedModuleUrl, moduleContext.ModulePosition.Exclusive);
+                    var routeValues = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetRouteValuesWithModuleUrl(modulePositionId, encodedModuleUrl, moduleContext.FrontEndContext.ModulePosition.Exclusive);
 
-                    virtualPath.VirtualPath = Page_Context.Current.FrontUrl.PageUrl(Page_Context.Current.PageRequestContext.Page.FullName, routeValues).ToString().TrimStart('/');
+                    var pageUrl = Page_Context.Current.FrontUrl.PageUrl(page.FullName, routeValues).ToString();
+                    var routeVirtualPath = pageUrl;
+                    if (Uri.IsWellFormedUriString(pageUrl, UriKind.Absolute))
+                    {
+                        routeVirtualPath = new Uri(routeVirtualPath).PathAndQuery;
+                    }
+                    virtualPath.VirtualPath = routeVirtualPath.TrimStart('/');
                 }
                 else
                 {

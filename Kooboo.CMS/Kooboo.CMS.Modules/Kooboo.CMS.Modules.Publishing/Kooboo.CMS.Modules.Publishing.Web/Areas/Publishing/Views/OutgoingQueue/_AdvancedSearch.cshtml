@@ -1,0 +1,81 @@
+﻿@model dynamic
+@using Kooboo.Web.Script.Serialization
+@using Kooboo.CMS.Sites.DataRule
+@using Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.DataSources
+@{
+    var objectDataSource = new PublishingObjectDataSource().GetSelectListItems(ViewContext.RequestContext).ToList();
+    objectDataSource.Insert(0,new System.Web.Mvc.SelectListItem() { Text = "All", Value = "" });
+    var statusDataSource = new QueueStatusDataSource().GetSelectListItems(ViewContext.RequestContext).ToList();
+    statusDataSource.Insert(0, new System.Web.Mvc.SelectListItem() { Text = "All", Value = "" });
+    
+    var action = ViewContext.RequestContext.AllRouteValues()["action"].ToString();
+}
+<div class="search-panel">
+    <div class="searchbox">
+        <form id="search" action="@Html.Raw(Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("page", "1")))"
+        method="get" class="no-stop">            
+            @foreach (var key in Request.QueryString.AllKeys)
+            {
+                if (key.Equals("search", StringComparison.OrdinalIgnoreCase) || key.Equals("page", StringComparison.OrdinalIgnoreCase)) { continue; }
+                @Html.Hidden(key, Request.QueryString[key])
+            }
+            <input type="text" name="search" id="searchBox" value="@ViewContext.RequestContext.GetRequestValue("search")" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }"/>
+            <button type="submit">@Html.IconImage("search")</button>
+        </form>
+    </div>
+    <a class="more">@Html.IconImage("arrow small black-down")</a>
+    <div class="more-search common-form no-title" style="display: none">
+        <form action="@Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("page", "1"))"
+        class="no-stop" method="get">
+            <input type="hidden" name="SiteName" value="@Request["SiteName"]" />
+            <fieldset>
+                <table id="filter_list">
+                    <tbody>
+                        <tr>
+                            <td class="clearfix">
+                                @("Publishing object".Localize())
+                            </td>
+                            <td>
+                                @Html.DropDownList("PublishingObject", objectDataSource, new { style="width:100px"})
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="clearfix">
+                                @("Status".Localize())
+                            </td>
+                            <td>
+                                @Html.DropDownList("Status", statusDataSource, new { style="width:100px"})
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <p class="buttons">
+                <button type="submit">
+                    @("Search".Localize())</button>
+                <a class="button action gray cancel">
+                    @("Cancel".Localize())</a>
+            </p>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        (function () {
+            var searchPanel = $('div.search-panel');
+            panel = searchPanel.find('div.more-search');
+            moreLink = searchPanel.find('a.more').click(function () {
+                if (panel.is(':visible')) {
+                    $(this).removeClass('active');
+                    panel.slideUp();
+                } else {
+                    $(this).addClass('active');
+                    panel.slideDown();
+                }
+            });
+            searchPanel.find('.cancel').click(function () {
+                searchPanel.find('a.more').click();
+            });
+        })();
+    });
+</script>

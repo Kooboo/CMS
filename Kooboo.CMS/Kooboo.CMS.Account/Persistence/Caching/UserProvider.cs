@@ -22,19 +22,9 @@ namespace Kooboo.CMS.Account.Persistence.Caching
         {
             _inner = inner;
         }
-        public bool ValidateUser(string userName, string password)
+        public User FindUserByEmail(string email)
         {
-            return _inner.ValidateUser(userName, password);
-        }
-
-        public bool ChangePassword(string userName, string oldPassword, string newPassword)
-        {
-            return _inner.ChangePassword(userName, oldPassword, newPassword);
-        }
-
-        public bool ChangePassword(string userName, string newPassword)
-        {
-            return _inner.ChangePassword(userName, newPassword);
+            return _inner.FindUserByEmail(email);
         }
 
         public IEnumerable<Models.User> All()
@@ -42,7 +32,7 @@ namespace Kooboo.CMS.Account.Persistence.Caching
             return _inner.All();
         }
 
-        public  override User Get(User dummy)
+        public override User Get(User dummy)
         {
             return base.Get(dummy);
         }
@@ -66,5 +56,7 @@ namespace Kooboo.CMS.Account.Persistence.Caching
         {
             return "CacheUser-Name:" + o.UserName;
         }
+
+
     }
 }

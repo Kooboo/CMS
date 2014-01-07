@@ -17,12 +17,27 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
     public class DependencyRegistrar : Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
     {
+        private class ResolvingObserver : IResolvingObserver
+        {
+            public int Order
+            {
+                get { return 1; }
+            }
+
+            public object OnResolved(object resolvedObject)
+            {
+                if (resolvedObject is IRepositoryProvider)
+                {
+                    return new RepositoryProvider((IRepositoryProvider)resolvedObject);
+                }
+
+
+                return resolvedObject;
+            }
+        }
         public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
         {
-            containerManager.AddComponentInstance<IRepositoryProvider>(new RepositoryProvider(containerManager.Resolve<IRepositoryProvider>()));
-            containerManager.AddComponent<IMediaFolderProvider, MediaFolderProvider>();
-            containerManager.AddComponent<IMediaContentProvider, MediaContentProvider>();
-            containerManager.AddComponent<ITextContentFileProvider, TextContentFileProvider>();
+            containerManager.AddResolvingObserver(new ResolvingObserver());
         }
 
         /// <summary>

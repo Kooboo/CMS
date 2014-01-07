@@ -1,0 +1,1 @@
+<%: Html.FrontHtml().PageLink("Link Text", "Index", new{key="value"}, new{title="title"})%>

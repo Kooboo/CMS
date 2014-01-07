@@ -1,4 +1,5 @@
-﻿using Kooboo.CMS.Web.Areas.Contents.Models.DataSources;
+﻿using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Web.Areas.Sites.Models.DataSources;
 using Kooboo.CMS.Web.Models;
 using Kooboo.Web.Mvc;
 using System;
@@ -24,11 +25,30 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Remote("IsRepositoryAvaliable", "Site", AdditionalFields = "CreateNew")]
         [Required(ErrorMessage = "Required")]
         [Description("Create a new database or select the database where <br/> your content is stored.")]
-        [UIHint("ChooseRepository")]
+        [UIHint("CreateOrSelect")]
         [DataSource(typeof(RepositoriesDataSource))]
         [Display(Name = "Content database")]
         [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
         public string Repository { get; set; }
 
+        [Description("Create a new membership or select the membership.")]
+        [UIHint("CreateOrSelect")]
+        [DataSource(typeof(MembershipDataSource))]
+        [Display(Name = "Membership")]
+        [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
+        public string Membership { get; set; }
+
+
+        public Site ToSiteSetting()
+        {
+            var site = new Site()
+            {
+                Repository = Repository,
+                Membership = Membership,
+                Domains = null
+            };
+
+            return site;
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace Kooboo.CMS.Sites.Search
             }
             if (!string.IsNullOrEmpty(page.ContentTitle))
             {
-                body.AppendFormat(title);
+                body.Append(title);
 
                 title = page.ContentTitle;
             }

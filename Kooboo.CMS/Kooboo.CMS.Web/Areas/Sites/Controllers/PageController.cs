@@ -66,13 +66,17 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             var list = Manager.All(Site, parentPage, search);
 
+            if (!string.IsNullOrEmpty(parentPage))
+            {
+                list = list.Concat(Manager.GetUnsyncedSubPages(Site, parentPage));
+            }
             return list.AsQueryable().SortBy(sortField, sortDir);
         }
 
         #endregion
 
         #region Create
-        public override ActionResult Create()
+        public override ActionResult Create(Page model)
         {
             if (!string.IsNullOrWhiteSpace(Site.Repository))
             {
@@ -93,7 +97,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             page.Layout = ControllerContext.RequestContext.GetRequestValue("layout");
             page.IsDefault = isDefault;
 
-            return View(page);
+            return base.Create(page);
         }
 
         [HttpPost]
@@ -464,6 +468,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #region IsNameAvailable
         public virtual ActionResult IsNameAvailable(string name, string parentPage, string old_Key)
         {
+            if (AreaRegistrationEx.AllAreas.Contains(name, StringComparer.OrdinalIgnoreCase))
+            {
+                return Json("The name is unavailable for page, it is already used as a MVC area name.", JsonRequestBehavior.AllowGet);
+            }
+
             if (old_Key == null || !name.EqualsOrNullEmpty(old_Key, StringComparison.CurrentCultureIgnoreCase))
             {
                 string fullName = PageHelper.CombineFullName(new[]

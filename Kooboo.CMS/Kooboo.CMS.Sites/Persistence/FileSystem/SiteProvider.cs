@@ -9,6 +9,8 @@
 using Ionic.Zip;
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Membership.Models;
+using Kooboo.CMS.Membership.Persistence;
 using Kooboo.CMS.Sites.Globalization;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.Globalization;
@@ -30,15 +32,20 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
     {
         #region Static
         static string Offline_File = "offline.txt";
-
+        static string ContentDatabaseFileName = "ContentDatabase";
+        static string MembershipFileName = "Membership";
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
         #endregion
 
         #region .ctor
         IBaseDir baseDir;
-        public SiteProvider(IBaseDir baseDir)
+        IMembershipProvider _membershipProvider;
+        IElementRepositoryFactory _elementRepositoryFactory;
+        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, IElementRepositoryFactory elementRepositoryFactory)
         {
             this.baseDir = baseDir;
+            this._membershipProvider = membershipProvider;
+            this._elementRepositoryFactory = elementRepositoryFactory;
         }
         #endregion
 
@@ -50,7 +57,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             throw new NotSupportedException("The method do not supported in SiteProvider.");
         }
 
-        public void Add(Models.Site item)
+        public virtual void Add(Models.Site item)
         {
             Save(item);
         }
@@ -71,12 +78,12 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         }
 
-        public void Update(Models.Site @new, Models.Site old)
+        public virtual void Update(Models.Site @new, Models.Site old)
         {
             Save(@new);
         }
 
-        public void Remove(Models.Site item)
+        public virtual void Remove(Models.Site item)
         {
             locker.EnterWriteLock();
             try
@@ -89,11 +96,12 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 locker.ExitWriteLock();
             }
         }
+
         private void ClearSiteData(Site site)
         {
             try
             {
-                Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance.CreateRepository(site).Clear();
+                _elementRepositoryFactory.CreateRepository(site).Clear();
             }
             catch
             {
@@ -114,7 +122,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
         }
 
-        public Site Get(Site dummyObject)
+        public virtual Site Get(Site dummyObject)
         {
             if (!dummyObject.Exists())
             {
@@ -149,7 +157,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 return result;
             }
         }
-        public IDictionary<string, Site> GetDomainTable()
+        public virtual  IDictionary<string, Site> GetDomainTable()
         {
             SortedDictionary<string, Site> table = new SortedDictionary<string, Site>(new StringLengthComparer());
             foreach (var site in AllSites())
@@ -164,7 +172,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             return table;// new SortedDictionary<string, Site>(table, new StringLengthComparer());
 
         }
-        public Site GetSiteByHostNameNPath(string hostName, string requestPath)
+        public virtual Site GetSiteByHostNameNPath(string hostName, string requestPath)
         {
             var domainTable = GetDomainTable();
             var fullPath = hostName + "/" + requestPath.Trim('/') + "/";
@@ -199,11 +207,11 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Site> All()
+        public virtual IEnumerable<Site> All()
         {
             return AllRootSites();
         }
-        public IEnumerable<Site> AllSites()
+        public virtual IEnumerable<Site> AllSites()
         {
             return CascadedChildSites(null);
         }
@@ -217,7 +225,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             return childSites;
         }
 
-        public IEnumerable<Site> ChildSites(Site site)
+        public virtual IEnumerable<Site> ChildSites(Site site)
         {
             List<Site> list = new List<Site>();
             //if the site is null, get the root sites.
@@ -239,7 +247,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             return list;
         }
 
-        public IEnumerable<Site> AllRootSites()
+        public virtual IEnumerable<Site> AllRootSites()
         {
             return ChildSites(null);
         }
@@ -248,7 +256,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         #region Online/Offline
 
-        public void Offline(Site site)
+        public virtual void Offline(Site site)
         {
             var offlineFile = GetOfflineFile(site);
             if (!File.Exists(offlineFile))
@@ -256,7 +264,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 File.WriteAllText(offlineFile, "The site is offline, please remove this file to take it online.".Localize());
             }
         }
-        public void Online(Site site)
+        public virtual void Online(Site site)
         {
             var offlineFile = GetOfflineFile(site);
             if (File.Exists(offlineFile))
@@ -264,7 +272,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 File.Delete(offlineFile);
             }
         }
-        public bool IsOnline(Site site)
+        public virtual bool IsOnline(Site site)
         {
             var offlineFile = GetOfflineFile(site);
             return !File.Exists(offlineFile);
@@ -285,7 +293,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         /// <param name="siteName"></param>
         /// <param name="packageStream"></param>
         /// <returns></returns>
-        public Site Create(Site parentSite, string siteName, System.IO.Stream packageStream, string repositoryName)
+        public virtual  Site Create(Site parentSite, string siteName, System.IO.Stream packageStream, CreateSiteSetting createSitSetting)
         {
             Site site = new Site(parentSite, siteName);
             if (site.Exists())
@@ -299,10 +307,11 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
                 if (parentSite == null)
                 {
-                    baseDir.UpdateFileLink(site.PhysicalPath, siteName, repositoryName);
+                    baseDir.UpdateFileLink(site.PhysicalPath, siteName, createSitSetting.Repository);
                 }
 
-                site = CreateSiteRepository(site, repositoryName);
+                site = CreateSiteRepository(site, createSitSetting.Repository);
+                CreateMembership(site, createSitSetting.Membership);
             }
             return site;
         }
@@ -315,8 +324,8 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             {
                 if (CMS.Content.Services.ServiceFactory.RepositoryManager.Get(newRepositoryName) == null)
                 {
-                    var repositoryFile = GetSiteRepositoryFile(site);
-                    if (File.Exists(repositoryFile))
+                    var repositoryFile = GetSiteRelatedFile(site, new[] { ContentDatabaseFileName, site.Repository });
+                    if (!string.IsNullOrEmpty(repositoryFile) && File.Exists(repositoryFile))
                     {
                         using (FileStream fs = new FileStream(repositoryFile, FileMode.Open, FileAccess.Read))
                         {
@@ -346,6 +355,51 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             return site;
         }
+        private Site CreateMembership(Site site, string membershipName)
+        {
+            //Create the repository if the repository does not exists.
+            site = site.AsActual();
+
+            if (!string.IsNullOrEmpty(membershipName))
+            {
+                var membership = new Kooboo.CMS.Membership.Models.Membership(membershipName).AsActual();
+                if (membership == null)
+                {
+                    var membershipFile = GetSiteRelatedFile(site, MembershipFileName);
+                    if (!string.IsNullOrEmpty(membershipFile) && File.Exists(membershipFile))
+                    {
+                        using (FileStream fs = new FileStream(membershipFile, FileMode.Open, FileAccess.Read))
+                        {
+                            _membershipProvider.Import(membershipName, fs);
+                        }
+                        site.Membership = membershipName;
+                        try
+                        {
+                            File.Delete(membershipFile);
+                        }
+                        catch (Exception e)
+                        {
+                            Kooboo.HealthMonitoring.Log.LogException(e);
+                        }
+                    }
+                    else if (site.Parent != null)
+                    {
+                        site.Membership = site.Parent.AsActual().Membership;
+                    }
+                    else
+                    {
+                        site.Membership = null;
+                    }
+                }
+            }
+            Save(site);
+            foreach (var childSite in ChildSites(site))
+            {
+                CreateMembership(childSite, membershipName);
+            }
+
+            return site;
+        }
 
         private string GetChildSiteRepositoryName(Site childSite, string newRepositoryName)
         {
@@ -359,7 +413,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 return newRepositoryName + "_" + childSite.Name;
             }
         }
-        public void Initialize(Site site)
+        public virtual void Initialize(Site site)
         {
             //Initialize 
             Providers.HtmlBlockProvider.InitializeHtmlBlocks(site);
@@ -373,7 +427,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         private void InitializeLabels(Site site)
         {
-            var labelRepository = Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance.CreateRepository(site);
+            var labelRepository = _elementRepositoryFactory.CreateRepository(site);
             if (labelRepository.GetType() != typeof(SiteLabelRepository))
             {
                 labelRepository.Clear();
@@ -390,7 +444,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         private void ExportLabels(Site site, bool includeSubSites)
         {
-            var labelRepository = Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance.CreateRepository(site);
+            var labelRepository = _elementRepositoryFactory.CreateRepository(site);
             if (labelRepository.GetType() != typeof(SiteLabelRepository))
             {
                 SiteLabelRepository fileRepository = new SiteLabelRepository(site);
@@ -441,7 +495,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         /// </summary>
         /// <param name="site"></param>
         /// <param name="outputStream"></param>
-        public void Export(Site site, System.IO.Stream outputStream, bool includeDatabase, bool includeSubSites)
+        public virtual void Export(Site site, System.IO.Stream outputStream, bool includeDatabase, bool includeSubSites)
         {
             ISiteProvider siteProvider = Providers.SiteProvider;
 
@@ -468,6 +522,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 if (includeDatabase)
                 {
                     ExportSiteRepository(site, site, zipFile, includeSubSites);
+                    ExportSiteMembership(site, site, zipFile, includeSubSites);
                 }
 
                 zipFile.ZipErrorAction = ZipErrorAction.Skip;
@@ -491,7 +546,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
                     ms.Position = 0;
 
-                    var entryName = GetSiteRepositoryEntryName(rootSiteExported, site);
+                    var entryName = GetSiteRelatedEntryName(rootSiteExported, site, ContentDatabaseFileName);
 
                     if (zipFile.ContainsEntry(entryName))
                     {
@@ -509,9 +564,45 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
         }
 
-        private static string GetSiteRepositoryEntryName(Site rootSiteExported, Site site)
+        private void ExportSiteMembership(Site rootSiteExported, Site site, ZipFile zipFile, bool includeSubSites)
         {
-            var entryName = site.Repository + ".zip";
+            site = site.AsActual();
+
+            if (!string.IsNullOrEmpty(site.Membership))
+            {
+                if (site.Parent == null || (site.Parent != null
+                    && !site.Parent.AsActual().Membership.EqualsOrNullEmpty(site.Membership, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    MemoryStream ms = new MemoryStream();
+
+                    _membershipProvider.Export(site.GetMembership(), ms);
+
+                    if (ms.Length > 0)
+                    {
+                        ms.Position = 0;
+
+                        var entryName = GetSiteRelatedEntryName(rootSiteExported, site, MembershipFileName);
+
+                        if (zipFile.ContainsEntry(entryName))
+                        {
+                            zipFile.RemoveEntry(entryName);
+                        }
+                        zipFile.AddEntry(entryName, ms);
+                    }
+
+                }
+            }
+            if (includeSubSites)
+            {
+                foreach (var childSite in ChildSites(site))
+                {
+                    ExportSiteMembership(rootSiteExported, childSite, zipFile, includeSubSites);
+                }
+            }
+        }
+        private static string GetSiteRelatedEntryName(Site rootSiteExported, Site site, string entryName)
+        {
+            entryName = entryName + ".zip";
             if (site.Parent != null)
             {
                 //单独导出子站点的时候，目录需要移除的是导出站点路径
@@ -523,11 +614,21 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
             return entryName;
         }
-        private static string GetSiteRepositoryFile(Site site)
+        private static string GetSiteRelatedFile(Site site, params string[] entryNames)
         {
-            var entryName = site.Repository + ".zip";
-            entryName = Path.Combine(site.PhysicalPath, entryName);
-            return entryName;
+            foreach (var name in entryNames)
+            {
+                if (!string.IsNullOrEmpty(name))
+                {
+                    var entryName = name + ".zip";
+                    entryName = Path.Combine(site.PhysicalPath, entryName);
+                    if (File.Exists(entryName))
+                    {
+                        return entryName;
+                    }
+                }
+            }
+            return null;
         }
         #endregion
 

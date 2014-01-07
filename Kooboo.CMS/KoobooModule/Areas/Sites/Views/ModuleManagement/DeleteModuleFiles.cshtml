@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Module unistallation".Localize(); 
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())</a>
+        </li>
+    </ul>
+}
+
+<div class="common-form">
+    <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <a>@("Run uninstallation action".Localize())</a>
+            <span class="current">@("Remove module files".Localize())<b></b></span>
+            <span>@("Finished".Localize())</span>
+        </div>
+    </div>
+    @using (Html.BeginForm())
+    {               
+        <p class="process-steps-tip">
+            @Html.Raw("Click <b>Next</b> to remove module files.".Localize())
+        </p>
+    }
+
+</div>

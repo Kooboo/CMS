@@ -1,0 +1,61 @@
+﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.ModuleInfo
+@{
+    ViewBag.Title = "Module unistallation".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+    var uninstallingTemplate = Model.UninstallingTemplate;
+    if (!uninstallingTemplate.StartsWith("~/"))
+    {
+        var viewPath = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(uninstallingTemplate);
+        if (File.Exists(viewPath.PhysicalPath))
+        {
+            uninstallingTemplate = viewPath.VirtualPath;
+        }
+        else
+        {
+            uninstallingTemplate = null;
+        }
+    }
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Cancel".Localize())
+            </a>
+        </li>
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())
+            </a>
+        </li>
+    </ul>
+}
+<div class="block">
+    <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <span>@("Module info".Localize())</span>
+            <span class="current">@("Uninstallation".Localize())<b></b></span>
+            <span>@("Finish".Localize())</span>
+        </div>
+    </div>
+    <div class="content">
+        <p>@("We are about to uninstall your module. In this step, we will perform the following actions:".Localize())</p>
+        <ol>
+            <li><strong>@("Run the 'Uninstallation' events defined by module developers".Localize())</strong></li>
+            <li><strong>@("Remove the module files from Kooboo CMS system.".Localize())</strong></li>
+        </ol>
+    </div>
+    @using (Html.BeginForm())
+    {
+        if (!string.IsNullOrEmpty(uninstallingTemplate))
+        {
+            @Html.Partial(uninstallingTemplate, null, new ViewDataDictionary())
+        }
+    }
+    <div class="content">
+        <p>@Html.Raw("When you are ready, click the <strong>Next</strong> button to start the uninstallation.".Localize())</p>
+    </div>
+</div>
+
+

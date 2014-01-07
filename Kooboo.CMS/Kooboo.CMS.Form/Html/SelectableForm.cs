@@ -63,17 +63,34 @@ namespace Kooboo.CMS.Form.Html
 </div>
 <div class=""tbody"">
     <table>
+        <thead>
+            <tr>
+                <th class=""checkbox"">
+                    <input type=""checkbox"" class=""select-all"" />
+                </th>
+                {0}
+            </tr>
+        </thead>
         <tbody>
         @if (childFolders.Length == 0 && Model.Contents.TotalItemCount == 0)
         {{
             <tr class=""empty"">
-                <td>
+                <td colspan=""100"">
                     @(""Empty"".Localize())
                 </td>
             </tr>
         }}
         else{{
-              foreach (dynamic item in childFolders)
+            if(folder.Parent != null){{
+                    <tr class=""folderTr"">
+                        <td></td>
+                        <td>
+                            <a class=""f-icon folder"" href=""@this.Url.Action(""SelectCategories"", ViewContext.RequestContext.AllRouteValues().Merge(""FolderName"", (object)(folder.Parent.FullName)).Merge(""FullName"", (object)(folder.Parent.FullName)))"">...</a>
+                        </td>
+                        <td colspan=""{2}""></td>
+                    </tr>
+             }}
+             foreach (dynamic item in childFolders)
                 {{
                     <tr class=""folderTr"">
                         <td>                            

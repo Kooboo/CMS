@@ -19,6 +19,6 @@ namespace Kooboo.CMS.Common.Persistence.Relational
         /// <summary>
         /// Gets or sets the site.
         /// </summary>
-        string Site { get; set; }
+        string SiteName { get; set; }
     }
 }

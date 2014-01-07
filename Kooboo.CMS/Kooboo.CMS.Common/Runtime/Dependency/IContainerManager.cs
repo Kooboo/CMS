@@ -16,6 +16,10 @@ namespace Kooboo.CMS.Common.Runtime.Dependency
 {
     public interface IContainerManager : IDisposable
     {
+        #region AddResolvingObserver
+        void AddResolvingObserver(IResolvingObserver observer);
+        #endregion
+
         #region AddComponent
         /// <summary>
         /// Adds the component.
@@ -42,19 +46,19 @@ namespace Kooboo.CMS.Common.Runtime.Dependency
         /// <param name="lifeStyle">The life style.</param>
         void AddComponent<TService, TImplementation>(string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton);
 
-        void AddComponent(Type service, Type implementation, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton);
+        void AddComponent(Type service, Type implementation, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton, params Parameter[] parameters);
 
         void AddComponentInstance<TService>(object instance, string key = "");
 
         void AddComponentInstance(object instance, string key = "");
 
-        void AddComponentInstance(Type service, object instance, string key = ""); 
+        void AddComponentInstance(Type service, object instance, string key = "");
         #endregion
 
         #region Resolve
-        T Resolve<T>(string key = "") where T : class;
+        T Resolve<T>(string key = "", params Parameter[] parameters) where T : class;
 
-        object Resolve(Type type, string key = ""); 
+        object Resolve(Type type, string key = "", params Parameter[] parameters);
         #endregion
 
         #region ResolveAll
@@ -63,16 +67,16 @@ namespace Kooboo.CMS.Common.Runtime.Dependency
         #endregion
 
         #region TryResolve
-        T TryResolve<T>(string key = "");
+        T TryResolve<T>(string key = "", params Parameter[] parameters);
 
-        object TryResolve(Type type, string key = "");
+        object TryResolve(Type type, string key = "", params Parameter[] parameters);
 
         #endregion
 
         #region ResolveUnregistered
         T ResolveUnregistered<T>() where T : class;
 
-        object ResolveUnregistered(Type type); 
+        object ResolveUnregistered(Type type);
         #endregion
     }
 }

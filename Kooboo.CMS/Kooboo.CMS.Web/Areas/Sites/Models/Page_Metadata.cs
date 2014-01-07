@@ -33,8 +33,9 @@ using System.Web.Routing;
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
     [MetadataFor(typeof(Page))]
-    [Grid(Checkable = true, Draggable = true, IdProperty = "UUID", GridItemType = typeof(PageGridItem))]
-    [GridColumn(GridItemColumnType = typeof(Page_Draft_GridItemColumn), HeaderText = "Draft", Order = 5)]
+    [Grid(Checkable = true, Draggable = true, IdProperty = "UUID", GridItemType = typeof(PageGridItem), EmptyText = "No sub pages")]
+    [GridColumn(GridItemColumnType = typeof(Inheritable_Status_GridItemColumn), HeaderText = "Inheritance", Order = 4)]
+    [GridColumn(GridItemColumnType = typeof(Page_Draft_GridItemColumn), HeaderText = "Draft", Order = 6)]
     public class Page_Metadata
     {
         [GridColumn(Order = 1, GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(InheritableEditGridActionItemColumn))]
@@ -67,12 +68,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [DataSource(typeof(PluginsDataSource))]
         public List<string> Plugins { get; set; }
 
-        [GridColumn(Order = 2, GridItemColumnType = typeof(Page_Navigation_ShowInMenu_GridItemColumn), GridColumnType = typeof(Page_Navigation_ShowInMenu_SortableGridColumn), HeaderText = "Show in menu")]
-        [GridColumn(Order = 3, GridColumnType = typeof(SortableGridColumn), HeaderText = "Display text")]
+        [GridColumn(Order = 2, GridColumnType = typeof(SortableGridColumn), HeaderText = "Display text")]
+        [GridColumn(Order = 3, GridItemColumnType = typeof(Page_Navigation_ShowInMenu_GridItemColumn), GridColumnType = typeof(Page_Navigation_ShowInMenu_SortableGridColumn), HeaderText = "Show in menu")]
         public Navigation Navigation { get; set; }
-
-        [GridColumn(Order = 4, GridColumnType = typeof(SortableGridColumn))]
-        public Site Site { get; set; }
 
         public HtmlMeta HtmlMeta { get; set; }
 
@@ -91,16 +89,21 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         public PageType PageType { get; set; }
 
         [Description("Cache your rendered pages for quicker response time in the next page request")]
-        [UIHint("OutputCache")]
+        //[UIHint("OutputCache")]
         public CacheSettings OutputCache { get; set; }
 
+        [GridColumn(Order = 4, GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
         [Required(ErrorMessage = "Required")]
         public bool? Published { get; set; }
 
-        [GridColumn(Order = 5, HeaderText = "Preview", GridItemColumnType = typeof(Page_Preview_GridItemColumn))]
+        [GridColumn(Order = 5, GridColumnType = typeof(SortableGridColumn))]
+        public Site Site { get; set; }
+
+        [GridColumn(Order = 7, HeaderText = "Preview", GridItemColumnType = typeof(Page_Preview_GridItemColumn))]
         public string VirtualPath { get; set; }
 
-        [UIHint("CustomFields")]
+        [DisplayName("Custom fields")]
+        [UIHint("Dictionary")]
         public Dictionary<string, string> CustomFields { get; set; }
 
         [Display(Name = "Content title")]
@@ -154,7 +157,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Kooboo.CMS.Web.Models.RemoteEx("IsIdentifierAvailable", "*", RouteFields = "SiteName,UUID,parentPage", AdditionalFields = "Name")]
         public string Identifier { get; set; }
 
-        [Description("Customize the page URL to anyway you like.<br /> Use {key} to match the URL query string. <br />For example: {userkey}_othertext to replace parameter \"?userkey=\" into static URL")]
+        [Description("Customize the page URL to anyway you like.<br /> Use {key} to match the URL query string. <br />For example: {userkey}_othertext to replace parameter \"?userkey=\" into static URL.<br/>Use {*ModuleURL} to match all the query string after ModuleURL.")]
         [Display(Name = "URL path")]
         [RegularExpression("^([^\\?~/])([^\\?])*\\s*$", ErrorMessage = "The route URL cannot start with a '/' or '~' character and it cannot contain a '?' character.")]
         public string RoutePath { get; set; }
@@ -168,7 +171,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Display(Name = "External URL")]
         public string ExternalUrl { get; set; }
     }
-       
+
     [MetadataFor(typeof(CacheSettings))]
     public class CacheSettings_Metadata
     {

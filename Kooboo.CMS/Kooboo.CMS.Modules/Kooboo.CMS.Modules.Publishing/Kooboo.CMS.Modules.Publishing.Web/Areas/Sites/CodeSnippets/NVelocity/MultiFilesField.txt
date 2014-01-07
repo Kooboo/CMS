@@ -1,0 +1,4 @@
+﻿#foreach($file in $ContentHelper.SplitMultiFiles($ViewBag.Article.Images))
+#each
+	<img src="$file" alt=""/>
+#end

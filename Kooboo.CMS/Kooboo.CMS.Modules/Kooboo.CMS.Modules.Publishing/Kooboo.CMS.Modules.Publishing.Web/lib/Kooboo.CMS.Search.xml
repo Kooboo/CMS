@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kooboo.CMS.Search</name>
+    </assembly>
+    <members>
+        <member name="T:Kooboo.CMS.Search.Persistence.Caching.DependencyRegistrar">
+            <summary>    
+            </summary>
+        </member>
+    </members>
+</doc>

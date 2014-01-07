@@ -28,10 +28,13 @@ namespace Kooboo.CMS.Sites.Controllers
         #endregion
 
         #region Submit
-        [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         public ActionResult Submit(string submissionName)
         {
+            if (this.ControllerContext.HttpContext.Request.HttpMethod.ToUpper() == "POST")
+            {
+                System.Web.Helpers.AntiForgery.Validate();
+            }
             if (string.IsNullOrEmpty(submissionName))
             {
                 throw new ArgumentNullException("submissionName");
@@ -39,7 +42,7 @@ namespace Kooboo.CMS.Sites.Controllers
             var submissionSetting = _submissionSettingManager.Get(Site, submissionName);
             if (submissionSetting == null)
             {
-                throw new ArgumentNullException("The submission setting does not exists.");
+                throw new ArgumentNullException("The submission setting does not exist.");
             }
             var pluginType = Type.GetType(submissionSetting.PluginType);
             var submissionPlugin = (ISubmissionPlugin)TypeActivator.CreateInstance(pluginType);

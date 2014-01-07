@@ -50,9 +50,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Create
-        public virtual ActionResult Create()
+        public virtual ActionResult Create(T model)
         {
-            return View();
+            ModelState.Clear();
+            return View(model);
         }
 
         [HttpPost]

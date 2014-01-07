@@ -21,7 +21,7 @@ namespace Kooboo.CMS.Sites.Controllers
 {
     public static class RedirectHelper
     {
-        public static ActionResult CreateRedirectResult(Site site, FrontRequestChannel channel, string url, string rawUrl, int? statusCode, RedirectType redirectType)
+        public static ActionResult CreateRedirectResult(Site site, FrontRequestChannel channel, string url, string rawUrl, int? statusCode, RedirectType redirectType, bool appendErrorPath = true)
         {
             var redirectUrl = url;
             if (!UrlUtility.IsAbsoluteUrl(redirectUrl))
@@ -33,22 +33,24 @@ namespace Kooboo.CMS.Sites.Controllers
                     redirectUrl = FrontUrlHelper.WrapperUrl(redirectUrl, site, channel).ToString();
                 }
             }
-            if (!string.IsNullOrEmpty(rawUrl))
+            if (appendErrorPath == true)
             {
-                redirectUrl = redirectUrl.AddQueryParam("errorpath", rawUrl);
+                if (!string.IsNullOrEmpty(rawUrl))
+                {
+                    redirectUrl = redirectUrl.AddQueryParam("returnUrl", rawUrl);
+                }
+                //if (statusCode != null)
+                //{
+                //    redirectUrl = redirectUrl.AddQueryParam("statusCode", statusCode.ToString());
+                //}
             }
-            if (statusCode != null)
-            {
-                redirectUrl = redirectUrl.AddQueryParam("statusCode", statusCode.ToString());
-            }
-
             switch (redirectType)
             {
                 case RedirectType.Moved_Permanently_301:
                     return new Redirect301Result(redirectUrl);
 
                 case RedirectType.Transfer:
-                    return new TransferResult(redirectUrl, statusCode ?? 200);                    
+                    return new TransferResult(redirectUrl, statusCode ?? 200);
                 case RedirectType.Found_Redirect_302:
                 default:
                     return new RedirectResult(redirectUrl);

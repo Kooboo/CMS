@@ -20,10 +20,9 @@ using Kooboo.Collections;
 namespace Kooboo.CMS.Account.Models
 {
     [DataContract]
-    public partial class User : IPersistable, IIdentifiable
+    public partial class User
     {
         public string UserName { get; set; }
-
         [DataMember(Order = 1)]
         public string Email { get; set; }
 
@@ -32,9 +31,66 @@ namespace Kooboo.CMS.Account.Models
 
         [DataMember(Order = 5)]
         public bool IsAdministrator { get; set; }
-
-        [DataMember(Order = 6)]
+                
+        [DataMember]
         public string UICulture { get; set; }
+
+        [DataMember]
+        public string PasswordSalt
+        {
+            get;
+            set;
+        }
+
+        private bool? isApproved;
+        [DataMember]
+        public bool IsApproved
+        {
+            get
+            {
+                if (!isApproved.HasValue)
+                {
+                    isApproved = true;
+                }
+                return isApproved.Value;
+            }
+            set
+            {
+                isApproved = value;
+            }
+        }
+
+        [DataMember]
+        public bool IsLockedOut
+        {
+            get;
+            set;
+        }
+
+        [DataMember]
+        public int FailedPasswordAttemptCount
+        {
+            get;
+            set;
+        }
+
+        [DataMember]
+        public DateTime? UtcLastLockoutDate
+        {
+            get;
+            set;
+        }
+
+        [DataMember]
+        public DateTime? UtcLastLoginDate
+        {
+            get;
+            set;
+        }
+        [DataMember]
+        public virtual DateTime? UtcLastPasswordChangedDate { get; set; }
+        [DataMember]
+        public virtual string ActivateCode { get; set; }
 
         private DynamicDictionary customFields = null;
         [DataMember(Order = 7)]
@@ -74,7 +130,13 @@ namespace Kooboo.CMS.Account.Models
                 }
             }
         }
-        #region IPersistable
+
+
+    }
+
+    public partial class User : IPersistable, IIdentifiable
+    {
+        #region IIdentifiable
         public string UUID
         {
             get
@@ -86,6 +148,10 @@ namespace Kooboo.CMS.Account.Models
                 this.UserName = value;
             }
         }
+        #endregion
+
+        #region IPersistable
+
         private bool isDummy = true;
         public bool IsDummy
         {
@@ -110,73 +176,5 @@ namespace Kooboo.CMS.Account.Models
         }
 
         #endregion
-    }
-
-    public partial class User
-    {
-        public int FailedPasswordAttemptCount
-        {
-            get
-            {
-                if (CustomFields.ContainsKey("FailedPasswordAttemptCount"))
-                {
-                    return (int)CustomFields["FailedPasswordAttemptCount"];
-                }
-                return 0;
-            }
-            set
-            {
-                CustomFields["FailedPasswordAttemptCount"] = value;
-            }
-        }
-
-        public bool IsLockedOut
-        {
-            get
-            {
-                if (CustomFields.ContainsKey("IsLockedOut"))
-                {
-                    return (bool)CustomFields["IsLockedOut"];
-                }
-                return false;
-            }
-            set
-            {
-                CustomFields["IsLockedOut"] = value;
-            }
-        }
-
-        public DateTime LastLockoutDate
-        {
-            get
-            {
-                if (CustomFields.ContainsKey("LastLockoutDate"))
-                {
-                    return (DateTime)CustomFields["LastLockoutDate"];
-                }
-                return DateTime.MinValue;
-            }
-            set
-            {
-                CustomFields["LastLockoutDate"] = value;
-            }
-        }
-
-        //public DateTime LastLockoutDate
-        //{
-        //    get
-        //    {
-        //        if (CustomFields.ContainsKey("LastLockoutDate"))
-        //        {
-        //            return (DateTime)CustomFields["LastLockoutDate"];
-        //        }
-        //        return DateTime.MinValue;
-        //    }
-        //    set
-        //    {
-        //        CustomFields["LastLockoutDate"] = value;
-        //    }
-        //}
-
     }
 }

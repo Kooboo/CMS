@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Controllers.ActionFilters;
 using Kooboo.CMS.Sites.Models;
@@ -14,6 +15,7 @@ using Kooboo.CMS.Sites.Services;
 using Kooboo.Drawing;
 using Kooboo.IO;
 using Kooboo.Web.Mvc.WebResourceLoader;
+using Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,16 +38,27 @@ namespace Kooboo.CMS.Sites.Controllers
             var site = new Site(siteName);
             var scripts = ServiceFactory.ScriptManager.GetFiles(site, "");
 
-            Output(CompressJavascript(scripts.Select(it => it.PhysicalPath), compressed), "text/javascript", 2592000, "*");
+            Output(CompressJavascript(scripts, compressed), "text/javascript", 2592000, "*");
 
             return null;
         }
-        private string CompressJavascript(IEnumerable<string> jsFiles, bool? compressed)
+        private string CompressJavascript(IEnumerable<IPath> jsFiles, bool? compressed)
         {
             StringBuilder sb = new StringBuilder();
             foreach (var file in jsFiles)
             {
-                sb.Append(IOUtility.ReadAsString(file) + ";\n");
+                string content;
+                var dynamicResource = DynamicClientResourceFactory.Default.ResolveProvider(file.VirtualPath);
+
+                if (dynamicResource != null)
+                {
+                    content = dynamicResource.Parse(file.VirtualPath);
+                }
+                else
+                {
+                    content = IOUtility.ReadAsString(file.PhysicalPath);
+                }
+                sb.Append(content + ";\n");
             }
 
             if (!compressed.HasValue || compressed.Value == true)
@@ -63,7 +76,7 @@ namespace Kooboo.CMS.Sites.Controllers
         {
             var scripts = Services.ServiceFactory.ModuleManager.AllScripts(moduleName);
 
-            Output(CompressJavascript(scripts.Select(it => it.PhysicalPath), compressed), "text/javascript", 2592000, "*");
+            Output(CompressJavascript(scripts, compressed), "text/javascript", 2592000, "*");
 
             return null;
         }
@@ -84,11 +97,18 @@ namespace Kooboo.CMS.Sites.Controllers
             StringBuilder sb = new StringBuilder();
             foreach (var file in cssFiles)
             {
-                using (FileStream fileStream = new FileStream(file.PhysicalPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                string content;
+                var dynamicResource = DynamicClientResourceFactory.Default.ResolveProvider(file.PhysicalPath);
+
+                if (dynamicResource != null)
                 {
-                    var content = fileStream.ReadString();
-                    sb.AppendFormat("{0}\n", CSSMinify.Minify(Url, file.VirtualPath, Request.Url.AbsolutePath, content));
+                    content = dynamicResource.Parse(file.VirtualPath);
                 }
+                else
+                {
+                    content = IOUtility.ReadAsString(file.PhysicalPath);
+                }
+                sb.AppendFormat("{0}\n", CSSMinify.Minify(Url, file.VirtualPath, Request.Url.AbsolutePath, content));
             }
             return sb.ToString();
         }
@@ -222,12 +242,50 @@ namespace Kooboo.CMS.Sites.Controllers
         private string GetCachingFilePath(string imagePath, int width, int height, bool preserverAspectRatio, int quality)
         {
             var lastModeifyDate = System.IO.File.GetLastWriteTimeUtc(imagePath);
-            string cms_dataPath = Path.Combine(Kooboo.Settings.BaseDirectory, PathEx.BasePath);
+            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+            string cms_dataPath = baseDir.Cms_DataPhysicalPath;
             string fileName = Path.GetFileNameWithoutExtension(imagePath);
             string newFileName = fileName + "-" + width.ToString() + "-" + height.ToString() + "-" + preserverAspectRatio.ToString() + "-" + quality.ToString() + "-" + lastModeifyDate.Ticks;
-            string imageCachingPath = Path.Combine(Kooboo.Settings.BaseDirectory, PathEx.BasePath, "ImageCaching");
+            string imageCachingPath = Path.Combine(cms_dataPath, "ImageCaching");
             string cachingPath = imageCachingPath + imagePath.Substring(cms_dataPath.Length);
             return Path.Combine(Path.GetDirectoryName(cachingPath), newFileName + Path.GetExtension(imagePath));
+        }
+        #endregion
+
+        #region Cache setting
+        protected virtual void CacheThisRequest()
+        {
+            SetCache(HttpContext.Response, 2592000, "*");
+        }
+        protected virtual void SetCache(HttpResponseBase response, int cacheDuration, params string[] varyByParams)
+        {
+            // Cache
+            if (cacheDuration > 0)
+            {
+                DateTime timestamp = DateTime.Now;
+
+                HttpCachePolicyBase cache = response.Cache;
+                int duration = cacheDuration;
+
+                cache.SetCacheability(HttpCacheability.Public);
+                cache.SetAllowResponseInBrowserHistory(true);
+                cache.SetExpires(timestamp.AddSeconds(duration));
+                cache.SetMaxAge(new TimeSpan(0, 0, duration));
+                cache.SetValidUntilExpires(true);
+                cache.SetLastModified(timestamp);
+                cache.VaryByHeaders["Accept-Encoding"] = true;
+                if (varyByParams != null)
+                {
+                    foreach (var p in varyByParams)
+                    {
+                        cache.VaryByParams[p] = true;
+                    }
+                }
+
+                cache.SetOmitVaryStar(true);
+                response.AddHeader("Cache-Control", string.Format("public, max-age={0}", cacheDuration));
+
+            }
         }
         #endregion
     }

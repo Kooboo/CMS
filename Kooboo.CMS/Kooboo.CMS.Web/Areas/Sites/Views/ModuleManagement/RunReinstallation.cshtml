@@ -1,0 +1,63 @@
+﻿@model Kooboo.CMS.Sites.Extension.ModuleArea.Management.InstallingModule
+@{
+    ViewBag.Title = "Module reinstallation".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+    var reinstallingTemplate = Model.ModuleInfo.ReinstallingTemplate;
+    if (!string.IsNullOrEmpty(reinstallingTemplate) && !reinstallingTemplate.StartsWith("~/"))
+    {
+        var viewPath = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(reinstallingTemplate);
+        if (File.Exists(viewPath.PhysicalPath))
+        {
+            reinstallingTemplate = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(reinstallingTemplate).VirtualPath;
+        }
+        else
+        {
+            reinstallingTemplate = null;
+        }
+
+    }
+
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Cancel".Localize())
+            </a>
+        </li>
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("next") @("Next".Localize())
+            </a>
+        </li>
+    </ul>
+}
+<div class="block">
+    <h1 class="title">@ViewBag.Title - @ViewContext.RequestContext.GetRequestValue("UUID")</h1>
+    <div class="process-steps">
+        <div class="steps-inner">
+            <span>@("Module selection".Localize())</span>
+            <span class="current">@("Installation".Localize())<b></b></span>
+            <span>@("Finish".Localize())</span>
+        </div>
+    </div>
+    <div class="content">
+         <p>@("We are about to reinstall your module. In this step, we will perform the following actions:".Localize())</p>
+        <ol>
+            <li><strong>@("Copy the module files into Kooboo CMS system.".Localize())</strong></li>
+            <li><strong>@("Run the 'Reinstallation' events defined by module developers".Localize())</strong></li>
+        </ol>
+    </div>
+    @using (Html.BeginForm())
+    {
+        if (!string.IsNullOrEmpty(reinstallingTemplate))
+        {
+            @Html.Partial(reinstallingTemplate, null, new ViewDataDictionary())
+        }
+
+    }
+    <div class="content">
+        <p>@Html.Raw("When you are ready, click the <strong>Next</strong> button to start the installation.".Localize())</p>
+    </div>
+</div>
+

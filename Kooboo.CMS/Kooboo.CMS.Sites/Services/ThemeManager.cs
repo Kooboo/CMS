@@ -117,9 +117,21 @@ namespace Kooboo.CMS.Sites.Services
         private IEnumerable<string> EnumerateCssFiles(string dir)
         {
             List<string> list = new List<string>();
-            foreach (var file in Directory.EnumerateFiles(dir, "*.css"))
+            foreach (var file in Kooboo.IO.IOUtility.EnumerateFilesByExtensions(dir, GetCssExtensions().ToArray()))
             {
                 list.Add(Path.GetFileName(file));
+            }
+            return list;
+        }
+
+        private IEnumerable<string> GetCssExtensions()
+        {
+            List<string> list = new List<string>();
+            list.Add(".css");
+            var dynamicClientResource = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource.IDynamicClientResource>().Where(it => it.ResourceType == Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource.ResourceType.Stylesheet);
+            foreach (var item in dynamicClientResource)
+            {
+                list.AddRange(item.SupportedFileExtensions);
             }
             return list;
         }

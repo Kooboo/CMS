@@ -24,7 +24,6 @@ using Kooboo.CMS.Web.Areas.Sites.Models.DataSources;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
-
     public class CreateSiteModel
     {
         public CreateSiteModel() { }
@@ -52,11 +51,19 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Remote("IsRepositoryAvaliable", "Site", AdditionalFields = "CreateNew")]
         [Required(ErrorMessage = "Required")]
         [Description("Create a new database or select the database where <br/> your content is stored.")]
-        [UIHint("ChooseRepository")]
+        [UIHint("CreateOrSelect")]
         [DataSource(typeof(RepositoriesDataSource))]
         [Display(Name = "Content database")]
         [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
         public string Repository { get; set; }
+
+        [Description("Create a new membership or select the membership.")]
+        [UIHint("CreateOrSelect")]
+        [DataSource(typeof(MembershipDataSource))]
+        [Display(Name = "Membership")]
+        [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
+        public string Membership { get; set; }
+
 
         [Required(ErrorMessage = "Required")]
         [UIHint("DropDownList")]
@@ -72,61 +79,4 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [DataSource(typeof(TimeZonesDataSource))]
         public string TimeZoneId { get; set; }
     }
-
-    public class ImportSiteModel
-    {
-        [Required(ErrorMessage = "Required")]
-        [RegularExpression(RegexPatterns.FileName, ErrorMessage = "A name cannot contain a space or any of the following characters:\\/:*?<>|~")]
-        [Remote("IsSiteNameAvailable", "Site", AdditionalFields = "Parent")]
-        [Description("The site name")]
-        public string Name { get; set; }
-
-
-        [UIHint("DropDownList")]
-        [DataSource(typeof(SitesDataSource))]
-        [Description("The parent website which this new website will be based on.")]
-        public string Parent { get; set; }
-
-        [Remote("IsRepositoryAvaliable", "Site")]
-        [Required(ErrorMessage = "Required")]
-        [Description("The name of your database to be created")]
-        [DataSource(typeof(RepositoriesDataSource))]
-        [Display(Name = "Content database")]
-        [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
-        public string Repository { get; set; }
-
-        [Required(ErrorMessage = "Required")]
-        [UIHint("UploadOrSelect")]
-        [DataSource(typeof(SitePackagesDatasource))]
-        [Description("Import from uploaded template files or existing site templates(under Cms_Data\\ImportedSites).")]
-        [AdditionalMetadata("data-val-filesize", "The site file exceeds the maximum size can be uploaded. Please upload the file under Cms_Data\\ImportedSites folder via FTP, then switch to the selection mode.")]
-        [AdditionalMetadata("data-val-filesize-value", 4194304)]
-        public string File { get; set; }
-
-    }
-
-    public class ImportRepositoryModel
-    {
-        [Display(Name = "Delete the old content database")]
-        [Description("The old content database which is not used by other sites will be deleted.")]
-        public bool DeleteTheOldRepository
-        {
-            get;
-            set;
-        }
-        [Remote("IsRepositoryAvaliable", "Site")]
-        [Required(ErrorMessage = "Required")]
-        [Description("The name of your database to be created")]
-        [Display(Name = "Content database")]
-        [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
-        public string Repository { get; set; }
-
-        [Required(ErrorMessage = "Required")]
-        [UIHint("UploadOrSelect")]
-        [DataSource(typeof(RepositoryPackagesDatasource))]
-        public string File { get; set; }
-
-
-    }
-
 }

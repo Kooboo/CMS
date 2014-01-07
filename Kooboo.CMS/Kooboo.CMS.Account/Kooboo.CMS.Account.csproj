@@ -62,6 +62,9 @@
     <Compile Include="Persistence\Caching\CacheObjectProviderBase.cs" />
     <Compile Include="Persistence\Caching\DependencyRegistrar.cs" />
     <Compile Include="Persistence\Caching\UserProvider.cs" />
+    <Compile Include="Persistence\FileSystem\ConnectBridge\FileProvider.cs" />
+    <Compile Include="Persistence\FileSystem\ConnectBridge\Membership.cs" />
+    <Compile Include="Persistence\FileSystem\ConnectBridge\User.cs" />
     <Compile Include="Persistence\FileSystem\ObjectFileProvider.cs" />
     <Compile Include="Persistence\FileSystem\RoleProvider.cs" />
     <Compile Include="Persistence\FileSystem\SettingProvider.cs" />
@@ -71,19 +74,12 @@
     <Compile Include="Persistence\ISettingProvider.cs" />
     <Compile Include="Persistence\IUserProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PasswordProvider.cs" />
     <Compile Include="Services\RoleManager.cs" />
     <Compile Include="Services\ServiceFactory.cs" />
     <Compile Include="Services\UserManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Kooboo.Connect\Kooboo.Connect.csproj">
-      <Project>{7389239B-564D-4398-87B7-99D9999ABECB}</Project>
-      <Name>Kooboo.Connect</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
-      <Project>{347E47E5-3132-4BAD-B935-8282A2B16CF5}</Project>
-      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
       <Project>{570CD9D3-75D2-468A-8245-45BDCA57432E}</Project>
       <Name>Kooboo.CMS.Caching</Name>
@@ -91,6 +87,10 @@
     <ProjectReference Include="..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
+      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
+      <Name>Kooboo</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

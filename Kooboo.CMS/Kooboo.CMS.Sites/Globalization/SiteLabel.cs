@@ -25,7 +25,7 @@ namespace Kooboo.CMS.Sites.Globalization
             var repository = site.ObjectCache().Get(cacheKey);
             if (repository == null)
             {
-                repository = new Kooboo.Globalization.Repository.CacheElementRepository(DefaultRepositoryFactory.Instance.CreateRepository(site));
+                repository = new Kooboo.Globalization.Repository.CacheElementRepository(() => Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IElementRepositoryFactory>().CreateRepository(site));
                 site.ObjectCache().Add(cacheKey, repository, new System.Runtime.Caching.CacheItemPolicy()
                 {
                     SlidingExpiration = TimeSpan.Parse("00:30:00")

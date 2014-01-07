@@ -55,20 +55,28 @@
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
     <Compile Include="AggregateHtmlString.cs" />
+    <Compile Include="AreaRegistrationEx.cs" />
     <Compile Include="DataType.cs" />
+    <Compile Include="DataViolation\DataViolationException.cs" />
+    <Compile Include="DataViolation\DataViolationItem.cs" />
+    <Compile Include="DataViolation\ModelStateExtension.cs" />
     <Compile Include="DependencyResolver.cs" />
     <Compile Include="EntityModelBinder.cs" />
     <Compile Include="Formula\FormulaParser.cs" />
     <Compile Include="Formula\IValueProvider.cs" />
     <Compile Include="Formula\IFormulaParser.cs" />
+    <Compile Include="Formula\MvcValueProvider.cs" />
     <Compile Include="Formula\NameValueCollectionProvider.cs" />
     <Compile Include="HttpApplicationHooker.cs" />
     <Compile Include="IBaseDir.cs" />
     <Compile Include="IHttpApplicationEvents.cs" />
+    <Compile Include="IntegrateIdBase.cs" />
     <Compile Include="ITimeZoneHelper.cs" />
     <Compile Include="ITypeActivtorStartupTask.cs" />
+    <Compile Include="KeyValue.cs" />
     <Compile Include="Persistence\ISaveObservable.cs" />
     <Compile Include="Persistence\Non_Relational\IIdentifiable.cs" />
+    <Compile Include="Persistence\Non_Relational\RelationModel.cs" />
     <Compile Include="Persistence\Relational\IEntity.cs" />
     <Compile Include="Runtime\AppDomainTypeFinder.cs" />
     <Compile Include="Runtime\Dependency\AttributeInfo.cs" />
@@ -77,10 +85,12 @@
     <Compile Include="Runtime\Dependency\IContainerManager.cs" />
     <Compile Include="Runtime\Dependency\IDependencyRegistrar.cs" />
     <Compile Include="Runtime\Dependency\InjectAttribute.cs" />
+    <Compile Include="Runtime\Dependency\IResolvingObserver.cs" />
     <Compile Include="Runtime\EngineContext.cs" />
     <Compile Include="Runtime\IEngine.cs" />
     <Compile Include="Runtime\IStartupTask.cs" />
     <Compile Include="Runtime\ITypeFinder.cs" />
+    <Compile Include="Runtime\Parameter.cs" />
     <Compile Include="Runtime\Singleton.cs" />
     <Compile Include="Runtime\WebAppTypeFinder.cs" />
     <Compile Include="JsonResultData.cs" />
@@ -91,11 +101,12 @@
     <Compile Include="Persistence\Relational\ISiteObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateControllerContextActionFilterAttribute.cs" />
+    <Compile Include="UriHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
+    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
       <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
-      <Name>Kooboo %28Source\Kooboo\Kooboo%29</Name>
+      <Name>Kooboo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

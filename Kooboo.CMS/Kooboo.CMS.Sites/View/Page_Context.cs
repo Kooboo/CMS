@@ -12,6 +12,7 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Sites.Extension;
 using Kooboo.CMS.Sites.Extension.ModuleArea;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.Collections;
@@ -203,11 +204,9 @@ namespace Kooboo.CMS.Sites.View
         {
             get
             {
-
-                return false;
-                //return this.PageRequestContext.RequestChannel != Web.FrontRequestChannel.Design
-                //       && this.PageRequestContext.Site.EnableStyleEdting != false
-                //       && ServiceFactory.UserManager.Authorize(Page_Context.Current.PageRequestContext.Site, Page_Context.Current.ControllerContext.HttpContext.User.Identity.Name, Account.Models.Permission.Sites_Page_StyleEditPermission);
+                return this.PageRequestContext.RequestChannel != Web.FrontRequestChannel.Design
+                       && this.PageRequestContext.Site.EnableStyleEdting != false
+                       && ServiceFactory.UserManager.Authorize(Page_Context.Current.PageRequestContext.Site, Page_Context.Current.ControllerContext.HttpContext.User.Identity.Name, Account.Models.Permission.Sites_Page_StyleEditPermission);
             }
         }
         #endregion
@@ -481,12 +480,15 @@ namespace Kooboo.CMS.Sites.View
                 var moduleUrl = Page_Context.Current.PageRequestContext.ModuleUrlContext.GetModuleUrl(modulePosition.PagePositionId);
 
                 ModuleActionInvokedContext result = ModuleExecutor.InvokeAction(this.ControllerContext, site, moduleUrl, modulePosition);
-                if (ModuleActionResultExecutor.IsExclusiveResult(result.ActionResult))
+                if (result != null)
                 {
-                    ModuleActionResultExecutor.ExecuteExclusiveResult(result.ControllerContext, result.ActionResult);
-                    return false;
+                    if (ModuleActionResultExecutor.IsExclusiveResult(result.ActionResult))
+                    {
+                        ModuleActionResultExecutor.ExecuteExclusiveResult(result.ControllerContext, result.ActionResult);
+                        return false;
+                    }
+                    moduleActionResults.Add(modulePosition.PagePositionId, result);
                 }
-                moduleActionResults.Add(modulePosition.PagePositionId, result);
             }
 
             ModuleResults = moduleActionResults;
@@ -496,6 +498,7 @@ namespace Kooboo.CMS.Sites.View
         public IDictionary<string, ModuleActionInvokedContext> ModuleResults { get; private set; }
         #endregion
 
+        #region CheckContext
         public void CheckContext()
         {
             if (this.Initialized == false)
@@ -503,5 +506,6 @@ namespace Kooboo.CMS.Sites.View
                 throw new NotSupportedException();
             }
         }
+        #endregion
     }
 }

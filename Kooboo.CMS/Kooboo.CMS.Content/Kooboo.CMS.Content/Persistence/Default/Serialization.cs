@@ -38,13 +38,13 @@ namespace Kooboo.CMS.Content.Persistence
 
             var settings = new XmlWriterSettings()
             {
+                CheckCharacters = false,
                 Indent = true,
                 IndentChars = "\t"
             };
             using (FileStream stream = new FileStream(filePath, FileMode.Create))
             {
-                XmlWriter xmlWriter = XmlWriter.Create(stream, settings);
-                using (var writer = XmlWriter.Create(xmlWriter, settings))
+                using (var writer = XmlWriter.Create(stream, settings))
                 {
                     ser.WriteObject(writer, o);
                 }

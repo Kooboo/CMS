@@ -12,6 +12,7 @@ using System.Linq;
 using System.Web;
 using Ninject;
 using Ninject.Syntax;
+using NinjectParameters = Ninject.Parameters;
 using Kooboo.CMS.Common.Runtime.Dependency.Ninject.InRequestScope;
 namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
 {
@@ -21,12 +22,41 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
     /// </summary>
     public class ContainerManager : IContainerManager
     {
+        private class KernelWrapper : StandardKernel
+        {
+
+            #region AddResolvingObserver
+            private IList<IResolvingObserver> _resolvingObjservers = new List<IResolvingObserver>();
+            public void AddResolvingObserver(IResolvingObserver observer)
+            {
+                _resolvingObjservers.Add(observer);
+                _resolvingObjservers = _resolvingObjservers.OrderBy(it => it.Order).ToList();
+            }
+
+            private object OnResolved(object resolvedObject)
+            {
+                if (_resolvingObjservers.Count > 0)
+                {
+                    foreach (var item in _resolvingObjservers)
+                    {
+                        resolvedObject = item.OnResolved(resolvedObject);
+                    }
+                }
+                return resolvedObject;
+            }
+            #endregion
+            public override IEnumerable<object> Resolve(global::Ninject.Activation.IRequest request)
+            {
+                return base.Resolve(request).Select(it => OnResolved(it));
+            }
+        }
+
         #region .ctor
-        private IKernel _container;
+        private KernelWrapper _container;
 
         public ContainerManager()
         {
-            _container = new StandardKernel();
+            _container = new KernelWrapper();
 
             _container.Settings.Set("InjectAttribute", typeof(InjectAttribute));
         }
@@ -48,7 +78,7 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         /// <typeparam name="TService">The type of the service.</typeparam>
         /// <param name="key">The key.</param>
         /// <param name="lifeStyle">The life style.</param>
-        public virtual void AddComponent<TService>(string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton)
+        public virtual void AddComponent<TService>(string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient)
         {
             AddComponent<TService, TService>(key, lifeStyle);
         }
@@ -59,7 +89,7 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         /// <param name="service">The service.</param>
         /// <param name="key">The key.</param>
         /// <param name="lifeStyle">The life style.</param>
-        public virtual void AddComponent(Type service, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton)
+        public virtual void AddComponent(Type service, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient)
         {
             AddComponent(service, service, key, lifeStyle);
         }
@@ -71,14 +101,23 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         /// <typeparam name="TImplementation">The type of the implementation.</typeparam>
         /// <param name="key">The key.</param>
         /// <param name="lifeStyle">The life style.</param>
-        public virtual void AddComponent<TService, TImplementation>(string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton)
+        public virtual void AddComponent<TService, TImplementation>(string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient)
         {
             AddComponent(typeof(TService), typeof(TImplementation), key, lifeStyle);
         }
 
-        public virtual void AddComponent(Type service, Type implementation, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Singleton)
+        public virtual void AddComponent(Type service, Type implementation, string key = "", ComponentLifeStyle lifeStyle = ComponentLifeStyle.Transient, params Parameter[] parameters)
         {
-            _container.Bind(service).To(implementation).PerLifeStyle(lifeStyle).MapKey(key).ReplaceExisting(service);
+            var binding = _container.Bind(service).To(implementation);
+            if (parameters != null)
+            {
+                var ninjectParamters = ConvertParameters(parameters);
+                foreach (var parameter in ninjectParamters)
+                {
+                    binding.WithParameter(parameter);
+                }
+            }
+            binding.PerLifeStyle(lifeStyle).MapKey(key).ReplaceExisting(service);
         }
 
         public virtual void AddComponentInstance<TService>(object instance, string key = "")
@@ -95,23 +134,33 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         }
         #endregion
 
+        #region ConvertParameters
+        private static NinjectParameters.IParameter[] ConvertParameters(Parameter[] parameters)
+        {
+            if (parameters == null)
+            {
+                return null;
+            }
+            return parameters.Select(it => new NinjectParameters.ConstructorArgument(it.Name, (context) => it.ValueCallback())).ToArray();
+        }
+        #endregion
         #region Resolve
-        public virtual T Resolve<T>(string key = "") where T : class
+        public virtual T Resolve<T>(string key = "", params Parameter[] parameters) where T : class
         {
             if (string.IsNullOrEmpty(key))
             {
-                return _container.Get<T>();
+                return _container.Get<T>(ConvertParameters(parameters));
             }
-            return _container.Get<T>(key);
+            return _container.Get<T>(key, ConvertParameters(parameters));
         }
 
-        public virtual object Resolve(Type type, string key = "")
+        public virtual object Resolve(Type type, string key = "", params Parameter[] parameters)
         {
             if (string.IsNullOrEmpty(key))
             {
-                return _container.Get(type);
+                return _container.Get(type, ConvertParameters(parameters));
             }
-            return _container.Get(type, key);
+            return _container.Get(type, key, ConvertParameters(parameters));
         }
         #endregion
 
@@ -135,22 +184,22 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         #endregion
 
         #region TryResolve
-        public virtual T TryResolve<T>(string key = "")
+        public virtual T TryResolve<T>(string key = "", params Parameter[] parameters)
         {
             if (string.IsNullOrEmpty(key))
             {
-                return _container.TryGet<T>();
+                return _container.TryGet<T>(ConvertParameters(parameters));
             }
-            return _container.TryGet<T>(key);
+            return _container.TryGet<T>(key, ConvertParameters(parameters));
         }
 
-        public virtual object TryResolve(Type type, string key = "")
+        public virtual object TryResolve(Type type, string key = "", params Parameter[] parameters)
         {
             if (string.IsNullOrEmpty(key))
             {
-                return _container.TryGet(type);
+                return _container.TryGet(type, ConvertParameters(parameters));
             }
-            return _container.TryGet(type, key);
+            return _container.TryGet(type, key, ConvertParameters(parameters));
         }
 
         #endregion
@@ -192,6 +241,13 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
             }
 
             this._container = null;
+        }
+        #endregion
+
+        #region AddResolvingObserver
+        public void AddResolvingObserver(IResolvingObserver observer)
+        {
+            _container.AddResolvingObserver(observer);
         }
         #endregion
     }

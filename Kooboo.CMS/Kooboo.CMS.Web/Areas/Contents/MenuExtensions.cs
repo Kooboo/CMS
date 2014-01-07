@@ -18,7 +18,7 @@ namespace Kooboo.CMS.Web.Areas.Contents
 {
     public static class MenuExtensions
     {
-        public static Menu SetCurrentRepository(this Menu menu, ViewContext viewContext)
+        public static Kooboo.Web.Mvc.Menu.Menu SetCurrentRepository(this Kooboo.Web.Mvc.Menu.Menu menu, ViewContext viewContext)
         {
             var repository = viewContext.RequestContext.GetRequestValue("repositoryName");
             if (repository != null)

@@ -18,7 +18,8 @@ using Kooboo.CMS.Common.Runtime;
 
 namespace Kooboo.CMS.Content.Persistence.SqlServer
 {
-    public class ProviderFactory : Default.ProviderFactory, Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProviderFactory), Order = 2)]
+    public class ProviderFactory : Default.ProviderFactory
     {
         public const string ProviderName = "SQLServer";
 
@@ -29,19 +30,19 @@ namespace Kooboo.CMS.Content.Persistence.SqlServer
 
 
 
-        public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
-        {
-            containerManager.AddComponent<IProviderFactory, ProviderFactory>();
-            containerManager.AddComponent<IRepositoryProvider, RepositoryProvider>();
-            containerManager.AddComponent<ISchemaProvider, SchemaProvider>();
+        //public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
+        //{
+        //    containerManager.AddComponent<IProviderFactory, ProviderFactory>();
+        //    containerManager.AddComponent<IRepositoryProvider, RepositoryProvider>();
+        //    containerManager.AddComponent<ISchemaProvider, SchemaProvider>();
 
-            containerManager.AddComponent<IContentProvider<TextContent>, TextContentProvider>();
-            containerManager.AddComponent<ITextContentProvider, TextContentProvider>();
-        }
+        //    containerManager.AddComponent<IContentProvider<TextContent>, TextContentProvider>();
+        //    containerManager.AddComponent<ITextContentProvider, TextContentProvider>();
+        //}
 
-        public int Order
-        {
-            get { return 1; }
-        }
+        //public int Order
+        //{
+        //    get { return 2; }
+        //}
     }
 }

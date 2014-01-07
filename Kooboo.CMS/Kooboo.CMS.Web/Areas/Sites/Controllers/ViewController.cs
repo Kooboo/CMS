@@ -50,7 +50,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             var ns = Manager.GetNamespace(Site).GetNamespaceNode(nsStr);
             ViewData["NameSpace"] = ns;
-            return View(List(search, sortField, sortDir).ToPagedList(page ?? 1, pageSize ?? 50));
+            return View(List(search, sortField, sortDir));
         }
 
         #endregion
@@ -73,7 +73,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Create
-        public override ActionResult Create()
+        public override ActionResult Create(View model)
         {
             var engineName = ControllerContext.RequestContext.GetRequestValue("EngineName");
             var engine = Kooboo.CMS.Sites.View.TemplateEngines.GetEngineByName(engineName);
@@ -88,10 +88,12 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             string body = engine.GetCodeHelper().DefaultViewCode();
             body = string.IsNullOrWhiteSpace(body) ? " " : body;
-            var view = new View() { Site = Site, EngineName = engineName, Body = body, Name = name };
 
+            model.Site = Site;
+            model.Body = body;
+            model.Name = name;
 
-            return View(view);
+            return base.Create(model);
         }
         [HttpPost]
         [ValidateInput(false)]
@@ -169,11 +171,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #region Relations
         public virtual ActionResult Relations(string uuid)
         {
-            var model = Manager.RelationsPages(new CMS.Sites.Models.View { Name = uuid, Site = Site }).Select(o => new RelationModel
-            {
-                RelationName = o.FriendlyName,
-                RelationType = "Page".Localize()
-            });
+            var model = Manager.Relations(new CMS.Sites.Models.View { Name = uuid, Site = Site });
             return View("Relations", model);
         }
         #endregion

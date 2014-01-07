@@ -9,6 +9,8 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
+using Kooboo.CMS.Sites.Membership;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +26,25 @@ namespace Kooboo.CMS.Sites.View
         {
             return ServiceFactory.PageManager.All(Site.Current, "")
                 .Select(it => it.AsActual())
-                .Where(it => it.Navigation.Show)
-                .Where(it => it.Published.HasValue && it.Published.Value == true)
+                .Where(it => ShowInMenu(it))
                 .OrderBy(it => it.Navigation.Order);
+        }
+        private static bool ShowInMenu(Page page)
+        {
+            var show = page.Published.HasValue && page.Published.Value == true;
+            if (show == true)
+            {
+                show = page.Navigation.Show;
+            }
+            if (show == true)
+            {
+                var permission = page.Permission;
+                if (permission != null && permission.AuthorizeMenu)
+                {
+                    show = permission.Authorize(Page_Context.Current.ControllerContext.HttpContext.Membership().GetMember());
+                }
+            }
+            return show;
         }
         public static IEnumerable<Page> Sibling(Page page)
         {
@@ -38,8 +56,7 @@ namespace Kooboo.CMS.Sites.View
             {
                 return ServiceFactory.PageManager.ChildPages(Site.Current, page.Parent.FullName, "")
                     .Select(it => it.AsActual())
-                    .Where(it => it.Navigation.Show)
-                    .Where(it => it.Published.HasValue && it.Published.Value == true)
+                    .Where(it => ShowInMenu(it))
                     .OrderBy(it => it.Navigation.Order);
             }
         }
@@ -51,8 +68,7 @@ namespace Kooboo.CMS.Sites.View
         {
             return ServiceFactory.PageManager.ChildPages(Site.Current, page.FullName, "")
                 .Select(it => it.AsActual())
-                .Where(it => it.Navigation.Show)
-                .Where(it => it.Published.HasValue && it.Published.Value == true)
+                .Where(it => ShowInMenu(it))
                 .OrderBy(it => it.Navigation.Order);
         }
         public static IEnumerable<Page> Sub()

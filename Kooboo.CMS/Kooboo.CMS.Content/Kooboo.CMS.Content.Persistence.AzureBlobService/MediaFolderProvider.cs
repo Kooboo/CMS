@@ -339,19 +339,25 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         public void Export(Repository repository, string baseFolder, string[] folders, string[] docs, Stream outputStream)
         {
             ZipFile zipFile = new ZipFile();
-
-            var baseMediaFolder = ServiceFactory.MediaFolderManager.Get(repository, baseFolder);
-            var basePrefix = baseMediaFolder.GetMediaFolderItemPath(null) + "/";
+            var basePrefix = StorageNamesEncoder.EncodeContainerName(repository.Name) + "/" + MediaBlobHelper.MediaDirectoryName + "/";
+            if (!string.IsNullOrEmpty(baseFolder))
+            {
+                var baseMediaFolder = ServiceFactory.MediaFolderManager.Get(repository, baseFolder);
+                basePrefix = baseMediaFolder.GetMediaFolderItemPath(null) + "/";
+            }
 
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
 
             //add file
-            foreach (var doc in docs)
+            if (docs != null)
             {
-                var blob = blobClient.GetBlockBlobReference(basePrefix + StorageNamesEncoder.EncodeBlobName(doc));
+                foreach (var doc in docs)
+                {
+                    var blob = blobClient.GetBlockBlobReference(basePrefix + StorageNamesEncoder.EncodeBlobName(doc));
 
-                var bytes = blob.DownloadByteArray();
-                zipFile.AddEntry(doc, bytes);
+                    var bytes = blob.DownloadByteArray();
+                    zipFile.AddEntry(doc, bytes);
+                }
             }
             //add folders
             if (folders != null)

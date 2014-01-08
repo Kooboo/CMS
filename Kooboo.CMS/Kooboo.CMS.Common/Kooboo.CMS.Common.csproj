@@ -60,7 +60,8 @@
     <Compile Include="DataViolation\DataViolationException.cs" />
     <Compile Include="DataViolation\DataViolationItem.cs" />
     <Compile Include="DataViolation\ModelStateExtension.cs" />
-    <Compile Include="DependencyResolver.cs" />
+    <Compile Include="Runtime\Mvc\MvcDependencyAttributeFilterProvider.cs" />
+    <Compile Include="Runtime\Mvc\MvcDependencyResolver.cs" />
     <Compile Include="EntityModelBinder.cs" />
     <Compile Include="Formula\FormulaParser.cs" />
     <Compile Include="Formula\IValueProvider.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Runtime\IEngine.cs" />
     <Compile Include="Runtime\IStartupTask.cs" />
     <Compile Include="Runtime\ITypeFinder.cs" />
+    <Compile Include="Runtime\Mvc\MvcModule.cs" />
     <Compile Include="Runtime\Parameter.cs" />
     <Compile Include="Runtime\Singleton.cs" />
     <Compile Include="Runtime\WebAppTypeFinder.cs" />

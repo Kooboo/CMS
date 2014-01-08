@@ -14,14 +14,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Kooboo.CMS.Common
+namespace Kooboo.CMS.Common.Runtime.Mvc
 {
-    public class DependencyResolver : IDependencyResolver
+    public class MvcDependencyResolver : IDependencyResolver
     {
         IEngine _engine;
         IDependencyResolver _innerResolver;
 
-        public DependencyResolver(IEngine engine, IDependencyResolver innerResolver)
+        public MvcDependencyResolver(IEngine engine, IDependencyResolver innerResolver)
         {
             _engine = engine;
             _innerResolver = innerResolver;

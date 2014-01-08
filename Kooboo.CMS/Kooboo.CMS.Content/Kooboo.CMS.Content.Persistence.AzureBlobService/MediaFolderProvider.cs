@@ -20,6 +20,7 @@ using Ionic.Zip;
 using Kooboo.CMS.Content.Services;
 using System.IO;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Web.Url;
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
 
@@ -119,7 +120,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                 {
                     if (key.StartsWith(old.FullName + "~"))
                     {
-                        var newKey = @new.FullName+key.Substring(old.FullName.Length);
+                        var newKey = @new.FullName + key.Substring(old.FullName.Length);
                         folders.Add(newKey, folders[key]);
                         folders.Remove(key);
                     }
@@ -294,14 +295,21 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                     else
                     {
                         var path = Path.GetDirectoryName(item.FileName);
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            path = string.Join("~", path.Split('\\').ToArray());
+                        }
                         var fileName = Path.GetFileName(item.FileName);
-                        var currentFolder = CreateMediaFolderByPath(folder, path);
-                        Add(currentFolder);
-                        var stream = new MemoryStream();
-                        item.Extract(stream);
-                        stream.Position = 0;
-                        ServiceFactory.MediaContentManager.Add(repository, currentFolder,
-                            fileName, stream, true);
+                        if (fileName.ToLower() != "setting.config")
+                        {
+                            var currentFolder = CreateMediaFolderByPath(folder, path);
+                            Add(currentFolder);
+                            var stream = new MemoryStream();
+                            item.Extract(stream);
+                            stream.Position = 0;
+                            ServiceFactory.MediaContentManager.Add(repository, currentFolder,
+                                fileName, stream, true);
+                        }
                     }
                 }
             }
@@ -330,13 +338,83 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 
         public void Export(Repository repository, string baseFolder, string[] folders, string[] docs, Stream outputStream)
         {
-            throw new NotImplementedException();
+            ZipFile zipFile = new ZipFile();
+
+            var baseMediaFolder = ServiceFactory.MediaFolderManager.Get(repository, baseFolder);
+            var basePrefix = baseMediaFolder.GetMediaFolderItemPath(null) + "/";
+
+            var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
+
+            //add file
+            foreach (var doc in docs)
+            {
+                var blob = blobClient.GetBlockBlobReference(basePrefix + StorageNamesEncoder.EncodeBlobName(doc));
+
+                var bytes = blob.DownloadByteArray();
+                zipFile.AddEntry(doc, bytes);
+            }
+            //add folders
+            if (folders != null)
+            {
+                foreach (var folder in folders)
+                {
+                    var folderName = folder.Split('~').LastOrDefault();
+                    zipFolder(blobClient, basePrefix, folderName, "", ref zipFile);
+                }
+            }
+            zipFile.Save(outputStream);
+
         }
 
+        private void zipFolder(CloudBlobClient blobClient, string basePrefix, string folderName, string zipDir, ref ZipFile zipFile)
+        {
+            zipDir = string.IsNullOrEmpty(zipDir) ? folderName : zipDir + "/" + folderName;
+            zipFile.AddDirectoryByName(zipDir);
+            var folderPrefix = basePrefix + StorageNamesEncoder.EncodeBlobName(folderName) + "/";
+
+            var blobs = blobClient.ListBlobsWithPrefix(folderPrefix,
+new BlobRequestOptions() { BlobListingDetails = Microsoft.WindowsAzure.StorageClient.BlobListingDetails.Metadata, UseFlatBlobListing = false });
+            foreach (var blob in blobs)
+            {
+                if (blob is CloudBlobDirectory)
+                {
+                    var dir = blob as CloudBlobDirectory;
+
+                    var names = dir.Uri.ToString().Split('/');
+                    for (var i = names.Length - 1; i >= 0; i--)
+                    {
+                        if (!string.IsNullOrEmpty(names[i]))
+                        {
+                            zipFolder(blobClient, folderPrefix, StorageNamesEncoder.DecodeBlobName(names[i]), zipDir, ref zipFile);
+                            break;
+                        }
+                    }
+                }
+                if (blob is CloudBlob)
+                {
+                    var cloudBlob = blob as CloudBlob;
+                    var subStr = cloudBlob.Uri.ToString().Substring(cloudBlob.Uri.ToString().IndexOf(folderPrefix) + folderPrefix.Length);
+                    var index = subStr.LastIndexOf('/');
+                    if (index < 0)
+                    {
+                        index = 0;
+                    }
+
+                    var subFolderName = subStr.Substring(0, index);
+                    var fileName = subStr.Substring(index);
+                    var bytes = cloudBlob.DownloadByteArray();
+                    if (!string.IsNullOrEmpty(subFolderName))
+                    {
+                        zipFile.AddDirectoryByName(zipDir + "/" + StorageNamesEncoder.DecodeBlobName(subFolderName));
+                    }
+                    zipFile.AddEntry(zipDir + "/" + StorageNamesEncoder.DecodeBlobName(subStr), bytes);
+                }
+            }
+        }
 
         private void MoveDirectory(CloudBlobClient blobClient, string newPrefix, string oldPrefix)
         {
-            var blobs = blobClient.ListBlobsWithPrefix(oldPrefix, 
+            var blobs = blobClient.ListBlobsWithPrefix(oldPrefix,
                 new BlobRequestOptions() { BlobListingDetails = Microsoft.WindowsAzure.StorageClient.BlobListingDetails.Metadata, UseFlatBlobListing = false });
             foreach (var blob in blobs)
             {

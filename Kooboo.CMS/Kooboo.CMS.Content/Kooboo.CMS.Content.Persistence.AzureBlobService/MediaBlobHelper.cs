@@ -28,7 +28,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         public static string GetMediaDirectoryPath(this MediaFolder mediaFolder)
         {
             return UrlUtility.Combine(new string[] { StorageNamesEncoder.EncodeContainerName(mediaFolder.Repository.Name), MediaDirectoryName }
-               .Concat(mediaFolder.NamePaths.Select(it => StorageNamesEncoder.EncodeBlobName(it)))
+               .Concat(mediaFolder.NamePaths)
                .ToArray());
         } 
         #endregion
@@ -36,7 +36,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         #region GetMediaFolderItemPath
         public static string GetMediaFolderItemPath(this MediaFolder mediaFolder, string itemName)
         {
-            return UrlUtility.Combine(mediaFolder.GetMediaDirectoryPath(), StorageNamesEncoder.EncodeBlobName(itemName));
+            return UrlUtility.Combine(mediaFolder.GetMediaDirectoryPath(), itemName);
         } 
         #endregion
 

@@ -49,8 +49,8 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                 return "";
             }
 
-            //return Uri.EscapeUriString(source);
-            return HttpUtility.UrlEncode(source);
+            return Uri.EscapeUriString(source);
+            //return HttpUtility.UrlEncode(source);
         }
 
         public static string DecodeBlobName(string source)
@@ -60,8 +60,8 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                 return "";
             }
 
-            //return Uri.UnescapeDataString(source);
-            return HttpUtility.UrlDecode(source);
+            return Uri.UnescapeDataString(source);
+            //return HttpUtility.UrlDecode(source);
         }
     }
 }

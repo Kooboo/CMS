@@ -27,7 +27,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         #region GetMediaDirectoryPath
         public static string GetMediaDirectoryPath(this MediaFolder mediaFolder)
         {
-            return UrlUtility.Combine(new string[] { mediaFolder.Repository.Name.ToLower(), MediaDirectoryName }
+            return UrlUtility.Combine(new string[] { StorageNamesEncoder.EncodeContainerName(mediaFolder.Repository.Name), MediaDirectoryName }
                .Concat(mediaFolder.NamePaths)
                .ToArray());
         } 
@@ -60,13 +60,42 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             }
             if (!string.IsNullOrEmpty(mediaContent.FileName))
             {
-                blob.Metadata["FileName"] = mediaContent.FileName;
+                blob.Metadata["FileName"] = StorageNamesEncoder.EncodeBlobName(mediaContent.FileName);
             }
             if (mediaContent.ContentFile != null)
             {
                 blob.Metadata["Size"] = mediaContent.ContentFile.Stream.Length.ToString();
             }
+            if (mediaContent.Metadata != null)
+            {
+                if (!string.IsNullOrEmpty(mediaContent.Metadata.AlternateText))
+                {
+                    blob.Metadata["AlternateText"] = StorageNamesEncoder.EncodeBlobName(mediaContent.Metadata.AlternateText);
+                }
+                else if(blob.Metadata.AllKeys.Contains("AlternateText"))
+                {
+                    blob.Metadata.Remove("AlternateText");
+                }
 
+                if (!string.IsNullOrEmpty(mediaContent.Metadata.Description))
+                {
+                    blob.Metadata["Description"] = StorageNamesEncoder.EncodeBlobName(mediaContent.Metadata.Description);
+                }
+                else if (blob.Metadata.AllKeys.Contains("Description"))
+                {
+                    blob.Metadata.Remove("Description");
+                }
+
+                if (!string.IsNullOrEmpty(mediaContent.Metadata.Title))
+                {
+                    blob.Metadata["Title"] = StorageNamesEncoder.EncodeBlobName(mediaContent.Metadata.Title);
+                }
+                else if (blob.Metadata.AllKeys.Contains("Title"))
+                {
+                    blob.Metadata.Remove("Title");
+                }
+                
+            }
 
             blob.Properties.ContentType = Kooboo.IO.IOUtility.MimeType(mediaContent.FileName);
             return blob;
@@ -84,11 +113,19 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             {
                 mediaContent.Size = int.Parse(blob.Metadata["Size"]);
             }
-            mediaContent.FileName = blob.Metadata["FileName"];
+            mediaContent.FileName = StorageNamesEncoder.DecodeBlobName(blob.Metadata["FileName"]);
             mediaContent.UserKey = mediaContent.FileName;
             mediaContent.UUID = mediaContent.FileName;
             mediaContent.UserId = blob.Metadata["UserId"];
             mediaContent.VirtualPath = blob.Uri.ToString();
+            if (mediaContent.Metadata == null)
+            {
+                mediaContent.Metadata = new MediaContentMetadata();
+            }
+
+            mediaContent.Metadata.AlternateText = StorageNamesEncoder.DecodeBlobName(blob.Metadata["AlternateText"]);
+            mediaContent.Metadata.Description = StorageNamesEncoder.DecodeBlobName(blob.Metadata["Description"]);
+            mediaContent.Metadata.Title = StorageNamesEncoder.DecodeBlobName(blob.Metadata["Title"]);
             return mediaContent;
         } 
         #endregion
@@ -112,7 +149,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         {
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
 
-            var container = blobClient.GetContainerReference(repository.Name.ToLower());
+            var container = blobClient.GetContainerReference(StorageNamesEncoder.EncodeContainerName(repository.Name));
 
             var created = container.CreateIfNotExist();
             if (created)
@@ -129,7 +166,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         {
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
 
-            var container = blobClient.GetContainerReference(repository.Name.ToLower());
+            var container = blobClient.GetContainerReference(StorageNamesEncoder.EncodeContainerName(repository.Name));
 
             container.Delete();
         } 

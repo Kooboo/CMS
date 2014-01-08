@@ -20,6 +20,7 @@ using Ionic.Zip;
 using Kooboo.CMS.Content.Services;
 using System.IO;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Web.Url;
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
 
@@ -32,9 +33,10 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             try
             {
                 var folders = GetList(folder.Repository);
-                if (!folders.ContainsKey(folder.FullName))
+                var name = folder.FullName.TrimStart('~').TrimEnd('~');
+                if (!folders.ContainsKey(name))
                 {
-                    folders[folder.FullName] = folder;
+                    folders[name] = folder;
                     SaveList(folder.Repository, folders);
                 }
             }
@@ -106,6 +108,36 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             }
 
         }
+        public static void RenameFolder(MediaFolder @new, MediaFolder old)
+        {
+
+            locker.EnterWriteLock();
+            try
+            {
+                var folders = GetList(old.Repository);
+                var keys = folders.Keys.ToList();
+                foreach (var key in keys)
+                {
+                    if (key.StartsWith(old.FullName + "~"))
+                    {
+                        var newKey = @new.FullName + key.Substring(old.FullName.Length);
+                        folders.Add(newKey, folders[key]);
+                        folders.Remove(key);
+                    }
+                }
+                if (folders.ContainsKey(old.FullName) && !folders.ContainsKey(@new.FullName))
+                {
+                    folders.Add(@new.FullName, @new);
+                    folders.Remove(@old.FullName);
+                    //folders[old.FullName] = folder;
+                    SaveList(@new.Repository, folders);
+                }
+            }
+            finally
+            {
+                locker.ExitWriteLock();
+            }
+        }
 
         public static IEnumerable<MediaFolder> RootFolders(Repository repository)
         {
@@ -125,7 +157,10 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             locker.EnterReadLock();
             try
             {
-                return ToMediaFolders(parent.Repository, GetList(parent.Repository)).Where(it => it.Parent == parent);
+                var query = ToMediaFolders(parent.Repository, GetList(parent.Repository));
+                //loop bug in azure
+                query = query.Where(it => (parent == null && it.Parent == null) || (it.Parent != null && it.Parent.UUID == parent.UUID));
+                return query;
             }
             finally
             {
@@ -260,14 +295,21 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                     else
                     {
                         var path = Path.GetDirectoryName(item.FileName);
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            path = string.Join("~", path.Split('\\').ToArray());
+                        }
                         var fileName = Path.GetFileName(item.FileName);
-                        var currentFolder = CreateMediaFolderByPath(folder, path);
-                        Add(currentFolder);
-                        var stream = new MemoryStream();
-                        item.Extract(stream);
-                        stream.Position = 0;
-                        ServiceFactory.MediaContentManager.Add(repository, currentFolder,
-                            fileName, stream, true);
+                        if (fileName.ToLower() != "setting.config")
+                        {
+                            var currentFolder = CreateMediaFolderByPath(folder, path);
+                            Add(currentFolder);
+                            var stream = new MemoryStream();
+                            item.Extract(stream);
+                            stream.Position = 0;
+                            ServiceFactory.MediaContentManager.Add(repository, currentFolder,
+                                fileName, stream, true);
+                        }
                     }
                 }
             }
@@ -284,13 +326,172 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 
         public void Rename(MediaFolder @new, MediaFolder old)
         {
-            throw new NotImplementedException();
+            MediaFolders.RenameFolder(@new, old);
+
+            var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
+            //var dir = blobContainer.GetDirectoryReference();
+            var oldPrefix = old.GetMediaFolderItemPath(null) + "/";
+            var newPrefix = @new.GetMediaFolderItemPath(null) + "/";
+            MoveDirectory(blobClient, newPrefix, oldPrefix);
         }
 
 
         public void Export(Repository repository, string baseFolder, string[] folders, string[] docs, Stream outputStream)
         {
-            throw new NotImplementedException();
+            ZipFile zipFile = new ZipFile();
+            var basePrefix = StorageNamesEncoder.EncodeContainerName(repository.Name) + "/" + MediaBlobHelper.MediaDirectoryName + "/";
+            if (!string.IsNullOrEmpty(baseFolder))
+            {
+                var baseMediaFolder = ServiceFactory.MediaFolderManager.Get(repository, baseFolder);
+                basePrefix = baseMediaFolder.GetMediaFolderItemPath(null) + "/";
+            }
+
+            var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
+
+            //add file
+            if (docs != null)
+            {
+                foreach (var doc in docs)
+                {
+                    var blob = blobClient.GetBlockBlobReference(basePrefix + StorageNamesEncoder.EncodeBlobName(doc));
+
+                    var bytes = blob.DownloadByteArray();
+                    zipFile.AddEntry(doc, bytes);
+                }
+            }
+            //add folders
+            if (folders != null)
+            {
+                foreach (var folder in folders)
+                {
+                    var folderName = folder.Split('~').LastOrDefault();
+                    zipFolder(blobClient, basePrefix, folderName, "", ref zipFile);
+                }
+            }
+            zipFile.Save(outputStream);
+
+        }
+
+        private void zipFolder(CloudBlobClient blobClient, string basePrefix, string folderName, string zipDir, ref ZipFile zipFile)
+        {
+            zipDir = string.IsNullOrEmpty(zipDir) ? folderName : zipDir + "/" + folderName;
+            zipFile.AddDirectoryByName(zipDir);
+            var folderPrefix = basePrefix + StorageNamesEncoder.EncodeBlobName(folderName) + "/";
+
+            var blobs = blobClient.ListBlobsWithPrefix(folderPrefix,
+new BlobRequestOptions() { BlobListingDetails = Microsoft.WindowsAzure.StorageClient.BlobListingDetails.Metadata, UseFlatBlobListing = false });
+            foreach (var blob in blobs)
+            {
+                if (blob is CloudBlobDirectory)
+                {
+                    var dir = blob as CloudBlobDirectory;
+
+                    var names = dir.Uri.ToString().Split('/');
+                    for (var i = names.Length - 1; i >= 0; i--)
+                    {
+                        if (!string.IsNullOrEmpty(names[i]))
+                        {
+                            zipFolder(blobClient, folderPrefix, StorageNamesEncoder.DecodeBlobName(names[i]), zipDir, ref zipFile);
+                            break;
+                        }
+                    }
+                }
+                if (blob is CloudBlob)
+                {
+                    var cloudBlob = blob as CloudBlob;
+                    var subStr = cloudBlob.Uri.ToString().Substring(cloudBlob.Uri.ToString().IndexOf(folderPrefix) + folderPrefix.Length);
+                    var index = subStr.LastIndexOf('/');
+                    if (index < 0)
+                    {
+                        index = 0;
+                    }
+
+                    var subFolderName = subStr.Substring(0, index);
+                    var fileName = subStr.Substring(index);
+                    var bytes = cloudBlob.DownloadByteArray();
+                    if (!string.IsNullOrEmpty(subFolderName))
+                    {
+                        zipFile.AddDirectoryByName(zipDir + "/" + StorageNamesEncoder.DecodeBlobName(subFolderName));
+                    }
+                    zipFile.AddEntry(zipDir + "/" + StorageNamesEncoder.DecodeBlobName(subStr), bytes);
+                }
+            }
+        }
+
+        private void MoveDirectory(CloudBlobClient blobClient, string newPrefix, string oldPrefix)
+        {
+            var blobs = blobClient.ListBlobsWithPrefix(oldPrefix,
+                new BlobRequestOptions() { BlobListingDetails = Microsoft.WindowsAzure.StorageClient.BlobListingDetails.Metadata, UseFlatBlobListing = false });
+            foreach (var blob in blobs)
+            {
+                if (blob is CloudBlobDirectory)
+                {
+                    var dir = blob as CloudBlobDirectory;
+
+                    var names = dir.Uri.ToString().Split('/');
+                    for (var i = names.Length - 1; i >= 0; i--)
+                    {
+                        if (!string.IsNullOrEmpty(names[i]))
+                        {
+                            MoveDirectory(blobClient, newPrefix + StorageNamesEncoder.EncodeBlobName(names[i]) + "/", oldPrefix + StorageNamesEncoder.EncodeBlobName(names[i]) + "/");
+                            break;
+                        }
+                    }
+                }
+                else if (blob is CloudBlob)
+                {
+                    var cloudBlob = blob as CloudBlob;
+
+                    if (cloudBlob.Exists())
+                    {
+                        cloudBlob.FetchAttributes();
+                        var newContentBlob = blobClient.GetBlockBlobReference(newPrefix + cloudBlob.Metadata["FileName"]);
+                        try
+                        {
+                            newContentBlob.CopyFromBlob(cloudBlob);
+                        }
+                        catch (Exception e)
+                        {
+                            using (Stream stream = new MemoryStream())
+                            {
+                                cloudBlob.DownloadToStream(stream);
+                                stream.Position = 0;
+                                newContentBlob.UploadFromStream(stream);
+                                stream.Dispose();
+                            }
+                        }
+                        newContentBlob.Metadata["FileName"] = cloudBlob.Metadata["FileName"];
+
+                        if (!string.IsNullOrEmpty(cloudBlob.Metadata["UserId"]))
+                        {
+                            newContentBlob.Metadata["UserId"] = cloudBlob.Metadata["UserId"];
+                        }
+                        if (!string.IsNullOrEmpty(cloudBlob.Metadata["Published"]))
+                        {
+                            newContentBlob.Metadata["Published"] = cloudBlob.Metadata["Published"];
+                        }
+                        if (!string.IsNullOrEmpty(cloudBlob.Metadata["Size"]))
+                        {
+                            newContentBlob.Metadata["Size"] = cloudBlob.Metadata["Size"];
+                        }
+                        if (cloudBlob.Metadata.AllKeys.Contains("AlternateText"))
+                        {
+                            newContentBlob.Metadata["AlternateText"] = cloudBlob.Metadata["AlternateText"];
+                        }
+                        if (cloudBlob.Metadata.AllKeys.Contains("Description"))
+                        {
+                            newContentBlob.Metadata["Description"] = cloudBlob.Metadata["Description"];
+                        }
+                        if (cloudBlob.Metadata.AllKeys.Contains("Title"))
+                        {
+                            newContentBlob.Metadata["Title"] = cloudBlob.Metadata["Title"];
+                        }
+
+                        newContentBlob.SetMetadata();
+                        cloudBlob.DeleteIfExists();
+                    }
+                }
+            }
         }
     }
 }

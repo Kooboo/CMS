@@ -1,10 +1,12 @@
 ﻿@model Kooboo.CMS.Content.Models.MediaContent
 @{
-    System.Drawing.Image image = System.Drawing.Image.FromFile(Model.PhysicalPath);
+    var provider = Kooboo.CMS.Content.Persistence.Providers.DefaultProviderFactory.GetProvider<Kooboo.CMS.Content.Persistence.IMediaContentProvider>();
+    var stream = provider.GetContentStream(Model);
+    System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
     var imageWidth = image.Width;
     var imageHeight = image.Height;
     image.Dispose();
-    var imagePreviewUrl = Url.Action("Preview", "MediaContent", ViewContext.RequestContext.AllRouteValues().Merge("imagePath", Model.VirtualPath));
+    var imagePreviewUrl = Url.Action("Preview", "MediaContent", ViewContext.RequestContext.AllRouteValues().Merge("UUID", Model.UUID));
 }
 <div class="block common-form">
     <div id="editImage" class="image-editor">

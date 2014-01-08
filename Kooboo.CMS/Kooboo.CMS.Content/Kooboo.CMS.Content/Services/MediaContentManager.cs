@@ -99,7 +99,7 @@ namespace Kooboo.CMS.Content.Services
                     FileName = fileName,
                     Stream = fileStream
                 };
-
+                Provider.SaveContentStream(old, fileStream);
             }
 
             binaryContent.Metadata = metadata;

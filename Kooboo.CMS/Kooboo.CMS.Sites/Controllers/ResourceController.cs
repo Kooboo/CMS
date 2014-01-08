@@ -24,6 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.CMS.Content.Models;
 namespace Kooboo.CMS.Sites.Controllers
 {
     /// <summary>
@@ -218,26 +219,43 @@ namespace Kooboo.CMS.Sites.Controllers
             {
                 url = url.Substring(0, index);
             }
-            var imageFullPath = Server.MapPath(url);
+
             preserverAspectRatio = preserverAspectRatio ?? true;
             quality = quality ?? 80;
-            var cachingPath = GetCachingFilePath(imageFullPath, width, height, preserverAspectRatio.Value, quality.Value);
 
-            if (!System.IO.File.Exists(cachingPath))
+            if(url.StartsWith("http://") || url.StartsWith("https://"))
             {
+                //now no image cache for azure blob
+                var provider = Kooboo.CMS.Content.Persistence.Providers.DefaultProviderFactory.GetProvider<Kooboo.CMS.Content.Persistence.IMediaContentProvider>();
+                var mediaContent = new MediaContent() { VirtualPath = url };
+                Stream stream = provider.GetContentStream(mediaContent);
+                var imageFormat = ImageTools.ConvertToImageFormat(Path.GetExtension(mediaContent.VirtualPath));
+                Stream outStream = new MemoryStream();
+                ImageTools.ResizeImage(stream, outStream, imageFormat, width, height, preserverAspectRatio.Value, quality.Value);
+                outStream.Position = 0;
+                return File(outStream, IOUtility.MimeType(url));
+            }
+            else
+            {
+                var imageFullPath=Server.MapPath(url);
+                var cachingPath = GetCachingFilePath(imageFullPath, width, height, preserverAspectRatio.Value, quality.Value);
+
                 if (!System.IO.File.Exists(cachingPath))
                 {
-                    var dir = Path.GetDirectoryName(cachingPath);
-                    IOUtility.EnsureDirectoryExists(dir);
-                    var success = ImageTools.ResizeImage(imageFullPath, cachingPath, width, height, preserverAspectRatio.Value, quality.Value);
-                    if (!success)
+                    if (!System.IO.File.Exists(cachingPath))
                     {
-                        cachingPath = imageFullPath;
+                        var dir = Path.GetDirectoryName(cachingPath);
+                        IOUtility.EnsureDirectoryExists(dir);
+                        var success = ImageTools.ResizeImage(imageFullPath, cachingPath, width, height, preserverAspectRatio.Value, quality.Value);
+                        if (!success)
+                        {
+                            cachingPath = imageFullPath;
+                        }
                     }
                 }
+                SetCache(HttpContext.Response, 2592000, "*");
+                return File(cachingPath, IOUtility.MimeType(imageFullPath));
             }
-            SetCache(HttpContext.Response, 2592000, "*");
-            return File(cachingPath, IOUtility.MimeType(imageFullPath));
         }
         private string GetCachingFilePath(string imagePath, int width, int height, bool preserverAspectRatio, int quality)
         {

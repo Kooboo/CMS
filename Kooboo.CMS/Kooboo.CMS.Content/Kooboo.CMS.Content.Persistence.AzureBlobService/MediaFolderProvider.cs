@@ -32,9 +32,10 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             try
             {
                 var folders = GetList(folder.Repository);
-                if (!folders.ContainsKey(folder.FullName))
+                var name = folder.FullName.TrimStart('~').TrimEnd('~');
+                if (!folders.ContainsKey(name))
                 {
-                    folders[folder.FullName] = folder;
+                    folders[name] = folder;
                     SaveList(folder.Repository, folders);
                 }
             }

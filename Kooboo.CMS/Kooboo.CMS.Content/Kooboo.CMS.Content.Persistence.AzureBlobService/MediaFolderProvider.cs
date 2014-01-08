@@ -348,7 +348,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                     {
                         if (!string.IsNullOrEmpty(names[i]))
                         {
-                            MoveDirectory(blobClient, newPrefix + names[i] + "/", oldPrefix + names[i] + "/");
+                            MoveDirectory(blobClient, newPrefix + StorageNamesEncoder.EncodeBlobName(names[i]) + "/", oldPrefix + StorageNamesEncoder.EncodeBlobName(names[i]) + "/");
                             break;
                         }
                     }
@@ -361,8 +361,47 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                     {
                         cloudBlob.FetchAttributes();
                         var newContentBlob = blobClient.GetBlockBlobReference(newPrefix + cloudBlob.Metadata["FileName"]);
-                        newContentBlob.CopyFromBlob(cloudBlob);
+                        try
+                        {
+                            newContentBlob.CopyFromBlob(cloudBlob);
+                        }
+                        catch (Exception e)
+                        {
+                            using (Stream stream = new MemoryStream())
+                            {
+                                cloudBlob.DownloadToStream(stream);
+                                stream.Position = 0;
+                                newContentBlob.UploadFromStream(stream);
+                                stream.Dispose();
+                            }
+                        }
                         newContentBlob.Metadata["FileName"] = cloudBlob.Metadata["FileName"];
+
+                        if (!string.IsNullOrEmpty(cloudBlob.Metadata["UserId"]))
+                        {
+                            newContentBlob.Metadata["UserId"] = cloudBlob.Metadata["UserId"];
+                        }
+                        if (!string.IsNullOrEmpty(cloudBlob.Metadata["Published"]))
+                        {
+                            newContentBlob.Metadata["Published"] = cloudBlob.Metadata["Published"];
+                        }
+                        if (!string.IsNullOrEmpty(cloudBlob.Metadata["Size"]))
+                        {
+                            newContentBlob.Metadata["Size"] = cloudBlob.Metadata["Size"];
+                        }
+                        if (cloudBlob.Metadata.AllKeys.Contains("AlternateText"))
+                        {
+                            newContentBlob.Metadata["AlternateText"] = cloudBlob.Metadata["AlternateText"];
+                        }
+                        if (cloudBlob.Metadata.AllKeys.Contains("Description"))
+                        {
+                            newContentBlob.Metadata["Description"] = cloudBlob.Metadata["Description"];
+                        }
+                        if (cloudBlob.Metadata.AllKeys.Contains("Title"))
+                        {
+                            newContentBlob.Metadata["Title"] = cloudBlob.Metadata["Title"];
+                        }
+
                         newContentBlob.SetMetadata();
                         cloudBlob.DeleteIfExists();
                     }

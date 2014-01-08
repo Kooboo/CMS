@@ -20,6 +20,7 @@ using System.Linq.Expressions;
 using Kooboo.CMS.Content.Query;
 using System.IO;
 using Kooboo.CMS.Content.Query.Translator;
+using Kooboo.Web.Url;
 
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
@@ -124,6 +125,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                 prefix = value.ToString();
             }
         }
+
         protected override void VisitWhereContains(Query.Expressions.WhereContainsExpression expression)
         {
             WhereStartWith(expression.FieldName, expression.Value);
@@ -293,8 +295,46 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             var newContentBlob = blobClient.GetBlockBlobReference(newMediaContent.GetMediaBlobPath());
             if (oldContentBlob.Exists() && !newContentBlob.Exists())
             {
-                newContentBlob.CopyFromBlob(oldContentBlob);
-                newContentBlob.Metadata["FileName"] = newMediaContent.FileName;
+                try
+                {
+                    newContentBlob.CopyFromBlob(oldContentBlob);
+                }
+                catch (Exception e)
+                {
+                    using (Stream stream = new MemoryStream())
+                    {
+                        oldContentBlob.DownloadToStream(stream);
+                        stream.Position = 0;
+                        newContentBlob.UploadFromStream(stream);
+                        stream.Dispose();
+                    }
+                }
+                newContentBlob.Metadata["FileName"] = StorageNamesEncoder.EncodeBlobName(newMediaContent.FileName);
+                if (!string.IsNullOrEmpty(oldContentBlob.Metadata["UserId"]))
+                {
+                    newContentBlob.Metadata["UserId"] = oldContentBlob.Metadata["UserId"];
+                }
+                if (!string.IsNullOrEmpty(oldContentBlob.Metadata["Published"]))
+                {
+                    newContentBlob.Metadata["Published"] = oldContentBlob.Metadata["Published"];
+                }
+                if (!string.IsNullOrEmpty(oldContentBlob.Metadata["Size"]))
+                {
+                    newContentBlob.Metadata["Size"] = oldContentBlob.Metadata["Size"];
+                }
+                if (oldContentBlob.Metadata.AllKeys.Contains("AlternateText"))
+                {
+                    newContentBlob.Metadata["AlternateText"] = oldContentBlob.Metadata["AlternateText"];
+                }
+                if (oldContentBlob.Metadata.AllKeys.Contains("Description"))
+                {
+                    newContentBlob.Metadata["Description"] = oldContentBlob.Metadata["Description"];
+                }
+                if (oldContentBlob.Metadata.AllKeys.Contains("Title"))
+                {
+                    newContentBlob.Metadata["Title"] = oldContentBlob.Metadata["Title"];
+                }
+
                 newContentBlob.SetMetadata();
                 oldContentBlob.DeleteIfExists();
             }
@@ -401,6 +441,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                 ImportMediaFolderDataCascading(fileMediaFolderProvider.Get(item));
             }
         }
+
         private void ImportMediaFolderDataCascading(MediaFolder mediaFolder)
         {
             Kooboo.CMS.Content.Persistence.Default.MediaContentProvider fileProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Content.Persistence.Default.MediaContentProvider>();
@@ -425,7 +466,6 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             }
         }
 
-
         public Stream GetContentStream(MediaContent content)
         {
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
@@ -433,6 +473,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             if(string.IsNullOrEmpty(content.GetRepository().Name))
             {
                 path = content.VirtualPath.Substring(AzureBlobServiceSettings.Instance.Endpoint.Length);
+                //path = UrlUtility.Combine(path.Split('/').Select(it => StorageNamesEncoder.EncodeBlobName(it)).ToArray());
             }
             else
             {

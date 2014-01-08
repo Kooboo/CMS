@@ -27,8 +27,8 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         #region GetMediaDirectoryPath
         public static string GetMediaDirectoryPath(this MediaFolder mediaFolder)
         {
-            return UrlUtility.Combine(new string[] { BlobNameEncoder.EncodeContainerName(mediaFolder.Repository.Name), MediaDirectoryName }
-               .Concat(mediaFolder.NamePaths)
+            return UrlUtility.Combine(new string[] { StorageNamesEncoder.EncodeContainerName(mediaFolder.Repository.Name), MediaDirectoryName }
+               .Concat(mediaFolder.NamePaths.Select(it => StorageNamesEncoder.EncodeBlobName(it)))
                .ToArray());
         } 
         #endregion
@@ -36,7 +36,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         #region GetMediaFolderItemPath
         public static string GetMediaFolderItemPath(this MediaFolder mediaFolder, string itemName)
         {
-            return UrlUtility.Combine(mediaFolder.GetMediaDirectoryPath(), itemName);
+            return UrlUtility.Combine(mediaFolder.GetMediaDirectoryPath(), StorageNamesEncoder.EncodeBlobName(itemName));
         } 
         #endregion
 
@@ -60,7 +60,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             }
             if (!string.IsNullOrEmpty(mediaContent.FileName))
             {
-                blob.Metadata["FileName"] = mediaContent.FileName;
+                blob.Metadata["FileName"] = StorageNamesEncoder.EncodeBlobName(mediaContent.FileName);
             }
             if (mediaContent.ContentFile != null)
             {
@@ -70,7 +70,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             {
                 if (!string.IsNullOrEmpty(mediaContent.Metadata.AlternateText))
                 {
-                    blob.Metadata["AlternateText"] = mediaContent.Metadata.AlternateText;
+                    blob.Metadata["AlternateText"] = StorageNamesEncoder.EncodeBlobName(mediaContent.Metadata.AlternateText);
                 }
                 else if(blob.Metadata.AllKeys.Contains("AlternateText"))
                 {
@@ -79,7 +79,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 
                 if (!string.IsNullOrEmpty(mediaContent.Metadata.Description))
                 {
-                    blob.Metadata["Description"] = mediaContent.Metadata.Description;
+                    blob.Metadata["Description"] = StorageNamesEncoder.EncodeBlobName(mediaContent.Metadata.Description);
                 }
                 else if (blob.Metadata.AllKeys.Contains("Description"))
                 {
@@ -88,7 +88,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 
                 if (!string.IsNullOrEmpty(mediaContent.Metadata.Title))
                 {
-                    blob.Metadata["Title"] = mediaContent.Metadata.Title;
+                    blob.Metadata["Title"] = StorageNamesEncoder.EncodeBlobName(mediaContent.Metadata.Title);
                 }
                 else if (blob.Metadata.AllKeys.Contains("Title"))
                 {
@@ -113,7 +113,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             {
                 mediaContent.Size = int.Parse(blob.Metadata["Size"]);
             }
-            mediaContent.FileName = blob.Metadata["FileName"];
+            mediaContent.FileName = StorageNamesEncoder.DecodeBlobName(blob.Metadata["FileName"]);
             mediaContent.UserKey = mediaContent.FileName;
             mediaContent.UUID = mediaContent.FileName;
             mediaContent.UserId = blob.Metadata["UserId"];
@@ -123,9 +123,9 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                 mediaContent.Metadata = new MediaContentMetadata();
             }
 
-            mediaContent.Metadata.AlternateText = blob.Metadata["AlternateText"];
-            mediaContent.Metadata.Description = blob.Metadata["Description"];
-            mediaContent.Metadata.Title = blob.Metadata["Title"];
+            mediaContent.Metadata.AlternateText = StorageNamesEncoder.DecodeBlobName(blob.Metadata["AlternateText"]);
+            mediaContent.Metadata.Description = StorageNamesEncoder.DecodeBlobName(blob.Metadata["Description"]);
+            mediaContent.Metadata.Title = StorageNamesEncoder.DecodeBlobName(blob.Metadata["Title"]);
             return mediaContent;
         } 
         #endregion
@@ -149,7 +149,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         {
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
 
-            var container = blobClient.GetContainerReference(BlobNameEncoder.EncodeContainerName(repository.Name));
+            var container = blobClient.GetContainerReference(StorageNamesEncoder.EncodeContainerName(repository.Name));
 
             var created = container.CreateIfNotExist();
             if (created)
@@ -166,7 +166,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         {
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
 
-            var container = blobClient.GetContainerReference(BlobNameEncoder.EncodeContainerName(repository.Name));
+            var container = blobClient.GetContainerReference(StorageNamesEncoder.EncodeContainerName(repository.Name));
 
             container.Delete();
         } 

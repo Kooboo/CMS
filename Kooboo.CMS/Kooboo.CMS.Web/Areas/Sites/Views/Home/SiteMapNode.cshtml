@@ -118,28 +118,27 @@
             </ul>
         }
     </div>
-    if (Model.Children.Count() > 0)
-    {
-        <div class="children">
-            <ul>
-                @foreach (var item in Model.Children)
-                {
-                    ViewBag.IsRoot = false;
-                    <li class="tree-node clearfix active">
-                        @if (item.Children.Count() > 0)
-                        {
-                            @Html.IconImage("tree-icon")
-                        }
-                        @Html.Partial("SiteMapNode", item)
-                    </li>
-                }
-                @foreach (var unsyncedPage in ServiceFactory.PageManager.GetUnsyncedSubPages(Kooboo.CMS.Sites.Models.Site.Current, Model.Page.FullName))
-                {
-                    <li class="tree-node active">
-                        @Html.Partial("UnsyncedPageNode", unsyncedPage)
-                    </li>
-                }
-            </ul>
-        </div>
-    }
+
+    <div class="children">
+        <ul>
+            @foreach (var item in Model.Children)
+            {
+                ViewBag.IsRoot = false;
+                <li class="tree-node clearfix active">
+                    @if (item.Children.Count() > 0)
+                    {
+                        @Html.IconImage("tree-icon")
+                    }
+                    @Html.Partial("SiteMapNode", item)
+                </li>
+            }
+            @foreach (var unsyncedPage in ServiceFactory.PageManager.GetUnsyncedSubPages(Kooboo.CMS.Sites.Models.Site.Current, Model.Page.FullName))
+            {
+                <li class="tree-node active">
+                    @Html.Partial("UnsyncedPageNode", unsyncedPage)
+                </li>
+            }
+        </ul>
+    </div>
+
 } 

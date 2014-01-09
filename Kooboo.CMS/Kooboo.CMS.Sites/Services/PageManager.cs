@@ -658,7 +658,7 @@ namespace Kooboo.CMS.Sites.Services
                     while (parent != null)
                     {
                         var parentPage = new Page(parent, fullPageName).LastVersion(parent);
-                        if (parentPage.IsLocalized(parent))
+                        if (parentPage != null && parentPage.IsLocalized(parent))
                         {
                             pagesInParentSites.AddRange(this.ChildPages(parent, fullPageName, null));
                         }

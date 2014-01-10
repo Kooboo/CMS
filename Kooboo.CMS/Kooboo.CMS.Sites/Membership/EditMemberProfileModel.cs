@@ -25,5 +25,7 @@ namespace Kooboo.CMS.Sites.Membership
         public virtual string TimeZoneId { get; set; }
 
         public virtual Dictionary<string, string> Profiles { get; set; }
+
+        public virtual string RedirectUrl { get; set; }
     }
 }

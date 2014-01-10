@@ -1,5 +1,5 @@
 ﻿@{
-    var membershipUser = ViewContext.HttpContext.Membership().GetMembershipUser();
+    var membershipUser = ViewContext.HttpContext.Member().GetMembershipUser();
     var cultures = System.Globalization.CultureInfo.GetCultures(System.Globalization.CultureTypes.SpecificCultures).OrderBy(c => c.DisplayName);
     var timeZoneHelper = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Common.ITimeZoneHelper>();
     var timeZones = timeZoneHelper.GetTimeZones();
@@ -71,7 +71,7 @@
                 </th>
                 <td>
 
-                    <select id="TimeZone" name="TimeZone" type="text" value="@membershipUser.TimeZoneId">
+                    <select id="TimeZone" name="TimeZoneId" type="text" value="@membershipUser.TimeZoneId">
                         @foreach (var t in timeZones)
                         {
 

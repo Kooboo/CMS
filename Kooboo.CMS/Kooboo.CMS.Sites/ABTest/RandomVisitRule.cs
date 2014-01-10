@@ -26,6 +26,7 @@ namespace Kooboo.CMS.Sites.ABTest
     [System.Runtime.Serialization.KnownType(typeof(RandomVisitRule))]
     public class RandomVisitRule : VisitRuleBase, IVisitRule
     {
+        static Random random = new Random();
         [DataMember]
         public string Name { get; set; }
         /// <summary>
@@ -43,7 +44,6 @@ namespace Kooboo.CMS.Sites.ABTest
             var matched = false;
             if (Percent > 0)
             {
-                Random random = new Random();
                 var value = random.NextDouble();
                 if (value < Percent / 100.0)
                 {

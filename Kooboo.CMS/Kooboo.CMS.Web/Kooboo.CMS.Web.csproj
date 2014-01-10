@@ -110,6 +110,7 @@
     <Compile Include="Areas\Account\Models\ChangeLanguageModel.cs" />
     <Compile Include="Areas\Account\Models\CreateRoleModel.cs" />
     <Compile Include="Areas\Account\Models\DataSources\EnabledLanguagesDataSource.cs" />
+    <Compile Include="Areas\Account\Models\DataSources\RolesDatasource.cs" />
     <Compile Include="Areas\Account\Models\EditUserModel.cs" />
     <Compile Include="Areas\Account\Models\Grid2\User_ResetPassword_GridItemColumn.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />

@@ -31,7 +31,7 @@ namespace Kooboo.CMS.Account.Models
 
         [DataMember(Order = 5)]
         public bool IsAdministrator { get; set; }
-                
+
         [DataMember]
         public string UICulture { get; set; }
 
@@ -131,7 +131,14 @@ namespace Kooboo.CMS.Account.Models
             }
         }
 
-
+        /// <summary>
+        /// Gets or sets the global roles. Splited by comma： role1,role2
+        /// </summary>
+        /// <value>
+        /// The global roles.
+        /// </value>
+        [DataMember]
+        public string GlobalRoles { get; set; }
     }
 
     public partial class User : IPersistable, IIdentifiable

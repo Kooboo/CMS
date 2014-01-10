@@ -14,14 +14,25 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.Extensions;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+
 namespace Kooboo.CMS.Sites.Services
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(UserManager))]
     public class UserManager : ManagerBase<User, IUserProvider>
     {
-        public UserManager(IUserProvider provider)
-            : base(provider) { }
+        #region .ctor
+        Kooboo.CMS.Account.Services.UserManager _accountUserManager;
+        Kooboo.CMS.Account.Services.RoleManager _accountRoleManager;
+        public UserManager(IUserProvider provider, Kooboo.CMS.Account.Services.UserManager accountUserManager, Kooboo.CMS.Account.Services.RoleManager roleManager)
+            : base(provider)
+        {
+            this._accountUserManager = accountUserManager;
+            this._accountRoleManager = roleManager;
+        }
 
+        #endregion
+
+        #region All/Get/Update
         public override IEnumerable<User> All(Site site, string filterName)
         {
             var result = Provider.All(site).Select(it => it.AsActual());
@@ -43,7 +54,9 @@ namespace Kooboo.CMS.Sites.Services
             @old.Site = site;
             Provider.Update(@new, @old);
         }
+        #endregion
 
+        #region IsInRole
         public virtual bool IsInRole(Site site, string userName, string role)
         {
             if (IsAdministrator(userName))
@@ -58,7 +71,9 @@ namespace Kooboo.CMS.Sites.Services
             }
             return false;
         }
+        #endregion
 
+        #region Authorize
         public virtual bool Authorize(Site site, string userName, Kooboo.CMS.Account.Models.Permission permission)
         {
             string contextKey = "Permission:" + permission.ToString();
@@ -71,17 +86,11 @@ namespace Kooboo.CMS.Sites.Services
                 {
                     allow = true;
                 }
-                else if (site != null)
+                else
                 {
-                    var siteUser = this.Get(site, userName);
-
-                    if (siteUser != null && siteUser.Roles != null)
-                    {
-                        allow = siteUser.Roles.Select(it => Kooboo.CMS.Account.Services.ServiceFactory.RoleManager.Get(it))
-                                .Any(it => it != null && it.HasPermission(permission));
-                    }
-                }
-
+                    var roles = GetRoles(site, userName);
+                    allow = roles.Any(it => it.HasPermission(permission));
+                }                
                 CallContext.Current.RegisterObject(contextKey, allow);
             }
             return allow.Value;
@@ -89,7 +98,7 @@ namespace Kooboo.CMS.Sites.Services
 
         public virtual bool IsAdministrator(string userName)
         {
-            var accountUser = Kooboo.CMS.Account.Services.ServiceFactory.UserManager.Get(userName);
+            var accountUser = _accountUserManager.Get(userName);
             if (accountUser == null)
             {
                 return false;
@@ -102,19 +111,36 @@ namespace Kooboo.CMS.Sites.Services
             return IsAdministrator(userName);
         }
 
+        protected virtual IEnumerable<Kooboo.CMS.Account.Models.Role> GetRoles(Site site, string userName)
+        {
+            if (site != null)
+            {
+                var siteUser = this.Get(site, userName);
+
+                if (siteUser != null && siteUser.Roles != null)
+                {
+                    return siteUser.Roles.Select(it => _accountRoleManager.Get(it)).Where(it => it != null);
+                }
+            }
+
+            var accountUser = _accountUserManager.Get(userName);
+            if (accountUser != null && !string.IsNullOrEmpty(accountUser.GlobalRoles))
+            {
+                return accountUser.GlobalRoles.Split(",".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(it => _accountRoleManager.Get(it)).Where(it => it != null);
+            }
+
+            return new Kooboo.CMS.Account.Models.Role[0];
+        }
         public virtual bool Authorize(Site site, string userName)
         {
             if (IsAdministrator(userName))
             {
                 return true;
             }
-            else if (site != null)
-            {
-                var siteUser = this.Get(site, userName);
-
-                return siteUser != null;
-            }
-            return false;
+            return GetRoles(site, userName).Count() > 0;
         }
+        #endregion
+
+
     }
 }

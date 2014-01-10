@@ -31,8 +31,9 @@ namespace Kooboo.CMS.Account.Persistence.EntityFramework.Mapping
             this.Property(it => it.IsLockedOut);
             this.Property(it => it.UtcLastLockoutDate);
             this.Property(it => it.ActivateCode).HasColumnType("nvarchar").HasMaxLength(256);
-            
-            this.Ignore(it => it.IsDummy);          
+            this.Property(it => it.GlobalRoles).HasColumnType("nvarchar").HasMaxLength(256);
+
+            this.Ignore(it => it.IsDummy);
             this.Ignore(it => it.UUID);
             this.ToTable("Kooboo_CMS_Account_Users");
         }

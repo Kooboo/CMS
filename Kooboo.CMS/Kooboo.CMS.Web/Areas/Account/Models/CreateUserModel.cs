@@ -15,6 +15,7 @@ using Kooboo.CMS.Account.Models;
 using Kooboo.Web.Mvc;
 using System.ComponentModel;
 using System.Web.Mvc;
+using Kooboo.CMS.Web.Areas.Account.Models.DataSources;
 
 namespace Kooboo.CMS.Web.Areas.Account.Models
 {
@@ -50,6 +51,11 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
         [Description("The culture represents the current culture used by the Resource Manager to look up culture-specific resources at run time.")]
         public string UICulture { get; set; }
 
+        [DisplayName("Global roles")]
+        [UIHint("Multiple_DropDownList")]
+        [DataSource(typeof(RolesDatasource))]
+        public string[] GlobalRoles { get; set; }
+
         public CreateUserModel()
         {
 
@@ -62,6 +68,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
             this.IsAdministrator = user.IsAdministrator;
             this.IsLockedOut = user.IsLockedOut;
             this.UICulture = user.UICulture;
+            this.GlobalRoles = string.IsNullOrEmpty(user.GlobalRoles) ? null : user.GlobalRoles.Split(",".ToArray(), StringSplitOptions.RemoveEmptyEntries);
         }
         public User ToUser()
         {
@@ -76,6 +83,10 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
             }
             user.Password = this.Password;
             user.UICulture = this.UICulture;
+            if (this.GlobalRoles != null)
+            {
+                user.GlobalRoles = string.Join(",", this.GlobalRoles);
+            }
             return user;
         }
     }

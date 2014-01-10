@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Account.Models;
+using Kooboo.CMS.Web.Areas.Account.Models.DataSources;
 using Kooboo.Web.Mvc;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,11 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
         [Description("The culture represents the current culture used by the Resource Manager to look up culture-specific resources at run time.")]
         public string UICulture { get; set; }
 
+        [DisplayName("Global roles")]
+        [UIHint("Multiple_DropDownList")]
+        [DataSource(typeof(RolesDatasource))]
+        public string[] GlobalRoles { get; set; }
+
         public EditUserModel()
         {
 
@@ -48,6 +54,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
             this.IsAdministrator = user.IsAdministrator;
             this.IsLockedOut = user.IsLockedOut;
             this.UICulture = user.UICulture;
+            this.GlobalRoles = string.IsNullOrEmpty(user.GlobalRoles) ? null : user.GlobalRoles.Split(",".ToArray(), StringSplitOptions.RemoveEmptyEntries);
         }
         public User ToUser(User userToUpdate)
         {
@@ -60,6 +67,11 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
                 userToUpdate.UtcLastLockoutDate = DateTime.UtcNow;
             }
             userToUpdate.UICulture = this.UICulture;
+            if (this.GlobalRoles != null)
+            {
+                userToUpdate.GlobalRoles = string.Join(",", this.GlobalRoles);
+            }
+
             return userToUpdate;
         }
     }

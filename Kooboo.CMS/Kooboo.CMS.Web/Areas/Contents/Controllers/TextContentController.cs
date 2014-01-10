@@ -981,7 +981,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                 item["_EmbeddedFolders_"] = embeddedFolders.Select(it => new
                 {
                     Text = it.FriendlyText,
-                    Link = url.Action("SubContent", new { SiteName = requestContext.GetRequestValue("SiteName"), RepositoryName = Repository.Name, ParentFolder = item.FolderName, FolderName = it.FullName, parentUUID = (object)(item.UUID) })
+                    Link = url.Action("SubContent", new { SiteName = requestContext.GetRequestValue("SiteName"), RepositoryName = Repository.Name, ParentFolder = item.FolderName, FolderName = it.FullName, parentUUID = (object)(item.UUID), @return = @return })
                 });
                 if (item.OriginalUpdateTimes > 0)
                 {

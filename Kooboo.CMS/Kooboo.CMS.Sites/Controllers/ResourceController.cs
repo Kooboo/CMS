@@ -34,10 +34,17 @@ namespace Kooboo.CMS.Sites.Controllers
     public class ResourceController : FrontControllerBase
     {
         #region Scripts
-        public virtual ActionResult Scripts(string siteName, bool? compressed)
+        /// <summary>
+        /// Scriptses the specified site name.
+        /// </summary>
+        /// <param name="siteName">Name of the site.</param>
+        /// <param name="name">The name. the folder name</param>
+        /// <param name="compressed">The compressed.</param>
+        /// <returns></returns>
+        public virtual ActionResult Scripts(string siteName, string name, bool? compressed)
         {
             var site = new Site(siteName);
-            var scripts = ServiceFactory.ScriptManager.GetFiles(site, "");
+            var scripts = ServiceFactory.ScriptManager.GetFiles(site, name);
 
             Output(CompressJavascript(scripts, compressed), "text/javascript", 2592000, "*");
 
@@ -223,7 +230,7 @@ namespace Kooboo.CMS.Sites.Controllers
             preserverAspectRatio = preserverAspectRatio ?? true;
             quality = quality ?? 80;
 
-            if(url.StartsWith("http://") || url.StartsWith("https://"))
+            if (url.StartsWith("http://") || url.StartsWith("https://"))
             {
                 //now no image cache for azure blob
                 var provider = Kooboo.CMS.Content.Persistence.Providers.DefaultProviderFactory.GetProvider<Kooboo.CMS.Content.Persistence.IMediaContentProvider>();
@@ -237,7 +244,7 @@ namespace Kooboo.CMS.Sites.Controllers
             }
             else
             {
-                var imageFullPath=Server.MapPath(url);
+                var imageFullPath = Server.MapPath(url);
                 var cachingPath = GetCachingFilePath(imageFullPath, width, height, preserverAspectRatio.Value, quality.Value);
 
                 if (!System.IO.File.Exists(cachingPath))

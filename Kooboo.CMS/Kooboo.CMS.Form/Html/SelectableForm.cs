@@ -81,7 +81,7 @@ namespace Kooboo.CMS.Form.Html
             </tr>
         }}
         else{{
-            if(folder.Parent != null){{
+            if(folder.Parent != null && ((TextFolder)folder.Parent).AsActual().SchemaName.EqualsOrNullEmpty(folder.SchemaName,StringComparison.OrdinalIgnoreCase)){{
                     <tr class=""folderTr"">
                         <td></td>
                         <td>

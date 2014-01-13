@@ -64,11 +64,11 @@ namespace Kooboo.CMS.Content.Models
             {
                 throw new ArgumentException("The folder name path is invalid.", "namePath");
             }
-            if (repository!=null)
+            if (repository != null)
             {
                 this.Repository = new Repository(repository.Name);
             }
-            
+
             this.Name = namePath.Last();
             if (namePath.Count() > 0)
             {
@@ -132,7 +132,7 @@ namespace Kooboo.CMS.Content.Models
             }
             set
             {
-                this.NamePaths = FolderHelper.SplitFullName(value).ToArray();
+                this.NamePaths = FolderHelper.SplitFullName(value).ToArray();             
             }
         }
         bool isDummy = true;
@@ -232,7 +232,7 @@ namespace Kooboo.CMS.Content.Models
             {
                 namePaths = Parent.NamePaths.Concat(new[] { this.Name }).ToArray();
             }
-            fullName = null;
+            
         }
         private void NamePathsChanged()
         {
@@ -246,17 +246,13 @@ namespace Kooboo.CMS.Content.Models
                 this.parent = null;
             }
         }
-
-        private string fullName = null;
+      
         public string FullName
         {
             get
             {
-                if (fullName == null)
-                {
-                    fullName = FolderHelper.CombineFullName(this.NamePaths);
-                }
-                return fullName;
+              
+                  return FolderHelper.CombineFullName(this.NamePaths);                
             }
             //set
             //{

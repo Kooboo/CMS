@@ -148,6 +148,14 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         }
         #endregion
 
+        #region Relations
+        public virtual ActionResult Relations(string uuid)
+        {
+            var model = Manager.Relations(new TextFolder(Repository, uuid));
+
+            return View(model);
+        }
+        #endregion
 
         public virtual ActionResult GetSchemaFields(string schemaName)
         {

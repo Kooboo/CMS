@@ -61,27 +61,29 @@ namespace Kooboo.CMS.Content.Services
         {
             var targetFolder = new TextFolder(repository, receivingFolder).AsActual();
 
-            if ((ContentAction.Add & action) == action && (originalContent.Published.HasValue && originalContent.Published.Value == true))
+            if (targetFolder != null)
             {
-                var content = targetFolder.CreateQuery().WhereEquals("UUID", originalContent.UUID).FirstOrDefault();
-                if (content == null)
+                if ((ContentAction.Add & action) == action && (originalContent.Published.HasValue && originalContent.Published.Value == true))
                 {
-                    Services.ServiceFactory.TextContentManager.Copy(originalContent, targetFolder, keepStatus, true, null);
+                    var content = targetFolder.CreateQuery().WhereEquals("UUID", originalContent.UUID).FirstOrDefault();
+                    if (content == null)
+                    {
+                        Services.ServiceFactory.TextContentManager.Copy(originalContent, targetFolder, keepStatus, true, null);
+                    }
+                    else
+                    {
+                        UpdateAction(repository, originalContent, targetFolder, keepStatus);
+                    }
                 }
-                else
+                else if ((ContentAction.Update & action) == action)
                 {
                     UpdateAction(repository, originalContent, targetFolder, keepStatus);
                 }
+                else if ((ContentAction.Delete & action) == action)
+                {
+                    DeleteAction(repository, originalContent, targetFolder);
+                }
             }
-            else if ((ContentAction.Update & action) == action)
-            {
-                UpdateAction(repository, originalContent, targetFolder, keepStatus);
-            }
-            else if ((ContentAction.Delete & action) == action)
-            {
-                DeleteAction(repository, originalContent, targetFolder);
-            }
-
         }
 
         public virtual void DeleteAction(Repository repository, TextContent originalContent, TextFolder targetFolder)

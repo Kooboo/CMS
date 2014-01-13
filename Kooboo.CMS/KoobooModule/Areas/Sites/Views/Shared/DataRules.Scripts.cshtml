@@ -20,18 +20,17 @@
     {
         foreach (var rule in Model)
         {
-            //if (rule.DataRule is FolderDataRule)
-            //{
-            //    var codeSnippetClean = viewEngine.GetDataRuleCodeSnippet(rule.TakeOperation).Generate(Site.Current.GetRepository(), rule, false);
-            //    var codeSnippetInline = viewEngine.GetDataRuleCodeSnippet(rule.TakeOperation).Generate(Site.Current.GetRepository(), rule, true);
-            //    codeSnippetDictionaryList.Add(new
-            //    {
-            //        DataRuleName = rule.DataName,
-            //        CodeSnippetClean = codeSnippetClean,
-            //        CodeSnippetInline = codeSnippetInline
-            //    });
-            //}
-
+            if (rule.DataRule is FolderDataRule)
+            {
+                var codeSnippetClean = viewEngine.GetDataRuleCodeSnippet(rule.TakeOperation).Generate(Site.Current.GetRepository(), rule, false);
+                var codeSnippetInline = viewEngine.GetDataRuleCodeSnippet(rule.TakeOperation).Generate(Site.Current.GetRepository(), rule, true);
+                codeSnippetDictionaryList.Add(new
+                {
+                    DataRuleName = rule.DataName,
+                    CodeSnippetClean = codeSnippetClean,
+                    CodeSnippetInline = codeSnippetInline
+                });
+            }
         }
     }
     var operatorList = new List<object>
@@ -201,7 +200,7 @@
             filter.Value2(filter.Value2Temp());
             filter.IsEditing(false);
         };
-        self.EditFilter = function(filter) {
+        self.EditFilter = function(filter,e) {
             //temp observables for editing
             filter.LogicalTemp = ko.observable(filter.Logical());
             filter.FieldNameTemp = ko.observable(filter.FieldName());
@@ -210,6 +209,15 @@
             filter.Value2Temp = ko.observable(filter.Value2());
             filter.IsNew = false;
             filter.IsEditing(true);
+            if(e!=null){
+                var dataSet = $(e.target).closest('ul').data('dataSet');
+                if (dataSet === "WhereClauses") {
+                    newFilter.FolderName= self.DataRuleSetting().DataRule.FolderName();
+                }
+                if (dataSet === "CategoryClauses") {
+                    newFilter.FolderName= self.DataRuleSetting().DataRule.CategoryFolderName();
+                }
+            }
         };
         self.AddFilter = function(data,e) {
             var newFilter = utils.CloneObject(metadata.rawEmptyWhereClause);
@@ -218,9 +226,11 @@
             newFilter.IsNew = true;
             var dataSet = $(e.target).parent().siblings('ul.filter-list').data('dataSet');
             if (dataSet === "WhereClauses") {
+                newFilter.FolderName= self.DataRuleSetting().DataRule.FolderName();
                 self.DataRuleSetting().DataRule.WhereClauses.push(newFilter);
             }
             if (dataSet === "CategoryClauses") {
+                newFilter.FolderName= self.DataRuleSetting().DataRule.CategoryFolderName();
                 self.DataRuleSetting().DataRule.CategoryClauses.push(newFilter);
             }
         };
@@ -248,7 +258,7 @@
                 @if (currentController == "view")
                 {
                     @:utils.LoadCodeSnippet(newDataRule,callBack);
-                                                                                                                                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                }
             } else {
                 var oldDataRule = ko.utils.arrayFirst(displayViewModel.DataRuleList(), function(item) {
                     return item.DataName() === newDataRule.OldDataName;
@@ -263,7 +273,7 @@
                 @if (currentController == "view")
                 {
                     @:utils.LoadCodeSnippet(newDataRule, callBack);
-                                                                                                                                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                }
             }
             utils.$DataRuleEditForm.dialog("close");
             window.leaveConfirm.stop();
@@ -298,13 +308,14 @@
                 newFilter.Operator(0);
                 newFilter.Value1('{UserKey}');
 
+                self.DataRuleSetting().DataRule.WhereClauses.removeAll();
                 self.DataRuleSetting().DataRule.WhereClauses.push(newFilter);
             }
             self.EditingStep('EditFilters');
             $.validator.unobtrusive.parse('#editing-form');
         };
         self.GotoPreviousStep = function() {
-            if (self.DataRuleSetting().DataRule.DataRuleType() == 0) {                
+            if (self.DataRuleSetting().DataRule.DataRuleType() == 0) {
                 if(self.EditingStep()=='EditFilters')
                 {
                     self.EditingStep('ChooseFolder');

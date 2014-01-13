@@ -1,13 +1,15 @@
-﻿@model dynamic 
+﻿@model dynamic
 @using Kooboo.CMS.Web
 <!DOCTYPE html>
 <html>
 <head id="Head1" runat="server">
     <title></title>
     <script type="text/javascript" src="@Url.Action("Localization", "StyleEditing", new { siteName = ViewBag.SiteName, _draft_ = ViewBag._draft_ })"></script>
-    @Html.ExternalResources("styleEditingCss") 
-    @Html.ExternalResources("styleEditingJs") 
-    <script type="text/javascript">
+    <sciprt src="//cdn.jsdelivr.net/jquery/2.0.3/jquery-2.0.3.js" type="text/javascript"></sciprt>
+    @Html.ExternalResources("styleEditingCss")
+    @Html.ExternalResources("styleEditingJs")
+    <script type="text/javascript" id="styleditor">
+
         $(function () {
 
             var timeoutId;
@@ -41,18 +43,22 @@
                         fileContent: editor.getValue()
                     },
                     type: 'post', dataType: 'json', timeout: 30000,
-                    beforeSend: function (request) { editor.applyLock(); },
-                    complete: function (request, state) { },
-                    success: function (d, state) {
-                        if (d.Success) {
-                            showMessage('@("Save success!".Localize())');
+
+                    //complete: function (request, state) { },
+
+
+                })//.beforeSend(function (request) { editor.applyLock(); })
+                    .success(function (d, state) {
+                    if (d.Success) {
+                        showMessage('@("Save success!".Localize())');
                             if (effect.ruleManager) { effect.ruleManager.persistenceChanges(); }
                             setTimeout(loadCurrent, 16);
                         } else {
                             showMessage('@("Save failure!".Localize())');
                             editor.releaseLock();
-                        }
                     }
+                    })
+                .error(function(){
                 });
             });
 
@@ -72,6 +78,18 @@
                     loadCurrent();
                 }
             });
+
+            /* Modified by Jinfeng 2013-12-10
+            * create a global function to make parent can detect isChanged variable
+            * fixBug: "Cancel" will not give a confirm chance when something changed
+            */
+            window.cancelConfirm = function () {
+                if (editor.isChanged()) {
+                    return confirm(String.format('@("[{0}] has been changed, are you sure you want to cancel?".Localize())', lastSelectedText.trim()));
+                } else {
+                    return true;
+                }
+            }
 
             loadCurrent();
         });

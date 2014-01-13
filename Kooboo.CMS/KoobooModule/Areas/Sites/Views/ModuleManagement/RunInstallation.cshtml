@@ -45,7 +45,7 @@
             <li><strong>@("Copy the module files into Kooboo CMS system.".Localize())</strong></li>
             <li><strong>@("Run the 'Installation' events defined by module developers".Localize())</strong></li>
         </ol>
-        
+
     </div>
     @using (Html.BeginForm())
     {
@@ -58,5 +58,23 @@
     <div class="content">
         <p>@Html.Raw("When you are ready, click the <strong>Next</strong> button to start the installation.".Localize())</p>
     </div>
-
 </div>
+<script>
+    window.ajaxFormParam = {
+        beforeSend: function () {
+            window.loading.show();
+            var success = true;
+            $.ajax({
+                type: 'POST',
+                url: '@Html.Raw(Url.Action("CopyInstallationFiles", ViewContext.RequestContext.AllRouteValues()))',
+                data: null,
+                success: function (data, textStatus, jqXHR) {
+                    parse_JsonResultData.call(this, data, textStatus, jqXHR)
+                    success = data.Success;
+                },             
+                async: false
+            });          
+            return success;
+        }
+    }
+</script>

@@ -17,16 +17,23 @@
                     @("Create".Localize())
                 </a>
                 <ul class="j_DropDownContent hide">
-                    <li><a href="@Url.Action("Create", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl })">
-                        @("A new site".Localize())</a></li>
-                    <li><a href="@Html.Raw(Url.Action("CreateSubSite", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl }))" title="@("New sub site".Localize())">
-                        @("A new subsite".Localize())</a></li>
+                    <li>
+                        <a href="@Url.Action("Create", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl })">
+                            @("A new site".Localize())
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Html.Raw(Url.Action("CreateSubSite", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl }))" title="@("New sub site".Localize())">
+                            @("A new subsite".Localize())
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li>
                 <a href="@Url.Action("ImportSite", "Site", new { @return = ViewContext.HttpContext.Request.RawUrl })">
                     @Html.IconImage("import")
-                    @("Import".Localize())</a>
+                    @("Import".Localize())
+                </a>
             </li>
         </ul>
     }
@@ -56,7 +63,7 @@ else
     </div>
     <div class="block fixed">
         @foreach (var siteTree in Model.Where(it => it.Root.Children.Count() == 0))
-        {        
+        {
             <div class="site-tree">
                 @Html.Partial("SiteNode", siteTree.Root)
             </div>
@@ -64,11 +71,11 @@ else
 
         <ul class="site-tree">
             @foreach (var siteTree in Model.Where(it => it.Root.Children.Count() > 0))
-            {   
-                <li class="tree-node active">
+            {
+                <li class="tree-node clearfix active">
                     @Html.IconImage("tree-icon")
                     @Html.Partial("SiteNode", siteTree.Root)
-                </li>      
+                </li>
             }
         </ul>
 

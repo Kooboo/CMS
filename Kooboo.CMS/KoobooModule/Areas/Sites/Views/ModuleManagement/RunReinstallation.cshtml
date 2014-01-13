@@ -61,3 +61,22 @@
     </div>
 </div>
 
+<script>
+    window.ajaxFormParam = {
+        beforeSend: function () {
+            window.loading.show();
+            var success = true;
+            $.ajax({
+                type: 'POST',
+                url: '@Html.Raw(Url.Action("CopyReinstallationFiles", ViewContext.RequestContext.AllRouteValues()))',
+                data: null,
+                success: function (data, textStatus, jqXHR) {
+                    parse_JsonResultData.call(this, data, textStatus, jqXHR)
+                    success = data.Success;
+                },
+                async: false
+            });
+            return success;
+        }
+    }
+</script>

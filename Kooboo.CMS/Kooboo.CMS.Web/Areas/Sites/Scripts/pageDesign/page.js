@@ -537,6 +537,14 @@
                     }
                     // inject style
                     self.injectStyle();
+                }, setup: function (ed) {                    
+                    ed.on('FullscreenStateChanged', function (e) {
+                        $(window.parent.document).find('iframe').toggleClass('fullscreen');
+                    });
+                    ed.on('BeforeSetContent', function (e) {
+                        //console.log(e.content);
+                        e.format = 'raw';
+                    });
                 }
             }));
         },

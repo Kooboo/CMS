@@ -13,6 +13,7 @@ using System.Text;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Persistence;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Globalization;
 namespace Kooboo.CMS.Content.Services
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(TextFolderManager))]
@@ -21,6 +22,7 @@ namespace Kooboo.CMS.Content.Services
         public TextFolderManager(ITextFolderProvider provider) : base(provider) { }
 
 
+        #region ChildFoldersWithSameSchema
         public IEnumerable<TextFolder> ChildFoldersWithSameSchema(TextFolder parentFolder)
         {
             parentFolder = parentFolder.AsActual();
@@ -29,7 +31,9 @@ namespace Kooboo.CMS.Content.Services
                 .Where(it => it.SchemaName.EqualsOrNullEmpty(parentFolder.SchemaName, StringComparison.OrdinalIgnoreCase))
                 .ToArray();
         }
+        #endregion
 
+        #region AllChildFoldersWithSameSchema
         public IEnumerable<TextFolder> AllChildFoldersWithSameSchema(TextFolder parentFolder, List<TextFolder> results = null)
         {
             if (results == null)
@@ -44,5 +48,38 @@ namespace Kooboo.CMS.Content.Services
             }
             return results;
         }
+        #endregion
+
+        public override void Remove(Repository repository, TextFolder item)
+        {
+            if (Relations(item).Count() > 0)
+            {
+                throw new Exception(string.Format("'{0}' is being used!".Localize(), item.Name));
+            }
+            base.Remove(repository, item);
+        }
+        #region Relations
+        public virtual IEnumerable<RelationModel> Relations(TextFolder textFolder)
+        {
+            var allFolders = AllFoldersFlattened(textFolder.Repository).Select(it => it.AsActual()).ToArray();
+            var asCategories = allFolders.Where(it => it.Categories != null && it.Categories.Any(ic => ic.FolderName.EqualsOrNullEmpty(textFolder.FullName, StringComparison.OrdinalIgnoreCase)))
+                .Select(it => new RelationModel()
+            {
+                DisplayName = it.FriendlyText,
+                ObjectUUID = it.FullName,
+                RelationObject = it,
+                RelationType = "Category folder"
+            });
+            var embbedFolder = allFolders.Where(it => it.EmbeddedFolders != null && it.EmbeddedFolders.Any(ie => ie.EqualsOrNullEmpty(textFolder.FullName, StringComparison.OrdinalIgnoreCase)))
+                .Select(it => new RelationModel()
+            {
+                DisplayName = it.FriendlyText,
+                ObjectUUID = it.FullName,
+                RelationObject = it,
+                RelationType = "Embedded folder"
+            });
+            return asCategories.Concat(embbedFolder);
+        }
+        #endregion
     }
 }

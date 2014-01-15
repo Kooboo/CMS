@@ -145,7 +145,7 @@ namespace Kooboo.CMS.Sites.View
         /// <returns></returns>
         public virtual IHtmlString SiteScriptsUrl(string baseUri)
         {
-            return SiteScriptsUrl(baseUri, true);
+            return SiteScriptsUrl(baseUri, "", true);
         }
         /// <summary>
         /// The URL for combined site scripts.
@@ -153,10 +153,10 @@ namespace Kooboo.CMS.Sites.View
         /// <param name="baseUri">The base URI.</param>
         /// <param name="compressed">if set to <c>true</c> [compressed].</param>
         /// <returns></returns>
-        public virtual IHtmlString SiteScriptsUrl(string baseUri, bool compressed)
+        public virtual IHtmlString SiteScriptsUrl(string baseUri, string folder, bool compressed)
         {
             Site site = this.Site;
-            return new HtmlString(UrlUtility.ToHttpAbsolute(baseUri, this.Url.Action("scripts", "Resource", new { siteName = site.FullName, version = site.VersionUsedInUrl, area = "", compressed })));
+            return new HtmlString(UrlUtility.ToHttpAbsolute(baseUri, this.Url.Action("scripts", "Resource", new { siteName = site.FullName, version = site.VersionUsedInUrl, area = "", compressed, name = folder })));
         }
 
         /// <summary>
@@ -403,7 +403,7 @@ namespace Kooboo.CMS.Sites.View
             {
                 return new HtmlString(Url.Content(fileVirtualPath));
             }
-            
+
         }
         #endregion
 

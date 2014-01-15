@@ -129,8 +129,10 @@ namespace Kooboo.CMS.Sites.Controllers
                 set;
             }
         }
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public virtual ActionResult ViewEntry(string viewName)
         {
+            viewName = Server.UrlDecode(viewName);
             var viewPosition = new ViewPosition()
             {
                 LayoutPositionId = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(5),

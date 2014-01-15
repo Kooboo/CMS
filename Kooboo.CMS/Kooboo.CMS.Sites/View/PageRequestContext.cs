@@ -91,7 +91,7 @@ namespace Kooboo.CMS.Sites.View
             {
                 if (!string.IsNullOrEmpty(ModuleUrl) && this.ModuleCountInPage == 1)
                 {
-                    return "~/" + this.ModuleUrl;
+                    return "~/" + ModuleUrlHelper.Decode(this.ModuleUrl);
                 }
             }
             return string.Empty;
@@ -318,7 +318,8 @@ namespace Kooboo.CMS.Sites.View
             }
 
             var moduleUrl = AllQueryString[ModuleUrlContext.ModuleUrlSegment];
-            ModuleUrlContext = new ModuleUrlContext(this, moduleUrl, page.PagePositions.OfType<ModulePosition>().Count());
+            var modulePositions = page.PagePositions.Where(it => it is ModulePosition || it is ProxyPosition).Count();
+            ModuleUrlContext = new ModuleUrlContext(this, moduleUrl, modulePositions);
         }
         #endregion
 

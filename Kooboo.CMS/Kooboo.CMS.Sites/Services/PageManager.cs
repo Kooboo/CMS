@@ -39,7 +39,7 @@ namespace Kooboo.CMS.Sites.Services
         }
 
         #region Providers
-        public IVersionLogger<Models.Page> VersiongLogger
+        public IVersionLogger<Page> VersiongLogger
         {
             get
             {
@@ -658,7 +658,7 @@ namespace Kooboo.CMS.Sites.Services
                     while (parent != null)
                     {
                         var parentPage = new Page(parent, fullPageName).LastVersion(parent);
-                        if (parentPage.IsLocalized(parent))
+                        if (parentPage != null && parentPage.IsLocalized(parent))
                         {
                             pagesInParentSites.AddRange(this.ChildPages(parent, fullPageName, null));
                         }
@@ -672,6 +672,28 @@ namespace Kooboo.CMS.Sites.Services
             }
 
             return new Page[0];
+        }
+        #endregion
+
+        #region AllPagesFlattened
+        public virtual IEnumerable<Page> AllPagesFlattened(Site site)
+        {
+            List<Page> folders = new List<Page>();
+
+            foreach (var item in Provider.All(site))
+            {
+                AggregateFolderRecurisively(item, ref folders);
+            }
+
+            return folders;
+        }
+        private void AggregateFolderRecurisively(Page page, ref List<Page> list)
+        {
+            list.Add(page);
+            foreach (var item in Provider.ChildPages(page))
+            {
+                AggregateFolderRecurisively(item, ref list);
+            }
         }
         #endregion
     }

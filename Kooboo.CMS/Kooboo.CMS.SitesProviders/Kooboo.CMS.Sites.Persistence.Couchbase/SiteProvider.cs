@@ -35,7 +35,17 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         #region Get/Update/Save/Delete
         public override void Add(Site item)
         {
-            InsertOrUpdate(item, item);
+            try
+            {
+                _initializer.Initialize(item);
+                InsertOrUpdate(item, item);
+            }
+            catch (Exception e)
+            {
+                //Maybe unable to save site setting when the data bucket is initializing. Ignore the save exception when site creating.
+                Kooboo.HealthMonitoring.Log.LogException(e);
+            }
+
             base.Add(item);
         }
         public override void Update(Site @new, Site old)
@@ -45,7 +55,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         }
         private void InsertOrUpdate(Site @new, Site old)
         {
-            ((IPersistable)@new).OnSaving();            
+            ((IPersistable)@new).OnSaving();
             DataHelper.StoreObject(@new, @new.UUID, ModelExtensions.SiteDataType);
             ((IPersistable)@new).OnSaved();
         }
@@ -53,7 +63,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         {
             var bucketDocumentKey = ModelExtensions.GetBucketDocumentKey(ModelExtensions.SiteDataType, dummyObject.FullName);
 
-            var site = DataHelper.QueryByKey<Site>(dummyObject,bucketDocumentKey, createModel);
+            var site = DataHelper.QueryByKey<Site>(dummyObject, bucketDocumentKey, createModel);
 
             if (site == null)
             {

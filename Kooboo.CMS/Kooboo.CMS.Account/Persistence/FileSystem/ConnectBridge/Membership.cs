@@ -21,7 +21,7 @@ namespace Kooboo.Connect
         {
             this.IsApproved = true;
             this.IsLockedOut = false;
-            this.CreateDate = DateTime.Now;
+            this.CreateDate = DateTime.UtcNow;
         }
         [DataMember(Order = 1)]
         public string Password

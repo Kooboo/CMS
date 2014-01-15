@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/Popup.cshtml";
 
-    ViewBag.Title = "Media content".Localize();
+    ViewBag.Title = "Media Library".Localize();
 
     var routes = ViewContext.RequestContext.AllRouteValues();
 
@@ -27,7 +27,8 @@
     <div class="wrap">
         <div class="topbar clearfix">
             <h1 class="title">
-                @ViewBag.Title <strong>@ViewContext.RequestContext.GetRequestValue("folderPath")</strong></h1>
+                @ViewBag.Title <strong>@ViewContext.RequestContext.GetRequestValue("folderPath")</strong>
+            </h1>
 
             @if (folderPaths.Length > 0)
             {
@@ -38,13 +39,13 @@
                     {
                         if (i == folderPaths.Length - 1)
                         {
-                        @Html.IconImage("arrow gray-right")
-                        <span>@folderPaths[i]</span>
+                            @Html.IconImage("arrow gray-right")
+                            <span>@folderPaths[i]</span>
                         }
                         else
                         {
-                        @Html.IconImage("arrow gray-right")
-                        <a href="@Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("FolderName", FolderHelper.CombineFullName(folderPaths.Take(i + 1))))">@folderPaths[i]</a>
+                            @Html.IconImage("arrow gray-right")
+                            <a href="@Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("FolderName", FolderHelper.CombineFullName(folderPaths.Take(i + 1))))">@folderPaths[i]</a>
                         }
                     }
                 </div>
@@ -68,7 +69,7 @@
                     @foreach (var folder in childFolders)
                     {
                         <li>
-                            <a href="@this.Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("FolderName", folder.FullName))">                               
+                            <a href="@this.Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("FolderName", folder.FullName))">
                                 <span class="info">@folder.Name</span>
                             </a>
                         </li>
@@ -82,10 +83,10 @@
                     {
                         <li>
                             <a class="select">
-                                <input type="@(singleChoice ? "radio" : "checkbox")" name="select" value="@Html.Raw(file.UUID)" class="select doc" 
-                                 data-alt-text="@file.FileName" 
-                            data-is-image="@file.IsImage"
-                            data-url="@Html.Raw(file.Url)" autocomplete="off"/>
+                                <input type="@(singleChoice ? "radio" : "checkbox")" name="select" value="@Html.Raw(file.UUID)" class="select doc"
+                                       data-alt-text="@file.FileName"
+                                       data-is-image="@file.IsImage"
+                                       data-url="@Html.Raw(file.Url)" autocomplete="off" />
                                 <span class="checked"></span>
                                 <span class="info">@Html.IconImage("file") @file.FileName</span>
                             </a>
@@ -100,10 +101,10 @@
                     {
                         <li>
                             <a class="select">
-                                <input type="@(singleChoice ? "radio" : "checkbox")" name="select" value="@Html.Raw(image.UUID)" class="select doc" 
-                                 data-alt-text="@Html.Raw((image.Metadata == null || string.IsNullOrEmpty(image.Metadata.AlternateText)) ? image.FileName : image.Metadata.AlternateText)" 
-                            data-is-image="@image.IsImage"
-                            data-url="@Html.Raw(image.Url)"/>
+                                <input type="@(singleChoice ? "radio" : "checkbox")" name="select" value="@Html.Raw(image.UUID)" class="select doc"
+                                       data-alt-text="@Html.Raw((image.Metadata == null || string.IsNullOrEmpty(image.Metadata.AlternateText)) ? image.FileName : image.Metadata.AlternateText)"
+                                       data-is-image="@image.IsImage"
+                                       data-url="@Html.Raw(image.Url)" />
                                 <span class="checked"></span>
                                 <img src="@Url.Action("ResizeImage", "Resource", new { siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), url = image.VirtualPath, area = "", width = 0, height = 120, preserverAspectRatio = true, quality = 80 })" />
                             </a>
@@ -123,7 +124,7 @@
     {
         <a class="upload-button button upload left">
             <span>
-                <form action="@this.Url.Action("Upload", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" enctype="multipart/form-data" method="post"  class="no-stop">
+                <form action="@this.Url.Action("Upload", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" enctype="multipart/form-data" method="post" class="no-stop">
                     <input type="hidden" value="True" name="Overrided" />
                     <input type="file" name="file" title="@("Upload".Localize())" />
                 </form>
@@ -132,7 +133,8 @@
         </a>
     }
     <button id="addBtn">
-        @("Insert".Localize())</button>
+        @("Insert".Localize())
+    </button>
 
     <a id="cancelBtn" class="button gray cancel action">@("Cancel".Localize())</a>
 </div>
@@ -142,10 +144,16 @@
         $('.common-grid').mixedGrid();
 
         $('a.select').click(function (e) {
-            
+
             var $checkbox = $(this).find('input:checkbox.select');
+            var $radio = $(this).find('input:radio.select');
             $checkbox.attr('checked', !$checkbox.attr('checked'));
             $(this).parent().toggleClass('active');
+            if ($radio != null) {
+                $radio.attr('checked', 'checked');
+                $(this).parent().addClass('active');
+                $(this).parent().siblings('.active').removeClass('active');
+            }
         });
     });
 </script>

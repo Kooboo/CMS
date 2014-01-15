@@ -23,7 +23,7 @@ using System.Web.Routing;
 namespace Kooboo.CMS.Web
 {
     [Dependency(typeof(Kooboo.CMS.Common.IHttpApplicationEvents), Key = "KooboCMSHttpApplicationEvents")]
-    public class KoobooCMSHttpApplicationEvents : Kooboo.CMS.Common.HttpApplicationEvents
+    public class KoobooCMSHttpApplicationEvents : Kooboo.CMS.Common.Runtime.Mvc.MvcModule
     {
         #region CustomRazorViewEngine
         /// <summary>
@@ -116,10 +116,6 @@ Thread information:
 
             //
             ControllerBuilder.Current.SetControllerFactory(new Kooboo.CMS.Sites.CMSControllerFactory());
-
-            #region MVC Inject
-            DependencyResolver.SetResolver(new Kooboo.CMS.Common.DependencyResolver(EngineContext.Current, DependencyResolver.Current));
-            #endregion
 
             //ViewEngine for module.            
             ViewEngines.Engines.Insert(0, new Kooboo.CMS.Sites.Extension.ModuleArea.Runtime.ModuleRazorViewEngine());

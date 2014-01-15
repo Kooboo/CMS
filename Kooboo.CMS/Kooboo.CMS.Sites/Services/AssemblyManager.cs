@@ -13,6 +13,7 @@ using System.Text;
 using System.IO;
 using Kooboo.CMS.Sites.Models;
 using System.Reflection;
+using Kooboo.CMS.Sites.Extension.Management;
 
 namespace Kooboo.CMS.Sites.Services
 {
@@ -23,8 +24,10 @@ namespace Kooboo.CMS.Sites.Services
     public class AssemblyManager
     {
         #region .ctor
-        public AssemblyManager()
+        IAssemblyReferences _assemblyReferences;
+        public AssemblyManager(IAssemblyReferences assemblyReferences)
         {
+            _assemblyReferences = assemblyReferences;
             foreach (var site in ServiceFactory.SiteManager.AllRootSites())
             {
                 EnsureAssembliesExistsInBin(site, false, true);
@@ -38,7 +41,7 @@ namespace Kooboo.CMS.Sites.Services
             AssemblyFile assemblyFile = new AssemblyFile(site, fileName);
             //assemblyFile.
             assemblyFile.Save(stream);
-            DeleteFromBin(fileName);
+            DeleteFromBin(site, fileName);
             EnsureAssembliesExistsInBin(site);
         }
         #endregion
@@ -51,14 +54,15 @@ namespace Kooboo.CMS.Sites.Services
             {
                 assemblyFile.Delete();
             }
-            DeleteFromBin(fileName);
+            DeleteFromBin(site, fileName);
             EnsureAssembliesExistsInBin(site);
         }
 
-        private void DeleteFromBin(string fileName)
+        private void DeleteFromBin(Site site, string fileName)
         {
             var binFile = GetAssemblyBinFilePath(fileName);
-            if (File.Exists(binFile))
+            var canDelete = _assemblyReferences.RemoveReference(binFile, GetReferenceName(site));
+            if (canDelete && File.Exists(binFile))
             {
                 File.Delete(binFile);
             }
@@ -141,26 +145,33 @@ namespace Kooboo.CMS.Sites.Services
             catch
             { return false; }
         }
+        private string GetReferenceName(Site site)
+        {
+            return "site:" + site.FullName.ToLower();
+        }
         public void EnsureAssembliesExistsInBin(Site site, bool copyParent = true, bool copyChildren = false)
         {
             var files = GetFiles(site);
             foreach (var file in files)
             {
-                var fileInBin = GetAssemblyBinFilePath(file.FileName);
-                if (!File.Exists(fileInBin))
-                {
-                    File.Copy(file.PhysicalPath, fileInBin);
-                }
-            }
-            foreach (var file in files)
-            {
-                var assembly = GetAssembly(site, file.FileName);
-                if (assembly == null)
+                if (!_assemblyReferences.IsSystemAssembly(file.PhysicalPath))
                 {
                     var fileInBin = GetAssemblyBinFilePath(file.FileName);
-                    Assembly.LoadFrom(fileInBin);
+
+                    File.Copy(file.PhysicalPath, fileInBin, true);
+                    _assemblyReferences.AddReference(file.PhysicalPath, GetReferenceName(site));
+
                 }
             }
+            //foreach (var file in files)
+            //{
+            //    var assembly = GetAssembly(site, file.FileName);
+            //    if (assembly == null)
+            //    {
+            //        var fileInBin = GetAssemblyBinFilePath(file.FileName);
+            //        Assembly.LoadFrom(fileInBin);
+            //    }
+            //}
             if (copyParent && site.Parent != null)
             {
                 EnsureAssembliesExistsInBin(site.Parent, copyParent, copyChildren);

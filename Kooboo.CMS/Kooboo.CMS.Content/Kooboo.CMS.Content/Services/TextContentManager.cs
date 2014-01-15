@@ -155,7 +155,7 @@ namespace Kooboo.CMS.Content.Services
 
         public virtual ContentBase Update(Repository repository, TextFolder folder, string uuid, NameValueCollection values, string userid = "")
         {
-            return Update(repository, folder, uuid, values, null, DateTime.Now, null, null, userid);
+            return Update(repository, folder, uuid, values, null, DateTime.UtcNow, null, null, userid);
         }
         public virtual ContentBase Update(Repository repository, TextFolder folder, string uuid, NameValueCollection values, HttpFileCollectionBase files,
          DateTime modificationDate, IEnumerable<TextContent> addedCateogries, IEnumerable<TextContent> removedCategories, string userid = "", bool enableVersion = true)
@@ -358,7 +358,7 @@ namespace Kooboo.CMS.Content.Services
             {
                 copyedContent.UUID = originalContent.UUID;
             }
-            copyedContent.UtcCreationDate = DateTime.Now.ToUniversalTime();
+            copyedContent.UtcCreationDate = DateTime.UtcNow;
             copyedContent.Repository = textFolder.Repository.Name;
             copyedContent.FolderName = textFolder.FullName;
             copyedContent.SchemaName = textFolder.SchemaName;
@@ -369,8 +369,8 @@ namespace Kooboo.CMS.Content.Services
             copyedContent.Sequence = 0;
             copyedContent.UserId = originalContent.UserId;
 
-            var versions = Kooboo.CMS.Content.Versioning.VersionManager.AllVersionInfos(originalContent);
-            if (versions.Count() > 0)
+            var versions = Kooboo.CMS.Content.Versioning.VersionManager.AllVersionInfos(originalContent).ToArray();
+            if (versions.Any())
             {
                 copyedContent.OriginalLastestVisitedVersionId = versions.Max(it => it.Version);
             }

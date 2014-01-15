@@ -89,6 +89,9 @@
                     ed.on('FullscreenStateChanged', function (e) {
                         $(window.parent.document).find('iframe').toggleClass('fullscreen');
                     });
+                    ed.on('BeforeSetContent', function (e) {
+                        e.format = 'raw';
+                    });
                 }
             });
 

@@ -27,7 +27,14 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         /// <param name="moduleStream">The module stream.</param>
         /// <param name="user">The user.</param>
         /// <returns></returns>
-        UploadModuleResult Upload(string moduleName, Stream moduleStream, string user);       
+        UploadModuleResult Upload(string moduleName, Stream moduleStream, string user);
+
+        /// <summary>
+        /// Copies the assemblies.
+        /// </summary>
+        /// <param name="moduleName">Name of the module.</param>
+        /// <param name="overrideFiles">if set to <c>true</c> [override files].</param>
+        void CopyAssemblies(string moduleName, bool @overrideFiles);
 
         /// <summary>
         /// 执行安装动作
@@ -36,8 +43,8 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         /// </summary>
         /// <param name="moduleName">Name of the module.</param>
         /// <param name="controllerContext">The controller context.</param>
-        /// <param name="overrideFiles">if set to <c>true</c> [override files].</param>
-        void RunInstallation(string moduleName, ControllerContext controllerContext, bool @overrideFiles, string user);
+        /// <param name="user">The user.</param>
+        void RunInstallation(string moduleName, ControllerContext controllerContext, string user);
 
         IPath GetTempInstallationPath(string moduleName);
 

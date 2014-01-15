@@ -20,6 +20,7 @@ using Kooboo.CMS.Account.Models;
 using Kooboo.Web.Mvc.Grid2.Design;
 using Kooboo.CMS.Web.Grid2;
 using System.Web.Mvc;
+using Kooboo.CMS.Web.Areas.Account.Models.DataSources;
 namespace Kooboo.CMS.Web.Areas.Account.Models
 {
 
@@ -47,6 +48,8 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
         [Description("The culture represents the current culture used by the Resource Manager to look up culture-specific resources at run time.")]
         public string UICulture { get; set; }
 
+        [GridColumn(HeaderText = "Global roles", Order = 6)]     
+        public string GlobalRoles { get; set; }
     }
 
     public class PasswordModel

@@ -41,12 +41,14 @@ namespace Kooboo.CMS.Content.Services
     public abstract class FolderManager<T> : ManagerBase<T, IFolderProvider<T>>
         where T : Folder
     {
-
+        #region .ctor
         public FolderManager(IFolderProvider<T> provider)
             : base(provider)
         {
         }
+        #endregion
 
+        #region Get
         /// <summary>
         /// Gets the specified repository.
         /// </summary>
@@ -57,7 +59,9 @@ namespace Kooboo.CMS.Content.Services
         {
             return FolderHelper.Parse<T>(repository, fullName).AsActual();
         }
+        #endregion
 
+        #region All
         /// <summary>
         /// Alls the specified repository.
         /// </summary>
@@ -92,6 +96,31 @@ namespace Kooboo.CMS.Content.Services
 
             return r;
         }
+        #endregion
+
+        #region AllFoldersFlattened
+        public virtual IEnumerable<T> AllFoldersFlattened(Repository repository)
+        {
+            List<T> folders = new List<T>();
+
+            foreach (var item in Provider.All(repository))
+            {
+                AggregateFolderRecurisively(item, ref folders);
+            }
+
+            return folders;
+        }
+        private void AggregateFolderRecurisively(T folder, ref List<T> list)
+        {
+            list.Add(folder);
+            foreach (var item in Provider.ChildFolders(folder))
+            {
+                AggregateFolderRecurisively(item, ref list);
+            }
+        }
+        #endregion
+
+        #region ChildFolders
         /// <summary>
         /// Childs the folders.
         /// </summary>
@@ -117,7 +146,9 @@ namespace Kooboo.CMS.Content.Services
             }
             return r;
         }
+        #endregion
 
+        #region Import/Export
         /// <summary>
         /// Imports the specified repository.
         /// </summary>
@@ -143,7 +174,9 @@ namespace Kooboo.CMS.Content.Services
             }
             Provider.Export(repository, model, stream);
         }
+        #endregion
 
+        #region FolderTree
         public virtual IEnumerable<FolderTreeNode<T>> FolderTrees(Repository repository)
         {
             return All(repository, "").Where(it => ((TextFolder)(object)it).AsActual().Visible).Select(it => GetFolderTreeNode(it));
@@ -156,5 +189,6 @@ namespace Kooboo.CMS.Content.Services
                 .Select(it => GetFolderTreeNode(it));
             return treeNode;
         }
+        #endregion
     }
 }

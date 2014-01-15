@@ -21,6 +21,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
     using Kooboo.IO;
     using System.IO;
     using System.Net;
+    using System.Text.RegularExpressions;
 
     public interface IHttpProcessor
     {
@@ -108,10 +109,19 @@ namespace Kooboo.CMS.Sites.View.WebProxy
         {
             foreach (var key in httpWebResponse.Headers.AllKeys)
             {
-                if (ModifiableHeader(key))
+                if (key.ToUpper() == "SET-COOKIE")
                 {
-                    httpContext.Response.AddHeader(key, httpWebResponse.Headers[key]);
+                    var value = Regex.Replace(httpWebResponse.Headers[key], "domain=[^;]*;", "", RegexOptions.IgnoreCase);
+                    httpContext.Response.AddHeader(key, value);
                 }
+                else
+                {
+                    if (ModifiableHeader(key))
+                    {
+                        httpContext.Response.AddHeader(key, httpWebResponse.Headers[key]);
+                    }
+                }
+
             }
         }
         protected virtual bool ModifiableHeader(string headerName)
@@ -126,6 +136,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 case "CONTENT-LENGTH":
                 case "CONTENT-TYPE":
                 case "IF-MODIFIED-SINCE":
+                case "TRANSFER-ENCODING":
                     return false;
                 default:
                     return true;

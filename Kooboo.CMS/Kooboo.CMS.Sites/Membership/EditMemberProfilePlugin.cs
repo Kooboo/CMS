@@ -92,6 +92,12 @@ namespace Kooboo.CMS.Sites.Membership
 
             if (valid)
             {
+                redirectUrl = editMemberModel.RedirectUrl;
+                if (!string.IsNullOrEmpty(redirectUrl))
+                {
+                    redirectUrl = MemberPluginHelper.ResolveSiteUrl(controllerContext, redirectUrl);
+                }
+
                 try
                 {
                     _manager.EditMemberProfile(membership, memberAuth.GetMember().Identity.Name, editMemberModel.Email, editMemberModel.Culture,

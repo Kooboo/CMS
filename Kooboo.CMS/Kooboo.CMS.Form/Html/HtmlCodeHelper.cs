@@ -71,9 +71,8 @@ namespace Kooboo.CMS.Form.Html
                     }
 
                     return new AggregateHtmlString(htmlStrings);
-
                 }
-                return new HtmlString(System.Web.HttpUtility.HtmlEncode(s.Trim()));
+                return new HtmlString(Kooboo.StringExtensions.StripAllTags(s.Trim()));
 
             }
             else

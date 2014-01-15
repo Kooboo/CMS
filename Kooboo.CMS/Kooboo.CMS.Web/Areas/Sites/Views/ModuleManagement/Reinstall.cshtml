@@ -131,6 +131,8 @@
                                         <th>@("Assembly file".Localize())</th>
                                         <th>@("System version".Localize())</th>
                                         <th>@("Module version".Localize())</th>
+                                        <th>@("Is system assembly".Localize())</th>
+
                                     </tr>
                                 </thead>
 
@@ -141,6 +143,7 @@
                                             <td>@item.ReferenceData.AssemblyName</td>
                                             <td>@item.ReferenceData.Version</td>
                                             <td>@item.ConflictedVersion</td>
+                                            <td>@Kooboo.CMS.Web.Misc.RenderHelper.RenderBool(@item.ReferenceData.IsSystemAssembly)</td>
                                         </tr>
                                     }
                                 </tbody>

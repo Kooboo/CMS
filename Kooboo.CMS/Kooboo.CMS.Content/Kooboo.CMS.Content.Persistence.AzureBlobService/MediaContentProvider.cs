@@ -19,6 +19,8 @@ using Kooboo.CMS.Content.Query.Expressions;
 using System.Linq.Expressions;
 using Kooboo.CMS.Content.Query;
 using System.IO;
+using Kooboo.CMS.Content.Query.Translator;
+using Kooboo.Web.Url;
 
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
@@ -26,7 +28,6 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 
     public class QueryExpressionTranslator : Kooboo.CMS.Content.Query.Translator.ExpressionVisitor
     {
-
         public CallType CallType { get; set; }
         private int? Skip { get; set; }
         private int? Take { get; set; }
@@ -43,7 +44,11 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 
             if (!string.IsNullOrEmpty(fileName))
             {
-                var blob = blobClient.GetBlobReference(mediaFolder.GetMediaFolderItemPath(fileName));
+                var blob = blobClient.GetBlockBlobReference(mediaFolder.GetMediaFolderItemPath(fileName));
+                if (!blob.Exists())
+                {
+                    return new CloudBlob[] { };
+                }
                 blob.FetchAttributes();
                 return new[] { blob };
             }
@@ -120,6 +125,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                 prefix = value.ToString();
             }
         }
+
         protected override void VisitWhereContains(Query.Expressions.WhereContainsExpression expression)
         {
             WhereStartWith(expression.FieldName, expression.Value);
@@ -195,7 +201,8 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 
         protected override void VisitOrder(Query.Expressions.OrderExpression expression)
         {
-            ThrowNotSupported();
+            OrderFields.Add(new OrderField() { FieldName = expression.FieldName, Descending = expression.Descending });
+            //ThrowNotSupported();
         }
 
         protected override void VisitWhereBetweenOrEqual(Query.Expressions.WhereBetweenOrEqualExpression expression)
@@ -284,11 +291,54 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         {
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
 
-            var oldContentBlob = blobClient.GetBlobReference(oldMediaContent.GetMediaBlobPath());
-            var newContentBlob = blobClient.GetBlobReference(newMediaContent.GetMediaBlobPath());
-            newContentBlob.CopyFromBlob(oldContentBlob);
+            var oldContentBlob = blobClient.GetBlockBlobReference(oldMediaContent.GetMediaBlobPath());
+            var newContentBlob = blobClient.GetBlockBlobReference(newMediaContent.GetMediaBlobPath());
+            if (oldContentBlob.Exists() && !newContentBlob.Exists())
+            {
+                try
+                {
+                    newContentBlob.CopyFromBlob(oldContentBlob);
+                }
+                catch (Exception e)
+                {
+                    using (Stream stream = new MemoryStream())
+                    {
+                        oldContentBlob.DownloadToStream(stream);
+                        stream.Position = 0;
+                        newContentBlob.UploadFromStream(stream);
+                        stream.Dispose();
+                    }
+                }
+                newContentBlob.Metadata["FileName"] = StorageNamesEncoder.EncodeBlobName(newMediaContent.FileName);
+                if (!string.IsNullOrEmpty(oldContentBlob.Metadata["UserId"]))
+                {
+                    newContentBlob.Metadata["UserId"] = oldContentBlob.Metadata["UserId"];
+                }
+                if (!string.IsNullOrEmpty(oldContentBlob.Metadata["Published"]))
+                {
+                    newContentBlob.Metadata["Published"] = oldContentBlob.Metadata["Published"];
+                }
+                if (!string.IsNullOrEmpty(oldContentBlob.Metadata["Size"]))
+                {
+                    newContentBlob.Metadata["Size"] = oldContentBlob.Metadata["Size"];
+                }
+                if (oldContentBlob.Metadata.AllKeys.Contains("AlternateText"))
+                {
+                    newContentBlob.Metadata["AlternateText"] = oldContentBlob.Metadata["AlternateText"];
+                }
+                if (oldContentBlob.Metadata.AllKeys.Contains("Description"))
+                {
+                    newContentBlob.Metadata["Description"] = oldContentBlob.Metadata["Description"];
+                }
+                if (oldContentBlob.Metadata.AllKeys.Contains("Title"))
+                {
+                    newContentBlob.Metadata["Title"] = oldContentBlob.Metadata["Title"];
+                }
 
-            oldContentBlob.DeleteIfExists();
+                newContentBlob.SetMetadata();
+                oldContentBlob.DeleteIfExists();
+            }
+
         }
 
         public void Add(MediaContent content)
@@ -307,7 +357,6 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             var contentBlob = blobClient.GetBlobReference(@new.GetMediaBlobPath());
 
             contentBlob = @new.MediaContentToBlob(contentBlob);
-
             contentBlob.SetMetadata();
 
             @new.VirtualPath = contentBlob.Uri.ToString();
@@ -348,6 +397,18 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             var blobs = translator.Translate(query.Expression, blobClient, mediaQuery.MediaFolder)
                 .Where(it => it != null)
                 .Select(it => it.BlobToMediaContent(new MediaContent(mediaQuery.Repository.Name, mediaQuery.MediaFolder.FullName)));
+
+            foreach (var item in translator.OrderFields)
+            {
+                if (item.Descending)
+                {
+                    blobs = blobs.OrderByDescending(it => it.GetType().GetProperty(item.FieldName).GetValue(it,null));
+                }
+                else
+                {
+                    blobs = blobs.OrderBy(it => it.GetType().GetProperty(item.FieldName).GetValue(it,null));
+                }
+            }
             //translator.Visite(query.Expression);
 
             switch (translator.CallType)
@@ -380,6 +441,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                 ImportMediaFolderDataCascading(fileMediaFolderProvider.Get(item));
             }
         }
+
         private void ImportMediaFolderDataCascading(MediaFolder mediaFolder)
         {
             Kooboo.CMS.Content.Persistence.Default.MediaContentProvider fileProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Content.Persistence.Default.MediaContentProvider>();
@@ -401,6 +463,45 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             foreach (var item in fileMediaFolderProvider.ChildFolders(mediaFolder))
             {
                 ImportMediaFolderDataCascading(item);
+            }
+        }
+
+        public Stream GetContentStream(MediaContent content)
+        {
+            var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
+            var path=string.Empty;
+            if(string.IsNullOrEmpty(content.GetRepository().Name))
+            {
+                path = content.VirtualPath.Substring(AzureBlobServiceSettings.Instance.Endpoint.Length);
+                //path = UrlUtility.Combine(path.Split('/').Select(it => StorageNamesEncoder.EncodeBlobName(it)).ToArray());
+            }
+            else
+            {
+                path = content.GetMediaBlobPath();
+            }
+            var contentBlob =  blobClient.GetBlobReference(path);
+
+            var stream = new MemoryStream();
+            if (contentBlob.Exists())
+            {
+                contentBlob.DownloadToStream(stream);
+            }
+            stream.Position = 0;
+            return stream;
+        }
+
+        public void SaveContentStream(MediaContent content, Stream stream)
+        {
+            if (stream.Length == 0)
+            {
+                return;
+            }
+            var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
+            var contentBlob = blobClient.GetBlobReference(content.GetMediaBlobPath());
+
+            if (contentBlob.Exists())
+            {
+                contentBlob.UploadFromStream(stream);
             }
         }
     }

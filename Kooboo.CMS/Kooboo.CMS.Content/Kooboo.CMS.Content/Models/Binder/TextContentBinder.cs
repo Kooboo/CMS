@@ -79,21 +79,8 @@ namespace Kooboo.CMS.Content.Models.Binder
                     continue;
                 }
                 //postedData[column.Name] = value;
-                if (string.IsNullOrEmpty(value))
-                {
-                    if (column.AllowNull)
-                    {
-                        textContent[column.Name] = null;
-                    }
-                    else
-                    {
-                        violations.Add(new RuleViolation(column.Name, null, string.Format("The field {0} cannot be null or empty.", column.Name)));
-                    }
-                }
-                else
-                {
-                    ParseColumnValue(textContent, ref violations, column, value);
-                }
+
+                ParseColumnValue(textContent, ref violations, column, value);
 
                 ValidateColumn(schema, textContent, ref violations, column, update);
             }
@@ -256,90 +243,94 @@ namespace Kooboo.CMS.Content.Models.Binder
 
         private static void ValidateColumn(Schema schema, TextContent textContent, ref List<RuleViolation> violations, Column column, bool update = false)
         {
-            if (column.Validations != null)
+            var controlType = Kooboo.CMS.Form.Html.ControlHelper.Resolve(column.ControlType);
+            if (controlType.IsFile == true)//ignore the file control type validations.
             {
-                foreach (var validation in column.Validations)
+                return;
+            }
+            var validations = column.GetValidations();
+            foreach (var validation in validations)
+            {
+                switch (validation.ValidationType)
                 {
-                    switch (validation.ValidationType)
-                    {
-                        case ValidationType.Required:
-                            if (textContent[column.Name] == null || string.IsNullOrEmpty(textContent[column.Name].ToString()))
-                            {
-                                violations.Add(new RuleViolation(column.Name, null, string.Format(validation.ErrorMessage, column.Name)));
-                            }
-                            break;
-                        case ValidationType.Unique:
-                            var value = textContent[column.Name];
+                    case ValidationType.Required:
+                        if (textContent[column.Name] == null || string.IsNullOrEmpty(textContent[column.Name].ToString()))
+                        {
+                            violations.Add(new RuleViolation(column.Name, null, string.Format(validation.ErrorMessage, column.Name)));
+                        }
+                        break;
+                    case ValidationType.Unique:
+                        var value = textContent[column.Name];
 
-                            int hasitems = 0;
-                            if ((value == null) || string.IsNullOrEmpty(value.ToString()))
-                                hasitems = 1;
+                        int hasitems = 0;
+                        if ((value == null) || string.IsNullOrEmpty(value.ToString()))
+                            hasitems = 1;
+                        else
+                        {
+                            //判断数据是否已经存在
+                            if (update == true)
+                            {
+                                hasitems = schema.CreateQuery().WhereEquals(column.Name, value)
+                                                               .WhereNotEquals(Column.UUID.Name, textContent[Column.UUID.Name]).Count();
+                            }
                             else
                             {
-                                //判断数据是否已经存在
-                                if (update == true)
-                                {
-                                    hasitems = schema.CreateQuery().WhereEquals(column.Name, value)
-                                                                   .WhereNotEquals(Column.UUID.Name, textContent[Column.UUID.Name]).Count();
-                                }
-                                else
-                                {
-                                    hasitems = schema.CreateQuery().WhereEquals(column.Name, value).Count();
-                                }
+                                hasitems = schema.CreateQuery().WhereEquals(column.Name, value).Count();
                             }
-                            if (hasitems > 0)
-                                violations.Add(new RuleViolation(column.Name, null, string.Format(validation.ErrorMessage, column.Name)));
-                            break;
-                        case ValidationType.StringLength:
-                            var stringLength = (StringLengthValidation)validation;
-                            if (column.DataType == DataType.String && textContent[column.Name] != null)
+                        }
+                        if (hasitems > 0)
+                            violations.Add(new RuleViolation(column.Name, null, string.Format(validation.ErrorMessage, column.Name)));
+                        break;
+                    case ValidationType.StringLength:
+                        var stringLength = (StringLengthValidation)validation;
+                        if (column.DataType == DataType.String && textContent[column.Name] != null)
+                        {
+                            var length = textContent[column.Name].ToString().Length;
+                            if (length < stringLength.Min || length > stringLength.Max)
                             {
-                                var length = textContent[column.Name].ToString().Length;
-                                if (length < stringLength.Min || length > stringLength.Max)
+                                violations.Add(new RuleViolation(column.Name, null, string.Format(validation.ErrorMessage, column.Name)));
+                            }
+
+                        }
+                        break;
+                    case ValidationType.Range:
+                        var rangeValidation = (RangeValidation)validation;
+                        if (textContent.ContainsKey(column.Name) && textContent[column.Name] != null)
+                        {
+                            if ((column.DataType == DataType.Int || column.DataType == DataType.Decimal))
+                            {
+                                decimal decimalValue = Convert.ToDecimal(textContent[column.Name]);
+
+                                decimal start = Convert.ToDecimal(rangeValidation.Start);
+                                decimal end = Convert.ToDecimal(rangeValidation.End);
+
+                                if (start > decimalValue || end < decimalValue)
                                 {
                                     violations.Add(new RuleViolation(column.Name, null, string.Format(validation.ErrorMessage, column.Name)));
                                 }
 
                             }
-                            break;
-                        case ValidationType.Range:
-                            var rangeValidation = (RangeValidation)validation;
-                            if (textContent.ContainsKey(column.Name) && textContent[column.Name] != null)
+                        }
+                        break;
+                    case ValidationType.Regex:
+                        var regexValidation = (RegexValidation)validation;
+                        if (textContent.ContainsKey(column.Name) && textContent[column.Name] != null)
+                        {
+                            string pattern = regexValidation.Pattern;
+                            if (!string.IsNullOrEmpty(pattern))
                             {
-                                if ((column.DataType == DataType.Int || column.DataType == DataType.Decimal))
+                                if (!Regex.IsMatch(textContent[column.Name].ToString(), pattern))
                                 {
-                                    decimal decimalValue = Convert.ToDecimal(textContent[column.Name]);
-
-                                    decimal start = Convert.ToDecimal(rangeValidation.Start);
-                                    decimal end = Convert.ToDecimal(rangeValidation.End);
-
-                                    if (start > decimalValue || end < decimalValue)
-                                    {
-                                        violations.Add(new RuleViolation(column.Name, null, string.Format(validation.ErrorMessage, column.Name)));
-                                    }
-
+                                    violations.Add(new RuleViolation(column.Name, null, string.Format(validation.ErrorMessage, column.Name)));
                                 }
                             }
-                            break;
-                        case ValidationType.Regex:
-                            var regexValidation = (RegexValidation)validation;
-                            if (textContent.ContainsKey(column.Name) && textContent[column.Name] != null)
-                            {
-                                string pattern = regexValidation.Pattern;
-                                if (!string.IsNullOrEmpty(pattern))
-                                {
-                                    if (!Regex.IsMatch(textContent[column.Name].ToString(), pattern))
-                                    {
-                                        violations.Add(new RuleViolation(column.Name, null, string.Format(validation.ErrorMessage, column.Name)));
-                                    }
-                                }
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
+
         }
 
         #endregion

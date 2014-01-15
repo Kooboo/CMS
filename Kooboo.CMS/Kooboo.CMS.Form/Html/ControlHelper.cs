@@ -75,7 +75,7 @@ namespace Kooboo.CMS.Form.Html
         public static IControl Resolve(string controlType)
         {
             IControl control = null;
-            if (controls.ContainsKey(controlType))
+            if (!string.IsNullOrEmpty(controlType) && controls.ContainsKey(controlType))
             {
                 control = controls[controlType];
             }

@@ -16,7 +16,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
-
+using Kooboo.Globalization;
 namespace Kooboo.CMS.Content.Models
 {
     /// <summary>
@@ -273,6 +273,19 @@ namespace Kooboo.CMS.Content.Models
                 }
 
             }
+        }
+        #endregion
+
+        #region GetValidations
+        public IEnumerable<ColumnValidation> GetValidations()
+        {
+            List<ColumnValidation> validations = new List<ColumnValidation>();
+            if (this.AllowNull == false)
+            {
+                validations.Add(new RequiredValidation() { ErrorMessage = "The field {0} cannot be null or empty.".Localize() });
+            }
+            validations.AddRange(this.Validations);
+            return validations;
         }
         #endregion
 

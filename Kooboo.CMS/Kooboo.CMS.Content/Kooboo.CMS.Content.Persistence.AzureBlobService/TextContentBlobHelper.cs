@@ -24,14 +24,14 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         public static string GetTextContentDirectoryPath(this TextContent textContent)
         {
             var textFolder = textContent.GetFolder();
-            return UrlUtility.Combine(new string[] { textFolder.Repository.Name.ToLower(), TextContentFileDirectoryName }
-               .Concat(textFolder.NamePaths)
-               .Concat(new[] { textContent.UUID })
+            return UrlUtility.Combine(new string[] { StorageNamesEncoder.EncodeContainerName(textFolder.Repository.Name), TextContentFileDirectoryName }
+               .Concat(textFolder.NamePaths.Select(it=>StorageNamesEncoder.EncodeBlobName(it)))
+               .Concat(new[] { StorageNamesEncoder.EncodeBlobName(textContent.UUID) })
                .ToArray());
         }
         public static string GetTextContentFilePath(this TextContent textContent, ContentFile contentFile)
         {
-            return UrlUtility.Combine(GetTextContentDirectoryPath(textContent), contentFile.FileName);
+            return UrlUtility.Combine(GetTextContentDirectoryPath(textContent), StorageNamesEncoder.EncodeBlobName(contentFile.FileName));
         }
     }
 }

@@ -56,6 +56,8 @@
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
     <Compile Include="AssemblyInitializer.cs" />
+    <Compile Include="StorageNamesEncoder.cs" />
+    <Compile Include="CloudBlobExtension.cs" />
     <Compile Include="DependencyRegistrar.cs" />
     <Compile Include="TextContentBlobHelper.cs" />
     <Compile Include="MediaBlobHelper.cs" />

@@ -26,6 +26,7 @@
             @Html.EditorFor(m => m.Password, new { HtmlAttributes = new { @class = "medium", autocomplete = "off" } })
             @Html.EditorFor(m => m.ConfirmPassword, new { HtmlAttributes = new { @class = "medium" } })
             @Html.EditorFor(m => m.UICulture, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.GlobalRoles, new { HtmlAttributes = new { @class = "medium" } })
             @Html.EditorFor(m => m.IsAdministrator)
         </table>
     }

@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Account.Persistence.FileSystem
         {
             if (Directory.Exists(GetBasePath()))
             {
-                foreach (var filePath in Directory.EnumerateFiles(GetBasePath()))
+                foreach (var filePath in Directory.EnumerateFiles(GetBasePath(), "*.config"))
                 {
                     //string fileName = Path.GetFileNameWithoutExtension(filePath);
                     yield return CreateObject(filePath);

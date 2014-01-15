@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using System.Web;
 using HtmlAgilityPack;
 using Kooboo.CMS.Common.Runtime.Dependency;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Kooboo.CMS.Sites.View.WebProxy
 {
@@ -24,67 +26,97 @@ namespace Kooboo.CMS.Sites.View.WebProxy
     [Dependency(typeof(IProxyHtmlFixer))]
     public class ProxyHtmlFixer : IProxyHtmlFixer
     {
+        private Regex bodyRegex = new Regex("<body[^>]*>(.*?)<\\/body>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
         #region Fix
-        public IHtmlString Fix(string baseUri, string html, Func<string, bool, string> proxyUrlFunc)
+        public IHtmlString Fix(string baseUri, string rawHtml, Func<string, bool, string> proxyUrlFunc)
         {
             HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(html);
+            htmlDoc.LoadHtml(rawHtml);
 
-            UpdateUrl(htmlDoc, baseUri, proxyUrlFunc);
+            HtmlNode headNode = null;
+            HtmlNode bodyNode = null;
 
-            var bodyNode = GetBodyNode(htmlDoc);
+            foreach (var node in htmlDoc.DocumentNode.Descendants())
+            {
+                var nodeName = node.Name.ToLower();
+                var elementName = node.Attributes["name"] == null ? "" : node.Attributes["name"].Value.ToLower();
+                if (elementName == "__viewstate") { continue; }
+                if (elementName == "__eventvalidation") { continue; }
+                if (nodeName == "head")
+                {
+                    headNode = node;
+                }
+                if (nodeName == "body")
+                {
+                    bodyNode = node;
+                }
+                foreach (var attr in node.Attributes)
+                {
+                    if (IsW3CUrlAttribute(attr.Name.ToLower()) || attr.Value.StartsWith("/"))
+                    {
+                        var isStaticResource = IsStaticResource(node, attr);
+                        if (isStaticResource)
+                        {
+                            attr.Value = GenerateAbsoluteUrl(baseUri, attr.Value);
+                        }
+                        else
+                        {
+                            var isForm = node.Name.ToLower() == "form";
+                            attr.Value = proxyUrlFunc(attr.Value, isForm);
+                        }
+                    }
+                }
+            }
+            string newHtml = "";
+            if (bodyNode == null)
+            {
+                newHtml = htmlDoc.DocumentNode.InnerHtml;
+            }
+            else
+            {
+                if (headNode != null)
+                {
+                    newHtml = headNode.InnerHtml;
+                }
+                newHtml = newHtml + bodyNode.InnerHtml;
+            }
 
-
-            return new HtmlString(bodyNode.InnerHtml);
+            return new HtmlString(newHtml);
         }
         #endregion
 
         #region GetBodyNode
-        protected virtual HtmlNode GetBodyNode(HtmlDocument htmlDoc)
+        protected virtual string GetBodyNode(string html)
         {
-            var bodyNode = htmlDoc.CreateElement("body");
-
-            var headNode = htmlDoc.DocumentNode.SelectSingleNode("//head");
-
-            if (headNode != null)
+            var body = bodyRegex.Match(html);
+            if (body == null)
             {
-                var linkNodes = headNode.SelectNodes("//link[@href] | //script[@src]");
-                bodyNode.AppendChildren(linkNodes);
-            }
-
-            var rawBodyNode = htmlDoc.DocumentNode.SelectSingleNode("//body");
-            if (rawBodyNode == null)
-            {
-                bodyNode.AppendChild(htmlDoc.DocumentNode);
+                return html;
             }
             else
             {
-                bodyNode.AppendChildren(rawBodyNode.ChildNodes);
+                return body.Groups[1].Value;
             }
-            return bodyNode;
         }
         #endregion
 
         #region UpdateUrl
-
-        protected virtual void UpdateUrl(HtmlDocument htmlDoc, string baseUri, Func<string, bool, string> proxyUrlFunc)
+        private bool IsStaticResource(HtmlNode node, HtmlAttribute attr)
         {
-            var anchors_forms = htmlDoc.DocumentNode.SelectNodes("//a[@href] | //form[@action]");
-
-            var links_scripts_images = htmlDoc.DocumentNode.SelectNodes("//link[@href] | //script[@src] | //img[@src]");
-
-            if (proxyUrlFunc == null)
+            var nodeName = node.Name.ToLower();
+            if (nodeName == "link" || nodeName == "script" || nodeName == "img")
             {
-                UpdateNodesUrl(anchors_forms, (url, isForm) => GenerateAbsoluteUrl(baseUri, url));
+                return true;
             }
-            else
+            var extension = Path.GetExtension(attr.Value).ToLower();
+
+            if (extension == ".js" || extension == ".css" || extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".ico" || extension == ".gif")
             {
-                UpdateNodesUrl(anchors_forms, (url, isForm) => proxyUrlFunc(url, isForm));
+                return true;
             }
 
-            UpdateNodesUrl(links_scripts_images, (url, isForm) => GenerateAbsoluteUrl(baseUri, url));
+            return false;
         }
-
         private static string GenerateAbsoluteUrl(string baseUri, string url)
         {
             if (string.IsNullOrEmpty(url))
@@ -113,7 +145,10 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 }
             }
         }
-
+        private bool IsW3CUrlAttribute(string attrName)
+        {
+            return attrName == "href" || attrName == "action" || attrName == "src";
+        }
 
         private string GetUrl(HtmlNode htmlNode)
         {

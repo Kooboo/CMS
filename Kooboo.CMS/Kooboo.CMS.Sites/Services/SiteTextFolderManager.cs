@@ -20,23 +20,27 @@ using System.Text;
 namespace Kooboo.CMS.Sites.Services
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(Kooboo.CMS.Content.Services.TextFolderManager), Order = 2)]
-    public class TextFolderManager : Kooboo.CMS.Content.Services.TextFolderManager
+    public class SiteTextFolderManager : Kooboo.CMS.Content.Services.TextFolderManager
     {
+        #region .ctor
         ViewManager _viewManager;
         PageManager _pageManager;
-        public TextFolderManager(ITextFolderProvider provider, ViewManager viewManager, PageManager pageManager)
+        public SiteTextFolderManager(ITextFolderProvider provider, ViewManager viewManager, PageManager pageManager)
             : base(provider)
         {
             this._viewManager = viewManager;
             this._pageManager = pageManager;
         }
+        #endregion
+
+        #region Relation
         public override IEnumerable<RelationModel> Relations(TextFolder textFolder)
         {
             var relations = base.Relations(textFolder);
             var site = Site.Current;
             if (site != null)
             {
-                var viewDataRules = _viewManager.All(site, null).Select(it=>it.AsActual()).Where(it => it.DataRules != null)
+                var viewDataRules = _viewManager.All(site, null).Select(it => it.AsActual()).Where(it => it.DataRules != null)
                 .SelectMany(it => FindDataRuleRelations("View:" + it.Name, it.DataRules, textFolder));
 
                 var pageDataRules = _pageManager.AllPagesFlattened(site).Select(it => it.AsActual()).Where(it => it.DataRules != null)
@@ -69,5 +73,6 @@ namespace Kooboo.CMS.Sites.Services
             }
             return relations;
         }
+        #endregion
     }
 }

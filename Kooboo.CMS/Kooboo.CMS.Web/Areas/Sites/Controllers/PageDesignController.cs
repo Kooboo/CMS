@@ -63,7 +63,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
 
             // new context
-            var requestContext = new PageRequestContext(this.ControllerContext, Site, page, CMS.Sites.Web.FrontRequestChannel.Design, string.Empty);
+            var requestContext = new PageRequestContext(this.ControllerContext, Site, page, CMS.Sites.Web.FrontRequestChannel.Design, "/");
 
             // init context
             Page_Context.Current.InitContext(requestContext, ControllerContext);

@@ -25,18 +25,19 @@ namespace Kooboo.CMS.Sites.View.WebProxy
 
     public interface IHttpProcessor
     {
-        string ProcessRequest(HttpContextBase httpContext, string url, string httpMethod);
+        string ProcessRequest(HttpContextBase httpContext, string url, string httpMethod, Func<string, bool, string> proxyUrlFunc);
     }
     [Dependency(typeof(IHttpProcessor))]
     public class HttpProcessor : IHttpProcessor
     {
-        public virtual string ProcessRequest(HttpContextBase httpContext, string url, string httpMethod)
+        public virtual string ProcessRequest(HttpContextBase httpContext, string url, string httpMethod, Func<string, bool, string> proxyUrlFunc)
         {
             var httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
 
             httpWebRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
             FillHttpRequest(httpWebRequest, httpContext, url);
             httpWebRequest.Method = httpMethod;
+            httpWebRequest.AllowAutoRedirect = false;
             if (httpMethod.ToUpper() == "POST")
             {
                 var requestStream = httpWebRequest.GetRequestStream();
@@ -44,26 +45,52 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 requestStream.Write(data, 0, data.Length);
                 requestStream.Close();
             }
-
-
             var webResponse = httpWebRequest.GetResponse();
-
-            return ProcessWebResponse(webResponse, httpContext);
+            CombineHttpHeaders(httpWebRequest, webResponse, httpContext);
+            return ProcessWebResponse(webResponse, httpContext, proxyUrlFunc);
 
         }
-        protected virtual string ProcessWebResponse(WebResponse webResponse, HttpContextBase httpContext)
+        protected virtual void CombineHttpHeaders(HttpWebRequest httpWebRequest,
+          WebResponse webResponse, HttpContextBase httpContext)
+        {
+            foreach (var key in webResponse.Headers.AllKeys)
+            {
+                if (key.ToUpper() == "SET-COOKIE")
+                {
+                    var value = Regex.Replace(webResponse.Headers[key], "domain=[^;]*;", "", RegexOptions.IgnoreCase);
+                    httpContext.Response.AddHeader(key, value);
+                }
+                else
+                {
+                    if (ModifiableHeader(key))
+                    {
+                        httpContext.Response.AddHeader(key, webResponse.Headers[key]);
+                    }
+                }
+            }          
+        }
+        protected virtual string ProcessWebResponse(WebResponse webResponse, HttpContextBase httpContext, Func<string, bool, string> proxyUrlFunc)
         {
             string result = "";
             if (webResponse is HttpWebResponse)
             {
-                result = ProcessHttpWebResponse((HttpWebResponse)webResponse, httpContext);
-            }
+                var httpWebResponse = (HttpWebResponse)webResponse;
+                if (httpWebResponse.StatusCode == HttpStatusCode.Redirect || httpWebResponse.StatusCode == HttpStatusCode.MovedPermanently)
+                {
+                    string newUrl = httpWebResponse.Headers["Location"];
+                    var proxyUrl = proxyUrlFunc(newUrl, false);
 
+                    httpContext.Response.Redirect(proxyUrl);
+                }
+                else
+                {
+                    result = ProcessHttpWebResponse(httpWebResponse, httpContext);
+                }
+            }
             return result;
         }
         protected virtual string ProcessHttpWebResponse(HttpWebResponse httpWebResponse, HttpContextBase httpContext)
         {
-            CombineHttpHeaders(httpWebResponse, httpContext);
             using (var responseStream = httpWebResponse.GetResponseStream())
             {
                 var contentType = httpWebResponse.Headers["content-type"];
@@ -105,25 +132,6 @@ namespace Kooboo.CMS.Sites.View.WebProxy
             }
         }
 
-        protected virtual void CombineHttpHeaders(HttpWebResponse httpWebResponse, HttpContextBase httpContext)
-        {
-            foreach (var key in httpWebResponse.Headers.AllKeys)
-            {
-                if (key.ToUpper() == "SET-COOKIE")
-                {
-                    var value = Regex.Replace(httpWebResponse.Headers[key], "domain=[^;]*;", "", RegexOptions.IgnoreCase);
-                    httpContext.Response.AddHeader(key, value);
-                }
-                else
-                {
-                    if (ModifiableHeader(key))
-                    {
-                        httpContext.Response.AddHeader(key, httpWebResponse.Headers[key]);
-                    }
-                }
-
-            }
-        }
         protected virtual bool ModifiableHeader(string headerName)
         {
             switch (headerName.ToUpper())
@@ -137,6 +145,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 case "CONTENT-TYPE":
                 case "IF-MODIFIED-SINCE":
                 case "TRANSFER-ENCODING":
+                //case "COOKIE":
                     return false;
                 default:
                     return true;

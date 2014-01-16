@@ -16,6 +16,7 @@ using HtmlAgilityPack;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using System.Text.RegularExpressions;
 using System.IO;
+using Kooboo.CMS.Sites.Models;
 
 namespace Kooboo.CMS.Sites.View.WebProxy
 {
@@ -81,10 +82,30 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 newHtml = newHtml + bodyNode.InnerHtml;
             }
 
-            return new HtmlString(newHtml);
+            string injectScript = "";
+            if (Page_Context.Current.Initialized)
+            {
+                injectScript = InjectScript(Page_Context.Current.PageRequestContext.Site, Page_Context.Current.PageRequestContext.Page);
+            }
+            return new HtmlString(newHtml + injectScript);
         }
         #endregion
 
+        private string InjectScript(Site site, Page page)
+        {
+            string query = string.Format("hasRemoteProxy=true&cms_siteName={0}&cms_pageName={1}", site.FullName, page.FullName);
+            return string.Format(@"<script>(function (open){{
+        XMLHttpRequest.prototype.open = function (method, url, async, user, pass){{
+            if (url.indexOf('?') == -1) {{
+                url = url + '?{0}';
+            }}
+            else {{
+                url = url + '&{0}';
+            }}
+            open.call(this, method, url, async, user, pass);
+        }};
+    }})(XMLHttpRequest.prototype.open);</script>", query);
+        }
         #region GetBodyNode
         protected virtual string GetBodyNode(string html)
         {

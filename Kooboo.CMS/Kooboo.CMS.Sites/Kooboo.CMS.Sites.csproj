@@ -183,6 +183,9 @@
     <Compile Include="Services\PageCachingManager.cs" />
     <Compile Include="Services\SubmissionSettingManager.cs" />
     <Compile Include="Services\SiteTextFolderManager.cs" />
+    <Compile Include="View\PositionRender\RemoteRequestActionResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="View\SecurityHelper.cs" />
     <Compile Include="View\WebProxy\IHttpProcessor.cs" />
     <Compile Include="ABTest\ABPageTestMatchedObserver.cs" />

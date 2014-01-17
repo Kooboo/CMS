@@ -63,6 +63,8 @@ namespace Kooboo.CMS.Sites.Controllers
 
         protected override void OnException(ExceptionContext filterContext)
         {
+           
+
             HttpErrorStatusCode statusCode = HttpErrorStatusCode.InternalServerError_500;
             HttpException httpException = filterContext.Exception as HttpException;
 
@@ -80,7 +82,7 @@ namespace Kooboo.CMS.Sites.Controllers
                     filterContext.ExceptionHandled = true;
                 }
             }
-            if (filterContext.ExceptionHandled == false)
+            if (filterContext.ExceptionHandled==false)
             {
                 if (Site != null)
                 {
@@ -97,17 +99,18 @@ namespace Kooboo.CMS.Sites.Controllers
                         }
                     }
                 }
-            }
-            if (filterContext.ExceptionHandled == false)
-            {
-                if (statusCode == HttpErrorStatusCode.NotFound_404)
+                else
                 {
-                    filterContext.Result = RedirectTo404();
-                    filterContext.ExceptionHandled = true;
+                    if (statusCode == HttpErrorStatusCode.NotFound_404)
+                    {
+                        filterContext.Result = RedirectTo404();
+                        filterContext.ExceptionHandled = true;
+                    }
                 }
+                Kooboo.HealthMonitoring.Log.LogException(filterContext.Exception);
             }
+            
             base.OnException(filterContext);
-            Kooboo.HealthMonitoring.Log.LogException(filterContext.Exception);
         }
         protected virtual ActionResult RedirectTo404()
         {

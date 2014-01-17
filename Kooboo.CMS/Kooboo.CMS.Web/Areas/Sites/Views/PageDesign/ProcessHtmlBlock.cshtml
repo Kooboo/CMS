@@ -16,8 +16,8 @@
             {
                 <tr>
                     <td>
-                        <input type="radio" name="BlockName" value="@Html.Raw(item.Name)" />
-                        <label for="@Html.Raw(item.Name)">@Html.Raw(item.Name)</label>
+                        <input type="radio" name="BlockName" id="@Html.Raw(item.UUID)" value="@Html.Raw(item.Name)" />
+                        <label for="@Html.Raw(item.UUID)">@Html.Raw(item.Name)</label>
                     </td>
                 </tr>
             }

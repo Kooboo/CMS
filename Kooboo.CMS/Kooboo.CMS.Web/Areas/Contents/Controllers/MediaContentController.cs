@@ -633,11 +633,14 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
             {
-                var old = new MediaFolder(Repository, folderName);
+                var oldFolder = new MediaFolder(Repository, folderName);
                 var @new = new MediaFolder(Repository, folderName);
                 @new.Name = name;
 
-                FolderManager.Rename(@new, old);
+                if (oldFolder != @new)
+                {
+                    FolderManager.Rename(@new, oldFolder);                   
+                }
                 resultData.RedirectUrl = @return;
             });
 
@@ -646,9 +649,9 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         #endregion
 
         #region IsFolderNameAvailable
-        public virtual ActionResult IsFolderNameAvailable(string name, string folderName)
+        public virtual ActionResult IsFolderNameAvailable(string name, string folderName, string old)
         {
-            if (!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name) && !name.EqualsOrNullEmpty(old, StringComparison.OrdinalIgnoreCase))
             {
                 string fullName = name;
                 if (!string.IsNullOrEmpty(folderName))

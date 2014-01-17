@@ -125,6 +125,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                         m.Repository = Repository;
                         Provider.Remove(m);
                     }
+                    resultData.ReloadPage = true;
                 }
             });
 

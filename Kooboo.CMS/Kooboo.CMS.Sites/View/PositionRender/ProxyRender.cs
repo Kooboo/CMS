@@ -44,10 +44,10 @@ namespace Kooboo.CMS.Sites.View.PositionRender
             var defaultRequestPath = proxyPosition.RequestPath;
             if (!string.IsNullOrEmpty(remoteUrl))
             {
-                defaultRequestPath = remoteUrl.Trim('~');
+                defaultRequestPath = remoteUrl.Trim('~').Trim();
             }
             var httpMethod = controllerContext.HttpContext.Request.HttpMethod;
-            var defaultHost = proxyPosition.Host;
+            var defaultHost = proxyPosition.Host.Trim();
             if (!defaultHost.StartsWith("http://"))
             {
                 defaultHost = "http://" + defaultHost;

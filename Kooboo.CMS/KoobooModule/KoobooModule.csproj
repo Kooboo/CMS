@@ -956,7 +956,6 @@
     <Content Include="lib\Kooboo.CMS.Sites.TemplateEngines.Razor.dll" />
     <Content Include="lib\Kooboo.CMS.Web.dll" />
     <Content Include="lib\Kooboo.dll" />
-    <Content Include="lib\log4net.dll" />
     <Content Include="lib\Lucene.Net.Contrib.Highlighter.dll" />
     <Content Include="lib\Lucene.Net.dll" />
     <Content Include="lib\Microsoft.Web.Infrastructure.dll" />
@@ -966,11 +965,7 @@
     <Content Include="lib\NuGet.Core.dll" />
     <Content Include="lib\Org.Mentalis.Security.Cryptography.dll" />
     <Content Include="lib\System.Net.Http.dll" />
-    <Content Include="lib\System.Net.Http.Formatting.dll" />
-    <Content Include="lib\System.Net.Http.WebRequest.dll" />
     <Content Include="lib\System.Web.Helpers.dll" />
-    <Content Include="lib\System.Web.Http.dll" />
-    <Content Include="lib\System.Web.Http.WebHost.dll" />
     <Content Include="lib\System.Web.Mvc.dll" />
     <Content Include="lib\System.Web.Razor.dll" />
     <Content Include="lib\System.Web.WebPages.Administration.dll" />
@@ -2047,6 +2042,8 @@
     <Content Include="Styles\tinymce.less" />
     <Content Include="Styles\ui.less" />
     <Content Include="Views\Shared\DisplayTemplates\_TR.cshtml" />
+    <Content Include="Styles\relation.less" />
+    <Content Include="Areas\KoobooModule\Views\Home\HelloWorld.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2075,7 +2072,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>7837</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:7837/</IISUrl>
+          <IISUrl>http://localhost:7838/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -2086,8 +2083,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>md bin
-copy  /Y ..\lib\*.* ..\bin\</PreBuildEvent>
+    <PreBuildEvent>copy  /Y ..\lib\*.* ..\bin\</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

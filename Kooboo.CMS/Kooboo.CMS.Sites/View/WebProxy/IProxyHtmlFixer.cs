@@ -129,9 +129,14 @@ namespace Kooboo.CMS.Sites.View.WebProxy
             {
                 return true;
             }
-            var extension = Path.GetExtension(attr.Value).ToLower();
+            var attValue = (attr.Value ?? "").ToLower();
+            if (attr.Value.StartsWith("#") || attr.Value.StartsWith("javascript:"))
+            {
+                return true;
+            }
 
-            if (extension == ".js" || extension == ".css" || extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".ico" || extension == ".gif")
+            if (attValue.EndsWith(".js") || attValue.EndsWith(".css") || attValue.EndsWith(".png") || attValue.EndsWith(".jpg")
+                || attValue.EndsWith(".jpeg") || attValue.EndsWith(".ico") || attValue.EndsWith(".gif"))
             {
                 return true;
             }

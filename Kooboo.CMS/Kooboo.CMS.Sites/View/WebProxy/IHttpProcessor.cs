@@ -67,7 +67,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                         httpContext.Response.AddHeader(key, webResponse.Headers[key]);
                     }
                 }
-            }          
+            }
         }
         protected virtual string ProcessWebResponse(WebResponse webResponse, HttpContextBase httpContext, Func<string, bool, string> proxyUrlFunc)
         {
@@ -89,6 +89,78 @@ namespace Kooboo.CMS.Sites.View.WebProxy
             }
             return result;
         }
+        private static String ReadResponseText(WebResponse webResponse, Stream responseStream)
+        {
+            //
+            // first see if content length header has charset = calue
+            //
+            String charset = null;
+            String ctype = webResponse.Headers["content-type"];
+            if (ctype != null)
+            {
+                int ind = ctype.IndexOf("charset=");
+                if (ind != -1)
+                {
+                    charset = ctype.Substring(ind + 8);
+                }
+            }
+
+            // save data to a memorystream
+            MemoryStream rawdata = new MemoryStream();
+            byte[] buffer = new byte[1024];
+            int read = responseStream.Read(buffer, 0, buffer.Length);
+            while (read > 0)
+            {
+                rawdata.Write(buffer, 0, read);
+                read = responseStream.Read(buffer, 0, buffer.Length);
+            }
+
+            //
+            // if ContentType is null, or did not contain charset, we search in body
+            //
+            if (charset == null)
+            {
+                MemoryStream ms = rawdata;
+                ms.Seek(0, SeekOrigin.Begin);
+
+                StreamReader srr = new StreamReader(ms, Encoding.ASCII);
+                String meta = srr.ReadToEnd();
+
+                if (meta != null)
+                {
+                    var matchCharset = Regex.Match(meta, "\\bcharset=[\"|\']?([^\"|^']+)[\"|']?");
+                    if (matchCharset != null)
+                    {
+                        charset = matchCharset.Groups["1"].Value;
+                    }
+                }
+            }
+
+            Encoding e = null;
+            if (charset == null)
+            {
+                e = Encoding.UTF8; //default encoding
+            }
+            else
+            {
+                try
+                {
+                    e = Encoding.GetEncoding(charset);
+                }
+                catch (Exception ee)
+                {
+                    e = Encoding.UTF8;
+                }
+            }
+
+            rawdata.Seek(0, SeekOrigin.Begin);
+
+            StreamReader sr = new StreamReader(rawdata, e);
+
+            String s = sr.ReadToEnd();
+
+            return s.ToLower();
+        }
         protected virtual string ProcessHttpWebResponse(HttpWebResponse httpWebResponse, HttpContextBase httpContext)
         {
             using (var responseStream = httpWebResponse.GetResponseStream())
@@ -98,16 +170,8 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 // or else will output the response stream directly.
                 if (string.IsNullOrEmpty(contentType) || contentType.ToLower().Contains("text/html"))
                 {
-                    string Charset = httpWebResponse.CharacterSet;
-                    Encoding encoding = Encoding.GetEncoding(Charset);
-                    // read response
-                    using (StreamReader sr =
-                           new StreamReader(responseStream, encoding))
-                    {
-                        var html = sr.ReadToEnd();
-                        return html;
-                    }
-
+                    var html = ReadResponseText(httpWebResponse, responseStream);
+                    return html;
                     //using (StreamReader loResponseStream = new StreamReader(responseStream))
                     //{
                     //    string html = loResponseStream.ReadToEnd();
@@ -145,7 +209,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 case "CONTENT-TYPE":
                 case "IF-MODIFIED-SINCE":
                 case "TRANSFER-ENCODING":
-                //case "COOKIE":
+                    //case "COOKIE":
                     return false;
                 default:
                     return true;

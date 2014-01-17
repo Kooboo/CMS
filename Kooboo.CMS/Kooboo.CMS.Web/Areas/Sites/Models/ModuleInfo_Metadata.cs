@@ -25,7 +25,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     [Grid(IdProperty = "UUID", Checkable = true)]
     public class ModuleInfo_Metadata
     {
-        [GridColumn(Order = 1, GridColumnType = typeof(SortableGridColumn))]
+        [GridColumn(Order = 1, HeaderText = "Module name", GridColumnType = typeof(SortableGridColumn))]
         [Display(Name = "Module name")]
         public string ModuleName { get; set; }
 
@@ -47,9 +47,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
     public class ModuleListInSiteModel
     {
         [Required]
-        [GridColumn]
+        [GridColumn(Order = 1, HeaderText = "Module name", GridColumnType = typeof(SortableGridColumn))]
         public string ModuleName { get; set; }
-        [GridColumn(GridItemColumnType = typeof(BooleanGridItemColumn))]
+        [GridColumn(Order = 2, GridItemColumnType = typeof(BooleanGridItemColumn))]
         public bool Included { get; set; }
     }
 }

@@ -4,9 +4,9 @@
         @Html.IconImage("folder")
         @{
             var parameterTemplateDelayRender = true;
-            var id = Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(16); 
+            var id = Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(16);
         }
-        <input type="radio" id="@id" value="@Html.Raw(Model.Name)" name="ViewName" />
+        <input type="radio" class="viewSelection" id="@id" value="@Html.Raw(Model.Name)" name="ViewName"/>
         <label class="inline" for="@id">@Html.Raw(Model.Name)</label>
         @if (Model.ParameterTemplate != null)
         {
@@ -16,7 +16,7 @@
                     @Html.Raw(HttpUtility.UrlEncode(Html.Partial(Model.ParameterTemplate, Model).ToHtmlString()))
                 }
                 else
-                { 
+                {
                     @Html.Raw(Html.Partial(Model.ParameterTemplate, Model))
                 }
             </div>
@@ -39,7 +39,7 @@
                                 @if (p.DataType == Kooboo.CMS.Common.DataType.Bool)
                                 {
                                     var check = (p.Value != null && p.Value.ToString().ToLower() == "true") ? "checked=\"checked\"" : "";
-                    
+
                                     <input no_submit_name="Parameters[@index].Value" type="checkbox" value="true" @check />
                                 }
                                 else

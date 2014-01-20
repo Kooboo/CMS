@@ -342,19 +342,23 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             var mediaContent = mediaFolder.CreateQuery().WhereEquals("UUID", uuid).FirstOrDefault();
 
             var provider = Kooboo.CMS.Content.Persistence.Providers.DefaultProviderFactory.GetProvider<IMediaContentProvider>();
-            var stream = provider.GetContentStream(mediaContent);
+            var data = provider.GetContentStream(mediaContent);
             var imageFormat = ImageTools.ConvertToImageFormat(Path.GetExtension(mediaContent.VirtualPath));
 
             Stream imageStream = new MemoryStream();
             Stream outputStream = new MemoryStream();
             try
             {
-                imageStream = RotateImage(rotateTypes, stream, imageFormat);
+                using (var rawImage = new MemoryStream(data))
+                {
+                    imageStream = RotateImage(rotateTypes, rawImage, imageFormat);
 
-                ImageTools.ResizeImage(imageStream, outputStream, imageFormat, 600, 0, true, 80);
-                outputStream.Position = 0;
+                    ImageTools.ResizeImage(imageStream, outputStream, imageFormat, 600, 0, true, 80);
+                    outputStream.Position = 0;
 
-                return File(outputStream, IOUtility.MimeType(mediaContent.VirtualPath));
+                    return File(outputStream, IOUtility.MimeType(mediaContent.VirtualPath));
+                }
+
             }
             finally
             {
@@ -423,34 +427,37 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             int width = 0, height = 0;
             try
             {
-                ImageFormat imageFormat = ImageTools.ConvertToImageFormat(Path.GetExtension(mediaContent.VirtualPath));
-                imageStream = RotateImage(rotateTypes, provider.GetContentStream(mediaContent), imageFormat);
-
-                if (cropModel != null && cropModel.X.HasValue && cropModel.Width.Value > 0 && cropModel.Height.Value > 0)
+                using (var contentStream = new MemoryStream(provider.GetContentStream(mediaContent)))
                 {
-                    ImageTools.CropImage(imageStream, targetStream, imageFormat, cropModel.X.Value, cropModel.Y.Value, cropModel.Width.Value, cropModel.Height.Value);
+                    ImageFormat imageFormat = ImageTools.ConvertToImageFormat(Path.GetExtension(mediaContent.VirtualPath));
+                    imageStream = RotateImage(rotateTypes, contentStream, imageFormat);
+
+                    if (cropModel != null && cropModel.X.HasValue && cropModel.Width.Value > 0 && cropModel.Height.Value > 0)
+                    {
+                        ImageTools.CropImage(imageStream, targetStream, imageFormat, cropModel.X.Value, cropModel.Y.Value, cropModel.Width.Value, cropModel.Height.Value);
+                        targetStream.Position = 0;
+                    }
+                    else
+                    {
+                        targetStream = imageStream;
+                    }
+                    if (scaleModel != null && scaleModel.Height.HasValue && scaleModel.Width.HasValue)
+                    {
+                        ImageTools.ResizeImage(targetStream, resizedImage, imageFormat, scaleModel.Width.Value, scaleModel.Height.Value, scaleModel.PreserveAspectRatio, scaleModel.Quality ?? 80);
+                        resizedImage.Position = 0;
+                        targetStream = resizedImage;
+                    }
+
+                    Image image = Image.FromStream(targetStream);
+                    width = image.Width;
+                    height = image.Height;
                     targetStream.Position = 0;
-                }
-                else
-                {
-                    targetStream = imageStream;
-                }
-                if (scaleModel != null && scaleModel.Height.HasValue && scaleModel.Width.HasValue)
-                {
-                    ImageTools.ResizeImage(targetStream, resizedImage, imageFormat, scaleModel.Width.Value, scaleModel.Height.Value, scaleModel.PreserveAspectRatio, scaleModel.Quality ?? 80);
-                    resizedImage.Position = 0;
-                    targetStream = resizedImage;
-                }
 
-                Image image = Image.FromStream(targetStream);
-                width = image.Width;
-                height = image.Height;
-                targetStream.Position = 0;
+                    ServiceFactory.MediaContentManager.Update(Repository.Current, mediaFolder, uuid, mediaContent.FileName, targetStream, User.Identity.Name);
 
-                ServiceFactory.MediaContentManager.Update(Repository.Current, mediaFolder, uuid, mediaContent.FileName, targetStream, User.Identity.Name);
-
-                image.Dispose();
-                targetStream.Close();
+                    image.Dispose();
+                    targetStream.Close();
+                }
                 //data.ClosePopup = true;
                 //data.AddMessage("The image has been changed.".Localize());
             }

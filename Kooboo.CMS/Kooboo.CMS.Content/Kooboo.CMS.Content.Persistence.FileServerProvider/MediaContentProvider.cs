@@ -366,15 +366,9 @@ namespace Kooboo.CMS.Content.Persistence.FileServerProvider
             }
         }
 
-        public Stream GetContentStream(MediaContent content)
+        public byte[] GetContentStream(MediaContent content)
         {
-            Stream stream = new MemoryStream();
-            using (var fs = File.Open(content.PhysicalPath, FileMode.OpenOrCreate))
-            {
-                fs.CopyTo(stream);
-            }
-            stream.Position = 0;
-            return stream;
+            throw new NotImplementedException();
         }
 
         public void SaveContentStream(MediaContent content, Stream stream)

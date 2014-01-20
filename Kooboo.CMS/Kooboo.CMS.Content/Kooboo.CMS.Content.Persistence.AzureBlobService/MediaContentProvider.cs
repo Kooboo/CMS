@@ -402,11 +402,11 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             {
                 if (item.Descending)
                 {
-                    blobs = blobs.OrderByDescending(it => it.GetType().GetProperty(item.FieldName).GetValue(it,null));
+                    blobs = blobs.OrderByDescending(it => it.GetType().GetProperty(item.FieldName).GetValue(it, null));
                 }
                 else
                 {
-                    blobs = blobs.OrderBy(it => it.GetType().GetProperty(item.FieldName).GetValue(it,null));
+                    blobs = blobs.OrderBy(it => it.GetType().GetProperty(item.FieldName).GetValue(it, null));
                 }
             }
             //translator.Visite(query.Expression);
@@ -466,11 +466,11 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             }
         }
 
-        public Stream GetContentStream(MediaContent content)
+        public byte[] GetContentStream(MediaContent content)
         {
             var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
-            var path=string.Empty;
-            if(string.IsNullOrEmpty(content.GetRepository().Name))
+            var path = string.Empty;
+            if (string.IsNullOrEmpty(content.GetRepository().Name))
             {
                 path = content.VirtualPath.Substring(AzureBlobServiceSettings.Instance.Endpoint.Length);
                 //path = UrlUtility.Combine(path.Split('/').Select(it => StorageNamesEncoder.EncodeBlobName(it)).ToArray());
@@ -479,15 +479,14 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             {
                 path = content.GetMediaBlobPath();
             }
-            var contentBlob =  blobClient.GetBlobReference(path);
+            var contentBlob = blobClient.GetBlobReference(path);
 
-            var stream = new MemoryStream();
+            byte[] data = null;
             if (contentBlob.Exists())
             {
-                contentBlob.DownloadToStream(stream);
+                data = contentBlob.DownloadByteArray();
             }
-            stream.Position = 0;
-            return stream;
+            return data;
         }
 
         public void SaveContentStream(MediaContent content, Stream stream)

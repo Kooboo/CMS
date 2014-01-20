@@ -19,6 +19,8 @@ using Kooboo.CMS.Content.Query;
 using System.IO;
 using Kooboo.CMS.Content.FileServer.Interfaces;
 using Kooboo.IO;
+using System.Net;
+using System.Web;
 namespace Kooboo.CMS.Content.Persistence.FileServerProvider
 {
     #region Translator
@@ -256,14 +258,12 @@ namespace Kooboo.CMS.Content.Persistence.FileServerProvider
             }
             else
             {
-                if (@new.ContentFile != null)
+                var parameter=new MediaContentParameter()
                 {
-                    RemoteServiceFactory.CreateService<IMediaContentService>().Update(new MediaContentParameter()
-                    {
-                        MediaContent = @new,
-                        FileData = @new.ContentFile.Stream.ReadData()
-                    });
-                }
+                    MediaContent = @new
+                };
+                
+               RemoteServiceFactory.CreateService<IMediaContentService>().Update(parameter);
             }
 
         }
@@ -368,15 +368,26 @@ namespace Kooboo.CMS.Content.Persistence.FileServerProvider
 
         public byte[] GetContentStream(MediaContent content)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(content.GetRepository().Name))
+            {
+
+                var webClient = new WebClient();
+                return webClient.DownloadData(content.Url);
+            }
+            else
+            {
+                var mediaContentService = RemoteServiceFactory.CreateService<IMediaContentService>();
+                return mediaContentService.GetBytes(content.Repository, content.FolderName, content.FileName);
+            }
         }
 
         public void SaveContentStream(MediaContent content, Stream stream)
         {
-            using (FileStream file = new FileStream(content.PhysicalPath, FileMode.Create, System.IO.FileAccess.Write))
+            RemoteServiceFactory.CreateService<IMediaContentService>().SaveBytes(new MediaContentParameter()
             {
-                ((MemoryStream)stream).WriteTo(file);
-            }
+                MediaContent = content,
+                FileData = stream.ReadData()
+            });
         }
     }
 }

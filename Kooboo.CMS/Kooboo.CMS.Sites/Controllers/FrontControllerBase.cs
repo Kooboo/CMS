@@ -20,6 +20,7 @@ using System.Net;
 using Kooboo.CMS.Sites.View;
 using Kooboo.Web.Mvc;
 using Kooboo.Globalization;
+using Kooboo.CMS.Sites.View.PositionRender;
 
 namespace Kooboo.CMS.Sites.Controllers
 {
@@ -62,7 +63,7 @@ namespace Kooboo.CMS.Sites.Controllers
 
         protected override void OnException(ExceptionContext filterContext)
         {
-            Kooboo.HealthMonitoring.Log.LogException(filterContext.Exception);
+           
 
             HttpErrorStatusCode statusCode = HttpErrorStatusCode.InternalServerError_500;
             HttpException httpException = filterContext.Exception as HttpException;
@@ -71,29 +72,44 @@ namespace Kooboo.CMS.Sites.Controllers
             {
                 statusCode = (HttpErrorStatusCode)httpException.GetHttpCode();
             }
-            if (Site != null)
+            if (statusCode == HttpErrorStatusCode.NotFound_404)
             {
-                var customError = Services.ServiceFactory.CustomErrorManager.Get(Site, statusCode.ToString());
-
-                if (customError != null)
+                ProxyRender proxyRender = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ProxyRender>();
+                var actionResult = proxyRender.TryRemoteRequest(filterContext.Controller.ControllerContext);
+                if (actionResult != null)
                 {
-                    var errorUrl = customError.RedirectUrl;
-
-                    if (!string.IsNullOrEmpty(errorUrl) && !errorUrl.TrimStart('~').TrimStart('/').TrimEnd('/').EqualsOrNullEmpty(this.Request.AppRelativeCurrentExecutionFilePath.TrimStart('~').TrimStart('/').TrimEnd('/'), StringComparison.OrdinalIgnoreCase))
-                    {
-                        filterContext.Result = RedirectHelper.CreateRedirectResult(Site, FrontHttpRequest.RequestChannel, errorUrl, Request.RawUrl, (int)statusCode, customError.RedirectType, customError.ShowErrorPath);
-                        filterContext.ExceptionHandled = true;
-                    }
-                }
-            }
-            else
-            {
-                if (statusCode == HttpErrorStatusCode.NotFound_404)
-                {
-                    filterContext.Result = RedirectTo404();
+                    filterContext.Result = actionResult;
                     filterContext.ExceptionHandled = true;
                 }
             }
+            if (filterContext.ExceptionHandled==false)
+            {
+                if (Site != null)
+                {
+                    var customError = Services.ServiceFactory.CustomErrorManager.Get(Site, statusCode.ToString());
+
+                    if (customError != null)
+                    {
+                        var errorUrl = customError.RedirectUrl;
+
+                        if (!string.IsNullOrEmpty(errorUrl) && !errorUrl.TrimStart('~').TrimStart('/').TrimEnd('/').EqualsOrNullEmpty(this.Request.AppRelativeCurrentExecutionFilePath.TrimStart('~').TrimStart('/').TrimEnd('/'), StringComparison.OrdinalIgnoreCase))
+                        {
+                            filterContext.Result = RedirectHelper.CreateRedirectResult(Site, FrontHttpRequest.RequestChannel, errorUrl, Request.RawUrl, (int)statusCode, customError.RedirectType, customError.ShowErrorPath);
+                            filterContext.ExceptionHandled = true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (statusCode == HttpErrorStatusCode.NotFound_404)
+                    {
+                        filterContext.Result = RedirectTo404();
+                        filterContext.ExceptionHandled = true;
+                    }
+                }
+                Kooboo.HealthMonitoring.Log.LogException(filterContext.Exception);
+            }
+            
             base.OnException(filterContext);
         }
         protected virtual ActionResult RedirectTo404()
@@ -108,6 +124,6 @@ namespace Kooboo.CMS.Sites.Controllers
         {
             base.OnResultExecuted(filterContext);
         }
-        #endregion        
+        #endregion
     }
 }

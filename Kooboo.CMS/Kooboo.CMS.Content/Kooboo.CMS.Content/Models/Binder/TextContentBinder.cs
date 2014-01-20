@@ -244,7 +244,7 @@ namespace Kooboo.CMS.Content.Models.Binder
         private static void ValidateColumn(Schema schema, TextContent textContent, ref List<RuleViolation> violations, Column column, bool update = false)
         {
             var controlType = Kooboo.CMS.Form.Html.ControlHelper.Resolve(column.ControlType);
-            if (controlType.IsFile == true)//ignore the file control type validations.
+            if (controlType != null && controlType.IsFile == true)//ignore the file control type validations.
             {
                 return;
             }

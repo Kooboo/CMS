@@ -1,0 +1,91 @@
+.block.relation {
+	.title {
+		font-family: "SegoeUI", "Helvetica Neue", "OpenSans", Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		text-align: center;
+		text-transform: uppercase;
+	}
+
+	.node {
+		height: 100%;
+		position: relative;
+		.transition(0.4s);
+
+		&.empty {
+			a {
+				border: 2px dashed #EEE;
+				color: #666;
+				display: block;
+				height: 35px;
+				line-height: 35px;
+				position: static;
+				text-align: center;
+
+				&:hover {
+					border-color: #DDD;
+					color: #333;
+				}
+			}
+		}
+
+		&.site {
+			background: @light-blue;
+		}
+
+		&.content {
+			background: #1F9284;
+		}
+
+		&.membership {
+			background: #5496A7;
+		}
+
+		> .icon {
+			border-right: 1px solid #FFF;
+			display: block;
+			float: left;
+			height: 100%;
+			width: 29px;
+
+			.icon {
+				margin: 11px 6px;
+				.opacity(80);
+			}
+		}
+
+		.name {
+			color: #FFF;
+			cursor: default;
+			float: left;
+			height: 39px;
+			line-height: 39px;
+			overflow: hidden;
+			margin: 0 25px 0 10px;
+			position: relative;
+			white-space: nowrap;
+			width: 135px;
+		}
+
+		a {
+			position: absolute;
+			right: 5px;
+			top: 11px;
+		}
+	}
+
+	&.active,
+	&.hover {
+		.node {
+			.opacity(50);
+
+			&.active,
+			&.hover {
+				.opacity(100);
+			}
+		}
+	}
+
+		&.active .node {
+			.opacity(20);
+		}
+}

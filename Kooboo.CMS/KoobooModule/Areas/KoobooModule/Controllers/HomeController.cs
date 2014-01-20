@@ -12,5 +12,10 @@ namespace KoobooModule.Areas.KoobooModule.Controllers
         {
             return View();
         }
+
+        public ActionResult HelloWorld()
+        {
+            return View();
+        }
     }
 }

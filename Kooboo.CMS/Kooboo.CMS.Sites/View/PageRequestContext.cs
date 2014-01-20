@@ -301,7 +301,7 @@ namespace Kooboo.CMS.Sites.View
             }
 
 
-            HttpContextBase pageContext = new PageHttpContenxt(httpContext, new PageHttpRequest(httpContext.Request, "~/" + pageRequestUrl, ""));
+            HttpContextBase pageContext = new PageHttpContenxt(httpContext, new PageHttpRequest(httpContext.Request, Kooboo.Web.Url.UrlUtility.Combine("~", pageRequestUrl), ""));
             var routeData = page.Route.ToMvcRoute().GetRouteData(pageContext);
 
             if (routeData != null)

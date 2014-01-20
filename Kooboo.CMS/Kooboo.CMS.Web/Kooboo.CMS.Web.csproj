@@ -2528,6 +2528,12 @@
   <ItemGroup>
     <Content Include="Views\Shared\DisplayTemplates\_TR.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\relation.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\repository-flowchart.less" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

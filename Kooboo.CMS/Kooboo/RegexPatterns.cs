@@ -29,7 +29,7 @@ namespace Kooboo
         /// <summary>
         /// 
         /// </summary>
-        public const string Alphanum = @"[\w\d_]+";
+        public const string Alphanum = @"[\w\d_-]+";
         /// <summary>
         /// 
         /// </summary>

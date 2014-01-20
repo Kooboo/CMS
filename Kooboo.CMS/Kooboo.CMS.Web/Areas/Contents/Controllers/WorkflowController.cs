@@ -108,6 +108,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             data.RunWithTry((resultData) =>
             {
                 Manager.Delete(model, Repository);
+                resultData.ReloadPage = true;
             });
 
             return Json(data);

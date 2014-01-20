@@ -185,7 +185,7 @@ namespace Kooboo.CMS.Sites.View
         #region RenderProxyPosition
         protected virtual IHtmlString RenderProxyPosition(ProxyPosition proxyPosition)
         {
-            return ProxyRender.Render(PageContext, proxyPosition.PagePositionId, proxyPosition.Host, proxyPosition.RequestPath, proxyPosition.NoProxy, proxyPosition.OutputCache);
+            return ProxyRender.Render(PageContext.ControllerContext, PageContext.PageRequestContext, proxyPosition, null);
         }
         #endregion
 

@@ -159,7 +159,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
 
             String s = sr.ReadToEnd();
 
-            return s.ToLower();
+            return s;
         }
         protected virtual string ProcessHttpWebResponse(HttpWebResponse httpWebResponse, HttpContextBase httpContext)
         {

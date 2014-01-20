@@ -300,6 +300,10 @@ namespace Kooboo.CMS.Sites.View
 
             }
 
+            if (string.IsNullOrEmpty(pageRequestUrl))
+            {
+                pageRequestUrl = "/";
+            }
 
             HttpContextBase pageContext = new PageHttpContenxt(httpContext, new PageHttpRequest(httpContext.Request, Kooboo.Web.Url.UrlUtility.Combine("~", pageRequestUrl), ""));
             var routeData = page.Route.ToMvcRoute().GetRouteData(pageContext);

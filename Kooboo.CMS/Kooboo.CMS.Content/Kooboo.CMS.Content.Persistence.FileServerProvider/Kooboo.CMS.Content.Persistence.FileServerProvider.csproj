@@ -70,7 +70,7 @@
       <Name>Kooboo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Content.FileServer.Interfaces\Kooboo.CMS.Content.FileServer.Interfaces.csproj">
-      <Project>{AF3A1665-74B6-4A34-A795-64A1914AF749}</Project>
+      <Project>{af3a1665-74b6-4a34-a795-64a1914af749}</Project>
       <Name>Kooboo.CMS.Content.FileServer.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Content\Kooboo.CMS.Content.csproj">

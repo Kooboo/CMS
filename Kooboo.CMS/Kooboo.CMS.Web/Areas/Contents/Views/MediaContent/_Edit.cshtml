@@ -1,12 +1,7 @@
 ﻿@model Kooboo.CMS.Content.Models.MediaContent
 @{
-    var provider = Kooboo.CMS.Content.Persistence.Providers.DefaultProviderFactory.GetProvider<Kooboo.CMS.Content.Persistence.IMediaContentProvider>();
-    var stream = provider.GetContentStream(Model);
-    System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
-    var imageWidth = image.Width;
-    var imageHeight = image.Height;
-    image.Dispose();
     var imagePreviewUrl = Url.Action("Preview", "MediaContent", ViewContext.RequestContext.AllRouteValues().Merge("UUID", Model.UUID));
+    var originalImage=String.Format("{0}?t={1}", Model.Url, DateTime.Now.Ticks);
 }
 <div class="block common-form">
     <div id="editImage" class="image-editor">
@@ -23,20 +18,21 @@
                     @Model.Url
                 </td>
             </tr>
-            <tr>                
+            <tr>
                 <th>
-                    <label>@( "Original dimensions".Localize())</label></th>
+                    <label>@( "Original dimensions".Localize())</label>
+                </th>
                 <td>
                     <div id="display_Originaldimensions" class="left">
-                        <span class="left">@( imageWidth) x @(imageHeight)</span>
+                        <span class="left"></span>
                         <a class="action" href="#" data-inline-action='{"show":"#edit_Originaldimensions","hide":"#display_Originaldimensions"}'>@Html.IconImage("edit small")</a>
                     </div>
                     <div id="edit_Originaldimensions" class="left hide">
                         @using (Html.BeginForm("EditImage", "MediaContent", ViewContext.RequestContext.AllRouteValues()))
                         {
-                            <input type="text" id="Scale_Width" name="Scale.Width" class="mini" value="@imageWidth" data-val="true" data-val-number=""/> 
+                            <input type="text" id="Scale_Width" name="Scale.Width" class="mini" data-val="true" data-val-number="" />
                             <span class="left">x</span>
-                            <input type="text" id="Scale_Height" name="Scale.Height" class="mini" value="@imageHeight" data-val="true"  data-val-number=""/>
+                            <input type="text" id="Scale_Height" name="Scale.Height" class="mini" data-val="true" data-val-number="" />
                             <a class="action" data-ajaxform="">@Html.IconImage("save small")</a>
                             <a class="action" href="#" data-inline-action='{"show":"#display_Originaldimensions","hide":"#edit_Originaldimensions"}'>@Html.IconImage("minus small")</a>
                         }
@@ -47,19 +43,19 @@
                 <th></th>
                 <td>
                     <div id="imageInfo" class="original-image">
-                        <img src="@(Model.Url + "?t=" + DateTime.UtcNow.Ticks.ToString())" />
+                        <img src="@originalImage" />
                     </div>
                     <a id="editImageButton" class="button" href="#" data-inline-action='{"show":"#edit_Image","hide":"#display_Image"}'>@("Edit".Localize())</a>
                 </td>
             </tr>
             <tr id="edit_Image" class="hide">
                 <th>
-                    <label>@("Image crop".Localize())</label></th>
+                    <label>@("Image crop".Localize())</label>
+                </th>
                 <td>
                     @using (Html.BeginForm("EditImage", "MediaContent", ViewContext.RequestContext.AllRouteValues()))
-                    { 
+                    {
                         <input type="hidden" id="rotateTypes" name="rotateTypes" />
-
                         <div class="image-crop">
                             <div class="toolbar">
                                 <ul class="tool clearfix">
@@ -87,14 +83,14 @@
                                     </li>
                                     <li>
                                         <label>@Html.Raw("Aspect ratio".Localize()):</label>
-                                        <input type="text" id="Ratio_Width" class="mini"  data-val="true" data-val-number=""/>
+                                        <input type="text" id="Ratio_Width" class="mini" data-val="true" data-val-number="" />
                                         <span class="left">x</span>
-                                        <input type="text" id="Ratio_Height" class="mini"  data-val="true" data-val-number=""/>
+                                        <input type="text" id="Ratio_Height" class="mini" data-val="true" data-val-number="" />
                                     </li>
                                 </ul>
                             </div>
                             <div class="container">
-                                <img id="jcrop_target" src="@Html.Raw(imagePreviewUrl + "&t=" + DateTime.Now.Ticks.ToString())" alt="@( Model.Metadata == null ? "" : Model.Metadata.AlternateText)"/>
+                                <img id="jcrop_target" src="@imagePreviewUrl" alt="@( Model.Metadata == null ? "" : Model.Metadata.AlternateText)" />
                             </div>
                         </div>
                         <a class="button" data-ajaxform="">@("Save".Localize())</a>
@@ -117,50 +113,70 @@
 <script type="text/javascript">
     $(function () {
         $('table').gridInlineEdit();
-        $('#Scale_Width').keyup(function(){
+        $('#Scale_Width').keyup(function () {
             var input = $(this);
             var val = input.val();
-            if (val.trim()!='') {
-                var width = parseFloat(val);                    
-                var height = Math.round( width / width_height_ratio);
+            if (val.trim() != '') {
+                var width = parseFloat(val);
+                var height = Math.round(width / width_height_ratio);
                 $('#Scale_Height').val(height);
             }
-                
         });
-        $('#Scale_Height').keyup(function(){
+        $('#Scale_Height').keyup(function () {
             var input = $(this);
             var val = input.val();
-            if (val.trim()!='') {
+            if (val.trim() != '') {
                 var height = parseFloat(val);
                 var width = Math.round(height * width_height_ratio);
                 $('#Scale_Width').val(width);
-            }                
+            }
         });
-        //$('#ClearScale').click(function () {
-        //    $('#Scale_Width').val('');
-        //    $('#Scale_Height').val('');
-        //    return false;
-        //});
+        $('#ClearScale').click(function () {
+            $('#Scale_Width').val('');
+            $('#Scale_Height').val('');
+            return false;
+        });
 
-        var width = @(imageWidth);
-        var height = @(imageHeight);
-        var width_height_ratio = width / height;
-        var jcrop_api;
+        var width, height, width_height_ratio, jcrop_api, imagePreviewUrl = "@Html.Raw(imagePreviewUrl)";
         var rotates = [];
         var undoRotates = [];
-        var imagePreviewUrl = '@Html.Raw(imagePreviewUrl)'
 
-        function setJscrop(option)
-        {
-            $('#jcrop_target').Jcrop(option, function () {
-                jcrop_api = this;
-            })
+        var defaults = {
+            onChange: SetCoordinate,
+            onSelect: SetCoordinate,
+            boxWidth: 800
+        };
+        function SetCoordinate(c) {
+            $('#Crop_X').val(Math.round(c.x));
+            $('#Crop_Y').val(Math.round(c.y));
+            $('#Crop_Width').val(Math.round(c.w));
+            $('#Crop_Height').val(Math.round(c.h));
         }
-        function setJcropRatio()
-        {
+        var dummy = new Image();
+        dummy.src = "@originalImage";
+        $(dummy).on("load", function () {
+            width = dummy.width;
+            height = dummy.height;
+            console.log("dummy",[dummy.width,dummy.height]);
+            width_height_ratio = width / height;
+            $("#display_Originaldimensions > span").html(width + " x " + height);
+            $("#Scale_Width").val(dummy.width);
+            $("#Scale_Height").val(dummy.height);
+            $.extend(defaults, { trueSize: [dummy.width, dummy.height] });
+        });
+
+        function setJscrop(option) {
+            var options = $.extend({}, defaults, option);
+            $('#jcrop_target').Jcrop(options, function () {
+                var $self = this;
+                jcrop_api = $self;
+                $self.setImage($('#jcrop_target').attr("src"), function () { });
+            });
+        }
+        function setJcropRatio() {
             var width = parseFloat($('#Ratio_Width').val());
             var height = parseFloat($('#Ratio_Height').val());
-            if (!isNaN(width) && !isNaN(height)) {               
+            if (!isNaN(width) && !isNaN(height)) {
                 setJscrop({
                     aspectRatio: width / height
                 });
@@ -171,35 +187,23 @@
                 });
             }
         }
-        $('#Ratio_Width').keyup(function(){
-            setJcropRatio();   
+        $('#Ratio_Width').keyup(function () {
+            setJcropRatio();
         });
-        $('#Ratio_Height').keyup(function(){
-            setJcropRatio();         
+        $('#Ratio_Height').keyup(function () {
+            setJcropRatio();
         });
-        $('#editImageButton').click(function(){
-            cropChange = function (c) {
-                $('#Crop_X').val(c.x);
-                $('#Crop_Y').val(c.y);
-                $('#Crop_Width').val(c.w);
-                $('#Crop_Height').val(c.h);
-            };
-            $('#jcrop_target').Jcrop({
-                onChange: cropChange,
-                trueSize: [width,height]
-            }, function () {
-                jcrop_api = this;
-            })
-       
+        $('#editImageButton').on("click", function () {
+            setJcropRatio();
+
             $('#ClearCrop').click(function () {
-                jcrop_api.release();                
+                jcrop_api && jcrop_api.release();
             });
-           
 
             reloadImage = function () {
                 var types = rotates.join(',');
                 $('#rotateTypes').val(types);
-                jcrop_api.setImage(imagePreviewUrl + "&rotateTypes=" + types + "&t=" + (new Date()).getTime());
+                jcrop_api && jcrop_api.setImage(imagePreviewUrl + "&rotateTypes=" + types + "&t=" + (new Date()).getTime());
             };
             $('.rotateFlip').click(function () {
                 var element = $(this);
@@ -219,12 +223,12 @@
                     reloadImage();
                 }
             });
-          
         });
-        $('#cancelEditButton').click(function(){
-            rotates=[];
-            undoRotates=[];
-            jcrop_api.release();
+
+        $('#cancelEditButton').click(function () {
+            rotates = [];
+            undoRotates = [];
+            jcrop_api && jcrop_api.release();
             $('#Crop_X').val('');
             $('#Crop_Y').val('');
             $('#Crop_Width').val('');
@@ -234,5 +238,6 @@
             }
             return false;
         });
+
     });
 </script>

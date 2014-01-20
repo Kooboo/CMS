@@ -78,7 +78,7 @@ namespace Kooboo.CMS.Content.Persistence.FileServerProvider
         }
         public static T CreateService<T>()
         {
-            Binding binding = new WebHttpBinding();
+            Binding binding = new WebHttpBinding() { MaxReceivedMessageSize = 2147483647, MaxBufferSize = 2147483647 };
             EndpointAddress address = new EndpointAddress(GetAddress<T>());
             ServiceEndpoint serviceEndpoint = new ServiceEndpoint(ContractDescription.GetContract(typeof(T)), binding, address);
             ChannelFactory<T> factory = new ChannelFactory<T>(serviceEndpoint);

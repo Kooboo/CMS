@@ -235,12 +235,22 @@ namespace Kooboo.CMS.Sites.Controllers
                 //now no image cache for azure blob
                 var provider = Kooboo.CMS.Content.Persistence.Providers.DefaultProviderFactory.GetProvider<Kooboo.CMS.Content.Persistence.IMediaContentProvider>();
                 var mediaContent = new MediaContent() { VirtualPath = url };
-                Stream stream = provider.GetContentStream(mediaContent);
-                var imageFormat = ImageTools.ConvertToImageFormat(Path.GetExtension(mediaContent.VirtualPath));
-                Stream outStream = new MemoryStream();
-                ImageTools.ResizeImage(stream, outStream, imageFormat, width, height, preserverAspectRatio.Value, quality.Value);
-                outStream.Position = 0;
-                return File(outStream, IOUtility.MimeType(url));
+                var data = provider.GetContentStream(mediaContent);
+                if (data != null)
+                {
+                    using (var imageStream = new MemoryStream(data))
+                    {
+                        var imageFormat = ImageTools.ConvertToImageFormat(Path.GetExtension(mediaContent.VirtualPath));
+                        Stream outStream = new MemoryStream();
+                        ImageTools.ResizeImage(imageStream, outStream, imageFormat, width, height, preserverAspectRatio.Value, quality.Value);
+                        outStream.Position = 0;
+                        return File(outStream, IOUtility.MimeType(url));
+                    }
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {

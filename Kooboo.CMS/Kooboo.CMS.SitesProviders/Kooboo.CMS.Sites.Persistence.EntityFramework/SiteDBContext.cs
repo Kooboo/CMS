@@ -32,9 +32,9 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework
             builder.Configurations.Add(new System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<LabelProvider.LabelEntity>());
             builder.Configurations.Add(new UserProvider.Mapping.SiteUserMapping());
             builder.Configurations.Add(new SiteProvider.Mapping.SiteSettingMapping());
-
+            builder.Configurations.Add(new UrlRedirectsProvider.Mapping.UrlRedirectMapping());
+            builder.Configurations.Add(new CustomErrorsProvider.Mapping.CustomErrorMapping());
             dbCompiledModel = builder.Build(new System.Data.Entity.Infrastructure.DbProviderInfo(SiteEntitySetting.Instance.ProviderInvariantName, SiteEntitySetting.Instance.ProviderManifestToken)).Compile();
-
         }
         public SiteDBContext()
             : this(SiteEntitySetting.Instance.ConnectionString)
@@ -55,5 +55,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework
         public DbSet<LabelProvider.LabelEntity> Labels { get; set; }
         public DbSet<UserProvider.SiteUserEntity> SiteUsers { get; set; }
         public DbSet<SiteProvider.SiteEntity> SiteSettings { get; set; }
+        public DbSet<UrlRedirectsProvider.UrlRedirectEntity> UrlRedirects { get; set; }
+        public DbSet<CustomErrorsProvider.CustomErrorEntity> CustomErrors { get; set; }
     }
 }

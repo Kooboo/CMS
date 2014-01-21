@@ -25,10 +25,14 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.SiteProvider
     {
         #region .ctor
         SiteDBContext _dbContext;
+        Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider.UrlRedirectProvider urlRedirectProvider;
+        Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider.CustomErrorProvider customErrorProvider;
         public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, IElementRepositoryFactory elementRepositoryFactory, SiteDBContext dbContext)
             : base(baseDir, membershipProvider, elementRepositoryFactory)
         {
             this._dbContext = dbContext;
+            urlRedirectProvider = new UrlRedirectsProvider.UrlRedirectProvider(_dbContext);
+            customErrorProvider = new CustomErrorsProvider.CustomErrorProvider(_dbContext);
         }
         #endregion
 
@@ -36,7 +40,17 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.SiteProvider
         {
             UpdateOrAdd(site, site);
             base.Initialize(site);
+            urlRedirectProvider.SaveToDatabase(site, true);
+            customErrorProvider.SaveToDatabase(site, true);
         }
+
+        public override void Export(Site site, System.IO.Stream outputStream, bool includeDatabase, bool includeSubSites)
+        {
+            urlRedirectProvider.InitializeFromDatabase(site);
+            customErrorProvider.InitializeFromDatabase(site);
+            base.Export(site, outputStream, includeDatabase, includeSubSites);
+        }
+
         #region --- CRUD ---
 
         private void UpdateOrAdd(Site @new, Site old)
@@ -54,7 +68,6 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.SiteProvider
             }
             _dbContext.SaveChanges();
             ((IPersistable)@new).OnSaved();
-            ClearCache();
         }
 
         public override Site Get(Site dummyObject)
@@ -81,6 +94,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.SiteProvider
 
         public override void Remove(Site item)
         {
+            ((IPersistable)item).OnSaving();
             var obj = _dbContext.SiteSettings.FirstOrDefault(it => it.FullName.Equals(item.FullName, StringComparison.OrdinalIgnoreCase));
             if (null != obj)
             {
@@ -92,73 +106,17 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.SiteProvider
                 Remove(sub);
             }
             base.Remove(item);
-            ClearCache();
+            ((IPersistable)item).OnSaved();
         }
         #endregion
 
-        private const string cacheKey = "SqlServer:SiteProvider:SitesTable";
-
         private List<Site> GetAllSites()
         {
-            var cacheObject = CacheManagerFactory.DefaultCacheManager.GlobalObjectCache();
-            return cacheObject.GetCache<List<Site>>(cacheKey, () =>
-            {
-                return _dbContext.SiteSettings
-                    .ToArray().Select(it => it.ToSite()).ToList();
-            });
+            return _dbContext.SiteSettings.ToArray().Select(it => it.ToSite()).ToList();
+
         }
 
-        private static void ClearCache()
-        {
-            CacheManagerFactory.DefaultCacheManager.GlobalObjectCache().Remove(cacheKey);
-        }
     }
 
-    public static class SiteEntityHelper
-    {
-        private static Type[] KnownTypes = new Type[]{
-                typeof(Site),
-                typeof(PagePosition),
-                typeof(ViewPosition),
-                typeof(ModulePosition),
-                typeof(HtmlPosition),
-                typeof(ContentPosition),
-                typeof(HtmlBlockPosition)
-                };
-        public static T ToSiteSettingEntity<T>(this Site model)
-            where T : ISiteSettingEntity, new()
-        {
-            return ToSiteSettingEntity(model, new T());
-        }
-        public static T ToSiteSettingEntity<T>(this Site model, T entity)
-            where T : ISiteSettingEntity
-        {
-            entity.FullName = model.FullName;
-            if (null != model.Parent)
-            {
-                entity.ParentName = model.Parent.FullName;
-            }
-            entity.ObjectXml = DataContractSerializationHelper.SerializeAsXml(model, KnownTypes);
-            return entity;
-        }
-        public static Site ToSite(this ISiteSettingEntity entity)
-        {
-            if (entity == null)
-            {
-                return null;
-            }
-            Site dummy;
-            if (String.IsNullOrWhiteSpace(entity.ParentName))
-            {
-                dummy = new Site(entity.FullName);
-            }
-            else
-            {
-                dummy = new Site(new Site(entity.ParentName), entity.FullName);
-            }
-            var site = DataContractSerializationHelper.DeserializeFromXml<Site>(entity.ObjectXml, KnownTypes);
-            ((IPersistable)site).Init(dummy);
-            return site;
-        }
-    }
+
 }

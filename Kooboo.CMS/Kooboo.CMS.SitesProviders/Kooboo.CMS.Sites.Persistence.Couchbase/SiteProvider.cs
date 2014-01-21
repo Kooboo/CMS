@@ -11,27 +11,35 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.Sites.Persistence.Couchbase
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Site>))]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteProvider), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Site>), Order = 100)]
     public class SiteProvider : Kooboo.CMS.Sites.Persistence.FileSystem.SiteProvider
     {
         #region .ctor
         SiteInitializer _initializer;
+        CustomErrorProvider.CustomErrorProvider customErrorProvider;
+        UrlRedirectProvider.UrlRedirectProvider urlRedirectProvider;
         public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, IElementRepositoryFactory elementRepositoryFactory, SiteInitializer initializer)
             : base(baseDir, membershipProvider, elementRepositoryFactory)
         {
+            customErrorProvider = new CustomErrorProvider.CustomErrorProvider();
+            urlRedirectProvider = new UrlRedirectProvider.UrlRedirectProvider();
             _initializer = initializer;
         }
         public override void Initialize(Site site)
         {
             _initializer.Initialize(site);
             base.Initialize(site);
+
+            customErrorProvider.InitializeCustomError(site);
+            urlRedirectProvider.InitializeUrlRedirect(site);
         }
         #endregion
         Func<Site, string, Site> createModel = (Site site, string key) =>
         {
             return new Site(key);
         };
+
         #region Get/Update/Save/Delete
         public override void Add(Site item)
         {
@@ -75,6 +83,14 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         {
             DataHelper.DeleteItemByKey(item, ModelExtensions.GetBucketDocumentKey(ModelExtensions.SiteDataType, item.Name));
             base.Remove(item);
+        }
+
+        public override void Export(Site site, System.IO.Stream outputStream, bool includeDatabase, bool includeSubSites)
+        {
+            customErrorProvider.ExportCustomErrorToDisk(site);
+            urlRedirectProvider.ExportUrlRedirectToDisk(site);
+
+            base.Export(site, outputStream, includeDatabase, includeSubSites);
         }
         #endregion
     }

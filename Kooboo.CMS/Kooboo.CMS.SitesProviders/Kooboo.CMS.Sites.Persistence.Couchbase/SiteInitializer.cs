@@ -43,6 +43,8 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.LabelDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.LabelDataType), ModelExtensions.LabelDataType));
             DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.LabelCategoryDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.LabelCategoryDataType), ModelExtensions.LabelCategoryDataType));
             DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.UserDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.UserDataType), ModelExtensions.UserDataType));
+            DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.CustomErrorDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.CustomErrorDataType), ModelExtensions.CustomErrorDataType));
+            DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.UrlRedirectDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.UrlRedirectDataType), ModelExtensions.UrlRedirectDataType));
             System.Threading.Thread.Sleep(3000);
         }
     }

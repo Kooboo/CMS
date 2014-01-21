@@ -19,6 +19,8 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         public static string PageDataType = "Page";
         public static string PageDraftDataType = "PageDraft";
         public static string HtmlBlockDataType = "HtmlBlock";
+        public static string CustomErrorDataType = "CustomError";
+        public static string UrlRedirectDataType = "UrlRedirect";
         public static string LabelDataType = "Label";
         public static string LabelCategoryDataType = "LabelCategory";
         public static string UserDataType = "User";

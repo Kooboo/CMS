@@ -60,6 +60,7 @@
     <Compile Include="..\..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
+    <Compile Include="CustomErrorProvider\CustomErrorProvider.cs" />
     <Compile Include="DatabaseHelper.cs" />
     <Compile Include="DatabaseSettings.cs" />
     <Compile Include="DataHelper.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SiteInitializer.cs" />
     <Compile Include="SiteProvider.cs" />
+    <Compile Include="UrlRedirectProvider\UrlRedirectProvider.cs" />
     <Compile Include="UserProvider\UserProvider.cs" />
   </ItemGroup>
   <ItemGroup>

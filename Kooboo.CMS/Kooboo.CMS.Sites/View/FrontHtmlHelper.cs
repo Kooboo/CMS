@@ -81,11 +81,11 @@ namespace Kooboo.CMS.Sites.View
         {
             if (PageContext.PageRequestContext.RequestChannel == FrontRequestChannel.Design)
             {
-                return true;
+                return false;
             }
             else
             {
-                return GetContentsForPosition(positionID).Length > 0;
+                return GetContentsForPosition(positionID).Length == 0;
             }
         }
         private PagePosition[] GetContentsForPosition(string positionID)

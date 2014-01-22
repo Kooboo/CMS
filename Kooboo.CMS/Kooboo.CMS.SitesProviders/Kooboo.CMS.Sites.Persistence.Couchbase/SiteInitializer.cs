@@ -45,6 +45,22 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.UserDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.UserDataType), ModelExtensions.UserDataType));
             DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.CustomErrorDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.CustomErrorDataType), ModelExtensions.CustomErrorDataType));
             DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.UrlRedirectDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.UrlRedirectDataType), ModelExtensions.UrlRedirectDataType));
+
+            DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.ABPageSettingDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABPageSettingDataType), ModelExtensions.ABPageSettingDataType));
+            DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.ABPageTestResultDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABPageTestResultDataType), ModelExtensions.ABPageTestResultDataType));
+            DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.ABRuleSettingDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABRuleSettingDataType), ModelExtensions.ABRuleSettingDataType));
+            //DatabaseHelper.CreateDesignDocument(bucketName, ModelExtensions.GetQueryView(ModelExtensions.ABSiteSettingDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABSiteSettingDataType), ModelExtensions.ABSiteSettingDataType));
+            System.Threading.Thread.Sleep(3000);
+
+            var defaultBucket = DatabaseSettings.Instance.DefaultBucketName;
+            if (!DatabaseHelper.ExistBucket(defaultBucket))
+            {
+                DatabaseHelper.CreateBucket(defaultBucket);
+            }
+            //DatabaseHelper.CreateDesignDocument(defaultBucket, ModelExtensions.GetQueryView(ModelExtensions.ABPageSettingDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABPageSettingDataType), ModelExtensions.ABPageSettingDataType));
+            //DatabaseHelper.CreateDesignDocument(defaultBucket, ModelExtensions.GetQueryView(ModelExtensions.ABPageTestResultDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABPageTestResultDataType), ModelExtensions.ABPageTestResultDataType));
+            DatabaseHelper.CreateDesignDocument(defaultBucket, ModelExtensions.GetQueryView(ModelExtensions.ABRuleSettingDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABRuleSettingDataType), ModelExtensions.ABRuleSettingDataType));
+            DatabaseHelper.CreateDesignDocument(defaultBucket, ModelExtensions.GetQueryView(ModelExtensions.ABSiteSettingDataType), string.Format(viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABSiteSettingDataType), ModelExtensions.ABSiteSettingDataType));
             System.Threading.Thread.Sleep(3000);
         }
     }

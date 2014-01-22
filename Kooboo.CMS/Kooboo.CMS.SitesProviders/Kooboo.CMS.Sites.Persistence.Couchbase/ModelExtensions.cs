@@ -25,6 +25,10 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         public static string LabelCategoryDataType = "LabelCategory";
         public static string UserDataType = "User";
         public static string SiteDataType = "SiteSetting";
+        public static string ABPageSettingDataType = "ABPageSetting";
+        public static string ABPageTestResultDataType = "ABPageTestResult";
+        public static string ABRuleSettingDataType = "ABRuleSetting";
+        public static string ABSiteSettingDataType = "ABSiteSetting";
 
         public static string GetBucketDocumentKey(string dataType, string uuid)
         {
@@ -41,6 +45,10 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
         public static string GetBucketName(this Site site)
         {
+            if (site == null||string.IsNullOrEmpty(site.FullName))
+            {
+                return DatabaseSettings.Instance.DefaultBucketName;
+            }
             return string.Join("-", site.RelativePaths.ToArray()).ToLower();
         }
 
@@ -52,7 +60,14 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             }
             return string.Empty;
         }
-
+        public static string GetDefaultBucketName()
+        {
+            if (!string.IsNullOrWhiteSpace(DatabaseSettings.Instance.DefaultBucketName))
+            {
+                return DatabaseSettings.Instance.DefaultBucketName;
+            }
+            return string.Empty;
+        }
         #region Model To Json
         public static string ToJson(this object o, string dataType)
         {
@@ -100,6 +115,10 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
             ((IPersistable)model).Init(dummy);
 
+            if (model is ISiteObject)
+            {
+                ((ISiteObject)model).Site = site;
+            }
             return model;
         }
         public static T ToObject<T>(this IViewRow row)

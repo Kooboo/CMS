@@ -19,11 +19,17 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         SiteInitializer _initializer;
         CustomErrorProvider.CustomErrorProvider customErrorProvider;
         UrlRedirectProvider.UrlRedirectProvider urlRedirectProvider;
+        ABTestProvider.ABPageSettingProvider abPageSettingProvider;
+        ABTestProvider.ABRuleSettingProvider abRuleSettingProvider;
+        ABTestProvider.ABSiteSettingProvider abSiteSettingProvider;
         public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, IElementRepositoryFactory elementRepositoryFactory, SiteInitializer initializer)
             : base(baseDir, membershipProvider, elementRepositoryFactory)
         {
             customErrorProvider = new CustomErrorProvider.CustomErrorProvider();
             urlRedirectProvider = new UrlRedirectProvider.UrlRedirectProvider();
+            abPageSettingProvider = new ABTestProvider.ABPageSettingProvider();
+            abRuleSettingProvider = new ABTestProvider.ABRuleSettingProvider();
+            abSiteSettingProvider = new ABTestProvider.ABSiteSettingProvider();
             _initializer = initializer;
         }
         public override void Initialize(Site site)
@@ -33,6 +39,9 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
             customErrorProvider.InitializeCustomError(site);
             urlRedirectProvider.InitializeUrlRedirect(site, true);
+            abPageSettingProvider.InitializeABPageSetting(site);
+            abRuleSettingProvider.InitializeABRuleSetting(site);
+            abSiteSettingProvider.InitializeABSiteSetting();
         }
         #endregion
         Func<Site, string, Site> createModel = (Site site, string key) =>
@@ -89,7 +98,9 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         {
             customErrorProvider.ExportCustomErrorToDisk(site);
             urlRedirectProvider.ExportUrlRedirectToDisk(site);
-
+            abPageSettingProvider.ExportABPageSettingToDisk(site);
+            abRuleSettingProvider.ExportABRuleSettingToDisk(site);
+            abSiteSettingProvider.ExportABSiteSettingToDisk();
             base.Export(site, outputStream, includeDatabase, includeSubSites);
         }
         #endregion

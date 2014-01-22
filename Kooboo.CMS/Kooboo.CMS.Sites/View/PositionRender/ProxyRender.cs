@@ -47,22 +47,17 @@ namespace Kooboo.CMS.Sites.View.PositionRender
                 defaultRequestPath = remoteUrl.Trim('~').Trim();
             }
             var httpMethod = controllerContext.HttpContext.Request.HttpMethod;
-            var defaultHost = proxyPosition.Host.Trim();
-            if (!defaultHost.StartsWith("http://"))
-            {
-                defaultHost = "http://" + defaultHost;
-            }
 
-            var requestUrl = UrlUtility.Combine(defaultHost, defaultRequestPath);
+            var requestUrl = UrlUtility.Combine(proxyPosition.HostUri.ToString(), defaultRequestPath);
 
             Func<IHtmlString> getHtml = () =>
             {
 
-                Func<string, bool, string> proxyUrl = (url, isForm) => new Uri(new Uri(defaultHost), url).ToString();
+                Func<string, bool, string> proxyUrl = (url, isForm) => new Uri(proxyPosition.HostUri, url).ToString();
 
                 if (!proxyPosition.NoProxy && pageRequestContext != null)
                 {
-                    proxyUrl = (url, isForm) => GenerateProxyUrl(controllerContext, pageRequestContext, positionId, url, isForm);
+                    proxyUrl = (url, isForm) => GenerateProxyUrl(controllerContext, pageRequestContext, proxyPosition, positionId, url, isForm);
                 }
                 if (httpMethod.ToUpper() == "POST" && pageRequestContext != null)
                 {
@@ -90,11 +85,20 @@ namespace Kooboo.CMS.Sites.View.PositionRender
             }
 
         }
-        protected string GenerateProxyUrl(ControllerContext controllerContext, PageRequestContext pageRequestContext, string positionId, string url, bool isForm)
+        protected string GenerateProxyUrl(ControllerContext controllerContext, PageRequestContext pageRequestContext, ProxyPosition proxyPosition, string positionId, string url, bool isForm)
         {
             if (string.IsNullOrEmpty(url))
             {
                 return "";
+            }
+            if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
+            {
+                var destinationURI = new Uri(url);
+                var host = proxyPosition.HostUri;
+                if (destinationURI.Host.ToLower() == host.Host.ToLower())
+                {
+                    url = destinationURI.PathAndQuery;
+                }
             }
 
             if (!url.StartsWith("#") && !url.StartsWith("javascript:") && !Uri.IsWellFormedUriString(url, UriKind.Absolute))

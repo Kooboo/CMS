@@ -18,16 +18,16 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.UrlRedirectProvider
             return new UrlRedirect() { Site = site, UUID = key };
         };
         #region .ctor
-         public UrlRedirectProvider()
-        { 
+        public UrlRedirectProvider()
+        {
         }
         #endregion
-         public void Export(Site site, System.IO.Stream outputStream)
-         {
-             ExportUrlRedirectToDisk(site);
+        public void Export(Site site, System.IO.Stream outputStream)
+        {
+            ExportUrlRedirectToDisk(site);
 
-             var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.UrlRedirectProvider();
-             provider.Export(site, outputStream);
+            var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.UrlRedirectProvider();
+            provider.Export(site, outputStream);
         }
 
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
@@ -85,14 +85,19 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.UrlRedirectProvider
             DataHelper.DeleteItemByKey(item.Site, ModelExtensions.GetBucketDocumentKey(ModelExtensions.UrlRedirectDataType, item.UUID));
         }
 
-        public void InitializeUrlRedirect(Site site)
+        public void InitializeUrlRedirect(Site site, bool regenUUID = false)
         {
             IUrlRedirectProvider fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.UrlRedirectProvider();
             foreach (var item in fileProvider.All(site))
             {
                 if (item.Site == site)
                 {
-                    this.Add(fileProvider.Get(item));
+                    var urlRedirect = fileProvider.Get(item);
+                    if (regenUUID)
+                    {
+                        urlRedirect.UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(8);
+                    }
+                    this.Add(urlRedirect);
                 }
             }
         }

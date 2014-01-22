@@ -32,7 +32,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             base.Initialize(site);
 
             customErrorProvider.InitializeCustomError(site);
-            urlRedirectProvider.InitializeUrlRedirect(site);
+            urlRedirectProvider.InitializeUrlRedirect(site, true);
         }
         #endregion
         Func<Site, string, Site> createModel = (Site site, string key) =>

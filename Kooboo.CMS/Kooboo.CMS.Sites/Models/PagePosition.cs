@@ -257,6 +257,18 @@ namespace Kooboo.CMS.Sites.Models
         [DataMember]
         public CacheSettings OutputCache { get; set; }
 
+        public Uri HostUri
+        {
+            get
+            {
+                var host = this.Host.Trim();
+                if (!host.StartsWith("http://"))
+                {
+                    host = "http://" + host;
+                }
+                return new Uri(host);
+            }
+        }
         public override string ToString()
         {
             return "Proxy:" + this.Host ?? "" + ":" + RequestPath ?? "/";

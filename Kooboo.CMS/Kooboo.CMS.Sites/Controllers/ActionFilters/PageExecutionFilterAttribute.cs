@@ -66,7 +66,7 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
                 throw new HttpException(0x194, string.Format(SR.GetString("Path_not_found"), new object[] { frontController.Request.Path }));
             }
             var requestUrl = pageUrl;
-            if (pageUrl.Length > rawPage.VirtualPath.Length)
+            if (pageUrl.Length >= rawPage.VirtualPath.Length)
             {
                 requestUrl = pageUrl.Substring(rawPage.VirtualPath.Length);
             }

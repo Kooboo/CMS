@@ -180,6 +180,10 @@ namespace Kooboo.CMS.Sites.Web
                     }
                     var path = trimedPath.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                     RequestUrl = UrlUtility.Combine(new[] { "/" }.Concat(path.Skip(sitePathLength)).ToArray());
+                    if (this.Path.EndsWith("/") && !this.RequestUrl.EndsWith("/"))
+                    {
+                        RequestUrl = RequestUrl + "/";
+                    }
                     appRelativeCurrentExecutionFilePath = "~" + RequestUrl;
                 }
 
@@ -199,6 +203,10 @@ namespace Kooboo.CMS.Sites.Web
                 }
 
                 RequestUrl = Kooboo.Web.Url.UrlUtility.Combine(new[] { "/" }.Concat(path.Skip(1)).ToArray());
+                if (this.Path.EndsWith("/") && !this.RequestUrl.EndsWith("/"))
+                {
+                    RequestUrl = RequestUrl + "/";
+                }
                 appRelativeCurrentExecutionFilePath = "~" + RequestUrl;
                 #endregion
             }

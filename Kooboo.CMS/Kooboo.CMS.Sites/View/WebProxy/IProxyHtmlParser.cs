@@ -17,28 +17,39 @@ using Kooboo.CMS.Common.Runtime.Dependency;
 using System.Text.RegularExpressions;
 using System.IO;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.View.PositionRender;
+using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.View.WebProxy
 {
-    public interface IProxyHtmlFixer
+    public interface IProxyHtmlParser
     {
-        IHtmlString Fix(string baseUri, string html, Func<string, bool, string> proxyUrlFunc);
+        IHtmlString Parse(ProxyRenderContext proxyRenderContext, string rawHtml
+            , Func<string, bool, string> proxyUrlFunc);
     }
-    [Dependency(typeof(IProxyHtmlFixer))]
-    public class ProxyHtmlFixer : IProxyHtmlFixer
+    [Dependency(typeof(IProxyHtmlParser))]
+    public class ProxyHtmlParser : IProxyHtmlParser
     {
-        private Regex bodyRegex = new Regex("<body[^>]*>(.*?)<\\/body>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
-        #region Fix
-        public IHtmlString Fix(string baseUri, string rawHtml, Func<string, bool, string> proxyUrlFunc)
+        #region Parse
+        public IHtmlString Parse(ProxyRenderContext proxyRenderContext, string rawHtml
+            , Func<string, bool, string> proxyUrlFunc)
         {
+            var stylesheets = new List<string>();
+
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(rawHtml);
 
             HtmlNode headNode = null;
             HtmlNode bodyNode = null;
 
-            foreach (var node in htmlDoc.DocumentNode.Descendants())
+            foreach (var node in htmlDoc.DocumentNode.Descendants().ToArray())
             {
+                //if (IsStylesheet(node) && proxyRenderContext.ProxyPosition.ProxyStylesheet == true)
+                //{
+                //    stylesheets.Add(node.Attributes["href"].Value);
+                //    node.Remove();
+                //    continue;
+                //}
                 var nodeName = node.Name.ToLower();
                 var elementName = node.Attributes["name"] == null ? "" : node.Attributes["name"].Value.ToLower();
                 if (elementName == "__viewstate") { continue; }
@@ -58,7 +69,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                         var isStaticResource = IsStaticResource(node, attr);
                         if (isStaticResource)
                         {
-                            attr.Value = GenerateAbsoluteUrl(baseUri, attr.Value);
+                            attr.Value = GenerateAbsoluteUrl(proxyRenderContext.ProxyPosition.HostUri.ToString(), attr.Value);
                         }
                         else
                         {
@@ -68,6 +79,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                     }
                 }
             }
+
             string newHtml = "";
             if (bodyNode == null)
             {
@@ -83,15 +95,58 @@ namespace Kooboo.CMS.Sites.View.WebProxy
             }
 
             string injectScript = "";
-            if (Page_Context.Current.Initialized)
+            if (proxyRenderContext.PageRequestContext != null)
             {
-                injectScript = InjectScript(Page_Context.Current.PageRequestContext.Site, Page_Context.Current.PageRequestContext.Page);
+                injectScript = InjectScriptForAjax(proxyRenderContext.PageRequestContext.Site, proxyRenderContext.PageRequestContext.Page);
+                newHtml = newHtml + injectScript;
             }
-            return new HtmlString(newHtml + injectScript);
+
+            //if (proxyRenderContext.ProxyPosition.ProxyStylesheet == true && stylesheets.Count > 0)
+            //{
+            //    newHtml = ProxyStyleSheet(proxyRenderContext, stylesheets, newHtml);
+            //}
+
+            return new HtmlString(newHtml);
         }
         #endregion
 
-        private string InjectScript(Site site, Page page)
+//        private string ProxyStyleSheet(ProxyRenderContext proxyRenderContext, IEnumerable<string> stylesheets, string html)
+//        {
+//            var styles = string.Join(",", stylesheets.ToArray());
+//            var urlHelper = new UrlHelper(proxyRenderContext.ControllerContext.RequestContext);
+//            var proxyStyleURL = urlHelper.Action("ProxyStyle", "Resource", new
+//            {
+//                SiteName = proxyRenderContext.PageRequestContext.Site,
+//                PageName = proxyRenderContext.PageRequestContext.Page.FullName,
+//                PositionId = proxyRenderContext.ProxyPosition.PagePositionId,
+//                Styles = styles
+//            });
+
+//            return string.Format(@"<div id='{0}'><link href='{1}' rel='stylesheet' type='text/less'/> <script src='{3}' type='text/javascript'></script>
+//            {2}
+//            </div>", proxyRenderContext.ProxyPosition.PagePositionId, proxyStyleURL, html, Kooboo.Web.Url.UrlUtility.ResolveUrl("~/Scripts/less.js"));
+//        }
+        //#region IsStylesheet
+        //private bool IsStylesheet(HtmlNode node)
+        //{
+        //    if (node.Name.ToLower() == "link")
+        //    {
+        //        var rel = node.Attributes["rel"];
+        //        if (rel != null && !string.IsNullOrEmpty(rel.Value) && rel.Value.ToLower() == "stylesheet")
+        //        {
+        //            var href = node.Attributes["href"];
+        //            if (href != null && !string.IsNullOrEmpty(href.Value) && !href.Value.Contains(";"))
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    return false;
+        //}
+        //#endregion
+
+        #region InjectScriptForAjax
+        private string InjectScriptForAjax(Site site, Page page)
         {
             string query = string.Format("hasRemoteProxy=true&cms_siteName={0}&cms_pageName={1}", site.FullName, page.FullName);
             return string.Format(@"<script>(function (open){{
@@ -105,19 +160,6 @@ namespace Kooboo.CMS.Sites.View.WebProxy
             open.call(this, method, url, async, user, pass);
         }};
     }})(XMLHttpRequest.prototype.open);</script>", query);
-        }
-        #region GetBodyNode
-        protected virtual string GetBodyNode(string html)
-        {
-            var body = bodyRegex.Match(html);
-            if (body == null)
-            {
-                return html;
-            }
-            else
-            {
-                return body.Groups[1].Value;
-            }
         }
         #endregion
 

@@ -74,6 +74,8 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             var allItem = this.All(site).ToList();
             foreach (var item in allItem)
             {
+                var itemTemp = this.Get(item);
+                itemTemp.Site = site;
                 provider.Add(this.Get(item));
             }
         }

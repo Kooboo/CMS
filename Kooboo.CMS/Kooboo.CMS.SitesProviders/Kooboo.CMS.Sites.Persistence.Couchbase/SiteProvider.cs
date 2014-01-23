@@ -96,12 +96,24 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
         public override void Export(Site site, System.IO.Stream outputStream, bool includeDatabase, bool includeSubSites)
         {
+            ExportDataToDisk(site, includeSubSites);
+            base.Export(site, outputStream, includeDatabase, includeSubSites);
+        }
+        private void ExportDataToDisk(Site site,bool includeSubSites)
+        {
             customErrorProvider.ExportCustomErrorToDisk(site);
             urlRedirectProvider.ExportUrlRedirectToDisk(site);
             abPageSettingProvider.ExportABPageSettingToDisk(site);
             abRuleSettingProvider.ExportABRuleSettingToDisk(site);
             //abSiteSettingProvider.ExportABSiteSettingToDisk();
-            base.Export(site, outputStream, includeDatabase, includeSubSites);
+            if(includeSubSites)
+            {
+                var subSites=ChildSites(site);
+                foreach(var s in subSites)
+                {
+                    ExportDataToDisk(s, includeSubSites);
+                }
+            }
         }
         #endregion
     }

@@ -63,11 +63,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 
         public void Export(IEnumerable<ABSiteSetting> sources, System.IO.Stream outputStream)
         {
-            foreach (var item in sources)
-            {
-                var abSiteSetting = Get(item);
-                fileProvider.Add(abSiteSetting);
-            }
+            ExportABSiteSettingToDisk();
             fileProvider.Export(sources, outputStream);
         }
 

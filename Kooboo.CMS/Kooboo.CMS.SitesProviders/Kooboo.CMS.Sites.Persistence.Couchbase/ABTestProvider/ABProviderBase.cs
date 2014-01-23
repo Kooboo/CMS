@@ -5,15 +5,15 @@ using System.Text;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 
-namespace Kooboo.CMS.Sites.Persistence.Couchbase
+namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 {
-    public class ProviderBase<T>
+    public class ABProviderBase<T>
         where T : ISiteObject, IIdentifiable, IPersistable
     {
         protected string DataType;
         protected Func<Site, string, T> CreateModel;
 
-        public ProviderBase(string dataType, Func<Site, string, T> createModel)
+        public ABProviderBase(string dataType, Func<Site, string, T> createModel)
         {
             DataType = dataType;
             CreateModel = createModel;

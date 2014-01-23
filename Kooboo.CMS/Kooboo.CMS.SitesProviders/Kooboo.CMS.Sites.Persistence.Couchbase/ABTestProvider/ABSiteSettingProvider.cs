@@ -73,8 +73,13 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 
         public void Import(System.IO.Stream zipStream, bool @override)
         {
-            fileProvider.Import(zipStream, @override);
             var allItem = fileProvider.All();
+            foreach (var item in allItem)
+            {
+                fileProvider.Remove(item);
+            }
+            fileProvider.Import(zipStream, @override);
+            allItem = fileProvider.All();
             if (!@override)
             {
                 allItem = allItem.Where(it => null == Get(it));
@@ -82,7 +87,8 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             var dummy = allItem.ToList();
             foreach (var item in dummy)
             {
-                InsertOrUpdate(item, item);
+                var tempItem = fileProvider.Get(item);
+                InsertOrUpdate(tempItem, tempItem);
             }
         }
 
@@ -105,7 +111,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             var allItem = this.All().ToList();
             foreach (var item in allItem)
             {
-                fileProvider.Add(item);
+                fileProvider.Add(this.Get(item));
             }
         }
     }

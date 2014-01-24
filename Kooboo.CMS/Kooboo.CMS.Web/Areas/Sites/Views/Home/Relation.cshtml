@@ -11,95 +11,39 @@
 
 }
 
-<style>
-    /* relation svg */
-    .topbar .tips {
-        float: right;
-        margin-top: 14px;
-    }
-
-    svg text.empty:hover,
-    svg rect.empty:hover {
-        cursor: pointer;
-    }
-
-    svg text:hover {
-        cursor: default;
-    }
-
-    svg text.titles:hover {
-        cursor: default;
-        text-decoration: none;
-    }
-
-    svg image:hover {
-        cursor: pointer;
-    }
-
-    #fullSiteName {
-        position: absolute;
-        border: 1px solid #ccc;
-        top: 0;
-        left: 0;
-        background: #fff;
-        color: #000;
-        z-index: 999;
-        padding: 0 5px;
-        display: none;
-    }
-</style>
-
 <div class="topbar">
     <h1 class="title">Relation</h1>
-    <p class="tips">@("Tip: Click rectangles to view the relations.".Localize())</p>
 </div>
 <div class="block fixed">
-    <div id="showRelation"></div>
-    <span id="fullSiteName">fullname</span>
+    <div class="block relation">
+        <div class="titlebar">
+            <h6 class="title">@("Membership".Localize())</h6>
+            <h6 class="title">@("Site".Localize())</h6>
+            <h6 class="title">@("Content database".Localize())</h6>
+        </div>
+        <div id="showRelation"></div>
+    </div>
 </div>
 
-
 <script>
-    var site =  @Html.Raw(JsonConvert.SerializeObject(ViewBag.Sites, Formatting.Indented))
-    var content = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Databases, Formatting.Indented))
-    var membership = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Memberships, Formatting.Indented))
+    var site =  @Html.Raw(JsonConvert.SerializeObject(ViewBag.Sites, Formatting.Indented));
+    var content = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Databases, Formatting.Indented));
+    var membership = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Memberships, Formatting.Indented));
 
     var max_length = Math.max(site.length, content.length, membership.length);
 
-    var bg_database = '#1f9284';
-    var bg_site = '#3ca8db';
-    var bg_membership = '#5496A7';
-    var bg_hover = '#d3573f';
+    var bgSite = '#009AD7';
+    var bgDatabase = '#1F9284';
+    var bgMembership = '#5496A7';
 
     var w = 1000;
-    //var w = $('#showRelation').width();
+
     var rect_w = w / 100 * 20;
-    var rect_h = 44;
+    var rect_h = 39;
     var rect_margin_h = w / 100 * 2;
-    var h = max_length * (rect_h + rect_margin_h) + 500;
+    var h = max_length * (rect_h + rect_margin_h) + 100;
 
     var svg = d3.select('#showRelation').append('svg').attr('width', w).attr('height', h);
-
-    var marker = svg.append('defs').append('marker')
-				.attr('id', 'the_marker')
-				.attr('markerWidth', 8)
-				.attr('markerHeight', 8)
-				.attr('refX', 5)
-				.attr('refY', 5)
-				.append('circle')
-				.attr('cx', 5)
-				.attr('cy', 5)
-				.attr('r', 2)
-				.attr('fill', '#666');
-
-    var titles = svg.selectAll('text.titles').data(['@("Membership".Localize())', '@("Site".Localize())', '@("Content database".Localize())'])
-	.enter().append('text')
-	.attr('class', 'titles')
-	.attr('style', 'font-family: Arial, Helvetica, sans-serif; font-size: 1.17em; font-weight: bold; text-anchor: middle')
-	.attr('fill', '#555')
-	.attr('x', function (d, i) { return i * w / 100 * 30 + w / 100 * 10 + 70 })
-	.attr('y', 40)
-	.text(function (d) { return d });
 
     // rects and texts
     // Empty case
@@ -123,21 +67,22 @@
         }
         svg.selectAll('rect.none').data([1]).enter().append('rect')
 			.attr('x', offset * 300 + 70)
-			.attr('y', 100)
+			.attr('y', 40)
 			.attr('class', 'empty')
 			.attr('data-url', url)
 			.attr('width', rect_w)
 			.attr('height', rect_h)
-			.attr('fill', '#fff')
-			.attr('stroke', '#aaa')
+			.attr('fill', '#FFF')
+			.attr('stroke', '#AAA')
+			.attr('style', 'cursor:pointer;')
 			.attr('stroke-dasharray', '5 2');
         svg.selectAll('text.none').data([1]).enter().append('text')
 			.attr('x', 70 + w / 100 * 10 + offset * 300)
-			.attr('y', 126)
+			.attr('y', 66)
 			.attr('class', 'empty')
 			.attr('data-url', url)
-			.attr('style', 'font-family: Arial; font-size: 14px; text-anchor: middle')
-			.attr('fill', '#aaa')
+			.attr('style', 'font-family: Arial; font-size: 14px; text-anchor: middle;cursor:pointer;')
+			.attr('fill', '#AAA')
 			.text(text);
     }
     if(!membership.length){
@@ -151,61 +96,143 @@
     }
 
     // Full case
-    var site_rects = svg.selectAll('rect.site').data(site).enter().append('rect');
-    var site_texts = svg.selectAll('text.site').data(site).enter().append('text').attr('class', 'site-text');
-    var content_rects = svg.selectAll('rect.content').data(content).enter().append('rect');
-    var content_texts = svg.selectAll('text.content').data(content).enter().append('text').attr('class', 'content-text');
-    var membership_rects = svg.selectAll('rect.membership').data(membership).enter().append('rect');
-    var membership_texts = svg.selectAll('text.membership').data(membership).enter().append('text').attr('class', 'membership-text');
+    var siteNode = svg.selectAll().data(site).enter().append('g');
+    var contentNode = svg.selectAll().data(content).enter().append('g');
+    var membershipNode = svg.selectAll().data(membership).enter().append('g');
 
-    site_rects.attr('x', w / 100 * 30 + 70)
-				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) })
-				.attr('width', rect_w)
-				.attr('height', rect_h)
-				.attr('class', 'site-rect')
-				.attr('data-name', function (d) { return d.name })
-                .attr('data-url', function (d) { return d.url })
-				.attr('fill', bg_site);
-    site_texts.attr('x', w / 100 * 30 + 80)
-				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 26 })
-				.attr('style', 'font-family: Arial; font-size: 14px')
-				.attr('fill', '#fff')
-				.attr('data-name', function (d) { return d.name })
-                .attr('data-url', function (d) { return d.url })
-				.attr('data-fulltext', function (d) { return d.fullText })
-				.text(function (d) { return d.text });
+    siteNode.attr('class', 'node site')
+            .attr('x', w / 100 * 30 + 70)
+            .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) })
+            .attr('data-name', function(d){return d.name});
+    //Site rect
+    siteNode.append('rect')
+            .attr('x', w / 100 * 30 + 70)
+            .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) })
+            .attr('height',rect_h)
+            .attr('width',rect_w)
+            .attr('fill', bgSite);
+    //Site icon
+    siteNode.append('image')
+            .attr('x', w / 100 * 30 + 76)
+            .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + 11 })
+            .attr('width', 17)
+            .attr('height', 17)
+            .attr('xlink:href', '@(Url.Content("~/Images/svg-site.png"))');
+    //Site line
+    siteNode.append('line')
+            .attr('x1', w / 100 * 30 + 100)
+            .attr('y1', function (d) { return 40 + d.num * (rect_h + rect_margin_h) })
+            .attr('x2', w / 100 * 30 + 100)
+            .attr('y2', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + 39 })
+            .attr('stroke-width', 2)
+            .attr('stroke', '#FFF');
+    //Site text
+    siteNode.append('text')
+            .attr('x', w / 100 * 30 + 110)
+            .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + 26 })
+            .attr('style', 'font-family: Arial; font-size: 14px')
+            .attr('fill', '#FFF')
+            .attr('style','cursor:default')
+            .text(function (d) { return d.text });
+    //Site arrow
+    siteNode.append('image')
+            .attr('class', 'link')
+            .attr('x', w / 100 * 30 + 250)
+            .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + 11 })
+            .attr('width', 16)
+            .attr('height', 16)
+            .attr('style','cursor:pointer')
+            .attr('data-url', function (d) { return d.url })
+            .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
 
-    content_rects.attr('x', w / 100 * 60 + 70)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) })
-				.attr('width', rect_w)
-				.attr('height', rect_h)
-				.attr('class', 'content-rect')
-				.attr('data-name', function (d) { return d.name })
-                .attr('data-url', function (d) { return d.url })
-				.attr('fill', bg_database);
-    content_texts.attr('x', w / 100 * 60 + 80)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
-				.attr('style', 'font-family: Arial; font-size: 14px')
-				.attr('fill', '#fff')
-				.attr('data-name', function (d) { return d.name })
-                .attr('data-url', function (d) { return d.url })
-				.text(function (d) { return d.text });
+    contentNode.attr('class', 'node content')
+               .attr('data-name', function(d){return d.name});
 
-    membership_rects.attr('x', 70)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) })
-				.attr('width', rect_w)
-				.attr('height', rect_h)
-				.attr('class', 'membership-rect')
-				.attr('data-name', function (d) { return d.name })
-                .attr('data-url', function (d) { return d.url })
-				.attr('fill', bg_membership);
-    membership_texts.attr('x', 80)
-				.attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 26 })
-				.attr('style', 'font-family: Arial; font-size: 14px')
-				.attr('fill', '#fff')
-				.attr('data-name', function (d) { return d.name })
-                .attr('data-url', function (d) { return d.url })
-				.text(function (d) { return d.text });
+    //Content rect
+    contentNode.append('rect')
+               .attr('x', w / 100 * 60 + 70)
+               .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) })
+               .attr('height',rect_h)
+               .attr('width',rect_w)
+               .attr('fill', bgDatabase);
+    //Content icon
+    contentNode.append('image')
+               .attr('x', w / 100 * 60 + 76)
+               .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 11 })
+               .attr('width', 17)
+               .attr('height', 17)
+               .attr('xlink:href', '@(Url.Content("~/Images/svg-content.png"))');
+    //Content line
+    contentNode.append('line')
+               .attr('x1', w / 100 * 60 + 100)
+               .attr('y1', function (d, i) { return 40 + i * (rect_h + rect_margin_h) })
+               .attr('x2', w / 100 * 60 + 100)
+               .attr('y2', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 39 })
+               .attr('stroke-width', 2)
+               .attr('stroke', '#FFF');
+    //Content text
+    contentNode.append('text')
+               .attr('x', w / 100 * 60 + 110)
+               .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 26 })
+               .attr('style', 'font-family: Arial; font-size: 14px')
+               .attr('fill', '#FFF')
+               .attr('style','cursor:default')
+               .text(function (d) { return d.text });
+    //Content arrow
+    contentNode.append('image')
+               .attr('class', 'link')
+               .attr('x', w / 100 * 60 + 250)
+               .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 11 })
+               .attr('width', 16)
+               .attr('height', 16)
+               .attr('style','cursor:pointer')
+               .attr('data-url', function (d) { return d.url })
+               .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+
+    membershipNode.attr('class', 'node membership')
+                  .attr('data-name', function(d){return d.name});
+
+    //Membership rect
+    membershipNode.append('rect')
+                  .attr('x', 70)
+                  .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) })
+                  .attr('height',rect_h)
+                  .attr('width',rect_w)
+                  .attr('fill', bgDatabase);
+    //Membership icon
+    membershipNode.append('image')
+                  .attr('x', 76)
+                  .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 11 })
+                  .attr('width', 17)
+                  .attr('height', 17)
+                  .attr('xlink:href', '@(Url.Content("~/Images/svg-membership.png"))');
+    //Membership line
+    membershipNode.append('line')
+                  .attr('x1', 100)
+                  .attr('y1', function (d, i) { return 40 + i * (rect_h + rect_margin_h) })
+                  .attr('x2', 100)
+                  .attr('y2', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 39 })
+                  .attr('stroke-width', 2)
+                  .attr('stroke', '#FFF');
+    //Membership text
+    membershipNode.append('text')
+                  .attr('x', 110)
+                  .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 26 })
+                  .attr('style', 'font-family: Arial; font-size: 14px')
+                  .attr('fill', '#FFF')
+                  .attr('style','cursor:default')
+                  .text(function (d) { return d.text });
+    //Membership arrow
+    membershipNode.append('image')
+                  .attr('class', 'link')
+                  .attr('x', 250)
+                  .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 11 })
+                  .attr('width', 16)
+                  .attr('height', 16)
+                  .attr('style','cursor:pointer')
+                  .attr('data-url', function (d) { return d.url })
+                  .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+
 
     var hasMemberships = _.filter(site,function(d){
         return d.membership > -1;
@@ -219,257 +246,176 @@
     var site_content_lines = svg.selectAll('line.site_content').data(hasContents).enter().append('line');
 
     site_member_lines.attr('x1', w / 100 * 30 + 70)
-					.attr('y1', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
-					.attr('x2', w / 100 * 20 + 70)
-					.attr('y2', function (d) { return 100 + d.membership * (rect_h + rect_margin_h) + rect_h / 2 })
-					.attr('class', 'member-line')
-					.attr('marker-end', 'url(#the_marker)')
-					.attr('marker-start', 'url(#the_marker)')
-					.attr('stroke', '#999');
+                     .attr('y1', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
+                     .attr('x2', w / 100 * 20 + 70)
+                     .attr('y2', function (d) { return 40 + d.membership * (rect_h + rect_margin_h) + rect_h / 2 })
+                     .attr('class', 'member-line')
+                     .attr('stroke', '#BBB');
     site_content_lines.attr('x1', w / 100 * 50 + 70)
-					.attr('y1', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
-					.attr('x2', w / 100 * 60 + 70)
-					.attr('y2', function (d) { return 100 + d.content * (rect_h + rect_margin_h) + rect_h / 2 })
-					.attr('class', 'content-line')
-					.attr('marker-end', 'url(#the_marker)')
-					.attr('marker-start', 'url(#the_marker)')
-					.attr('stroke', '#999');
+                      .attr('y1', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
+                      .attr('x2', w / 100 * 60 + 70)
+                      .attr('y2', function (d) { return 40 + d.content * (rect_h + rect_margin_h) + rect_h / 2 })
+                      .attr('class', 'content-line')
+                      .attr('stroke', '#BBB');
 
+    // Show relation
+    $('g.site').on('mouseenter', function () {
+        $('.block.relation').addClass('hover');
+        $(this).attr('class',$(this).attr('class')+' hover');
+        var site_name = $(this).data('name');
+        for (var i = 0; i < site.length; i++) {
+            if (site[i]['name'] == site_name) {
+                var index = i;
+                break;
+            } else {
+                continue;
+            }
+        }
+        var content_index = site[index]['content'];
+        var membership_index = site[index]['membership'];
+        if(content_index > -1){
+            $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class') + ' hover');
 
-    var site_export_imgs = svg.selectAll('image.export').data(site).enter().append('image');
-    var content_export_imgs = svg.selectAll('image.export').data(content).enter().append('image');
-    var membership_export_imgs = svg.selectAll('image.export').data(membership).enter().append('image');
+        }
+        if(membership_index > -1){
+            $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class') + ' hover');
+        }
 
-    site_export_imgs.attr('x', w / 100 * 50 + 38)
-				.attr('y', function (d) { return 100 + d.num * (rect_h + rect_margin_h) + 10 })
-				.attr('width', 24)
-				.attr('height', 24)
-				.attr('class', 'view')
-				.attr('data-name', function (d) { return d.name })
-                .attr('data-url', function (d) { return d.url })
-				.attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
-					content_export_imgs.attr('x', w / 100 * 80 + 38)
-                                .attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
-                                .attr('width', 24)
-                                .attr('height', 24)
-                                .attr('class', 'view')
-                                .attr('data-name', function (d) { return d.name })
-                                .attr('data-url', function (d) { return d.url })
-                                .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
-					membership_export_imgs.attr('x', w / 100 * 20 + 38)
-                                .attr('y', function (d, i) { return 100 + i * (rect_h + rect_margin_h) + 10 })
-                                .attr('width', 24)
-                                .attr('height', 24)
-                                .attr('class', 'view')
-                                .attr('data-name', function (d) { return d.name })
-                                .attr('data-url', function (d) { return d.url })
-                                .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+        $(this).on('click', function(){
+            $('.block.relation').addClass('active');
+            $('.block.relation .node.active').each(function(){
+                $(this).attr('class',$(this).attr('class').replace(/active/g,''))
+            });
+            $(this).attr('class',$(this).attr('class')+' active');
+            if(content_index > -1){
+                $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class')+' active');
+            }
+            if(membership_index > -1){
+                $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class')+' active');
+            }
+        });
 
-	// Mouse Position
-	$('svg').on('mousemove', function(e){
-	    currentX = e.pageX;
-	    currentY = e.pageY;
-	});
+    }).on('mouseleave', function(){
+        $('.block.relation').removeClass('hover');
+        $('.block.relation .node.hover').each(function(){
+            $(this).attr('class',$(this).attr('class').replace(/hover/g,''));
+        });
+    });
 
-	$('.site-text').on('mousemove', function(){
-	    $('#fullSiteName').html($(this).data('fulltext')).css({'display': 'block', 'top': currentY - 12, 'left': currentX + 12});
-	}).on('mouseleave', function(){
-	    $('#fullSiteName').css({'display': 'none'});
-	});
+    $('g.content').on('mouseenter', function () {
+        $('.block.relation').addClass('hover');
+        $(this).attr('class',$(this).attr('class')+' hover');
+        var content_name = $(this).data('name');
+        for(var i=0;i<content.length;i++){
+            if(content[i].name==content_name){
+                var index = i;
+                break;
+            } else {
+                continue;
+            }
+        }
+        for (var i = 0; i < site.length; i++) {
+            if (site[i]['content'] == index) {
+                $('g.site').eq(site[i]['num']).attr('class',$('g.site').eq(site[i]['num']).attr('class')+' hover');
+                var content_index = site[i]['content'];
+                var membership_index = site[i]['membership'];
+                if(content_index > -1){
+                    $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class')+' hover');
+                }
+                if(membership_index > -1){
+                    $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class')+' hover');
+                }
+            }
+        }
+        $(this).on('click', function(){
+            $('.block.relation').addClass('active');
+            $('.block.relation .node.active').each(function(){
+                $(this).attr('class',$(this).attr('class').replace(/active/g,''))
+            });
+            $(this).attr('class',$(this).attr('class')+' active');
+            for (var i = 0; i < site.length; i++) {
+                if (site[i]['content'] == index) {
+                    $('g.site').eq(site[i]['num']).attr('class',$('g.site').eq(site[i]['num']).attr('class')+' active');
+                    var content_index = site[i]['content'];
+                    var membership_index = site[i]['membership'];
+                    if(content_index > -1){
+                        $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class')+' active');
+                    }
+                    if(membership_index > -1){
+                        $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class')+' active');
+                    }
+                }
+            }
+        });
+    }).on('mouseleave', function(e){
+        $('.block.relation').removeClass('hover');
+        $('.block.relation .node.hover').each(function(){
+            $(this).attr('class',$(this).attr('class').replace(/hover/g,''));
+        });
+    });
 
-	// Show relation
-	$('.site-rect').on('mouseenter', function (e) {
-	    e.stopPropagation();
-	    $(this).attr('style', 'opacity: .5');
-	    var site_name = $(this).data('name');
-	    for (var i = 0; i < site.length; i++) {
-	        if (site[i]['name'] == site_name) {
-	            var index = i;
-	            break;
-	        } else {
-	            continue;
-	        }
-	    }
-	    var content_index = site[index]['content'];
-	    var membership_index = site[index]['membership'];
-	    if(content_index > -1){
-	        $('.content-rect').eq(content_index).attr('style', 'opacity: .4');
-        	
-	    }
-	    if(membership_index > -1){
-	        $('.membership-rect').eq(membership_index).attr('style', 'opacity: .4');
-	    }
+    $('g.membership').on('mouseenter', function () {
+        $('.block.relation').addClass('hover');
+        $(this).attr('class',$(this).attr('class')+' hover');
+        var membership_name = $(this).data('name');
+        for(var i=0;i<membership.length;i++){
+            if(membership[i].name==membership_name){
+                var index = i;
+                break;
+            } else {
+                continue;
+            }
+        }
+        for (var i = 0; i < site.length; i++) {
+            if (site[i]['membership'] == index) {
+                $('g.site').eq(site[i]['num']).attr('class',$('g.site').eq(site[i]['num']).attr('class')+' hover');
+                var content_index = site[i]['content'];
+                var membership_index = site[i]['membership'];
+                if(content_index > -1){
+                    $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class')+' hover');
+                }
+                if(membership_index > -1){
+                    $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class')+' hover');
+                }
+            }
+        }
+        $(this).on('click', function(e){
+            $('.block.relation').addClass('active');
+            $('.block.relation .node.active').each(function(){
+                $(this).attr('class',$(this).attr('class').replace(/active/g,''))
+            });
+            $(this).attr('class',$(this).attr('class')+' active');
+            for (var i = 0; i < site.length; i++) {
+                if (site[i]['membership'] == index) {
+                    $('g.site').eq(site[i]['num']).attr('class',$('g.site').eq(site[i]['num']).attr('class')+' active');
+                    var content_index = site[i]['content'];
+                    var membership_index = site[i]['membership'];
+                    if(content_index > -1){
+                        $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class')+' active');
+                    }
+                    if(membership_index > -1){
+                        $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class')+' active');
+                    }
+                }
+            }
+        });
+    }).on('mouseleave', function(){
+        $('.block.relation').removeClass('hover');
+        $('.block.relation .node.hover').each(function(){
+            $(this).attr('class',$(this).attr('class').replace(/hover/g,''));
+        });
+    });
 
-	    $(this).on('click', function(e){
-	        $('.content-rect').attr('fill', bg_database);
-	        $('.site-rect').attr('fill', bg_site);
-	        $('.membership-rect').attr('fill', bg_membership);
-	        $(this).attr({'fill': bg_hover, 'style': 'opacity: 1'});
-	        if(content_index > -1){
-	            $('.content-rect').eq(content_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
-	        }
-	        if(membership_index > -1){
-	            $('.membership-rect').eq(membership_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
-	        }
-	    });
-
-	}).on('mouseleave', function(e){
-	    $('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
-	});
-
-	$('.content-rect').on('mouseenter', function (e) {
-	    e.stopPropagation();
-	    $(this).attr('style', 'opacity: .5');
-	    var click_name = $(this).data('name');
-	    for(var i=0;i<content.length;i++){
-	        if(content[i].name==click_name){
-	            var index = i;
-	            break;
-	        } else {
-	            continue;
-	        }
-	    }
-	    for (var i = 0; i < site.length; i++) {
-	        if (site[i]['content'] == index) {
-	            $('.site-rect').eq(site[i]['num']).attr('style', 'opacity: .4');
-	            var content_index = site[i]['content'];
-	            var membership_index = site[i]['membership'];
-	            if(content_index > -1){
-	                $('.content-rect').eq(content_index).attr('style', 'opacity: .4');
-	            }
-	            if(membership_index > -1){
-	                $('.membership-rect').eq(membership_index).attr('style', 'opacity: .4');
-	            }
-	        }
-	    }
-	    $(this).on('click', function(e){
-	        $('.content-rect').attr('fill', bg_database);
-	        $('.site-rect').attr('fill', bg_site);
-	        $('.membership-rect').attr('fill', bg_membership);
-	        $(this).attr({'fill': bg_hover, 'style': 'opacity: 1'});
-	        for (var i = 0; i < site.length; i++) {
-	            if (site[i]['content'] == index) {
-	                $('.site-rect').eq(site[i]['num']).attr({'fill': bg_hover, 'style': 'opacity: 1'});
-	                var content_index = site[i]['content'];
-	                var membership_index = site[i]['membership'];
-	                if(content_index > -1){
-	                    $('.content-rect').eq(content_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
-	                }
-	                if(membership_index > -1){
-	                    $('.membership-rect').eq(membership_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
-	                }
-	            }
-	        }
-	    });
-	}).on('mouseleave', function(e){
-	    $('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
-	});
-
-	$('.membership-rect').on('mouseenter', function (e) {
-	    e.stopPropagation();
-	    $(this).attr('style', 'opacity: .5');
-	    var click_name = $(this).data('name');
-	    for(var i=0;i<membership.length;i++){
-	        if(membership[i].name==click_name){
-	            var index = i;
-	            break;
-	        } else {
-	            continue;
-	        }
-	    }
-	    for (var i = 0; i < site.length; i++) {
-	        if (site[i]['membership'] == index) {
-	            $('.site-rect').eq(site[i]['num']).attr('style', 'opacity: .4');
-	            var content_index = site[i]['content'];
-	            var membership_index = site[i]['membership'];
-	            if(content_index > -1){
-	                $('.content-rect').eq(content_index).attr('style', 'opacity: .4');
-	            }
-	            if(membership_index > -1){
-	                $('.membership-rect').eq(membership_index).attr('style', 'opacity: .4');
-	            }
-	        }
-	    }
-	    $(this).on('click', function(e){
-	        $('.content-rect').attr('fill', bg_database);
-	        $('.site-rect').attr('fill', bg_site);
-	        $('.membership-rect').attr('fill', bg_membership);
-	        $(this).attr({'fill': bg_hover, 'style': 'opacity: 1'});
-
-	        for (var i = 0; i < site.length; i++) {
-	            if (site[i]['membership'] == index) {
-	                $('.site-rect').eq(site[i]['num']).attr({'fill': bg_hover, 'style': 'opacity: 1'});
-	                var content_index = site[i]['content'];
-	                var membership_index = site[i]['membership'];
-	                if(content_index > -1){
-	                    $('.content-rect').eq(content_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
-	                }
-	                if(membership_index > -1){
-	                    $('.membership-rect').eq(membership_index).attr({'fill': bg_hover, 'style': 'opacity: 1'});
-	                }
-	            }
-	        }
-	    });
-	}).on('mouseleave', function(e){
-	    $('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
-	});
-
-	// text fixed
-	$('text').on('mouseenter', function(e){
-	    e.stopPropagation();
-	    var text_y = parseInt($(this).attr('y'));
-	    var rect_x = parseInt($(this).attr('x')) - 10;
-	    var all_rect = $('rect[x="' + rect_x + '"]');
-	    var y_list = [];
-	    for(var i=0;i<all_rect.length;i++){
-	        y_list.push($(all_rect[i]).attr('y'));
-	    }
-	    for(var i=0;i<y_list.length;i++){
-	        if(parseInt(y_list[i]) - text_y == -26){
-	            var index = i;
-	            break;
-	        }
-	    }
-	    $(all_rect[index]).trigger('mouseenter');
-	}).on('click', function(e){
-	    e.stopPropagation();
-	    var text_y = parseInt($(this).attr('y'));
-	    var rect_x = parseInt($(this).attr('x')) - 10;
-	    var all_rect = $('rect[x="' + rect_x + '"]');
-	    var y_list = [];
-	    for(var i=0;i<all_rect.length;i++){
-	        y_list.push($(all_rect[i]).attr('y'));
-	    }
-	    for(var i=0;i<y_list.length;i++){
-	        if(parseInt(y_list[i]) - text_y == -26){
-	            var index = i;
-	            break;
-	        }
-	    }
-	    $(all_rect[index]).trigger('click');
-	});
-	
-    
-
-	$('html').on('click', function(e){
-	    var target = $(e.target);
-	    if(target[0].nodeName != 'rect'){
-	        $('.content-rect, .site-rect, .membership-rect').attr('style', 'opacity: 1');
-	        $('.content-rect').attr('fill', bg_database);
-	        $('.site-rect').attr('fill', bg_site);
-	        $('.membership-rect').attr('fill', bg_membership);
-	    }
-	});
-
-	// Icon action
-	$('.site-text, .content-text, .membership-text').on('click', function () {
-	    //  location.href= $(this).data('url');
-	});
-	$('image.view, rect.empty, text.empty').on('click', function () {
-	    location.href= $(this).data('url');
-	});
+    $('html').on('click', function(e){
+        var target = $(e.target);
+        if(target.parents('g').length < 1){
+            $('.block.relation').removeClass('active');
+            $('.block.relation .node.active').each(function(){
+                $(this).attr('class',$(this).attr('class').replace(/active/g,''));
+            })
+        }
+    });
+    $('image.link, rect.empty, text.empty').on('click', function () {
+        location.href= $(this).data('url');
+    });
 </script>
-
-
-
-

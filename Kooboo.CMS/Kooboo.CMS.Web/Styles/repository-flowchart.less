@@ -1,0 +1,141 @@
+/* Repository flowchart block
+----------------------------------------------------------*/
+.block.repository-flowchart {
+	position: relative;
+	width: 902px;
+
+	.step {
+		border-left: 1px dashed #CCC;
+		float: left;
+		height: 400px;
+		position: relative;
+		text-align: center;
+		width: 300px;
+
+		&:first-child {
+			border: none;
+		}
+	}
+
+	.description {
+		background: #FCFCFC;
+		border: 1px solid #CCC;
+		bottom: 0;
+		left: 70px;
+		padding: 10px;
+		position: absolute;
+		width: 140px;
+	}
+
+	.map-item {
+		background: #1f9284;
+		position: absolute;
+
+		> a {
+			width: 140px;
+		}
+
+		&.completed {
+			background: #EEE;
+
+			a {
+				color: #333;
+			}
+		}
+
+		&.disabled {
+			background: #CCC;
+
+			a {
+				color: #666;
+				cursor: not-allowed;
+			}
+		}
+
+		&.repository {
+			left: 90px;
+			top: 200px;
+		}
+
+		&.content-type {
+			left: 390px;
+			top: 100px;
+		}
+
+		&.text-folder {
+			left: 390px;
+			top: 200px;
+		}
+
+		&.text-content {
+			left: 690px;
+			top: 200px;
+		}
+
+		&.media-content {
+			left: 690px;
+			top: 300px;
+		}
+	}
+	/* Line */
+	.line {
+		background: #000;
+		position: absolute;
+
+		&.x {
+			height: 1px;
+		}
+
+		&.y {
+			width: 1px;
+		}
+
+		&.line-1 {
+			left: 250px;
+			top: 219px;
+			width: 140px;
+		}
+
+		&.line-2 {
+			height: 200px;
+			left: 335px;
+			top: 120px;
+		}
+
+		&.line-3 {
+			left: 335px;
+			top: 120px;
+			width: 55px;
+		}
+
+		&.line-4 {
+			height: 61px;
+			left: 466px;
+			top: 139px;
+		}
+
+		&.line-5 {
+			left: 550px;
+			top: 219px;
+			width: 140px;
+		}
+
+		&.line-6 {
+			width: 355px;
+			left: 335px;
+			top: 320px;
+		}
+
+		.point-right {
+			position: absolute;
+			right: 0;
+			top: -5px;
+		}
+
+		.point-down {
+			bottom: 0;
+			left: -5px;
+			position: absolute;
+		}
+	}
+}

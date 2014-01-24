@@ -65,10 +65,10 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
             {
                 throw new HttpException(0x194, string.Format(SR.GetString("Path_not_found"), new object[] { frontController.Request.Path }));
             }
-            var requestUrl = "";
-            if (!string.IsNullOrEmpty(pageUrl))
+            var requestUrl = pageUrl;
+            if (pageUrl.Length >= rawPage.VirtualPath.Length)
             {
-                requestUrl = pageUrl.Substring(rawPage.VirtualPath.TrimStart('/').Length).TrimStart('/');
+                requestUrl = pageUrl.Substring(rawPage.VirtualPath.Length);
             }
             var page = Services.ServiceFactory.ABPageSettingManager.MatchRule(frontController.Site, rawPage, controllerContext.HttpContext);
 

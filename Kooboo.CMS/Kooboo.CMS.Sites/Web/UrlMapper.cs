@@ -40,10 +40,14 @@ namespace Kooboo.CMS.Sites.Web
                 return false;
             }
             var mapSettings = Services.ServiceFactory.UrlRedirectManager.All(site, "");
-            inputUrl = inputUrl.Trim('/');
+            //inputUrl = inputUrl.Trim('/');
+            if (!inputUrl.StartsWith("/"))
+            {
+                inputUrl = "/" + inputUrl;
+            }
             foreach (var setting in mapSettings)
             {
-                var inputPattern = setting.InputUrl.Trim('/');
+                var inputPattern = setting.InputUrl;//.Trim('/');
                 if (setting.Regex)
                 {
                     try

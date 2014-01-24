@@ -81,11 +81,11 @@ namespace Kooboo.CMS.Sites.View
         {
             if (PageContext.PageRequestContext.RequestChannel == FrontRequestChannel.Design)
             {
-                return true;
+                return false;
             }
             else
             {
-                return GetContentsForPosition(positionID).Length > 0;
+                return GetContentsForPosition(positionID).Length == 0;
             }
         }
         private PagePosition[] GetContentsForPosition(string positionID)
@@ -185,7 +185,7 @@ namespace Kooboo.CMS.Sites.View
         #region RenderProxyPosition
         protected virtual IHtmlString RenderProxyPosition(ProxyPosition proxyPosition)
         {
-            return ProxyRender.Render(PageContext, proxyPosition.PagePositionId, proxyPosition.Host, proxyPosition.RequestPath, proxyPosition.NoProxy, proxyPosition.OutputCache);
+            return ProxyRender.Render(new ProxyRenderContext(PageContext.ControllerContext, PageContext.PageRequestContext, proxyPosition, null));
         }
         #endregion
 

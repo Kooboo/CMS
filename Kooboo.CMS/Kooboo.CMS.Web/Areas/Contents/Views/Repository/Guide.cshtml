@@ -22,7 +22,7 @@
     </ul>
 </div>
 <div class="block fixed">
-    <div class="block process">
+    <div class="block repository-flowchart">
         <div class="step">
             <h3>@Html.Raw("1. Database".Localize())</h3>
             <div class="description">
@@ -43,23 +43,28 @@
         </div>
         <div class="map-item repository completed">
             <a class="pop" title="@("Create a database".Localize())">
-                @Html.Raw("Create a database".Localize())</a>
+                @Html.Raw("Create a database".Localize())
+            </a>
         </div>
         <div class="map-item content-type @(hasContentType ? "completed" : "")">
             <a href="@Url.Action("Index", "ContentType", ViewContext.RequestContext.AllRouteValues())">
-                @Html.Raw("Add content type".Localize())</a>
+                @Html.Raw("Add content type".Localize())
+            </a>
         </div>
         <div class="map-item text-folder @(hasTextFolder ? "completed" : "") ">
             <a href="@Url.Action("Index", "TextFolder", ViewContext.RequestContext.AllRouteValues())">
-                @Html.Raw("Add text folder".Localize())</a>
+                @Html.Raw("Add text folder".Localize())
+            </a>
         </div>
         <div class="map-item text-content @((!hasTextFolder || !hasContentType) ? "disabled" : "")">
-            <a  href="@((!hasTextFolder || !hasContentType) ? "#":Url.Action("Index", "TextFolder", ViewContext.RequestContext.AllRouteValues()))">
-                @Html.Raw("Add text content".Localize())</a>
+            <a href="@((!hasTextFolder || !hasContentType) ? "#":Url.Action("Index", "TextFolder", ViewContext.RequestContext.AllRouteValues()))">
+                @Html.Raw("Add text content".Localize())
+            </a>
         </div>
         <div class="map-item media-content">
-            <a  href="@Url.Action("Index", "MediaContent", ViewContext.RequestContext.AllRouteValues())">
-                @Html.Raw("Add media files".Localize())</a>
+            <a href="@Url.Action("Index", "MediaContent", ViewContext.RequestContext.AllRouteValues())">
+                @Html.Raw("Add media files".Localize())
+            </a>
         </div>
         <span class="line x line-1">@Html.IconImage("arrow point-right")</span>
         <span class="line y line-2"></span>

@@ -143,7 +143,7 @@ namespace Kooboo.CMS.Sites.Controllers
             var rawPage = new Page(Site, "____VisitViewPage_____") { IsDummy = false };
             rawPage.PagePositions.Add(viewPosition);
 
-            var requestUrl = "";
+            var requestUrl = "/";
 
             var pageRequestContext = new PageRequestContext(this.ControllerContext, FrontHttpRequest.RawSite, FrontHttpRequest.Site, rawPage, rawPage,
                 FrontHttpRequest.RequestChannel, requestUrl);

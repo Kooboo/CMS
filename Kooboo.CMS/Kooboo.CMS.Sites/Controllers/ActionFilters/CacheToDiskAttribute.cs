@@ -29,7 +29,8 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
 {
     public class CacheToDiskAttribute : ActionFilterAttribute
     {
-        PageCachingManager PageCachingManager { get; set; }
+        //[Inject]
+        public PageCachingManager PageCachingManager { get; set; }
         public CacheToDiskAttribute()
         {
             PageCachingManager = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<PageCachingManager>();
@@ -50,7 +51,6 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
                 }
             }
         }
-
         public override void OnResultExecuted(ResultExecutedContext filterContext)
         {
             base.OnResultExecuted(filterContext);
@@ -76,7 +76,6 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
                         }
                     }
                 }
-
             }
         }
     }

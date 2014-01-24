@@ -183,6 +183,10 @@
     <Compile Include="Services\PageCachingManager.cs" />
     <Compile Include="Services\SubmissionSettingManager.cs" />
     <Compile Include="Services\SiteTextFolderManager.cs" />
+    <Compile Include="View\PositionRender\ProxyRenderContext.cs" />
+    <Compile Include="View\PositionRender\RemoteRequestActionResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="View\SecurityHelper.cs" />
     <Compile Include="View\WebProxy\IHttpProcessor.cs" />
     <Compile Include="ABTest\ABPageTestMatchedObserver.cs" />
@@ -191,6 +195,7 @@
     <Compile Include="ABTest\ABPageTestTrackingHelper.cs" />
     <Compile Include="ABTest\ISiteVisitRuleMatchedObserver.cs" />
     <Compile Include="ABTest\IABPageMatchedObserver.cs" />
+    <Compile Include="View\WebProxy\IProxyHtmlParser.cs" />
     <Compile Include="Web\OutputTextWriterWrapper.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\FrontControllerBase.cs" />
@@ -322,7 +327,6 @@
     <Compile Include="Services\ABSiteSettingManager.cs" />
     <Compile Include="Services\ABRuleSettingManager.cs" />
     <Compile Include="View\PageSettingValueProvider.cs" />
-    <Compile Include="View\WebProxy\IProxyHtmlFixer.cs" />
     <Compile Include="View\PositionRender\IRender.cs" />
     <Compile Include="View\PositionRender\ProxyRender.cs" />
     <Compile Include="View\PositionRender\ViewRender.cs" />

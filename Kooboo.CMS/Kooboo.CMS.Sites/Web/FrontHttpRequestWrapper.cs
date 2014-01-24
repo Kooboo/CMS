@@ -179,8 +179,12 @@ namespace Kooboo.CMS.Sites.Web
                         RequestChannel = FrontRequestChannel.Host;
                     }
                     var path = trimedPath.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                    RequestUrl = UrlUtility.Combine(path.Skip(sitePathLength).ToArray());
-                    appRelativeCurrentExecutionFilePath = "~/" + RequestUrl;
+                    RequestUrl = UrlUtility.Combine(new[] { "/" }.Concat(path.Skip(sitePathLength)).ToArray());
+                    if (this.Path.EndsWith("/") && !this.RequestUrl.EndsWith("/"))
+                    {
+                        RequestUrl = RequestUrl + "/";
+                    }
+                    appRelativeCurrentExecutionFilePath = "~" + RequestUrl;
                 }
 
                 #endregion
@@ -198,8 +202,12 @@ namespace Kooboo.CMS.Sites.Web
                     RequestChannel = FrontRequestChannel.Debug;
                 }
 
-                RequestUrl = Kooboo.Web.Url.UrlUtility.Combine(path.Skip(1).ToArray());
-                appRelativeCurrentExecutionFilePath = "~/" + RequestUrl;
+                RequestUrl = Kooboo.Web.Url.UrlUtility.Combine(new[] { "/" }.Concat(path.Skip(1)).ToArray());
+                if (this.Path.EndsWith("/") && !this.RequestUrl.EndsWith("/"))
+                {
+                    RequestUrl = RequestUrl + "/";
+                }
+                appRelativeCurrentExecutionFilePath = "~" + RequestUrl;
                 #endregion
             }
 

@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Kooboo.CMS.Caching;
 using Kooboo.CMS.Sites.Caching;
+using System.Web.Mvc;
 namespace Kooboo.CMS.Sites.View.PositionRender
 {
     public class ProxyRender
@@ -33,80 +34,40 @@ namespace Kooboo.CMS.Sites.View.PositionRender
         #endregion
 
         #region Render
-        public virtual IHtmlString Render(Page_Context pageContext, string positionId, string defaultHost, string defaultRequestPath, bool noProxy, CacheSettings cacheSetting)
+        public virtual IHtmlString Render(ProxyRenderContext proxyRenderContext)
         {
-            string moduleURL = pageContext.PageRequestContext.ModuleUrlContext.GetModuleUrl(positionId);
-            if (!string.IsNullOrEmpty(moduleURL))
-            {
-                defaultRequestPath = moduleURL.Trim('~');
-            }
-            var httpMethod = pageContext.ControllerContext.HttpContext.Request.HttpMethod;
-
-            if (!defaultHost.StartsWith("http://"))
-            {
-                defaultHost = "http://" + defaultHost;
-            }
-
-            var requestUrl = UrlUtility.Combine(defaultHost, defaultRequestPath);
+            var positionId = proxyRenderContext.ProxyPosition.PagePositionId;
 
             Func<IHtmlString> getHtml = () =>
             {
-
-                Func<string, bool, string> proxyUrl = null;
-
-                if (!noProxy)
-                {
-                    proxyUrl = (url, isForm) => GenerateProxyUrl(pageContext, positionId, url, isForm);
-                }
-                if (httpMethod.ToUpper() == "POST")
-                {
-                    var postModule = pageContext.PageRequestContext.AllQueryString[Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter];
-                    if (postModule != positionId)
-                    {
-                        httpMethod = "GET";
-                    }
-                }
-
-
-                var html = _webProxy.ProcessRequest(pageContext.ControllerContext.HttpContext, requestUrl, httpMethod, proxyUrl);
+                var html = _webProxy.ProcessRequest(proxyRenderContext);
 
                 return html;
             };
-
-            if (cacheSetting != null && cacheSetting.EnableCaching != null && cacheSetting.EnableCaching == true && httpMethod.ToUpper() == "GET")
+            var cacheSetting = proxyRenderContext.ProxyPosition.OutputCache;
+            if (cacheSetting != null && cacheSetting.EnableCaching != null && cacheSetting.EnableCaching == true && proxyRenderContext.HttpMethod.ToUpper() == "GET")
             {
-                string cacheKey = string.Format("{0}-{1}-{2}", positionId, requestUrl, noProxy);
-                return pageContext.PageRequestContext.Site.ObjectCache().GetCache(cacheKey, getHtml, cacheSetting.ToCachePolicy());
+                string cacheKey = string.Format("{0}||{1}||{2}", positionId, proxyRenderContext.RequestUri.ToString(), proxyRenderContext.ProxyPosition.NoProxy);
+                return proxyRenderContext.PageRequestContext.Site.ObjectCache().GetCache(cacheKey, getHtml, cacheSetting.ToCachePolicy());
             }
             else
             {
                 return getHtml();
             }
 
-        }
-        protected string GenerateProxyUrl(Page_Context pageContext, string positionId, string url, bool isForm)
+        }     
+        #endregion
+
+        #region TryRemoteRequest
+        public virtual ActionResult TryRemoteRequest(ControllerContext controllerContext)
         {
-            if (string.IsNullOrEmpty(url))
-            {
-                return "";
-            }
+            var hasRemoteProxy = controllerContext.HttpContext.Request.QueryString["hasRemoteProxy"];
 
-            if (!url.StartsWith("#") && !url.StartsWith("javascript:") && !Uri.IsWellFormedUriString(url, UriKind.Absolute))
+            if (!string.IsNullOrEmpty(hasRemoteProxy) && hasRemoteProxy.ToLower() == "true")
             {
-                var encodedModuleUrl = ModuleUrlHelper.Encode(url);
-                var routeValues = pageContext.PageRequestContext.ModuleUrlContext.GetRouteValuesWithModuleUrl(positionId, encodedModuleUrl, false);
-                var pageUrl = pageContext.FrontUrl.PageUrl(pageContext.PageRequestContext.Page.FullName, routeValues).ToString();
-                if (isForm)
-                {
-                    pageUrl = Kooboo.Web.Url.UrlUtility.AddQueryParam(pageUrl, Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter, positionId);
-                }
-
-                return pageUrl;
+                return new RemoteRequestActionResult(this);
             }
-            else
-            {
-                return url;
-            }
+            return null;
         }
         #endregion
     }

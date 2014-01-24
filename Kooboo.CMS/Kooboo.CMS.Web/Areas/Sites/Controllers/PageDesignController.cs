@@ -63,7 +63,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
 
             // new context
-            var requestContext = new PageRequestContext(this.ControllerContext, Site, page, CMS.Sites.Web.FrontRequestChannel.Design, string.Empty);
+            var requestContext = new PageRequestContext(this.ControllerContext, Site, page, CMS.Sites.Web.FrontRequestChannel.Design, "/");
 
             // init context
             Page_Context.Current.InitContext(requestContext, ControllerContext);
@@ -296,6 +296,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                         Host = item.Str("Host"),
                         RequestPath = item.Str("RequestPath"),
                         NoProxy = item.Str("NoProxy") == "true",
+                        //ProxyStylesheet = item.Str("ProxyStylesheet") == "true",
                         OutputCache = ParseJson<CacheSettings>(item.Str("OutputCache"))
                     };
                 }

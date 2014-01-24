@@ -25,6 +25,10 @@
                 btnRedo: $('.btnRedo'),
                 effectWin: top.effectWin
             });
+            var excuteAfterStyleLoaded = function(){
+                editor.components.selectors.doSelect({ index: 0 });
+                editor.loader.onLoad.remove(excuteAfterStyleLoaded);
+            }
 
             editor.onError.add(function () { showMessage('Load failure!'); });
             var effect = editor.getComponent('effect');
@@ -32,7 +36,11 @@
             var loadCurrent = function () {
                 lastSelectedText = $('.cssfiles').find('option:selected').text();
                 lastSelectedValue = $('.cssfiles').find('option:selected').val();
-                if (lastSelectedValue) { editor.loadFile(lastSelectedValue); }
+                if (lastSelectedValue) {
+                    editor.loadFile(lastSelectedValue);
+                    editor.loader.onLoad.add(excuteAfterStyleLoaded);
+                }
+                
             };
 
             $('input.btnSave').click(function () {

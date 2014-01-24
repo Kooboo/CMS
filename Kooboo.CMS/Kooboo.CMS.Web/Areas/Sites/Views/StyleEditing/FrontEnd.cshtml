@@ -38,7 +38,7 @@
                 lastSelectedValue = $('.cssfiles').find('option:selected').val();
                 if (lastSelectedValue) {
                     editor.loadFile(lastSelectedValue);
-                    editor.loader.onLoad.add(testfunc);
+                    editor.loader.onLoad.add(excuteAfterStyleLoaded);
                 }
                 
             };

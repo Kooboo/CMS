@@ -25,9 +25,9 @@
                 btnRedo: $('.btnRedo'),
                 effectWin: top.effectWin
             });
-            var testfunc = function(){
+            var excuteAfterStyleLoaded = function(){
                 editor.components.selectors.doSelect({ index: 0 });
-                editor.loader.onLoad.remove(testfunc);
+                editor.loader.onLoad.remove(excuteAfterStyleLoaded);
             }
 
             editor.onError.add(function () { showMessage('Load failure!'); });

@@ -79,13 +79,14 @@ namespace Kooboo.CMS.Sites.View
             {
                 url = "/" + applicationPath + "/" + url;
             }
-            var urlSplit = url.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+
 
             var sitePath = site.AsActual().SitePath;
             if (channel == FrontRequestChannel.Debug || channel == FrontRequestChannel.Design || channel == FrontRequestChannel.Unknown)
             {
                 sitePath = SiteHelper.PREFIX_FRONT_DEBUG_URL + site.FullName;
             }
+            var urlSplit = url.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             IEnumerable<string> urlPaths = urlSplit;
             if (!string.IsNullOrEmpty(sitePath))
             {
@@ -98,8 +99,12 @@ namespace Kooboo.CMS.Sites.View
                     urlPaths = new string[] { sitePath }.Concat(urlSplit);
                 }
             }
-
+            var endWithSlash = url.EndsWith("/");
             url = "/" + string.Join("/", urlPaths.ToArray());
+            if (endWithSlash && !url.EndsWith("/"))
+            {
+                url = url + "/";
+            }
 
 
             #region SSL

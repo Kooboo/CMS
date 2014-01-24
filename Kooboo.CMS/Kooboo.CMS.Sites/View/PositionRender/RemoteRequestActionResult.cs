@@ -53,7 +53,7 @@ namespace Kooboo.CMS.Sites.View.PositionRender
                 return;
             }
             var remoteUrl = context.HttpContext.Request.RawUrl;
-            var content = _proxyRender.Render(context, null, proxyPosition, remoteUrl);
+            var content = _proxyRender.Render(new ProxyRenderContext(context, null, proxyPosition, remoteUrl));
             if (content != null && !string.IsNullOrEmpty(content.ToString()))
             {
                 context.HttpContext.Response.Write(content.ToString());

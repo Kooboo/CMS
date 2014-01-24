@@ -50,7 +50,8 @@ namespace Kooboo.CMS.Sites.ABTest
 
         void Common.Persistence.Non_Relational.IPersistable.Init(Common.Persistence.Non_Relational.IPersistable source)
         {
-
+            isDummy = false;
+            this.Site = ((ABPageTestResult)source).Site;
         }
 
         void Common.Persistence.Non_Relational.IPersistable.OnSaved()

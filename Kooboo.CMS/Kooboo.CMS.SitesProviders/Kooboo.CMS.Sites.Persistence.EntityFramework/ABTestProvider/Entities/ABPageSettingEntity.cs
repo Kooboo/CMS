@@ -65,7 +65,10 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
 
             var dummy = new ABPageSetting();
             dummy.UUID = entity.UUID;
-            dummy.Site = new Site(entity.SiteName);
+            if (!String.IsNullOrEmpty(entity.SiteName))
+            {
+                dummy.Site = new Site(entity.SiteName);
+            }
 
             var result = DataContractSerializationHelper.DeserializeFromXml<ABPageSetting>(entity.ObjectXml, KnownTypes);
             ((IPersistable)result).Init(dummy);

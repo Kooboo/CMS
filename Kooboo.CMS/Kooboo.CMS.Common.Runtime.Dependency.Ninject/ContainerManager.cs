@@ -252,10 +252,10 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         #endregion
 
 
-        #region Inject
-        public void Inject(object instance, params Parameter[] parameters)
+        #region InjectProperties
+        public void InjectProperties(object instance)
         {
-            this._container.Inject(instance, ConvertParameters(parameters));
+            this._container.Inject(instance);
         }
         #endregion
     }

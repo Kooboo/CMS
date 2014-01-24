@@ -138,9 +138,9 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         {
             return ContainerManager.ResolveAll<T>();
         }
-        public void Inject(object instance, params Parameter[] parameters)
+        public void InjectProperties(object instance)
         {
-            ContainerManager.Inject(instance, parameters);
+            ContainerManager.InjectProperties(instance);
         }
         #endregion
 

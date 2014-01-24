@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Common.Runtime.Mvc
             var attributes = base.GetControllerAttributes(controllerContext, actionDescriptor);
             foreach (var attribute in attributes)
             {
-                this._engine.Inject(attribute);
+                this._engine.InjectProperties(attribute);
             }
 
             return attributes;
@@ -59,7 +59,7 @@ namespace Kooboo.CMS.Common.Runtime.Mvc
             var attributes = base.GetActionAttributes(controllerContext, actionDescriptor);
             foreach (var attribute in attributes)
             {
-                this._engine.Inject(attribute);
+                this._engine.InjectProperties(attribute);
             }
 
             return attributes;

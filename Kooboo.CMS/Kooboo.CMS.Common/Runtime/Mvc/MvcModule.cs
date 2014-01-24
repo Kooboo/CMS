@@ -26,8 +26,11 @@ namespace Kooboo.CMS.Common.Runtime.Mvc
         }
         private static void RemoveDefaultAttributeFilterProvider()
         {
-            var oldFilter = FilterProviders.Providers.Single(f => f is FilterAttributeFilterProvider);
-            FilterProviders.Providers.Remove(oldFilter);
+            var oldFilter = FilterProviders.Providers.SingleOrDefault(f => f is FilterAttributeFilterProvider);
+            if (oldFilter!=null)
+            {
+                FilterProviders.Providers.Remove(oldFilter);
+            }            
         }
     }
 }

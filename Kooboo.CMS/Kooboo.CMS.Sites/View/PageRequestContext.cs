@@ -91,7 +91,7 @@ namespace Kooboo.CMS.Sites.View
             {
                 if (!string.IsNullOrEmpty(ModuleUrl) && this.ModuleCountInPage == 1)
                 {
-                    return "~/" + ModuleUrlHelper.Decode(this.ModuleUrl);
+                    return "~/" + ModuleUrlHelper.Decode(this.ModuleUrl).TrimStart('/');
                 }
             }
             return string.Empty;
@@ -300,6 +300,10 @@ namespace Kooboo.CMS.Sites.View
 
             }
 
+            if (string.IsNullOrEmpty(pageRequestUrl))
+            {
+                pageRequestUrl = "/";
+            }
 
             HttpContextBase pageContext = new PageHttpContenxt(httpContext, new PageHttpRequest(httpContext.Request, Kooboo.Web.Url.UrlUtility.Combine("~", pageRequestUrl), ""));
             var routeData = page.Route.ToMvcRoute().GetRouteData(pageContext);

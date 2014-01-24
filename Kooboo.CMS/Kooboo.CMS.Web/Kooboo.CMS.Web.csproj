@@ -2534,6 +2534,9 @@
   <ItemGroup>
     <Content Include="Styles\repository-flowchart.less" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cms_Data\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

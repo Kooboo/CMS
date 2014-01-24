@@ -10,16 +10,20 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.CustomErrorProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ICustomErrorProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<CustomError>), Order = 100)]
-    public class CustomErrorProvider : ICustomErrorProvider
+    public class CustomErrorProvider : ProviderBase<CustomError>, ICustomErrorProvider
     {
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
 
-        Func<Site, string, CustomError> createModel = (Site site, string key) =>
-        {
-            return new CustomError() { Site = site, UUID = key };
-        };
+        //Func<Site, string, CustomError> createModel = (Site site, string key) =>
+        //{
+        //    return new CustomError() { Site = site, UUID = key };
+        //};
         #region .ctor
         public CustomErrorProvider()
+            : base(ModelExtensions.CustomErrorDataType, (Site site, string key) =>
+            {
+                return new CustomError() { Site = site, UUID = key };
+            })
         { 
         }
         #endregion
@@ -48,44 +52,44 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.CustomErrorProvider
             }
         }
 
-        public IEnumerable<Models.CustomError> All(Models.Site site)
-        {
-            return DataHelper.QueryList<CustomError>(site, ModelExtensions.GetQueryView(ModelExtensions.CustomErrorDataType), createModel);
-        }
+        //public IEnumerable<Models.CustomError> All(Models.Site site)
+        //{
+        //    return DataHelper.QueryList<CustomError>(site, ModelExtensions.GetQueryView(ModelExtensions.CustomErrorDataType), createModel);
+        //}
 
-        public IEnumerable<Models.CustomError> All()
-        {
-            throw new NotImplementedException();
-        }
+        //public IEnumerable<Models.CustomError> All()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Models.CustomError Get(Models.CustomError dummy)
-        {
-            var bucketDocumentKey = ModelExtensions.GetBucketDocumentKey(ModelExtensions.CustomErrorDataType, dummy.UUID);
+        //public Models.CustomError Get(Models.CustomError dummy)
+        //{
+        //    var bucketDocumentKey = ModelExtensions.GetBucketDocumentKey(ModelExtensions.CustomErrorDataType, dummy.UUID);
 
-            return DataHelper.QueryByKey<CustomError>(dummy.Site, bucketDocumentKey, createModel);
-        }
+        //    return DataHelper.QueryByKey<CustomError>(dummy.Site, bucketDocumentKey, createModel);
+        //}
 
-        public void Add(Models.CustomError item)
-        {
-            InsertOrUpdate(item, item);
-        }
-        private void InsertOrUpdate(CustomError @new, CustomError old)
-        {
-            ((IPersistable)@new).OnSaving();
+        //public void Add(Models.CustomError item)
+        //{
+        //    InsertOrUpdate(item, item);
+        //}
+        //private void InsertOrUpdate(CustomError @new, CustomError old)
+        //{
+        //    ((IPersistable)@new).OnSaving();
 
-            DataHelper.StoreObject(@new, @new.UUID, ModelExtensions.CustomErrorDataType);
+        //    DataHelper.StoreObject(@new, @new.UUID, ModelExtensions.CustomErrorDataType);
 
-            ((IPersistable)@new).OnSaved();
-        }
-        public void Update(Models.CustomError @new, Models.CustomError old)
-        {
-            InsertOrUpdate(@new, @old);
-        }
+        //    ((IPersistable)@new).OnSaved();
+        //}
+        //public void Update(Models.CustomError @new, Models.CustomError old)
+        //{
+        //    InsertOrUpdate(@new, @old);
+        //}
 
-        public void Remove(Models.CustomError item)
-        {
-            DataHelper.DeleteItemByKey(item.Site, ModelExtensions.GetBucketDocumentKey(ModelExtensions.CustomErrorDataType, item.UUID));
-        }
+        //public void Remove(Models.CustomError item)
+        //{
+        //    DataHelper.DeleteItemByKey(item.Site, ModelExtensions.GetBucketDocumentKey(ModelExtensions.CustomErrorDataType, item.UUID));
+        //}
 
         public void InitializeCustomError(Site site)
         {

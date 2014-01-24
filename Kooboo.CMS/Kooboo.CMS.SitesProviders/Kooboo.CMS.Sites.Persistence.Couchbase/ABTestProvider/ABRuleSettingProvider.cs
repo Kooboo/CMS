@@ -10,7 +10,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABRuleSettingProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABRuleSetting>), Order = 100)]
-    public class ABRuleSettingProvider : ABProviderBase<ABRuleSetting>,IABRuleSettingProvider
+    public class ABRuleSettingProvider : ProviderBase<ABRuleSetting>,IABRuleSettingProvider
     {
         Kooboo.CMS.Sites.Persistence.FileSystem.ABRuleSettingProvider fileProvider;
 
@@ -24,8 +24,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
         {
             foreach (var item in sources)
             {
-                var abRuleSetting = Get(item);
-                fileProvider.Add(abRuleSetting);
+                fileProvider.Add(item.AsActual());
             }
             fileProvider.Export(sources, outputStream);
         }
@@ -74,9 +73,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             var allItem = this.All(site).ToList();
             foreach (var item in allItem)
             {
-                var itemTemp = this.Get(item);
-                itemTemp.Site = site;
-                provider.Add(this.Get(item));
+                provider.Add(item.AsActual());
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABPageSettingProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABPageSetting>), Order = 100)]
-    public class ABPageSettingProvider : ABProviderBase<ABPageSetting>, IABPageSettingProvider
+    public class ABPageSettingProvider : ProviderBase<ABPageSetting>, IABPageSettingProvider
     {
         Kooboo.CMS.Sites.Persistence.FileSystem.ABPageSettingProvider fileProvider;
 
@@ -25,12 +25,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
         {
             foreach (var item in sources)
             {
-                var abPageSetting = Get(item);
-                if (abPageSetting.Site == null)
-                {
-                    abPageSetting.Site = Site.Current;
-                }
-                fileProvider.Add(abPageSetting);
+                fileProvider.Add(item.AsActual());
             }
             fileProvider.Export(sources, outputStream);
         }
@@ -78,9 +73,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             var allItem = this.All(site).ToList();
             foreach (var item in allItem)
             {
-                var itemTemp = this.Get(item);
-                itemTemp.Site = site;
-                fileProvider.Add(itemTemp);
+                fileProvider.Add(item.AsActual());
             }
         }
     }

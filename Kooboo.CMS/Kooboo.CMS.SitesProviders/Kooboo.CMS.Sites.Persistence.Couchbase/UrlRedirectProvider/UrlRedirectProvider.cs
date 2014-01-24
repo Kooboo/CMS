@@ -9,16 +9,20 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.UrlRedirectProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUrlRedirectProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<UrlRedirect>), Order = 100)]
-    public class UrlRedirectProvider : IUrlRedirectProvider
+    public class UrlRedirectProvider :ProviderBase<UrlRedirect>, IUrlRedirectProvider
     {
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
 
-        Func<Site, string, UrlRedirect> createModel = (Site site, string key) =>
-        {
-            return new UrlRedirect() { Site = site, UUID = key };
-        };
+        //Func<Site, string, UrlRedirect> createModel = (Site site, string key) =>
+        //{
+        //    return new UrlRedirect() { Site = site, UUID = key };
+        //};
         #region .ctor
         public UrlRedirectProvider()
+            : base(ModelExtensions.UrlRedirectDataType, (Site site, string key) =>
+            {
+                return new UrlRedirect() { Site = site, UUID = key };
+            })
         {
         }
         #endregion
@@ -46,44 +50,44 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.UrlRedirectProvider
             }
         }
 
-        public IEnumerable<UrlRedirect> All(Site site)
-        {
-            return DataHelper.QueryList<UrlRedirect>(site, ModelExtensions.GetQueryView(ModelExtensions.UrlRedirectDataType), createModel);
-        }
+        //public IEnumerable<UrlRedirect> All(Site site)
+        //{
+        //    return DataHelper.QueryList<UrlRedirect>(site, ModelExtensions.GetQueryView(ModelExtensions.UrlRedirectDataType), createModel);
+        //}
 
-        public IEnumerable<UrlRedirect> All()
-        {
-            throw new NotImplementedException();
-        }
+        //public IEnumerable<UrlRedirect> All()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public UrlRedirect Get(UrlRedirect dummy)
-        {
-            var bucketDocumentKey = ModelExtensions.GetBucketDocumentKey(ModelExtensions.UrlRedirectDataType, dummy.UUID);
+        //public UrlRedirect Get(UrlRedirect dummy)
+        //{
+        //    var bucketDocumentKey = ModelExtensions.GetBucketDocumentKey(ModelExtensions.UrlRedirectDataType, dummy.UUID);
 
-            return DataHelper.QueryByKey<UrlRedirect>(dummy.Site, bucketDocumentKey, createModel);
-        }
+        //    return DataHelper.QueryByKey<UrlRedirect>(dummy.Site, bucketDocumentKey, createModel);
+        //}
 
-        public void Add(UrlRedirect item)
-        {
-            InsertOrUpdate(item, item);
-        }
-        private void InsertOrUpdate(UrlRedirect @new, UrlRedirect old)
-        {
-            ((IPersistable)@new).OnSaving();
+        //public void Add(UrlRedirect item)
+        //{
+        //    InsertOrUpdate(item, item);
+        //}
+        //private void InsertOrUpdate(UrlRedirect @new, UrlRedirect old)
+        //{
+        //    ((IPersistable)@new).OnSaving();
 
-            DataHelper.StoreObject(@new, @new.UUID, ModelExtensions.UrlRedirectDataType);
+        //    DataHelper.StoreObject(@new, @new.UUID, ModelExtensions.UrlRedirectDataType);
 
-            ((IPersistable)@new).OnSaved();
-        }
-        public void Update(UrlRedirect @new, UrlRedirect old)
-        {
-            InsertOrUpdate(@new, old);
-        }
+        //    ((IPersistable)@new).OnSaved();
+        //}
+        //public void Update(UrlRedirect @new, UrlRedirect old)
+        //{
+        //    InsertOrUpdate(@new, old);
+        //}
 
-        public void Remove(UrlRedirect item)
-        {
-            DataHelper.DeleteItemByKey(item.Site, ModelExtensions.GetBucketDocumentKey(ModelExtensions.UrlRedirectDataType, item.UUID));
-        }
+        //public void Remove(UrlRedirect item)
+        //{
+        //    DataHelper.DeleteItemByKey(item.Site, ModelExtensions.GetBucketDocumentKey(ModelExtensions.UrlRedirectDataType, item.UUID));
+        //}
 
         public void InitializeUrlRedirect(Site site, bool regenUUID = false)
         {

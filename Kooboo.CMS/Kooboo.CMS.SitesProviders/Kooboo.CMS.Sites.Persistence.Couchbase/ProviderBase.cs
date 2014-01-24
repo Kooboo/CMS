@@ -5,15 +5,15 @@ using System.Text;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 
-namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
+namespace Kooboo.CMS.Sites.Persistence.Couchbase
 {
-    public class ABProviderBase<T>
+    public class ProviderBase<T>
         where T : ISiteObject, IIdentifiable, IPersistable
     {
         protected string DataType;
         protected Func<Site, string, T> CreateModel;
 
-        public ABProviderBase(string dataType, Func<Site, string, T> createModel)
+        public ProviderBase(string dataType, Func<Site, string, T> createModel)
         {
             DataType = dataType;
             CreateModel = createModel;
@@ -32,11 +32,13 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
         public virtual T Get(T dummy)
         {
             var bucketDocumentKey = ModelExtensions.GetBucketDocumentKey(DataType, dummy.UUID);
-            if (dummy.Site == null)
+
+            var result = DataHelper.QueryByKey<T>(dummy.Site, bucketDocumentKey, CreateModel);
+            if (result != null && result.Site == null && dummy.Site != null)
             {
-                dummy.Site = Site.Current;
+                result.Site = dummy.Site;
             }
-            return DataHelper.QueryByKey<T>(dummy.Site, bucketDocumentKey, CreateModel);
+            return result;
         }
 
         public virtual void Add(T item)

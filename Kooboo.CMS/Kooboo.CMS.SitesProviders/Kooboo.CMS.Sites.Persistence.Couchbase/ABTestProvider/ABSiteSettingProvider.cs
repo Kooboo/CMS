@@ -107,7 +107,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             var allItem = this.All().ToList();
             foreach (var item in allItem)
             {
-                fileProvider.Add(this.Get(item));
+                fileProvider.Add(item.AsActual());
             }
         }
     }

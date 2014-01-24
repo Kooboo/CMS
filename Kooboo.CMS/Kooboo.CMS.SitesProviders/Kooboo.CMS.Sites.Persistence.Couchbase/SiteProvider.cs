@@ -11,27 +11,44 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.Sites.Persistence.Couchbase
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Site>))]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteProvider), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Site>), Order = 100)]
     public class SiteProvider : Kooboo.CMS.Sites.Persistence.FileSystem.SiteProvider
     {
         #region .ctor
         SiteInitializer _initializer;
+        CustomErrorProvider.CustomErrorProvider customErrorProvider;
+        UrlRedirectProvider.UrlRedirectProvider urlRedirectProvider;
+        ABTestProvider.ABPageSettingProvider abPageSettingProvider;
+        ABTestProvider.ABRuleSettingProvider abRuleSettingProvider;
+        //ABTestProvider.ABSiteSettingProvider abSiteSettingProvider;
         public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, IElementRepositoryFactory elementRepositoryFactory, SiteInitializer initializer)
             : base(baseDir, membershipProvider, elementRepositoryFactory)
         {
+            customErrorProvider = new CustomErrorProvider.CustomErrorProvider();
+            urlRedirectProvider = new UrlRedirectProvider.UrlRedirectProvider();
+            abPageSettingProvider = new ABTestProvider.ABPageSettingProvider();
+            abRuleSettingProvider = new ABTestProvider.ABRuleSettingProvider();
+            //abSiteSettingProvider = new ABTestProvider.ABSiteSettingProvider();
             _initializer = initializer;
         }
         public override void Initialize(Site site)
         {
             _initializer.Initialize(site);
             base.Initialize(site);
+
+            customErrorProvider.InitializeCustomError(site);
+            urlRedirectProvider.InitializeUrlRedirect(site, true);
+            abPageSettingProvider.InitializeABPageSetting(site);
+            abRuleSettingProvider.InitializeABRuleSetting(site);
+            //abSiteSettingProvider.InitializeABSiteSetting();
         }
         #endregion
         Func<Site, string, Site> createModel = (Site site, string key) =>
         {
             return new Site(key);
         };
+
         #region Get/Update/Save/Delete
         public override void Add(Site item)
         {
@@ -75,6 +92,28 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         {
             DataHelper.DeleteItemByKey(item, ModelExtensions.GetBucketDocumentKey(ModelExtensions.SiteDataType, item.Name));
             base.Remove(item);
+        }
+
+        public override void Export(Site site, System.IO.Stream outputStream, bool includeDatabase, bool includeSubSites)
+        {
+            ExportDataToDisk(site, includeSubSites);
+            base.Export(site, outputStream, includeDatabase, includeSubSites);
+        }
+        private void ExportDataToDisk(Site site,bool includeSubSites)
+        {
+            customErrorProvider.ExportCustomErrorToDisk(site);
+            urlRedirectProvider.ExportUrlRedirectToDisk(site);
+            abPageSettingProvider.ExportABPageSettingToDisk(site);
+            abRuleSettingProvider.ExportABRuleSettingToDisk(site);
+            //abSiteSettingProvider.ExportABSiteSettingToDisk();
+            if(includeSubSites)
+            {
+                var subSites=ChildSites(site);
+                foreach(var s in subSites)
+                {
+                    ExportDataToDisk(s, includeSubSites);
+                }
+            }
         }
         #endregion
     }

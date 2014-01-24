@@ -15,6 +15,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
     public static class DatabaseHelper
     {
         static Dictionary<string, CouchbaseClient> couchbaseClients = new Dictionary<string, CouchbaseClient>(StringComparer.OrdinalIgnoreCase);
+        static string defaultClientName = "KoobooDefaultCouchbaseClient";
         #region GetCouchbaseClientConfiguration
         public static CouchbaseClientConfiguration GetCouchbaseClientConfiguration()
         {
@@ -32,7 +33,15 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         #region GetClient
         public static CouchbaseClient GetClient(this Site site)
         {
-            var key = site.FullName;
+            var key = string.Empty;
+            if (site == null || string.IsNullOrEmpty(site.FullName))
+            {
+                key = defaultClientName;
+            }
+            else
+            {
+                key = site.FullName;
+            }
             if (!couchbaseClients.ContainsKey(key))
             {
                 lock (couchbaseClients)
@@ -51,7 +60,6 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             }
             return couchbaseClients[key];
         }
-
         #endregion
 
         #region GetCouchbaseCluster

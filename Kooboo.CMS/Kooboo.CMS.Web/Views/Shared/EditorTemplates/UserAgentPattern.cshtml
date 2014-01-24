@@ -1,6 +1,6 @@
 ﻿@model object
 @{
-    Layout = ViewBag.Layout ?? "~/Views/Shared/EditorTemplates/_TR.cshtml";
+    Layout = ViewBag.Layout ?? "_TR.cshtml";
     ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
     var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString();
 
@@ -20,11 +20,11 @@
 }
 @Html.TextBox(propertyName, Model, editorHtmlAttributes)
 @Html.ValidationMessage(ViewData.ModelMetadata, new { name = ViewData["name"] })
-@if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
-{
-    <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
-}
-<em id="sampleRule">@("Sample rule:".Localize())
+
+<em class="tip">@Html.Raw((ViewData.ModelMetadata.Description ?? "").Localize())</em>
+
+<em id="sampleRule">
+    @("Sample rule:".Localize())
     <a data-regex="(/Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/)">@("Mobiles".Localize())</a>
     <a data-regex="(android)">@("Android".Localize())</a>
     <a data-regex="(iPhone)">@("iPhone".Localize())</a>

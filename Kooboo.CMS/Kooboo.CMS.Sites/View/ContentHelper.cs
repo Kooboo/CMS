@@ -27,7 +27,7 @@ namespace Kooboo.CMS.Sites.View
         {
             return new MediaFolder(Repository.Current, folderName);
         }
-        [Obsolete]
+        [Obsolete("MediaFolder")]
         public static MediaFolder NewMediaFolderObject(string folderName)
         {
             return MediaFolder(folderName);
@@ -38,7 +38,7 @@ namespace Kooboo.CMS.Sites.View
             return new TextFolder(Repository.Current, folderName);
         }
 
-        [Obsolete]
+        [Obsolete("TextFolder")]
         public static TextFolder NewTextFolderObject(string folderName)
         {
             return TextFolder(folderName);
@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Sites.View
         {
             return new Schema(Repository.Current, schemaName);
         }
-        [Obsolete]
+        [Obsolete("Schema")]
         public static Schema NewSchemaObject(string schemaName)
         {
             return Schema(schemaName);

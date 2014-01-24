@@ -57,6 +57,37 @@
     <Compile Include="..\..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
+    <Compile Include="ABTestProvider\Entities\ABPageSettingEntity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ABTestProvider\ABPageSettingsProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ISiteImportExportStartup.cs" />
+    <Compile Include="ABTestProvider\Mapping\ABPageSettingMapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ABTestProvider\Entities\ABPageTestResultEntity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ABTestProvider\ABPageTestResultProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ABTestProvider\Mapping\ABPageTestResultMapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ABTestProvider\Entities\ABRuleSettingEntity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ABTestProvider\ABRuleSettingsProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ABTestProvider\Mapping\ABRuleSettingMapping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ABTestProvider\Entities\ABSiteSettingEntity.cs" />
+    <Compile Include="ABTestProvider\ABSiteSettingProvider.cs" />
+    <Compile Include="ABTestProvider\Mapping\ABSiteSettingMapping.cs" />
     <Compile Include="CustomErrorsProvider\CustomErrorEntity.cs" />
     <Compile Include="CustomErrorsProvider\CustomErrorProvider.cs" />
     <Compile Include="CustomErrorsProvider\Mapping\CustomErrorMapping.cs" />

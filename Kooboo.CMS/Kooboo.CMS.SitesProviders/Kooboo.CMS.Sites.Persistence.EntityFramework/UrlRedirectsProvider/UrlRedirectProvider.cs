@@ -12,23 +12,24 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUrlRedirectProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<UrlRedirect>), Order = 100)]
-    public class UrlRedirectProvider : IUrlRedirectProvider
+    public class UrlRedirectProvider : IUrlRedirectProvider, ISiteImportExportStartup
     {
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
 
         #region .ctor
         SiteDBContext _dbContext;
+        Kooboo.CMS.Sites.Persistence.FileSystem.UrlRedirectProvider provider;
         public UrlRedirectProvider(SiteDBContext dbContext)
         {
             this._dbContext = dbContext;
+            provider = new Kooboo.CMS.Sites.Persistence.FileSystem.UrlRedirectProvider();
         }
         #endregion
 
         #region --- Import && Export ---
         public void Export(Site site, System.IO.Stream outputStream)
         {
-            var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.UrlRedirectProvider();
-            InitializeFromDatabase(site);
+            ExportToDisk(site);
             provider.Export(site, outputStream);
         }
 
@@ -37,10 +38,9 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider
         /// </summary>
         /// <param name="site"></param>
         /// <returns></returns>
-        public void InitializeFromDatabase(Site site)
+        public void ExportToDisk(Site site)
         {
             var allItem = this.All(site).ToList();
-            var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.UrlRedirectProvider();
             var file = new UrlRedirectsFile(site).PhysicalPath;
             locker.EnterWriteLock();
             try
@@ -55,14 +55,12 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider
 
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
         {
-            var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.UrlRedirectProvider();
             provider.Import(site, zipStream, @override);
-            SaveToDatabase(site, @override);
+            ImportToDatabase(site, @override);
         }
 
-        public void SaveToDatabase(Site site, bool @override)
+        public void ImportToDatabase(Site site, bool @override, bool resetKey = false)
         {
-            var provider = new FileSystem.UrlRedirectProvider();
             var allItem = provider.All(site);
             if (!@override)
             {
@@ -71,6 +69,10 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider
             var dummy = allItem.ToList();
             foreach (var item in dummy)
             {
+                if (resetKey)
+                {
+                    item.UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(8);
+                }
                 UpdateOrAdd(item, item);
             }
         }

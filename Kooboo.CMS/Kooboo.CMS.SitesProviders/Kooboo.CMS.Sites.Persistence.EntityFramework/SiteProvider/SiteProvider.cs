@@ -27,12 +27,18 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.SiteProvider
         SiteDBContext _dbContext;
         Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider.UrlRedirectProvider urlRedirectProvider;
         Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider.CustomErrorProvider customErrorProvider;
+        Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider.ABPageTestResultProvider aBPageTestResultProvider;
+        Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider.ABRuleSettingsProvider aBRuleSettingsProvider;
+        Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider.ABPageSettingsProvider aBPageSettingsProvider;
         public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, IElementRepositoryFactory elementRepositoryFactory, SiteDBContext dbContext)
             : base(baseDir, membershipProvider, elementRepositoryFactory)
         {
             this._dbContext = dbContext;
             urlRedirectProvider = new UrlRedirectsProvider.UrlRedirectProvider(_dbContext);
             customErrorProvider = new CustomErrorsProvider.CustomErrorProvider(_dbContext);
+            //aBPageTestResultProvider = new ABTestProvider.ABPageTestResultProvider(_dbContext);
+            aBRuleSettingsProvider = new ABTestProvider.ABRuleSettingsProvider(_dbContext, baseDir);
+            aBPageSettingsProvider = new ABTestProvider.ABPageSettingsProvider(_dbContext);
         }
         #endregion
 
@@ -40,15 +46,32 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.SiteProvider
         {
             UpdateOrAdd(site, site);
             base.Initialize(site);
-            urlRedirectProvider.SaveToDatabase(site, true);
-            customErrorProvider.SaveToDatabase(site, true);
+            urlRedirectProvider.ImportToDatabase(site, true, true);
+            customErrorProvider.ImportToDatabase(site, true);
+            aBRuleSettingsProvider.ImportToDatabase(site, true);
+            aBPageSettingsProvider.ImportToDatabase(site, true);
         }
 
         public override void Export(Site site, System.IO.Stream outputStream, bool includeDatabase, bool includeSubSites)
         {
-            urlRedirectProvider.InitializeFromDatabase(site);
-            customErrorProvider.InitializeFromDatabase(site);
+            ExportToDisk(site, includeSubSites);
             base.Export(site, outputStream, includeDatabase, includeSubSites);
+        }
+
+        private void ExportToDisk(Site site, bool includeSubSites)
+        {
+            urlRedirectProvider.ExportToDisk(site);
+            customErrorProvider.ExportToDisk(site);
+            aBPageSettingsProvider.ExportToDisk(site);
+            aBRuleSettingsProvider.ExportToDisk(site);
+            if (includeSubSites)
+            {
+                var subSites = ChildSites(site);
+                foreach (var item in subSites)
+                {
+                    ExportToDisk(item, includeSubSites);
+                }
+            }
         }
 
         #region --- CRUD ---

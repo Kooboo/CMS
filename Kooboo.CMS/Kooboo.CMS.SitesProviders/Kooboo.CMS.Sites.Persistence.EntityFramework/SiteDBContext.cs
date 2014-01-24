@@ -34,6 +34,10 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework
             builder.Configurations.Add(new SiteProvider.Mapping.SiteSettingMapping());
             builder.Configurations.Add(new UrlRedirectsProvider.Mapping.UrlRedirectMapping());
             builder.Configurations.Add(new CustomErrorsProvider.Mapping.CustomErrorMapping());
+            builder.Configurations.Add(new ABTestProvider.Mapping.ABRuleSettingMapping());
+            builder.Configurations.Add(new ABTestProvider.Mapping.ABPageSettingMapping());
+            builder.Configurations.Add(new ABTestProvider.Mapping.ABPageTestResultMapping());
+            builder.Configurations.Add(new ABTestProvider.Mapping.ABSiteSettingMapping());
             dbCompiledModel = builder.Build(new System.Data.Entity.Infrastructure.DbProviderInfo(SiteEntitySetting.Instance.ProviderInvariantName, SiteEntitySetting.Instance.ProviderManifestToken)).Compile();
         }
         public SiteDBContext()
@@ -57,5 +61,12 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework
         public DbSet<SiteProvider.SiteEntity> SiteSettings { get; set; }
         public DbSet<UrlRedirectsProvider.UrlRedirectEntity> UrlRedirects { get; set; }
         public DbSet<CustomErrorsProvider.CustomErrorEntity> CustomErrors { get; set; }
+
+        #region --- A/B Test ---
+        public DbSet<ABTestProvider.ABRuleSettingEntity> ABRuleSettings { get; set; }
+        public DbSet<ABTestProvider.ABPageSettingEntity> ABPageSettings { get; set; }
+        public DbSet<ABTestProvider.ABPageTestResultEntity> ABPageTestResults { get; set; }
+        public DbSet<ABTestProvider.ABSiteSettingEntity> ABSiteSettings { get; set; }
+        #endregion
     }
 }

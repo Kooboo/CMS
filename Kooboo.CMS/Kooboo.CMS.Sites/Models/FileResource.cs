@@ -152,13 +152,16 @@ namespace Kooboo.CMS.Sites.Models
 
         public override void Delete()
         {
-            if (!string.IsNullOrEmpty(this.FileExtension))
+            if (File.Exists(this.PhysicalPath))
             {
                 File.Delete(this.PhysicalPath);
             }
             else
             {
-                Directory.Delete(this.PhysicalPath, true);
+                if (Directory.Exists(this.PhysicalPath))
+                {
+                    Directory.Delete(this.PhysicalPath, true);
+                }                
             }
 
         }

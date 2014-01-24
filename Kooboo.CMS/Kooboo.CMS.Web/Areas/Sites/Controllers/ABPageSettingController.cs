@@ -40,6 +40,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             //var selected = Manager.All(Site, "").Where(o => fullNameArray.Contains(o.FullName));
 
             var fileName = GetZipFileName();
+            foreach (var item in model)
+            {
+                item.Site = Site;
+            }
             Response.AttachmentHeader(fileName);
             Manager.Export(model, Response.OutputStream);
         }

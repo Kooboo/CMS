@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
 namespace Kooboo.CMS.Sites.Services
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(SiteManager))]
@@ -257,7 +259,7 @@ namespace Kooboo.CMS.Sites.Services
             {
                 site.DisplayName = "";
                 site.Domains = null;
-            }            
+            }
             Provider.Initialize(site);
             Provider.Online(site);
             Update(site);
@@ -324,6 +326,21 @@ namespace Kooboo.CMS.Sites.Services
             }
             return false;
         }
+        #endregion
+
+        #region ResovleSite
+        public virtual Site ResovleSite(HttpRequestBase httpRequest, string hostName, string requestPath)
+        {
+            var domainTable = Provider.GetDomainTable();
+            var fullPath = hostName + "/" + requestPath.Trim('/') + "/";
+            var useragent = httpRequest.UserAgent;
+
+            return domainTable
+                .Where(it => string.IsNullOrEmpty(it.Value.UserAgent) || Regex.IsMatch(useragent, it.Value.UserAgent, RegexOptions.IgnoreCase))
+                .Where(it => fullPath.StartsWith(it.Key, StringComparison.OrdinalIgnoreCase))
+                .Select(it => it.Value).FirstOrDefault();
+        }
+
         #endregion
     }
 }

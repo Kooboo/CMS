@@ -17,7 +17,7 @@ using System.Web;
 
 namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject.InRequestScope
 {
-    public sealed class OnePerRequestHttpModule : GlobalKernelRegistration, IHttpModule
+    public sealed class OnePerRequestHttpModule : IHttpModule
     {
         // Methods
         public OnePerRequestHttpModule()
@@ -30,11 +30,21 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject.InRequestScope
             if (this.ReleaseScopeAtRequestEnd)
             {
                 HttpContext context = HttpContext.Current;
-                base.MapKernels(delegate(IKernel kernel)
+                var kernel = GetKernel();
+                if (kernel != null)
                 {
                     kernel.Components.Get<ICache>().Clear(context);
-                });
+                }
             }
+        }
+
+        private IKernel GetKernel()
+        {
+            if (Kooboo.CMS.Common.Runtime.EngineContext.Current is NinjectEngine)
+            {
+                return (IKernel)((ContainerManager)((NinjectEngine)Kooboo.CMS.Common.Runtime.EngineContext.Current).ContainerManager).Container;
+            }
+            return null;
         }
 
         public void Dispose()

@@ -903,6 +903,9 @@
             var noProxy = this.outerValue.NoProxy;
             if (noProxy == "true") { $('input[name="NoProxy"]').attr('checked', true); }
 
+            var proxyStylesheet = this.outerValue.ProxyStylesheet;
+            if (proxyStylesheet == "true") { $('input[name="ProxyStylesheet"]').attr('checked', true); }
+
             // OutputCache
             var dur, policy, outputCache = $.parseJSON(this.outerValue.OutputCache);
             if (outputCache) {

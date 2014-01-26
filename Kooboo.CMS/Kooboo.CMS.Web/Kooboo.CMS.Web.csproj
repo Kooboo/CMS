@@ -663,9 +663,12 @@
     <Content Include="Images\Default.png" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\loading.gif" />
+    <Content Include="Images\svg-content.png" />
     <Content Include="Images\svg-edit.png" />
     <Content Include="Images\svg-export.png" />
+    <Content Include="Images\svg-membership.png" />
     <Content Include="Images\svg-preview.png" />
+    <Content Include="Images\svg-site.png" />
     <Content Include="Images\svg-view.png" />
     <Content Include="LICENSE.txt" />
     <Content Include="Scripts\aight.js" />
@@ -2279,7 +2282,7 @@
     <Content Include="Areas\Contents\Views\ContentType\EditTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\ABRuleSetting\EditorTemplates\UserAgentPattern.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\UserAgentPattern.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\Page\_OutputCache.cshtml">
@@ -2533,6 +2536,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\repository-flowchart.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cms_Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -296,6 +296,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                         Host = item.Str("Host"),
                         RequestPath = item.Str("RequestPath"),
                         NoProxy = item.Str("NoProxy") == "true",
+                        //ProxyStylesheet = item.Str("ProxyStylesheet") == "true",
                         OutputCache = ParseJson<CacheSettings>(item.Str("OutputCache"))
                     };
                 }

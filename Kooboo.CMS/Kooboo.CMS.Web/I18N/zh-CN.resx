@@ -2850,4 +2850,7 @@
   <data name="Not support to parse absolute url path." xml:space="preserve">
     <value>不支持解析绝对路径.</value>
   </data>
+  <data name="“Name”无效。" xml:space="preserve">
+    <value>“Name”无效。</value>
+  </data>
 </root>

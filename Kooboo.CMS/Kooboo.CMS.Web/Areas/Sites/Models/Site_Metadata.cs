@@ -129,7 +129,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
 
         [UIHint("UserAgentPattern")]
         [DisplayName("Device")]
-        [Description("")]
+        [Description("Used to create sites for special devices only, you can define regex expression to match the Browser User-Agent.<br />Only matched devices are allowed to view this site.")]
         public string UserAgent { get; set; }
     }
 }

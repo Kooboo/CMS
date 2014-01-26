@@ -54,6 +54,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
         [DisplayName("Global roles")]
         [UIHint("Multiple_DropDownList")]
         [DataSource(typeof(RolesDatasource))]
+        [Description("Users with global roles have access to all websites using the defined roles.")]
         public string[] GlobalRoles { get; set; }
 
         public CreateUserModel()

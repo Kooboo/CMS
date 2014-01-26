@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
                 var created = DatabaseHelper.CreateDesignDocument(bucketName, viewName, string.Format(viewTemplate, viewName, ModelExtensions.GetDataType(viewName)));
                 if (created)
                 {
-                    DatabaseHelper.AddExistsViewCache(bucketName, viewName);
+                    DatabaseHelper.ExistedView.Add(DatabaseHelper.GetViewCacheName(bucketName, viewName));
                     System.Threading.Thread.Sleep(3000);
                 }
                 else

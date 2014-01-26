@@ -128,8 +128,8 @@
             .attr('stroke', '#FFF');
     //Site text
     siteNode.append('text')
-            .attr('x', w / 100 * 30 + 110)
-            .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + 26 })
+            .attr('x', w / 100 * 30 + 106)
+            .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + 24 })
             .attr('style', 'font-family: Arial; font-size: 14px')
             .attr('fill', '#FFF')
             .attr('style','cursor:default')
@@ -172,8 +172,8 @@
                .attr('stroke', '#FFF');
     //Content text
     contentNode.append('text')
-               .attr('x', w / 100 * 60 + 110)
-               .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 26 })
+               .attr('x', w / 100 * 60 + 106)
+               .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 24 })
                .attr('style', 'font-family: Arial; font-size: 14px')
                .attr('fill', '#FFF')
                .attr('style','cursor:default')
@@ -198,7 +198,7 @@
                   .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) })
                   .attr('height',rect_h)
                   .attr('width',rect_w)
-                  .attr('fill', bgDatabase);
+                  .attr('fill', bgMembership);
     //Membership icon
     membershipNode.append('image')
                   .attr('x', 76)
@@ -216,8 +216,8 @@
                   .attr('stroke', '#FFF');
     //Membership text
     membershipNode.append('text')
-                  .attr('x', 110)
-                  .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 26 })
+                  .attr('x', 106)
+                  .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 24 })
                   .attr('style', 'font-family: Arial; font-size: 14px')
                   .attr('fill', '#FFF')
                   .attr('style','cursor:default')

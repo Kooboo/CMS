@@ -23,11 +23,10 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             else
             {
                 instance = new DatabaseSettings()
-                {                    
+                {
                     Username = "sa",
                     Password = "abc123",
-                    BucketRAM = 100,//RamQuotaMB must be at least 100
-                    DefaultBucketName="KoobooDefaultBucket",
+                    BucketRAM = 100,//RamQuotaMB must be at least 100                  
                     Urls = new List<Uri>() { new Uri("http://127.0.0.1:8091/pools") }
                 };
                 instance.Save();
@@ -53,8 +52,25 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         public string Password { get; set; }
         [DataMember]
         public string BucketPassword { get; set; }
+
+        private string defaultBucketName;
         [DataMember]
-        public string DefaultBucketName { get; set; }
+        public string DefaultBucketName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(defaultBucketName))
+                {
+                    defaultBucketName = "Kooboo_CMS";
+                }
+
+                return defaultBucketName;
+            }
+            set
+            {
+                defaultBucketName = value;
+            }
+        }
         private int _bucketRAM;
         [DataMember]
         public int BucketRAM

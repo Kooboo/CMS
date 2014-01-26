@@ -81,22 +81,16 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         #endregion
 
         #region ExistView
-        static Dictionary<string, List<string>> ExistedView = new Dictionary<string, List<string>>();
+        public static List<string> ExistedView = new List<string>();
 
-        public static void AddExistsViewCache(string bucketName, string viewName)
+        public static string GetViewCacheName(string bucketName, string viewName)
         {
-            if (!ExistedView.ContainsKey(bucketName))
-            {
-                ExistedView[bucketName] = new List<string>();
-            }
-            if (!ExistedView[bucketName].Contains(viewName))
-            {
-                ExistedView[bucketName].Add(viewName);
-            }
+            return bucketName + "|" + viewName;
         }
         public static bool CheckExistsByCache(this IView<IViewRow> view,string bucketName,string viewName)
         {
-            if (ExistedView.ContainsKey(bucketName) && ExistedView[bucketName].Contains(viewName))
+            var viewCacheName = GetViewCacheName(bucketName, viewName);
+            if (ExistedView.Contains(viewCacheName))
             {
                 return true;
             }
@@ -104,7 +98,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             {
                 if (view.CheckExists())
                 {
-                    AddExistsViewCache(bucketName, viewName);
+                    ExistedView.Add(GetViewCacheName(bucketName, viewName));
                     return true;
                 }
                 else

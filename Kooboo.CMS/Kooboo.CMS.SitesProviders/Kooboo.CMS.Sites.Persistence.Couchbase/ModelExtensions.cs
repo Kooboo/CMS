@@ -42,6 +42,14 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         {
             return "Query_" + dataType;
         }
+        public static string GetDataType(string view)
+        {
+            if (view.StartsWith("Query_"))
+            {
+                return view.Substring(6);
+            }
+            return view;
+        }
 
         public static string GetBucketName(this Site site)
         {

@@ -80,6 +80,42 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         }
         #endregion
 
+        #region ExistView
+        static Dictionary<string, List<string>> ExistedView = new Dictionary<string, List<string>>();
+
+        public static void AddExistsViewCache(string bucketName, string viewName)
+        {
+            if (!ExistedView.ContainsKey(bucketName))
+            {
+                ExistedView[bucketName] = new List<string>();
+            }
+            if (!ExistedView[bucketName].Contains(viewName))
+            {
+                ExistedView[bucketName].Add(viewName);
+            }
+        }
+        public static bool CheckExistsByCache(this IView<IViewRow> view,string bucketName,string viewName)
+        {
+            if (ExistedView.ContainsKey(bucketName) && ExistedView[bucketName].Contains(viewName))
+            {
+                return true;
+            }
+            else
+            {
+                if (view.CheckExists())
+                {
+                    AddExistsViewCache(bucketName, viewName);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+ 
+            }
+        }
+        #endregion
+
         #region CreateBucket
         public static void CreateBucket(string bucketName)
         {

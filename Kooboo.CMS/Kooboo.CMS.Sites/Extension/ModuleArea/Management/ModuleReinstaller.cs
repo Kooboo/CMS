@@ -51,7 +51,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         public UploadModuleResult Upload(string moduleName, Stream moduleStream, string user)
         {
             var result = _moduleInstaller.Upload(moduleName, moduleStream, user);
-            result.SourceModuleInfo = ModuleInfo.Get(moduleName);
+            result.SourceModuleInfo = ModuleInfo.Get(result.ModuleName);
             return result;
         }
         public void CopyAssemblies(string moduleName, bool @overrideFiles)

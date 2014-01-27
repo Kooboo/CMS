@@ -1,0 +1,91 @@
+﻿/* Less elements
+------------------------------------------------------*/
+.box-sizing(@sizing: border-box) {
+	-moz-box-sizing: @sizing;
+	-ms-box-sizing: @sizing;
+	-webkit-box-sizing: @sizing;
+	box-sizing: @sizing;
+}
+
+.rounded(@radius) {
+	-moz-border-radius: @radius;
+	-webkit-border-radius: @radius;
+	border-radius: @radius;
+}
+
+.gradient(@color: #F5F5F5, @start: #FFF, @stop: #EEE) {
+	background: @color;
+	background: -moz-linear-gradient(@start, @stop);
+	background: -ms-linear-gradient(@start, @stop);
+	background: -webkit-linear-gradient(@start, @stop);
+	background: linear-gradient(@start, @stop);
+	filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@start,@stop));
+}
+
+.border-radius(@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
+	-moz-border-radius-topright: @topright;
+	-moz-border-radius-bottomright: @bottomright;
+	-moz-border-radius-bottomleft: @bottomleft;
+	-moz-border-radius-topleft: @topleft;
+	-webkit-border-top-right-radius: @topright;
+	-webkit-border-bottom-right-radius: @bottomright;
+	-webkit-border-bottom-left-radius: @bottomleft;
+	-webkit-border-top-left-radius: @topleft;
+	border-top-right-radius: @topright;
+	border-bottom-right-radius: @bottomright;
+	border-bottom-left-radius: @bottomleft;
+	border-top-left-radius: @topleft;
+	.background-clip(padding-box);
+}
+
+.box-shadow(@arguments) {
+	-moz-box-shadow: @arguments;
+	-webkit-box-shadow: @arguments;
+	box-shadow: @arguments;
+}
+
+.transition(@duration) {
+	-moz-transition: all @duration;
+	-webkit-transition: all @duration;
+	transition: all @duration;
+}
+
+	.transition(@duration) when (@duration = 0) {
+		-moz-transition: none;
+		-webkit-transition: none;
+		transition: none;
+	}
+
+.background-clip(@argument: padding-box) {
+	-moz-background-clip: @argument;
+	-webkit-background-clip: @argument;
+	background-clip: @argument;
+}
+
+.opacity(@value) {
+	filter: ~"alpha(opacity = @{value})";
+	opacity: @value / 100;
+}
+
+.transform(@arguments) {
+	-moz-transform: @arguments;
+	-ms-transform: @arguments;
+	-webkit-transform: @arguments;
+	transform: @arguments;
+}
+
+/* The micro clearfix http://nicolasgallagher.com/micro-clearfix-hack/
+------------------------------------------------------*/
+.clearfix() {
+	*zoom: 1;
+
+	&:before,
+	&:after {
+		content: "";
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+}

@@ -7,23 +7,24 @@
         <a href="@Url.Action("Index", new { controller = "TextFolder", repositoryName = ViewContext.RequestContext.GetRequestValue("repositoryName"), siteName = ViewContext.RequestContext.GetRequestValue("siteName") })">@("Text content")</a>
         @for (var i = 0; i < path.Length; i++)
         {
-            @Html.IconImage("arrow gray-right")
             var current = new TextFolder(Repository.Current, PageHelper.CombineFullName(path.Take(i + 1))).AsActual();
-            if (i == path.Length - 1)
-            {                     
-            <span>@current.FriendlyText
-                @("(")<a href="@Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("controller","TextFolder").Merge("UUID", Model.FullName).Merge("return", Request.RawUrl))">@("Edit".Localize())</a>@(")")
-            </span>
-            }
-            else
+            if (current != null)
             {
-                if (string.IsNullOrEmpty(current.SchemaName))
+                @Html.IconImage("arrow gray-right")
+                if (i == path.Length - 1)
                 {
-            <a href="@Url.Action("Index", new { controller = "TextFolder", repositoryName = ViewContext.RequestContext.GetRequestValue("repositoryName"), siteName = ViewContext.RequestContext.GetRequestValue("siteName"), folderName = current.FullName })">@current.FriendlyText</a>
+                    <span>@current.FriendlyText@*@("(")<a href="@Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("controller","TextFolder").Merge("UUID", Model.FullName).Merge("return", Request.RawUrl))">@("Edit".Localize())</a>@(")")*@</span>
                 }
                 else
                 {
-            <a href="@Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("controller","TextContent").Merge("FolderName", @current.FullName))">@current.FriendlyText</a>
+                    if (string.IsNullOrEmpty(current.SchemaName))
+                    {
+                        <a href="@Url.Action("Index", new { controller = "TextFolder", repositoryName = ViewContext.RequestContext.GetRequestValue("repositoryName"), siteName = ViewContext.RequestContext.GetRequestValue("siteName"), folderName = current.FullName })">@current.FriendlyText</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("controller","TextContent").Merge("FolderName", @current.FullName))">@current.FriendlyText</a>
+                    }
                 }
             }
         }

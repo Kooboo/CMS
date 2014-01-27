@@ -1,3 +1,248 @@
+V 4.2.1
+
+!! Improvement
+
+*New Extension Development Template for VS.NET*
+You can now use one extension template to develop the following extensions
+
+1. Module
+2. Page Plug-in
+3. Submission Plug-in
+4. Content events
+5. AB test rules
+
+See the quick guide at:
+[url:http://www.kooboo.com/docs/Kooboo-CMS/New-extension-development]
+
+!! Bugs fixed
+
+* [url:https://github.com/Kooboo/CMS/issues/127]
+
+* [url:https://github.com/Kooboo/CMS/issues/124]
+
+* [url:https://github.com/Kooboo/CMS/issues/123]
+
+* [url:https://github.com/Kooboo/CMS/issues/120]
+
+* [url:https://github.com/Kooboo/CMS/issues/129]
+
+* [url:https://github.com/Kooboo/CMS/issues/130]
+
+V 4.2.0
+
+The source code of Kooboo CMS 4.2.0 is: https://github.com/Kooboo/CMS/commits/4.2.0
+
+!! New features
+
+*Membership provider*
+Enable membership to provide easy front site user authentication and page access control. 
+
+*New Admin UI* 
+Provide access to overview of all resources within the Kooboo instance. 
+
+*Module installation and data storage*
+New Module installation and uninstallation interface, customize your module installation pages. New module API to provide module site based private file folder and public shared file folder for data storage. 
+
+
+!! Coming features
+
+*Newsletter application integration*
+Integrate with advanced newsletter application (kooboomail) and a powerful MTA(Smtp server farms). 
+
+*Ecommerce feature*
+Provide integration of third party Ecommerce solution as well as Kooboo's own Ecommerce framework. 
+
+*Big data and machine learning*
+For Ecommerce prediction and recommendation.
+
+!! Some changes and improvement
+
+* Change the inline editor as tinymce 4.0  [url:https://github.com/Kooboo/CMS/issues/5]
+* Option to force admin pages to use SSL  [url:https://github.com/Kooboo/CMS/issues/9]
+* Add browser language based A/B test rule engine. [url:https://github.com/Kooboo/CMS/issues/8]
+* Content type template now editable online for Create, Detail, Grid, List, Selectable and Update page [url:https://github.com/Kooboo/CMS/issues/3]
+* Add option to sort Scripts and Styles in Module [url:https://github.com/Kooboo/CMS/issues/40]
+* Improve output cache settings [url:https://github.com/Kooboo/CMS/issues/79]
+* UserKey normalize diacritics [url:https://github.com/Kooboo/CMS/issues/80]
+* Add redirect type (server transfer, 301,302) in A/B test alternative sites [url:https://github.com/Kooboo/CMS/issues/83]
+* Add an Order attribute to Dependency Injection [url:https://github.com/Kooboo/CMS/issues/89]
+* SSL detection in the Load balanced servers [url:https://github.com/Kooboo/CMS/issues/96]
+* [url:https://github.com/Kooboo/CMS/issues/113]
+* [url:https://github.com/Kooboo/CMS/issues/14]
+* [url:https://github.com/Kooboo/CMS/issues/33]
+* [url:https://github.com/Kooboo/CMS/issues/100]
+* [url:https://github.com/Kooboo/CMS/issues/105]
+* [url:https://github.com/Kooboo/CMS/issues/110]
+* [url:https://github.com/Kooboo/CMS/issues/4]
+* [url:https://github.com/Kooboo/CMS/issues/72]
+* [url:https://github.com/Kooboo/CMS/issues/84]
+* [url:https://github.com/Kooboo/CMS/issues/98]
+
+Bugs:
+
+* Page custom fields [url:https://github.com/Kooboo/CMS/issues/47]
+* View parameter [url:https://github.com/Kooboo/CMS/pull/88]
+* Value selection from category folder.[url:https://github.com/Kooboo/CMS/issues/92]
+* Add HTML block to page [url:https://github.com/Kooboo/CMS/issues/93]
+* A/B test bug [url:https://github.com/Kooboo/CMS/issues/99]
+* Duplicate header in category folder value selection page [url:https://github.com/Kooboo/CMS/issues/108]
+* Date picker with culture info [url:https://github.com/Kooboo/CMS/issues/114]
+* [url:https://github.com/Kooboo/CMS/issues/103]
+* [url:https://github.com/Kooboo/CMS/issues/12]
+* [url:https://github.com/Kooboo/CMS/issues/23]
+* [url:https://github.com/Kooboo/CMS/issues/104]
+* [url:https://github.com/Kooboo/CMS/issues/107]
+* [url:https://github.com/Kooboo/CMS/issues/115]
+
+V 4.1.1
+
+The stable release of Kooboo CMS 4.1.0 with fixed the following issues:
+
+* [url:https://github.com/Kooboo/CMS/issues/1]
+
+* [url:https://github.com/Kooboo/CMS/issues/11]
+
+* [url:https://github.com/Kooboo/CMS/issues/13]
+
+* [url:https://github.com/Kooboo/CMS/issues/15]
+
+* [url:https://github.com/Kooboo/CMS/issues/19]
+
+* [url:https://github.com/Kooboo/CMS/issues/20]
+
+* [url:https://github.com/Kooboo/CMS/issues/24]
+
+* [url:https://github.com/Kooboo/CMS/issues/43]
+
+* [url:https://github.com/Kooboo/CMS/issues/45]
+
+* [url:https://github.com/Kooboo/CMS/issues/46]
+
+* [url:https://github.com/Kooboo/CMS/issues/48]
+
+* [url:https://github.com/Kooboo/CMS/issues/49]
+
+* [url:https://github.com/Kooboo/CMS/issues/50]
+
+* [url:https://github.com/Kooboo/CMS/issues/52]
+
+* [url:https://github.com/Kooboo/CMS/issues/61]
+
+* [url:https://github.com/Kooboo/CMS/issues/62]
+
+* [url:https://github.com/Kooboo/CMS/issues/64]
+
+* [url:https://github.com/Kooboo/CMS/issues/65]
+
+* [url:https://github.com/Kooboo/CMS/issues/66]
+
+* [url:https://github.com/Kooboo/CMS/issues/67]
+
+* [url:https://github.com/Kooboo/CMS/issues/69]
+
+* [url:https://github.com/Kooboo/CMS/issues/71]
+
+* [url:https://github.com/Kooboo/CMS/issues/76]
+
+* [url:https://github.com/Kooboo/CMS/issues/81]
+
+* [url:https://github.com/Kooboo/CMS/issues/82]
+
+V 4.1.0
+
+!! IMPORTANT NOTE: This release contains some breaking changes and new exciting features
+
+!! Breaking changes
+*Downgrade the .NET framework from .NET 4.5 to .NET 4.0.*
+.NET 4.5 does not support Windows Server 2003 or earlier versions. and most of hostings like Godaddy do not support .NET 4.5 yet. 
+
+You have to recompile your all plugins and modules which base on Kooboo CMS 4.0.2 and earlier. You need to refer to the new Kooboo dll and recompile your plugins or modules. 
+
+!! Excited features
+
+*A/B test*
+A/B test is a methodology of doing experiments on your website with different variants. A/B test rules can be applied to an entire websites or to some pages only. A/B rules can be based on IP, User-agent device, URL query string or percentage random. You can use it to experiment your websites or use it to render different websites/pages to different devices or IP addresses. 
+
+*Proxy*
+In the page visual designer, you can now add a component called Proxy to your page. It can request a remote URL and render it into current page. This can be used to for example, run PHP modules within Kooboo CMS. 
+
+This feature is under beta testing now. 
+
+*Sites.kooboo.com*
+We have released a website that contains collections of Kooboo CMS site templates. Find it at: [url:http://sites.kooboo.com]
+
+We encourage users to export their kooboo cms websites and upload them there. We have included two website templates from it in the default Kooboo CMS download. 
+
+
+!! Other updates
+
+* Add request view directly function. Using "@Url.FrontUrl().ViewUrl("Index",new { key = "hello"})" to generate the view URL. This can be used for example, AJAX request to a view content. 
+
+* Submission setting feature. A new submission mechanism to replace the old Submission service. More sercure, more flexible. To create a sumission plugin you need to implement the interface of "ISubmissionPlugin".
+
+* Refacted IPagePlugin as two interfaces: IPagePlugin and IHttpMethodPagePlugin to keep the downward compatibility with Kooboo CMS3. 
+
+* Add SSLRequired setting in page. You can force a page to use SSL https link now.
+
+* Redesign menu order setting. Now the pages both in the sitemap or in the page list grid are sorted based on their order in the menu. You can drag and drop to change the orders now. 
+
+* Add more custom error functions. Now inlcudes siteofflined, you can redirect users to a special page when site is offlined.
+
+* Add disk based static page. You can cache a dynamic page into DISK for faster performance.
+
+* Add site wide HTML Meta setting. Can be found in the site setting, used to append global site wide text to the HTML meta tag. 
+
+* Add Unique validation rule for content type. 
+
+* Restore ImageCrop control type.
+
+* Add sortable grid to category selection windows.
+
+* New content query API: WhereIsNullOrEmpty 
+
+* Add IsNull and NotNull in data rule setting.
+
+
+!! Bugs fixed:
+
+* Paging setting issue on data rule.
+
+* Server transer issue on IIS 7.
+
+* Site offline page redirect issue.
+
+* http://forum.kooboo.com/yaf_postst2135_route-URL-cannot-start-with-a-----or----character-and-it-cannot-contain-a-----character.aspx
+
+* http://forum.kooboo.com/yaf_postst2095_Shu-Ju-Ku-schemaBu-Zhi-Chi-Zhong-Wen.aspx
+
+* http://forum.kooboo.com/yaf_postst2155_Error-when-using-Azure-table-storage-provider.aspx
+
+* http://forum.kooboo.com/yaf_postst2160_DataRule-sorting-doesn-t-work--XML-DB--Kooboo-4-0-2--29-03-2013.aspx
+
+* Various other issues.
+
+*Source code* [url: https://github.com/Kooboo/CMS/tree/4.1.0]
+
+V 4.0.2
+
+!! This is a stable version of Kooboo CMS 4. You should be able to migrate sites easily from Kooboo CMS 3. 
+
+See the upgrade guide at [url:http://www.kooboo.com/docs/Kooboo-CMS/-Upgrading]
+
+* Add function to add page link in content item and add the short cut into tinymce. Use the format of {"[url:pagename]"} to generate page url in html block.
+
+* Fixed bug in the security control reported by community member Ella. 
+
+* Upgrade MongoDB driver to 1.7.0.
+
+* Fixed inline editing bug at: http://forum.kooboo.com/yaf_postst2020_Kooboo-CMS-4-inline-editing-feature-problem.aspx
+
+* Restored "MultiFiles" control type in order to migrate sites from earlier versions. 
+
+* Several browser compatibility issues fixed. 
+
+* Some minor fixes.
+
 V 4.0.1
 
 !! This is the stable release of Kooboo CMS 4, with Metro Style UI, Site template tool, better performance and more. 

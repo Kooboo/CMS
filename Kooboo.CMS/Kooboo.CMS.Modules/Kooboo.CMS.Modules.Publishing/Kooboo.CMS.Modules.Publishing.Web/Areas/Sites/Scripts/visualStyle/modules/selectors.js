@@ -76,6 +76,15 @@
                     ev.preventDefault();
                     self.clearSearch();
                     self.searchTxt.triggerHandler('focus');
+                } else if (ev.keyCode === 8) {
+                    /*
+                     * Modified by Jinfeng
+                     * when user clear text by using backspace, clear last search result
+                     */
+                    if(self.searchTxt.val().length === 1){
+                        self.clearSearch();
+                        self.searchTxt.triggerHandler('focus');
+                    }
                 }
             }).keyup(function () {
                 var has = ($(this).val() + '').length > 0;
@@ -86,7 +95,7 @@
                 self.clearSearch();
                 self.searchTxt.triggerHandler('keyup');
             });
-            this.contentCon.click(function (ev) { self.doSelect({ index: self.eventItemIndex(ev) }); })
+            this.contentCon.click(function (ev) { self.doSelect({ index: self.eventItemIndex(ev) }); });
             this.contentCon.bind('mouseover mouseout', function (ev) { self.doNotice(ev); });
             // subscribe events
             this._onrulechange = function (sender, set) {

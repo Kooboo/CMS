@@ -54,6 +54,11 @@ namespace Kooboo.CMS.Web.Areas.Account.Controllers
                         }
                         else
                         {
+                            var user = UserManager.Get(loginModel.UserName);
+                            if (!string.IsNullOrEmpty(user.DefaultPage))
+                            {
+                                return Redirect(user.DefaultPage);
+                            }
                             if (!string.IsNullOrEmpty(returnUrl))
                             {
                                 return Redirect(returnUrl);
@@ -79,7 +84,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Controllers
                 }
                 catch (DataViolationException e)
                 {
-                    ModelState.FillDataViolation(e.Violations);                    
+                    ModelState.FillDataViolation(e.Violations);
                 }
             }
             return View();

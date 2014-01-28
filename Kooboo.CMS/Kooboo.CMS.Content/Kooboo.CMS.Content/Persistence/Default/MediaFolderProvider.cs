@@ -32,15 +32,15 @@ namespace Kooboo.CMS.Content.Persistence.Default
             }
             dummy.IsDummy = false;
             return dummy;
-        } 
+        }
         #endregion
-        
+
         #region GetLocker
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
         protected override System.Threading.ReaderWriterLockSlim GetLocker()
         {
             return locker;
-        } 
+        }
         #endregion
 
         #region Rename
@@ -50,7 +50,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
             var oldPath = PathFactory.GetPath(old);
             oldPath.Rename(newPath.PhysicalPath);
         }
-        
+
         #endregion
 
         #region Export
@@ -62,7 +62,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
                 {
                     foreach (var folder in folders)
                     {
-                        var mediaFolder = GetMediaFolder(repository, baseFolder, folder);
+                        var mediaFolder = new MediaFolder(repository, folder);
                         FolderPath path = new FolderPath(mediaFolder);
                         zipFile.AddDirectory(path.PhysicalPath, mediaFolder.Name);
                     }
@@ -81,7 +81,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
                 }
                 zipFile.Save(outputStream);
             }
-        } 
+        }
         #endregion
 
         #region GetMediaFolder
@@ -93,7 +93,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
                 fullName = FolderHelper.CombineFullName(new[] { baseFolder, folderName });
             }
             return new MediaFolder(repository, fullName);
-        } 
+        }
         #endregion
     }
 }

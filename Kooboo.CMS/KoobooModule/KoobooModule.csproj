@@ -2064,10 +2064,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Cms_Data\Sites\SampleSite\Labels\Labels.resx" />
-    <EmbeddedResource Include="I18N\en-US.resx" />
-    <EmbeddedResource Include="I18N\ru-RU.resx" />
-    <EmbeddedResource Include="I18N\zh-CN.resx" />
-    <EmbeddedResource Include="I18N\zh-TW.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

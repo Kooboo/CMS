@@ -449,7 +449,7 @@
                 });
             }
             if (set.value) {
-                if (!foundItem) { foundItem = this.newProperty(); }
+                if (!foundItem) { foundItem = this.newProperty(); console.log('new property at setPropery');}
                 foundItem.setName({ name: set.name, fireEvent: false });
                 foundItem.setValue({ value: set.value, fireEvent: false });
                 foundItem.setEnable({ enable: set.enable, fireEvent: false });
@@ -480,7 +480,13 @@
                     name = ctx.noComment(pair[0]).replace('*/', '').trim();
                     enable = (name.indexOf('/*') !== 0);
                     name = name.replace('/*', '').trim();
-                    exist = (forTest.indexOf(name.toLowerCase() + ':' + value.toLowerCase()) !== -1);
+                    /*
+                     * Modify by Jinfeng
+                     * value in exist statement should wrapper with nospace function,
+                     * beacuse forTest statement trim space.
+                     * fixBug: ' content: " " 'will make 'enable&&exist' false
+                     */
+                    exist = (forTest.indexOf(name.toLowerCase() + ':' + (ctx.nospace(value)).toLowerCase()) !== -1); 
                     self.newProperty({ name: name, value: value, enable: enable && exist });
                 }
             });
@@ -617,7 +623,7 @@
             this.host = config.host;
             this.setName({ name: config.name, fireEvent: false });
             this.setValue({ value: config.value, fireEvent: false });
-            this.setEnable({ enable: config.enable, fireEvent: false });
+            this.setEnable({ enable: config.enable, fireEvent: false ,config: config});
             // override the value setValue function generated if config specified a boolean value
             if ($.type(config.important) === 'boolean') {
                 this.importantOriginal = undefined;

@@ -10,7 +10,7 @@
                 @Html.IconImage("add") @("Create".Localize())</a>
         </li>
         <li>
-            <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import custom errors"))">
+            <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import url redirects"))">
                 @Html.IconImage("import") @("Import".Localize())
             </a>
         </li>

@@ -2,11 +2,11 @@
 @using Kooboo.Web.Script.Serialization
 @using Kooboo.CMS.Sites.DataRule
 @{
-    
+
     var action = ViewContext.RequestContext.AllRouteValues()["action"].ToString();
     var schema = (Kooboo.CMS.Content.Models.Schema)ViewData["Schema"];
     var folder = (Kooboo.CMS.Content.Models.TextFolder)ViewData["Folder"];
-    var operatorList = new List<System.Web.Mvc.SelectListItem> { 
+    var operatorList = new List<System.Web.Mvc.SelectListItem> {
     new System.Web.Mvc.SelectListItem{ Text = "Equals", Value="0"},
     new System.Web.Mvc.SelectListItem{ Text = "NotEquals", Value="1"},
     new System.Web.Mvc.SelectListItem{ Text = "Greater than", Value="2"},
@@ -16,7 +16,7 @@
     new System.Web.Mvc.SelectListItem{ Text = "End with", Value="6"}
   };
 
-    var logicalList = new List<System.Web.Mvc.SelectListItem> { 
+    var logicalList = new List<System.Web.Mvc.SelectListItem> {
     new System.Web.Mvc.SelectListItem{ Text = "AND", Value="0"},
     new System.Web.Mvc.SelectListItem{ Text = "OR", Value="1"},
     new System.Web.Mvc.SelectListItem{ Text = "Then AND", Value="2"},
@@ -39,16 +39,16 @@
 <div class="search-panel">
     <div class="searchbox">
         <form id="search" action="@Html.Raw(Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("page", "1")))"
-        method="get" class="no-stop">
+              method="get" class="no-stop">
             @foreach (var routeValue in ViewContext.RequestContext.AllRouteValues())
             {
                 if (routeValue.Key.ToLower() != "page" && routeValue.Key.ToLower() != "search")
                 {
-                <input type="hidden" name="@routeValue.Key" value="@routeValue.Value" />
+                    <input type="hidden" name="@routeValue.Key" value="@routeValue.Value" />
                 }
             }
 
-            <input type="text" name="search" id="searchBox" value="@ViewContext.RequestContext.GetRequestValue("search")" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }"/>
+            <input type="text" name="search" id="searchBox" value="@ViewContext.RequestContext.GetRequestValue("search")" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" />
             <button type="submit">@Html.IconImage("search")</button>
         </form>
     </div>
@@ -57,9 +57,10 @@
         <a class="more">@Html.IconImage("arrow small black-down")</a>
         <div class="more-search common-form" style="display: none">
             <h6>
-                @("Advanced search".Localize())</h6>
+                @("Advanced search".Localize())
+            </h6>
             <form action="@Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("page", "1"))"
-        class="no-stop" method="get">
+                  class="no-stop" method="get">
                 <input type="hidden" name="SiteName" value="@Request["SiteName"]" />
                 <input type="hidden" name="RepositoryName" value="@Request["RepositoryName"]" />
                 <input type="hidden" name="FolderName" value="@Request["FolderName"]" />
@@ -75,15 +76,15 @@
                                     <div class="clearfix">
                                         @Html.DropDownList("FieldName", columnSelectListItems,
                                         new RouteValueDictionary() { { "class", "medium j_FieldNameInput" } }
-                                        .Merge("data-bind", "value:FieldName, attr: {name: $parent.getPrefixFieldName($index()) + 'FieldName'}"))
+                                        .Merge("data-bind", "value:FieldName, attr: {id:'FieldName' +$index(),  name: $parent.getPrefixFieldName($index()) + 'FieldName'}"))
                                         @Html.DropDownList("Operator", operatorList, new RouteValueDictionary(new { @class = "short" })
-                                                .Merge("data-bind", "value:Operator, attr: {name: $parent.getPrefixFieldName($index()) + 'Operator'}"))
+                                        .Merge("data-bind", "value:Operator, attr: {id:'Operator' +$index(),name: $parent.getPrefixFieldName($index()) + 'Operator'}"))
                                     </div>
                                     <div class="clearfix">
                                         @Html.TextBox("Value1", null, new RouteValueDictionary(new { @class = "medium j_FieldValueInput" })
-                                                .Merge("data-bind", "value:Value1, attr: {name: $parent.getPrefixFieldName($index()) + 'Value1'}"))
+                                        .Merge("data-bind", "value:Value1, attr: {id:'Value1' + $index(),name: $parent.getPrefixFieldName($index()) + 'Value1'}"))
                                         @Html.DropDownList("Logical", logicalList, new RouteValueDictionary(new { @class = "short" })
-                                                .Merge("data-bind", "value:Logical, attr: {name: $parent.getPrefixFieldName($index()) + 'Logical'}"))
+                                        .Merge("data-bind", "value:Logical, attr: {id:'Logical' + $index(),name: $parent.getPrefixFieldName($index()) + 'Logical'}"))
                                     </div>
                                 </td>
                             </tr>
@@ -97,14 +98,16 @@
                 </fieldset>
                 <p class="buttons">
                     <button type="submit">
-                        @("Search".Localize())</button>
+                        @("Search".Localize())
+                    </button>
                     <a class="button action gray cancel">
-                        @("Cancel".Localize())</a>
+                        @("Cancel".Localize())
+                    </a>
                 </p>
             </form>
             <script type="text/javascript">
                 $(function () {
-                   
+
                     (function () {
                         var searchPanel = $('div.search-panel');
                         panel = searchPanel.find('div.more-search');
@@ -121,7 +124,7 @@
                             searchPanel.find('a.more').click();
                         });
                     })();
-                    
+
                     (function () {
                         var dataTypes = @Html.Raw(dataTypesJson);
                         function bindFieldNameChanged()
@@ -129,7 +132,9 @@
                             $('.j_FieldNameInput').change(function(){
                                 var $fieldNameInput = $(this);
                                 var $fieldValueInput = $fieldNameInput.parents('td').find('.j_FieldValueInput');
-                                var dataType = _.find(dataTypes,function(type,index){return type.FieldName == $fieldNameInput.val()});                             
+                                console.log($fieldNameInput);
+                                console.log($fieldValueInput);
+                                var dataType = _.find(dataTypes,function(type,index){return type.FieldName == $fieldNameInput.val()});
                                 if (dataType!=null) {
                                     switch (dataType.DataType) {
                                         case 'DateTime':
@@ -140,7 +145,7 @@
                                     } ;
                                 }
                             });
-                        }                      
+                        }
                         function SearchViewModel() {
                             var self = this;
 
@@ -162,8 +167,8 @@
                         }
                         ko.applyBindings(new SearchViewModel(), $("#filter_list")[0]);
 
-                      
-                    })();                   
+
+                    })();
                 });
             </script>
         </div>

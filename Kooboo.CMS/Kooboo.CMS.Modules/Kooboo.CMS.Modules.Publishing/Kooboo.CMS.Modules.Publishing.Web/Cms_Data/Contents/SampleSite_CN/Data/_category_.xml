@@ -75,4 +75,14 @@
 		<CategoryUUID>e7f6fee8-ffa2-4d36-901b-6ccb5369ff4d</CategoryUUID>
 		<ContentUUID>SDL2UR3PRGGKY4C7</ContentUUID>
 	</Category>
+	<Category>
+		<CategoryFolder>Category</CategoryFolder>
+		<CategoryUUID>5a9315f1-fe2f-47fd-aa3c-3d12cb2be97a</CategoryUUID>
+		<ContentUUID>SDL2UR3PRGGKY4C7</ContentUUID>
+	</Category>
+	<Category>
+		<CategoryFolder>Category</CategoryFolder>
+		<CategoryUUID>e7f6fee8-ffa2-4d36-901b-6ccb5369ff4d</CategoryUUID>
+		<ContentUUID>SDL2UR3PRGGKY4C7</ContentUUID>
+	</Category>
 </ArrayOfCategory>

@@ -261,11 +261,9 @@
     <Folder Include="Areas\Publishing\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\Mono.Math.dll" />
-    <Content Include="lib\Org.Mentalis.Security.Cryptography.dll" />
-    <Content Include="Menu.config" />
     <Content Include="lib\CookComputing.XmlRpcV2.dll" />
     <Content Include="lib\DiffPlex.dll" />
+    <Content Include="lib\dotless.Core.dll" />
     <Content Include="lib\DotNetOpenAuth.AspNet.dll" />
     <Content Include="lib\DotNetOpenAuth.Core.dll" />
     <Content Include="lib\DotNetOpenAuth.OAuth.Consumer.dll" />
@@ -289,9 +287,11 @@
     <Content Include="lib\Lucene.Net.Contrib.Highlighter.dll" />
     <Content Include="lib\Lucene.Net.dll" />
     <Content Include="lib\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="lib\Mono.Math.dll" />
     <Content Include="lib\Newtonsoft.Json.dll" />
     <Content Include="lib\Ninject.dll" />
     <Content Include="lib\NuGet.Core.dll" />
+    <Content Include="lib\Org.Mentalis.Security.Cryptography.dll" />
     <Content Include="lib\System.Net.Http.dll" />
     <Content Include="lib\System.Web.Helpers.dll" />
     <Content Include="lib\System.Web.Mvc.dll" />
@@ -300,6 +300,7 @@
     <Content Include="lib\System.Web.WebPages.Deployment.dll" />
     <Content Include="lib\System.Web.WebPages.dll" />
     <Content Include="lib\System.Web.WebPages.Razor.dll" />
+    <Content Include="Menu.config" />
     <Content Include="LICENSE.txt" />
     <Content Include="routes.config" />
     <Content Include="Web.config" />

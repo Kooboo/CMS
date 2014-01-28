@@ -1,14 +1,31 @@
 ﻿@model dynamic
 @using Kooboo.CMS.Web
+
 @Html.IncludeLocalizationScripts()
+<script>
+    (function ($) {
+        //#region Initialize the js culture
+        Globalize.culture('@Html.Raw(System.Threading.Thread.CurrentThread.CurrentCulture.Name)');
+
+        $.validator.methods.number = function (value, element) {
+            return !isNaN(Globalize.parseFloat(value));
+        }
+        $.fn.numberic = function () {
+            var $self = $(this) @*use in control type*@
+            $self.find('input[data-value-type=float]').numeric('@Html.Raw(System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator)');
+            $self.find('input[data-value-type=int32]').numeric(false);
+        };
+    })(jQuery);
+</script>
+
 @{
     var route = ViewContext.RequestContext.AllRouteValues().Merge("search", null);
-    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+    var uiCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
     var tinymceLang = "en";
-    var tinymceLangFile = Server.MapPath(string.Format("~/Scripts/tiny_mce/langs/{0}.js", culture.Name));
+    var tinymceLangFile = Server.MapPath(string.Format("~/Scripts/tiny_mce/langs/{0}.js", uiCulture.Name));
     if (File.Exists(tinymceLangFile))
     {
-        tinymceLang = culture.Name.ToLower();
+        tinymceLang = uiCulture.Name.ToLower();
     }
     string tinymceContentStyle = null;
     if (Kooboo.CMS.Sites.Models.Site.Current != null)
@@ -22,20 +39,11 @@
 
     var mediaLibraryUrl = Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType", "grid").Merge("SingleChoice", "true"));
 }
+
 <script type="text/javascript">
-@* (function ($) {
-        $.fn.numberic = function () {
-            var $self = $(this)
-            $self.find('input[data-value-type=float]').numeric('@Html.Raw(culture.NumberFormat.NumberDecimalSeparator)');
-            $self.find('input[data-value-type=int32]').numeric(false);
-        };
-    })(jQuery);*@
     $(function () {
         window.leaveConfirm.bind('@("All your changes might be lost.".Localize())');
         //$(window.body).numberic();
-
-        //#region Initialize the js culture
-        Globalize.culture('@Html.Raw(culture.Name)');
         var mediaLibraryUrl = '@Html.Raw(mediaLibraryUrl)';
 
         var chooseFileFromMediaLibrary = function (inputId, value, fileType, window) {
@@ -88,6 +96,9 @@
                     });
                     ed.on('FullscreenStateChanged', function (e) {
                         $(window.parent.document).find('iframe').toggleClass('fullscreen');
+                    });
+                    ed.on('BeforeSetContent', function (e) {
+                        e.format = 'raw';
                     });
                 }
             });

@@ -24,8 +24,8 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Description("Keep original base URL, without proxy redirect.")]
         public bool NoProxy { get; set; }
 
-        [DisplayName("Proxy for stylesheet")]
-        [Description("")]
-        public bool ProxyStylesheet { get; set; }
+        //[DisplayName("Proxy for stylesheet")]
+        //[Description("")]
+        //public bool ProxyStylesheet { get; set; }
     }
 }

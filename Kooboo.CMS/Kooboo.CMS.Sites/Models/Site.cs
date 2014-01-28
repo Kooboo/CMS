@@ -628,7 +628,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                return customFields;
+                return customFields ?? new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             }
             set
             {

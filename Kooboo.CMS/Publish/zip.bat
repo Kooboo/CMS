@@ -14,7 +14,7 @@ cd Azure
 call Pack.bat
 
 
-..\7z\7z a ..\Released\Kooboo_CMS_Azure.zip readme.txt Kooboo_CMS.cspkg RemoteDesktop.cer RemoteDesktop.pfx ServiceConfiguration.Cloud.cscfg
+..\7z\7z a ..\Released\Kooboo_CMS_Azure.zip readme.txt Kooboo_CMS.cspkg ServiceConfiguration.Cloud.cscfg
 
 cd.. 
 

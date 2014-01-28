@@ -81,12 +81,12 @@
                                         <span class="left">x</span>
                                         <input type="text" id="Crop_Height" name="Crop.Height" readonly="readonly" class="mini" />
                                     </li>
-                                    <li>
+                                    @*<li>
                                         <label>@Html.Raw("Aspect ratio".Localize()):</label>
                                         <input type="text" id="Ratio_Width" class="mini" data-val="true" data-val-number="" />
                                         <span class="left">x</span>
                                         <input type="text" id="Ratio_Height" class="mini" data-val="true" data-val-number="" />
-                                    </li>
+                                    </li>*@
                                 </ul>
                             </div>
                             <div class="container">
@@ -156,8 +156,7 @@
         dummy.src = "@originalImage";
         $(dummy).on("load", function () {
             width = dummy.width;
-            height = dummy.height;
-            console.log("dummy",[dummy.width,dummy.height]);
+            height = dummy.height;            
             width_height_ratio = width / height;
             $("#display_Originaldimensions > span").html(width + " x " + height);
             $("#Scale_Width").val(dummy.width);

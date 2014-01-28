@@ -3,3 +3,4 @@ ignores.txt
 PackModule.bat
 loglist.txt
 *.zip
+*.cs

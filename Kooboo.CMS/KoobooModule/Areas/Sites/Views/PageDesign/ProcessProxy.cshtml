@@ -14,6 +14,7 @@
             @Html.EditorFor(m => m.Host, new { HtmlAttributes = new { @class = "medium" } })
             @Html.EditorFor(m => m.RequestPath, new { HtmlAttributes = new { @class = "medium" } })
             @Html.EditorFor(m => m.NoProxy)
+            @*@Html.EditorFor(m => m.ProxyStylesheet)*@
             <tr>
                 <th>@("Cache settings".Localize())</th>
                 <td>
@@ -26,12 +27,12 @@
             <tr id="cache_con">
                 <th></th>
                 <td>
-                    <select
-                        id="ExpirationPolicy" name="OutputCache.ExpirationPolicy" class="medium">
+                    <select id="ExpirationPolicy" name="OutputCache.ExpirationPolicy" class="medium">
                         @foreach (var item in (string[])ViewData["Policys"])
                         {
                             <option>
-                                @Html.Raw(item)</option>
+                                @Html.Raw(item)
+                            </option>
                         }
                     </select>
                     <input class="mini" type="text" name="OutputCache.Duration" />

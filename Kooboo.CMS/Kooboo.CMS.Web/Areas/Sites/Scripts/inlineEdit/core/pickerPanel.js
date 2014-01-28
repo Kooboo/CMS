@@ -32,7 +32,7 @@
 
         initialize: function () {
             // build
-            var html = this.buildHtml();
+        	var html = this.buildHtml();
             this.el = $(html).appendTo(ctx.cacheCon || 'body');
             if (this.height != null) this.el.css({ height: this.height });
             if (this.width != null) this.el.css({ width: this.width });
@@ -108,7 +108,7 @@
             this.referenceEl = null;
             pickerPanel.current = null;
             ctx.modeling = false;
-        }
+        },
     };
 
     // use to handler the current opened panel.

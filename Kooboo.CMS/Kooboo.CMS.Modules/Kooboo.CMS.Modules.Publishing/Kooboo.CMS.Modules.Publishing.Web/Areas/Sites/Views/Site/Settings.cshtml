@@ -9,11 +9,13 @@
     <ul class="panel">
         <li>
             <a data-ajaxform="">
-                @Html.IconImage("save") @("Save".Localize())</a>
+                @Html.IconImage("save") @("Save".Localize())
+            </a>
         </li>
         <li>
             <a href="@Url.Action("TestSMTP", ViewContext.RequestContext.AllRouteValues())" data-ajaxform="" id="testSMTP" style="display:none">
-                @Html.IconImage("send") @("Test SMTP".Localize())</a>
+                @Html.IconImage("send") @("Test SMTP".Localize())
+            </a>
         </li>
     </ul>
 }
@@ -23,27 +25,51 @@
     {
         <div class="tabs">
             <ul class="tab-index clearfix">
-                <li class="active"><a href="#basicInfo">
-                    @("Basic".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-                <li><a href="#domain">
-                    @("Domain".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-                <li><a href="#webresource">
-                    @("Web resource".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-                <li><a href="#smtpInfo">
-                    @("SMTP".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-                <li><a href="#htmlmeta">
-                    @("HTML meta".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-                <li><a href="#security">
-                    @("Security".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                <li class="active">
+                    <a href="#basicInfo">
+                        @("Basic".Localize())
+                    </a>@Html.IconImage("arrow blue-down")
+                </li>
+                <li>
+                    <a href="#domain">
+                        @("Domain".Localize())
+                    </a>@Html.IconImage("arrow blue-down")
+                </li>
+                <li>
+                    <a href="#webresource">
+                        @("Web resource".Localize())
+                    </a>@Html.IconImage("arrow blue-down")
+                </li>
+                <li>
+                    <a href="#smtpInfo">
+                        @("SMTP".Localize())
+                    </a>@Html.IconImage("arrow blue-down")
+                </li>
+                <li>
+                    <a href="#htmlmeta">
+                        @("HTML meta".Localize())
+                    </a>@Html.IconImage("arrow blue-down")
+                </li>
+                <li>
+                    <a href="#security">
+                        @("Security".Localize())
+                    </a>@Html.IconImage("arrow blue-down")
+                </li>
                 @if (customTabs.Length == 0)
                 {
-                    <li><a href="#customFields">
-                        @("Custom fields".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+                    <li>
+                        <a href="#customFields">
+                            @("Custom fields".Localize())
+                        </a>@Html.IconImage("arrow blue-down")
+                    </li>
                 }
                 @foreach (var tab in customTabs)
                 {
-                    <li><a href="#@tab.Title">
-                        @tab.Title.Localize()</a>@Html.IconImage("arrow blue-down")</li>
+                    <li>
+                        <a href="#@tab.Title">
+                            @tab.Title.Localize()
+                        </a>@Html.IconImage("arrow blue-down")
+                    </li>
                 }
             </ul>
             <div class="tab-content active" id="basicInfo">
@@ -66,6 +92,7 @@
                     <tbody>
                         @Html.EditorFor(m => m.Domains, new { HtmlAttributes = new { @class = "medium" } })
                         @Html.EditorFor(m => m.SitePath, new { HtmlAttributes = new { @class = "medium" } })
+                        @Html.EditorFor(m => m.UserAgent, new { HtmlAttributes = new { @class = "medium" } })
                         @Html.EditorFor(m => m.SSLDetection)
                     </tbody>
                 </table>
@@ -108,7 +135,7 @@
                     @Html.Partial(tab.VirualPath, Model.CustomFields, new ViewDataDictionary())
                 </div>
             }
-        </div>        
+        </div>
     }
 </div>
 <script>

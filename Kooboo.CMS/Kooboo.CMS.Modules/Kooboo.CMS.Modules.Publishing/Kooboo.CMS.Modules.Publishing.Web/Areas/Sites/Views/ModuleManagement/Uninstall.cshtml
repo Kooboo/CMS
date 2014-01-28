@@ -42,8 +42,8 @@
     @using (Html.BeginForm())
     {
         <input type="hidden" name="ModuleName" value="@Model.ModuleName" />
-        <div class="columns clearfix">
-            <div class="col-31">
+        <div class="columns">
+            <div class="span4">
                 <div class="content">
                     <p>@Html.Raw("You are about to uninstall the following modules, click <strong>Next</strong> to continue.".Localize())</p>
                 </div>

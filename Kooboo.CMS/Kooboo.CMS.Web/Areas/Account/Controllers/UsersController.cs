@@ -204,6 +204,25 @@ namespace Kooboo.CMS.Web.Areas.Account.Controllers
             }
             return Json(data);
         }
+
+        [RequiredLogOn(Order = 1, Exclusive = true)]
+        [HttpPost]
+        public virtual ActionResult SetDefaultPage(string defaultUrl, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    var user = UserManager.Get(User.Identity.Name);
+                    user.DefaultPage = defaultUrl;
+                    UserManager.Update(User.Identity.Name, user);
+                    resultData.RedirectUrl = @return;
+                });
+            }
+            return Json(data);
+        }
         #endregion
     }
 }

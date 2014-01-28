@@ -441,7 +441,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                     {
                         targetStream = imageStream;
                     }
-                    if (scaleModel != null && scaleModel.Height.HasValue && scaleModel.Width.HasValue)
+                    if (scaleModel != null && scaleModel.Height.HasValue && scaleModel.Width.HasValue && scaleModel.Height.Value > 0 && scaleModel.Width.Value > 0)
                     {
                         ImageTools.ResizeImage(targetStream, resizedImage, imageFormat, scaleModel.Width.Value, scaleModel.Height.Value, scaleModel.PreserveAspectRatio, scaleModel.Quality ?? 80);
                         resizedImage.Position = 0;
@@ -646,7 +646,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
                 if (oldFolder != @new)
                 {
-                    FolderManager.Rename(@new, oldFolder);                   
+                    FolderManager.Rename(@new, oldFolder);
                 }
                 resultData.RedirectUrl = @return;
             });

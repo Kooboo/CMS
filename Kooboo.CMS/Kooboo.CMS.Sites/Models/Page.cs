@@ -412,8 +412,26 @@ namespace Kooboo.CMS.Sites.Models
                 return OutputCache != null && OutputCache.Duration > 0;
             }
         }
+        private Dictionary<string, string> customFields;
         [DataMember(Order = 36)]
-        public Dictionary<string, string> CustomFields { get; set; }
+        public Dictionary<string, string> CustomFields
+        {
+            get
+            {
+                return customFields ?? new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            }
+            set
+            {
+                if (value != null)
+                {
+                    customFields = new Dictionary<string, string>(value, StringComparer.OrdinalIgnoreCase);
+                }
+                else
+                {
+                    customFields = value;
+                }
+            }
+        }
 
         private bool? published;
         [DataMember(Order = 38)]

@@ -204,9 +204,10 @@ namespace Kooboo.CMS.Sites.View
         {
             get
             {
-                return this.PageRequestContext.RequestChannel != Web.FrontRequestChannel.Design
-                       && this.PageRequestContext.Site.EnableStyleEdting != false
-                       && ServiceFactory.UserManager.Authorize(Page_Context.Current.PageRequestContext.Site, Page_Context.Current.ControllerContext.HttpContext.User.Identity.Name, Account.Models.Permission.Sites_Page_StyleEditPermission);
+                return false;
+                //return this.PageRequestContext.RequestChannel != Web.FrontRequestChannel.Design
+                //       && this.PageRequestContext.Site.EnableStyleEdting != false
+                //       && ServiceFactory.UserManager.Authorize(Page_Context.Current.PageRequestContext.Site, Page_Context.Current.ControllerContext.HttpContext.User.Identity.Name, Account.Models.Permission.Sites_Page_StyleEditPermission);
             }
         }
         #endregion

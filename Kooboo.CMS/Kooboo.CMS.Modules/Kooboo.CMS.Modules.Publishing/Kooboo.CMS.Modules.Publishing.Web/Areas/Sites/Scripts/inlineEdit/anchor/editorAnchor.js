@@ -18,7 +18,7 @@
         cancelBtnTitle: 'cancel',
         fontFamilyTitle: 'font family',
         fontSizeTitle: 'font size',
-	headingTitle: 'heading',
+        headingTitle: 'heading',
         fontColorTitle: 'font color',
         backColorTitle: 'background color'
     };
@@ -51,6 +51,7 @@
 
         initialize: function () {
             // init params
+            console.log('init editorAnchor');
             var self = this;
             this.components = {};
             this.richText = this.editor.isRichText();
@@ -165,7 +166,7 @@
 
             // heading
             this.components.btnHeading = new ctx.HeadingCombo({
-                width:70,
+                width: 70,
                 disabled: true,
                 title: options.headingTitle,
                 renderTo: row2,
@@ -193,6 +194,7 @@
                 onCancel: function (value) { self.editor.restoreLastSelection(); self.editor.backColor(value, false); },
                 onSelect: function (value) { self.editor.restoreLastSelection(); self.editor.backColor(value); }
             });
+
 
             // fix row1 css
             $.each(this.components, function () {
@@ -224,12 +226,12 @@
                 if (size) {
                     self.components.btnFontSize.val(size);
                 }
-		//heading
-		self.components.btnHeading.isEnable(enable);
-		var heading = editor.heading();
-		if(heading) {
-			self.components.btnHeading.val(heading);
-		}
+                //heading
+                self.components.btnHeading.isEnable(enable);
+                var heading = editor.heading();
+                if (heading) {
+                    self.components.btnHeading.val(heading);
+                }
 
                 // font name
                 self.components.btnFontFamily.isEnable(enable);
@@ -308,5 +310,10 @@
 
     // register
     ctx.editorAnchor = editorAnchor;
+
+
+
+    
+
 
 })(yardi, jQuery);

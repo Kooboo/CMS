@@ -139,6 +139,9 @@ namespace Kooboo.CMS.Account.Models
         /// </value>
         [DataMember]
         public string GlobalRoles { get; set; }
+
+        [DataMember]
+        public string DefaultPage { get; set; }
     }
 
     public partial class User : IPersistable, IIdentifiable

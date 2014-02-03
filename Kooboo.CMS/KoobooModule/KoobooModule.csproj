@@ -809,7 +809,9 @@
     <Content Include="Areas\Sites\Views\View\View.Script.cshtml" />
     <Content Include="Areas\Sites\Views\View\_Grid2.cshtml" />
     <Content Include="Areas\Sites\Views\Web.config" />
-    <Content Include="Areas\Sites\WebResources.config" />
+    <Content Include="Areas\Sites\WebResources.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Cms_Data\Account\Roles\Content manager.config" />
     <Content Include="Cms_Data\Account\Roles\Developer.config" />
     <Content Include="Cms_Data\Account\Users\admin.config" />
@@ -929,10 +931,14 @@
     <Content Include="Images\invis.gif" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\svg-content.png" />
     <Content Include="Images\svg-edit.png" />
     <Content Include="Images\svg-export.png" />
+    <Content Include="Images\svg-membership.png" />
     <Content Include="Images\svg-preview.png" />
+    <Content Include="Images\svg-site.png" />
     <Content Include="Images\svg-view.png" />
+    <Content Include="Kooboo_CMS.csproj" />
     <Content Include="lib\CookComputing.XmlRpcV2.dll" />
     <Content Include="lib\DiffPlex.dll" />
     <Content Include="lib\dotless.Core.dll" />
@@ -1912,6 +1918,8 @@
     <Content Include="Scripts\yardiTip\images\arrow_top_yellow.gif" />
     <Content Include="Scripts\yardiTip\yardiTip.css" />
     <Content Include="Scripts\yardiTip\yardiTip.js" />
+    <Content Include="Styles\base.css" />
+    <Content Include="Styles\common.css" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
     <Content Include="Styles\Diff\Main.css" />
@@ -1941,6 +1949,7 @@
     <Content Include="Styles\jquery-ui.css" />
     <Content Include="Styles\jQuery.jCrop\Jcrop.gif" />
     <Content Include="Styles\jQuery.jCrop\jquery.Jcrop.css" />
+    <Content Include="Styles\reset.css" />
     <Content Include="Styles\select2\select2.css" />
     <Content Include="Styles\select2\select2.png" />
     <Content Include="Styles\select2\select2x2.png" />
@@ -2044,6 +2053,8 @@
     <Content Include="Views\Shared\DisplayTemplates\_TR.cshtml" />
     <Content Include="Styles\relation.less" />
     <Content Include="Areas\KoobooModule\Views\Home\HelloWorld.cshtml" />
+    <Content Include="Styles\repository-flowchart.less" />
+    <Content Include="Views\Shared\EditorTemplates\UserAgentPattern.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

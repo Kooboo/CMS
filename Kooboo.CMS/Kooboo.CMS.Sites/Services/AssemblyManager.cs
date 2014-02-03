@@ -30,7 +30,7 @@ namespace Kooboo.CMS.Sites.Services
             _assemblyReferences = assemblyReferences;
             foreach (var site in ServiceFactory.SiteManager.AllRootSites())
             {
-                EnsureAssembliesExistsInBin(site, false, true);
+                EnsureAssembliesExistsInBin(site, false, false, true);
             }
         }
         #endregion
@@ -149,7 +149,7 @@ namespace Kooboo.CMS.Sites.Services
         {
             return "site:" + site.FullName.ToLower();
         }
-        public void EnsureAssembliesExistsInBin(Site site, bool copyParent = true, bool copyChildren = false)
+        public void EnsureAssembliesExistsInBin(Site site, bool overwrite = true, bool copyParent = true, bool copyChildren = false)
         {
             var files = GetFiles(site);
             foreach (var file in files)
@@ -157,10 +157,11 @@ namespace Kooboo.CMS.Sites.Services
                 if (!_assemblyReferences.IsSystemAssembly(file.PhysicalPath))
                 {
                     var fileInBin = GetAssemblyBinFilePath(file.FileName);
-
-                    File.Copy(file.PhysicalPath, fileInBin, true);
-                    _assemblyReferences.AddReference(file.PhysicalPath, GetReferenceName(site));
-
+                    if (overwrite == true || !File.Exists(fileInBin))
+                    {
+                        File.Copy(file.PhysicalPath, fileInBin, true);
+                        _assemblyReferences.AddReference(file.PhysicalPath, GetReferenceName(site));
+                    }
                 }
             }
             //foreach (var file in files)

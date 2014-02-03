@@ -159,7 +159,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
 
             String s = sr.ReadToEnd();
 
-            return s.ToLower();
+            return s;
         }
         protected virtual string ProcessHttpWebResponse(HttpWebResponse httpWebResponse, HttpContextBase httpContext)
         {
@@ -226,11 +226,11 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 }
             }
 
-            headers["X-Forwarded-For"] = httpContext.Request.UserHostAddress;
+            //headers["X-Forwarded-For"] = httpContext.Request.UserHostAddress;
             httpWebRequest.Headers = headers;
             httpWebRequest.ContentType = httpContext.Request.ContentType;
             httpWebRequest.Accept = httpContext.Request.Headers["Accept"];
-            httpWebRequest.Referer = httpContext.Request.Headers["Referer"];
+            //httpWebRequest.Referer = httpContext.Request.Headers["Referer"];
             httpWebRequest.UserAgent = httpContext.Request.UserAgent;
             httpWebRequest.ContentLength = httpContext.Request.ContentLength;
             httpWebRequest.ContentType = httpContext.Request.ContentType;

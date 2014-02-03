@@ -15,6 +15,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
     public static class DatabaseHelper
     {
         static Dictionary<string, CouchbaseClient> couchbaseClients = new Dictionary<string, CouchbaseClient>(StringComparer.OrdinalIgnoreCase);
+        static string defaultClientName = "KoobooDefaultCouchbaseClient";
         #region GetCouchbaseClientConfiguration
         public static CouchbaseClientConfiguration GetCouchbaseClientConfiguration()
         {
@@ -32,7 +33,15 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         #region GetClient
         public static CouchbaseClient GetClient(this Site site)
         {
-            var key = site.FullName;
+            var key = string.Empty;
+            if (site == null || string.IsNullOrEmpty(site.FullName))
+            {
+                key = defaultClientName;
+            }
+            else
+            {
+                key = site.FullName;
+            }
             if (!couchbaseClients.ContainsKey(key))
             {
                 lock (couchbaseClients)
@@ -51,7 +60,6 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             }
             return couchbaseClients[key];
         }
-
         #endregion
 
         #region GetCouchbaseCluster
@@ -69,6 +77,36 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             var cc = GetCouchbaseCluster();
             var buckets = cc.ListBuckets();
             return buckets.Where(it => it.Name.Equals(bucketName)).Count() > 0;
+        }
+        #endregion
+
+        #region ExistView
+        public static List<string> ExistedView = new List<string>();
+
+        public static string GetViewCacheName(string bucketName, string viewName)
+        {
+            return bucketName + "|" + viewName;
+        }
+        public static bool CheckExistsByCache(this IView<IViewRow> view,string bucketName,string viewName)
+        {
+            var viewCacheName = GetViewCacheName(bucketName, viewName);
+            if (ExistedView.Contains(viewCacheName))
+            {
+                return true;
+            }
+            else
+            {
+                if (view.CheckExists())
+                {
+                    ExistedView.Add(GetViewCacheName(bucketName, viewName));
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+ 
+            }
         }
         #endregion
 

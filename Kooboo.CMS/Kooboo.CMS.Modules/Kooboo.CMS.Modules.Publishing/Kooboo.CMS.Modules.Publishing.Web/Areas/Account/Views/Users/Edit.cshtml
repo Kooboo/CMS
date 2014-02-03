@@ -25,6 +25,7 @@
             @Html.DisplayFor(m => m.UserName)
             @Html.EditorFor(m => m.Email, new { HtmlAttributes = new { @class = "medium" } })
             @Html.EditorFor(m => m.UICulture, new { HtmlAttributes = new { @class = "medium" } })
+            @Html.EditorFor(m => m.GlobalRoles, new { HtmlAttributes = new { @class = "medium" } })
             @Html.EditorFor(m => m.IsAdministrator)
             @Html.EditorFor(m => m.IsLockedOut)
         </table> 

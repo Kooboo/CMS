@@ -125,12 +125,13 @@
                 sortData['list[' + index + '].UUID']= item;
                 sortData['list[' + index + '].Sequence']=  sequenceList[index];
             });
-
+            window.loading.show();
             $.ajax({
                 url: '@Html.Raw(this.Url.Action("Sort", ViewContext.RequestContext.AllRouteValues()))',
                 data: sortData,
                 type: 'post',
                 success: function (response) {
+                    window.loading.hide();
                     parse_JsonResultData(response);
                 },
                 error: function () {

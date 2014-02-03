@@ -126,5 +126,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Display(Name = "Alternate SSL detection")]
         [Description("Alternate SSL detection via HTTP header, please fill in http header name and value. <a href='https://github.com/plack/Plack/wiki/How-to-detect-reverse-proxy-and-SSL-frontend' target='_blank'>Click</a> for more.")]
         public KeyValue<string, string> SSLDetection { get; set; }
+
+        [UIHint("UserAgentPattern")]
+        [DisplayName("Device")]
+        [Description("Used to create sites for special devices only, you can define regex expression to match the Browser User-Agent.<br />Only matched devices are allowed to view this site.")]
+        public string UserAgent { get; set; }
     }
 }

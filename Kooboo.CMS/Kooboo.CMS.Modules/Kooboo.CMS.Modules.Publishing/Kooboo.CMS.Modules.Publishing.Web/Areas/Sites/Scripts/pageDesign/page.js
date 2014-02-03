@@ -230,7 +230,13 @@
                     $(this).attr('checked', true);
                 }
             });
+            var showTreeNode = function (radio) {
+                var $radio = $(radio);
+                $radio.parentsUntil('ul#J_DataTree', 'li').toggleClass('active');
+                $radio.parentsUntil('ul#J_DataTree', 'ul').show();
+            };
             checks.change(function () {
+                showTreeNode(this);
                 var parameter_tr = $('#parameter_tr').hide();
                 var parameterCon = $('#parameter');
                 var contentfrom = parameterCon.data('contentfrom');
@@ -443,9 +449,9 @@
                     checkInput.attr('checked', true);
                     checkInput.trigger('change');
                 }
-            }            
-            if (this.outerValue.SkipError == 'true') {                
-                $('#skipError').attr('checked',true);
+            }
+            if (this.outerValue.SkipError == 'true') {
+                $('#skipError').attr('checked', true);
             }
             // OutputCache
             var dur, policy, outputCache = $.parseJSON(this.outerValue.OutputCache);
@@ -537,6 +543,14 @@
                     }
                     // inject style
                     self.injectStyle();
+                }, setup: function (ed) {
+                    ed.on('FullscreenStateChanged', function (e) {
+                        $(window.parent.document).find('iframe').toggleClass('fullscreen');
+                    });
+                    ed.on('BeforeSetContent', function (e) {
+                        //console.log(e.content);
+                        e.format = 'raw';
+                    });
                 }
             }));
         },
@@ -888,6 +902,9 @@
 
             var noProxy = this.outerValue.NoProxy;
             if (noProxy == "true") { $('input[name="NoProxy"]').attr('checked', true); }
+
+            var proxyStylesheet = this.outerValue.ProxyStylesheet;
+            if (proxyStylesheet == "true") { $('input[name="ProxyStylesheet"]').attr('checked', true); }
 
             // OutputCache
             var dur, policy, outputCache = $.parseJSON(this.outerValue.OutputCache);

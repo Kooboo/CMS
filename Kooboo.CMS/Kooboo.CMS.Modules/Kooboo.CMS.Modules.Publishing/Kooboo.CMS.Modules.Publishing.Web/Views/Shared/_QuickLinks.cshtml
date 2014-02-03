@@ -1,25 +1,25 @@
 ﻿<ul class="quicklinks">
     @if (ServiceFactory.UserManager.IsAdministrator(Html.ViewContext.HttpContext.User.Identity.Name))
     {
- @*       <li>
-            <a href="@Url.Action("Index", new { controller = "SiteTemplate", area = "Sites" })">
-                @Html.IconImage("modules")
-                @("Site master".Localize())
-            </a>
-        </li>
-<li>
-            <a href="@Url.Action("Index", new { controller = "ModuleManagement", area = "Sites" })">
-                @Html.IconImage("modules")
-                @("Modules".Localize())
-            </a>
-        </li>
-    
-     <li>
-            <a href="@Url.Action("index", new { controller = "Membership", area = "Membership" })">
-                @Html.IconImage("Membership")
-                @("Membership".Localize())
-            </a>
-        </li>*@
+        @*       <li>
+                        <a href="@Url.Action("Index", new { controller = "SiteTemplate", area = "Sites" })">
+                            @Html.IconImage("modules")
+                            @("Site master".Localize())
+                        </a>
+                    </li>
+            <li>
+                        <a href="@Url.Action("Index", new { controller = "ModuleManagement", area = "Sites" })">
+                            @Html.IconImage("modules")
+                            @("Modules".Localize())
+                        </a>
+                    </li>
+
+                 <li>
+                        <a href="@Url.Action("index", new { controller = "Membership", area = "Membership" })">
+                            @Html.IconImage("Membership")
+                            @("Membership".Localize())
+                        </a>
+                    </li>*@
         <li>
             <a href="@Url.Action("index", new { controller = "Users", area = "account" })">
                 @Html.IconImage("users-roles")
@@ -35,6 +35,9 @@
             @ViewContext.HttpContext.User.Identity.Name
         </a>
         <ul class="j_DropDownContent hide">
+            <li>
+                <a data-ajax="POST" href="@Url.Action("SetDefaultPage", new { area = "account", controller = "Users", defaultUrl = ViewContext.RequestContext.HttpContext.Request.RawUrl, @return = ViewContext.HttpContext.Request.RawUrl })">@("Set as default page".Localize())</a>
+            </li>
             <li>
                 <a href="@Url.Action("ChangeLanguage", new { area = "account", controller = "Users", @return = ViewContext.HttpContext.Request.RawUrl })">@("Change language".Localize())</a>
             </li>

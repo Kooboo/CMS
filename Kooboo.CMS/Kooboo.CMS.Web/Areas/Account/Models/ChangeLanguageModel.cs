@@ -18,6 +18,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
 {
     public class ChangeLanguageModel
     {
+        [Display(Name = "UI culture")]
         [UIHint("DropDownList")]
         [DataSource(typeof(EnabledLanguagesDataSource))]
         public string UICulture { get; set; }

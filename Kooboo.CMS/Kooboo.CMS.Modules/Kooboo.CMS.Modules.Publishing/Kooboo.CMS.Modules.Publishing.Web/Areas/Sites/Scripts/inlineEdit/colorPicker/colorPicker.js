@@ -30,7 +30,8 @@
     var colorPickerCore = function (config) {
         config.width = 368;
         config.height = null;
-        config.buildFn = function () {
+        config.buildHtml = function () {
+        //config.buildFn = function () {
             return '<var class="kb-colorpicker">' +
             '<var class="kb-head"></var>' +
             '<var class="kb-bar">' +

@@ -551,16 +551,16 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
     $.fn.treeNode = function () {
         var handler = $(this);
         handler.find('.tree-icon').click(function () {
-            $(this).siblings('ul').toggle('fast').parent().toggleClass('active');
+            $(this).siblings('.children,ul').toggle('fast').parent().toggleClass('active');
         });
     };
     $.fn.mapItem = function () {
         var dom = $(this);
-        var mapItemArrow = dom.find('.map-item .arrow');
+        var menuTrigger = dom.find('.map-item .trigger');
         $(document).click(function () {
-            mapItemArrow.siblings('ul').hide('fast');
+            menuTrigger.siblings('ul').hide('fast');
         });
-        return mapItemArrow.bind('click', function (e) {
+        return menuTrigger.bind('click', function (e) {
             e.stopPropagation();
             var menu = $(this).siblings('ul');
             $('.map-item > ul:visible').not(menu).hide('fast');
@@ -1061,12 +1061,14 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         (function leaveConfirm() {
             var $window = $(window);
             var canLeave = true;
+            var _msg = null;
             var comfirm = function () {
                 if (canLeave == false) {
-                    return msg;
+                    return _msg;
                 }
             };
             var bind = function (msg) {
+                _msg = msg;
                 $window.bind('beforeunload', comfirm);
             }
             var unbind = function (msg) {

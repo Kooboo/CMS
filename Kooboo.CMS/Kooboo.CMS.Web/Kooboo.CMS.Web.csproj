@@ -663,9 +663,12 @@
     <Content Include="Images\Default.png" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\loading.gif" />
+    <Content Include="Images\svg-content.png" />
     <Content Include="Images\svg-edit.png" />
     <Content Include="Images\svg-export.png" />
+    <Content Include="Images\svg-membership.png" />
     <Content Include="Images\svg-preview.png" />
+    <Content Include="Images\svg-site.png" />
     <Content Include="Images\svg-view.png" />
     <Content Include="LICENSE.txt" />
     <Content Include="Scripts\aight.js" />
@@ -861,6 +864,8 @@
     <Content Include="Scripts\tiny_mce\tinymce.min.js" />
     <Content Include="Scripts\yardiTip\images\arrow_down.png" />
     <Content Include="Scripts\yardiTip\images\arrow_top.png" />
+    <Content Include="Styles\base.css" />
+    <Content Include="Styles\common.css" />
     <Content Include="Styles\Diff\Diff.css" />
     <Content Include="Styles\Diff\InView.png" />
     <Content Include="Styles\Diff\Main.css" />
@@ -878,6 +883,7 @@
     <Content Include="Styles\jquery-ui.css" />
     <Content Include="Styles\jQuery.jCrop\Jcrop.gif" />
     <Content Include="Styles\jQuery.jCrop\jquery.Jcrop.css" />
+    <Content Include="Styles\reset.css" />
     <Content Include="Styles\validation.css" />
     <Content Include="Views\Shared\Import.cshtml" />
     <Content Include="Areas\Sites\WebResources.config">
@@ -2279,7 +2285,7 @@
     <Content Include="Areas\Contents\Views\ContentType\EditTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Sites\Views\ABRuleSetting\EditorTemplates\UserAgentPattern.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\UserAgentPattern.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\Page\_OutputCache.cshtml">
@@ -2533,6 +2539,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\repository-flowchart.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cms_Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

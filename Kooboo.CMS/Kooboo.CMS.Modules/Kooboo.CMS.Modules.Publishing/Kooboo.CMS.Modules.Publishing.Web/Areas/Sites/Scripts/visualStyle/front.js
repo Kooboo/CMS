@@ -49,6 +49,21 @@
                 maxAble: false,
                 frameHeight: '100%',
                 popupOnTop: true,
+                onload: function(currentHandler, pop, config){
+                    /* Modified by Jinfeng
+                     * set close controller to button in child
+                     * fixBug: nothing happen when click "Cancel" button
+                     */
+                    $(pop.children('iframe').contents().find('.btnCancel')).click(function () {
+                        $.each(window.frames, function(key, frame){
+                            if(frame.window.cancelConfirm){
+                                if(frame.window.cancelConfirm()){
+                                    pop.close();
+                                }
+                            }
+                        });
+                    });
+                },
                 onclose: function () {
                     el.css({ opacity: 1 }).show();
                     dialogCon.remove();

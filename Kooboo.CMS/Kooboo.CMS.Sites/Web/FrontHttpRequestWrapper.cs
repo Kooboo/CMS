@@ -20,6 +20,7 @@ using System.Web.Mvc;
 using System.Globalization;
 using Kooboo.Web.Url;
 using Kooboo.CMS.Sites.ABTest;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Web
 {
@@ -159,12 +160,12 @@ namespace Kooboo.CMS.Sites.Web
             //if the RawUrl is not start with the debug site url.
             //http://www.site1.com/index
             //http://www.site1.com/en/index
-            var siteProvider = Persistence.Providers.SiteProvider;
+            var siteManager = Kooboo.CMS.Sites.Services.ServiceFactory.SiteManager;
             if (!trimedPath.StartsWith(SiteHelper.PREFIX_FRONT_DEBUG_URL, StringComparison.InvariantCultureIgnoreCase))
             {
                 #region RequestByHostName
                 var host = GetRawHost(_request);
-                RawSite = siteProvider.GetSiteByHostNameNPath(host, trimedPath);
+                RawSite = siteManager.ResovleSite(new HttpRequestWrapper(_request), host, trimedPath);
                 if (RawSite != null)
                 {
                     sitePath = RawSite.SitePath;
@@ -180,6 +181,10 @@ namespace Kooboo.CMS.Sites.Web
                     }
                     var path = trimedPath.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
                     RequestUrl = UrlUtility.Combine(new[] { "/" }.Concat(path.Skip(sitePathLength)).ToArray());
+                    if (this.Path.EndsWith("/") && !this.RequestUrl.EndsWith("/"))
+                    {
+                        RequestUrl = RequestUrl + "/";
+                    }
                     appRelativeCurrentExecutionFilePath = "~" + RequestUrl;
                 }
 
@@ -192,13 +197,17 @@ namespace Kooboo.CMS.Sites.Web
                 var path = trimedPath.Split('/');
                 var sitePaths = SiteHelper.SplitFullName(path[0].Substring(SiteHelper.PREFIX_FRONT_DEBUG_URL.Count()));
 
-                RawSite = siteProvider.Get(Site.ParseSiteFromRelativePath(sitePaths));
+                RawSite = Site.ParseSiteFromRelativePath(sitePaths).AsActual();
                 if (RawSite != null)
                 {
                     RequestChannel = FrontRequestChannel.Debug;
                 }
 
                 RequestUrl = Kooboo.Web.Url.UrlUtility.Combine(new[] { "/" }.Concat(path.Skip(1)).ToArray());
+                if (this.Path.EndsWith("/") && !this.RequestUrl.EndsWith("/"))
+                {
+                    RequestUrl = RequestUrl + "/";
+                }
                 appRelativeCurrentExecutionFilePath = "~" + RequestUrl;
                 #endregion
             }

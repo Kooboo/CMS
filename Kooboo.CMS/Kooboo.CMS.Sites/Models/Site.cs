@@ -628,7 +628,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                return customFields;
+                return customFields ?? new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             }
             set
             {
@@ -731,6 +731,16 @@ namespace Kooboo.CMS.Sites.Models
         /// </value>
         [DataMember]
         public KeyValue<string, string> SSLDetection { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user agent.
+        /// Matching the device when resolving the site.
+        /// </summary>
+        /// <value>
+        /// The user agent.
+        /// </value>
+        [DataMember]
+        public string UserAgent { get; set; }
     }
     #endregion
 }

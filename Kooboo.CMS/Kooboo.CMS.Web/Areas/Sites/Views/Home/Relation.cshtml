@@ -15,10 +15,15 @@
     <h1 class="title">Relation</h1>
 </div>
 <div class="block fixed">
-    <div class="block relation" id="showRelation"></div>
-    <span id="fullSiteName">fullname</span>
+    <div class="block relation">
+        <div class="titlebar">
+            <h6 class="title">@("Membership".Localize())</h6>
+            <h6 class="title">@("Site".Localize())</h6>
+            <h6 class="title">@("Content database".Localize())</h6>
+        </div>
+        <div id="showRelation"></div>
+    </div>
 </div>
-
 
 <script>
     var site =  @Html.Raw(JsonConvert.SerializeObject(ViewBag.Sites, Formatting.Indented));
@@ -26,6 +31,10 @@
     var membership = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Memberships, Formatting.Indented));
 
     var max_length = Math.max(site.length, content.length, membership.length);
+
+    var bgSite = '#009AD7';
+    var bgDatabase = '#1F9284';
+    var bgMembership = '#5496A7';
 
     var w = 1000;
 
@@ -35,16 +44,6 @@
     var h = max_length * (rect_h + rect_margin_h) + 100;
 
     var svg = d3.select('#showRelation').append('svg').attr('width', w).attr('height', h);
-
-    var titleContainer = svg.append('g').attr('class','title');
-    var titles = titleContainer.selectAll().data(['@("Membership".Localize())', '@("Site".Localize())', '@("Content database".Localize())'])
-        .enter().append('foreignObject')
-        .attr('class', 'title')
-        .attr('width', rect_w)
-        .attr('height', rect_h)
-        .attr('x', function (d, i) { return i * w / 100 * 30 + 70 })
-        .attr('y', 0)
-        .html(function(d){return '<h2 class="title">'+d+'</h2>'});
 
     // rects and texts
     // Empty case
@@ -66,13 +65,25 @@
                 var url = '@(Url.Action("Create", new { controller = "Repository", area = "Contents", @return = Request.RawUrl }))';
                 break;
         }
-        svg.selectAll().data([1]).enter().append('foreignObject')
-            .attr('x', offset * 300 + 70)
-            .attr('y', 100)
-            .attr('width', rect_w)
-            .attr('height', rect_h)
-            .attr('class', 'empty')
-            .html($.format('<div class="node empty"><a href="{0}">{1}</a></div>',url,text));
+        svg.selectAll('rect.none').data([1]).enter().append('rect')
+			.attr('x', offset * 300 + 70)
+			.attr('y', 40)
+			.attr('class', 'empty')
+			.attr('data-url', url)
+			.attr('width', rect_w)
+			.attr('height', rect_h)
+			.attr('fill', '#FFF')
+			.attr('stroke', '#AAA')
+			.attr('style', 'cursor:pointer;')
+			.attr('stroke-dasharray', '5 2');
+        svg.selectAll('text.none').data([1]).enter().append('text')
+			.attr('x', 70 + w / 100 * 10 + offset * 300)
+			.attr('y', 66)
+			.attr('class', 'empty')
+			.attr('data-url', url)
+			.attr('style', 'font-family: Arial; font-size: 14px; text-anchor: middle;cursor:pointer;')
+			.attr('fill', '#AAA')
+			.text(text);
     }
     if(!membership.length){
         createEmptyRect('membership');
@@ -85,33 +96,143 @@
     }
 
     // Full case
-    var siteNode = svg.selectAll().data(site).enter().append('foreignObject');
-    var contentNode = svg.selectAll().data(content).enter().append('foreignObject');
-    var membershipNode = svg.selectAll().data(membership).enter().append('foreignObject');
+    var siteNode = svg.selectAll().data(site).enter().append('g');
+    var contentNode = svg.selectAll().data(content).enter().append('g');
+    var membershipNode = svg.selectAll().data(membership).enter().append('g');
 
-    siteNode.attr('x', w / 100 * 30 + 70)
+    siteNode.attr('class', 'node site')
+            .attr('x', w / 100 * 30 + 70)
             .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) })
-            .attr('width', rect_w)
-            .attr('height', rect_h)
-            .attr('class', 'site')
-            .attr('data-name', function(d){return d.name})
-            .html(function(d){return '<div class="node site" title="'+d.fullText+'"><span class="icon"><img src="/Images/invis.gif" class="icon site"></span><span class="name">'+d.text+'</span><a href="'+d.url+'" title="Click to manage this site"><img src="/Images/invis.gif" class="icon arrow-right"></a></div>'});
+            .attr('data-name', function(d){return d.name});
+    //Site rect
+    siteNode.append('rect')
+            .attr('x', w / 100 * 30 + 70)
+            .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) })
+            .attr('height',rect_h)
+            .attr('width',rect_w)
+            .attr('fill', bgSite);
+    //Site icon
+    siteNode.append('image')
+            .attr('x', w / 100 * 30 + 76)
+            .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + 11 })
+            .attr('width', 17)
+            .attr('height', 17)
+            .attr('xlink:href', '@(Url.Content("~/Images/svg-site.png"))');
+    //Site line
+    siteNode.append('line')
+            .attr('x1', w / 100 * 30 + 100)
+            .attr('y1', function (d) { return 40 + d.num * (rect_h + rect_margin_h) })
+            .attr('x2', w / 100 * 30 + 100)
+            .attr('y2', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + 39 })
+            .attr('stroke-width', 2)
+            .attr('stroke', '#FFF');
+    //Site text
+    siteNode.append('text')
+            .attr('x', w / 100 * 30 + 106)
+            .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + 24 })
+            .attr('style', 'font-family: Arial; font-size: 14px')
+            .attr('fill', '#FFF')
+            .attr('style','cursor:default')
+            .text(function (d) { return d.text });
+    //Site arrow
+    siteNode.append('image')
+            .attr('class', 'link')
+            .attr('x', w / 100 * 30 + 250)
+            .attr('y', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + 11 })
+            .attr('width', 16)
+            .attr('height', 16)
+            .attr('style','cursor:pointer')
+            .attr('data-url', function (d) { return d.url })
+            .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
 
-    contentNode.attr('x', w / 100 * 60 + 70)
+    contentNode.attr('class', 'node content')
+               .attr('data-name', function(d){return d.name});
+
+    //Content rect
+    contentNode.append('rect')
+               .attr('x', w / 100 * 60 + 70)
                .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) })
-               .attr('width', rect_w)
-               .attr('height', rect_h)
-               .attr('class', 'content')
-               .attr('data-name', function(d){return d.name})
-               .html(function(d){return '<div class="node content"><span class="icon"><img src="/Images/invis.gif" class="icon content"></span><span class="name">'+d.text+'</span><a href="'+d.url+'" title="Click to manage this content"><img src="/Images/invis.gif" class="icon arrow-right"></a></div>'});
+               .attr('height',rect_h)
+               .attr('width',rect_w)
+               .attr('fill', bgDatabase);
+    //Content icon
+    contentNode.append('image')
+               .attr('x', w / 100 * 60 + 76)
+               .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 11 })
+               .attr('width', 17)
+               .attr('height', 17)
+               .attr('xlink:href', '@(Url.Content("~/Images/svg-content.png"))');
+    //Content line
+    contentNode.append('line')
+               .attr('x1', w / 100 * 60 + 100)
+               .attr('y1', function (d, i) { return 40 + i * (rect_h + rect_margin_h) })
+               .attr('x2', w / 100 * 60 + 100)
+               .attr('y2', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 39 })
+               .attr('stroke-width', 2)
+               .attr('stroke', '#FFF');
+    //Content text
+    contentNode.append('text')
+               .attr('x', w / 100 * 60 + 106)
+               .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 24 })
+               .attr('style', 'font-family: Arial; font-size: 14px')
+               .attr('fill', '#FFF')
+               .attr('style','cursor:default')
+               .text(function (d) { return d.text });
+    //Content arrow
+    contentNode.append('image')
+               .attr('class', 'link')
+               .attr('x', w / 100 * 60 + 250)
+               .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 11 })
+               .attr('width', 16)
+               .attr('height', 16)
+               .attr('style','cursor:pointer')
+               .attr('data-url', function (d) { return d.url })
+               .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
 
-    membershipNode.attr('x', 70)
+    membershipNode.attr('class', 'node membership')
+                  .attr('data-name', function(d){return d.name});
+
+    //Membership rect
+    membershipNode.append('rect')
+                  .attr('x', 70)
                   .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) })
-                  .attr('width', rect_w)
-                  .attr('height', rect_h)
-                  .attr('class', 'membership')
-                  .attr('data-name', function(d){return d.name})
-                  .html(function(d){return '<div class="node membership"><span class="icon"><img src="/Images/invis.gif" class="icon membership"></span><span class="name">'+d.text+'</span><a href="'+d.url+'" title="Click to manage this membership"><img src="/Images/invis.gif" class="icon arrow-right"></a></div>'});
+                  .attr('height',rect_h)
+                  .attr('width',rect_w)
+                  .attr('fill', bgMembership);
+    //Membership icon
+    membershipNode.append('image')
+                  .attr('x', 76)
+                  .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 11 })
+                  .attr('width', 17)
+                  .attr('height', 17)
+                  .attr('xlink:href', '@(Url.Content("~/Images/svg-membership.png"))');
+    //Membership line
+    membershipNode.append('line')
+                  .attr('x1', 100)
+                  .attr('y1', function (d, i) { return 40 + i * (rect_h + rect_margin_h) })
+                  .attr('x2', 100)
+                  .attr('y2', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 39 })
+                  .attr('stroke-width', 2)
+                  .attr('stroke', '#FFF');
+    //Membership text
+    membershipNode.append('text')
+                  .attr('x', 106)
+                  .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 24 })
+                  .attr('style', 'font-family: Arial; font-size: 14px')
+                  .attr('fill', '#FFF')
+                  .attr('style','cursor:default')
+                  .text(function (d) { return d.text });
+    //Membership arrow
+    membershipNode.append('image')
+                  .attr('class', 'link')
+                  .attr('x', 250)
+                  .attr('y', function (d, i) { return 40 + i * (rect_h + rect_margin_h) + 11 })
+                  .attr('width', 16)
+                  .attr('height', 16)
+                  .attr('style','cursor:pointer')
+                  .attr('data-url', function (d) { return d.url })
+                  .attr('xlink:href', '@(Url.Content("~/Images/svg-view.png"))');
+
 
     var hasMemberships = _.filter(site,function(d){
         return d.membership > -1;
@@ -125,22 +246,22 @@
     var site_content_lines = svg.selectAll('line.site_content').data(hasContents).enter().append('line');
 
     site_member_lines.attr('x1', w / 100 * 30 + 70)
-					.attr('y1', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
-					.attr('x2', w / 100 * 20 + 70)
-					.attr('y2', function (d) { return 40 + d.membership * (rect_h + rect_margin_h) + rect_h / 2 })
-					.attr('class', 'member-line')
-					.attr('stroke', '#BBB');
+                     .attr('y1', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
+                     .attr('x2', w / 100 * 20 + 70)
+                     .attr('y2', function (d) { return 40 + d.membership * (rect_h + rect_margin_h) + rect_h / 2 })
+                     .attr('class', 'member-line')
+                     .attr('stroke', '#BBB');
     site_content_lines.attr('x1', w / 100 * 50 + 70)
-					.attr('y1', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
-					.attr('x2', w / 100 * 60 + 70)
-					.attr('y2', function (d) { return 40 + d.content * (rect_h + rect_margin_h) + rect_h / 2 })
-					.attr('class', 'content-line')
-					.attr('stroke', '#BBB');
+                      .attr('y1', function (d) { return 40 + d.num * (rect_h + rect_margin_h) + rect_h / 2 })
+                      .attr('x2', w / 100 * 60 + 70)
+                      .attr('y2', function (d) { return 40 + d.content * (rect_h + rect_margin_h) + rect_h / 2 })
+                      .attr('class', 'content-line')
+                      .attr('stroke', '#BBB');
 
     // Show relation
-    $('foreignObject.site').on('mouseenter', function () {
-        $(this).parents('.block.relation').addClass('hover');
-        $(this).children('.node').addClass('hover');
+    $('g.site').on('mouseenter', function () {
+        $('.block.relation').addClass('hover');
+        $(this).attr('class',$(this).attr('class')+' hover');
         var site_name = $(this).data('name');
         for (var i = 0; i < site.length; i++) {
             if (site[i]['name'] == site_name) {
@@ -153,33 +274,37 @@
         var content_index = site[index]['content'];
         var membership_index = site[index]['membership'];
         if(content_index > -1){
-            $('foreignObject.content').eq(content_index).children('.node').addClass('hover');
+            $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class') + ' hover');
 
         }
         if(membership_index > -1){
-            $('foreignObject.membership').eq(membership_index).children('.node').addClass('hover');
+            $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class') + ' hover');
         }
 
         $(this).on('click', function(){
-            $(this).parents('.block.relation').addClass('active');
-            $(this).parents('.block.relation').find('.node.active').removeClass('active');
-            $(this).children('.node').addClass('active');
+            $('.block.relation').addClass('active');
+            $('.block.relation .node.active').each(function(){
+                $(this).attr('class',$(this).attr('class').replace(/active/g,''))
+            });
+            $(this).attr('class',$(this).attr('class')+' active');
             if(content_index > -1){
-                $('foreignObject.content').eq(content_index).children('.node').addClass('active');
+                $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class')+' active');
             }
             if(membership_index > -1){
-                $('foreignObject.membership').eq(membership_index).children('.node').addClass('active');
+                $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class')+' active');
             }
         });
 
     }).on('mouseleave', function(){
         $('.block.relation').removeClass('hover');
-        $('.block.relation').find('.node.hover').removeClass('hover');
+        $('.block.relation .node.hover').each(function(){
+            $(this).attr('class',$(this).attr('class').replace(/hover/g,''));
+        });
     });
 
-    $('foreignObject.content').on('mouseenter', function () {
-        $(this).parents('.block.relation').addClass('hover');
-        $(this).children('.node').addClass('hover');
+    $('g.content').on('mouseenter', function () {
+        $('.block.relation').addClass('hover');
+        $(this).attr('class',$(this).attr('class')+' hover');
         var content_name = $(this).data('name');
         for(var i=0;i<content.length;i++){
             if(content[i].name==content_name){
@@ -191,43 +316,47 @@
         }
         for (var i = 0; i < site.length; i++) {
             if (site[i]['content'] == index) {
-                $('foreignObject.site').eq(site[i]['num']).children('.node').addClass('hover');
+                $('g.site').eq(site[i]['num']).attr('class',$('g.site').eq(site[i]['num']).attr('class')+' hover');
                 var content_index = site[i]['content'];
                 var membership_index = site[i]['membership'];
                 if(content_index > -1){
-                    $('foreignObject.content').eq(content_index).children('.node').addClass('hover');
+                    $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class')+' hover');
                 }
                 if(membership_index > -1){
-                    $('foreignObject.membership').eq(membership_index).children('.node').addClass('hover');
+                    $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class')+' hover');
                 }
             }
         }
         $(this).on('click', function(){
-            $(this).parents('.block.relation').addClass('active');
-            $(this).parents('.block.relation').find('.node.active').removeClass('active');
-            $(this).children('.node').addClass('active');
+            $('.block.relation').addClass('active');
+            $('.block.relation .node.active').each(function(){
+                $(this).attr('class',$(this).attr('class').replace(/active/g,''))
+            });
+            $(this).attr('class',$(this).attr('class')+' active');
             for (var i = 0; i < site.length; i++) {
                 if (site[i]['content'] == index) {
-                    $('foreignObject.site').eq(site[i]['num']).children('.node').addClass('active');
+                    $('g.site').eq(site[i]['num']).attr('class',$('g.site').eq(site[i]['num']).attr('class')+' active');
                     var content_index = site[i]['content'];
                     var membership_index = site[i]['membership'];
                     if(content_index > -1){
-                        $('foreignObject.content').eq(content_index).children('.node').addClass('active');
+                        $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class')+' active');
                     }
                     if(membership_index > -1){
-                        $('foreignObject.membership').eq(membership_index).children('.node').addClass('active');
+                        $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class')+' active');
                     }
                 }
             }
         });
     }).on('mouseleave', function(e){
         $('.block.relation').removeClass('hover');
-        $('.block.relation').find('.node.hover').removeClass('hover');
+        $('.block.relation .node.hover').each(function(){
+            $(this).attr('class',$(this).attr('class').replace(/hover/g,''));
+        });
     });
 
-    $('foreignObject.membership').on('mouseenter', function () {
-        $(this).parents('.block.relation').addClass('hover');
-        $(this).children('.node').addClass('hover');
+    $('g.membership').on('mouseenter', function () {
+        $('.block.relation').addClass('hover');
+        $(this).attr('class',$(this).attr('class')+' hover');
         var membership_name = $(this).data('name');
         for(var i=0;i<membership.length;i++){
             if(membership[i].name==membership_name){
@@ -239,45 +368,54 @@
         }
         for (var i = 0; i < site.length; i++) {
             if (site[i]['membership'] == index) {
-                $('foreignObject.site').eq(site[i]['num']).children('.node').addClass('hover');
+                $('g.site').eq(site[i]['num']).attr('class',$('g.site').eq(site[i]['num']).attr('class')+' hover');
                 var content_index = site[i]['content'];
                 var membership_index = site[i]['membership'];
                 if(content_index > -1){
-                    $('foreignObject.content').eq(content_index).children('.node').addClass('hover');
+                    $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class')+' hover');
                 }
                 if(membership_index > -1){
-                    $('foreignObject.membership').eq(membership_index).children('.node').addClass('hover');
+                    $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class')+' hover');
                 }
             }
         }
         $(this).on('click', function(e){
-            $(this).parents('.block.relation').addClass('active');
-            $(this).parents('.block.relation').find('.node.active').removeClass('active');
-            $(this).children('.node').addClass('active');
+            $('.block.relation').addClass('active');
+            $('.block.relation .node.active').each(function(){
+                $(this).attr('class',$(this).attr('class').replace(/active/g,''))
+            });
+            $(this).attr('class',$(this).attr('class')+' active');
             for (var i = 0; i < site.length; i++) {
                 if (site[i]['membership'] == index) {
-                    $('foreignObject.site').eq(site[i]['num']).children('.node').addClass('active');
+                    $('g.site').eq(site[i]['num']).attr('class',$('g.site').eq(site[i]['num']).attr('class')+' active');
                     var content_index = site[i]['content'];
                     var membership_index = site[i]['membership'];
                     if(content_index > -1){
-                        $('foreignObject.content').eq(content_index).children('.node').addClass('active');
+                        $('g.content').eq(content_index).attr('class',$('g.content').eq(content_index).attr('class')+' active');
                     }
                     if(membership_index > -1){
-                        $('foreignObject.membership').eq(membership_index).children('.node').addClass('active');
+                        $('g.membership').eq(membership_index).attr('class',$('g.membership').eq(membership_index).attr('class')+' active');
                     }
                 }
             }
         });
-    }).on('mouseleave', function(e){
+    }).on('mouseleave', function(){
         $('.block.relation').removeClass('hover');
-        $('.block.relation').find('.node.hover').removeClass('hover');
+        $('.block.relation .node.hover').each(function(){
+            $(this).attr('class',$(this).attr('class').replace(/hover/g,''));
+        });
     });
 
     $('html').on('click', function(e){
         var target = $(e.target);
-        if(target.parents('foreignObject').length < 1 && target[0].nodeName!='foreignObject'){
+        if(target.parents('g').length < 1){
             $('.block.relation').removeClass('active');
-            $('.block.relation').find('.node.active').removeClass('active');
+            $('.block.relation .node.active').each(function(){
+                $(this).attr('class',$(this).attr('class').replace(/active/g,''));
+            })
         }
+    });
+    $('image.link, rect.empty, text.empty').on('click', function () {
+        location.href= $(this).data('url');
     });
 </script>

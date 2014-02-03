@@ -16,6 +16,8 @@ using Kooboo.CMS.Content.Persistence.Default;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
 using System.ServiceModel.Activation;
+using System.IO;
+using Kooboo.IO;
 namespace Kooboo.CMS.Content.FileServer.Web.Services
 {
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
@@ -50,6 +52,35 @@ namespace Kooboo.CMS.Content.FileServer.Web.Services
             }
             return content;
         }
+
+        public byte[] GetBytes(string repositoryName, string folderName, string fileName)
+        {
+            var mediaFolder = new MediaFolder(new Repository(repositoryName), folderName);
+            var content = mediaFolder.CreateQuery().WhereEquals("FileName", fileName)
+                .FirstOrDefault();
+            if (content == null)
+            {
+                return null;
+            }
+            using (var fs = File.Open(content.PhysicalPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                return fs.ReadData();
+            }
+        }
+        public void SaveBytes(MediaContentParameter content)
+        {
+            var mediaContent = content.MediaContent;
+            var mediaFolder = new MediaFolder(new Repository(mediaContent.Repository), mediaContent.FolderName);
+            mediaContent = mediaFolder.CreateQuery().WhereEquals("FileName", mediaContent.FileName)
+                .FirstOrDefault();
+            using (FileStream file = new FileStream(mediaContent.PhysicalPath, FileMode.Create, System.IO.FileAccess.Write))
+            {
+                using (MemoryStream stream = new MemoryStream(content.FileData))
+                {
+                    stream.WriteTo(file);
+                }
+            }
+        }
         public string Add(MediaContentParameter content)
         {
             content.MediaContent.ContentFile = new ContentFile() { FileName = content.MediaContent.FileName, Stream = content.FileDataToStream() };
@@ -63,7 +94,8 @@ namespace Kooboo.CMS.Content.FileServer.Web.Services
         }
         public void Update(MediaContentParameter content)
         {
-            content.MediaContent.ContentFile = new ContentFile() { FileName = content.MediaContent.FileName, Stream = content.FileDataToStream() };
+            //content.MediaContent.ContentFile = new ContentFile() { FileName = content.MediaContent.FileName };
+            //content.MediaContent.ContentFile = new ContentFile() { FileName = content.MediaContent.FileName, Stream = content.FileDataToStream() };
             mediaContentProvider.Update(content.MediaContent, content.MediaContent);
             FileUrlHelper.ResolveUrl(content.MediaContent.VirtualPath);
         }

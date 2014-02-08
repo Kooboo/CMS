@@ -20,7 +20,7 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
         #region Ctor
 
         public NinjectEngine()
-            : this(new WebAppTypeFinder() { AssemblySkipLoadingPattern = "Kooboo,|System\\." })
+            : this(new WebAppTypeFinder())
         {
 
         }

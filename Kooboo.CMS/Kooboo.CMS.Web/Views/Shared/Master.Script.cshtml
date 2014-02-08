@@ -63,6 +63,9 @@
                 onload: function (handle, pop, config) {
                     top.onFileSelected = function (src, text, option) {
                         var $srcInput = topJQ('#' + inputId);
+                        if ($srcInput.length == 0) {
+                            $srcInput = $('#' + inputId);
+                        }
                         $srcInput.val(src);
                         var $descriptionInput = $srcInput.parent().parent().parent().next().find('input');
                         $descriptionInput.val(text);

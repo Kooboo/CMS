@@ -53,7 +53,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
         public static string GetBucketName(this Site site)
         {
-            if (site == null||string.IsNullOrEmpty(site.FullName))
+            if (site == null || string.IsNullOrEmpty(site.FullName))
             {
                 return DatabaseSettings.Instance.DefaultBucketName;
             }
@@ -87,7 +87,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
         public static T JsonToObject<T>(string json)
         {
-            var o = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
+            var o = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, ObjectCreationHandling = ObjectCreationHandling.Replace });
             return o;
         }
 

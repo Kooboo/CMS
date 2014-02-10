@@ -121,6 +121,7 @@ namespace Kooboo.CMS.Account.Services
             var encodedPassword = _passwordProvider.EncryptPassword(newPassword, salt);
             user.Password = encodedPassword;
             user.UtcLastPasswordChangedDate = DateTime.UtcNow;
+            user.ActivateCode = null;
 
             Update(userName, user);
 
@@ -244,11 +245,6 @@ namespace Kooboo.CMS.Account.Services
             }
 
             ChangePassword(userName, newPassword);
-
-            user.ActivateCode = null;
-
-            Update(user.UserName, user);
-
         }
 
         public virtual bool ValidatePasswordToken(string userName, string token)

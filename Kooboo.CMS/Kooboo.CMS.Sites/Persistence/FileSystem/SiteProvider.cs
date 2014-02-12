@@ -144,40 +144,50 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #endregion
 
         #region Query Members
-        private class StringLengthComparer : IComparer<string>
+        private class DomainMappingComparer : IComparer<DomainMapping>
         {
-            public int Compare(string x, string y)
+            public int Compare(DomainMapping x, DomainMapping y)
             {
+                if (x.FullDomain.EqualsOrNullEmpty(y.FullDomain, StringComparison.InvariantCultureIgnoreCase) && x.UserAgent.EqualsOrNullEmpty(y.UserAgent, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return 0;
+                }
                 //取反，从长到短排序
-                var result = -(x.Length.CompareTo(y.Length));
+                var result = -(x.FullDomain.Length.CompareTo(y.FullDomain.Length));
                 if (result == 0)
                 {
-                    result = x.CompareTo(y);
+                    result = x.FullDomain.CompareTo(y.FullDomain);
+                    if (result == 0)
+                    {
+                        //有useragent的优先匹配
+                        result = -(x.UserAgent.CompareTo(y.UserAgent));
+                    }
                 }
                 return result;
             }
         }
-        public virtual  IDictionary<string, Site> GetDomainTable()
+        public virtual IEnumerable<DomainMapping> GetDomainTable()
         {
-            SortedDictionary<string, Site> table = new SortedDictionary<string, Site>(new StringLengthComparer());
+            SortedSet<DomainMapping> domainList = new SortedSet<DomainMapping>(new DomainMappingComparer());
+            //SortedDictionary<string, Site> table = new SortedDictionary<string, Site>(new StringLengthComparer());
             foreach (var site in AllSites())
             {
                 var siteObject = site.AsActual();
                 foreach (var domain in siteObject.FullDomains)
                 {
-                    table[domain] = siteObject;
+                    domainList.Add(new DomainMapping(domain, siteObject.UserAgent, siteObject));
                 }
             }
 
-            return table;// new SortedDictionary<string, Site>(table, new StringLengthComparer());
+            return domainList;// new SortedDictionary<string, Site>(table, new StringLengthComparer());
 
         }
         public virtual Site GetSiteByHostNameNPath(string hostName, string requestPath)
         {
             var domainTable = GetDomainTable();
             var fullPath = hostName + "/" + requestPath.Trim('/') + "/";
-            return domainTable.Where(it => fullPath.StartsWith(it.Key, StringComparison.OrdinalIgnoreCase))
-                .Select(it => it.Value).FirstOrDefault();
+            return domainTable.Where(it => fullPath.StartsWith(it.FullDomain, StringComparison.OrdinalIgnoreCase))
+                .Select(it => it.SiteObject).FirstOrDefault();
         }
 
         //private Site GetSiteByPredicate(Func<Site, bool> predicate)
@@ -293,7 +303,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         /// <param name="siteName"></param>
         /// <param name="packageStream"></param>
         /// <returns></returns>
-        public virtual  Site Create(Site parentSite, string siteName, System.IO.Stream packageStream, CreateSiteSetting createSitSetting)
+        public virtual Site Create(Site parentSite, string siteName, System.IO.Stream packageStream, CreateSiteSetting createSitSetting)
         {
             Site site = new Site(parentSite, siteName);
             if (site.Exists())

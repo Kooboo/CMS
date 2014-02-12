@@ -38,16 +38,16 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         {
             var domainTable = GetDomainTable();
             var fullPath = hostName + "/" + requestPath.Trim('/') + "/";
-            return domainTable.Where(it => fullPath.StartsWith(it.Key, StringComparison.OrdinalIgnoreCase))
-                .Select(it => it.Value).FirstOrDefault();
+            return domainTable.Where(it => fullPath.StartsWith(it.FullDomain, StringComparison.OrdinalIgnoreCase))
+                .Select(it => it.SiteObject).FirstOrDefault();
         }
         #endregion
 
         #region GetDomainTable
-        public IDictionary<string, Site> GetDomainTable()
+        public IEnumerable<DomainMapping> GetDomainTable()
         {
             string cacheKey = string.Format("GetDomainTable");
-            return GetCachedData<IDictionary<string, Site>>(cacheKey, () => this.inner.GetDomainTable());
+            return GetCachedData<IEnumerable<DomainMapping>>(cacheKey, () => this.inner.GetDomainTable());
 
         }
         #endregion

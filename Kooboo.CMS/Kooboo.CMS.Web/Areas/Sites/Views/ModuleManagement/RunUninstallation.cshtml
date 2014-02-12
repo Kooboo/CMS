@@ -3,7 +3,7 @@
     ViewBag.Title = "Module unistallation".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
     var uninstallingTemplate = Model.UninstallingTemplate;
-    if (!uninstallingTemplate.StartsWith("~/"))
+    if (uninstallingTemplate != null && !uninstallingTemplate.StartsWith("~/"))
     {
         var viewPath = new ModulePath(Model.ModuleName).GetModuleInstallationFilePath(uninstallingTemplate);
         if (File.Exists(viewPath.PhysicalPath))

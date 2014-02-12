@@ -38,11 +38,14 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         {
             var schema = textFolder.GetSchema();
 
-            var textContent = new TextContent(textFolder.Repository.Name, textFolder.SchemaName, textFolder.FullName);
+            var textContent = new TextContent();
             foreach (string key in values)
             {
                 textContent[key] = values[key];
             }
+            textContent.Repository = textFolder.Repository.Name;
+            textContent.SchemaName = textFolder.SchemaName;
+            textContent.FolderName = textFolder.FullName;
 
             textContent = _textContentBinder.Bind(schema, textContent, values);
 

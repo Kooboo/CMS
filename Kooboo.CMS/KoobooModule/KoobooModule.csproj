@@ -860,6 +860,7 @@
     <Content Include="Cms_Data\Memberships\SampleSite\MembershipConnects.config" />
     <Content Include="Cms_Data\Memberships\SampleSite\MembershipUsers.config" />
     <Content Include="Cms_Data\Memberships\SampleSite\setting.config" />
+    <Content Include="Cms_Data\META\DllReferences.txt" />
     <Content Include="Cms_Data\ModuleData\KoobooModule\Sites.txt" />
     <Content Include="Cms_Data\Sites\SampleSite\Files\favicon.ico" />
     <Content Include="Cms_Data\Sites\SampleSite\Files\logo.png" />

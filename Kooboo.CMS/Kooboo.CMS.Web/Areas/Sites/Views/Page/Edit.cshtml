@@ -2,9 +2,7 @@
 @{
     ViewBag.Title = "Edit page".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
-    var publishPermission = ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_PublishPermission);
-
-    var customTabs = Kooboo.CMS.Web.Areas.Sites.PageCustomTabs.Tabs(Model.Layout).ToArray();
+    var publishPermission = ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_PublishPermission);   
 }
 @section Panel{
     <ul class="panel">

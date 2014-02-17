@@ -432,9 +432,7 @@
     <Compile Include="Areas\Sites\Models\User_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\VersionInfo_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\View_Metadata.cs" />
-    <Compile Include="Areas\Sites\SiteCustomTabs.cs" />
     <Compile Include="Areas\Sites\SitesAreaRegistration.cs" />
-    <Compile Include="Areas\Sites\PageCustomTabs.cs" />
     <Compile Include="Areas\SubmissionControllerBase.cs" />
     <Compile Include="Authorizations\AuthorizationAttribute.cs" />
     <Compile Include="Authorizations\AuthorizationHelpers.cs" />

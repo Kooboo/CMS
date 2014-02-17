@@ -145,6 +145,12 @@
     <Compile Include="Extension\ModuleArea\Runtime\ModuleActionResultExecutor.cs" />
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />
     <Compile Include="Extension\PluginHelper.cs" />
+    <Compile Include="Extension\UI\MvcRoute.cs" />
+    <Compile Include="Extension\UI\Tabs\CustomTabs.cs" />
+    <Compile Include="Extension\UI\Tabs\ITabProvider.cs" />
+    <Compile Include="Extension\UI\Tabs\PageCustomTabProvider.cs" />
+    <Compile Include="Extension\UI\Tabs\SiteCustomTabProvider.cs" />
+    <Compile Include="Extension\UI\Tabs\TabInfo.cs" />
     <Compile Include="InitializeCurrentContext.cs" />
     <Compile Include="Membership\ActivateMemberModel.cs" />
     <Compile Include="Membership\ActivateMemberPlugin.cs" />

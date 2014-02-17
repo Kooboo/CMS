@@ -6,32 +6,44 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Common;
+using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Services;
+using Kooboo.Web.Mvc;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Kooboo.CMS.Sites.Models;
 using System.IO;
-using Kooboo.CMS.Sites.Services;
-using Kooboo.CMS.Common;
+using System.Linq;
+using System.Text;
+using System.Web.Routing;
 
-namespace Kooboo.CMS.Web.Areas.Sites
+namespace Kooboo.CMS.Sites.Extension.UI.Tabs
 {
-    /// <summary>
-    /// get the custom tabs for the site settings.
-    /// 1. System level，locate "Cms_Data\SiteTabs"，all the site  will have these tabs.
-    /// 2. Site level，locate "Cms_Data\SiteName\SiteTabs"，private tabs for the site.
-    /// 3. Module level, locate "{ModulePath}\SiteTabs", the sites which include the moule will have these tabs.
-    /// </summary>
-    public static class SiteCustomTabs
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITabProvider), Key = "SiteCustomTabProvider")]
+    public class SiteCustomTabProvider : ITabProvider
     {
-        static string SiteTabsDir = "SiteTabs";
-        public static IEnumerable<TabInfo> Tabs()
+        public MvcRoute[] ApplyTo
         {
-            var site = Site.Current;
-            return SystemTabs().Concat(ModuleTabs(site)).Concat(SiteTabs(site));
+            get
+            {
+                return new[]{
+                    new MvcRoute()
+                {
+                    Area = "Sites",
+                    Controller = "Site",
+                    Action = "Settings"
+                }
+                };
+            }
         }
 
+        #region DirName
+        static string SiteTabsDir = "SiteTabs";
+        #endregion
+
+        #region SystemTabs
         public static IEnumerable<TabInfo> SystemTabs()
         {
             var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
@@ -39,7 +51,9 @@ namespace Kooboo.CMS.Web.Areas.Sites
             return GetTabs(tabPath);
 
         }
+        #endregion
 
+        #region SiteTabs
         public static IEnumerable<TabInfo> SiteTabs(Site site)
         {
             var tabs = Enumerable.Empty<TabInfo>();
@@ -56,8 +70,9 @@ namespace Kooboo.CMS.Web.Areas.Sites
             tabs = tabs.Concat(GetTabs(tabPath));
             return tabs;
         }
+        #endregion
 
-
+        #region ModuleTabs
         public static IEnumerable<TabInfo> ModuleTabs(Site site)
         {
 
@@ -76,7 +91,9 @@ namespace Kooboo.CMS.Web.Areas.Sites
 
             return tabs;
         }
+        #endregion
 
+        #region GetTabs
         private static IEnumerable<TabInfo> GetTabs(string tabPath)
         {
             if (Directory.Exists(tabPath))
@@ -84,12 +101,37 @@ namespace Kooboo.CMS.Web.Areas.Sites
                 foreach (var file in Directory.EnumerateFiles(tabPath, "*.cshtml"))
                 {
                     var tabInfo = new TabInfo();
-                    tabInfo.Title = Path.GetFileNameWithoutExtension(file);
-                    tabInfo.VirualPath = file.Replace(Kooboo.Settings.BaseDirectory, "~/");
+                    var name = Path.GetFileNameWithoutExtension(file);
+                    tabInfo.Name = name;
+                    tabInfo.DisplayText = name;
+                    tabInfo.VirtualPath = file.Replace(Kooboo.Settings.BaseDirectory, "~/");
                     yield return tabInfo;
                 }
             }
         }
+        public IEnumerable<TabInfo> GetTabs(RequestContext requestContext)
+        {
+            var site = GetSite(requestContext);
+            if (site == null)
+            {
+                return new TabInfo[0];
+            }
 
+            var tabs = SystemTabs().Concat(ModuleTabs(site)).Concat(SiteTabs(site));
+
+            return tabs;
+        }
+
+        private Site GetSite(RequestContext requestContext)
+        {
+            var siteName = requestContext.GetRequestValue("siteName");
+            if (!string.IsNullOrEmpty(siteName))
+            {
+                var site = new Site(siteName).AsActual();
+                return site;
+            }
+            return null;
+        }
+        #endregion
     }
 }

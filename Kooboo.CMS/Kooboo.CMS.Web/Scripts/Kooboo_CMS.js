@@ -471,12 +471,13 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         $('[data-command-type="Redirect"]').click(function () {
             var $self = $(this);
             var $selected = $table.find(options.checkSelector);
+            $selected = $selected.filter(':not(.select-all)');
             var id = $selected.data("id-property");
             var selectedValues = [];
             $selected.each(function () {
                 selectedValues.push($(this).val());
             });
-            var value = selectedValues.join(',');
+            var value = encodeURIComponent(selectedValues.join(','));
             window.location.href = ($self.attr('href') + "&" + id + "=" + value);
             return false;
         });
@@ -538,12 +539,13 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         $('[data-command-type="Redirect"]').click(function () {
             var $self = $(this);
             var $selected = $table.find("input:checkbox[checked]");
+            $selected = $selected.filter(':not(.select-all)');
             var id = $selected.data("id-property");
             var selectedValues = [];
             $selected.each(function () {
                 selectedValues.push($(this).val());
             });
-            var value = selectedValues.join(',');
+            var value = encodeURIComponent(selectedValues.join(','));
             window.location.href = ($self.attr('href') + "&" + id + "=" + value);
             return false;
         });

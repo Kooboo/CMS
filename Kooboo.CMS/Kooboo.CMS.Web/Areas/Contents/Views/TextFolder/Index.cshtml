@@ -40,7 +40,10 @@
             </li>
 
         }
-
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
     </ul>
 }
 <div class="topbar clearfix">

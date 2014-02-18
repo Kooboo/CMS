@@ -257,6 +257,7 @@
     <Compile Include="Areas\Sites\Models\ABRuleSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\SiteTemplate_ViewModel.cs" />
     <Compile Include="Areas\Sites\Models\QueryStringVisitRule_Metadata.cs" />
+    <Compile Include="Areas\Sites\Views\Page\PageIndexToolbarProvider.cs" />
     <Compile Include="Interoperability\MetaWeblog\BloggerAPI.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -2540,6 +2541,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cms_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_ToolbarButton.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_ToolbarGroupButtons.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Toolbar.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

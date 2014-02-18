@@ -51,6 +51,10 @@
                 <li><a id="RenameButton" data-show-on-check="Single" data-show-on-selector=".localized">@("Rename".Localize())</a></li>
             </ul>
         </li>
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
     </ul>
 }
 <div class="topbar clearfix">

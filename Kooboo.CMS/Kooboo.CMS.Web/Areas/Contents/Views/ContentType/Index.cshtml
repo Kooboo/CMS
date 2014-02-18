@@ -44,7 +44,10 @@
                 <li><a href="@Url.Action("Copy", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Copy content type".Localize()))" data-show-on-check="Single" data-command-type="Redirect">@("Copy".Localize())</a></li>
             </ul>
         </li>
-
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
     </ul>
 }
 

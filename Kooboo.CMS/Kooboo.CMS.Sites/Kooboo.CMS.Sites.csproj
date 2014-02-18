@@ -145,6 +145,9 @@
     <Compile Include="Extension\ModuleArea\Runtime\ModuleActionResultExecutor.cs" />
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />
     <Compile Include="Extension\PluginHelper.cs" />
+    <Compile Include="Extension\UI\GlobalSidebarMenu\GlobalSidebarMenuItemContainer.cs" />
+    <Compile Include="Extension\UI\GlobalSidebarMenu\IGlobalSidebarMenuItemProvider.cs" />
+    <Compile Include="Extension\UI\GlobalSidebarMenu\ModuleGlobalSidebarMenuItemProvider.cs" />
     <Compile Include="Extension\UI\MvcRoute.cs" />
     <Compile Include="Extension\UI\Tabs\CustomTabs.cs" />
     <Compile Include="Extension\UI\Tabs\ITabProvider.cs" />

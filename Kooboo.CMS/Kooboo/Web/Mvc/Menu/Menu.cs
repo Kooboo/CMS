@@ -25,7 +25,7 @@ namespace Kooboo.Web.Mvc.Menu
     {
         static MenuTemplate defaultMenu = null;
 
-        static IDictionary<string, MenuTemplate> areasMenu = new Dictionary<string, MenuTemplate>(StringComparer.OrdinalIgnoreCase);
+        static IDictionary<string, MenuTemplate> menuTemplates = new Dictionary<string, MenuTemplate>(StringComparer.OrdinalIgnoreCase);
 
 
         #region Menu Template
@@ -93,28 +93,28 @@ namespace Kooboo.Web.Mvc.Menu
 
         }
 
-        public static void RegisterAreaMenu(string area, string menuFileName)
+        public static void RegisterAreaMenu(string templateName, string menuFileName)
         {
-            lock (areasMenu)
+            lock (menuTemplates)
             {
                 Configuration.MenuSection menuSection = Configuration.MenuSection.GetSection(menuFileName);
                 if (menuSection != null)
                 {
                     MenuTemplate areaMenu = new MenuTemplate();
                     areaMenu.ItemContainers = CreateItems(menuSection.Items, new List<IMenuItemContainer>());
-                    areasMenu.Add(area, areaMenu);
+                    menuTemplates.Add(templateName, areaMenu);
                 }
             }
         }
-        public static bool ContainsAreaMenu(string area)
+        public static bool ContainsAreaMenu(string templateName)
         {
-            return areasMenu.ContainsKey(area);
+            return menuTemplates.ContainsKey(templateName);
         }
         public static MenuTemplate GetMenuTemplate(string area)
         {
             if (ContainsAreaMenu(area))
             {
-                return areasMenu[area];
+                return menuTemplates[area];
             }
             return null;
         }
@@ -127,16 +127,20 @@ namespace Kooboo.Web.Mvc.Menu
         }
         public static Menu BuildMenu(ControllerContext controllerContext, string areaName)
         {
-            return BuildMenu(controllerContext, areaName, true);
+            return BuildMenu(controllerContext, areaName, areaName, true);
         }
         public static Menu BuildMenu(ControllerContext controllerContext, string areaName, bool initialize)
+        {
+            return BuildMenu(controllerContext, areaName, areaName, initialize);
+        }
+        public static Menu BuildMenu(ControllerContext controllerContext, string templateName, string areaName, bool initialize)
         {
             Menu menu = new Menu();
 
             MenuTemplate menuTemplate = new MenuTemplate();
-            if (!string.IsNullOrEmpty(areaName) && areasMenu.ContainsKey(areaName))
+            if (!string.IsNullOrEmpty(templateName) && menuTemplates.ContainsKey(templateName))
             {
-                menuTemplate = areasMenu[areaName];
+                menuTemplate = menuTemplates[templateName];
             }
             else
             {

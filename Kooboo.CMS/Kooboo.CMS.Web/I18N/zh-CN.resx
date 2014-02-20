@@ -2853,4 +2853,7 @@
   <data name="“Name”无效。" xml:space="preserve">
     <value>“Name”无效。</value>
   </data>
+  <data name="The field {0} is a invalid decimal value." xml:space="preserve">
+    <value>The field {0} is a invalid decimal value.</value>
+  </data>
 </root>

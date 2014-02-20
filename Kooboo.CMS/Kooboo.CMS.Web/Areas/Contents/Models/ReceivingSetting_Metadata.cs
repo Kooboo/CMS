@@ -36,7 +36,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
             set;
         }
 
-        [GridColumn(Order = 1, HeaderText = "Sending repository", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn))]        
+        [GridColumn(Order = 1, HeaderText = "Sending repository", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn))]
         [Display(Name = "Sending repository")]
         public string SendingRepository { get; set; }
 
@@ -52,7 +52,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
         [Display(Name = "Receiving folder")]
         public string ReceivingFolder { get; set; }
 
-        [GridColumn(Order = 4, HeaderText = " content status", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
+        [GridColumn(Order = 4, HeaderText = "Keep content status", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
         [UIHint("KeepStatus")]
         [Display(Name = "Content status")]
         public bool KeepStatus { get; set; }

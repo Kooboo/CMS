@@ -33,36 +33,37 @@ namespace Kooboo.CMS.Content.EventBus.Content
                 {
                     var contentEventContext = (ContentEventContext)context;
 
-                    Thread processThread = new Thread(delegate()
+                    //Can not run the content broadcasting in parallel threads, must to make sure the execution by sequence.
+                    //Thread processThread = new Thread(delegate()
+                    //{
+                    var contentContext = (ContentEventContext)context;
+
+                    try
                     {
-                        var contentContext = (ContentEventContext)context;
-
-                        try
+                        var sendingRepository = contentContext.Content.GetRepository().AsActual();
+                        var sendingSetting = AllowSending(contentContext.Content, sendingRepository, contentContext);
+                        if (sendingSetting != null)
                         {
-                            var sendingRepository = contentContext.Content.GetRepository().AsActual();
-                            var sendingSetting = AllowSending(contentContext.Content, sendingRepository, contentContext);
-                            if (sendingSetting != null)
-                            {
-                                var allRepositories = Services.ServiceFactory.RepositoryManager.All().Where(it => string.Compare(it.Name, sendingRepository.Name, true) != 0);
+                            var allRepositories = Services.ServiceFactory.RepositoryManager.All().Where(it => string.Compare(it.Name, sendingRepository.Name, true) != 0);
 
-                                var summarize = contentContext.Content.GetSummary();
-                                foreach (var receiver in allRepositories)
+                            var summarize = contentContext.Content.GetSummary();
+                            foreach (var receiver in allRepositories)
+                            {
+                                var repository = receiver.AsActual();
+                                if (repository.EnableBroadcasting)
                                 {
-                                    var repository = receiver.AsActual();
-                                    if (repository.EnableBroadcasting)
-                                    {
-                                        Services.ServiceFactory.ReceiveSettingManager.ReceiveContent(repository, contentContext.Content, contentContext.ContentAction);
-                                    }
+                                    Services.ServiceFactory.ReceiveSettingManager.ReceiveContent(repository, contentContext.Content, contentContext.ContentAction);
                                 }
                             }
                         }
-                        catch (Exception e)
-                        {
-                            Kooboo.HealthMonitoring.Log.LogException(e);
-                        }
-                    });
+                    }
+                    catch (Exception e)
+                    {
+                        Kooboo.HealthMonitoring.Log.LogException(e);
+                    }
+                    //});
 
-                    processThread.Start();
+                    //processThread.Start();
                 }
             }
             catch (Exception e)

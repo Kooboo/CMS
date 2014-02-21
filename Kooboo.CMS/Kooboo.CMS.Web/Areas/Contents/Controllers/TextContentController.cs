@@ -906,7 +906,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
                 if (docs != null)
                 {
-                    foreach (var doc in docs)
+                    foreach (var doc in docs.Reverse())
                     {
                         if (string.IsNullOrEmpty(doc)) continue;
 

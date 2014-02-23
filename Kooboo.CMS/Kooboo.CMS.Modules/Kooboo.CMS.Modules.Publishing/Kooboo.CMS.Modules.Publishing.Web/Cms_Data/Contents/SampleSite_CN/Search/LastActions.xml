@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfLastAction xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Kooboo.CMS.Search.Models">
 	<LastAction>
+		<FolderName>Category</FolderName>
+		<ContentSummary>test1</ContentSummary>
+		<Action>Add</Action>
+		<UtcActionDate>2014-02-10T09:21:26.0886904Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
 		<FolderName>Article</FolderName>
 		<ContentSummary>file content </ContentSummary>
 		<Action>Delete</Action>
@@ -23,11 +29,5 @@
 		<ContentSummary>file content </ContentSummary>
 		<Action>Add</Action>
 		<UtcActionDate>2013-12-13T06:19:04.3523876Z</UtcActionDate>
-	</LastAction>
-	<LastAction>
-		<FolderName>Article</FolderName>
-		<ContentSummary>file content </ContentSummary>
-		<Action>Delete</Action>
-		<UtcActionDate>2013-12-13T06:19:04.1933676Z</UtcActionDate>
 	</LastAction>
 </ArrayOfLastAction>

@@ -57,6 +57,11 @@ namespace Kooboo.CMS.Sites.Services
         public override void Add(Content.Models.Repository repository, Content.Models.SendingSetting item)
         {
             base.Add(repository, item);
+            AddReceivingSettingToSubSites(repository, item);
+        }
+
+        private void AddReceivingSettingToSubSites(Content.Models.Repository repository, Content.Models.SendingSetting item)
+        {
             if (Site.Current != null && item.SendToChildSites.HasValue && item.SendToChildSites.Value == true)
             {
                 var repositoryList = GetAllRepositoriesForChildSites(Site.Current, item.ChildLevel);
@@ -85,7 +90,11 @@ namespace Kooboo.CMS.Sites.Services
                 }
             }
         }
-
+        public override void Update(Repository repository, SendingSetting @new, SendingSetting old)
+        {
+            base.Update(repository, @new, old);
+            AddReceivingSettingToSubSites(repository, @new);
+        }
         protected virtual IEnumerable<Repository> GetAllRepositoriesForChildSites(Site site, ChildLevel level)
         {
             List<Repository> repositoryList = new List<Repository>();

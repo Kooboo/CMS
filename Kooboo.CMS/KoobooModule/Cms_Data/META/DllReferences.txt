@@ -1,0 +1,314 @@
+﻿[
+  {
+    "AssemblyName": "CookComputing.XmlRpcV2.dll",
+    "Version": "2.5.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "DiffPlex.dll",
+    "Version": "1.2.0.38654",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "dotless.Core.dll",
+    "Version": "1.4.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "DotNetOpenAuth.AspNet.dll",
+    "Version": "4.3.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "DotNetOpenAuth.Core.dll",
+    "Version": "4.3.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "DotNetOpenAuth.OAuth.Consumer.dll",
+    "Version": "4.3.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "DotNetOpenAuth.OAuth.dll",
+    "Version": "4.3.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "DotNetOpenAuth.OpenId.dll",
+    "Version": "4.3.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "DotNetOpenAuth.OpenId.RelyingParty.dll",
+    "Version": "4.3.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "HtmlAgilityPack.dll",
+    "Version": "1.4.6.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Ionic.Zip.Reduced.dll",
+    "Version": "1.9.1.8",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.CMS.Account.dll",
+    "Version": "4.3.7.212",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.CMS.Caching.dll",
+    "Version": "4.3.7.212",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.CMS.Common.dll",
+    "Version": "4.3.7.212",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.CMS.Common.Runtime.Dependency.Ninject.dll",
+    "Version": "4.3.7.212",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.CMS.Content.dll",
+    "Version": "4.3.7.212",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.CMS.Form.dll",
+    "Version": "4.3.7.212",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.CMS.Membership.dll",
+    "Version": "1.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.CMS.Search.dll",
+    "Version": "4.3.7.212",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.CMS.Sites.dll",
+    "Version": "4.3.7.212",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.CMS.Sites.TemplateEngines.Razor.dll",
+    "Version": "4.3.7.212",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.CMS.Web.dll",
+    "Version": "4.3.7.212",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Kooboo.dll",
+    "Version": "4.3.7.212",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Lucene.Net.Contrib.Highlighter.dll",
+    "Version": "2.3.2.1",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Lucene.Net.dll",
+    "Version": "2.9.4.1",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Microsoft.Web.Infrastructure.dll",
+    "Version": "1.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Mono.Math.dll",
+    "Version": "4.3.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Newtonsoft.Json.dll",
+    "Version": "4.5.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Ninject.dll",
+    "Version": "3.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "NuGet.Core.dll",
+    "Version": "1.6.30117.9648",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "Org.Mentalis.Security.Cryptography.dll",
+    "Version": "4.3.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "System.Net.Http.dll",
+    "Version": "2.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "System.Web.Helpers.dll",
+    "Version": "2.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "System.Web.Mvc.dll",
+    "Version": "4.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "System.Web.Razor.dll",
+    "Version": "2.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "System.Web.WebPages.Administration.dll",
+    "Version": "2.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "System.Web.WebPages.Deployment.dll",
+    "Version": "2.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "System.Web.WebPages.dll",
+    "Version": "2.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  },
+  {
+    "AssemblyName": "System.Web.WebPages.Razor.dll",
+    "Version": "2.0.0.0",
+    "IsSystemAssembly": true,
+    "UserList": [
+      "System"
+    ]
+  }
+]

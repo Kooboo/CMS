@@ -22,9 +22,9 @@ using Lucene.Net.Search;
 using Lucene.Net.QueryParsers;
 using Kooboo.Web.Mvc.Paging;
 using Kooboo.CMS.Content.Models;
-using Lucene.Net.Highlight;
 using System.Threading;
 using Kooboo.CMS.Common.Runtime;
+using Lucene.Net.Search.Highlight;
 
 namespace Kooboo.CMS.Search
 {
@@ -91,13 +91,13 @@ namespace Kooboo.CMS.Search
         }
         public virtual ResultObject ToResultObject(Highlighter highlighter, Document doc)
         {
-            var nativeTypeName = doc.GetField(NativeTypeNameField).StringValue();
+            var nativeTypeName = doc.GetField(NativeTypeNameField).StringValue;
             var nativeType = Type.GetType(nativeTypeName);
             var converter = ObjectConverters.GetConverter(nativeType);
 
             ResultObject result = new ResultObject();
 
-            result.Title = doc.GetField(TitleFieldName).StringValue();
+            result.Title = doc.GetField(TitleFieldName).StringValue;
             result.HighlightedTitle = highlighter.GetBestFragment(this.Analyzer, TitleFieldName, result.Title);
 
             if (string.IsNullOrEmpty(result.HighlightedTitle))
@@ -105,7 +105,7 @@ namespace Kooboo.CMS.Search
                 result.HighlightedTitle = result.Title;
             }
 
-            result.Body = doc.GetField(BodyFieldName).StringValue();
+            result.Body = doc.GetField(BodyFieldName).StringValue;
             result.HighlightedBody = string.Join("...", highlighter.GetBestFragments(Analyzer, BodyFieldName, result.Body, 5));
 
             if (string.IsNullOrEmpty(result.HighlightedBody))
@@ -116,9 +116,9 @@ namespace Kooboo.CMS.Search
             NameValueCollection fields = new NameValueCollection();
             foreach (Field field in doc.GetFields())
             {
-                if (!IsReservedField(field.Name()))
+                if (!IsReservedField(field.Name))
                 {
-                    fields[field.Name()] = field.StringValue();
+                    fields[field.Name] = field.StringValue;
                 }
             }
 
@@ -149,7 +149,7 @@ namespace Kooboo.CMS.Search
 
             indexDir = Path.Combine(SearchDir.GetBasePhysicalPath(repository), "Index");
 
-            Analyzer = new StandardAnalyzer(global::Lucene.Net.Util.Version.LUCENE_29);
+            Analyzer = new StandardAnalyzer(global::Lucene.Net.Util.Version.LUCENE_30);
             Converter = new DocumentConverter(Analyzer);
         }
 
@@ -312,15 +312,15 @@ namespace Kooboo.CMS.Search
                 key = "*:*";
             }
 
-            QueryParser titleParser = new QueryParser(Lucene.Net.Util.Version.LUCENE_29, Converter.TitleFieldName, this.Analyzer);
+            QueryParser titleParser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, Converter.TitleFieldName, this.Analyzer);
             var titleQuery = titleParser.Parse(key);
-            titleQuery.SetBoost(2);
-            query.Add(titleQuery, BooleanClause.Occur.SHOULD);
+            titleQuery.Boost = 2;
+            query.Add(new BooleanClause(titleQuery, Occur.SHOULD));
 
-            QueryParser bodyParser = new QueryParser(Lucene.Net.Util.Version.LUCENE_29, Converter.BodyFieldName, this.Analyzer);
+            QueryParser bodyParser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, Converter.BodyFieldName, this.Analyzer);
             var bodyQuery = bodyParser.Parse(key);
-            bodyQuery.SetBoost(1);
-            query.Add(bodyQuery, BooleanClause.Occur.SHOULD);
+            bodyQuery.Boost=1;
+            query.Add(new BooleanClause(bodyQuery, Occur.SHOULD));
 
             QueryWrapperFilter filter = null;
             if (folders != null && folders.Length > 0)
@@ -330,15 +330,15 @@ namespace Kooboo.CMS.Search
                 foreach (var folder in folders)
                 {
                     var termQuery = new TermQuery(new Term("FolderName", folder));
-                    termQuery.SetBoost(3);
-                    folderQuery.Add(termQuery, BooleanClause.Occur.SHOULD);
+                    termQuery.Boost= 3;
+                    folderQuery.Add(new BooleanClause(termQuery,Occur.SHOULD));
                 }
 
                 filter = new QueryWrapperFilter(folderQuery);
             }
 
             var searcher = new IndexSearcher(indexDirectory, true);
-            TopDocsCollector collecltor = TopScoreDocCollector.create(searcher.MaxDoc(), false);
+            var collecltor = TopScoreDocCollector.Create(searcher.MaxDoc, false);
             if (filter == null)
             {
                 searcher.Search(query, collecltor);
@@ -349,8 +349,8 @@ namespace Kooboo.CMS.Search
             }
 
 
-            Lucene.Net.Highlight.Highlighter lighter =
-                       new Highlighter(new SimpleHTMLFormatter("<strong class='highlight'>", "</strong>"), new Lucene.Net.Highlight.QueryScorer((Query)query));
+            var lighter =
+                       new Highlighter(new SimpleHTMLFormatter("<strong class='highlight'>", "</strong>"), new Lucene.Net.Search.Highlight.QueryScorer((Query)query));
 
 
             var startIndex = (pageIndex - 1) * pageSize;
@@ -358,7 +358,7 @@ namespace Kooboo.CMS.Search
             List<ResultObject> results = new List<ResultObject>();
             foreach (var doc in collecltor.TopDocs(startIndex, pageSize).ScoreDocs)
             {
-                var document = searcher.Doc(doc.doc);
+                var document = searcher.Doc(doc.Doc);
                 ResultObject result = Converter.ToResultObject(lighter, document);
                 if (result != null)
                 {
@@ -366,7 +366,7 @@ namespace Kooboo.CMS.Search
                 }
             }
 
-            return new PagedList<ResultObject>(results, pageIndex, pageSize, collecltor.GetTotalHits());
+            return new PagedList<ResultObject>(results, pageIndex, pageSize, collecltor.TotalHits);
         }
     }
 }

@@ -336,9 +336,9 @@ namespace Kooboo.CMS.Sites.Services
             var useragent = httpRequest.UserAgent;
 
             return domainTable
-                .Where(it => string.IsNullOrEmpty(it.Value.UserAgent) || Regex.IsMatch(useragent, it.Value.UserAgent, RegexOptions.IgnoreCase))
-                .Where(it => fullPath.StartsWith(it.Key, StringComparison.OrdinalIgnoreCase))
-                .Select(it => it.Value).FirstOrDefault();
+                .Where(it => string.IsNullOrEmpty(it.UserAgent) || Regex.IsMatch(useragent, it.UserAgent, RegexOptions.IgnoreCase))
+                .Where(it => fullPath.StartsWith(it.FullDomain, StringComparison.OrdinalIgnoreCase))
+                .Select(it => it.SiteObject).FirstOrDefault();
         }
 
         #endregion

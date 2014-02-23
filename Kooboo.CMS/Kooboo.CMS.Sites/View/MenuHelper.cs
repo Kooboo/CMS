@@ -54,7 +54,7 @@ namespace Kooboo.CMS.Sites.View
             }
             else
             {
-                return ServiceFactory.PageManager.ChildPages(Site.Current, page.Parent.FullName, "")
+                return ServiceFactory.PageManager.ChildPages(page.Site, page.Parent.FullName, "")
                     .Select(it => it.AsActual())
                     .Where(it => ShowInMenu(it))
                     .OrderBy(it => it.Navigation.Order);
@@ -66,7 +66,7 @@ namespace Kooboo.CMS.Sites.View
         }
         public static IEnumerable<Page> Sub(Page page)
         {
-            return ServiceFactory.PageManager.ChildPages(Site.Current, page.FullName, "")
+            return ServiceFactory.PageManager.ChildPages(page.Site, page.FullName, "")
                 .Select(it => it.AsActual())
                 .Where(it => ShowInMenu(it))
                 .OrderBy(it => it.Navigation.Order);

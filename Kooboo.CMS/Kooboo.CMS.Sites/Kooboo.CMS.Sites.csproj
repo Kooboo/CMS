@@ -145,6 +145,30 @@
     <Compile Include="Extension\ModuleArea\Runtime\ModuleActionResultExecutor.cs" />
     <Compile Include="Extension\PageRequestModuleExecutor.cs" />
     <Compile Include="Extension\PluginHelper.cs" />
+    <Compile Include="Extension\UI\GlobalSidebarMenu\GlobalSidebarMenuItemContainer.cs" />
+    <Compile Include="Extension\UI\GlobalSidebarMenu\IGlobalSidebarMenuItemProvider.cs" />
+    <Compile Include="Extension\UI\GlobalSidebarMenu\ModuleGlobalSidebarMenuItemProvider.cs" />
+    <Compile Include="Extension\UI\MvcRoute.cs" />
+    <Compile Include="Extension\UI\Tabs\CustomTabs.cs" />
+    <Compile Include="Extension\UI\Tabs\ITabProvider.cs" />
+    <Compile Include="Extension\UI\Tabs\PageCustomTabProvider.cs" />
+    <Compile Include="Extension\UI\Tabs\SiteCustomTabProvider.cs" />
+    <Compile Include="Extension\UI\Tabs\TabInfo.cs" />
+    <Compile Include="Extension\UI\TopToolbar\IToolbarProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extension\UI\TopToolbar\ToolbarButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extension\UI\TopToolbar\ToolbarButtons.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extension\UI\TopToolbar\ToolbarGroup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extension\UI\TopToolbar\ToolbarGroupButtons.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="InitializeCurrentContext.cs" />
     <Compile Include="Membership\ActivateMemberModel.cs" />
     <Compile Include="Membership\ActivateMemberPlugin.cs" />

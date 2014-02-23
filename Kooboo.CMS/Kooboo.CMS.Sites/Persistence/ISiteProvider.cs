@@ -15,6 +15,18 @@ using System.IO;
 
 namespace Kooboo.CMS.Sites.Persistence
 {
+    public class DomainMapping
+    {
+        public DomainMapping(string fullDomain, string userAgent, Site siteObject)
+        {
+            this.FullDomain = fullDomain;
+            this.UserAgent = userAgent ?? "";
+            this.SiteObject = siteObject;
+        }
+        public string FullDomain { get; set; }
+        public string UserAgent { get; set; }
+        public Site SiteObject { get; set; }
+    }
     public class CreateSiteSetting
     {
         public string Repository { get; set; }
@@ -27,7 +39,7 @@ namespace Kooboo.CMS.Sites.Persistence
 
         //Site GetSiteByHostName(string hostName);
 
-        IDictionary<string, Site> GetDomainTable();
+        IEnumerable<DomainMapping> GetDomainTable();
 
         /// <summary>
         /// Alls the sites. Include all the child sites.

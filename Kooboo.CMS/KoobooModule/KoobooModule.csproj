@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\KoobooModule\Controllers\AdminController.cs" />
+    <Compile Include="Areas\KoobooModule\Controllers\ApplicationManagementController.cs" />
     <Compile Include="Areas\KoobooModule\Controllers\HomeController.cs" />
     <Compile Include="Areas\KoobooModule\ModuleAreaRegistration.cs" />
     <Compile Include="Areas\KoobooModule\ModuleEvents.cs" />
@@ -860,6 +861,7 @@
     <Content Include="Cms_Data\Memberships\SampleSite\MembershipConnects.config" />
     <Content Include="Cms_Data\Memberships\SampleSite\MembershipUsers.config" />
     <Content Include="Cms_Data\Memberships\SampleSite\setting.config" />
+    <Content Include="Cms_Data\META\DllReferences.txt" />
     <Content Include="Cms_Data\ModuleData\KoobooModule\Sites.txt" />
     <Content Include="Cms_Data\Sites\SampleSite\Files\favicon.ico" />
     <Content Include="Cms_Data\Sites\SampleSite\Files\logo.png" />
@@ -2055,6 +2057,8 @@
     <Content Include="Areas\KoobooModule\Views\Home\HelloWorld.cshtml" />
     <Content Include="Styles\repository-flowchart.less" />
     <Content Include="Views\Shared\EditorTemplates\UserAgentPattern.cshtml" />
+    <Content Include="Areas\KoobooModule\GlobalMenu.config" />
+    <Content Include="Areas\KoobooModule\Views\ApplicationManagement\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2083,7 +2087,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>7837</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:7838/</IISUrl>
+          <IISUrl>http://localhost:7839</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

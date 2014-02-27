@@ -319,6 +319,8 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 {
                     this.OrderClause = leftVisitor.OrderClause;
                 }
+                this.eqUUIDs.AddRange(leftVisitor.EQUUIDs);
+                this.eqUserKeys.AddRange(leftVisitor.EQUserKeys);
             }
 
             string rightClause = "";
@@ -332,6 +334,8 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 {
                     this.OrderClause = rightVisitor.OrderClause;
                 }
+                this.eqUUIDs.AddRange(rightVisitor.EQUUIDs);
+                this.eqUserKeys.AddRange(rightVisitor.EQUserKeys);
             }
 
             if (!string.IsNullOrEmpty(leftClause) && !string.IsNullOrEmpty(rightClause))

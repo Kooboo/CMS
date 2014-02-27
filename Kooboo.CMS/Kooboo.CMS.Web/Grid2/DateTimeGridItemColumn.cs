@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Web.Grid2
         }
         public override IHtmlString RenderItemColumn(System.Web.Mvc.ViewContext viewContext)
         {
-            string s = "";
+            string s = "-";
             if (PropertyValue != null)
             {
                 var dateTime = ((DateTime)PropertyValue);

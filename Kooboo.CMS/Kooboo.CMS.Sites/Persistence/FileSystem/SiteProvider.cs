@@ -40,12 +40,12 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region .ctor
         IBaseDir baseDir;
         IMembershipProvider _membershipProvider;
-        IElementRepositoryFactory _elementRepositoryFactory;
-        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, IElementRepositoryFactory elementRepositoryFactory)
+        ILabelProvider _labelProvider;
+        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, ILabelProvider labelProvider)
         {
             this.baseDir = baseDir;
             this._membershipProvider = membershipProvider;
-            this._elementRepositoryFactory = elementRepositoryFactory;
+            this._labelProvider = labelProvider;
         }
         #endregion
 
@@ -99,13 +99,13 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         private void ClearSiteData(Site site)
         {
-            try
-            {
-                _elementRepositoryFactory.CreateRepository(site).Clear();
-            }
-            catch
-            {
-            }
+            //try
+            //{
+            //    _elementRepositoryFactory.CreateRepository(site).Clear();
+            //}
+            //catch
+            //{
+            //}
             try
             {
                 Kooboo.CMS.Sites.Persistence.Providers.PageProvider.Clear(site);
@@ -428,50 +428,31 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             //Initialize 
             Providers.HtmlBlockProvider.InitializeHtmlBlocks(site);
             Providers.PageProvider.InitializePages(site);
-            InitializeLabels(site);
+            _labelProvider.InitializeLabels(site);
 
             foreach (var sub in Providers.SiteProvider.ChildSites(site))
             {
                 Initialize(sub);
             }
         }
-        private void InitializeLabels(Site site)
-        {
-            var labelRepository = _elementRepositoryFactory.CreateRepository(site);
-            if (labelRepository.GetType() != typeof(SiteLabelRepository))
-            {
-                labelRepository.Clear();
-                SiteLabelRepository fileRepository = new SiteLabelRepository(site);
-                foreach (var item in fileRepository.Elements())
-                {
-                    labelRepository.Add(item);
-                }
-            }
-        }
+
         #endregion
 
         #region Export
 
         private void ExportLabels(Site site, bool includeSubSites)
         {
-            var labelRepository = _elementRepositoryFactory.CreateRepository(site);
-            if (labelRepository.GetType() != typeof(SiteLabelRepository))
-            {
-                SiteLabelRepository fileRepository = new SiteLabelRepository(site);
-                fileRepository.Clear();
-                foreach (var item in labelRepository.Elements())
-                {
-                    fileRepository.Add(item);
-                }
 
-                if (includeSubSites)
+            _labelProvider.ExportLabelsToDisk(site);
+
+            if (includeSubSites)
+            {
+                foreach (var sub in Providers.SiteProvider.ChildSites(site))
                 {
-                    foreach (var sub in Providers.SiteProvider.ChildSites(site))
-                    {
-                        ExportLabels(sub, includeSubSites);
-                    }
+                    ExportLabels(sub, includeSubSites);
                 }
             }
+
         }
 
         private void ExportPages(Site site, bool includeSubSites)

@@ -128,13 +128,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #region Label
         [HttpPost]
         [ValidateInput(false)]
-        public virtual ActionResult UpdateLable(string key, string category, string value)
+        public virtual ActionResult UpdateLable(string uuid, string key, string category, string value)
         {
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
                 {
-                    var element = new Element() { Name = key, Category = category, Value = value };
-                    ServiceFactory.LabelManager.Update(Site.Current, element);
+                    var label = new Label() { UUID = uuid, Name = key, Category = category, Value = value };
+                    ServiceFactory.LabelManager.Update(Site.Current, label, label);
                 });
             return Json(data);
         }

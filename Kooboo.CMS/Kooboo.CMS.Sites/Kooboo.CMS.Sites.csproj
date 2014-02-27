@@ -192,13 +192,19 @@
     <Compile Include="Membership\ValidateMemberModel.cs" />
     <Compile Include="Membership\ValidateMemberPlugin.cs" />
     <Compile Include="Models\HtmlMeta.cs" />
+    <Compile Include="Models\Label.cs" />
     <Compile Include="Models\SubmissionSetting.cs" />
     <Compile Include="NullMembershipException.cs" />
     <Compile Include="Persistence\Caching\ABPageSettingProvider.cs" />
     <Compile Include="Persistence\Caching\ABSiteSettingProvider.cs" />
     <Compile Include="Persistence\Caching\ABRuleSettingProvider.cs" />
+    <Compile Include="Persistence\Caching\LabelProvider.cs" />
     <Compile Include="Persistence\FileSystem\ABPageTestResultProvider.cs" />
+    <Compile Include="Persistence\FileSystem\JsonListFileStorage.cs" />
+    <Compile Include="Persistence\FileSystem\LabelImportExportHelper.cs" />
+    <Compile Include="Persistence\FileSystem\LabelProvider.cs" />
     <Compile Include="Persistence\IABPageTestResultProvider.cs" />
+    <Compile Include="Persistence\ILabelProvider.cs" />
     <Compile Include="Persistence\ISubmissionSettingProvider.cs" />
     <Compile Include="Persistence\FileSystem\SubmissionSettingProvider.cs" />
     <Compile Include="NullSiteContextException.cs" />
@@ -315,7 +321,7 @@
     <Compile Include="Models\DirectoryResource.cs" />
     <Compile Include="Models\PathResource.cs" />
     <Compile Include="Models\ScriptFile.cs" />
-    <Compile Include="Models\Label.cs" />
+    <Compile Include="Models\LabelPath.cs" />
     <Compile Include="Models\ThemeFile.cs" />
     <Compile Include="Models\ThemeImageFile.cs" />
     <Compile Include="Models\LayoutPosition.cs">
@@ -554,11 +560,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kooboo.CMS.Account\Kooboo.CMS.Account.csproj">
-      <Project>{61ED004C-9E20-4680-AF2B-0723FE7648BB}</Project>
+      <Project>{61ed004c-9e20-4680-af2b-0723fe7648bb}</Project>
       <Name>Kooboo.CMS.Account</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
-      <Project>{570CD9D3-75D2-468A-8245-45BDCA57432E}</Project>
+      <Project>{570cd9d3-75d2-468a-8245-45bdca57432e}</Project>
       <Name>Kooboo.CMS.Caching</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
@@ -566,11 +572,11 @@
       <Name>Kooboo.CMS.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Content\Kooboo.CMS.Content\Kooboo.CMS.Content.csproj">
-      <Project>{C5A5186D-6F8E-4BB9-AF0E-74F0993B48DA}</Project>
+      <Project>{c5a5186d-6f8e-4bb9-af0e-74f0993b48da}</Project>
       <Name>Kooboo.CMS.Content</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Form\Kooboo.CMS.Form.csproj">
-      <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
+      <Project>{c4f32215-efad-45c9-8276-6126681c3589}</Project>
       <Name>Kooboo.CMS.Form</Name>
     </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Membership\Kooboo.CMS.Membership.csproj">
@@ -586,7 +592,6 @@
       <Name>Kooboo</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

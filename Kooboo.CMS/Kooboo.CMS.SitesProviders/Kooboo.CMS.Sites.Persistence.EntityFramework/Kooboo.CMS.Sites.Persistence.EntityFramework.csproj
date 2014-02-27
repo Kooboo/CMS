@@ -43,7 +43,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
@@ -94,6 +93,9 @@
     <Compile Include="HtmlBlockProvider\HtmlBlockEntity.cs" />
     <Compile Include="HtmlBlockProvider\HtmlBlockProvider.cs" />
     <Compile Include="LabelProvider\LabelEntity.cs" />
+    <Compile Include="LabelProvider\LabelProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="LabelProvider\LabelRepository.cs" />
     <Compile Include="LabelProvider\ElementRepositoryFactory.cs" />
     <Compile Include="PageProvider\Mapping\PageEnityMapping.cs" />
@@ -134,7 +136,6 @@
       <Name>Kooboo</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo copy "$(TargetDir)\$(TargetFileName)" "..\..\..\..\Kooboo.CMS.Web\Bin\"

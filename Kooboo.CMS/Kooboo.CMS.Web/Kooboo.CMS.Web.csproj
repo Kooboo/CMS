@@ -230,6 +230,7 @@
     <Compile Include="Areas\Sites\Models\Grid2\InstallationContext_GridItem.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\InstallationContext_TargetVersion_Column.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\InstallationContext_SourceVersion_Column.cs" />
+    <Compile Include="Areas\Sites\Models\Grid2\Label_Value_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Page_Navigation_ShowInMenu_SortableGridColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Page_Navigation_ShowInMenu_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\HitReport_GridItemColumn.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Areas\Sites\Models\ImportRepositoryModel.cs" />
     <Compile Include="Areas\Sites\Models\ImportSiteModel.cs" />
     <Compile Include="Areas\Sites\Models\InstallationContext_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\Label_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\LanguageVisitRule_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\PagePermission_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ProxyPosition_Metadata.cs" />
@@ -257,6 +259,7 @@
     <Compile Include="Areas\Sites\Models\ABRuleSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\SiteTemplate_ViewModel.cs" />
     <Compile Include="Areas\Sites\Models\QueryStringVisitRule_Metadata.cs" />
+    <Compile Include="Areas\Sites\Views\Label\LabelIndexToolbarProvider.cs" />
     <Compile Include="Areas\Sites\Views\Page\PageIndexToolbarProvider.cs" />
     <Compile Include="Interoperability\MetaWeblog\BloggerAPI.cs">
       <SubType>Code</SubType>
@@ -368,7 +371,6 @@
     <Compile Include="Areas\Sites\Models\DataRuleSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\AutoCompletePageListDataSouce.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\CopyPageDataSource.cs" />
-    <Compile Include="Areas\Sites\Models\DataSources\ElementCategoryCulturesSelectListDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\FileExtensionsDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\LayoutListDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\LayoutPositionsDataSource.cs" />
@@ -388,7 +390,6 @@
     <Compile Include="Areas\Sites\Models\DataSources\UsersDatasource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\ViewNamesDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DiagnosisResult_Metadata.cs" />
-    <Compile Include="Areas\Sites\Models\Element_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\PageGridItem.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Version_Revert_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Version_Preview_GridItemColumn.cs" />
@@ -398,7 +399,6 @@
     <Compile Include="Areas\Sites\Models\Grid2\Module_Uninstall_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\InheritableDialogEditGridActionItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Copy_GridItemColumn.cs" />
-    <Compile Include="Areas\Sites\Models\Grid2\Element_Value_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Localize_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Relation_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Script_FileName_GridItemColumn.cs" />

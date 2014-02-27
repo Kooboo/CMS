@@ -22,8 +22,8 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         ABTestProvider.ABPageSettingProvider abPageSettingProvider;
         ABTestProvider.ABRuleSettingProvider abRuleSettingProvider;
         //ABTestProvider.ABSiteSettingProvider abSiteSettingProvider;
-        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, IElementRepositoryFactory elementRepositoryFactory, SiteInitializer initializer)
-            : base(baseDir, membershipProvider, elementRepositoryFactory)
+        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, ILabelProvider labelProvider, SiteInitializer initializer)
+            : base(baseDir, membershipProvider, labelProvider)
         {
             customErrorProvider = new CustomErrorProvider.CustomErrorProvider();
             urlRedirectProvider = new UrlRedirectProvider.UrlRedirectProvider();

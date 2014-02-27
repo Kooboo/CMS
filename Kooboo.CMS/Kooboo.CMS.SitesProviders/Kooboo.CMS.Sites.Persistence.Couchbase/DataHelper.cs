@@ -52,6 +52,8 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             if (result.HasValue)
             {
                 var obj = ModelExtensions.JsonToObject<T>(json.ToString());
+                if (obj is ISiteObject)
+                    ((ISiteObject)obj).Site = site;
                 return obj;
             }
             else
@@ -92,7 +94,8 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
                 var idList = view.Select(it => it.ItemId).ToArray();
 
-                return bucket.ExecuteGet(idList).Select(it => ModelExtensions.JsonToObject<T>(it.Value.Value.ToString()));
+                return bucket.ExecuteGet(idList).Select(it => ModelExtensions.JsonToObject<T>(it.Value.Value.ToString()))
+                    .Select(it => { if (it is ISiteObject) ((ISiteObject)it).Site = site; return it; });
             }
             else
             {

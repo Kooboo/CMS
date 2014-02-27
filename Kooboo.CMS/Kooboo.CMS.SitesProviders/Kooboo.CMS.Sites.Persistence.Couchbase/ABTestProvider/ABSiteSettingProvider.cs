@@ -24,9 +24,9 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
         {
             var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
             var memberShipProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Membership.Persistence.IMembershipProvider>();
-            var elementRepositoryFactory = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Sites.Globalization.IElementRepositoryFactory>();
+            var labelProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ILabelProvider>();
             fileProvider = new FileSystem.ABSiteSettingProvider(baseDir);
-            siteProvider = new FileSystem.SiteProvider(baseDir, memberShipProvider, elementRepositoryFactory);
+            siteProvider = new FileSystem.SiteProvider(baseDir, memberShipProvider, labelProvider);
         }
 
         public IEnumerable<ABSiteSetting> All()
@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
         private void InsertOrUpdate(ABSiteSetting @new, ABSiteSetting old)
         {
             ((IPersistable)@new).OnSaving();
-            DataHelper.StoreObject(new Site(),@new, @new.UUID, ModelExtensions.ABSiteSettingDataType);
+            DataHelper.StoreObject(new Site(), @new, @new.UUID, ModelExtensions.ABSiteSettingDataType);
             ((IPersistable)@new).OnSaved();
         }
         public void Update(ABSiteSetting @new, ABSiteSetting old)

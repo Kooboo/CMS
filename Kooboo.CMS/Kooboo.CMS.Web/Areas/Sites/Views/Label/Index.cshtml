@@ -1,4 +1,4 @@
-﻿@model Kooboo.Web.Mvc.Paging.PagedList<Kooboo.Globalization.Element>
+﻿@model Kooboo.Web.Mvc.Paging.PagedList<Label>
 @{
     ViewBag.Title = "Labels".Localize();
     Layout = "~/Views/Shared/Site.cshtml";
@@ -11,7 +11,7 @@
             </a>
         </li>
         <li>
-            <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">
+            <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-command-type="Download">
                 @Html.IconImage("export") @("Export".Localize())
             </a>
         </li>
@@ -29,7 +29,7 @@
 
 <div class="topbar clearfix">
     <h1 class="title left">
-        @ViewBag.Title <strong>@Html.Raw(ViewContext.RequestContext.GetRequestValue("category"))</strong></h1>
+        @ViewBag.Title</h1>
     @Html.Partial("_Search")
 </div>
 

@@ -70,6 +70,8 @@
     <Compile Include="DataHelper.cs" />
     <Compile Include="HtmlBlockProvider\HtmlBlockProvider.cs" />
     <Compile Include="LabelProvider\ElementRepositoryFactory.cs" />
+    <Compile Include="LabelProvider\LabelCategory.cs" />
+    <Compile Include="LabelProvider\LabelProvider.cs" />
     <Compile Include="LabelProvider\LabelRepository.cs" />
     <Compile Include="ModelExtensions.cs" />
     <Compile Include="PageProvider\PageProvider.cs">

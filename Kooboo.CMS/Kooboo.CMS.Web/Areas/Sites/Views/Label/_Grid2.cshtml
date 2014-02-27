@@ -29,7 +29,7 @@
             @RenderHeader()
             <tbody>
                 @{
-                    var categoryList = ViewData["CategoryList"] == null ? new ElementCategory[0] : ((IEnumerable<ElementCategory>)ViewData["CategoryList"]).ToArray();
+                    var categoryList = ViewData["CategoryList"] == null ? new string[0] : ((IEnumerable<string>)ViewData["CategoryList"]).ToArray();
                     var items = Model.GetItems().ToArray();
                 }
                 @if (categoryList.Length == 0 && items.Length == 0)
@@ -46,14 +46,14 @@
                     {
                         foreach (var c in categoryList)
                         {
-                            if (!string.IsNullOrEmpty(c.Category))
+                            if (!string.IsNullOrEmpty(c))
                             { 
                     <tr>
                         <td class="checkbox">
-                            <input type="checkbox" value="@c.Category" class="select folder" />
+                            <input type="checkbox" value="@c" class="select folder" />
                         </td>
-                        <td colspan="2">
-                            @Html.ActionLink(c.Category, "Index", ViewContext.RequestContext.AllRouteValues().Merge("Category", c.Category), new RouteValueDictionary(new { @class = "f-icon folder" }))
+                        <td colspan="5">
+                            @Html.ActionLink(c, "Index", ViewContext.RequestContext.AllRouteValues().Merge("Category", c), new RouteValueDictionary(new { @class = "f-icon folder" }))
                         </td>
                     </tr>
                             }

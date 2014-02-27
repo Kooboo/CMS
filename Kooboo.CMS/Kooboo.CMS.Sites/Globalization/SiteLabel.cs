@@ -14,12 +14,14 @@ using Kooboo.CMS.Sites.View;
 using Kooboo.Globalization;
 using Kooboo.CMS.Sites.Caching;
 using System.Web;
+using Kooboo.CMS.Sites.Services;
 namespace Kooboo.CMS.Sites.Globalization
 {
     public static class SiteLabel
     {
         #region Cache
         static string cacheKey = "SiteLabelRepository";
+        [Obsolete]
         public static IElementRepository GetElementRepository(Site site)
         {
             var repository = site.ObjectCache().Get(cacheKey);
@@ -33,7 +35,7 @@ namespace Kooboo.CMS.Sites.Globalization
             }
             return (IElementRepository)repository;
         }
-
+        [Obsolete]
         public static void ClearCache(Site site)
         {
             site.ObjectCache().Remove(cacheKey);
@@ -132,23 +134,27 @@ namespace Kooboo.CMS.Sites.Globalization
             {
                 return defaultValue;
             }
-            var repository = GetElementRepository(site);
 
+            string editor = null;
 
-            var element = repository.Get(key, category, "en-US");
-
-            string value = "";
-            if (element == null)
+            if (HttpContext.Current != null)
             {
-                element = new Element() { Name = key, Category = category ?? "", Culture = "en-US", Value = defaultValue };
+                editor = HttpContext.Current.User.Identity.Name;
+            }
 
-                repository.Add(element);
+            var labelManager = ServiceFactory.LabelManager;
 
-                value = element.Value;
+            var label = labelManager.Get(site, category, key);
+
+            string value = defaultValue;
+            if (label == null)
+            {
+                label = new Label(site, category, key, defaultValue) { UtcCreationDate = DateTime.UtcNow, LastestEditor = editor };
+                labelManager.Add(site, label);
             }
             else
             {
-                value = element.Value;
+                value = label.Value;
             }
             return value;
         }

@@ -397,7 +397,8 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         var trCollection = trCollection || $(this);
         var selector = 'input:checkbox.select:checked';
         var $tbody = $tr.closest('tbody');
-        $tr.click(function () {
+        $tr.click(function (e) {
+            e.stopPropagation();
             var $self = $(this);
             var $checkbox = $self.find('input:checkbox,input:radio');
             if ($checkbox.is("input:radio")) {
@@ -1257,7 +1258,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                     if (_retrun) {
                         location.href = _retrun;
                     }
-                }, 100);
+                }, 1000);
             }
         });
     });

@@ -30,8 +30,8 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.SiteProvider
         Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider.ABPageTestResultProvider aBPageTestResultProvider;
         Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider.ABRuleSettingsProvider aBRuleSettingsProvider;
         Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider.ABPageSettingsProvider aBPageSettingsProvider;
-        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, IElementRepositoryFactory elementRepositoryFactory, SiteDBContext dbContext)
-            : base(baseDir, membershipProvider, elementRepositoryFactory)
+        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, ILabelProvider labelProvider, SiteDBContext dbContext)
+            : base(baseDir, membershipProvider, labelProvider)
         {
             this._dbContext = dbContext;
             urlRedirectProvider = new UrlRedirectsProvider.UrlRedirectProvider(_dbContext);

@@ -34,10 +34,14 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         internal static IEnumerable<string> GetCategories(string labelPath)
         {
-            var jsonFiles = Directory.EnumerateFiles(labelPath, "*.json");
+            if (Directory.Exists(labelPath))
+            {
+                var jsonFiles = Directory.EnumerateFiles(labelPath, "*.json");
 
-            return jsonFiles.Select(it => Path.GetFileNameWithoutExtension(it))
-                .Where(it => !it.EqualsOrNullEmpty(Path.GetFileNameWithoutExtension(DefaultLabelFile), StringComparison.OrdinalIgnoreCase));
+                return jsonFiles.Select(it => Path.GetFileNameWithoutExtension(it))
+                    .Where(it => !it.EqualsOrNullEmpty(Path.GetFileNameWithoutExtension(DefaultLabelFile), StringComparison.OrdinalIgnoreCase));
+            }
+            return new string[0];
         }
 
         #endregion

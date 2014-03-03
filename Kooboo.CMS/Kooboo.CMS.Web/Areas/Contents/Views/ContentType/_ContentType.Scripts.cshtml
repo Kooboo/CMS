@@ -145,15 +145,15 @@
             self.PersistToColumnList = function() {
                 if ($('#column-edit-form').valid()) {
                     var dicArray = $('#custom-settings-container tbody tr');
-                    var tempCustomSettins = {$type:ko.observable(self.Column().CustomSettings['$type'])};
+                    var tempCustomSettings = {$type:ko.observable(self.Column().CustomSettings['$type'])};
                     dicArray.each(function() {
                         var dicKey = $(this).find('input[title=key]').val();
                         var dicValue = $(this).find('input[title=value]').val();
                         if ($.trim(dicKey) != '') {
-                            tempCustomSettins[dicKey] = dicValue;
+                            tempCustomSettings[dicKey] = dicValue;
                         }
                     });
-                    self.Column().CustomSettings = tempCustomSettins;
+                    self.Column().CustomSettings = tempCustomSettings;                    
                     if (self.Column().IsExistedColumn()) {
                         var oldColumn = ko.utils.arrayFirst(shemaViewModel.schemaModel.Columns(), function(item) {
                             return item.Name() === self.Column().Name();
@@ -185,17 +185,29 @@
                     start: function (event, ui) {
                         ui.placeholder.html('<td colspan="100"></td>');
                     },
-                    stop:function() {
-                        Utilities.AdjustOrder();
+                    stop:function(e, ui) {
+                        Utilities.AdjustOrder(e, ui);      
+                        ui.item.remove();
                     }
                 });
             },
             CloneObject:function(obj) {
                 return ko.mapping.fromJS(ko.toJS(obj));
             },
-            AdjustOrder:function() {
+            AdjustOrder:function(e, ui) {
+                var item = ko.dataFor(ui.item[0]);
+                var finalPos = ui.item.index();
+                // Remove from DOM
+                ui.item.remove();
+                // Move in KO
+                shemaViewModel.schemaModel.Columns.remove(item);
+                shemaViewModel.schemaModel.Columns.splice(finalPos, 0, item);
                 this.$SortableTbody.children().each(function (index) {
-                    $(this).find('td.order-field').find('input[type=hidden]').val(index + 1).change();
+                    //var tr =$(this).find('td.order-field');
+                    //console.log(ko.dataFor(this));
+                    //tr.find('input[type=hidden]').val(index + 1).change();
+                    var item = ko.dataFor(this);
+                    item.Order(index + 1);                    
                 });
             },
             ShowDialog:function(column) {

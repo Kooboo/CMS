@@ -371,8 +371,8 @@ namespace Kooboo.CMS.Sites.Services
             {
                 UrlRedirect redirect = new UrlRedirect()
                 {
-                    InputUrl = sourcePage.FriendlyName,
-                    OutputUrl = newPage.FriendlyName,
+                    InputUrl = sourcePage.VirtualPath,
+                    OutputUrl = newPage.VirtualPath,
                     RedirectType = RedirectType.Moved_Permanently_301,
                     Regex = false
                 };

@@ -30,6 +30,7 @@
 <div class="topbar clearfix">
     <h1 class="title">
         @("Url redirects".Localize())</h1>
+     @Html.Partial("_Search")
 </div>
 @Html.GridForModel2(m => m)
 <div class="pagination right">

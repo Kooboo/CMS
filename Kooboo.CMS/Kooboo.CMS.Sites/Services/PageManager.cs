@@ -344,7 +344,7 @@ namespace Kooboo.CMS.Sites.Services
 
         #region Move
 
-        public virtual void Move(Site site, string pageFullName, string newParent, bool createRedirect)
+        public virtual void Move(Site site, string pageFullName, string newParent, bool createRedirect, string user = "")
         {
             Page page = new Page(site, pageFullName);
             if (string.IsNullOrEmpty(newParent))
@@ -374,7 +374,9 @@ namespace Kooboo.CMS.Sites.Services
                     InputUrl = sourcePage.VirtualPath,
                     OutputUrl = newPage.VirtualPath,
                     RedirectType = RedirectType.Moved_Permanently_301,
-                    Regex = false
+                    Regex = false,
+                    UtcCreationDate=DateTime.UtcNow,
+                    LastestEditor = user
                 };
                 ServiceFactory.UrlRedirectManager.Add(site, redirect);
             }

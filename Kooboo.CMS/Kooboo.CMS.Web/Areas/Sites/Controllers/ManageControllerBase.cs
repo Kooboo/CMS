@@ -18,6 +18,7 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.CMS.Common.Persistence;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     public abstract class ManageControllerBase<T, Service> : Kooboo.CMS.Sites.AreaControllerBase
@@ -72,6 +73,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         protected virtual void Add(T model)
         {
+            if (model is IChangeTimeline)
+            {
+                var changeTimeline = (IChangeTimeline)model;
+
+                changeTimeline.UtcCreationDate = DateTime.UtcNow;
+                changeTimeline.LastestEditor = User.Identity.Name;
+            }
             Manager.Add(Site, model);
         }
         #endregion
@@ -100,12 +108,19 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
             return Json(data);
         }
-        protected virtual T Get(string name)
-        {
+        protected virtual T Get(string name)        {
+            
             return Manager.Get(Site, name);
         }
         protected virtual void Update(T newModel, string old_key)
         {
+            if (newModel is IChangeTimeline)
+            {
+                var changeTimeline = (IChangeTimeline)newModel;
+
+                changeTimeline.UtcLastestModificationDate = DateTime.UtcNow;
+                changeTimeline.LastestEditor = User.Identity.Name;
+            }
             Manager.Update(Site, newModel, Manager.Get(Site, old_key));
         }
         #endregion

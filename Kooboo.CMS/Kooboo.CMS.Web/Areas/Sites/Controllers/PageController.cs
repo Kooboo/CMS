@@ -579,7 +579,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Manager.Move(Site, model.UUID, model.ParentPage, model.CreateRedirect);
+                    Manager.Move(Site, model.UUID, model.ParentPage, model.CreateRedirect, User.Identity.Name);
                     data.RedirectUrl = @return;
                 }
             });

@@ -15,6 +15,7 @@ using System.Web.Routing;
 using Kooboo.Web.Mvc;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Content.Models;
+using Kooboo.CMS.Common.Persistence;
 namespace Kooboo.CMS.Web
 {
     public static class SortByExtension
@@ -29,6 +30,10 @@ namespace Kooboo.CMS.Web
                     sort = sort + " descending";
                 }
                 list = list.OrderBy(sort);
+            }
+            else if (typeof(IChangeTimeline).IsAssignableFrom(typeof(T)))
+            {
+                list = list.OrderBy("UtcCreationDate descending");
             }
             return list;
         }

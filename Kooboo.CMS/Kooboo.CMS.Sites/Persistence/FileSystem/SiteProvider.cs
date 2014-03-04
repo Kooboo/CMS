@@ -432,7 +432,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             foreach (var sub in Providers.SiteProvider.ChildSites(site))
             {
-                Initialize(sub);
+                Providers.SiteProvider.Initialize(sub.AsActual());
             }
         }
 

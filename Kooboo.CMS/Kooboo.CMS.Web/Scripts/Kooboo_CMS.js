@@ -1119,10 +1119,12 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             $("input[type=file].filestyle").filestyle();
         }
 
-        window.loading.hide();
-        $(window).ready(function () {
+        if (!window.keepLoading) {
             window.loading.hide();
-        });
+            $(window).ready(function () {
+                window.loading.hide();
+            });
+        }
     });
 
     // form post

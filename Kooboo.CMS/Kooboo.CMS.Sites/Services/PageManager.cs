@@ -354,17 +354,19 @@ namespace Kooboo.CMS.Sites.Services
                     throw new KoobooException("The page is a root page already.".Localize());
                 }
             }
+            //backup the source page.
+            Page sourcePage = new Page(site, pageFullName).AsActual();
 
             Provider.Move(site, pageFullName, newParent);
-            Page sourcePage = new Page(site, pageFullName);
+
             Page newPage = null;
             if (!string.IsNullOrEmpty(newParent))
             {
-                newPage = new Page(new Page(site, newParent), sourcePage.Name);
+                newPage = new Page(new Page(site, newParent), sourcePage.Name).AsActual();
             }
             else
             {
-                newPage = new Page(site, sourcePage.Name);
+                newPage = new Page(site, sourcePage.Name).AsActual();
             }
 
             if (createRedirect)
@@ -375,7 +377,7 @@ namespace Kooboo.CMS.Sites.Services
                     OutputUrl = newPage.VirtualPath,
                     RedirectType = RedirectType.Moved_Permanently_301,
                     Regex = false,
-                    UtcCreationDate=DateTime.UtcNow,
+                    UtcCreationDate = DateTime.UtcNow,
                     LastestEditor = user
                 };
                 ServiceFactory.UrlRedirectManager.Add(site, redirect);

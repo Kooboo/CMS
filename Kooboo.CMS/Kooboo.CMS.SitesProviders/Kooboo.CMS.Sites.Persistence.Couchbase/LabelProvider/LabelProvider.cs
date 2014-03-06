@@ -85,7 +85,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
 
         public IEnumerable<Label> All(Site site)
         {
-            return DataHelper.QueryList<Label>(site, ModelExtensions.GetQueryView(ModelExtensions.LabelDataType))
+            return DataHelper.QueryList<Label>(site, ModelExtensions.GetQueryViewName(ModelExtensions.LabelDataType))
                 .Select(it => ResetLabelUUID(it)).AsQueryable();
         }
 
@@ -135,7 +135,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
         #region Category
         public IEnumerable<string> GetCategories(Site site)
         {
-            return DataHelper.QueryList<LabelCategory>(site, ModelExtensions.GetQueryView(ModelExtensions.LabelCategoryDataType)).Select(it => it.Category).AsQueryable();
+            return DataHelper.QueryList<LabelCategory>(site, ModelExtensions.GetQueryViewName(ModelExtensions.LabelCategoryDataType)).Select(it => it.Category).AsQueryable();
         }
 
         public void AddCategory(Site site, string category)

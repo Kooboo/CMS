@@ -87,7 +87,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
         }
         private IEnumerable<HtmlBlock> QueryBySite(Site site)
         {
-            return DataHelper.QueryList<HtmlBlock>(site, ModelExtensions.GetQueryView(ModelExtensions.HtmlBlockDataType), createModel);
+            return DataHelper.QueryList<HtmlBlock>(site, ModelExtensions.GetQueryViewName(ModelExtensions.HtmlBlockDataType), createModel);
         }
 
         public HtmlBlock Get(Models.HtmlBlock dummy)

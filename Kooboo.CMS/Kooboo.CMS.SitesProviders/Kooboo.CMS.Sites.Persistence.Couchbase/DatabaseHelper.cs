@@ -87,7 +87,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         {
             return bucketName + "|" + viewName;
         }
-        public static bool CheckExistsByCache(this IView<IViewRow> view,string bucketName,string viewName)
+        public static bool CheckExistsByCache(this IView<IViewRow> view, string bucketName, string viewName)
         {
             var viewCacheName = GetViewCacheName(bucketName, viewName);
             if (ExistedView.Contains(viewCacheName))
@@ -105,7 +105,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
                 {
                     return false;
                 }
- 
+
             }
         }
         #endregion
@@ -142,6 +142,13 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         {
             var cc = GetCouchbaseCluster();
             return cc.CreateDesignDocument(bucket, name, document);
+        }
+        #endregion
+
+        #region CreateDefaultViews
+        public static bool CreateDefaultViews(this Site site)
+        {
+            return CreateDesignDocument(site.GetBucketName(), ModelExtensions.DesignDocumentName, ModelExtensions.GetDesignDocumentBody());
         }
         #endregion
 

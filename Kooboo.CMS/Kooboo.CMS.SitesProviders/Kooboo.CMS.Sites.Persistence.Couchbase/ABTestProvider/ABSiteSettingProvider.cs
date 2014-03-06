@@ -31,7 +31,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 
         public IEnumerable<ABSiteSetting> All()
         {
-            return DataHelper.QueryList<ABSiteSetting>(new Site(), ModelExtensions.GetQueryView(ModelExtensions.ABSiteSettingDataType), createModel);
+            return DataHelper.QueryList<ABSiteSetting>(new Site(), ModelExtensions.GetQueryViewName(ModelExtensions.ABSiteSettingDataType), createModel);
         }
 
         public ABSiteSetting Get(ABSiteSetting dummy)

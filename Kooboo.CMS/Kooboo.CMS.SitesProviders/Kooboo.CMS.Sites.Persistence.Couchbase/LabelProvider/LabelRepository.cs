@@ -56,7 +56,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
         #region Elements
         public IQueryable<Element> Elements()
         {
-            return DataHelper.QueryList<Element>(Site, ModelExtensions.GetQueryView(ModelExtensions.LabelDataType)).AsQueryable();
+            return DataHelper.QueryList<Element>(Site, ModelExtensions.GetQueryViewName(ModelExtensions.LabelDataType)).AsQueryable();
         }
         #endregion
 
@@ -72,7 +72,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
         #region Categories
         public IQueryable<ElementCategory> Categories()
         {
-            return DataHelper.QueryList<ElementCategory>(Site, ModelExtensions.GetQueryView(ModelExtensions.LabelCategoryDataType)).AsQueryable();
+            return DataHelper.QueryList<ElementCategory>(Site, ModelExtensions.GetQueryViewName(ModelExtensions.LabelCategoryDataType)).AsQueryable();
         }
         #endregion
 

@@ -46,16 +46,16 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
         static SiteProvider()
         {
-            //Create Kooboo_CMS global bucket
-            var defaultBucket = DatabaseSettings.Instance.DefaultBucketName;
-            if (!DatabaseHelper.ExistBucket(defaultBucket))
-            {
-                DatabaseHelper.CreateBucket(defaultBucket);
-                System.Threading.Thread.Sleep(3000);     
-            }
-            DatabaseHelper.CreateDesignDocument(defaultBucket, ModelExtensions.GetQueryView(ModelExtensions.ABRuleSettingDataType), string.Format(DataHelper.viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABRuleSettingDataType), ModelExtensions.ABRuleSettingDataType));
-            DatabaseHelper.CreateDesignDocument(defaultBucket, ModelExtensions.GetQueryView(ModelExtensions.ABSiteSettingDataType), string.Format(DataHelper.viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABSiteSettingDataType), ModelExtensions.ABSiteSettingDataType));
-            System.Threading.Thread.Sleep(3000);
+            ////Create Kooboo_CMS global bucket
+            //var defaultBucket = DatabaseSettings.Instance.DefaultBucketName;
+            //if (!DatabaseHelper.ExistBucket(defaultBucket))
+            //{
+            //    DatabaseHelper.CreateBucket(defaultBucket);
+            //    System.Threading.Thread.Sleep(3000);     
+            //}
+            //DatabaseHelper.CreateDesignDocument(defaultBucket, ModelExtensions.GetQueryViewName(ModelExtensions.ABRuleSettingDataType), string.Format(DataHelper.ViewTemplate, ModelExtensions.GetQueryViewName(ModelExtensions.ABRuleSettingDataType), ModelExtensions.ABRuleSettingDataType));
+            //DatabaseHelper.CreateDesignDocument(defaultBucket, ModelExtensions.GetQueryViewName(ModelExtensions.ABSiteSettingDataType), string.Format(DataHelper.ViewTemplate, ModelExtensions.GetQueryViewName(ModelExtensions.ABSiteSettingDataType), ModelExtensions.ABSiteSettingDataType));
+            //System.Threading.Thread.Sleep(3000);
         }
         #endregion
         Func<Site, string, Site> createModel = (Site site, string key) =>

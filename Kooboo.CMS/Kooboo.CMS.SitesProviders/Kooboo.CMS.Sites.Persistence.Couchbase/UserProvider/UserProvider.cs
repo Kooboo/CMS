@@ -34,7 +34,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.UserProvider
         #region All
         public IEnumerable<User> All(Site site)
         {
-            return DataHelper.QueryList<User>(site, ModelExtensions.GetQueryView(ModelExtensions.UserDataType), createModel);
+            return DataHelper.QueryList<User>(site, ModelExtensions.GetQueryViewName(ModelExtensions.UserDataType), createModel);
         }
         #endregion
 

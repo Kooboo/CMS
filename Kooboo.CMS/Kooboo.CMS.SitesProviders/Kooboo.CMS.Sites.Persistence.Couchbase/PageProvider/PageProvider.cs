@@ -94,13 +94,13 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         }
         private IEnumerable<Page> QueryBySite(Site site)
         {
-            return DataHelper.QueryList<Page>(site, ModelExtensions.GetQueryView(ModelExtensions.PageDataType), createModel)
+            return DataHelper.QueryList<Page>(site, ModelExtensions.GetQueryViewName(ModelExtensions.PageDataType), createModel)
                 .Where(it => it.Parent == null);
         }
 
         public IEnumerable<Page> ChildPages(Models.Page parentPage)
         {
-            return DataHelper.QueryList<Page>(parentPage.Site, ModelExtensions.GetQueryView(ModelExtensions.PageDataType), createModel)
+            return DataHelper.QueryList<Page>(parentPage.Site, ModelExtensions.GetQueryViewName(ModelExtensions.PageDataType), createModel)
                  .Where(it => it.Parent == parentPage);
         }
         #endregion
@@ -108,7 +108,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         #region relation
         private IEnumerable<Page> AllPagesNested(Site site)
         {
-            return DataHelper.QueryList<Page>(site, ModelExtensions.GetQueryView(ModelExtensions.PageDataType), createModel);
+            return DataHelper.QueryList<Page>(site, ModelExtensions.GetQueryViewName(ModelExtensions.PageDataType), createModel);
         }
         public IEnumerable<Models.Page> ByLayout(Models.Layout layout)
         {

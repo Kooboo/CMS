@@ -20,6 +20,8 @@ using Kooboo.CMS.Caching;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 namespace Kooboo.CMS.Sites.Providers.SqlServer.PageProvider
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPageProvider), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Page>), Order = 100)]
     public class PageProvider : IPageProvider
     {
         #region Version

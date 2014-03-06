@@ -14,9 +14,12 @@ using Kooboo.CMS.Sites.Persistence;
 
 using Kooboo.CMS.Sites.Models;
 using Ionic.Zip;
+using Kooboo.CMS.Common.Persistence.Relational;
 
 namespace Kooboo.CMS.Sites.Providers.SqlServer.HtmlBlockProvider
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IHtmlBlockProvider), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<HtmlBlock>), Order = 100)]
     public class HtmlBlockProvider : IHtmlBlockProvider
     {
         #region version

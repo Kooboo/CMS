@@ -43,7 +43,7 @@ namespace Kooboo.CMS.Web.Areas.Sites
             var roleManager = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<RoleManager>();
 
 
-            roleManager.AddPermission(Permission.Sites_Settings_SystemPermission);
+            roleManager.AddPermission(Permission.Sites_Settings_SystemPermission);            
             roleManager.AddPermission(Permission.Sites_Settings_UserSettingPermission);
             roleManager.AddPermission(Permission.Sites_Settings_CustomErrorPermission);
             roleManager.AddPermission(Permission.Sites_Settings_UrlRedirectPermission);

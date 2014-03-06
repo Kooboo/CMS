@@ -170,12 +170,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Delete
+       [CreateSiteAuthroziation]
         public virtual ActionResult Delete(string siteName)
         {
             return View(new Site(siteName));
         }
 
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Name = "Settings", Group = "System", Order = 0)]
+        [CreateSiteAuthroziation]
         [HttpPost]
         public virtual ActionResult Delete(string siteName, bool deleteRepository)
         {
@@ -196,7 +197,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return View(new Site(siteName));
         }
 
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Name = "Settings", Group = "System", Order = 0)]
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Name = "Settings", Group = "Delete site", Order = 0)]
         [HttpPost]
         public virtual ActionResult DeleteRepository(string siteName, bool deleteRepository)
         {
@@ -226,13 +227,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Export
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Name = "Settings", Group = "System", Order = 0)]
+        [CreateSiteAuthroziation]
         public virtual ActionResult Export(string siteName)
         {
             return View(new ExportSiteModel() { SiteName = siteName });
         }
         [HttpPost]
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Name = "Settings", Group = "System", Order = 0)]
+        [CreateSiteAuthroziation]
         public virtual ActionResult Export(ExportSiteModel model, string @return)
         {
             string fileName = model.SiteName + ".zip";
@@ -387,7 +388,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         #region ONLINE OFFLINE
 
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
+        [CreateSiteAuthroziation]
         public virtual ActionResult SwitchOffOn(string siteName)
         {
             var isOnLine = ServiceFactory.SiteManager.IsOnline(siteName);
@@ -410,7 +411,6 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region ClearCache
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
         [HttpPost]
         public virtual ActionResult ClearCache()
         {
@@ -434,13 +434,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Settings
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Settings", Order = 1)]
         public virtual ActionResult Settings()
         {
             return View(Site.AsActual());
         }
 
-        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Settings", Order = 1)]
         [HttpPost]
         public virtual ActionResult Settings(Site model)
         {
@@ -538,6 +538,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Copy
+        [CreateSiteAuthroziation]
         public ActionResult Copy()
         {
             CopySiteModel model = new CopySiteModel()
@@ -547,6 +548,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return View(model);
         }
         [HttpPost]
+        [CreateSiteAuthroziation]
         public ActionResult Copy(CopySiteModel model)
         {
             var data = new JsonResultData(ViewData.ModelState);

@@ -22,7 +22,7 @@ using System.Web;
 using System.Web.Mvc;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
-    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Setting", Order = 1)]
+    [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Settings", Order = 1)]
     public class SystemController : Kooboo.CMS.Sites.AreaControllerBase
     {
         #region Diagnosis

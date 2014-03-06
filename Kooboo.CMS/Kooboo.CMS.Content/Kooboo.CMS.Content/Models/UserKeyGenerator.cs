@@ -66,8 +66,8 @@ namespace Kooboo.CMS.Content.Models
                 int tries = 0;
                 while (IfUserKeyExists(content, tmpUserKey))
                 {
-                    tries++;
-                    tmpUserKey = userKey + "-" + tries.ToString();
+                    tries++;                    
+                    tmpUserKey = userKey + "-" + Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(tries);
                 }
                 userKey = tmpUserKey;
             }

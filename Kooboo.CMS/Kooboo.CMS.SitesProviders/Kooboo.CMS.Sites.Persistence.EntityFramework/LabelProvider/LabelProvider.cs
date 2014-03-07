@@ -67,12 +67,13 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.LabelProvider
                     AddCategory(@new.Site, @new.Category);
                 }
                 entity = new LabelEntity(@new.Site.FullName, @new.Name, @new.Value, @new.Category);
+                entity.UUID = @new.UUID;
+                entity.UtcCreationDate = @new.UtcCreationDate;
                 _dbContext.Labels.Add(entity);
-            }
-            entity.UtcCreationDate = @new.UtcCreationDate;
+            }            
             entity.LastestEditor = @new.LastestEditor;
             entity.UtcLastestModificationDate = @new.UtcLastestModificationDate;
-            entity.UUID = @new.UUID;
+
 
             _dbContext.SaveChanges();
         }

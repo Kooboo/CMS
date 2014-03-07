@@ -64,6 +64,10 @@ namespace Kooboo.CMS.Sites.Services
         #region Update
         public virtual void Update(Site site, Label @new, Label old)
         {
+            if (@new.Site == null)
+            {
+                @new.Site = site;
+            }
             this._labelProvider.Update(@new, old);
         }
         #endregion

@@ -42,8 +42,14 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
 
         public void RemoveCategory(Site site, string category)
         {
-            inner.RemoveCategory(site, category);
-            ClearObjectCache(site);
+            try
+            {
+                inner.RemoveCategory(site, category);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
         }
 
         public void Export(Site site, IEnumerable<Label> labels, IEnumerable<string> categories, System.IO.Stream outputStream)
@@ -53,13 +59,26 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
 
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
         {
-            inner.Import(site, zipStream, @override);
-            ClearObjectCache(site);
+            try
+            {
+                inner.Import(site, zipStream, @override);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
         }
 
         public void InitializeLabels(Site site)
         {
-            inner.InitializeLabels(site);
+            try
+            {
+                inner.InitializeLabels(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }            
         }
 
         public void ExportLabelsToDisk(Site site)
@@ -93,8 +112,6 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
             {
                 ClearObjectCache(site);
             }
-            
-            
         }
     }
 }

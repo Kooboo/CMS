@@ -50,8 +50,14 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Import
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
         {
-            _provider.Import(site, zipStream, @override);
-            ClearObjectCache(site);
+            try
+            {
+                _provider.Import(site, zipStream, @override);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
         }
         #endregion
     }

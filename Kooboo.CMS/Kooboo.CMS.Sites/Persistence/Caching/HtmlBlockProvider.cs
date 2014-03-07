@@ -31,7 +31,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
             return string.Format("HtmlBlock:{0}", o.Name.ToLower());
         }
         #endregion
-                
+
         #region Localize
         public void Localize(HtmlBlock o, Site targetSite)
         {
@@ -43,7 +43,15 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region InitializeHtmlBlocks
         public void InitializeHtmlBlocks(Site site)
         {
-            inner.InitializeHtmlBlocks(site);
+            try
+            {
+                inner.InitializeHtmlBlocks(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+
         }
         #endregion
 
@@ -58,7 +66,15 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Clear
         public void Clear(Site site)
         {
-            inner.Clear(site);
+            try
+            {
+                inner.Clear(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+
         }
         #endregion
 
@@ -72,8 +88,14 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Import
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
         {
-            inner.Import(site, zipStream, @override);
-            site.ClearCache();
+            try
+            {
+                inner.Import(site, zipStream, @override);
+            }
+            finally
+            {
+                site.ClearCache();
+            }
         }
         #endregion
 

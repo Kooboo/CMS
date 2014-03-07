@@ -125,46 +125,73 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Add
         public void Add(Models.Site item)
         {
-            inner.Add(item);
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            try
+            {
+                inner.Add(item);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
         }
         #endregion
 
         #region Update
         public void Update(Models.Site @new, Models.Site old)
         {
-
-            inner.Update(@new, old);
-
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
-            @new.ClearCache();
+            try
+            {
+                inner.Update(@new, old);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+                @new.ClearCache();
+            }
         }
         #endregion
 
         #region Remove
         public void Remove(Models.Site item)
         {
-            inner.Remove(item);
-
-            item.ClearCache();
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            try
+            {
+                inner.Remove(item);
+            }
+            finally
+            {
+                item.ClearCache();
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
         }
         #endregion
 
         #region Offline
         public void Offline(Site site)
         {
-
-            inner.Offline(site);
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            try
+            {
+                inner.Offline(site);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
+            
         }
         #endregion
 
         #region Online
         public void Online(Site site)
         {
-            inner.Online(site);
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            try
+            {
+                inner.Online(site);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }            
         }
         #endregion
 
@@ -178,16 +205,30 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Create
         public Site Create(Site parentSite, string siteName, Stream packageStream, CreateSiteSetting siteSetting)
         {
-            var site = inner.Create(parentSite, siteName, packageStream, siteSetting);
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
-            return site;
+            try
+            {
+                var site = inner.Create(parentSite, siteName, packageStream, siteSetting);
+
+                return site;
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
         }
         #endregion
 
         #region Initialize
         public void Initialize(Site site)
         {
-            inner.Initialize(site);
+            try
+            {
+                inner.Initialize(site);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
         }
         #endregion
 

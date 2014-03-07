@@ -35,8 +35,14 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Import
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
         {
-            inner.Import(site, zipStream, @override);
-            site.ClearCache();
+            try
+            {
+                inner.Import(site, zipStream, @override);
+            }
+            finally
+            {
+                site.ClearCache();
+            }            
         }
         #endregion
 

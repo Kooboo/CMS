@@ -18,5 +18,9 @@ namespace Kooboo.CMS.Sites.Persistence
     public interface ISiteElementProvider<T> : IProvider<T>
     {
         IEnumerable<T> All(Site site);
+        
+        //void InitializeToDB(Site site);
+
+        //void ExportToDisk(Site site);
     }
 }

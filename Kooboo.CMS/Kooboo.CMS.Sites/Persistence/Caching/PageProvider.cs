@@ -96,8 +96,14 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Import
         public void Import(Site site, Page parent, System.IO.Stream zipStream, bool @override)
         {
-            inner.Import(site, parent, zipStream, @override);
-            site.ClearCache();
+            try
+            {
+                inner.Import(site, parent, zipStream, @override);
+            }
+            finally
+            {
+                site.ClearCache();
+            }
         }
 
         #endregion
@@ -105,25 +111,45 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Localize
         public void Localize(Models.Page o, Models.Site targetSite)
         {
-            inner.Localize(o, targetSite);
-            targetSite.ClearCache();
+            try
+            {
+                inner.Localize(o, targetSite);
+            }
+            finally
+            {
+                targetSite.ClearCache();
+            }
+
         }
         #endregion
 
         #region Copy
         public Page Copy(Site site, string sourcePageFullName, string newPageFullName)
         {
-            var page = inner.Copy(site, sourcePageFullName, newPageFullName);
-            site.ClearCache();
-            return page;
+            try
+            {
+                var page = inner.Copy(site, sourcePageFullName, newPageFullName);
+
+                return page;
+            }
+            finally
+            {
+                site.ClearCache();
+            }
         }
         #endregion
 
         #region Move
         public void Move(Site site, string pageFullName, string newParent)
         {
-            inner.Move(site, pageFullName, newParent);
-            site.ClearCache();
+            try
+            {
+                inner.Move(site, pageFullName, newParent);
+            }
+            finally
+            {
+                site.ClearCache();
+            }
         }
         #endregion
 
@@ -151,7 +177,14 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region InitializePages
         public void InitializePages(Site site)
         {
-            inner.InitializePages(site);
+            try
+            {
+                inner.InitializePages(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
         }
         #endregion
 
@@ -165,7 +198,14 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Clear
         public void Clear(Site site)
         {
-            inner.Clear(site);
+            try
+            {
+                inner.Clear(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
         }
         #endregion
 

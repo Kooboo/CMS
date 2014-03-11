@@ -18,6 +18,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.LabelProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ILabelProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Label>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "LabelProvider")]
     public class LabelProvider : ILabelProvider
     {
         #region _dbContext
@@ -178,12 +179,12 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.LabelProvider
             new Kooboo.CMS.Sites.Persistence.FileSystem.LabelImportExportHelper(this).Import(site, zipStream, @override);
         }
 
-        public void InitializeLabels(Site site)
+        public void InitializeToDB(Site site)
         {
             new Kooboo.CMS.Sites.Persistence.FileSystem.LabelImportExportHelper(this).InitializeLabels(site);
         }
 
-        public void ExportLabelsToDisk(Site site)
+        public void ExportToDisk(Site site)
         {
             new Kooboo.CMS.Sites.Persistence.FileSystem.LabelImportExportHelper(this).ExportLabelsToDisk(site);
         }

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Caching;
+using Kooboo.CMS.Sites.Models;
 
 namespace Kooboo.CMS.Sites.Persistence.Caching
 {
@@ -81,5 +82,17 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
             }
         }
         #endregion     
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            //not need to implement.
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            //not need to implement.
+        }
+        #endregion
     }
 }

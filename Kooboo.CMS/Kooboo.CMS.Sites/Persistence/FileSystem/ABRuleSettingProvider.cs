@@ -2,6 +2,7 @@
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.ABTest;
+using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -69,6 +70,18 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         public override IEnumerable<ABRuleSetting> All()
         {
             return base.All(null);
+        }
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            //not need to implement.
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            //not need to implement.
         }
         #endregion
     }

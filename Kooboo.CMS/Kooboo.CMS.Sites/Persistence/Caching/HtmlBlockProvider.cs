@@ -43,14 +43,14 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region InitializeHtmlBlocks
         public void InitializeHtmlBlocks(Site site)
         {
-            try
-            {
-                inner.InitializeHtmlBlocks(site);
-            }
-            finally
-            {
-                ClearObjectCache(site);
-            }
+            //try
+            //{
+            //    inner.InitializeHtmlBlocks(site);
+            //}
+            //finally
+            //{
+            //    ClearObjectCache(site);
+            //}
 
         }
         #endregion
@@ -58,7 +58,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region ExportHtmlBlocksToDisk
         public void ExportHtmlBlocksToDisk(Site site)
         {
-            inner.ExportHtmlBlocksToDisk(site);
+            //inner.ExportHtmlBlocksToDisk(site);
         }
 
         #endregion
@@ -99,6 +99,25 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         }
         #endregion
 
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            try
+            {
+                inner.InitializeToDB(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            inner.ExportToDisk(site);
+        }
+        #endregion
 
     }
 }

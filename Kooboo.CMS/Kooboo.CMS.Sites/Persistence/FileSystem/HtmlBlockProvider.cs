@@ -67,6 +67,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
         }
         #endregion
+
         #region IHtmlBlockProvider
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
         protected override System.Threading.ReaderWriterLockSlim GetLocker()
@@ -124,6 +125,18 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 GetLocker().ExitWriteLock();
             }
 
+        }
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            //not need to implement.
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            //not need to implement.
         }
         #endregion
     }

@@ -22,6 +22,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
     public abstract class TemplateProvider<T> : InheritableProviderBase<T>, ISiteElementProvider<T>
         where T : Template, ISiteObject, IFilePersistable, IPersistable, IIdentifiable, IInheritable<T>
     {
+        #region TemplateVersionLogger
         public abstract class TemplateVersionLogger : FileVersionLogger<T>
         {
             protected abstract TemplateProvider<T> GetTemplateProvider();
@@ -63,6 +64,9 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             protected abstract System.Threading.ReaderWriterLockSlim GetLocker();
         }
+        #endregion
+
+        #region Get/Save
         public override T Get(T dummyObject)
         {
             if (!dummyObject.Exists())
@@ -79,6 +83,9 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             base.Save(item);
         }
 
+        #endregion
+
+        #region Import
         public void Export(IEnumerable<T> sources, System.IO.Stream outputStream)
         {
             ImportHelper.Export(sources.OfType<PathResource>(), outputStream);
@@ -97,6 +104,19 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
 
         }
+        #endregion
 
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+              //not need to implement
+        }
+
+        public void ExportToDisk(Site site)
+        {
+             //not need to implement
+        } 
+        #endregion
     }
 }

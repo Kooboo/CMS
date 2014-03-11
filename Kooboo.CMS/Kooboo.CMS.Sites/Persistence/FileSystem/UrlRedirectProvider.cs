@@ -19,7 +19,13 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<UrlRedirect>))]
     public class UrlRedirectProvider : ListFileRepository<UrlRedirect>, IUrlRedirectProvider
     {
+        #region GetLocker
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
+        protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        {
+            return locker;
+        } 
+        #endregion
 
         #region IImportable Members
 
@@ -52,14 +58,23 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         #endregion
 
+        #region GetFile
         protected override string GetFile(Site site)
         {
             return new UrlRedirectsFile(site).PhysicalPath;
+        } 
+        #endregion       
+    
+        #region ExportToDisk/InitializeToDB
+        public void InitializeToDB(Site site)
+        {
+            //
         }
 
-        protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        public void ExportToDisk(Site site)
         {
-            return locker;
+            //
         }
+        #endregion
     }
 }

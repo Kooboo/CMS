@@ -18,6 +18,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UserProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUserProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<User>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "UserProvider")]
     public class UserProvider : IUserProvider
     {
         #region .ctor
@@ -97,6 +98,34 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UserProvider
         public IEnumerable<Models.User> All()
         {
             throw new NotSupportedException();
+        }
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            IUserProvider fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.UserProvider();
+            foreach (var item in fileProvider.All(site))
+            {
+                if (item.Site == site)
+                {
+                    this.Add(fileProvider.Get(item));
+                }
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            IUserProvider fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.UserProvider();
+
+            //remove the pages folder to clear all old pages.
+            var basePhysicalPath = User.DataFilePath.GetBasePath(site);
+            Kooboo.IO.IOUtility.DeleteDirectory(basePhysicalPath, true);
+
+            foreach (var item in All(site))
+            {
+                fileProvider.Add(item);
+            }
         }
         #endregion
     }

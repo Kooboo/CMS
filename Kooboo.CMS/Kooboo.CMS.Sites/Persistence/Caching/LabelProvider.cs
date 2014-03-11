@@ -71,19 +71,19 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
 
         public void InitializeLabels(Site site)
         {
-            try
-            {
-                inner.InitializeLabels(site);
-            }
-            finally
-            {
-                ClearObjectCache(site);
-            }            
+            //try
+            //{
+            //    inner.InitializeLabels(site);
+            //}
+            //finally
+            //{
+            //    ClearObjectCache(site);
+            //}
         }
 
         public void ExportLabelsToDisk(Site site)
         {
-            inner.ExportLabelsToDisk(site);
+            //inner.ExportLabelsToDisk(site);
         }
 
         public IEnumerable<Label> All(Site site)
@@ -113,5 +113,24 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
                 ClearObjectCache(site);
             }
         }
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            try
+            {
+                inner.InitializeToDB(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            inner.ExportToDisk(site);
+        }
+        #endregion
     }
 }

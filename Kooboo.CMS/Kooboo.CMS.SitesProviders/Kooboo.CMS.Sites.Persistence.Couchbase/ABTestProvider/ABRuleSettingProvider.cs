@@ -10,16 +10,20 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABRuleSettingProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABRuleSetting>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "ABRuleSettingsProvider")]
     public class ABRuleSettingProvider : ProviderBase<ABRuleSetting>,IABRuleSettingProvider
     {
+        #region .ctor
         Kooboo.CMS.Sites.Persistence.FileSystem.ABRuleSettingProvider fileProvider;
 
         public ABRuleSettingProvider()
             : base(ModelExtensions.ABRuleSettingDataType, (Site site, string key) => { return new ABRuleSetting(site, key); })
         {
             fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.ABRuleSettingProvider(new Kooboo.CMS.Common.BaseDir());
-        }
+        } 
+        #endregion
 
+        #region Export
         public void Export(IEnumerable<ABRuleSetting> sources, System.IO.Stream outputStream)
         {
             foreach (var item in sources)
@@ -50,7 +54,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             }
         }
 
-        public void InitializeABRuleSetting(Site site)
+        public void InitializeToDB(Site site)
         {
             foreach (var item in fileProvider.All(site))
             {
@@ -61,7 +65,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             }
         }
 
-        public void ExportABRuleSettingToDisk(Site site)
+        public void ExportToDisk(Site site)
         {
             var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.ABRuleSettingProvider(new Kooboo.CMS.Common.BaseDir());
             var fileAll = provider.All(site);
@@ -75,6 +79,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             {
                 provider.Add(item.AsActual());
             }
-        }
+        } 
+        #endregion
     }
 }

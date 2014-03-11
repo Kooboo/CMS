@@ -56,9 +56,9 @@ namespace Kooboo.CMS.Sites.Persistence
 
         void Import(Site site, Page parent, System.IO.Stream zipStream, bool @override);
 
-        void InitializePages(Site site);
+        //void InitializePages(Site site);
 
-        void ExportPagesToDisk(Site site);
+        //void ExportPagesToDisk(Site site);
 
         void Clear(Site site);
     }

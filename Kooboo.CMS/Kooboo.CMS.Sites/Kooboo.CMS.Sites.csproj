@@ -205,6 +205,7 @@
     <Compile Include="Persistence\FileSystem\LabelProvider.cs" />
     <Compile Include="Persistence\IABPageTestResultProvider.cs" />
     <Compile Include="Persistence\ILabelProvider.cs" />
+    <Compile Include="Persistence\ISiteExportableProvider.cs" />
     <Compile Include="Persistence\ISubmissionSettingProvider.cs" />
     <Compile Include="Persistence\FileSystem\SubmissionSettingProvider.cs" />
     <Compile Include="NullSiteContextException.cs" />

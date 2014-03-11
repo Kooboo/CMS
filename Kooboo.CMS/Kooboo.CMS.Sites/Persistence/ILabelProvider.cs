@@ -28,10 +28,6 @@ namespace Kooboo.CMS.Sites.Persistence
 
         void Import(Site site, System.IO.Stream zipStream, bool @override);
 
-        void InitializeLabels(Site site);
-
-        void ExportLabelsToDisk(Site site);
-
         void Flush(Site site);
     }
 }

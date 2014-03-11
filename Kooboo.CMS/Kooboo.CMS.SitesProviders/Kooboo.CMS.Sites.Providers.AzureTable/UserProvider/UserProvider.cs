@@ -12,11 +12,17 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Persistence;
 using Microsoft.WindowsAzure.StorageClient;
+using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Providers.AzureTable.UserProvider
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUserProvider), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<User>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100)]
     public class UserProvider : IUserProvider
     {
+        #region .ctor
         static string SiteUsersTable = "SiteUsers";
         static UserProvider()
         {
@@ -24,6 +30,13 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.UserProvider
 
             tableClient.CreateTableIfNotExist<SiteUserEntity>(SiteUsersTable);
 
+        } 
+        #endregion
+
+        #region CRUD
+        public IEnumerable<Models.User> All()
+        {
+            throw new NotSupportedException();
         }
         public IEnumerable<Models.User> All(Models.Site site)
         {
@@ -81,9 +94,19 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.UserProvider
             }
         }
 
-        public IEnumerable<Models.User> All()
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
         {
-            throw new NotSupportedException();
+            //
         }
+
+        public void ExportToDisk(Site site)
+        {
+            //
+        }
+        #endregion
+        
     }
 }

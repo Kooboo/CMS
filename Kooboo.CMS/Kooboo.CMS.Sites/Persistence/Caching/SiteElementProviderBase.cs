@@ -43,5 +43,25 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
 
         }
         #endregion
+
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            try
+            {
+                innerProvider.InitializeToDB(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            innerProvider.ExportToDisk(site);
+        }
+        #endregion
     }
 }

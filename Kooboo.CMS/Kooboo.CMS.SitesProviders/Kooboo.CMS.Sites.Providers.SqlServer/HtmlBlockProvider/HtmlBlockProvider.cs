@@ -50,6 +50,11 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.HtmlBlockProvider
         #endregion
 
         #region general
+        public IEnumerable<HtmlBlock> All()
+        {
+            throw new NotSupportedException();
+        }
+
         public IEnumerable<Models.HtmlBlock> All(Models.Site site)
         {
             List<HtmlBlock> results = new List<HtmlBlock>();
@@ -182,35 +187,10 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.HtmlBlockProvider
                 this.Add(htmlBlock);
             }
         }
-        public void InitializeHtmlBlocks(Site site)
-        {
-            IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
-            foreach (var item in fileHtmlProvider.All(site))
-            {
-                if (item.Site == site)
-                {
-                    this.Add(fileHtmlProvider.Get(item));
-                }
-            }
-        }
-        public void ExportHtmlBlocksToDisk(Site site)
-        {
-            IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
-
-            //remove the pages folder to clear all old pages.
-            var dummy = new HtmlBlock(site, "Dummy");
-            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
-
-            foreach (var item in QueryBySite(site))
-            {
-                fileHtmlProvider.Add(item);
-            }
-        }
-
+        
         #endregion
 
-
-
+        #region Clear
         public void Clear(Site site)
         {
             var dbContext = SiteDbContext.CreateDbContext();
@@ -223,10 +203,35 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.HtmlBlockProvider
             dbContext.SaveChanges();
 
         }
+        #endregion
 
-        public IEnumerable<HtmlBlock> All()
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
         {
-            throw new NotSupportedException();
+
+            IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
+            foreach (var item in fileHtmlProvider.All(site))
+            {
+                if (item.Site == site)
+                {
+                    this.Add(fileHtmlProvider.Get(item));
+                }
+            }
         }
+
+        public void ExportToDisk(Site site)
+        {
+            IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
+
+            //remove the pages folder to clear all old pages.
+            var dummy = new HtmlBlock(site, "Dummy");
+            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
+
+            foreach (var item in QueryBySite(site))
+            {
+                fileHtmlProvider.Add(item);
+            }
+        }
+        #endregion
     }
 }

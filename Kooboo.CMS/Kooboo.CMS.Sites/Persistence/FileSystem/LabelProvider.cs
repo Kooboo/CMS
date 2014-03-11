@@ -22,8 +22,10 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Label>))]
     public class LabelProvider : ILabelProvider
     {
+        #region Static fields
         public static string DefaultLabelFile = "Label.json";
-        static ReaderWriterLockSlim _locker = new ReaderWriterLockSlim();
+        static ReaderWriterLockSlim _locker = new ReaderWriterLockSlim(); 
+        #endregion
 
         #region GetCategories
         public IEnumerable<string> GetCategories(Site site)
@@ -218,13 +220,24 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         #endregion
 
-
         #region Flush
         public void Flush(Site site)
         {
             var labelPath = new LabelPath(site);
 
             Kooboo.IO.IOUtility.DeleteDirectory(labelPath.PhysicalPath, true);
+        }
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            //not need to implement.
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            //not need to implement.
         }
         #endregion
     }

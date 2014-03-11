@@ -22,6 +22,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPageProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Page>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "PageProvider")]
     public class PageProvider : IPageProvider
     {
         Func<Site, string, Page> createModel = (Site site, string key) =>
@@ -322,7 +323,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
             return new Page(site, fullName);
         }
-        public void InitializePages(Site site)
+        public void InitializeToDB(Site site)
         {
             IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
             foreach (var item in filePageProvider.All(site))
@@ -341,7 +342,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
                 InitializePageCascading(filePageProvider, item);
             }
         }
-        public void ExportPagesToDisk(Site site)
+        public void ExportToDisk(Site site)
         {
             IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
 

@@ -177,7 +177,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
             {
                 CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
             }
-            
+
         }
         #endregion
 
@@ -191,7 +191,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
             finally
             {
                 CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
-            }            
+            }
         }
         #endregion
 
@@ -236,6 +236,25 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         public void Export(Site site, Stream outputStream, bool includeDatabase, bool includeSubSites)
         {
             inner.Export(site, outputStream, includeDatabase, includeSubSites);
+        }
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            try
+            {
+                inner.InitializeToDB(site);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            inner.ExportToDisk(site);
         }
         #endregion
     }

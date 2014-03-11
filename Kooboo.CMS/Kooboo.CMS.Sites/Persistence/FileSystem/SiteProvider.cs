@@ -40,12 +40,12 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region .ctor
         IBaseDir baseDir;
         IMembershipProvider _membershipProvider;
-        ILabelProvider _labelProvider;
-        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, ILabelProvider labelProvider)
+        ISiteExportableProvider[] _exportableProivders;
+        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, ISiteExportableProvider[] exportableProivders)
         {
             this.baseDir = baseDir;
             this._membershipProvider = membershipProvider;
-            this._labelProvider = labelProvider;
+            this._exportableProivders = exportableProivders;
         }
         #endregion
 
@@ -425,10 +425,13 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         public virtual void Initialize(Site site)
         {
-            //Initialize 
-            Providers.HtmlBlockProvider.InitializeHtmlBlocks(site);
-            Providers.PageProvider.InitializePages(site);
-            _labelProvider.InitializeLabels(site);
+            if (_exportableProivders != null)
+            {
+                foreach (var exportProvider in _exportableProivders)
+                {
+                    exportProvider.InitializeToDB(site);
+                }
+            }
 
             foreach (var sub in Providers.SiteProvider.ChildSites(site))
             {
@@ -440,41 +443,21 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         #region Export
 
-        private void ExportLabels(Site site, bool includeSubSites)
+        private void ExportSiteElements(Site site, bool includeSubSites)
         {
-
-            _labelProvider.ExportLabelsToDisk(site);
-
-            if (includeSubSites)
+            if (_exportableProivders != null)
             {
-                foreach (var sub in Providers.SiteProvider.ChildSites(site))
+                foreach (var exportProvider in _exportableProivders)
                 {
-                    ExportLabels(sub, includeSubSites);
+                    exportProvider.ExportToDisk(site);
                 }
             }
 
-        }
-
-        private void ExportPages(Site site, bool includeSubSites)
-        {
-            Providers.PageProvider.ExportPagesToDisk(site);
             if (includeSubSites)
             {
                 foreach (var sub in Providers.SiteProvider.ChildSites(site))
                 {
-                    ExportPages(sub, includeSubSites);
-                }
-            }
-        }
-
-        private void ExportHtmlBlocks(Site site, bool includeSubSites)
-        {
-            Providers.HtmlBlockProvider.ExportHtmlBlocksToDisk(site);
-            if (includeSubSites)
-            {
-                foreach (var sub in Providers.SiteProvider.ChildSites(site))
-                {
-                    ExportHtmlBlocks(sub, includeSubSites);
+                    ExportSiteElements(sub.AsActual(), includeSubSites);
                 }
             }
         }
@@ -491,9 +474,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             ISiteProvider siteProvider = Providers.SiteProvider;
 
             //export the data to disk.
-            ExportLabels(site, includeSubSites);
-            ExportPages(site, includeSubSites);
-            ExportHtmlBlocks(site, includeSubSites);
+            ExportSiteElements(site, includeSubSites);
 
             using (ZipFile zipFile = new ZipFile(Encoding.UTF8))
             {
@@ -623,5 +604,18 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         #endregion
 
+
+
+        #region The ISiteProvider must to be refactored. It can not inherit from ISiteElementProvider.
+        public void InitializeToDB(Site site)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            //throw new NotImplementedException();
+        }
+        #endregion
     }
 }

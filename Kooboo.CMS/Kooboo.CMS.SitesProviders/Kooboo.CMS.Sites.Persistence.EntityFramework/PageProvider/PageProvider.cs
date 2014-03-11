@@ -22,6 +22,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPageProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Page>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "PageProvider")]
     public class PageProvider : IPageProvider
     {
         #region .ctor
@@ -29,6 +30,11 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider
         public PageProvider(SiteDBContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        static PageProvider()
+        {
+            ClearCache();
         }
         #endregion
 
@@ -58,11 +64,6 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider
             }
         }
         #endregion
-
-        static PageProvider()
-        {
-            ClearCache();
-        }
 
         #region 缓存Page表
 
@@ -459,17 +460,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider
 
             return new Page(site, fullName);
         }
-        public void InitializePages(Site site)
-        {
-            IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
-            foreach (var item in filePageProvider.All(site))
-            {
-                if (item.Site == site)
-                {
-                    InitializePageCascading(filePageProvider, item);
-                }
-            }
-        }
+
         private void InitializePageCascading(IPageProvider filePageProvider, Page page)
         {
             this.Add(filePageProvider.Get(page));
@@ -478,19 +469,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider
                 InitializePageCascading(filePageProvider, item);
             }
         }
-        public void ExportPagesToDisk(Site site)
-        {
-            IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
 
-            //remove the GetCachedPageList() folder to clear all old GetCachedPageList().
-            var dummy = new Page(site, "Dummy");
-            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
-
-            foreach (var item in QueryBySite(site))
-            {
-                ExportPageCascading(filePageProvider, item);
-            }         
-        }
         private void ExportPageCascading(IPageProvider filePageProvider, Page page)
         {
             filePageProvider.Add(page);
@@ -524,5 +503,32 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider
 
         #endregion
 
+        #region InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
+            foreach (var item in filePageProvider.All(site))
+            {
+                if (item.Site == site)
+                {
+                    InitializePageCascading(filePageProvider, item);
+                }
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
+
+            //remove the GetCachedPageList() folder to clear all old GetCachedPageList().
+            var dummy = new Page(site, "Dummy");
+            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
+
+            foreach (var item in QueryBySite(site))
+            {
+                ExportPageCascading(filePageProvider, item);
+            }
+        }
+        #endregion
     }
 }

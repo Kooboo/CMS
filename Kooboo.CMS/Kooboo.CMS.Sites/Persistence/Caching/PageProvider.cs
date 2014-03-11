@@ -174,26 +174,26 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         }
         #endregion
 
-        #region InitializePages
-        public void InitializePages(Site site)
-        {
-            try
-            {
-                inner.InitializePages(site);
-            }
-            finally
-            {
-                ClearObjectCache(site);
-            }
-        }
-        #endregion
+        //#region InitializePages
+        //public void InitializePages(Site site)
+        //{
+        //    try
+        //    {
+        //        inner.InitializePages(site);
+        //    }
+        //    finally
+        //    {
+        //        ClearObjectCache(site);
+        //    }
+        //}
+        //#endregion
 
-        #region ExportPagesToDisk
-        public void ExportPagesToDisk(Site site)
-        {
-            inner.ExportPagesToDisk(site);
-        }
-        #endregion
+        //#region ExportPagesToDisk
+        //public void ExportPagesToDisk(Site site)
+        //{
+        //    inner.ExportPagesToDisk(site);
+        //}
+        //#endregion
 
         #region Clear
         public void Clear(Site site)
@@ -213,6 +213,26 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         public override IEnumerable<Page> All()
         {
             return inner.All();
+        }
+        #endregion
+
+
+        #region InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            try
+            {
+                inner.InitializeToDB(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            inner.ExportToDisk(site);
         }
         #endregion
     }

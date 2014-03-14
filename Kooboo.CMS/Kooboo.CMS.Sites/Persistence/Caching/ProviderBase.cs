@@ -104,6 +104,8 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         {
             try
             {
+                //clear the cache before add to avoid get NullObject from cache.
+                ClearObjectCache(GetSite(item));
                 innerProvider.Add(item);
             }
             finally

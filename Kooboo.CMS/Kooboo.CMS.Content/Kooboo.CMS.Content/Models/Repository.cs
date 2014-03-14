@@ -213,7 +213,7 @@ namespace Kooboo.CMS.Content.Models
 
         void IPersistable.OnSaved()
         {
-
+            this.isDummy = false;
         }
 
         void IPersistable.OnSaving()

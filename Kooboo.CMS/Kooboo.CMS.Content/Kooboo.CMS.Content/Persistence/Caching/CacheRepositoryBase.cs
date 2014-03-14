@@ -53,6 +53,8 @@ namespace Kooboo.CMS.Content.Persistence.Caching
         {
             try
             {
+                //clear the cache before add to avoid get NullObject from cache.
+                ClearObjectCache(item);
                 innerProvider.Add(item);
             }
             finally
@@ -87,7 +89,7 @@ namespace Kooboo.CMS.Content.Persistence.Caching
             finally
             {
                 ClearObjectCache(item);
-            }            
+            }
         }
         #endregion
 

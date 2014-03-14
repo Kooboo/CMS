@@ -79,7 +79,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
         public override void Add(Schema item)
         {
             base.Add(item);
-            Providers.DefaultProviderFactory.GetProvider<ISchemaProvider>().Initialize(item);
+            Initialize(item);
         }
         #endregion
 
@@ -157,7 +157,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
             return schema;
         }
         #endregion
-        
+
         #region Copy
         public Schema Copy(Repository repository, string sourceName, string destName)
         {

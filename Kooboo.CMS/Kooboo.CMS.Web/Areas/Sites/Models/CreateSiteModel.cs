@@ -24,29 +24,22 @@ using Kooboo.CMS.Web.Areas.Sites.Models.DataSources;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
-    public class CreateSiteModel
-    {
-        public CreateSiteModel() { }
 
+    public class CreateSiteModelBase
+    {
         [Required(ErrorMessage = "Required")]
         [RegularExpression(RegexPatterns.FileName, ErrorMessage = "A name cannot contain a space or any of the following characters:\\/:*?<>|~")]
         [RemoteEx("IsSiteNameAvailable", "Site", AdditionalFields = "Parent")]
         [Description("The site name")]
         public string Name { get; set; }
 
-        [Description("The site display name")]
-        public string DisplayName { get; set; }
+        //[Description("The site display name")]
+        //public string DisplayName { get; set; }
 
         [UIHintAttribute("DropDownList")]
         [DataSource(typeof(CultureSelectListDataSource))]
         [Description("Your front site culture, this is used to display currency,<br/>  date, number or other culture related content")]
         public string Culture { get; set; }
-
-        [Required(ErrorMessage = "Required")]
-        [UIHint("DropDownList")]
-        [DataSource(typeof(SitesDataSource))]
-        [Description("The parent website which this new website will be based on.")]
-        public string Parent { get; set; }
 
         [Remote("IsRepositoryAvaliable", "Site", AdditionalFields = "CreateNew")]
         [Required(ErrorMessage = "Required")]
@@ -64,12 +57,6 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [RegularExpression(RegexPatterns.Alphanum, ErrorMessage = "Only alphameric and numeric are allowed in the field name")]
         public string Membership { get; set; }
 
-
-        [Required(ErrorMessage = "Required")]
-        [UIHint("DropDownList")]
-        [DataSource(typeof(SiteTemplatesDataSource))]
-        public string Template { get; set; }
-
         [Display(Name = "Custom fields")]
         [UIHint("Dictionary")]
         public Dictionary<string, string> CustomFields { get; set; }
@@ -78,5 +65,21 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [UIHint("DropDownList")]
         [DataSource(typeof(TimeZonesDataSource))]
         public string TimeZoneId { get; set; }
+    }
+    public class CreateSiteModel : CreateSiteModelBase
+    {
+        [Required(ErrorMessage = "Required")]
+        [UIHint("DropDownList")]
+        [DataSource(typeof(SiteTemplatesDataSource))]
+        public string Template { get; set; }
+    }
+
+    public class CreateSubSiteModel : CreateSiteModelBase
+    {
+        [Required(ErrorMessage = "Required")]
+        [UIHint("DropDownList")]
+        [DataSource(typeof(SitesDataSource))]
+        [Description("The parent website which this new website will be based on.")]
+        public string Parent { get; set; }
     }
 }

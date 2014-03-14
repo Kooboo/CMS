@@ -56,7 +56,7 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
             collection.CreateIndex("FolderName", "UserKey", "Published", "UtcCreationDate");
             collection.CreateIndex("FolderName", "UUID", "Published", "Sequence");
             collection.CreateIndex("FolderName", "UserKey", "Published", "Sequence");
-            collection.CreateIndex("FolderName", "ParentFolder", "ParentUUID", "Published", "UtcCreationDate");
+            collection.CreateIndex("FolderName", "ParentFolder", "ParentUUID", "Published");
         }
         public static void DropCollection(this Schema schema)
         {

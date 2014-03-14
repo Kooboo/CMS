@@ -7,7 +7,10 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Content.Models;
+using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Models.Options;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.Globalization;
 using System;
@@ -23,9 +26,11 @@ namespace Kooboo.CMS.Sites.Services
     public class SiteManager : PathResourceManagerBase<Site, ISiteProvider>
     {
         #region .ctor
-        public SiteManager(ISiteProvider provider)
+        RepositoryManager _repositoryManager;
+        public SiteManager(ISiteProvider provider, RepositoryManager repositoryManager)
             : base(provider)
         {
+            _repositoryManager = repositoryManager;
             if (!(provider is Kooboo.CMS.Sites.Persistence.Caching.SiteProvider))
             {
                 throw new Exception("Expect caching provider");
@@ -104,30 +109,44 @@ namespace Kooboo.CMS.Sites.Services
         {
             throw new NotSupportedException("Please instead of using Remove(Site site).");
         }
-        public virtual void Remove(Site site, bool includeRepository)
+        public virtual void Delete(Site site, DeleteSiteOptions options)
         {
-            if (!UseSharedDB(site) && includeRepository)
-            {
-                RemoveSiteRepository(site);
-            }
-
             Provider.Offline(site);
+
+            List<string> associatedRepositories = new List<string>();
+
+            GetAllRepositoriesAssociated(site, ref associatedRepositories);
 
             Provider.Remove(site);
 
+            if (options.DeleteAssociatedRepository)
+            {
+                RemoveUnusedRepository(associatedRepositories.Distinct(StringComparer.OrdinalIgnoreCase).ToArray());
+            }
         }
-
-        private void RemoveSiteRepository(Site site)
+        private void GetAllRepositoriesAssociated(Site site, ref List<string> repositories)
         {
             var repository = site.AsActual().Repository;
-
             if (!string.IsNullOrEmpty(repository))
             {
-                Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager.Remove(new Kooboo.CMS.Content.Models.Repository(repository));
+                repositories.Add(repository);
             }
-            foreach (var child in ChildSites(site))
+
+            foreach (var item in ChildSites(site))
             {
-                RemoveSiteRepository(child);
+                GetAllRepositoriesAssociated(item, ref repositories);
+            }
+        }
+        private void RemoveUnusedRepository(IEnumerable<string> associatedRepositories)
+        {
+            var allSiteRepositories = All().Select(it => it.AsActual()).Where(it => !string.IsNullOrEmpty(it.Repository)).Select(it => it.Repository).ToArray();
+
+            var unusedRepositories = associatedRepositories.Where(it => !allSiteRepositories.Any(inuse => inuse.EqualsOrNullEmpty(it, StringComparison.OrdinalIgnoreCase)));
+
+            foreach (var item in unusedRepositories)
+            {
+                var repository = new Repository(item);
+                _repositoryManager.Remove(repository);
             }
         }
         #endregion
@@ -163,107 +182,150 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region Export/Import
-        private void CopyRepository(Kooboo.CMS.Content.Models.Repository sourceRepository, string name)
-        {
-            var repositoryManager = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager;
-            var repository = repositoryManager.Get(name);
+        //[Obsolete]
+        //private void CopyRepository(Kooboo.CMS.Content.Models.Repository sourceRepository, string name)
+        //{
+        //    var repositoryManager = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager;
+        //    var repository = repositoryManager.Get(name);
 
-            if (repository == null)
+        //    if (repository == null)
+        //    {
+        //        repositoryManager.Copy(sourceRepository, name);
+        //    }
+        //}
+        //[Obsolete]
+        //public virtual Site Create(Site parent, string siteName, string templateFullName, Site siteSetting, string userName = null)
+        //{
+        //    if (string.IsNullOrEmpty(templateFullName))
+        //    {
+        //        if (parent == null)
+        //        {
+        //            throw new KoobooException("Parent site is required.".Localize());
+        //        }
+        //        parent = parent.AsActual();
+
+        //        siteSetting.Parent = parent;
+
+        //        // Set the same settings with parent.
+        //        siteSetting.Theme = parent.Theme;
+        //        siteSetting.EnableJquery = parent.EnableJquery;
+        //        siteSetting.EnableStyleEdting = parent.EnableStyleEdting;
+        //        siteSetting.EnableVersioning = parent.EnableVersioning;
+        //        siteSetting.InlineEditing = parent.InlineEditing;
+        //        siteSetting.CustomFields = parent.CustomFields;
+        //        siteSetting.Smtp = parent.Smtp;
+        //        siteSetting.Membership = parent.Membership;
+
+        //        Add(parent, siteSetting);
+
+        //        if (!string.IsNullOrEmpty(siteSetting.Repository))
+        //        {
+        //            CopyRepository(parent.GetRepository(), siteSetting.Repository);
+        //        }
+        //        return siteSetting;
+        //    }
+        //    else
+        //    {
+        //        var template = new ItemTemplate(templateFullName);
+        //        var itemTemplate = ServiceFactory.SiteTemplateManager.GetItemTemplate(template.Category, template.TemplateName);
+        //        if (itemTemplate == null)
+        //        {
+        //            throw new KoobooException("The template does not exists.");
+        //        }
+        //        Site site = null;
+        //        using (FileStream fs = new FileStream(itemTemplate.TemplateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+        //        {
+        //            site = Create(parent, siteName, fs, siteSetting);
+        //        }
+        //        //copy site setting...
+        //        site.Repository = siteSetting.Repository;
+        //        site.DisplayName = siteSetting.DisplayName;
+        //        site.Culture = siteSetting.Culture;
+        //        site.Domains = siteSetting.Domains;
+        //        site.SitePath = siteSetting.SitePath;
+        //        site.Version = siteSetting.Version;
+        //        site.Mode = siteSetting.Mode;
+        //        site.Membership = siteSetting.Membership;
+        //        Update(site);
+
+        //        return site;
+        //    }
+        //}
+        //[Obsolete]
+        //public virtual Site Import(Site parent, string siteName, string importedSiteName, Site siteSetting, string userName = null, bool keepSiteSetting = false)
+        //{
+        //    var template = new ItemTemplate(importedSiteName);
+        //    var itemTemplate = ServiceFactory.ImportedSiteManager.GetItemTemplate(template.Category, template.TemplateName);
+        //    if (itemTemplate == null)
+        //    {
+        //        throw new KoobooException("The imported site does not exists.");
+        //    }
+        //    Site site = null;
+        //    using (FileStream fs = new FileStream(itemTemplate.TemplateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+        //    {
+        //        site = Import(parent, siteName, fs, siteSetting, userName, keepSiteSetting);
+        //    }
+        //    return site;
+        //}
+        //[Obsolete]
+        //public virtual Site Import(Site parent, string siteName, Stream siteStream, Site siteSetting, string userName = null, bool keepSiteSetting = false)
+        //{
+        //    return Create(parent, siteName, siteStream, siteSetting, userName, keepSiteSetting);
+        //}
+        //[Obsolete]
+        //public virtual Site Create(Site parent, string siteName, Stream siteStream, Site siteSetting, string userName = null, bool keepSiteSetting = false)
+        //{
+        //    var site = Provider.Create(parent, siteName, siteStream, new CreateSiteOptions() { ContentDatabaseName = siteSetting.Repository, MembershipName = siteSetting.Membership });
+        //    site.Repository = siteSetting.Repository;
+        //    site.Membership = siteSetting.Membership;
+        //    if (keepSiteSetting == false)
+        //    {
+        //        site.DisplayName = "";
+        //        site.Domains = null;
+        //    }
+        //    Provider.Initialize(site);
+        //    Provider.Online(site);
+        //    Update(site);
+        //    return site;
+        //}
+
+        /// <summary>
+        /// Create sub site
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="siteName"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public virtual Site Create(Site parent, string siteName, CreateSiteOptions options)
+        {
+            return Provider.Create(parent, siteName, null, options);
+        }
+        /// <summary>
+        /// Create site using package file path
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="siteName"></param>
+        /// <param name="packageFilePath"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public virtual Site Create(Site parent, string siteName, string packageFilePath, CreateSiteOptions options)
+        {
+            using (FileStream fs = new FileStream(packageFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                repositoryManager.Copy(sourceRepository, name);
+                return Create(parent, siteName, fs, options);
             }
         }
-        public virtual Site Create(Site parent, string siteName, string templateFullName, Site siteSetting, string userName = null)
+        /// <summary>
+        /// Create site using package stream
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="siteName"></param>
+        /// <param name="stream">the package stream can be null. if it is null, it is going to create sub site.</param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public virtual Site Create(Site parent, string siteName, Stream stream, CreateSiteOptions options)
         {
-            if (string.IsNullOrEmpty(templateFullName))
-            {
-                if (parent == null)
-                {
-                    throw new KoobooException("Parent site is required.".Localize());
-                }
-                parent = parent.AsActual();
-
-                siteSetting.Parent = parent;
-
-                // Set the same settings with parent.
-                siteSetting.Theme = parent.Theme;
-                siteSetting.EnableJquery = parent.EnableJquery;
-                siteSetting.EnableStyleEdting = parent.EnableStyleEdting;
-                siteSetting.EnableVersioning = parent.EnableVersioning;
-                siteSetting.InlineEditing = parent.InlineEditing;
-                siteSetting.CustomFields = parent.CustomFields;
-                siteSetting.Smtp = parent.Smtp;
-                siteSetting.Membership = parent.Membership;
-
-                Add(parent, siteSetting);
-
-                if (!string.IsNullOrEmpty(siteSetting.Repository))
-                {
-                    CopyRepository(parent.GetRepository(), siteSetting.Repository);
-                }
-                return siteSetting;
-            }
-            else
-            {
-                var template = new ItemTemplate(templateFullName);
-                var itemTemplate = ServiceFactory.SiteTemplateManager.GetItemTemplate(template.Category, template.TemplateName);
-                if (itemTemplate == null)
-                {
-                    throw new KoobooException("The template does not exists.");
-                }
-                Site site = null;
-                using (FileStream fs = new FileStream(itemTemplate.TemplateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    site = Create(parent, siteName, fs, siteSetting);
-                }
-                //copy site setting...
-                site.Repository = siteSetting.Repository;
-                site.DisplayName = siteSetting.DisplayName;
-                site.Culture = siteSetting.Culture;
-                site.Domains = siteSetting.Domains;
-                site.SitePath = siteSetting.SitePath;
-                site.Version = siteSetting.Version;
-                site.Mode = siteSetting.Mode;
-                site.Membership = siteSetting.Membership;
-                Update(site);
-
-                return site;
-            }
-        }
-        public virtual Site Import(Site parent, string siteName, string importedSiteName, Site siteSetting, string userName = null, bool keepSiteSetting = false)
-        {
-            var template = new ItemTemplate(importedSiteName);
-            var itemTemplate = ServiceFactory.ImportedSiteManager.GetItemTemplate(template.Category, template.TemplateName);
-            if (itemTemplate == null)
-            {
-                throw new KoobooException("The imported site does not exists.");
-            }
-            Site site = null;
-            using (FileStream fs = new FileStream(itemTemplate.TemplateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                site = Import(parent, siteName, fs, siteSetting, userName, keepSiteSetting);
-            }
-            return site;
-        }
-        public virtual Site Import(Site parent, string siteName, Stream siteStream, Site siteSetting, string userName = null, bool keepSiteSetting = false)
-        {
-            return Create(parent, siteName, siteStream, siteSetting, userName, keepSiteSetting);
-        }
-
-        public virtual Site Create(Site parent, string siteName, Stream siteStream, Site siteSetting, string userName = null, bool keepSiteSetting = false)
-        {
-            var site = Provider.Create(parent, siteName, siteStream, new CreateSiteSetting() { Repository = siteSetting.Repository, Membership = siteSetting.Membership });
-            site.Repository = siteSetting.Repository;
-            site.Membership = siteSetting.Membership;
-            if (keepSiteSetting == false)
-            {
-                site.DisplayName = "";
-                site.Domains = null;
-            }
-            Provider.Initialize(site);
-            Provider.Online(site);
-            Update(site);
-            return site;
+            return Provider.Create(parent, siteName, stream, options);
         }
 
         public virtual void Export(string fullSiteName, Stream outputStream, bool includeDatabase, bool includeSubSites)
@@ -292,13 +354,13 @@ namespace Kooboo.CMS.Sites.Services
 
         #region Copy
 
-        public virtual Site Copy(Site sourceSite, string siteName, Site siteSetting)
+        public virtual Site Copy(Site sourceSite, string siteName, CreateSiteOptions options)
         {
             MemoryStream ms = new MemoryStream();
-            var exportReposiotry = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager.Get(siteSetting.Repository) == null;
+            var exportReposiotry = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager.Get(sourceSite.Repository) == null;
             Export(sourceSite.FullName, ms, exportReposiotry, true);
             ms.Position = 0;
-            return Create(sourceSite.Parent, siteName, ms, siteSetting);
+            return Create(sourceSite.Parent, siteName, ms, options);
         }
         #endregion
 

@@ -12,6 +12,7 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Caching;
 using Kooboo.CMS.Sites.Caching;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Models.Options;
 using Kooboo.Globalization;
 using System;
 using System.Collections;
@@ -203,11 +204,11 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region Create
-        public Site Create(Site parentSite, string siteName, Stream packageStream, CreateSiteSetting siteSetting)
+        public Site Create(Site parentSite, string siteName, Stream packageStream, CreateSiteOptions options)
         {
             try
             {
-                var site = inner.Create(parentSite, siteName, packageStream, siteSetting);
+                var site = inner.Create(parentSite, siteName, packageStream, options);
 
                 return site;
             }

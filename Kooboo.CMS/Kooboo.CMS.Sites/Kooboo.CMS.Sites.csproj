@@ -193,6 +193,8 @@
     <Compile Include="Membership\ValidateMemberPlugin.cs" />
     <Compile Include="Models\HtmlMeta.cs" />
     <Compile Include="Models\Label.cs" />
+    <Compile Include="Models\Options\CreateSiteOptions.cs" />
+    <Compile Include="Models\Options\DeleteSiteOptions.cs" />
     <Compile Include="Models\SubmissionSetting.cs" />
     <Compile Include="NullMembershipException.cs" />
     <Compile Include="Persistence\Caching\ABPageSettingProvider.cs" />

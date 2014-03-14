@@ -1,4 +1,4 @@
-﻿@model Kooboo.CMS.Web.Areas.Sites.Models.CreateSiteModel
+﻿@model Kooboo.CMS.Web.Areas.Sites.Models.CreateSubSiteModel
 @{
     ViewBag.Title = "New sub site".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
@@ -35,7 +35,6 @@
                     @Html.DisplayFor(m => m.Parent);
                 }
                 @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
-                @Html.EditorFor(m => m.DisplayName, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.Repository, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.Culture, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.TimeZoneId, new { HtmlAttributes = new { @class = "medium" } })

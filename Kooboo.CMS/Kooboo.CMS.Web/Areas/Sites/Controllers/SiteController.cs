@@ -13,6 +13,7 @@ using Kooboo.CMS.Content.Caching;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Sites.Caching;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Models.Options;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Web.Areas.Sites.Models;
 using Kooboo.CMS.Web.Models;
@@ -43,20 +44,25 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
     }
     public class SiteController : Kooboo.CMS.Sites.AreaControllerBase
     {
+        #region .ctor
+        private SiteTemplateManager _siteTemplateManager;
+        private ImportedSiteManager _importedSiteManager;
+        public SiteController(SiteTemplateManager siteTemplateManager, ImportedSiteManager importedSiteManager)
+        {
+            _siteTemplateManager = siteTemplateManager;
+            _importedSiteManager = importedSiteManager;
+        }
+        #endregion
+
         #region Create
         [CreateSiteAuthroziation]
         public virtual ActionResult Create()
         {
-            return View();
+            return View(new CreateSiteModel());
         }
         [CreateSiteAuthroziation]
         [HttpPost]
-        public virtual ActionResult Create([Bind(Exclude = "Parent")]Site site, string template)
-        {
-            return CreateSite(site, null, template);
-        }
-
-        protected virtual ActionResult CreateSite([Bind(Exclude = "Parent")]Site site, string parent, string template)
+        public virtual ActionResult Create(CreateSiteModel createSiteModel)
         {
             var data = new JsonResultData(ViewData.ModelState);
 
@@ -64,23 +70,32 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 data.RunWithTry((resultData) =>
                 {
-                    Site parentSite = null;
-                    if (!string.IsNullOrEmpty(parent))
-                    {
-                        parentSite = new Site(SiteHelper.SplitFullName(parent));
-                    }
-                    var createdSite = Kooboo.CMS.Sites.Services.ServiceFactory.SiteManager.Create(parentSite, site.Name, template, site, User.Identity.Name);
+                    var siteTemplate = _siteTemplateManager.GetItemTemplate(null, createSiteModel.Template);
 
-                    resultData.RedirectUrl = Url.Action("SiteMap", new { controller = "Home", siteName = createdSite.FullName });
+                    if (siteTemplate != null)
+                    {
+                        var createdSite = Kooboo.CMS.Sites.Services.ServiceFactory.SiteManager.Create(null, createSiteModel.Name, siteTemplate.TemplateFile,
+                            new CreateSiteOptions()
+                            {
+                                Culture = createSiteModel.Culture,
+                                MembershipName = createSiteModel.Membership,
+                                RepositoryName = createSiteModel.Repository,
+                                TimeZoneId = createSiteModel.TimeZoneId,
+                                UserName = User.Identity.Name
+                            });
+
+                        resultData.RedirectUrl = Url.Action("SiteMap", new { controller = "Home", siteName = createdSite.FullName });
+                    }
                 });
             }
 
             return Json(data);
         }
 
+
         #region CreateSubSite
         [CreateSiteAuthroziation]
-        public virtual ActionResult CreateSubSite(CreateSiteModel model)
+        public virtual ActionResult CreateSubSite(CreateSubSiteModel model)
         {
             string siteName = Request["siteName"] ?? Request["parent"];
             if (!string.IsNullOrWhiteSpace(siteName))
@@ -94,9 +109,35 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         [CreateSiteAuthroziation]
         [HttpPost]
-        public virtual ActionResult CreateSubSite([Bind(Exclude = "Parent")]Site site, string parent)
+        public virtual ActionResult CreateSubSite(CreateSubSiteModel createSiteModel, FormCollection form)
         {
-            return CreateSite(site, parent, null);
+            var data = new JsonResultData(ViewData.ModelState);
+
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    Site parentSite = null;
+                    if (!string.IsNullOrEmpty(createSiteModel.Parent))
+                    {
+                        parentSite = new Site(createSiteModel.Parent);
+                    }
+
+                    var createdSite = Kooboo.CMS.Sites.Services.ServiceFactory.SiteManager.Create(parentSite, createSiteModel.Name,
+                        new CreateSiteOptions()
+                        {
+                            Culture = createSiteModel.Culture,
+                            MembershipName = createSiteModel.Membership,
+                            RepositoryName = createSiteModel.Repository,
+                            TimeZoneId = createSiteModel.TimeZoneId,
+                            UserName = User.Identity.Name
+                        });
+
+                    resultData.RedirectUrl = Url.Action("SiteMap", new { controller = "Home", siteName = createdSite.FullName });
+                });
+            }
+
+            return Json(data);
         }
         #endregion
 
@@ -170,7 +211,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #endregion
 
         #region Delete
-       [CreateSiteAuthroziation]
+        [CreateSiteAuthroziation]
         public virtual ActionResult Delete(string siteName)
         {
             return View(new Site(siteName));
@@ -186,7 +227,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 if (!string.IsNullOrEmpty(siteName))
                 {
                     var site = SiteHelper.Parse(siteName);
-                    ServiceFactory.SiteManager.Remove(site, deleteRepository);
+                    ServiceFactory.SiteManager.Delete(site, new DeleteSiteOptions() { DeleteAssociatedRepository = deleteRepository });
                     resultData.RedirectUrl = Url.Action("Index", "Home", ControllerContext.RequestContext.AllRouteValues().Merge("siteName", null));
                 }
             });
@@ -296,7 +337,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         [CreateSiteAuthroziation]
         public virtual ActionResult ImportSite()
         {
-            return View();
+            return View(new ImportSiteModel());
         }
         [CreateSiteAuthroziation]
         [HttpPost]
@@ -313,14 +354,22 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     {
                         parent = new Site(model.Parent);
                     }
+                    var options = new CreateSiteOptions()
+                        {
+                            MembershipName = model.Membership,
+                            RepositoryName = model.Repository,
+                            UserName = User.Identity.Name
+                        };
                     Site createdSite = null;
                     if (Request.Files.Count > 0)
                     {
-                        createdSite = ServiceFactory.SiteManager.Import(parent, model.Name, Request.Files[0].InputStream, model.ToSiteSetting(), User.Identity.Name, model.KeepSiteSetting);
+
+                        createdSite = ServiceFactory.SiteManager.Create(parent, model.Name, Request.Files[0].InputStream, options);
                     }
                     else
                     {
-                        createdSite = ServiceFactory.SiteManager.Import(parent, model.Name, model.File, model.ToSiteSetting(), User.Identity.Name, model.KeepSiteSetting);
+                        var packageFile = _importedSiteManager.GetItemTemplate("", model.File);
+                        createdSite = ServiceFactory.SiteManager.Create(parent, model.Name, packageFile.TemplateFile, options);
                     }
 
                     resultData.RedirectUrl = Url.Action("SiteMap", new { controller = "Home", siteName = createdSite.FullName });
@@ -561,7 +610,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     {
                         model.Membership = Site.AsActual().Membership;
                     }
-                    var createdSite = Kooboo.CMS.Sites.Services.ServiceFactory.SiteManager.Copy(Site, model.Name, model.ToSiteSetting());
+                    var options = model.ToCreateSiteOptions();
+                    options.UserName = User.Identity.Name;
+                    var createdSite = Kooboo.CMS.Sites.Services.ServiceFactory.SiteManager.Copy(Site, model.Name, options);
 
                     resultData.RedirectUrl = Url.Action("SiteMap", new { controller = "Home", siteName = createdSite.FullName });
                 });

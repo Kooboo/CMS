@@ -20,7 +20,7 @@ namespace Kooboo.CMS.Sites.Models
         #region .ctor
         public Label()
         {
-            
+
         }
         public Label(Site site, string uuid)
         {
@@ -29,7 +29,7 @@ namespace Kooboo.CMS.Sites.Models
         }
         public Label(Site site, string name, string value)
             : this(site, null, name, value)
-        {          
+        {
         }
         public Label(Site site, string category, string name, string value)
             : this()
@@ -37,7 +37,7 @@ namespace Kooboo.CMS.Sites.Models
             this.Site = site;
             this.Category = category;
             this.Name = name;
-            this.Value = value;           
+            this.Value = value;
         }
         #endregion
 
@@ -101,9 +101,12 @@ namespace Kooboo.CMS.Sites.Models
             if (obj != null)
             {
                 var o = (Label)obj;
-                if (this.UUID.EqualsOrNullEmpty(o.UUID, StringComparison.CurrentCultureIgnoreCase))
+                if (!string.IsNullOrEmpty(o.UUID))
                 {
-                    return true;
+                    if (this.UUID.EqualsOrNullEmpty(o.UUID, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        return true;
+                    }
                 }
 
                 if (this.Name.EqualsOrNullEmpty(o.Name, StringComparison.OrdinalIgnoreCase) && this.Category.EqualsOrNullEmpty(o.Category, StringComparison.OrdinalIgnoreCase))

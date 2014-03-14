@@ -68,6 +68,11 @@ namespace Kooboo.CMS.Sites.Services
             {
                 @new.Site = site;
             }
+            //renew the UUID when UUID is null
+            if (string.IsNullOrEmpty(@new.UUID))
+            {
+                @new.UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
+            }
             this._labelProvider.Update(@new, old);
         }
         #endregion

@@ -133,8 +133,14 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
                 {
-                    var label = new Label() { UUID = uuid, Name = key, Category = category, Value = value };
-                    ServiceFactory.LabelManager.Update(Site.Current, label, label);
+                    var label = ServiceFactory.LabelManager.Get(Site.Current, category, key);
+                    if (label != null)
+                    {
+                        label.Value = value;
+                        label.UtcLastestModificationDate = DateTime.UtcNow;
+                        ServiceFactory.LabelManager.Update(Site.Current, label, label);
+                    }
+
                 });
             return Json(data);
         }

@@ -125,7 +125,7 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB.Tests
 
             var exportedCategories = provider.ExportCategoryData(repository);
 
-            Assert.IsTrue(exportedCategories.Count() > 1);
+            Assert.IsTrue(exportedCategories.Count() > 0);
         }
     }
 }

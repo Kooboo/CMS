@@ -53,6 +53,10 @@
     <Compile Include="MediaFolderProviderTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Kooboo.CMS.Common.Runtime.Dependency.Ninject\Kooboo.CMS.Common.Runtime.Dependency.Ninject.csproj">
+      <Project>{94a4a4ba-f5eb-44cb-9cd3-b240b80ce686}</Project>
+      <Name>Kooboo.CMS.Common.Runtime.Dependency.Ninject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>

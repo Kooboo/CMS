@@ -21,7 +21,7 @@ namespace Kooboo.CMS.Sites.Extension.UI.TopToolbar
         {
             var tabProviders = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<IToolbarProvider>();
 
-            var matchedProviders = MatchProviders(tabProviders, requestContext.RouteData).ToArray();
+            var matchedProviders = MatchProviders(tabProviders, requestContext).ToArray();
 
             var groups = matchedProviders.SelectMany(it => it.GetGroups(requestContext)).OrderBy(it => it.Order)
                 .Distinct(new ToolbarGroupEqualityComparer())
@@ -60,17 +60,47 @@ namespace Kooboo.CMS.Sites.Extension.UI.TopToolbar
 
             return new[] { nonGroup }.Concat(groups);
         }
-        private static IEnumerable<IToolbarProvider> MatchProviders(IEnumerable<IToolbarProvider> tabProviders, RouteData route)
+        private static IEnumerable<IToolbarProvider> MatchProviders(IEnumerable<IToolbarProvider> tabProviders, RequestContext requestContext)
         {
-            var area = AreaHelpers.GetAreaName(route);
-            var controller = route.Values["controller"].ToString();
-            var action = route.Values["action"].ToString();
 
             return tabProviders.Where(it => it.ApplyTo == null
-                || it.ApplyTo.Any(at => at.Area.EqualsOrNullEmpty(area, StringComparison.OrdinalIgnoreCase)
-                && at.Controller.Equals(controller, StringComparison.OrdinalIgnoreCase)
-                && at.Action.EqualsOrNullEmpty(action, StringComparison.OrdinalIgnoreCase)));
-
+                            || it.ApplyTo.Any(at => MatchProvider(at, requestContext)));
         }
+        private static bool MatchProvider(MvcRoute applyTo, RequestContext requestContext)
+        {
+            var area = AreaHelpers.GetAreaName(requestContext.RouteData);
+            var controller = requestContext.GetRequestValue("controller");
+            var action = requestContext.GetRequestValue("action");
+
+
+            var matched = applyTo.Area.EqualsOrNullEmpty(area, StringComparison.OrdinalIgnoreCase)
+                 && applyTo.Controller.Equals(controller, StringComparison.OrdinalIgnoreCase)
+                 && applyTo.Action.EqualsOrNullEmpty(action, StringComparison.OrdinalIgnoreCase);
+
+            if (matched && applyTo.RouteValues != null)
+            {
+                foreach (var item in applyTo.RouteValues)
+                {
+                    if (item.Value == null)
+                    {
+                        continue;
+                    }
+                    var routeValue = requestContext.GetRequestValue(item.Key);
+                    if (routeValue == null)
+                    {
+                        matched = false;
+                        break;
+                    }
+                    if (!item.Value.ToString().EqualsOrNullEmpty(routeValue.ToString(), StringComparison.OrdinalIgnoreCase))
+                    {
+                        matched = false;
+                        break;
+                    }
+                }
+            }
+
+            return matched;
+        }
+
     }
 }

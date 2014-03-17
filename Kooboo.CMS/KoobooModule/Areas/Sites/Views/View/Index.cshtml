@@ -51,6 +51,11 @@
                 <li><a href="@Url.Action("Relations", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show view relations"))" data-show-on-check="Single" data-show-on-selector=".localized" data-command-type="Redirect">@("Relations".Localize())</a></li>
             </ul>
         </li>
+
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
     </ul>
 }
 <div class="topbar clearfix">

@@ -397,7 +397,8 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         var trCollection = trCollection || $(this);
         var selector = 'input:checkbox.select:checked';
         var $tbody = $tr.closest('tbody');
-        $tr.click(function () {
+        $tr.click(function (e) {
+            e.stopPropagation();
             var $self = $(this);
             var $checkbox = $self.find('input:checkbox,input:radio');
             if ($checkbox.is("input:radio")) {
@@ -471,12 +472,13 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         $('[data-command-type="Redirect"]').click(function () {
             var $self = $(this);
             var $selected = $table.find(options.checkSelector);
+            $selected = $selected.filter(':not(.select-all)');
             var id = $selected.data("id-property");
             var selectedValues = [];
             $selected.each(function () {
                 selectedValues.push($(this).val());
             });
-            var value = selectedValues.join(',');
+            var value = encodeURIComponent(selectedValues.join(','));
             window.location.href = ($self.attr('href') + "&" + id + "=" + value);
             return false;
         });
@@ -538,12 +540,13 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         $('[data-command-type="Redirect"]').click(function () {
             var $self = $(this);
             var $selected = $table.find("input:checkbox[checked]");
+            $selected = $selected.filter(':not(.select-all)');
             var id = $selected.data("id-property");
             var selectedValues = [];
             $selected.each(function () {
                 selectedValues.push($(this).val());
             });
-            var value = selectedValues.join(',');
+            var value = encodeURIComponent(selectedValues.join(','));
             window.location.href = ($self.attr('href') + "&" + id + "=" + value);
             return false;
         });
@@ -1116,10 +1119,12 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             $("input[type=file].filestyle").filestyle();
         }
 
-        window.loading.hide();
-        $(window).ready(function () {
+        if (!window.keepLoading) {
             window.loading.hide();
-        });
+            $(window).ready(function () {
+                window.loading.hide();
+            });
+        }
     });
 
     // form post
@@ -1255,7 +1260,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                     if (_retrun) {
                         location.href = _retrun;
                     }
-                }, 100);
+                }, 1000);
             }
         });
     });

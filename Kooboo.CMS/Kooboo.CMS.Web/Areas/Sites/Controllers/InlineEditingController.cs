@@ -138,6 +138,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     {
                         label.Value = value;
                         label.UtcLastestModificationDate = DateTime.UtcNow;
+                        label.LastestEditor = User.Identity.Name;
                         ServiceFactory.LabelManager.Update(Site.Current, label, label);
                     }
 

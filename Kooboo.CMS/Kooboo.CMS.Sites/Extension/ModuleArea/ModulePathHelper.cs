@@ -125,6 +125,12 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         const string ModuleDataFolderName = "ModuleData";
 
         #region GetModuleInstallationFilePath
+        /// <summary>
+        /// GetModuleInstallationFilePath 是得到Module的安装目录，也就是它所在的Area目录
+        /// </summary>
+        /// <param name="modulePath">The module path.</param>
+        /// <param name="moduleInstallationFilePaths">The module installation file paths.</param>
+        /// <returns></returns>
         public static IPath GetModuleInstallationFilePath(this ModulePath modulePath, params string[] moduleInstallationFilePaths)
         {
             if (moduleInstallationFilePaths != null && moduleInstallationFilePaths.Length > 0)
@@ -140,6 +146,12 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         #endregion
 
         #region GetModuleSharedFilePath
+        /// <summary>
+        /// GetModuleSharedFilePath 是得到它共享的数据存放目录，与站点无关的，也就是：Cms_Data\ModuleData
+        /// </summary>
+        /// <param name="modulePath"></param>
+        /// <param name="extraPaths"></param>
+        /// <returns></returns>
         public static IPath GetModuleSharedFilePath(this ModulePath modulePath, params string[] extraPaths)
         {
             var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
@@ -162,6 +174,13 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         #endregion
 
         #region GetModuleLocalFilePath
+        /// <summary>
+        /// GetModuleLocalFilePath是得到Module在某个站点下的ModuleData，也就是：Cms_Data\Sites\{SiteName}\ModuleData
+        /// 需要ModulePath.Site信息。
+        /// </summary>
+        /// <param name="modulePath"></param>
+        /// <param name="extraPaths"></param>
+        /// <returns></returns>
         public static IPath GetModuleLocalFilePath(this ModulePath modulePath, params string[] extraPaths)
         {
             if (modulePath.Site == null)

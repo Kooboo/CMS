@@ -2059,7 +2059,6 @@
     <Content Include="Views\Shared\EditorTemplates\UserAgentPattern.cshtml" />
     <Content Include="Areas\KoobooModule\GlobalMenu.config" />
     <Content Include="Areas\KoobooModule\Views\ApplicationManagement\Index.cshtml" />
-    <Content Include="Areas\KoobooModule\Themes\Default\module.css" />
     <Content Include="Views\Shared\_Toolbar.cshtml" />
     <Content Include="Views\Shared\_ToolbarButton.cshtml" />
     <Content Include="Views\Shared\_ToolbarGroupButtons.cshtml" />

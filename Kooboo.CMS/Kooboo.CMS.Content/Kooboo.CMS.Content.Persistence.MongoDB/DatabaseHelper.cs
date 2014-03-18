@@ -19,29 +19,27 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
 
     public static class DatabaseHelper
     {
-        public static MongoServer Connect()
+        static MongoClient mongoClient = new MongoClient(DatabaseSettings.Instance.ConnectionString);
+        public static MongoServer GetServer()
         {
-            MongoServer server = new MongoClient(DatabaseSettings.Instance.ConnectionString).GetServer();
-            server.Connect();
+            MongoServer server = mongoClient.GetServer();            
             return server;
         }
         public static MongoDatabase GetDatabase(this Repository repository)
         {
-            var server = Connect();
+            var server = GetServer();
             var db = server.GetDatabase(repository.GetDatabaseName());
             return db;
         }
         public static void DropDatabase(this Repository repository)
         {
-            var server = Connect();
-            server.Connect();
-            server.DropDatabase(repository.GetDatabaseName());
-            server.Disconnect();
+            var server = GetServer();      
+            server.DropDatabase(repository.GetDatabaseName());      
         }
         public static void CreateCateogryIndex(this Repository repository)
         {
             var collection = repository.GetCategoriesCollection();
-            collection.CreateIndex("ContentUUID", "CategoryFolder", "CategoryUUID");
+            collection.EnsureIndex("ContentUUID", "CategoryFolder", "CategoryUUID");
         }
         public static MongoCollection<BsonDocument> GetCollection(this Schema schema)
         {
@@ -52,11 +50,11 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
         public static void CreateIndex(this Schema schema)
         {
             MongoCollection<BsonDocument> collection = schema.GetCollection();
-            collection.CreateIndex("FolderName", "UUID", "Published", "UtcCreationDate");
-            collection.CreateIndex("FolderName", "UserKey", "Published", "UtcCreationDate");
-            collection.CreateIndex("FolderName", "UUID", "Published", "Sequence");
-            collection.CreateIndex("FolderName", "UserKey", "Published", "Sequence");
-            collection.CreateIndex("FolderName", "ParentFolder", "ParentUUID", "Published");
+            collection.EnsureIndex("FolderName", "UUID", "Published", "UtcCreationDate");
+            collection.EnsureIndex("FolderName", "UserKey", "Published", "UtcCreationDate");
+            collection.EnsureIndex("FolderName", "UUID", "Published", "Sequence");
+            collection.EnsureIndex("FolderName", "UserKey", "Published", "Sequence");
+            collection.EnsureIndex("FolderName", "ParentFolder", "ParentUUID", "Published");
         }
         public static void DropCollection(this Schema schema)
         {

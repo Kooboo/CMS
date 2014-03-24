@@ -79,6 +79,7 @@ namespace Kooboo.CMS.Sites.View
             {
                 var outputCacheJson = new
                 {
+                    EnableCaching = pos.OutputCache.EnableCaching,
                     Duration = pos.OutputCache.Duration,
                     ExpirationPolicy = pos.OutputCache.ExpirationPolicy.ToString()
                 };

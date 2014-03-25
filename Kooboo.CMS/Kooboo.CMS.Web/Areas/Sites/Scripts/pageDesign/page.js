@@ -425,7 +425,7 @@
                 return input.val();
             } else {
                 input.val(val);
-                $('#enablecache').attr('checked', val != '').trigger('change');
+                //$('#enablecache').attr('checked', val != '').trigger('change');
             }
         },
 
@@ -456,6 +456,7 @@
             // OutputCache
             var dur, policy, outputCache = $.parseJSON(this.outerValue.OutputCache);
             if (outputCache) {
+                $('#enablecache').attr('checked', outputCache.EnableCaching);
                 dur = outputCache.Duration;
                 policy = outputCache.ExpirationPolicy;
             }

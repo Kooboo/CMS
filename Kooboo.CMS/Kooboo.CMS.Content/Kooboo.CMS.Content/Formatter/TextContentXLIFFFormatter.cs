@@ -13,6 +13,7 @@ using Kooboo.Collections;
 using Kooboo.CMS.Content.Persistence;
 namespace Kooboo.CMS.Content.Formatter
 {
+    [Obsolete]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentFormater), Key = "xliff")]
     public class TextContentToXLIFF : ITextContentFormater
     {

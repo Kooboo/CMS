@@ -29,7 +29,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region All
-        public IEnumerable<T> All(Models.Site site)
+        public virtual IEnumerable<T> All(Models.Site site)
         {
             var cacheKey = GetListCacheKey();
             if (!string.IsNullOrEmpty(cacheKey))

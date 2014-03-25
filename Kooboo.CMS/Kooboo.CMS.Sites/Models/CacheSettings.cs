@@ -28,7 +28,7 @@ namespace Kooboo.CMS.Sites.Models
             {
                 if (!_enable.HasValue)
                 {
-                    _enable = Duration > 0;
+                    _enable = false;
                 }
                 return _enable;
             }

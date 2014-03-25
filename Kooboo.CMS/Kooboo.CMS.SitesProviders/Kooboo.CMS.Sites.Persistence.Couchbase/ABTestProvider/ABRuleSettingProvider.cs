@@ -11,7 +11,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABRuleSettingProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABRuleSetting>), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "ABRuleSettingsProvider")]
-    public class ABRuleSettingProvider : ProviderBase<ABRuleSetting>,IABRuleSettingProvider
+    public class ABRuleSettingProvider : ProviderBase<ABRuleSetting>, IABRuleSettingProvider
     {
         #region .ctor
         Kooboo.CMS.Sites.Persistence.FileSystem.ABRuleSettingProvider fileProvider;
@@ -20,17 +20,17 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             : base(ModelExtensions.ABRuleSettingDataType, (Site site, string key) => { return new ABRuleSetting(site, key); })
         {
             fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.ABRuleSettingProvider(new Kooboo.CMS.Common.BaseDir());
-        } 
+        }
         #endregion
 
         #region Export
-        public void Export(IEnumerable<ABRuleSetting> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<ABRuleSetting> sources, System.IO.Stream outputStream)
         {
             foreach (var item in sources)
             {
                 fileProvider.Add(item.AsActual());
             }
-            fileProvider.Export(sources, outputStream);
+            fileProvider.Export(site, sources, outputStream);
         }
 
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
@@ -79,7 +79,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             {
                 provider.Add(item.AsActual());
             }
-        } 
+        }
         #endregion
     }
 }

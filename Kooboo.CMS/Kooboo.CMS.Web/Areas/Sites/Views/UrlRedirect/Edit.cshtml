@@ -29,6 +29,7 @@
 
         @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName")) 
         @Html.Hidden("old_Key", Model.InputUrl)
+        @Html.HiddenFor(m => m.UtcCreationDate);
         <table>
             <tbody>
                 @Html.EditorFor(m => m.Regex)

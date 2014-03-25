@@ -8,6 +8,7 @@
 #endregion
 using Ionic.Zip;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -125,8 +126,9 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             foreach (var item in categories)
             {
                 var storage = GetStorage(GetImportExportLabelFile(site, item));
-                foreach (var label in storage.GetList(site).ToArray())
+                foreach (var label in storage.GetList().ToArray())
                 {
+                    site.Site = site;
                     _rawLabelProvider.Add(label);
                 }
             }

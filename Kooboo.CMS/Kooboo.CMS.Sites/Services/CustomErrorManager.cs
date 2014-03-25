@@ -27,9 +27,9 @@ namespace Kooboo.CMS.Sites.Services
 
         #region Export/Import
 
-        public void Export(Site site, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<CustomError> customErrors, System.IO.Stream outputStream)
         {
-            ((ICustomErrorProvider)Provider).Export(site, outputStream);
+            ((ICustomErrorProvider)Provider).Export(site, customErrors, outputStream);
         }
 
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
@@ -44,7 +44,7 @@ namespace Kooboo.CMS.Sites.Services
             var result = Provider.All(site);
             if (!string.IsNullOrEmpty(filterName))
             {
-                result = result.Where(it => it.StatusCode.ToString().Contains(filterName, StringComparison.CurrentCultureIgnoreCase));
+                result = result.Where(it => it.StatusCode.ToString().Contains(filterName, StringComparison.OrdinalIgnoreCase) || it.RedirectUrl.Contains(filterName, StringComparison.OrdinalIgnoreCase));
             }
             return result;
         }

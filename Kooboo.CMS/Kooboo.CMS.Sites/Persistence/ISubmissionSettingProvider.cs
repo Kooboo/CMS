@@ -17,9 +17,9 @@ namespace Kooboo.CMS.Sites.Persistence
 {
     public interface ISubmissionSettingProvider : ISiteElementProvider<SubmissionSetting>
     {
-        void Export(IEnumerable<SubmissionSetting> sources, System.IO.Stream outputStream);
+        void Export(Site site, IEnumerable<SubmissionSetting> sources, System.IO.Stream outputStream);
 
-        void Import(Site site,System.IO.Stream zipStream, bool @override);
+        void Import(Site site, System.IO.Stream zipStream, bool @override);
 
     }
 }

@@ -15,7 +15,7 @@
             </a>
         </li>
         <li>
-            <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">
+            <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))"  data-command-type="Download">
                 @Html.IconImage("export") @("Export".Localize())
             </a>
         </li>
@@ -29,8 +29,8 @@
 }
 <div class="topbar clearfix">
     <h1 class="title">
-        @("Url redirects".Localize())</h1>
-     @Html.Partial("_Search")
+        @ViewBag.Title</h1>
+    @Html.Partial("_Search")
 </div>
 @Html.GridForModel2(m => m)
 <div class="pagination right">

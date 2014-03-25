@@ -16,7 +16,7 @@ namespace Kooboo.CMS.Sites.Persistence
 {
     public interface IUrlRedirectProvider : ISiteElementProvider<UrlRedirect>
     {
-        void Export(Site site, System.IO.Stream outputStream);
+        void Export(Site site, IEnumerable<UrlRedirect> customErrors, System.IO.Stream outputStream);
 
         void Import(Site site, System.IO.Stream zipStream, bool @override);
     }

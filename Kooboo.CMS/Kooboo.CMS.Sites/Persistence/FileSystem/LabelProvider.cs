@@ -9,6 +9,7 @@
 using Ionic.Zip;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +25,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
     {
         #region Static fields
         public static string DefaultLabelFile = "Label.json";
-        static ReaderWriterLockSlim _locker = new ReaderWriterLockSlim(); 
+        static ReaderWriterLockSlim _locker = new ReaderWriterLockSlim();
         #endregion
 
         #region GetCategories
@@ -78,7 +79,14 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             var storage = GetStorage(labelFile);
 
-            return storage.GetList(site).AsQueryable();
+            var list = storage.GetList();
+
+            foreach (var item in list)
+            {
+                item.Site = site;
+            }
+
+            return list.AsQueryable();
         }
         #endregion
 

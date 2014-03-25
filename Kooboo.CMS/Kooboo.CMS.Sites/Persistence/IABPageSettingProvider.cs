@@ -19,7 +19,7 @@ namespace Kooboo.CMS.Sites.Persistence
 {
     public interface IABPageSettingProvider : ISiteElementProvider<ABPageSetting>
     {
-        void Export(IEnumerable<ABPageSetting> sources, System.IO.Stream outputStream);
+        void Export(Site site, IEnumerable<ABPageSetting> sources, System.IO.Stream outputStream);
 
         void Import(Site site, System.IO.Stream zipStream, bool @override);
     }

@@ -56,11 +56,18 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
 
 
-        public ActionResult Export()
+        public ActionResult Export(CustomError[] model)
         {
             var fileName = GetZipFileName();
             Response.AttachmentHeader(fileName);
-            Manager.Export(Site, Response.OutputStream);
+            if (model!=null)
+            {
+                foreach (var item in model)
+                {
+                    item.Site = Site;
+                }
+            }            
+            Manager.Export(Site, model, Response.OutputStream);
             return null;
         }
 

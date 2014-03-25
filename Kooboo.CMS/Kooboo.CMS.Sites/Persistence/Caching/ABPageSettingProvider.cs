@@ -42,9 +42,9 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region Export
-        public void Export(IEnumerable<ABPageSetting> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<ABPageSetting> sources, System.IO.Stream outputStream)
         {
-            this._provider.Export(sources, outputStream);
+            this._provider.Export(site, sources, outputStream);
         }
         #endregion
 

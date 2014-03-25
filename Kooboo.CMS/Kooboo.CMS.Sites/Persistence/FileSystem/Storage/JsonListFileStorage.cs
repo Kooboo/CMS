@@ -16,10 +16,10 @@ using Newtonsoft.Json;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 
-namespace Kooboo.CMS.Sites.Persistence.FileSystem
+namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
 {
-    public class JsonListFileStorage<T>
-        where T : ISiteObject, IPersistable, new()
+    public class JsonListFileStorage<T> : IFileStorage<T>
+        where T : IPersistable, new()
     {
         #region .ctor
         string _dataFile;
@@ -32,7 +32,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #endregion
 
         #region GetList
-        public virtual IEnumerable<T> GetList(Site site)
+        public virtual IEnumerable<T> GetList()
         {
             if (!File.Exists(_dataFile))
             {
@@ -43,10 +43,6 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             {
                 var json = Kooboo.IO.IOUtility.ReadAsString(_dataFile);
                 var list = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
-                foreach (var item in list)
-                {
-                    item.Site = site;
-                }
                 return list;
             }
             finally
@@ -59,7 +55,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region Get
         public virtual T Get(T dummy)
         {
-            var all = this.GetList(dummy.Site);
+            var all = this.GetList();
             return Get(all, dummy);
         }
 
@@ -77,7 +73,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region Add
         public virtual void Add(T item, bool @override = true)
         {
-            var list = this.GetList(item.Site).ToList();
+            var list = this.GetList().ToList();
             var existsItem = Get(list, item);
             if (existsItem != null)
             {
@@ -102,7 +98,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region Update
         public virtual void Update(T item, T oldItem)
         {
-            List<T> list = this.GetList(item.Site).ToList();
+            List<T> list = this.GetList().ToList();
             var index = list.IndexOf(oldItem);
             if (index != -1)
             {
@@ -118,7 +114,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region Remove
         public virtual void Remove(T item)
         {
-            var list = this.GetList(item.Site).ToList();
+            var list = this.GetList().ToList();
             Remove(list, item);
 
             this.SaveList(list);
@@ -135,7 +131,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #endregion
 
         #region SaveList
-        protected virtual void SaveList(List<T> list)
+        public virtual void SaveList(List<T> list)
         {
             _locker.EnterWriteLock();
             try
@@ -147,6 +143,21 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             {
                 _locker.ExitWriteLock();
             }
+        }
+        #endregion
+
+
+        #region Export
+        public void Export(IEnumerable<T> items, Stream outputStream)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Import
+        public void Import(Stream zipStream, bool @override)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

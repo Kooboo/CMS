@@ -83,18 +83,14 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region Import/export
-        public virtual void Import(Site site, Stream zipStream, bool @override)
+        public virtual void Import(Stream zipStream, bool @override)
         {
             _provider.Import(zipStream, @override);
         }
         public virtual void Export(IEnumerable<ABSiteSetting> siteVisitRules, System.IO.Stream outputStream)
         {
             _provider.Export(siteVisitRules, outputStream);
-        }
-        public virtual void ExportAll(System.IO.Stream outputStream)
-        {
-            _provider.Export(All(""), outputStream);
-        }
+        }        
         #endregion
 
         #region Match site

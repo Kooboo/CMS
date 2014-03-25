@@ -61,7 +61,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 if (Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
                 {
-                    Manager.Import(Site, Request.Files[0].InputStream, @override);
+                    Manager.Import(Request.Files[0].InputStream, @override);
                 }
                 data.RedirectUrl = @return;
             });

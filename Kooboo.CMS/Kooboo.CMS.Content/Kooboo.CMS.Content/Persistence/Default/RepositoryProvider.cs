@@ -31,7 +31,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
         #endregion
 
         #region .ctor
-        IBaseDir baseDir;       
+        IBaseDir baseDir;
         public RepositoryProvider(IBaseDir baseDir)
         {
             this.baseDir = baseDir;
@@ -102,7 +102,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
             {
                 ExtractExistingFileAction action = ExtractExistingFileAction.OverwriteSilently;
                 zipFile.ExtractAll(path.PhysicalPath, action);
-                                
+
                 baseDir.UpdateFileLink(path.PhysicalPath, null, repositoryName);
             }
             return repository;
@@ -239,14 +239,34 @@ namespace Kooboo.CMS.Content.Persistence.Default
             try
             {
                 BackupContentAsXML(sourceRepository);
-                IO.IOUtility.CopyDirectory(sourcePath.PhysicalPath, destPath.PhysicalPath);
-                Initialize(destRepository);
+                IOUtility.CopyDirectory(sourcePath.PhysicalPath, destPath.PhysicalPath);
+                CopyData(sourceRepository, destRepository);
             }
             finally
             {
                 GetLocker().ExitWriteLock();
             }
             return destRepository;
+        }
+        private void CopyData(Repository sourceRepository, Repository destRepository)
+        {
+            ITextContentProvider textContentProvider = Providers.DefaultProviderFactory.GetProvider<ITextContentProvider>();
+            ISchemaProvider schemaProvider = Providers.DefaultProviderFactory.GetProvider<ISchemaProvider>();
+            foreach (var schema in schemaProvider.All(sourceRepository))
+            {
+                var items = textContentProvider.ExportSchemaData(schema).ToArray();
+                foreach (var item in items)
+                {
+                    item["OriginalUUID"] = item["UUID"];
+                    item["OriginalRepository"] = sourceRepository.Name;
+                    item["OriginalFolder"] = item["FolderName"];
+                    item["IsLocalized"] = false;
+                }
+                //switch to dest repository to import the data;
+                schema.Repository = destRepository;
+                textContentProvider.ImportSchemaData(schema, items);
+            }
+            textContentProvider.ImportCategoryData(destRepository, textContentProvider.ExportCategoryData(sourceRepository));
         }
         #endregion
 

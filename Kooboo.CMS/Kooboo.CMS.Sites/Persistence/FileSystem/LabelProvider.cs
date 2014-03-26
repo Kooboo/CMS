@@ -8,6 +8,7 @@
 #endregion
 using Ionic.Zip;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Sites.Globalization;
 using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,31 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Label>))]
     public class LabelProvider : ILabelProvider
     {
+        #region static ctor
+        static LabelProvider()
+        {
+            ConvertFromResx(Providers.SiteProvider);
+        }
+        #endregion
+        #region Convert from resx file
+        private static void ConvertFromResx(ISiteProvider siteProvider)
+        {
+            var sites = siteProvider.AllSites();
+            var labelProvider = new LabelProvider();
+            foreach (var site in sites)
+            {
+                var elementProvider = new SiteLabelRepository(site);
+                foreach (var item in elementProvider.Elements())
+                {
+                    labelProvider.Add(new Label(site, item.Category, item.Name, item.Value) { UtcCreationDate = DateTime.UtcNow });
+                }
+                elementProvider.Clear();
+            }
+        }
+        #endregion
         #region Static fields
         public static string DefaultLabelFile = "Label.json";
-        static ReaderWriterLockSlim _locker = new ReaderWriterLockSlim(); 
+        static ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
         #endregion
 
         #region GetCategories
@@ -66,7 +89,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region GetStorage
         protected virtual JsonListFileStorage<Label> GetStorage(string labelFile)
         {
-            var storage = new JsonListFileStorage<Label>(labelFile, _locker);
+            var storage = new JsonListFileStorage<Label>(labelFile, _lock);
             return storage;
         }
         #endregion
@@ -96,7 +119,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             try
             {
-                _locker.EnterWriteLock();
+                _lock.EnterWriteLock();
 
                 if (File.Exists(categoryFile))
                 {
@@ -105,7 +128,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
             finally
             {
-                _locker.ExitWriteLock();
+                _lock.ExitWriteLock();
             }
         }
         #endregion

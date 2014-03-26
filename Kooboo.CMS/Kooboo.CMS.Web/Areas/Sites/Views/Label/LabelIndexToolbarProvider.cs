@@ -39,12 +39,12 @@ namespace Kooboo.CMS.Web.Areas.Sites.Views.Page
         public IEnumerable<ToolbarButton> GetButtons(System.Web.Routing.RequestContext requestContext)
         {
             return new ToolbarButton[]{
-                new ToolbarButton(){
-                    GroupName="More",
-                    CommandTarget = new MvcRoute(){ Action="UpgradeFromOldLabel",Controller="Label"},
-                    CommandText="Upgrade from .resx format",
-                     HtmlAttributes=new Dictionary<string,object>(){{"data-command-type","AjaxPost"}}
-                }
+                //new ToolbarButton(){
+                //    GroupName="More",
+                //    CommandTarget = new MvcRoute(){ Action="UpgradeFromOldLabel",Controller="Label"},
+                //    CommandText="Upgrade from .resx format",
+                //     HtmlAttributes=new Dictionary<string,object>(){{"data-command-type","AjaxPost"}}
+                //}
            };
         }
     }

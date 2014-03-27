@@ -439,7 +439,10 @@ namespace Kooboo.CMS.Sites.View
         {
             this.htmlMeta.HtmlTitle = EvaluateStringFormulas(htmlMetaSetting.HtmlTitle) + this.htmlMeta.HtmlTitle ?? "";
 
-            this.htmlMeta.Canonical = EvaluateStringFormulas(htmlMetaSetting.Canonical);
+            if (string.IsNullOrEmpty(htmlMeta.Canonical))
+            {
+                this.htmlMeta.Canonical = EvaluateStringFormulas(htmlMetaSetting.Canonical);
+            }
 
             this.htmlMeta.Author = EvaluateStringFormulas(htmlMetaSetting.Author) + this.htmlMeta.Author ?? "";
 

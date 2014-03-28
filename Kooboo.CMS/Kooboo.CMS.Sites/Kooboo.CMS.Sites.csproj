@@ -205,6 +205,7 @@
     <Compile Include="Persistence\FileSystem\ABSiteSettingProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Persistence\FileSystem\Storage\DirectoryObjectFileStorage.cs" />
     <Compile Include="Persistence\FileSystem\Storage\IFileStorage.cs" />
     <Compile Include="Persistence\FileSystem\Storage\JsonListFileStorage.cs" />
     <Compile Include="Persistence\FileSystem\LabelImportExportHelper.cs" />

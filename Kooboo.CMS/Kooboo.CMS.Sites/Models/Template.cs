@@ -75,6 +75,7 @@ namespace Kooboo.CMS.Sites.Models
                 return Path.Combine(this.PhysicalPath, TemplateFileName);
             }
         }
+
         public virtual string TemplateFileName
         {
             get
@@ -82,6 +83,7 @@ namespace Kooboo.CMS.Sites.Models
                 return TemplateName + FileExtension;
             }
         }
+
         public virtual string TemplateFileVirutalPath
         {
             get

@@ -79,9 +79,9 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region Export
-        public void Export(IEnumerable<HtmlBlock> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<HtmlBlock> sources, System.IO.Stream outputStream)
         {
-            inner.Export(sources, outputStream);
+            inner.Export(site, sources, outputStream);
         }
         #endregion
 

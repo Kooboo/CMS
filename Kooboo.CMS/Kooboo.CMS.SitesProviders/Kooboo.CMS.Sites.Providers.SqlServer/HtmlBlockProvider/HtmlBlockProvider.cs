@@ -148,7 +148,7 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.HtmlBlockProvider
         #endregion
 
         #region export
-        public void Export(IEnumerable<Models.HtmlBlock> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<Models.HtmlBlock> sources, System.IO.Stream outputStream)
         {
             var fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
             foreach (var item in sources)
@@ -156,7 +156,7 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.HtmlBlockProvider
                 var layout = Get(item);
                 fileProvider.Add(layout);
             }
-            fileProvider.Export(sources, outputStream);
+            fileProvider.Export(site, sources, outputStream);
         }
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
         {
@@ -187,7 +187,7 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.HtmlBlockProvider
                 this.Add(htmlBlock);
             }
         }
-        
+
         #endregion
 
         #region Clear

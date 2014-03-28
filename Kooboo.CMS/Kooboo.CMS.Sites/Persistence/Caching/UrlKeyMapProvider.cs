@@ -26,9 +26,9 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region Export
-        public void Export(Site site, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<UrlKeyMap> items, System.IO.Stream outputStream)
         {
-            inner.Export(site, outputStream);
+            inner.Export(site, items, outputStream);
         }
         #endregion
 
@@ -42,7 +42,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
             finally
             {
                 site.ClearCache();
-            }            
+            }
         }
         #endregion
 

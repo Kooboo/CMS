@@ -265,14 +265,14 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         #endregion
 
         #region Export
-        public void Export(IEnumerable<Models.Page> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<Models.Page> sources, System.IO.Stream outputStream)
         {
             IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
             foreach (var item in sources)
             {
                 ExportAsFileCascading(filePageProvider, item);
             }
-            filePageProvider.Export(sources, outputStream);
+            filePageProvider.Export(site, sources, outputStream);
         }
         private void ExportAsFileCascading(IPageProvider filePageProvider, Page page)
         {

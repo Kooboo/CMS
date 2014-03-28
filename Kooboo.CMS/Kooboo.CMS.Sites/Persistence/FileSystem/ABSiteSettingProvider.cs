@@ -67,14 +67,16 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region Import
         public virtual void Import(Stream zipStream, bool @override)
         {
-            //base.Import(null, zipStream, @override);
+            var fileStorage = GetFileStorage();
+            fileStorage.Import(zipStream, @override);
         }
         #endregion
 
         #region Export
         public void Export(IEnumerable<ABSiteSetting> sources, Stream outputStream)
         {
-            throw new NotImplementedException();
+            var fileStorage = GetFileStorage();
+            fileStorage.Export(sources, outputStream);
         }
         #endregion
 

@@ -25,6 +25,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
     [MetadataFor(typeof(HtmlBlock))]
     [Grid(Checkable = true, IdProperty = "UUID", GridItemType = typeof(InheritablGridItem))]
+    [GridColumn(GridItemColumnType = typeof(Inheritable_Status_GridItemColumn), HeaderText = "Inheritance", Order = 2)]
     public class HtmlBlock_Metadata
     {
         [GridColumn(Order = 1, GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(InheritableEditGridActionItemColumn))]
@@ -32,6 +33,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [RegularExpression(RegexPatterns.FileName, ErrorMessage = "A name cannot contain a space or any of the following characters:\\/:*?<>|~")]
         [RemoteEx("IsNameAvailable", "HtmlBlock", AdditionalFields = "SiteName,old_Key")]
         public string Name { get; set; }
+
+        [GridColumn(Order = 3, GridColumnType = typeof(SortableGridColumn))]
+        public Site Site { get; set; }
 
         [UIHint("Tinymce")]
         public string Body { get; set; }

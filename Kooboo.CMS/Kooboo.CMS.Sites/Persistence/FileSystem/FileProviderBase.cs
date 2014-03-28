@@ -46,7 +46,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         {
             var fileStorage = GetFileStorage(site);
 
-            var list = fileStorage.GetList();
+            var list = fileStorage.GetList().ToArray();
 
             if (typeof(ISiteObject).IsAssignableFrom(typeof(T)))
             {

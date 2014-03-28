@@ -8,7 +8,6 @@
 #endregion
 using Ionic.Zip;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,23 +17,36 @@ using System.Threading;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
 {
-    public class XmlObjectFileStorage<T> : IFileStorage<T>
+    public class DirectoryObjectFileStorage<T> : IFileStorage<T>
          where T : IIdentifiable, IPersistable, new()
     {
         #region .ctor
-        static string DataFileExtension = ".config";
-        string _dataFolder;
-        ReaderWriterLockSlim _lock;
-        IEnumerable<Type> _knownTypes;
-        public XmlObjectFileStorage(string dataFolder, ReaderWriterLockSlim @lock)
-            : this(dataFolder, @lock, new Type[0])
+        public string DataFileName = "setting.config";
+        protected string _baseFolder;
+        protected ReaderWriterLockSlim _lock;
+        protected IEnumerable<Type> _knownTypes;
+        protected Func<DirectoryInfo, T> _initialize = (dir) =>
+         {
+             var o = new T() { UUID = dir.Name };
+             return o;
+         };
+        public DirectoryObjectFileStorage(string baseFolder, ReaderWriterLockSlim @lock)
+            : this(baseFolder, @lock, new Type[0])
         {
         }
-        public XmlObjectFileStorage(string dataFolder, ReaderWriterLockSlim @lock, IEnumerable<Type> knownTypes)
+        public DirectoryObjectFileStorage(string baseFolder, ReaderWriterLockSlim @lock, IEnumerable<Type> knownTypes)
+            : this(baseFolder, @lock, knownTypes, null)
         {
-            this._dataFolder = dataFolder;
+        }
+        public DirectoryObjectFileStorage(string baseFolder, ReaderWriterLockSlim @lock, IEnumerable<Type> knownTypes, Func<DirectoryInfo, T> initialize)
+        {
+            this._baseFolder = baseFolder;
             this._lock = @lock;
             this._knownTypes = knownTypes;
+            if (initialize != null)
+            {
+                _initialize = initialize;
+            }
         }
 
         #endregion
@@ -56,14 +68,14 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
         private IEnumerable<T> Enumerate()
         {
             List<T> list = new List<T>();
-            if (Directory.Exists(_dataFolder))
+            if (Directory.Exists(_baseFolder))
             {
-                var dir = new DirectoryInfo(_dataFolder);
-                foreach (var fileInfo in dir.EnumerateFiles())
+                var dir = new DirectoryInfo(_baseFolder);
+                foreach (var dirInfo in IO.IOUtility.EnumerateDirectoriesExludeHidden(_baseFolder))
                 {
-                    if (IsValidDataItem(fileInfo.FullName))
+                    if (IsValidDataItem(dirInfo))
                     {
-                        var o = new T() { UUID = Path.GetFileNameWithoutExtension(fileInfo.FullName) };
+                        var o = _initialize(dirInfo);
                         if (o != null)
                         {
                             list.Add(o);
@@ -73,10 +85,15 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
             }
             return list;
         }
-        protected virtual bool IsValidDataItem(string filePath)
+        protected virtual bool IsValidDataItem(DirectoryInfo dirInfo)
         {
-            var extension = Path.GetExtension(filePath);
-            return extension.EqualsOrNullEmpty(DataFileExtension, StringComparison.OrdinalIgnoreCase);
+            var valid = !dirInfo.Name.EqualsOrNullEmpty("~versions", StringComparison.OrdinalIgnoreCase);
+            if (valid)
+            {
+                var dataFile = Path.Combine(dirInfo.FullName, DataFileName);
+                valid = File.Exists(dataFile);
+            }
+            return valid;
         }
         #endregion
 
@@ -103,9 +120,13 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
                 _lock.ExitReadLock();
             }
         }
+        protected virtual string GetItemPath(T o)
+        {
+            return Path.Combine(_baseFolder, o.UUID);
+        }
         protected virtual string GetDataFilePath(T o)
         {
-            return Path.Combine(_dataFolder, o.UUID + DataFileExtension);
+            return Path.Combine(GetItemPath(o), DataFileName);
         }
 
         #endregion
@@ -157,13 +178,13 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
         #region Remove
         public void Remove(T item)
         {
-            string filePath = GetDataFilePath(item);
+            string dirPath = GetItemPath(item);
             _lock.EnterWriteLock();
             try
             {
-                if (File.Exists(filePath))
+                if (Directory.Exists(dirPath))
                 {
-                    File.Delete(filePath);
+                    Kooboo.IO.IOUtility.DeleteDirectory(dirPath, true);
                 }
             }
             finally
@@ -181,7 +202,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
             {
                 using (ZipFile zipFile = new ZipFile(Encoding.UTF8))
                 {
-                    zipFile.AddDirectory(_dataFolder, "");
+                    zipFile.AddDirectory(_baseFolder, "");
 
                     zipFile.Save(outputStream);
                 }
@@ -192,7 +213,8 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
                 {
                     foreach (var item in items)
                     {
-                        zipFile.AddFile(GetDataFilePath(item), "");
+                        var dir = GetItemPath(item);
+                        zipFile.AddDirectory(dir, Path.GetFileName(dir));
                     }
 
                     zipFile.Save(outputStream);
@@ -212,7 +234,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
                 {
                     action = ExtractExistingFileAction.OverwriteSilently;
                 }
-                zipFile.ExtractAll(_dataFolder, action);
+                zipFile.ExtractAll(_baseFolder, action);
             }
         }
         #endregion

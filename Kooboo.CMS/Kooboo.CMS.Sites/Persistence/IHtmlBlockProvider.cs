@@ -18,7 +18,7 @@ namespace Kooboo.CMS.Sites.Persistence
     {
         void Clear(Site site);
 
-        void Export(IEnumerable<HtmlBlock> sources, System.IO.Stream outputStream);
+        void Export(Site site, IEnumerable<HtmlBlock> sources, System.IO.Stream outputStream);
 
         void Import(Site site, System.IO.Stream zipStream, bool @override);
     }

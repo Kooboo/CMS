@@ -8,8 +8,10 @@
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -17,63 +19,26 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUrlKeyMapProvider))]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<UrlKeyMap>))]
-    public class UrlKeyMapProvider : ListFileRepository<UrlKeyMap>, IUrlKeyMapProvider
+    public class UrlKeyMapProvider : FileProviderBase<UrlKeyMap>, IUrlKeyMapProvider
     {
-        #region GetLocker
-        static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
-        protected override System.Threading.ReaderWriterLockSlim GetLocker()
-        {
-            return locker;
-        }
-        #endregion
-
-        #region IImportRepository Members
-
-        public void Export(Site site, System.IO.Stream outputStream)
-        {
-            locker.EnterReadLock();
-            try
-            {
-                ImportHelper.Export(new[] { new UrlKeyMapsFile(site) }, outputStream);
-            }
-            finally
-            {
-                locker.ExitReadLock();
-            }
-        }
-
-        public void Import(Site site, System.IO.Stream zipStream, bool @override)
-        {
-            locker.EnterWriteLock();
-            try
-            {
-                ImportHelper.ImportData<UrlKeyMap>(site, this, UrlKeyMapsFile.UrlKeyMapFileName, zipStream, @override);
-            }
-            finally
-            {
-                locker.ExitWriteLock();
-            }
-        }
-
+        #region lock
+        static System.Threading.ReaderWriterLockSlim @lock = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
+        //protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        //{
+        //    return locker;
+        //}
         #endregion
 
         #region GetFile
-        protected override string GetFile(Site site)
+        private string GetDataFile(Site site)
         {
-            return new UrlKeyMapsFile(site).PhysicalPath;
-        }        
-        #endregion
-        
-        #region ExportToDisk/InitializeToDB
-        public void InitializeToDB(Site site)
-        {
-            //not need to implement.
+            return Path.Combine(site.PhysicalPath, "UrlKeyMaps.config");
         }
-
-        public void ExportToDisk(Site site)
-        {
-            //not need to implement.
-        } 
         #endregion
+
+        protected override IFileStorage<UrlKeyMap> GetFileStorage(Site site)
+        {
+            return new XmlListFileStorage<UrlKeyMap>(GetDataFile(site), @lock);
+        }
     }
 }

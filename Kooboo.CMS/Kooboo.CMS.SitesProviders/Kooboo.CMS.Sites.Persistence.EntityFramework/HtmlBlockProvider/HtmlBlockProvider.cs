@@ -149,7 +149,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.HtmlBlockProvider
         #endregion
 
         #region Export
-        public void Export(IEnumerable<Models.HtmlBlock> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<Models.HtmlBlock> sources, System.IO.Stream outputStream)
         {
             var fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
             foreach (var item in sources)
@@ -157,7 +157,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.HtmlBlockProvider
                 var layout = Get(item);
                 fileProvider.Add(layout);
             }
-            fileProvider.Export(sources, outputStream);
+            fileProvider.Export(site, sources, outputStream);
         }
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
         {

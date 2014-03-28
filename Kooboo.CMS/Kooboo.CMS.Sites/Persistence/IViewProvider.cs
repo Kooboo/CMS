@@ -18,7 +18,7 @@ namespace Kooboo.CMS.Sites.Persistence
     {
         Models.View Copy(Site site, string sourceName, string destName);
 
-        void Export(IEnumerable<Kooboo.CMS.Sites.Models.View> sources, System.IO.Stream outputStream);
+        void Export(Site site, IEnumerable<Kooboo.CMS.Sites.Models.View> customErrors, System.IO.Stream outputStream);
 
         void Import(Site site, System.IO.Stream zipStream, bool @override);
     }

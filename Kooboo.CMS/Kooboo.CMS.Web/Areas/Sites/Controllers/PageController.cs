@@ -373,11 +373,14 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             var fileName = GetZipFileName();
             Response.AttachmentHeader(fileName);
-            foreach (var item in model)
+            if (model != null)
             {
-                item.Site = Site;
+                foreach (var item in model)
+                {
+                    item.Site = Site;
+                }
             }
-            Manager.Export(model, Response.OutputStream);
+            Manager.Export(Site, model, Response.OutputStream);
         }
 
         protected string GetZipFileName()

@@ -15,6 +15,8 @@ using System.ComponentModel.Composition;
 using Kooboo.CMS.Sites.DataRule;
 using Kooboo.IO;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
+using System.IO;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
@@ -25,7 +27,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region ViewVersionLogger
         public class ViewVersionLogger : TemplateProvider<Kooboo.CMS.Sites.Models.View>.TemplateVersionLogger
         {
-            static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
+            static System.Threading.ReaderWriterLockSlim _lock = new System.Threading.ReaderWriterLockSlim();
             protected override TemplateProvider<Kooboo.CMS.Sites.Models.View> GetTemplateProvider()
             {
                 return new ViewProvider();
@@ -39,15 +41,15 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 }
             }
 
-            protected override System.Threading.ReaderWriterLockSlim GetLocker()
+            protected override System.Threading.ReaderWriterLockSlim GetLock()
             {
-                return locker;
+                return _lock;
             }
         }
         #endregion
 
         #region KnownTypes
-        protected override IEnumerable<Type> KnownTypes
+        private IEnumerable<Type> KnownTypes
         {
             get
             {
@@ -70,17 +72,14 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #endregion
 
         #region GetLocker
-        static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
-        protected override System.Threading.ReaderWriterLockSlim GetLocker()
-        {
-            return locker;
-        }
+        static System.Threading.ReaderWriterLockSlim _lock = new System.Threading.ReaderWriterLockSlim();
+
         #endregion
 
         #region Copy
         public Models.View Copy(Site site, string sourceName, string destName)
         {
-            GetLocker().EnterWriteLock();
+            _lock.EnterWriteLock();
 
             try
             {
@@ -93,23 +92,23 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
             finally
             {
-                GetLocker().ExitWriteLock();
+                _lock.ExitWriteLock();
             }
-
         }
         #endregion
 
-        #region InitializeToDB/ExportToDisk
-        public void InitializeToDB(Site site)
+
+        protected override string GetBasePath(Site site)
         {
-            //
+            return Path.Combine(site.PhysicalPath, "Templates", "Views");
         }
 
-        public void ExportToDisk(Site site)
+        protected override IFileStorage<Models.View> GetFileStorage(Site site)
         {
-            //
+            return new DirectoryObjectFileStorage<Models.View>(GetBasePath(site), _lock, KnownTypes, (dir) =>
+            {
+                return new Models.View(site, dir.Name);
+            });
         }
-        #endregion
-
     }
 }

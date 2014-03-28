@@ -60,13 +60,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         {
             var fileName = GetZipFileName();
             Response.AttachmentHeader(fileName);
-            if (model!=null)
+            if (model != null)
             {
                 foreach (var item in model)
                 {
                     item.Site = Site;
                 }
-            }            
+            }
             Manager.Export(Site, model, Response.OutputStream);
             return null;
         }

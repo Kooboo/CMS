@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Versioning;
 using Kooboo.IO;
@@ -20,15 +21,29 @@ using System.Text;
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
     public abstract class TemplateProvider<T> : InheritableProviderBase<T>, ISiteElementProvider<T>
-        where T : Template, ISiteObject, IFilePersistable, IPersistable, IIdentifiable, IInheritable<T>
+        where T : Template, ISiteObject, IFilePersistable, IPersistable, IIdentifiable, IInheritable<T>, new()
     {
+        static string TemplateFileName = "template";
         #region TemplateVersionLogger
         public abstract class TemplateVersionLogger : FileVersionLogger<T>
         {
+            private IEnumerable<Type> KnownTypes
+            {
+                get
+                {
+                    return new Type[]{
+                typeof(DataRuleBase),
+                typeof(FolderDataRule),
+                typeof(SchemaDataRule),
+                typeof(CategoryDataRule),
+                typeof(HttpDataRule)
+                };
+                }
+            }
             protected abstract TemplateProvider<T> GetTemplateProvider();
             public override void LogVersion(T o)
             {
-                var locker = GetLocker();
+                var locker = GetLock();
                 locker.EnterWriteLock();
                 try
                 {
@@ -55,68 +70,93 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 if (File.Exists(versionDataFile))
                 {
                     var provider = GetTemplateProvider();
-                    template = provider.Deserialize(o, versionDataFile);
+                    template = (T)Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize(typeof(T), KnownTypes, versionDataFile);
                     template.Body = IOUtility.ReadAsString(versionTemplateFile);
                     template.Init(o);
                 }
                 return template;
             }
 
-            protected abstract System.Threading.ReaderWriterLockSlim GetLocker();
+            protected abstract System.Threading.ReaderWriterLockSlim GetLock();
         }
         #endregion
 
-        #region Get/Save
-        public override T Get(T dummyObject)
+        //#region Get/Save
+        //public override T Get(T dummyObject)
+        //{
+        //    if (!dummyObject.Exists())
+        //    {
+        //        return null;
+        //    }
+        //    var template = base.Get(dummyObject);
+        //    template.Init(dummyObject);
+        //    return template;
+        //}
+
+        //protected override void Save(T item)
+        //{
+        //    base.Save(item);
+        //}
+
+        //#endregion
+
+        //#region Import
+        //public void Export(IEnumerable<T> sources, System.IO.Stream outputStream)
+        //{
+        //    ImportHelper.Export(sources.OfType<PathResource>(), outputStream);
+        //}
+        //public void Import(Site site, System.IO.Stream zipStream, bool @override)
+        //{
+        //    GetLocker().EnterWriteLock();
+        //    try
+        //    {
+        //        var destDir = ModelActivatorFactory<T>.GetActivator().CreateDummy(site).BasePhysicalPath;
+        //        ImportHelper.Import(site, destDir, zipStream, @override);
+        //    }
+        //    finally
+        //    {
+        //        GetLocker().ExitWriteLock();
+        //    }
+
+        //}
+        //#endregion
+
+        #region Get/Add/Update
+        protected abstract string GetBasePath(Site site);
+
+        private string GetTemplateFilePath(T item)
         {
-            if (!dummyObject.Exists())
+            return Path.Combine(GetBasePath(item.Site), item.Name, TemplateFileName + item.FileExtension);
+        }
+        public override T Get(T dummy)
+        {
+            var o = base.Get(dummy);
+
+            if (o!=null)
             {
-                return null;
-            }
-            var template = base.Get(dummyObject);
-            template.Init(dummyObject);
-            return template;
+                o.Body = Kooboo.IO.IOUtility.ReadAsString(GetTemplateFilePath(dummy));
+            }            
+
+            return o;
         }
 
-        protected override void Save(T item)
+        private void SaveTemplate(T item)
         {
-            base.Save(item);
+            Kooboo.IO.IOUtility.SaveStringToFile(GetTemplateFilePath(item), item.Body);
         }
 
-        #endregion
-
-        #region Import
-        public void Export(IEnumerable<T> sources, System.IO.Stream outputStream)
+        public override void Add(T item)
         {
-            ImportHelper.Export(sources.OfType<PathResource>(), outputStream);
+            base.Add(item);
+            SaveTemplate(item);
         }
-        public void Import(Site site, System.IO.Stream zipStream, bool @override)
+        public override void Update(T @new, T old)
         {
-            GetLocker().EnterWriteLock();
-            try
-            {
-                var destDir = ModelActivatorFactory<T>.GetActivator().CreateDummy(site).BasePhysicalPath;
-                ImportHelper.Import(site, destDir, zipStream, @override);
-            }
-            finally
-            {
-                GetLocker().ExitWriteLock();
-            }
-
+            base.Update(@new, old);
+            SaveTemplate(@new);
         }
         #endregion
 
 
-        #region ISiteElementProvider InitializeToDB/ExportToDisk
-        public void InitializeToDB(Site site)
-        {
-              //not need to implement
-        }
-
-        public void ExportToDisk(Site site)
-        {
-             //not need to implement
-        } 
-        #endregion
     }
 }

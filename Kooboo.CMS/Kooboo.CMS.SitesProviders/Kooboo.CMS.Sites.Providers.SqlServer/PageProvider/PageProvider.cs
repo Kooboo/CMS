@@ -55,7 +55,7 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.PageProvider
         static PageProvider()
         {
             ClearCache();
-        } 
+        }
         #endregion
 
         #region 缓存Page表
@@ -404,14 +404,14 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.PageProvider
         #endregion
 
         #region Export
-        public void Export(IEnumerable<Models.Page> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<Models.Page> sources, System.IO.Stream outputStream)
         {
             IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
             foreach (var item in sources)
             {
                 ExportAsFileCascading(filePageProvider, item);
             }
-            filePageProvider.Export(sources, outputStream);
+            filePageProvider.Export(site, sources, outputStream);
         }
         private void ExportAsFileCascading(IPageProvider filePageProvider, Page page)
         {
@@ -462,7 +462,7 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.PageProvider
 
             return new Page(site, fullName);
         }
-       
+
 
         #endregion
 
@@ -489,7 +489,7 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.PageProvider
         }
 
         #endregion
-        
+
         #region ISiteElementProvider InitializeToDB/ExportToDisk
         private void InitializePageCascading(IPageProvider filePageProvider, Page page)
         {

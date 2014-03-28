@@ -39,7 +39,15 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
         public static void CreateCateogryIndex(this Repository repository)
         {
             var collection = repository.GetCategoriesCollection();
-            collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("ContentUUID"), ModelExtensions.GetCaseInsensitiveFieldName("CategoryFolder"), ModelExtensions.GetCaseInsensitiveFieldName("CategoryUUID"));
+            try
+            {
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("ContentUUID"), ModelExtensions.GetCaseInsensitiveFieldName("CategoryFolder"), ModelExtensions.GetCaseInsensitiveFieldName("CategoryUUID"));
+            }//ignore the index creating exception
+            catch (Exception e)
+            {
+                Kooboo.HealthMonitoring.Log.LogException(e);
+            }
+
         }
         public static MongoCollection<BsonDocument> GetCollection(this Schema schema)
         {
@@ -50,11 +58,18 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
         public static void CreateIndex(this Schema schema)
         {
             MongoCollection<BsonDocument> collection = schema.GetCollection();
-            collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UUID"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
-            collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UserKey"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
-            collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UUID"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
-            collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UserKey"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
-            collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("ParentFolder"), ModelExtensions.GetCaseInsensitiveFieldName("ParentUUID"));
+            try
+            {
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UUID"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UserKey"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UUID"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UserKey"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("ParentFolder"), ModelExtensions.GetCaseInsensitiveFieldName("ParentUUID"));
+            }//ignore the index creating exception
+            catch (Exception e)
+            {
+                Kooboo.HealthMonitoring.Log.LogException(e);
+            }
         }
         public static void DropCollection(this Schema schema)
         {

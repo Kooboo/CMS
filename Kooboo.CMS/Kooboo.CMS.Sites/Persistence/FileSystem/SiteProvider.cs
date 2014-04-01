@@ -388,6 +388,8 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 var action = ExtractExistingFileAction.OverwriteSilently;
                 zipFile.ExtractAll(site.PhysicalPath, action);
 
+                site = Get(site);
+
                 CreateRepository(site, options);
                 CreateMembership(site, options);
 
@@ -397,10 +399,11 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 }
             }
 
+          
+
             Initialize(site);
             Online(site);
-
-            site = Get(site);
+            
             if (!string.IsNullOrEmpty(options.Culture))
             {
                 site.Culture = options.Culture;

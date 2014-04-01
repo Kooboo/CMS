@@ -56,37 +56,41 @@ namespace Kooboo.CMS.Search
         {
             Document doc = null;
             var converter = ObjectConverters.GetConverter(o.GetType());
-            var indexObject = converter.GetIndexObject(o);
-            if (indexObject != null)
+            if (converter != null)
             {
-                doc = new Document();
-                var key = converter.GetKeyField(o);
-                doc.Add(new Field(key.Key, key.Value.ToLower(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-                doc.Add(new Field(TitleFieldName, indexObject.Title, Field.Store.YES, Field.Index.ANALYZED));
-                doc.Add(new Field(BodyFieldName, indexObject.Body, Field.Store.YES, Field.Index.ANALYZED));
-                doc.Add(new Field(NativeTypeNameField, indexObject.NativeType, Field.Store.YES, Field.Index.NO));
-                if (indexObject.StoreFields != null)
+                var indexObject = converter.GetIndexObject(o);
+                if (indexObject != null)
                 {
-                    foreach (var item in indexObject.StoreFields.AllKeys)
+                    doc = new Document();
+                    var key = converter.GetKeyField(o);
+                    doc.Add(new Field(key.Key, key.Value.ToLower(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+                    doc.Add(new Field(TitleFieldName, indexObject.Title, Field.Store.YES, Field.Index.ANALYZED));
+                    doc.Add(new Field(BodyFieldName, indexObject.Body, Field.Store.YES, Field.Index.ANALYZED));
+                    doc.Add(new Field(NativeTypeNameField, indexObject.NativeType, Field.Store.YES, Field.Index.NO));
+                    if (indexObject.StoreFields != null)
                     {
-                        if (!item.EqualsOrNullEmpty(key.Key, StringComparison.OrdinalIgnoreCase))
+                        foreach (var item in indexObject.StoreFields.AllKeys)
                         {
-                            doc.Add(new Field(item, indexObject.StoreFields[item], Field.Store.YES, Field.Index.NO));
+                            if (!item.EqualsOrNullEmpty(key.Key, StringComparison.OrdinalIgnoreCase))
+                            {
+                                doc.Add(new Field(item, indexObject.StoreFields[item], Field.Store.YES, Field.Index.NO));
+                            }
                         }
-                    }
 
-                }
-                if (indexObject.SystemFields != null)
-                {
-                    foreach (var item in indexObject.SystemFields.AllKeys)
+                    }
+                    if (indexObject.SystemFields != null)
                     {
-                        if (!item.EqualsOrNullEmpty(key.Key, StringComparison.OrdinalIgnoreCase))
+                        foreach (var item in indexObject.SystemFields.AllKeys)
                         {
-                            doc.Add(new Field(item, indexObject.SystemFields[item], Field.Store.YES, Field.Index.NOT_ANALYZED));
+                            if (!item.EqualsOrNullEmpty(key.Key, StringComparison.OrdinalIgnoreCase))
+                            {
+                                doc.Add(new Field(item, indexObject.SystemFields[item], Field.Store.YES, Field.Index.NOT_ANALYZED));
+                            }
                         }
                     }
                 }
             }
+
             return doc;
         }
         public virtual ResultObject ToResultObject(Highlighter highlighter, Document doc)
@@ -94,46 +98,53 @@ namespace Kooboo.CMS.Search
             var nativeTypeName = doc.GetField(NativeTypeNameField).StringValue;
             var nativeType = Type.GetType(nativeTypeName);
             var converter = ObjectConverters.GetConverter(nativeType);
-
-            ResultObject result = new ResultObject();
-
-            result.Title = doc.GetField(TitleFieldName).StringValue;
-            result.HighlightedTitle = highlighter.GetBestFragment(this.Analyzer, TitleFieldName, result.Title);
-
-            if (string.IsNullOrEmpty(result.HighlightedTitle))
+            if (converter != null)
             {
-                result.HighlightedTitle = result.Title;
-            }
+                ResultObject result = new ResultObject();
 
-            result.Body = doc.GetField(BodyFieldName).StringValue;
-            result.HighlightedBody = string.Join("...", highlighter.GetBestFragments(Analyzer, BodyFieldName, result.Body, 5));
+                result.Title = doc.GetField(TitleFieldName).StringValue;
+                result.HighlightedTitle = highlighter.GetBestFragment(this.Analyzer, TitleFieldName, result.Title);
 
-            if (string.IsNullOrEmpty(result.HighlightedBody))
-            {
-                result.HighlightedBody = result.Body;
-            }
-
-            NameValueCollection fields = new NameValueCollection();
-            foreach (Field field in doc.GetFields())
-            {
-                if (!IsReservedField(field.Name))
+                if (string.IsNullOrEmpty(result.HighlightedTitle))
                 {
-                    fields[field.Name] = field.StringValue;
+                    result.HighlightedTitle = result.Title;
                 }
+
+                result.Body = doc.GetField(BodyFieldName).StringValue;
+                result.HighlightedBody = string.Join("...", highlighter.GetBestFragments(Analyzer, BodyFieldName, result.Body, 5));
+
+                if (string.IsNullOrEmpty(result.HighlightedBody))
+                {
+                    result.HighlightedBody = result.Body;
+                }
+
+                NameValueCollection fields = new NameValueCollection();
+                foreach (Field field in doc.GetFields())
+                {
+                    if (!IsReservedField(field.Name))
+                    {
+                        fields[field.Name] = field.StringValue;
+                    }
+                }
+
+                result.NativeObject = converter.GetNativeObject(fields);
+
+                result.Url = converter.GetUrl(result.NativeObject);
+
+                return result;
             }
-
-            result.NativeObject = converter.GetNativeObject(fields);
-
-            result.Url = converter.GetUrl(result.NativeObject);
-
-            return result;
+            return null;
 
         }
         public virtual Term GetKeyTerm(object o)
         {
             var converter = ObjectConverters.GetConverter(o.GetType());
-            var key = converter.GetKeyField(o);
-            return new Term(key.Key, key.Value.ToLower());
+            if (converter != null)
+            {
+                var key = converter.GetKeyField(o);
+                return new Term(key.Key, key.Value.ToLower());
+            }
+            return null;
         }
     }
 
@@ -211,7 +222,7 @@ namespace Kooboo.CMS.Search
                 {
                     var doc = Converter.ToDocument(item);
                     var keyTerm = Converter.GetKeyTerm(item);
-                    if (doc != null)
+                    if (doc != null && keyTerm != null)
                     {
                         writer.UpdateDocument(keyTerm, doc);
                     }
@@ -232,7 +243,7 @@ namespace Kooboo.CMS.Search
             var writer = CreateIndexWriter();
             try
             {
-                var keyTerms = list.Select(it => Converter.GetKeyTerm(it)).ToArray();
+                var keyTerms = list.Select(it => Converter.GetKeyTerm(it)).Where(it => it != null).ToArray();
                 writer.DeleteDocuments(keyTerms);
 
                 foreach (var item in list)
@@ -319,7 +330,7 @@ namespace Kooboo.CMS.Search
 
             QueryParser bodyParser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, Converter.BodyFieldName, this.Analyzer);
             var bodyQuery = bodyParser.Parse(key);
-            bodyQuery.Boost=1;
+            bodyQuery.Boost = 1;
             query.Add(new BooleanClause(bodyQuery, Occur.SHOULD));
 
             QueryWrapperFilter filter = null;
@@ -330,8 +341,8 @@ namespace Kooboo.CMS.Search
                 foreach (var folder in folders)
                 {
                     var termQuery = new TermQuery(new Term("FolderName", folder));
-                    termQuery.Boost= 3;
-                    folderQuery.Add(new BooleanClause(termQuery,Occur.SHOULD));
+                    termQuery.Boost = 3;
+                    folderQuery.Add(new BooleanClause(termQuery, Occur.SHOULD));
                 }
 
                 filter = new QueryWrapperFilter(folderQuery);

@@ -33,7 +33,7 @@ namespace Kooboo.CMS.Search
     {
         public static IObjectConverter GetConverter(Type type)
         {
-            return EngineContext.Current.Resolve<IObjectConverter>(type.FullName);
+            return EngineContext.Current.TryResolve<IObjectConverter>(type.FullName);
         }
     }
 }

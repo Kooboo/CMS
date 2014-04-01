@@ -454,12 +454,13 @@
                 $('#skipError').attr('checked', true);
             }
             // OutputCache
-            var dur, policy, outputCache = $.parseJSON(this.outerValue.OutputCache);
+            var dur, policy, outputCache = $.parseJSON(this.outerValue.OutputCache);           
             if (outputCache) {
                 $('#enablecache').attr('checked', outputCache.EnableCaching);
                 dur = outputCache.Duration;
                 policy = outputCache.ExpirationPolicy;
             }
+            $('#enablecache').trigger('change');
             this.duration(dur || '');
             this.expirationPolicy(policy);
         },

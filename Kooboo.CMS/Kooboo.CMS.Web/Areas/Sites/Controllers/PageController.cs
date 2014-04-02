@@ -373,11 +373,14 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             var fileName = GetZipFileName();
             Response.AttachmentHeader(fileName);
-            foreach (var item in model)
+            if (model != null)
             {
-                item.Site = Site;
+                foreach (var item in model)
+                {
+                    item.Site = Site;
+                }
             }
-            Manager.Export(model, Response.OutputStream);
+            Manager.Export(Site, model, Response.OutputStream);
         }
 
         protected string GetZipFileName()
@@ -579,7 +582,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Manager.Move(Site, model.UUID, model.ParentPage, model.CreateRedirect);
+                    Manager.Move(Site, model.UUID, model.ParentPage, model.CreateRedirect, User.Identity.Name);
                     data.RedirectUrl = @return;
                 }
             });

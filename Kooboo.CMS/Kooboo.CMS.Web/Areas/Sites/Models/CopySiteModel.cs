@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Models.Options;
 using Kooboo.CMS.Web.Areas.Sites.Models.DataSources;
 using Kooboo.CMS.Web.Models;
 using Kooboo.Web.Mvc;
@@ -39,16 +40,15 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         public string Membership { get; set; }
 
 
-        public Site ToSiteSetting()
+        public CreateSiteOptions ToCreateSiteOptions()
         {
-            var site = new Site()
+            var options = new CreateSiteOptions()
             {
-                Repository = Repository,
-                Membership = Membership,
-                Domains = null
+                RepositoryName = Repository,
+                MembershipName = Membership,
             };
 
-            return site;
+            return options;
         }
     }
 }

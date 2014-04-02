@@ -10,6 +10,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.CustomErrorProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ICustomErrorProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<CustomError>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "CustomErrorProvider")]
     public class CustomErrorProvider : ProviderBase<CustomError>, ICustomErrorProvider
     {
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
@@ -24,16 +25,17 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.CustomErrorProvider
             {
                 return new CustomError() { Site = site, UUID = key };
             })
-        { 
+        {
         }
         #endregion
 
-        public void Export(Models.Site site, System.IO.Stream outputStream)
+        #region Export
+        public void Export(Models.Site site, IEnumerable<CustomError> customErrors, System.IO.Stream outputStream)
         {
-            ExportCustomErrorToDisk(site);
+            ExportToDisk(site);
 
             var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider();
-            provider.Export(site, outputStream);
+            provider.Export(site, customErrors, outputStream);
         }
 
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
@@ -52,46 +54,8 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.CustomErrorProvider
             }
         }
 
-        //public IEnumerable<Models.CustomError> All(Models.Site site)
-        //{
-        //    return DataHelper.QueryList<CustomError>(site, ModelExtensions.GetQueryView(ModelExtensions.CustomErrorDataType), createModel);
-        //}
 
-        //public IEnumerable<Models.CustomError> All()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Models.CustomError Get(Models.CustomError dummy)
-        //{
-        //    var bucketDocumentKey = ModelExtensions.GetBucketDocumentKey(ModelExtensions.CustomErrorDataType, dummy.UUID);
-
-        //    return DataHelper.QueryByKey<CustomError>(dummy.Site, bucketDocumentKey, createModel);
-        //}
-
-        //public void Add(Models.CustomError item)
-        //{
-        //    InsertOrUpdate(item, item);
-        //}
-        //private void InsertOrUpdate(CustomError @new, CustomError old)
-        //{
-        //    ((IPersistable)@new).OnSaving();
-
-        //    DataHelper.StoreObject(@new, @new.UUID, ModelExtensions.CustomErrorDataType);
-
-        //    ((IPersistable)@new).OnSaved();
-        //}
-        //public void Update(Models.CustomError @new, Models.CustomError old)
-        //{
-        //    InsertOrUpdate(@new, @old);
-        //}
-
-        //public void Remove(Models.CustomError item)
-        //{
-        //    DataHelper.DeleteItemByKey(item.Site, ModelExtensions.GetBucketDocumentKey(ModelExtensions.CustomErrorDataType, item.UUID));
-        //}
-
-        public void InitializeCustomError(Site site)
+        public void InitializeToDB(Site site)
         {
             ICustomErrorProvider fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider();
             foreach (var item in fileProvider.All(site))
@@ -103,20 +67,15 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.CustomErrorProvider
             }
         }
 
-        public void ExportCustomErrorToDisk(Site site)
+        public void ExportToDisk(Site site)
         {
-            var allItem = this.All(site).ToList();
-            var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider();
-            var file = new CustomErrorsFile(site).PhysicalPath;
-            locker.EnterWriteLock();
-            try
+            var allItems = this.All(site).ToList();
+            var fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider();
+            foreach (var item in allItems)
             {
-                Serialization.Serialize<List<CustomError>>(allItem, file);
-            }
-            finally
-            {
-                locker.ExitWriteLock();
+                fileProvider.Add(item);
             }
         }
+        #endregion
     }
 }

@@ -10,22 +10,25 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ICustomErrorProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Kooboo.CMS.Sites.Models.CustomError>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "CustomErrorProvider")]
     public class CustomErrorProvider : ICustomErrorProvider, ISiteImportExportStartup
     {
+        #region .ctor
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
-        Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider provider;
+        Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider fileProvider;
         SiteDBContext _dbContext;
         public CustomErrorProvider(SiteDBContext dbContext)
         {
             this._dbContext = dbContext;
-            provider = new Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider();
+            fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider();
         }
+        #endregion
 
         #region --- Import && Export ---
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
         {
-            provider.Import(site, zipStream, @override);
-            var allItem = provider.All(site);
+            fileProvider.Import(site, zipStream, @override);
+            var allItem = fileProvider.All(site);
             if (!@override)
             {
                 allItem = allItem.Where(it => null == Get(it));
@@ -37,30 +40,24 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider
             }
         }
 
-        public void Export(Site site, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<CustomError> customErrors, System.IO.Stream outputStream)
         {
             ExportToDisk(site);
-            provider.Export(site, outputStream);
+            fileProvider.Export(site, customErrors, outputStream);
         }
 
         public void ExportToDisk(Site site)
         {
-            var allItem = this.All(site).ToList();
-            var file = new CustomErrorsFile(site).PhysicalPath;
-            locker.EnterWriteLock();
-            try
+            var allItems = this.All(site).ToList();
+            foreach (var item in allItems)
             {
-                Serialization.Serialize<List<CustomError>>(allItem, file);
-            }
-            finally
-            {
-                locker.ExitWriteLock();
+                fileProvider.Add(item);
             }
         }
 
         public void ImportToDatabase(Site site, bool @override)
         {
-            var allItem = provider.All(site);
+            var allItem = fileProvider.All(site);
             if (!@override)
             {
                 allItem = allItem.Where(it => null == Get(it));
@@ -70,6 +67,12 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider
             {
                 UpdateOrAdd(item, item);
             }
+        }
+
+
+        public void InitializeToDB(Site site)
+        {
+            //
         }
         #endregion
 
@@ -129,5 +132,8 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider
             ((IPersistable)item).OnSaved();
         }
         #endregion
+
+
+
     }
 }

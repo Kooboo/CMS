@@ -181,59 +181,88 @@ namespace Kooboo.CMS.Content.Models.Binder
                     textContent[column.Name] = value;
                     break;
                 case DataType.Int:
-                    int intValue;
-                    if (int.TryParse(value, out intValue))
-                    {
-                        textContent[column.Name] = intValue;
-                    }
-                    else
-                    {
-                        violations.Add(new RuleViolation(column.Name, value, string.Format("The field {0} is a invalid int value.".Localize(), column.Name)));
-                    }
-                    break;
-                case DataType.Decimal:
-                    decimal decValue;
-                    if (decimal.TryParse(value, out decValue))
-                    {
-                        textContent[column.Name] = decValue;
-                    }
-                    else
-                    {
-                        violations.Add(new RuleViolation(column.Name, value, string.Format("The field {0} is a invalid decimal value.".Localize(), column.Name)));
-                    }
-                    break;
-                case DataType.DateTime:
-                    DateTime dateTime;
-                    if (DateTimeHelper.TryParse(value, out dateTime))
-                    {
-                        textContent[column.Name] = dateTime;
-                    }
-                    else
-                    {
-                        violations.Add(new RuleViolation(column.Name, value, string.Format("The field {0} is a invalid date value.".Localize(), column.Name)));
-                    }
-                    break;
-                case DataType.Bool:
-
+                    //avoid to parse emtpy string.
                     if (!string.IsNullOrEmpty(value))
                     {
-                        value = value.Split(',').First();
-                        bool boolValue;
-                        if (bool.TryParse(value, out boolValue))
+                        int intValue;
+                        if (int.TryParse(value, out intValue))
                         {
-                            textContent[column.Name] = boolValue;
+                            textContent[column.Name] = intValue;
                         }
                         else
                         {
-                            violations.Add(new RuleViolation(column.Name, value, string.Format("The field {0} is a invalid bool value.".Localize(), column.Name)));
+                            violations.Add(new RuleViolation(column.Name, value, string.Format("The field {0} is a invalid int value.".Localize(), column.Name)));
                         }
                     }
                     else
                     {
-                        if (!column.AllowNull)
+                        textContent[column.Name] = null;
+                    }
+                    break;
+                case DataType.Decimal:
+                    //avoid to parse emtpy string.
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        decimal decValue;
+                        if (decimal.TryParse(value, out decValue))
                         {
-                            textContent[column.Name] = false;
+                            textContent[column.Name] = decValue;
                         }
+                        else
+                        {
+                            violations.Add(new RuleViolation(column.Name, value, string.Format("The field {0} is a invalid decimal value.".Localize(), column.Name)));
+                        }
+                    }
+                    else
+                    {
+                        textContent[column.Name] = null;
+                    }
+                    break;
+                case DataType.DateTime:
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        DateTime dateTime;
+                        if (DateTimeHelper.TryParse(value, out dateTime))
+                        {
+                            textContent[column.Name] = dateTime;
+                        }
+                        else
+                        {
+                            violations.Add(new RuleViolation(column.Name, value, string.Format("The field {0} is a invalid date value.".Localize(), column.Name)));
+                        }
+                    }
+                    else
+                    {
+                        textContent[column.Name] = null;
+                    }
+                    break;
+                case DataType.Bool:
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        if (!string.IsNullOrEmpty(value))
+                        {
+                            value = value.Split(',').First();
+                            bool boolValue;
+                            if (bool.TryParse(value, out boolValue))
+                            {
+                                textContent[column.Name] = boolValue;
+                            }
+                            else
+                            {
+                                violations.Add(new RuleViolation(column.Name, value, string.Format("The field {0} is a invalid bool value.".Localize(), column.Name)));
+                            }
+                        }
+                        else
+                        {
+                            if (!column.AllowNull)
+                            {
+                                textContent[column.Name] = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        textContent[column.Name] = null;
                     }
                     break;
                 default:
@@ -314,7 +343,7 @@ namespace Kooboo.CMS.Content.Models.Binder
                         break;
                     case ValidationType.Regex:
                         var regexValidation = (RegexValidation)validation;
-                        if (textContent.ContainsKey(column.Name) && textContent[column.Name] != null)
+                        if (textContent.ContainsKey(column.Name) && textContent[column.Name] != null && textContent[column.Name].ToString() != "")
                         {
                             string pattern = regexValidation.Pattern;
                             if (!string.IsNullOrEmpty(pattern))

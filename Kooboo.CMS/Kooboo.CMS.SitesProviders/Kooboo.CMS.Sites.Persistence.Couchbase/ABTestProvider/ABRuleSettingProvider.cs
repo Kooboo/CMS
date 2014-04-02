@@ -10,8 +10,10 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABRuleSettingProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABRuleSetting>), Order = 100)]
-    public class ABRuleSettingProvider : ProviderBase<ABRuleSetting>,IABRuleSettingProvider
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "ABRuleSettingsProvider")]
+    public class ABRuleSettingProvider : ProviderBase<ABRuleSetting>, IABRuleSettingProvider
     {
+        #region .ctor
         Kooboo.CMS.Sites.Persistence.FileSystem.ABRuleSettingProvider fileProvider;
 
         public ABRuleSettingProvider()
@@ -19,14 +21,16 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
         {
             fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.ABRuleSettingProvider(new Kooboo.CMS.Common.BaseDir());
         }
+        #endregion
 
-        public void Export(IEnumerable<ABRuleSetting> sources, System.IO.Stream outputStream)
+        #region Export
+        public void Export(Site site, IEnumerable<ABRuleSetting> sources, System.IO.Stream outputStream)
         {
             foreach (var item in sources)
             {
                 fileProvider.Add(item.AsActual());
             }
-            fileProvider.Export(sources, outputStream);
+            fileProvider.Export(site, sources, outputStream);
         }
 
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
@@ -50,7 +54,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             }
         }
 
-        public void InitializeABRuleSetting(Site site)
+        public void InitializeToDB(Site site)
         {
             foreach (var item in fileProvider.All(site))
             {
@@ -61,7 +65,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             }
         }
 
-        public void ExportABRuleSettingToDisk(Site site)
+        public void ExportToDisk(Site site)
         {
             var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.ABRuleSettingProvider(new Kooboo.CMS.Common.BaseDir());
             var fileAll = provider.All(site);
@@ -76,5 +80,6 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
                 provider.Add(item.AsActual());
             }
         }
+        #endregion
     }
 }

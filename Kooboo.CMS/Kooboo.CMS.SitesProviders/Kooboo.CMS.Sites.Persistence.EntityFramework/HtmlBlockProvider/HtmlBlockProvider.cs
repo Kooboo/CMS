@@ -20,6 +20,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.HtmlBlockProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IHtmlBlockProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<HtmlBlock>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "HtmlBlockProvider")]
     public class HtmlBlockProvider : IHtmlBlockProvider
     {
         #region .ctor
@@ -148,7 +149,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.HtmlBlockProvider
         #endregion
 
         #region Export
-        public void Export(IEnumerable<Models.HtmlBlock> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<Models.HtmlBlock> sources, System.IO.Stream outputStream)
         {
             var fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
             foreach (var item in sources)
@@ -156,7 +157,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.HtmlBlockProvider
                 var layout = Get(item);
                 fileProvider.Add(layout);
             }
-            fileProvider.Export(sources, outputStream);
+            fileProvider.Export(site, sources, outputStream);
         }
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
         {
@@ -187,7 +188,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.HtmlBlockProvider
                 this.Add(htmlBlock);
             }
         }
-        public void InitializeHtmlBlocks(Site site)
+        public void InitializeToDB(Site site)
         {
             IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
             foreach (var item in fileHtmlProvider.All(site))
@@ -198,7 +199,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.HtmlBlockProvider
                 }
             }
         }
-        public void ExportHtmlBlocksToDisk(Site site)
+        public void ExportToDisk(Site site)
         {
             IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
 

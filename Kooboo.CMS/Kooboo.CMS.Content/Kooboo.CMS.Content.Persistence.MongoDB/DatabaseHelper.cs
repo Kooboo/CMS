@@ -19,29 +19,35 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
 
     public static class DatabaseHelper
     {
-        public static MongoServer Connect()
+        static MongoClient mongoClient = new MongoClient(DatabaseSettings.Instance.ConnectionString);
+        public static MongoServer GetServer()
         {
-            MongoServer server = new MongoClient(DatabaseSettings.Instance.ConnectionString).GetServer();
-            server.Connect();
+            MongoServer server = mongoClient.GetServer();
             return server;
         }
         public static MongoDatabase GetDatabase(this Repository repository)
         {
-            var server = Connect();
+            var server = GetServer();
             var db = server.GetDatabase(repository.GetDatabaseName());
             return db;
         }
         public static void DropDatabase(this Repository repository)
         {
-            var server = Connect();
-            server.Connect();
+            var server = GetServer();
             server.DropDatabase(repository.GetDatabaseName());
-            server.Disconnect();
         }
         public static void CreateCateogryIndex(this Repository repository)
         {
             var collection = repository.GetCategoriesCollection();
-            collection.CreateIndex("ContentUUID", "CategoryFolder", "CategoryUUID");
+            try
+            {
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("ContentUUID"), ModelExtensions.GetCaseInsensitiveFieldName("CategoryFolder"), ModelExtensions.GetCaseInsensitiveFieldName("CategoryUUID"));
+            }//ignore the index creating exception
+            catch (Exception e)
+            {
+                Kooboo.HealthMonitoring.Log.LogException(e);
+            }
+
         }
         public static MongoCollection<BsonDocument> GetCollection(this Schema schema)
         {
@@ -52,11 +58,18 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
         public static void CreateIndex(this Schema schema)
         {
             MongoCollection<BsonDocument> collection = schema.GetCollection();
-            collection.CreateIndex("FolderName", "UUID", "Published", "UtcCreationDate");
-            collection.CreateIndex("FolderName", "UserKey", "Published", "UtcCreationDate");
-            collection.CreateIndex("FolderName", "UUID", "Published", "Sequence");
-            collection.CreateIndex("FolderName", "UserKey", "Published", "Sequence");
-            collection.CreateIndex("FolderName", "ParentFolder", "ParentUUID", "Published", "UtcCreationDate");
+            try
+            {
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UUID"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UserKey"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UUID"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("UserKey"), ModelExtensions.GetCaseInsensitiveFieldName("Published"));
+                collection.EnsureIndex(ModelExtensions.GetCaseInsensitiveFieldName("FolderName"), ModelExtensions.GetCaseInsensitiveFieldName("ParentFolder"), ModelExtensions.GetCaseInsensitiveFieldName("ParentUUID"));
+            }//ignore the index creating exception
+            catch (Exception e)
+            {
+                Kooboo.HealthMonitoring.Log.LogException(e);
+            }
         }
         public static void DropCollection(this Schema schema)
         {

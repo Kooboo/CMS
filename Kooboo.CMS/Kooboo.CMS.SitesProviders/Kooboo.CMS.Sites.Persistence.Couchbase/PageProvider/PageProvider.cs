@@ -22,6 +22,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPageProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Page>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "PageProvider")]
     public class PageProvider : IPageProvider
     {
         Func<Site, string, Page> createModel = (Site site, string key) =>
@@ -94,13 +95,13 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         }
         private IEnumerable<Page> QueryBySite(Site site)
         {
-            return DataHelper.QueryList<Page>(site, ModelExtensions.GetQueryView(ModelExtensions.PageDataType), createModel)
+            return DataHelper.QueryList<Page>(site, ModelExtensions.GetQueryViewName(ModelExtensions.PageDataType), createModel)
                 .Where(it => it.Parent == null);
         }
 
         public IEnumerable<Page> ChildPages(Models.Page parentPage)
         {
-            return DataHelper.QueryList<Page>(parentPage.Site, ModelExtensions.GetQueryView(ModelExtensions.PageDataType), createModel)
+            return DataHelper.QueryList<Page>(parentPage.Site, ModelExtensions.GetQueryViewName(ModelExtensions.PageDataType), createModel)
                  .Where(it => it.Parent == parentPage);
         }
         #endregion
@@ -108,7 +109,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         #region relation
         private IEnumerable<Page> AllPagesNested(Site site)
         {
-            return DataHelper.QueryList<Page>(site, ModelExtensions.GetQueryView(ModelExtensions.PageDataType), createModel);
+            return DataHelper.QueryList<Page>(site, ModelExtensions.GetQueryViewName(ModelExtensions.PageDataType), createModel);
         }
         public IEnumerable<Models.Page> ByLayout(Models.Layout layout)
         {
@@ -264,14 +265,14 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         #endregion
 
         #region Export
-        public void Export(IEnumerable<Models.Page> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<Models.Page> sources, System.IO.Stream outputStream)
         {
             IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
             foreach (var item in sources)
             {
                 ExportAsFileCascading(filePageProvider, item);
             }
-            filePageProvider.Export(sources, outputStream);
+            filePageProvider.Export(site, sources, outputStream);
         }
         private void ExportAsFileCascading(IPageProvider filePageProvider, Page page)
         {
@@ -322,7 +323,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
             return new Page(site, fullName);
         }
-        public void InitializePages(Site site)
+        public void InitializeToDB(Site site)
         {
             IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
             foreach (var item in filePageProvider.All(site))
@@ -341,7 +342,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
                 InitializePageCascading(filePageProvider, item);
             }
         }
-        public void ExportPagesToDisk(Site site)
+        public void ExportToDisk(Site site)
         {
             IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
 

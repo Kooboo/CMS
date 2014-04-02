@@ -13,8 +13,10 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
 
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABPageSettingProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABPageSetting>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "ABPageSettingsProvider")]
     public class ABPageSettingsProvider : IABPageSettingProvider, ISiteImportExportStartup
     {
+        #region .ctor
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
         SiteDBContext _dbContext;
         const string DIRNAME = "ABPageSettings";
@@ -24,36 +26,10 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
             this._dbContext = dbContext;
             provider = new Kooboo.CMS.Sites.Persistence.FileSystem.ABPageSettingProvider();
         }
+        #endregion
 
-        private void UpdateOrAdd(ABPageSetting item, ABPageSetting oldItem)
-        {
-            ((IPersistable)item).OnSaving();
-            var dummy = _dbContext.ABPageSettings.FirstOrDefault(it => it.UUID.Equals(oldItem.UUID, StringComparison.OrdinalIgnoreCase)
-                && it.SiteName.Equals(oldItem.Site.FullName, StringComparison.OrdinalIgnoreCase));
-            if (null != dummy)
-            {
-                item.ToABPageSettingEntity<ABPageSettingEntity>(dummy);
-            }
-            else
-            {
-                dummy = item.ToABPageSettingEntity<ABPageSettingEntity>();
-                _dbContext.ABPageSettings.Add(dummy);
-            }
-            _dbContext.SaveChanges();
-            ((IPersistable)item).OnSaved();
-        }
-
-        private void Clean(Site site = null)
-        {
-            var oldItems = (site == null ? provider.All() : provider.All(site)).ToList();
-
-            foreach (var item in oldItems)
-            {
-                provider.Remove(item);
-            }
-        }
-
-        public void Export(IEnumerable<ABPageSetting> sources, Stream outputStream)
+        #region Export
+        public void Export(Site site, IEnumerable<ABPageSetting> sources, Stream outputStream)
         {
             var allItem = sources.ToList();
             foreach (var item in allItem)
@@ -61,7 +37,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
                 var dummy = item.AsActual();
                 provider.Add(dummy);
             }
-            provider.Export(sources, outputStream);
+            provider.Export(site, sources, outputStream);
         }
 
         public void ExportToDisk(Site site)
@@ -102,7 +78,40 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
                 UpdateOrAdd(item, item);
             }
         }
+        public void InitializeToDB(Site site)
+        {
 
+        }
+        #endregion
+
+        #region CURD
+        private void UpdateOrAdd(ABPageSetting item, ABPageSetting oldItem)
+        {
+            ((IPersistable)item).OnSaving();
+            var dummy = _dbContext.ABPageSettings.FirstOrDefault(it => it.UUID.Equals(oldItem.UUID, StringComparison.OrdinalIgnoreCase)
+                && it.SiteName.Equals(oldItem.Site.FullName, StringComparison.OrdinalIgnoreCase));
+            if (null != dummy)
+            {
+                item.ToABPageSettingEntity<ABPageSettingEntity>(dummy);
+            }
+            else
+            {
+                dummy = item.ToABPageSettingEntity<ABPageSettingEntity>();
+                _dbContext.ABPageSettings.Add(dummy);
+            }
+            _dbContext.SaveChanges();
+            ((IPersistable)item).OnSaved();
+        }
+
+        private void Clean(Site site = null)
+        {
+            var oldItems = (site == null ? provider.All() : provider.All(site)).ToList();
+
+            foreach (var item in oldItems)
+            {
+                provider.Remove(item);
+            }
+        }
         public IEnumerable<ABPageSetting> All(Site site)
         {
             return _dbContext.ABPageSettings.Where(it => it.SiteName.Equals(site.FullName, StringComparison.OrdinalIgnoreCase)).ToList().Select(it => it.ToABPageSetting());
@@ -144,5 +153,6 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
             }
             ((IPersistable)item).OnSaved();
         }
+        #endregion
     }
 }

@@ -21,7 +21,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
         public virtual IEnumerable<T> All(Models.Site site)
         {
-            return DataHelper.QueryList<T>(site, ModelExtensions.GetQueryView(DataType), CreateModel);
+            return DataHelper.QueryList<T>(site, ModelExtensions.GetQueryViewName(DataType), CreateModel);
         }
 
         public virtual IEnumerable<T> All()

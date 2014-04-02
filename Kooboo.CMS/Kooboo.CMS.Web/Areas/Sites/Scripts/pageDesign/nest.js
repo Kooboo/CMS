@@ -79,7 +79,7 @@
     };
 
     function bindRedoundo(redoundo) {
-        var btnUndo = $(settings.btnUndo).unbind('click').click(function () { redoundo.undo(); return false;});
+        var btnUndo = $(settings.btnUndo).unbind('click').click(function () { redoundo.undo(); return false; });
         var btnRedo = $(settings.btnRedo).unbind('click').click(function () { redoundo.redo(); return false; });
         var disableFunc = function () {
             if (redoundo.canUndo()) {
@@ -118,14 +118,14 @@
     }
 
     function bindDesignerDialog(designCtx) {
-        designCtx.showDialog = function (cfg, onOk, outer) {            
+        designCtx.showDialog = function (cfg, onOk, outer) {
             removeDialog();
             var settings = $.extend({}, cfg, {
                 position: 'center',
                 modal: true,
                 width: 750,
                 height: 500,
-                dialogClass:'iframe-dialog'
+                dialogClass: 'iframe-dialog'
             });
             dialogObject = $('<div style="overflow:hidden;"></div>');
             dialogObject.appendTo('body').dialog(settings);

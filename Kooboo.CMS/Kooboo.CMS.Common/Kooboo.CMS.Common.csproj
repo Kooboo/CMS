@@ -60,6 +60,7 @@
     <Compile Include="DataViolation\DataViolationException.cs" />
     <Compile Include="DataViolation\DataViolationItem.cs" />
     <Compile Include="DataViolation\ModelStateExtension.cs" />
+    <Compile Include="Persistence\IChangeTimeline.cs" />
     <Compile Include="Runtime\Mvc\MvcDependencyAttributeFilterProvider.cs" />
     <Compile Include="Runtime\Mvc\MvcDependencyResolver.cs" />
     <Compile Include="EntityModelBinder.cs" />

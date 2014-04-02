@@ -2,6 +2,8 @@
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.ABTest;
+using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,10 +15,10 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABRuleSettingProvider))]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABRuleSetting>))]
-    public class ABRuleSettingProvider : ObjectFileProviderBase<ABRuleSetting>, IABRuleSettingProvider
+    public class ABRuleSettingProvider : FileProviderBase<ABRuleSetting>, IABRuleSettingProvider
     {
         #region KnownTypes
-        protected override IEnumerable<Type> KnownTypes
+        private IEnumerable<Type> KnownTypes
         {
             get
             {
@@ -28,22 +30,22 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region .ctor
         IBaseDir _baseDir;
         const string DIRNAME = "ABRuleSettings";
-        static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
+        static System.Threading.ReaderWriterLockSlim @lock = new System.Threading.ReaderWriterLockSlim();
         public ABRuleSettingProvider(IBaseDir baseDir)
         {
             _baseDir = baseDir;
         }
         #endregion
 
-        #region CreateObject
-        protected override ABRuleSetting CreateObject(Models.Site site, System.IO.FileInfo fileInfo)
-        {
-            return new ABRuleSetting() { Site = site, Name = Path.GetFileNameWithoutExtension(fileInfo.Name) };
-        }
-        #endregion
+        //#region CreateObject
+        //protected override ABRuleSetting CreateObject(Models.Site site, System.IO.FileInfo fileInfo)
+        //{
+        //    return new ABRuleSetting() { Site = site, Name = Path.GetFileNameWithoutExtension(fileInfo.Name) };
+        //}
+        //#endregion
 
         #region GetBasePath
-        protected override string GetBasePath(Models.Site site)
+        private string GetBasePath(Site site)
         {
             var basePath = "";
             if (site == null)
@@ -58,12 +60,12 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         #endregion
 
-        #region GetLocker
-        protected override System.Threading.ReaderWriterLockSlim GetLocker()
-        {
-            return locker;
-        }
-        #endregion
+        //#region GetLocker
+        //protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        //{
+        //    return locker;
+        //}
+        //#endregion
 
         #region All
         public override IEnumerable<ABRuleSetting> All()
@@ -71,5 +73,10 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             return base.All(null);
         }
         #endregion
+
+        protected override IFileStorage<ABRuleSetting> GetFileStorage(Site site)
+        {
+            return new XmlObjectFileStorage<ABRuleSetting>(GetBasePath(site), @lock, KnownTypes);
+        }
     }
 }

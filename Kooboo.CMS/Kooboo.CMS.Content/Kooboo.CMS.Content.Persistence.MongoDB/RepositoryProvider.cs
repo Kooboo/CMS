@@ -37,7 +37,8 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
 
         public override bool TestDbConnection()
         {
-            var server = DatabaseHelper.Connect();
+            var server = DatabaseHelper.GetServer();
+            server.Connect();
             return server.State == global::MongoDB.Driver.MongoServerState.Connected;
         }
     }

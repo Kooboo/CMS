@@ -59,7 +59,7 @@ namespace Kooboo.CMS.Sites.Models
         }
     }
 
-    public partial class CustomError : ISiteObject, IFilePersistable, IPersistable, IIdentifiable
+    public partial class CustomError : ISiteObject, IPersistable, IIdentifiable
     {
         #region Override site
         public static bool operator ==(CustomError obj1, CustomError obj2)
@@ -134,11 +134,6 @@ namespace Kooboo.CMS.Sites.Models
         public void OnSaving()
         {
 
-        }
-
-        public string DataFile
-        {
-            get { return new CustomErrorsFile(Site).PhysicalPath; }
         }
         #endregion
     }

@@ -690,6 +690,11 @@ namespace Kooboo.IO
             IEnumerable<string> files = Directory.EnumerateFiles(path);
             return files.Where(f => extensions.Contains(Path.GetExtension(f)));
         }
+
+        public static IEnumerable<string> EnumerateFiles(string path, string[] searchPatterns, System.IO.SearchOption searchOption = System.IO.SearchOption.TopDirectoryOnly)
+        {
+            return searchPatterns.AsParallel().SelectMany(searchPattern => Directory.EnumerateFiles(path, searchPattern, searchOption));
+        }
         #endregion
         #endregion
     }

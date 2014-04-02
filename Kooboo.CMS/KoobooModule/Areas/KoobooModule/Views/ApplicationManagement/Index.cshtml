@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Application".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a id="recycle-button" href="javascript:recycle();">
+                @Html.IconImage("reset") @("Recycle".Localize())
+            </a>
+        </li>
+    </ul>
+}
+<div class="block">
+    <h1 class="title">@ViewBag.Title</h1>
+    @("Current AppDomain ID".Localize()):
+    @AppDomain.CurrentDomain.FriendlyName
+
+</div>
+<form id="recycle-form" action="@Url.Action("Recycle", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" method="POST">
+    @Html.AntiForgeryToken()
+</form>
+<script>
+    function recycle() { $('#recycle-form').submit(); return false; }
+</script>

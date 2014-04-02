@@ -20,7 +20,15 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<PagePublishingQueueItem>))]
     public class PagePublishingQueueProvider : SettingFileProviderBase<PagePublishingQueueItem>, IPagePublishingQueueProvider
     {
+        #region GetLocker
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
+        protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        {
+            return locker;
+        }
+        #endregion
+
+        #region All
         public override IEnumerable<PagePublishingQueueItem> All(Site site)
         {
             return AllEnumerable(site);
@@ -39,9 +47,18 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
             return list;
         }
-        protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
         {
-            return locker;
+            //not need to implement.
         }
+
+        public void ExportToDisk(Site site)
+        {
+            //not need to implement.
+        }
+        #endregion
     }
 }

@@ -73,13 +73,9 @@ namespace Kooboo.CMS.Sites.Services
         {
             Provider.Import(site, zipStream, @override);
         }
-        public virtual void Export(IEnumerable<SubmissionSetting> submissionSettings, System.IO.Stream outputStream)
+        public virtual void Export(Site site, IEnumerable<SubmissionSetting> submissionSettings, System.IO.Stream outputStream)
         {
-            Provider.Export(submissionSettings, outputStream);
-        }
-        public virtual void ExportAll(Site site, System.IO.Stream outputStream)
-        {
-            Provider.Export(All(site, ""), outputStream);
+            Provider.Export(site, submissionSettings, outputStream);
         }
         #endregion
     }

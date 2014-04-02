@@ -14,7 +14,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 {
     public static class ModelExtensions
     {
-        public static string DesignName = "SiteProvider";
+        public static string DesignDocumentName = "SiteProvider";
         public static string DataTypeFieldName = "_datatype_";
         public static string PageDataType = "Page";
         public static string PageDraftDataType = "PageDraft";
@@ -38,10 +38,11 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
         {
             return bucketDocKey.Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries).Last();
         }
-        public static string GetQueryView(string dataType)
+        public static string GetQueryViewName(string dataType)
         {
             return "Query_" + dataType;
         }
+
         public static string GetDataType(string view)
         {
             if (view.StartsWith("Query_"))
@@ -53,7 +54,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
         public static string GetBucketName(this Site site)
         {
-            if (site == null||string.IsNullOrEmpty(site.FullName))
+            if (site == null || string.IsNullOrEmpty(site.FullName))
             {
                 return DatabaseSettings.Instance.DefaultBucketName;
             }
@@ -76,6 +77,29 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             }
             return string.Empty;
         }
+
+        public static string GetViewBody(string dataType)
+        {
+            return string.Format(DataHelper.ViewTemplate, ModelExtensions.GetQueryViewName(dataType), dataType);
+        }
+        public static string GetDesignDocumentBody()
+        {
+            List<string> views = new List<string>();
+            views.Add(GetViewBody(ModelExtensions.PageDataType));
+            views.Add(GetViewBody(ModelExtensions.PageDraftDataType));
+            views.Add(GetViewBody(ModelExtensions.HtmlBlockDataType));
+            views.Add(GetViewBody(ModelExtensions.LabelDataType));
+            views.Add(GetViewBody(ModelExtensions.LabelCategoryDataType));
+            views.Add(GetViewBody(ModelExtensions.UserDataType));
+            views.Add(GetViewBody(ModelExtensions.CustomErrorDataType));
+            views.Add(GetViewBody(ModelExtensions.UrlRedirectDataType));
+            views.Add(GetViewBody(ModelExtensions.ABPageSettingDataType));
+            views.Add(GetViewBody(ModelExtensions.ABPageTestResultDataType));
+            views.Add(GetViewBody(ModelExtensions.ABRuleSettingDataType));
+
+
+            return string.Format(@"{{""views"": {{{0}}}}}", string.Join(",", views.ToArray()));
+        }
         #region Model To Json
         public static string ToJson(this object o, string dataType)
         {
@@ -87,7 +111,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
 
         public static T JsonToObject<T>(string json)
         {
-            var o = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
+            var o = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, ObjectCreationHandling = ObjectCreationHandling.Replace });
             return o;
         }
 

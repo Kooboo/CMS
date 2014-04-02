@@ -56,9 +56,9 @@ namespace Kooboo.CMS.Content.Models
             }
             else
             {
-                if (userKey.Length > 90)
+                if (userKey.Length > 256)
                 {
-                    userKey = userKey.Substring(0, 90);
+                    userKey = userKey.Substring(0, 256);
                 }
 
                 var tmpUserKey = EscapeUserKey(content, userKey);
@@ -66,8 +66,8 @@ namespace Kooboo.CMS.Content.Models
                 int tries = 0;
                 while (IfUserKeyExists(content, tmpUserKey))
                 {
-                    tries++;
-                    tmpUserKey = userKey + "-" + tries.ToString();
+                    tries++;                    
+                    tmpUserKey = userKey + "-" + Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(tries);
                 }
                 userKey = tmpUserKey;
             }

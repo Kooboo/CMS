@@ -42,6 +42,12 @@ namespace KoobooModule.Areas.KoobooModule
                 {
                     Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu(AreaName, menuFile);
                 }
+
+                var globalMenuFile = AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "GlobalMenu.config");
+                if (File.Exists(globalMenuFile))
+                {
+                    Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu(Kooboo.CMS.Sites.Extension.UI.GlobalSidebarMenu.ModuleGlobalSidebarMenuItemProvider.GetGlobalSidebarMenuTemplateName(AreaName), globalMenuFile);
+                }
                 var resourceFile = Path.Combine(Settings.BaseDirectory, "Areas", AreaName, "WebResources.config");
                 if (File.Exists(resourceFile))
                 {

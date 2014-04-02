@@ -16,6 +16,7 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.UserProvider
 {
     public class UserProvider : IUserProvider
     {
+        #region CRUD
         public IEnumerable<Models.User> All(Models.Site site)
         {
             return SiteDbContext.CreateDbContext().SiteUsers
@@ -79,5 +80,19 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.UserProvider
         {
             throw new NotSupportedException();
         }
+
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Models.Site site)
+        {
+            //
+        }
+
+        public void ExportToDisk(Models.Site site)
+        {
+            //
+        } 
+        #endregion
     }
 }

@@ -26,17 +26,23 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region Export
-        public void Export(Site site, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<UrlKeyMap> items, System.IO.Stream outputStream)
         {
-            inner.Export(site, outputStream);
+            inner.Export(site, items, outputStream);
         }
         #endregion
 
         #region Import
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
         {
-            inner.Import(site, zipStream, @override);
-            site.ClearCache();
+            try
+            {
+                inner.Import(site, zipStream, @override);
+            }
+            finally
+            {
+                site.ClearCache();
+            }
         }
         #endregion
 
@@ -58,6 +64,18 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         public override IEnumerable<UrlKeyMap> All()
         {
             return inner.All();
+        }
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            //not need to implement.
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            //not need to implement.
         }
         #endregion
     }

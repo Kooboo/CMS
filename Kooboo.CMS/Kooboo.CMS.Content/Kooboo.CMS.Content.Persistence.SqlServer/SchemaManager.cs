@@ -29,7 +29,7 @@ CREATE TABLE [{0}] (
 	UUID nvarchar(36) NOT NULL PRIMARY KEY,
 	Repository nvarchar(256),
 	FolderName nvarchar(256),
-	UserKey nvarchar(100),
+	UserKey nvarchar(256),
 	UtcCreationDate datetime,
 	UtcLastModificationDate datetime,
 	Published bit,

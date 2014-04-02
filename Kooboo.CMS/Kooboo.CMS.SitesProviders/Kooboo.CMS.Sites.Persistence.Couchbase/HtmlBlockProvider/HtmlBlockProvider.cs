@@ -20,6 +20,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IHtmlBlockProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<HtmlBlock>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "HtmlBlockProvider")]
     public class HtmlBlockProvider : IHtmlBlockProvider
     {
         Func<Site, string, HtmlBlock> createModel = (Site site, string key) =>
@@ -87,7 +88,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
         }
         private IEnumerable<HtmlBlock> QueryBySite(Site site)
         {
-            return DataHelper.QueryList<HtmlBlock>(site, ModelExtensions.GetQueryView(ModelExtensions.HtmlBlockDataType), createModel);
+            return DataHelper.QueryList<HtmlBlock>(site, ModelExtensions.GetQueryViewName(ModelExtensions.HtmlBlockDataType), createModel);
         }
 
         public HtmlBlock Get(Models.HtmlBlock dummy)
@@ -128,7 +129,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
         #endregion
 
         #region Export
-        public void Export(IEnumerable<Models.HtmlBlock> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<Models.HtmlBlock> sources, System.IO.Stream outputStream)
         {
             var fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
             foreach (var item in sources)
@@ -136,7 +137,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
                 var layout = Get(item);
                 fileProvider.Add(layout);
             }
-            fileProvider.Export(sources, outputStream);
+            fileProvider.Export(site, sources, outputStream);
         }
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
         {
@@ -167,7 +168,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
                 this.Add(htmlBlock);
             }
         }
-        public void InitializeHtmlBlocks(Site site)
+        public void InitializeToDB(Site site)
         {
             IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
             foreach (var item in fileHtmlProvider.All(site))
@@ -178,7 +179,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
                 }
             }
         }
-        public void ExportHtmlBlocksToDisk(Site site)
+        public void ExportToDisk(Site site)
         {
             IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
 

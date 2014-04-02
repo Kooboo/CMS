@@ -60,24 +60,43 @@ namespace Kooboo.CMS.Content.Persistence.Caching
         #region Add
         public void Add(Models.Repository item)
         {
-            inner.Add(item);
+            try
+            {
+                inner.Add(item);
+            }
+            finally
+            {
+                Kooboo.CMS.Caching.CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
         }
         #endregion
-        
+
         #region Update
         public void Update(Models.Repository @new, Models.Repository old)
         {
-            inner.Update(@new, old);
-            var cacheKey = GetCacheKey(@new);
-            @new.ObjectCache().Remove(cacheKey);
+            try
+            {
+                inner.Update(@new, old);
+            }
+            finally
+            {
+                var cacheKey = GetCacheKey(@new);
+                @new.ObjectCache().Remove(cacheKey);
+            }            
         }
         #endregion
 
         #region Remove
         public void Remove(Models.Repository item)
         {
-            inner.Remove(item);
-            @item.ClearCache();
+            try
+            {
+                inner.Remove(item);
+            }
+            finally
+            {
+                @item.ClearCache();
+            }            
         }
         #endregion
 

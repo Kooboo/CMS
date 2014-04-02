@@ -1,4 +1,4 @@
-﻿@model Kooboo.CMS.Web.Areas.Sites.Models.CreateSiteModel
+﻿@model Kooboo.CMS.Web.Areas.Sites.Models.CreateSubSiteModel
 @{
     ViewBag.Title = "New sub site".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
@@ -9,6 +9,10 @@
             <a data-ajaxform="">
                 @Html.IconImage("save") @("Save".Localize())</a>
         </li>
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
                 @Html.IconImage("cancel") @("Back".Localize())</a>
@@ -31,7 +35,6 @@
                     @Html.DisplayFor(m => m.Parent);
                 }
                 @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
-                @Html.EditorFor(m => m.DisplayName, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.Repository, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.Culture, new { HtmlAttributes = new { @class = "medium" } })
                 @Html.EditorFor(m => m.TimeZoneId, new { HtmlAttributes = new { @class = "medium" } })

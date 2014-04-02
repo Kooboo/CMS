@@ -64,8 +64,14 @@ namespace Kooboo.CMS.Content.Persistence.Caching
         #region Import
         public void Import(Repository repository, TextFolder folder, System.IO.Stream zipStream, bool @override)
         {
-            inner.Import(repository, folder, zipStream, @override);
-            repository.ClearCache();
+            try
+            {
+                inner.Import(repository, folder, zipStream, @override);
+            }
+            finally
+            {
+                repository.ClearCache();
+            }          
         } 
         #endregion
 

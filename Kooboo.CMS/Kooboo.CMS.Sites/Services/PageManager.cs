@@ -286,13 +286,9 @@ namespace Kooboo.CMS.Sites.Services
             }
             Provider.Import(site, parent, zipStream, @override);
         }
-        public virtual void Export(IEnumerable<Page> pages, System.IO.Stream outputStream)
+        public virtual void Export(Site site, IEnumerable<Page> pages, System.IO.Stream outputStream)
         {
-            Provider.Export(pages, outputStream);
-        }
-        public virtual void ExportAll(Site site, System.IO.Stream outputStream)
-        {
-            Provider.Export(All(site, ""), outputStream);
+            Provider.Export(site, pages, outputStream);
         }
         #endregion
 
@@ -344,7 +340,7 @@ namespace Kooboo.CMS.Sites.Services
 
         #region Move
 
-        public virtual void Move(Site site, string pageFullName, string newParent, bool createRedirect)
+        public virtual void Move(Site site, string pageFullName, string newParent, bool createRedirect, string user = "")
         {
             Page page = new Page(site, pageFullName);
             if (string.IsNullOrEmpty(newParent))
@@ -354,27 +350,31 @@ namespace Kooboo.CMS.Sites.Services
                     throw new KoobooException("The page is a root page already.".Localize());
                 }
             }
+            //backup the source page.
+            Page sourcePage = new Page(site, pageFullName).AsActual();
 
             Provider.Move(site, pageFullName, newParent);
-            Page sourcePage = new Page(site, pageFullName);
+
             Page newPage = null;
             if (!string.IsNullOrEmpty(newParent))
             {
-                newPage = new Page(new Page(site, newParent), sourcePage.Name);
+                newPage = new Page(new Page(site, newParent), sourcePage.Name).AsActual();
             }
             else
             {
-                newPage = new Page(site, sourcePage.Name);
+                newPage = new Page(site, sourcePage.Name).AsActual();
             }
 
             if (createRedirect)
             {
                 UrlRedirect redirect = new UrlRedirect()
                 {
-                    InputUrl = sourcePage.FriendlyName,
-                    OutputUrl = newPage.FriendlyName,
+                    InputUrl = sourcePage.VirtualPath,
+                    OutputUrl = newPage.VirtualPath,
                     RedirectType = RedirectType.Moved_Permanently_301,
-                    Regex = false
+                    Regex = false,
+                    UtcCreationDate = DateTime.UtcNow,
+                    LastestEditor = user
                 };
                 ServiceFactory.UrlRedirectManager.Add(site, redirect);
             }

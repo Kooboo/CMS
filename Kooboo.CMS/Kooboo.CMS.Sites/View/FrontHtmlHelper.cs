@@ -641,14 +641,15 @@ namespace Kooboo.CMS.Sites.View
                         var moduleRequestContext = (ModuleRequestContext)actionInvoked.ControllerContext.RequestContext;
                         if (moduleRequestContext.ModuleContext.FrontEndContext.EnableScript)
                         {
+                            var scripts = ServiceFactory.ModuleManager.AllScripts(moduleRequestContext.ModuleContext.ModuleName);
                             if (site.Mode == ReleaseMode.Debug)
                             {
-                                foreach (var script in ServiceFactory.ModuleManager.AllScripts(moduleRequestContext.ModuleContext.ModuleName))
+                                foreach (var script in scripts)
                                 {
                                     yield return this.Html.Script(UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath));
                                 }
                             }
-                            else
+                            else if (scripts.Count() > 0)
                             {
                                 yield return this.Html.Script(this.PageContext.FrontUrl.ModuleScriptsUrl(moduleRequestContext.ModuleContext.ModuleName, baseUri, compressed).ToString());
                             }
@@ -705,10 +706,17 @@ namespace Kooboo.CMS.Sites.View
                   .Concat(this.IncludeStyleEditingStyles(baseUri))
                   .Distinct(new IHtmlStringComparer());
 
+
+                if (this.PageContext.PageRequestContext.Site.EnableJquery)
+                {
+                    styles = styles.Concat(new[] { Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, null, "jQuery-Styles", null, baseUri) });
+                }
+                styles = styles.Concat(this.PageContext.Styles);
                 Html.ViewContext.HttpContext.Items[key] = new object();
             }
-            styles = styles.Concat(this.IncludeThemeStyles(themeName, baseUri))
-                .Concat(this.PageContext.Styles);
+
+            styles = styles.Concat(this.IncludeThemeStyles(themeName, baseUri));
+
             return new AggregateHtmlString(styles);
         }
 
@@ -748,10 +756,6 @@ namespace Kooboo.CMS.Sites.View
         private IEnumerable<IHtmlString> IncludeThemeStyles(Site site, string themeName, string baseUri = null)
         {
             List<IHtmlString> htmlStrings = new List<IHtmlString>();
-            if (this.PageContext.PageRequestContext.Site.EnableJquery)
-            {
-                htmlStrings.Add(Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, null, "jQuery-Styles", null, baseUri));
-            }
 
             string themeRuleBody;
 
@@ -813,7 +817,7 @@ namespace Kooboo.CMS.Sites.View
                                     yield return this.Html.Stylesheet(UrlUtility.ToHttpAbsolute(baseUri, style.VirtualPath));
                                 }
                             }
-                            else
+                            else if (styles.Count() > 0)
                             {
                                 yield return this.Html.Stylesheet(this.PageContext.FrontUrl.
                                     ModuleThemeUrl(moduleRequestContext.ModuleContext.ModuleName, moduleRequestContext.ModuleContext.FrontEndContext.ModuleSettings.ThemeName, baseUri)

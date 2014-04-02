@@ -7,9 +7,10 @@
 }
 
 @section Panel{
-    @if (ableToCreateSite)
-    {
-        <ul class="panel">
+    <ul class="panel">
+        @if (ableToCreateSite)
+        {
+
             <li class="j_DropDown">
                 <a>
                     @Html.IconImage("add")
@@ -35,8 +36,13 @@
                     @("Import".Localize())
                 </a>
             </li>
-        </ul>
-    }
+
+        }
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
+    </ul>
 }
 
 @if (Model.Count() == 0)

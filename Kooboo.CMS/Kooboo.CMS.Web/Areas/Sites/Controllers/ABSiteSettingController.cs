@@ -39,7 +39,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             //var fullNameArray = model.Select(o => o.FullName);
             //var selected = Manager.All(Site, "").Where(o => fullNameArray.Contains(o.FullName));
 
-            var fileName = GetZipFileName();
+            var fileName = GetZipFileName();           
             Response.AttachmentHeader(fileName);
             Manager.Export(model, Response.OutputStream);
         }
@@ -61,7 +61,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 if (Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
                 {
-                    Manager.Import(Site, Request.Files[0].InputStream, @override);
+                    Manager.Import(Request.Files[0].InputStream, @override);
                 }
                 data.RedirectUrl = @return;
             });

@@ -29,7 +29,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region All
-        public IEnumerable<T> All(Models.Site site)
+        public virtual IEnumerable<T> All(Models.Site site)
         {
             var cacheKey = GetListCacheKey();
             if (!string.IsNullOrEmpty(cacheKey))
@@ -41,6 +41,26 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
                 return innerProvider.All(site);
             }
 
+        }
+        #endregion
+
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            try
+            {
+                innerProvider.InitializeToDB(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            innerProvider.ExportToDisk(site);
         }
         #endregion
     }

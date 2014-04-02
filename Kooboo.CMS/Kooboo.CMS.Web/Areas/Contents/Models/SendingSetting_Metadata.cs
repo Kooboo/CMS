@@ -56,7 +56,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
         [DisplayName("Child level")]
         [Description("Only send to first level child sites or all level child sites.")]
         public ChildLevel ChildLevel { get; set; }
-
+                
         [Display(Name = "Keep content status")]
         public bool KeepStatus { get; set; }
     }

@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = ViewContext.RequestContext.GetRequestValue("title").Localize();
-    Layout = "~/Views/Shared/Blank.cshtml";
+    Layout = "~/Views/Shared/Blank.cshtml";  
 }
 @section Panel{
     <ul class="panel">
@@ -24,7 +24,7 @@
         @Html.ValidationSummary(true)  
         <table>
             <tbody>
-                @Html.EditorFor(m => m.File, new {HtmlAttributes =new { accept=".zip"}})
+                @Html.EditorFor(m => m.File, new { HtmlAttributes = new { accept = ".zip" } })
                 @Html.EditorFor(m => m.Override)
             </tbody>
         </table>

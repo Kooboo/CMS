@@ -15,145 +15,143 @@ using Kooboo.CMS.Sites.Globalization;
 using Kooboo.Globalization;
 using Kooboo.Extensions;
 using Ionic.Zip;
+using Kooboo.CMS.Sites.Persistence;
 
 namespace Kooboo.CMS.Sites.Services
 {
     public class LabelManager
     {
         #region .ctor
-        IElementRepositoryFactory _elementRepositoryFactory = null;
-        public LabelManager(IElementRepositoryFactory elementRepositoryFactory)
+        ILabelProvider _labelProvider;
+        public LabelManager(ILabelProvider labelProvider)
         {
-            this._elementRepositoryFactory = elementRepositoryFactory;
+            this._labelProvider = labelProvider;
         }
         #endregion
 
         #region GetCategories
-        public virtual IEnumerable<ElementCategory> GetCategories(Site site)
+        public virtual IEnumerable<string> GetCategories(Site site)
         {
-            return SiteLabel.GetElementRepository(site).Categories();
+            return this._labelProvider.GetCategories(site);
         }
         #endregion
 
         #region GetLabels
-        public virtual IQueryable<Element> GetLabels(Site site, string category)
+        public virtual IQueryable<Label> All(Site site, string category)
         {
-            var query = SiteLabel.GetElementRepository(site).Elements();
-            if (string.IsNullOrEmpty(category))
-            {
-                query = query.Where(it => it.Category == null || it.Category == "");
-            }
-            else
-            {
-                query = query.Where(it => it.Category == category);
-            }
-            return query;
-        }
-        #endregion
-
-        #region Add
-        public virtual void Add(Site site, Element element)
-        {
-            var oldElement = Get(site, element.Category, element.Name, element.Culture);
-            if (oldElement != null)
-            {
-                throw new ItemAlreadyExistsException();
-            }
-            SiteLabel.GetElementRepository(site).Add(element);
+            return this._labelProvider.GetLabels(site, category);
         }
         #endregion
 
         #region Get
-        public virtual Element Get(Site site, string category, string name, string culture)
+        public Label Get(Site site, string category, string name)
         {
-            return SiteLabel.GetElementRepository(site).Get(name, category, culture);
+            return this._labelProvider.Get(new Label(site, category, name, null));
+        }
+        #endregion
+
+        #region Add
+        public void Add(Site site, Label label)
+        {
+            if (string.IsNullOrEmpty(label.UUID))
+            {
+                label.UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
+            }
+            this._labelProvider.Add(label);
         }
         #endregion
 
         #region Update
-        public virtual void Update(Site site, Element element)
+        public virtual void Update(Site site, Label @new, Label old)
         {
-            element.Culture = null;
-            SiteLabel.GetElementRepository(site).Update(element);
-
-            SiteLabel.ClearCache(site);
+            if (@new.Site == null)
+            {
+                @new.Site = site;
+            }
+            //renew the UUID when UUID is null
+            if (string.IsNullOrEmpty(@new.UUID))
+            {
+                @new.UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
+            }
+            this._labelProvider.Update(@new, old);
         }
         #endregion
 
         #region Remove
-        public virtual void Remove(Site site, Element element)
+        public virtual void Remove(Site site, Label label)
         {
-            element.Culture = null;
-            SiteLabel.GetElementRepository(site).Remove(element);
-            SiteLabel.ClearCache(site);
+            this._labelProvider.Remove(label);
         }
         #endregion
 
         #region RemoveCategory
         public virtual void RemoveCategory(Site site, string category)
         {
-            SiteLabel.GetElementRepository(site).RemoveCategory(category, null);
-            SiteLabel.ClearCache(site);
+            this._labelProvider.RemoveCategory(site, category);
         }
         #endregion
 
         #region AddCategory
         public virtual void AddCategory(Site site, string category)
         {
-            SiteLabel.GetElementRepository(site).AddCategory(category, null);
+            this._labelProvider.AddCategory(site, category);
         }
+        #endregion
+
+
+        #region UpgradeFromOldLabel
+        public void UpgradeFromOldLabel(Site site)
+        {
+            var elementProvider = SiteLabel.GetElementRepository(site);
+            foreach (var item in elementProvider.Elements())
+            {
+                this._labelProvider.Add(new Label(site, item.Category, item.Name, item.Value) { UtcCreationDate = DateTime.UtcNow });
+
+                elementProvider.Remove(item);
+            }
+        }
+
         #endregion
 
         #region Export
 
-        public virtual void Export(Site site, System.IO.Stream outputStream)
+        public virtual void Export(Site site, IEnumerable<Label> labels, IEnumerable<string> categories, System.IO.Stream outputStream)
         {
-            ExportLabels(site);
-            using (ZipFile zipFile = new ZipFile())
-            {
-                zipFile.AddSelectedFiles("*.*", new Label(site).PhysicalPath, "");
-
-                zipFile.Save(outputStream);
-            }
+            this._labelProvider.Export(site, labels, categories, outputStream);
         }
 
-        public virtual void Import(Site site, System.IO.Stream packageStream)
+        public virtual void Import(Site site, System.IO.Stream packageStream, bool Override)
         {
-            using (ZipFile zipFile = ZipFile.Read(packageStream))
-            {
-                var action = ExtractExistingFileAction.OverwriteSilently;
-                zipFile.ExtractAll(new Label(site).PhysicalPath, action);
-            }
-            InitializeLabels(site);
+            this._labelProvider.Import(site, packageStream, Override);
         }
 
-        private void InitializeLabels(Site site)
-        {
-            var labelRepository = _elementRepositoryFactory.CreateRepository(site);
-            if (labelRepository.GetType() != typeof(SiteLabelRepository))
-            {
-                labelRepository.Clear();
-                SiteLabelRepository fileRepository = new SiteLabelRepository(site);
-                foreach (var item in fileRepository.Elements())
-                {
-                    labelRepository.Add(item);
-                }
-            }
-        }
+        //private void InitializeLabels(Site site)
+        //{
+        //    var labelRepository = _elementRepositoryFactory.CreateRepository(site);
+        //    if (labelRepository.GetType() != typeof(SiteLabelRepository))
+        //    {
+        //        labelRepository.Clear();
+        //        SiteLabelRepository fileRepository = new SiteLabelRepository(site);
+        //        foreach (var item in fileRepository.Elements())
+        //        {
+        //            labelRepository.Add(item);
+        //        }
+        //    }
+        //}
 
-        private void ExportLabels(Site site)
-        {
-            var labelRepository = _elementRepositoryFactory.CreateRepository(site);
-            if (labelRepository.GetType() != typeof(SiteLabelRepository))
-            {
-                SiteLabelRepository fileRepository = new SiteLabelRepository(site);
-                fileRepository.Clear();
-                foreach (var item in labelRepository.Elements())
-                {
-                    fileRepository.Add(item);
-                }
-            }
-        }
+        //private void ExportLabels(Site site)
+        //{
+        //    var labelRepository = _elementRepositoryFactory.CreateRepository(site);
+        //    if (labelRepository.GetType() != typeof(SiteLabelRepository))
+        //    {
+        //        SiteLabelRepository fileRepository = new SiteLabelRepository(site);
+        //        fileRepository.Clear();
+        //        foreach (var item in labelRepository.Elements())
+        //        {
+        //            fileRepository.Add(item);
+        //        }
+        //    }
+        //}
         #endregion
 
     }

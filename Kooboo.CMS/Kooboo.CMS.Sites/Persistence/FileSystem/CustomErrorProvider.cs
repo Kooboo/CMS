@@ -8,8 +8,10 @@
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -17,48 +19,28 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ICustomErrorProvider))]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<CustomError>))]
-    public class CustomErrorProvider : ListFileRepository<CustomError>, ICustomErrorProvider
+    public class CustomErrorProvider : FileProviderBase<CustomError>, ICustomErrorProvider
     {
-        static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
-
-        #region IImportRepository Members
-
-        public void Export(Site site, System.IO.Stream outputStream)
-        {
-            locker.EnterReadLock();
-            try
-            {
-                ImportHelper.Export(new[] { new CustomErrorsFile(site) }, outputStream);
-            }
-            finally
-            {
-                locker.ExitReadLock();
-            }
-        }
-
-        public void Import(Site site, System.IO.Stream zipStream, bool @override)
-        {
-            locker.EnterWriteLock();
-            try
-            {
-                ImportHelper.ImportData<CustomError>(site, this, CustomErrorsFile.CustomErrorFileName, zipStream, @override);
-            }
-            finally
-            {
-                locker.ExitWriteLock();
-            }
-        }
-
+        #region GetLocker
+        static System.Threading.ReaderWriterLockSlim @lock = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
+        //protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        //{
+        //    return @lock;
+        //}
         #endregion
 
-        protected override string GetFile(Site site)
+        #region GetFile
+        private string GetFile(Site site)
         {
-            return new CustomErrorsFile(site).PhysicalPath;
+            return Path.Combine(site.PhysicalPath, "CustomErrors.config");
         }
+        #endregion  
 
-        protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        #region GetFileStorage
+        protected override Storage.IFileStorage<CustomError> GetFileStorage(Site site)
         {
-            return locker;
+            return new XmlListFileStorage<CustomError>(GetFile(site), @lock);
         }
+        #endregion
     }
 }

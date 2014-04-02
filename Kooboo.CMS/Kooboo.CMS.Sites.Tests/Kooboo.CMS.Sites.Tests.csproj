@@ -44,6 +44,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
@@ -57,16 +58,8 @@
     <Compile Include="..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
-    <Compile Include="DataRule\WhereClauseParserTests.cs" />
-    <Compile Include="Models\CustomDirectoryTests.cs" />
-    <Compile Include="Models\CustomErrorFileTests.cs" />
-    <Compile Include="Models\ThemeImageFileTests.cs" />
-    <Compile Include="Models\CustomFileTests.cs" />
-    <Compile Include="Models\PageTests.cs" />
-    <Compile Include="Models\ScriptFileTests.cs" />
-    <Compile Include="Models\SiteTests.cs" />
-    <Compile Include="Models\ThemeFileTests.cs" />
-    <Compile Include="Models\ThemeTests.cs" />
+    <Compile Include="Persistence\JsonListFileStorageTests.cs" />
+    <Compile Include="Persistence\LabelProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\HtmlParsing\HtmlParserTests.cs" />
     <Compile Include="View\HtmlParsing\UrlParserTests.cs" />

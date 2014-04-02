@@ -10,24 +10,28 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABPageSettingProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABPageSetting>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "ABPageSettingsProvider")]
     public class ABPageSettingProvider : ProviderBase<ABPageSetting>, IABPageSettingProvider
     {
+        #region .ctor
         Kooboo.CMS.Sites.Persistence.FileSystem.ABPageSettingProvider fileProvider;
 
         public ABPageSettingProvider()
-            : base(ModelExtensions.ABPageSettingDataType, (Site site, string key) => 
+            : base(ModelExtensions.ABPageSettingDataType, (Site site, string key) =>
             { return new ABPageSetting() { Site = site, MainPage = key }; })
         {
             fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.ABPageSettingProvider();
         }
+        #endregion
 
-        public void Export(IEnumerable<ABTest.ABPageSetting> sources, System.IO.Stream outputStream)
+        #region Export
+        public void Export(Site site, IEnumerable<ABTest.ABPageSetting> sources, System.IO.Stream outputStream)
         {
             foreach (var item in sources)
             {
                 fileProvider.Add(item.AsActual());
             }
-            fileProvider.Export(sources, outputStream);
+            fileProvider.Export(site, sources, outputStream);
         }
 
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
@@ -51,7 +55,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
                 InsertOrUpdate(tempItem, tempItem);
             }
         }
-        public void InitializeABPageSetting(Site site)
+        public void InitializeToDB(Site site)
         {
             foreach (var item in fileProvider.All(site))
             {
@@ -62,7 +66,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             }
         }
 
-        public void ExportABPageSettingToDisk(Site site)
+        public void ExportToDisk(Site site)
         {
             var fileAll = fileProvider.All(site);
             foreach (var item in fileAll)
@@ -76,5 +80,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
                 fileProvider.Add(item.AsActual());
             }
         }
+
+        #endregion
     }
 }

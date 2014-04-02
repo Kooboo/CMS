@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Sites.ABTest;
+using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,17 +42,42 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region Export
-        public void Export(IEnumerable<ABRuleSetting> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<ABRuleSetting> sources, System.IO.Stream outputStream)
         {
-            _provider.Export(sources, outputStream);
+            _provider.Export(site, sources, outputStream);
         }
         #endregion
 
         #region Import
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
         {
-            _provider.Import(site, zipStream, @override);
-            ClearObjectCache(site);
+            try
+            {
+                _provider.Import(site, zipStream, @override);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+        }
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            try
+            {
+                _provider.InitializeToDB(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            _provider.ExportToDisk(site);
         }
         #endregion
     }

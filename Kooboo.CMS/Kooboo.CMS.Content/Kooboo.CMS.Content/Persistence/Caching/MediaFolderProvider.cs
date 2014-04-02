@@ -56,8 +56,14 @@ namespace Kooboo.CMS.Content.Persistence.Caching
         #region Import
         public void Import(Repository repository, MediaFolder folder, System.IO.Stream zipStream, bool @override)
         {
-            inner.Import(repository, folder, zipStream, @override);
-            repository.ClearCache();
+            try
+            {
+                inner.Import(repository, folder, zipStream, @override);
+            }
+            finally
+            {
+                repository.ClearCache();
+            }            
         } 
         #endregion
 
@@ -78,8 +84,14 @@ namespace Kooboo.CMS.Content.Persistence.Caching
         #region Rename
         public void Rename(MediaFolder @new, MediaFolder old)
         {
-            @new.Repository.ClearCache();
-            inner.Rename(@new, old);
+            try
+            {
+                inner.Rename(@new, old);
+            }
+            finally
+            {
+                @new.Repository.ClearCache();
+            }
         } 
         #endregion
 

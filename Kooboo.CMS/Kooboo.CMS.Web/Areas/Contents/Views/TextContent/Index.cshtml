@@ -30,7 +30,7 @@
     ViewBag.FolderPermission = folderPermission;
     ViewBag.PagedList = pagedList;
 
-    var formatters = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<Kooboo.CMS.Content.Formatter.ITextContentFormater>();
+    //var formatters = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<Kooboo.CMS.Content.Formatter.ITextContentFormater>();
 }
 @section Panel{
     @if (!string.IsNullOrEmpty(ViewBag.Menu))
@@ -48,7 +48,7 @@
                 <li><a href="@Url.Action("Create", "TextFolder", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">@Html.IconImage("add-folder")@("New folder".Localize())</a></li>
             }
 
-            @if (formatters.Count() > 0)
+            @*@if (formatters.Count() > 0)
             {
                 <li class="j_DropDown">
                     <a>
@@ -85,7 +85,7 @@
                         }
                     </ul>
                 </li>
-            }
+            }*@
             <li>
                 <a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
                     @Html.IconImage("delete") @("Delete".Localize())
@@ -143,7 +143,10 @@
                 </ul>
             </li>
 
-
+            @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+            {
+                @Html.Partial("_ToolbarGroupButtons", group)
+            }
         </ul>
     }
 }

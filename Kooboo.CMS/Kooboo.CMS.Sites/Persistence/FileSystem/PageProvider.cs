@@ -19,12 +19,25 @@ using Kooboo.Globalization;
 using Kooboo.CMS.Sites.Versioning;
 using Kooboo.CMS.Sites.Caching;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
+using System.Threading;
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPageProvider))]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Page>))]
     public class PageProvider : InheritableProviderBase<Page>, IPageProvider, ILocalizableProvider<Page>
     {
+        class PageFileStorage : DirectoryObjectFileStorage<Page>
+        {
+            public PageFileStorage(string baseFolder, ReaderWriterLockSlim @lock, Func<DirectoryInfo, Page> initialize)
+                : base(baseFolder, @lock, KnownTypes, initialize)
+            {
+            }
+            protected override string GetItemPath(Page o)
+            {
+                return Path.Combine(new[] { _baseFolder }.Concat(o.PageNamePaths).ToArray());
+            }            
+        }
         #region Versioning
         public class PageVersionLogger : FileVersionLogger<Page>
         {
@@ -38,7 +51,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                     IOUtility.EnsureDirectoryExists(versionPath.PhysicalPath);
                     var versionDataFile = Path.Combine(versionPath.PhysicalPath, o.DataFileName);
                     PageProvider provider = new PageProvider();
-                    provider.Serialize(o, versionDataFile);
+                    Kooboo.Runtime.Serialization.DataContractSerializationHelper.Serialize(o, versionDataFile, KnownTypes);
                 }
                 finally
                 {
@@ -54,7 +67,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 if (File.Exists(versionDataFile))
                 {
                     PageProvider provider = new PageProvider();
-                    page = provider.Deserialize(o, versionDataFile);
+                    page = (Page)Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize(typeof(Page), KnownTypes, versionDataFile);
                     ((IPersistable)page).Init(o);
                 }
                 return page;
@@ -71,12 +84,16 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         #endregion
 
-        static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
-        protected override IEnumerable<Type> KnownTypes
-        {
-            get
-            {
-                return new Type[]{
+        #region GetLocker
+        static System.Threading.ReaderWriterLockSlim _lock = new System.Threading.ReaderWriterLockSlim();
+        //protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        //{
+        //    return locker;
+        //}
+        #endregion
+
+        #region KnownTypes
+        static IEnumerable<Type> KnownTypes = new Type[]{
                 typeof(PagePosition),
                 typeof(ViewPosition),
                 typeof(ModulePosition),
@@ -88,38 +105,27 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 typeof(FolderDataRule),
                 typeof(SchemaDataRule),
                 typeof(CategoryDataRule),
-                typeof(HttpDataRule)
-                };
-            }
-        }
+                typeof(HttpDataRule)};
+
+        #endregion
+
         #region IPageRepository Members
 
         public IEnumerable<Models.Page> ChildPages(Models.Page parentPage)
         {
-            return ChildPagesEnumerable(parentPage).AsQueryable();
-        }
-        public IEnumerable<Models.Page> ChildPagesEnumerable(Models.Page parentPage)
-        {
-            List<Page> list = new List<Page>();
-            if (parentPage.Exists())
+            var fileStorage = new PageFileStorage(GetItemPath(parentPage), _lock, (dir) =>
             {
-                string baseDir = parentPage.PhysicalPath;
+                return new Page(parentPage, dir.Name);
+            });
 
-                foreach (var dir in IO.IOUtility.EnumerateDirectoriesExludeHidden(baseDir).Where(it => !it.Name.EqualsOrNullEmpty("~versions", StringComparison.OrdinalIgnoreCase)))
-                {
-                    var page = ModelActivatorFactory<Page>.GetActivator().Create(dir.FullName);
-                    if (File.Exists(page.DataFile))
-                    {
-                        list.Add(page);
-                    }
-                }
-            }
-            return list;
+            var items = fileStorage.GetList().ToArray();
+
+            return items;
+
         }
-
         #endregion
 
-        #region Localize & Move Menbers
+        #region Localize & Move
         public void Localize(Page sourcePage, Site targetSite)
         {
             var sourceSite = sourcePage.Site;
@@ -133,7 +139,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         public void Move(Site site, string pageFullName, string newParent)
         {
-            GetLocker().EnterWriteLock();
+            _lock.EnterWriteLock();
 
             try
             {
@@ -164,7 +170,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
             finally
             {
-                GetLocker().ExitWriteLock();
+                _lock.ExitWriteLock();
             }
         }
         #endregion
@@ -212,16 +218,10 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         #endregion
 
-        protected override System.Threading.ReaderWriterLockSlim GetLocker()
-        {
-            return locker;
-        }
-
-
         #region Copy
         public Page Copy(Site site, string sourcePageFullName, string newPageFullName)
         {
-            GetLocker().EnterWriteLock();
+            _lock.EnterWriteLock();
 
             try
             {
@@ -234,7 +234,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
             finally
             {
-                GetLocker().ExitWriteLock();
+                _lock.ExitWriteLock();
             }
         }
 
@@ -247,7 +247,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             Page draft = null;
             if (File.Exists(draftDataFile))
             {
-                draft = Deserialize(page, draftDataFile);
+                draft = (Page)Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize(typeof(Page), KnownTypes, draftDataFile);
                 ((IPersistable)draft).Init(page);
             }
             return draft;
@@ -258,14 +258,14 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         public void SaveAsDraft(Page page)
         {
-            Serialize(page, GetDraftDataFile(page));
+            Kooboo.Runtime.Serialization.DataContractSerializationHelper.Serialize(page, GetDraftDataFile(page), KnownTypes);
         }
 
 
         public void RemoveDraft(Page page)
         {
             var draftDataFile = GetDraftDataFile(page);
-            GetLocker().EnterWriteLock();
+            _lock.EnterWriteLock();
             try
             {
                 if (File.Exists(draftDataFile))
@@ -275,20 +275,16 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
             finally
             {
-                GetLocker().ExitWriteLock();
+                _lock.ExitWriteLock();
             }
         }
         #endregion
 
         #region Export
-        public void Export(IEnumerable<Page> sources, Stream outputStream)
-        {
-            ImportHelper.Export(sources.OfType<PathResource>(), outputStream);
-        }
 
         public void Import(Site site, Page parent, Stream zipStream, bool @override)
         {
-            GetLocker().EnterWriteLock();
+            _lock.EnterWriteLock();
             try
             {
                 var destDir = "";
@@ -304,25 +300,29 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
             finally
             {
-                GetLocker().ExitWriteLock();
+                _lock.ExitWriteLock();
             }
         }
         #endregion
 
+        private string GetBasePath(Site site)
+        {
+            return Path.Combine(site.PhysicalPath, "Pages");
+        }
+        private string GetItemPath(Page page)
+        {
+            return Path.Combine(GetBasePath(page.Site), page.Name);
+        }
+        protected override IFileStorage<Page> GetFileStorage(Site site)
+        {
+            return new PageFileStorage(GetBasePath(site), _lock, (dir) =>
+            {
+                return new Page(site, dir.Name);
+            });
+        }
+
+
         #region InitializePages
-
-
-        public void InitializePages(Site site)
-        {
-            // no need to implement.
-        }
-
-
-        public void ExportPagesToDisk(Site site)
-        {
-            // no need to implement.
-        }
-
 
         public void Clear(Site site)
         {

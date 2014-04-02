@@ -42,10 +42,10 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer
         public void Register(IContainerManager containerManager, ITypeFinder typeFinder)
         {
             //Kooboo.CMS.Sites.Globalization.DefaultRepositoryFactory.Instance = new LabelProvider.RepositoryFactory();
-            containerManager.AddComponent<IElementRepositoryFactory, LabelProvider.RepositoryFactory>();
-            containerManager.AddComponent<IPageProvider, PageProvider.PageProvider>();
-            containerManager.AddComponent<IHtmlBlockProvider, HtmlBlockProvider.HtmlBlockProvider>();
-            containerManager.AddComponent<IUserProvider, UserProvider.UserProvider>();
+            //containerManager.AddComponent<IElementRepositoryFactory, LabelProvider.RepositoryFactory>();
+            //containerManager.AddComponent<IPageProvider, PageProvider.PageProvider>();
+            //containerManager.AddComponent<IHtmlBlockProvider, HtmlBlockProvider.HtmlBlockProvider>();
+            //containerManager.AddComponent<IUserProvider, UserProvider.UserProvider>();
 
             var dbContext = SiteDbContext.CreateDbContext();
             dbContext.Database.CreateIfNotExists();

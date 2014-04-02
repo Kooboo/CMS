@@ -16,6 +16,7 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
+    [Obsolete("Refactor a new class XmlObjectFileStorage")]
     public abstract class SettingFileProviderBase<T>
         where T : IPersistable, IIdentifiable
     {
@@ -65,10 +66,10 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             try
             {
                 var o = Deserialize(dummy, filePath);
-                if (o!=null)
+                if (o != null)
                 {
                     o.Init(dummy);
-                }                
+                }
                 return o;
             }
             finally

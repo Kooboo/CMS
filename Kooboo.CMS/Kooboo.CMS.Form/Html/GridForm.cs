@@ -32,9 +32,10 @@ namespace Kooboo.CMS.Form.Html
     var allowedView = (bool)ViewData[""AllowedView""];
     var parentUUID = ViewContext.RequestContext.GetRequestValue(""parentUUID"") ?? """"; 
     var childFolders = Model.ChildFolders==null? new TextFolder[0]:Model.ChildFolders.ToArray();
-
+    var showBrodcastingColumns = Repository.Current.EnableBroadcasting && 
+        Kooboo.CMS.Content.Services.ServiceFactory.ReceiveSettingManager.All(Repository.Current, null).Select(it=>it.AsActual()).Where(it => it.ReceivingFolder.EqualsOrNullEmpty(folder.FullName, StringComparison.OrdinalIgnoreCase)).Count() != 0;
 }}
-@helper RenderHeader(TextFolder folder,Schema schema){{
+@helper RenderHeader(TextFolder folder,Schema schema,bool showBrodcastingColumns){{
         <thead>
             <tr>
                 <th class=""checkbox mutiple"">
@@ -54,7 +55,7 @@ namespace Kooboo.CMS.Form.Html
                     </div>
                 </th>
                 {0}
-                @if (Repository.Current.EnableBroadcasting)
+                @if (showBrodcastingColumns)
                 {{
                     <th class=""IsLocalized @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, ""IsLocalized"", -1)"">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, ""Is localized"", ""IsLocalized"", -1)</th>
                     <th class=""OriginalRepository @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, ""OriginalRepository"", -1)"">@SortByExtension.RenderGridHeader(ViewContext.RequestContext, ""Original repository"", ""OriginalRepository"", -1)</th>
@@ -87,12 +88,12 @@ namespace Kooboo.CMS.Form.Html
 <div class=""common-table fixed"">
  <div class=""thead"">
     <table>
-        @RenderHeader(folder,schema)
+        @RenderHeader(folder,schema,showBrodcastingColumns)
     </table>
 </div>
 <div class=""tbody"">
     <table>
-       @RenderHeader(folder,schema)
+       @RenderHeader(folder,schema,showBrodcastingColumns)
        <tbody>
         @if (childFolders.Length == 0 && ViewBag.PagedList.TotalItemCount == 0)
         {{
@@ -126,7 +127,7 @@ namespace Kooboo.CMS.Form.Html
                         </td>
                         <td colspan=""{2}"">
                         </td>
-                         @if(Repository.Current.EnableBroadcasting)
+                         @if(showBrodcastingColumns)
                         {{
                             <td colspan=""3"">
                             </td>
@@ -149,14 +150,14 @@ namespace Kooboo.CMS.Form.Html
                         }}
                     </tr>
                 }}
-            @AddTreeItems(ViewBag.PagedList, schema, allowedEdit, folder, """")
+            @AddTreeItems(ViewBag.PagedList, schema, allowedEdit, folder, """",showBrodcastingColumns)
         }}
             
         </tbody>
     </table>
 </div>
 </div>
-@helper AddTreeItems(IEnumerable<TextContent> items, Schema schema, bool allowedEdit, TextFolder folder, string parentChain)
+@helper AddTreeItems(IEnumerable<TextContent> items, Schema schema, bool allowedEdit, TextFolder folder, string parentChain,bool showBrodcastingColumns)
     {{
         var isRoot = string.IsNullOrEmpty(parentChain);
         //column datasource
@@ -183,7 +184,7 @@ namespace Kooboo.CMS.Form.Html
             </div>
         </td>
        {1}
-        @if(Repository.Current.EnableBroadcasting)
+        @if(showBrodcastingColumns)
         {{
            <td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.IsLocalized)</td>
            <td>@Kooboo.CMS.Form.Html.HtmlCodeHelper.RenderColumnValue(item.OriginalRepository)</td>
@@ -199,7 +200,7 @@ namespace Kooboo.CMS.Form.Html
             {{
                 var embeddedFolder = Kooboo.CMS.Content.Models.IPersistableExtensions.AsActual(new TextFolder(Repository.Current, s));
             <td class=""action"">
-                @Html.ActionLink(embeddedFolder.FriendlyText, ""SubContent"", new {{ SiteName = ViewContext.RequestContext.GetRequestValue(""SiteName""), RepositoryName = ViewContext.RequestContext.GetRequestValue(""RepositoryName""), ParentFolder = ViewContext.RequestContext.GetRequestValue(""FolderName""), FolderName = s, parentUUID = (object)(item.UUID),@return =ViewContext.HttpContext.Request.RawUrl }})
+                @Html.ActionLink(embeddedFolder.FriendlyText + "" ("" + ((TextContent)item).Children(s).Count() + "")"", ""SubContent"", new {{ SiteName = ViewContext.RequestContext.GetRequestValue(""SiteName""), RepositoryName = ViewContext.RequestContext.GetRequestValue(""RepositoryName""), ParentFolder = ViewContext.RequestContext.GetRequestValue(""FolderName""), FolderName = s, parentUUID = (object)(item.UUID),@return =ViewContext.HttpContext.Request.RawUrl }})
             </td>
             }}
         }}
@@ -243,7 +244,7 @@ namespace Kooboo.CMS.Form.Html
             {4}
             <td class=""date"" data-bind=""html:item._LocalCreationDate_""></td>
             <td><span data-bind=""text : (item.Published == true?'@(""YES"".Localize())': '-')""></span></td>
-            @if(Repository.Current.EnableBroadcasting)
+            @if(showBrodcastingColumns)
             {{
                <td><span data-bind=""text : (item.IsLocalized == null || item.IsLocalized == true?'@(""YES"".Localize())': '-')""></span></td>
                <td><span data-bind=""text : ((item.OriginalRepository == null || item.OriginalRepository =='')? '-':item.OriginalRepository)""></span></td>

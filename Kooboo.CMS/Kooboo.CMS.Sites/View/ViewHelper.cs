@@ -85,8 +85,8 @@ namespace Kooboo.CMS.Sites.View
                 return new HtmlString("");
             }
             var availableToPublish = Kooboo.CMS.Content.Services.ServiceFactory.WorkflowManager.AvailableToPublish(data.GetFolder(), userName);
-            return new HtmlString(string.Format("editType=\"list\" schema=\"{0}\" folder=\"{1}\" uuid=\"{2}\" published=\"{3}\" editUrl=\"{4}\" summary=\"{5}\" publishAvailable=\"{6}\"",
-                    data.SchemaName, data.FolderName, data.UUID, data.Published
+            return new HtmlString(string.Format("editType=\"list\" schema=\"{0}\" folder=\"{1}\" title=\"{2}\" uuid=\"{3}\" published=\"{4}\" editUrl=\"{5}\" summary=\"{6}\" publishAvailable=\"{7}\"",
+                    data.SchemaName, data.FolderName, data.GetFolder().AsActual().FriendlyText, data.UUID, data.Published
                 , Page_Context.Current.Url.Action("InlineEdit", new
                 {
                     controller = "TextContent",

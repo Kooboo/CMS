@@ -5,6 +5,10 @@
 }
 @section Panel{
     <ul class="panel">
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
         <li>
             <a data-ajaxform="">
                 @Html.IconImage("save") @("Save".Localize())</a>

@@ -67,6 +67,10 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
                 {
                     return new ABPageSettingProvider((IABPageSettingProvider)resolvedObject);
                 }
+                if (resolvedObject is ILabelProvider)
+                {
+                    return new LabelProvider((ILabelProvider)resolvedObject);
+                }
                 return resolvedObject;
             }
         }

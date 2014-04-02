@@ -20,7 +20,7 @@ namespace Kooboo.CMS.Sites.Persistence
         //IEnumerable<LayoutSample> AllSamples();
         //LayoutSample GetLayoutSample(string name);
 
-        void Export(IEnumerable<Layout> sources, System.IO.Stream outputStream);
+        void Export(Site site, IEnumerable<Layout> sources, System.IO.Stream outputStream);
 
         void Import(Site site, System.IO.Stream zipStream, bool @override);
     }

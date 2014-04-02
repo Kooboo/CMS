@@ -32,7 +32,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         IMediaPathField _mediaPathField;
         MediaContentManager _mediaContentManager;
         MediaFolderManager _mediaFolderManager;
-        public IncomingQueueManager(IIncomingQueueProvider incomeQueueProvider, PageManager pageManager, ITextContentProvider textContentProvider, 
+        public IncomingQueueManager(IIncomingQueueProvider incomeQueueProvider, PageManager pageManager, ITextContentProvider textContentProvider,
             TextContentManager textContentManager, IPublishingLogProvider publishingLogProvider, IMediaPathField mediaPathField,
             MediaContentManager mediaContentManager, MediaFolderManager mediaFolderManager)
             : base(incomeQueueProvider)
@@ -102,6 +102,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             {
                 Kooboo.HealthMonitoring.Log.LogException(e);
                 queueItem.Status = QueueStatus.Warning;
+                logStatus = QueueStatus.Warning;
                 exception = e;
                 queueItem.Message = e.Message;
             }
@@ -253,7 +254,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             var values = textContent.ToNameValueCollection();
             var files = values.GetFilesFromValues();
             var medias = values.GetMediaFromValues();
-            var newVirtualPathDict = new Dictionary<string,string>();
+            var newVirtualPathDict = new Dictionary<string, string>();
             for (int i = 0, len = medias.Count; i < len; i++)
             {
                 var virtualPath = this._repositoryNameRegex.Replace(medias[i].FileName, string.Format("$1{0}$3", repository.Name));
@@ -262,7 +263,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                 if (!string.IsNullOrWhiteSpace(virtualPath))
                 {
                     newVirtualPathDict.Add(medias[i].FileName, virtualPath);
-                    
+
                     var physicalPath = Kooboo.Web.Url.UrlUtility.MapPath(virtualPath);
 
                     var mediaFolder = new MediaFolder(repository, folder);
@@ -302,7 +303,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             _textContentManager.Delete(repository, textFolder, values["UUID"]);
             _textContentManager.Add(textFolder.Repository, textFolder, values, files, categories, values["UserId"]);
 
-            
+
         }
         #endregion
     }

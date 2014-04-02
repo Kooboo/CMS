@@ -351,11 +351,11 @@ namespace Kooboo.CMS.Form.Html
                     }
                     else if (item.Name.EqualsOrNullEmpty("UtcCreationDate", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        sb_body.AppendFormat("\t\t<td class=\"date\">@(DateTime.Parse(item[\"{0}\"].ToString()).ToLocalTime().ToShortDateString())</td>\r\n", item.Name);
+                        sb_body.AppendFormat("\t\t<td class=\"date\">{0}</td>\r\n", columnValue);
                     }
                     else if (item.DataType == DataType.DateTime)
                     {
-                        sb_body.AppendFormat("\t\t<td class=\"date\">@(item[\"{0}\"] == null?\"\":((DateTime)item[\"{0}\"]).ToLocalTime().ToShortDateString())</td>\r\n", item.Name);
+                        sb_body.AppendFormat("\t\t<td class=\"date\">{0}</td>\r\n", columnValue);
                     }
                     else
                     {

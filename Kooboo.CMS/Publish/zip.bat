@@ -10,6 +10,7 @@ cd..
 xcopy "Web\*.*" "Azure\Kooboo_CMS\*.*" /S /E /Y /H
 
 cd Azure
+copy Startup.bat Kooboo_CMS\Startup.bat
 
 call Pack.bat
 

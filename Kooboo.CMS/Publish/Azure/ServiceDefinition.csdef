@@ -8,6 +8,9 @@
         </Bindings>
       </Site>
     </Sites>
+	<Startup>
+      <Task commandLine="..\Startup.bat" executionContext="elevated" taskType="simple" />
+    </Startup>
     <Endpoints>
       <InternalEndpoint name="InternalHttpIn" protocol="http"/>
       <InputEndpoint name="Endpoint1" protocol="http" port="80" localPort="80" />

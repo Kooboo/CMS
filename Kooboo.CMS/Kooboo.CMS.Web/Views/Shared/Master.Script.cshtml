@@ -8,7 +8,7 @@
         Globalize.culture('@Html.Raw(System.Threading.Thread.CurrentThread.CurrentCulture.Name)');
 
         $.validator.methods.number = function (value, element) {
-            return !isNaN(Globalize.parseFloat(value));
+            return (!$.validator.methods.required.call(this, value, element) && "dependency-mismatch") || !isNaN(Globalize.parseFloat(value));
         }
         $.fn.numberic = function () {
             var $self = $(this) @*use in control type*@

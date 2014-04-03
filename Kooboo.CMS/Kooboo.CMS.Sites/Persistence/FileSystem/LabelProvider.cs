@@ -8,8 +8,8 @@
 #endregion
 using Ionic.Zip;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Sites.Globalization;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,31 +23,9 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Label>))]
     public class LabelProvider : ILabelProvider
     {
-        #region static ctor
-        static LabelProvider()
-        {
-            ConvertFromResx(Providers.SiteProvider);
-        }
-        #endregion
-        #region Convert from resx file
-        private static void ConvertFromResx(ISiteProvider siteProvider)
-        {
-            var sites = siteProvider.AllSites();
-            var labelProvider = new LabelProvider();
-            foreach (var site in sites)
-            {
-                var elementProvider = new SiteLabelRepository(site);
-                foreach (var item in elementProvider.Elements())
-                {
-                    labelProvider.Add(new Label(site, item.Category, item.Name, item.Value) { UtcCreationDate = DateTime.UtcNow });
-                }
-                elementProvider.Clear();
-            }
-        }
-        #endregion
         #region Static fields
         public static string DefaultLabelFile = "Label.json";
-        static ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
+        static ReaderWriterLockSlim _locker = new ReaderWriterLockSlim();
         #endregion
 
         #region GetCategories
@@ -89,7 +67,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region GetStorage
         protected virtual JsonListFileStorage<Label> GetStorage(string labelFile)
         {
-            var storage = new JsonListFileStorage<Label>(labelFile, _lock);
+            var storage = new JsonListFileStorage<Label>(labelFile, _locker);
             return storage;
         }
         #endregion
@@ -101,7 +79,14 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             var storage = GetStorage(labelFile);
 
-            return storage.GetList(site).AsQueryable();
+            var list = storage.GetList();
+
+            foreach (var item in list)
+            {
+                item.Site = site;
+            }
+
+            return list.AsQueryable();
         }
         #endregion
 
@@ -119,7 +104,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             try
             {
-                _lock.EnterWriteLock();
+                _locker.EnterWriteLock();
 
                 if (File.Exists(categoryFile))
                 {
@@ -128,7 +113,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
             finally
             {
-                _lock.ExitWriteLock();
+                _locker.ExitWriteLock();
             }
         }
         #endregion

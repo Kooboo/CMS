@@ -357,14 +357,14 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
         #endregion
 
         #region Export
-        public void Export(IEnumerable<Models.Page> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<Models.Page> sources, System.IO.Stream outputStream)
         {
             IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
             foreach (var item in sources)
             {
                 ExportAsFileCascading(filePageProvider, item);
             }
-            filePageProvider.Export(sources, outputStream);
+            filePageProvider.Export(site, sources, outputStream);
         }
         private void ExportAsFileCascading(IPageProvider filePageProvider, Page page)
         {
@@ -415,7 +415,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
 
             return new Page(site, fullName);
         }
-       
+
         private void InitializePageCascading(IPageProvider filePageProvider, Page page)
         {
             this.Add(filePageProvider.Get(page));
@@ -424,7 +424,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
                 InitializePageCascading(filePageProvider, item);
             }
         }
-      
+
         private void ExportPageCascading(IPageProvider filePageProvider, Page page)
         {
             filePageProvider.Add(page);
@@ -482,7 +482,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
             foreach (var item in QueryBySite(site))
             {
                 ExportPageCascading(filePageProvider, item);
-            }          
+            }
         }
         #endregion
     }

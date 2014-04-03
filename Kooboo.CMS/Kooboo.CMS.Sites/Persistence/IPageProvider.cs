@@ -52,7 +52,7 @@ namespace Kooboo.CMS.Sites.Persistence
 
         void RemoveDraft(Page page);
 
-        void Export(IEnumerable<Page> sources, System.IO.Stream outputStream);
+        void Export(Site site, IEnumerable<Page> sources, System.IO.Stream outputStream);
 
         void Import(Site site, Page parent, System.IO.Stream zipStream, bool @override);
 

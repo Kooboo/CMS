@@ -28,12 +28,12 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.UrlRedirectProvider
         }
         #endregion
 
-        public void Export(Site site, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<UrlRedirect> urlRedirects, System.IO.Stream outputStream)
         {
             ExportToDisk(site);
 
             var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.UrlRedirectProvider();
-            provider.Export(site, outputStream);
+            provider.Export(site, urlRedirects, outputStream);
         }
 
         public void Import(Site site, System.IO.Stream zipStream, bool @override)

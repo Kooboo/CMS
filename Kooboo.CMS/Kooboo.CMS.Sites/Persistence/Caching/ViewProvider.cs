@@ -49,9 +49,9 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region Export
-        public void Export(IEnumerable<Models.View> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<Models.View> sources, System.IO.Stream outputStream)
         {
-            inner.Export(sources, outputStream);
+            inner.Export(site, sources, outputStream);
         }
         #endregion
 
@@ -65,7 +65,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
             finally
             {
                 site.ClearCache();
-            }            
+            }
         }
         #endregion
 
@@ -81,7 +81,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
                 ClearObjectCache(site);
             }
         }
-        #endregion     
+        #endregion
 
         #region ISiteElementProvider InitializeToDB/ExportToDisk
         public void InitializeToDB(Site site)

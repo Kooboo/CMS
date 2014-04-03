@@ -71,13 +71,9 @@ namespace Kooboo.CMS.Sites.Services
         {
             _provider.Import(site, zipStream, @override);
         }
-        public virtual void Export(IEnumerable<ABPageSetting> pageVisitRules, System.IO.Stream outputStream)
+        public virtual void Export(Site site, IEnumerable<ABPageSetting> pageVisitRules, System.IO.Stream outputStream)
         {
-            _provider.Export(pageVisitRules, outputStream);
-        }
-        public virtual void ExportAll(Site site, System.IO.Stream outputStream)
-        {
-            _provider.Export(All(site, ""), outputStream);
+            _provider.Export(site, pageVisitRules, outputStream);
         }
         #endregion
 

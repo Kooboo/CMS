@@ -22,9 +22,9 @@ namespace Kooboo.CMS.Sites.Services
 
         #region Export & Import
 
-        public void Export(Site site, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<UrlKeyMap> items, System.IO.Stream outputStream)
         {
-            Provider.Export(site, outputStream);
+            Provider.Export(site, items, outputStream);
         }
 
         public void Import(Site site, System.IO.Stream zipStream, bool @override)

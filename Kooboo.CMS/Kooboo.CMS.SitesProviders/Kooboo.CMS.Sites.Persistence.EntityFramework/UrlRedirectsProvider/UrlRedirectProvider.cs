@@ -28,13 +28,13 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider
         #endregion
 
         #region --- Import && Export ---
-        public void Export(Site site, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<UrlRedirect> urlRedirects, System.IO.Stream outputStream)
         {
             ExportToDisk(site);
-            provider.Export(site, outputStream);
+            provider.Export(site, urlRedirects, outputStream);
         }
 
-   
+
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
         {
             provider.Import(site, zipStream, @override);

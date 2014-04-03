@@ -9,12 +9,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISubmissionSettingProvider))]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<SubmissionSetting>))]
-    public class SubmissionSettingProvider : ObjectFileProviderBase<SubmissionSetting>, ISubmissionSettingProvider
+    public class SubmissionSettingProvider : FileProviderBase<SubmissionSetting>, ISubmissionSettingProvider
     {
 
         #region .ctor
@@ -27,15 +28,9 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         #endregion
 
-        #region CreateObject
-        protected override SubmissionSetting CreateObject(Models.Site site, System.IO.FileInfo fileInfo)
-        {
-            return new SubmissionSetting() { Site = site, Name = Path.GetFileNameWithoutExtension(fileInfo.Name) };
-        }
-        #endregion
 
         #region GetBasePath
-        protected override string GetBasePath(Models.Site site)
+        private string GetBasePath(Models.Site site)
         {
             var basePath = "";
             if (site == null)
@@ -50,30 +45,24 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         #endregion
 
-        #region GetLocker
-        protected override System.Threading.ReaderWriterLockSlim GetLocker()
-        {
-            return locker;
-        }
-        #endregion
+        //#region CreateObject
+        //protected override SubmissionSetting CreateObject(Models.Site site, System.IO.FileInfo fileInfo)
+        //{
+        //    return new SubmissionSetting() { Site = site, Name = Path.GetFileNameWithoutExtension(fileInfo.Name) };
+        //}
+        //#endregion
 
-        #region All
-        public override IEnumerable<SubmissionSetting> All()
-        {
-            throw new NotSupportedException();
-        }
-        #endregion
-        
-        #region ISiteElementProvider InitializeToDB/ExportToDisk
-        public void InitializeToDB(Site site)
-        {
-            //not need to implement.
-        }
 
-        public void ExportToDisk(Site site)
+        //#region GetLocker
+        //protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        //{
+        //    return locker;
+        //}
+        //#endregion        
+
+        protected override IFileStorage<SubmissionSetting> GetFileStorage(Site site)
         {
-            //not need to implement.
-        } 
-        #endregion
+            return new XmlObjectFileStorage<SubmissionSetting>(GetBasePath(site), locker);
+        }
     }
 }

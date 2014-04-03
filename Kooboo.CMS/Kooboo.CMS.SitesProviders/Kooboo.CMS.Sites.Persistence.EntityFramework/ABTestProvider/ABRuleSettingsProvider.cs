@@ -28,8 +28,9 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
             this._dbContext = dbContext;
             this._baseDir = baseDir;
             provider = new Kooboo.CMS.Sites.Persistence.FileSystem.ABRuleSettingProvider(_baseDir);
-        } 
+        }
         #endregion
+
         #region --- Import / Export ---
         private void Clean(Site site = null)
         {
@@ -40,7 +41,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
                 provider.Remove(item);
             }
         }
-        public void Export(IEnumerable<ABTest.ABRuleSetting> sources, Stream outputStream)
+        public void Export(Site site, IEnumerable<ABTest.ABRuleSetting> sources, Stream outputStream)
         {
             var allItem = sources.ToList();
             foreach (var item in allItem)
@@ -48,7 +49,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
                 var dummy = item.AsActual();
                 provider.Add(dummy);
             }
-            provider.Export(sources, outputStream);
+            provider.Export(site, sources, outputStream);
         }
 
         public void ExportToDisk(Site site)
@@ -92,7 +93,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
 
         public void InitializeToDB(Site site)
         {
-            
+
         }
         #endregion
 
@@ -187,10 +188,10 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
             }
             _dbContext.SaveChanges();
             ((IPersistable)item).OnSaved();
-        } 
+        }
         #endregion
 
 
-      
+
     }
 }

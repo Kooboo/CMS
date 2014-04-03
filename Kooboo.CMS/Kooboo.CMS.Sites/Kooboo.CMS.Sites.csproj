@@ -202,9 +202,16 @@
     <Compile Include="Persistence\Caching\ABRuleSettingProvider.cs" />
     <Compile Include="Persistence\Caching\LabelProvider.cs" />
     <Compile Include="Persistence\FileSystem\ABPageTestResultProvider.cs" />
-    <Compile Include="Persistence\FileSystem\JsonListFileStorage.cs" />
+    <Compile Include="Persistence\FileSystem\ABSiteSettingProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Persistence\FileSystem\Storage\DirectoryObjectFileStorage.cs" />
+    <Compile Include="Persistence\FileSystem\Storage\IFileStorage.cs" />
+    <Compile Include="Persistence\FileSystem\Storage\JsonListFileStorage.cs" />
     <Compile Include="Persistence\FileSystem\LabelImportExportHelper.cs" />
     <Compile Include="Persistence\FileSystem\LabelProvider.cs" />
+    <Compile Include="Persistence\FileSystem\Storage\XmlObjectFileStorage.cs" />
+    <Compile Include="Persistence\FileSystem\Storage\XmlListFileStorage.cs" />
     <Compile Include="Persistence\IABPageTestResultProvider.cs" />
     <Compile Include="Persistence\ILabelProvider.cs" />
     <Compile Include="Persistence\ISiteExportableProvider.cs" />
@@ -290,7 +297,6 @@
     <Compile Include="Models\AssemblyFile.cs" />
     <Compile Include="Models\CodeSnippet.cs" />
     <Compile Include="Models\CustomDirectory.cs" />
-    <Compile Include="Models\CustomErrorsFile.cs" />
     <Compile Include="Models\HtmlBlock.cs" />
     <Compile Include="Models\IFilePersistable.cs" />
     <Compile Include="Models\ISiteObject.cs" />
@@ -351,8 +357,7 @@
     </Compile>
     <Compile Include="Persistence\FileSystem\ABPageSettingProvider.cs" />
     <Compile Include="Persistence\IABPageSettingProvider.cs" />
-    <Compile Include="Persistence\FileSystem\ObjectFileProviderBase.cs" />
-    <Compile Include="Persistence\FileSystem\ABSiteSettingProvider.cs" />
+    <Compile Include="Persistence\FileSystem\FileProviderBase.cs" />
     <Compile Include="Persistence\FileSystem\ABRuleSettingProvider.cs" />
     <Compile Include="Persistence\IABSiteSettingProvider.cs" />
     <Compile Include="Persistence\IABRuleSettingProvider.cs" />

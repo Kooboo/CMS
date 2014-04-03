@@ -30,12 +30,12 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.CustomErrorProvider
         #endregion
 
         #region Export
-        public void Export(Models.Site site, System.IO.Stream outputStream)
+        public void Export(Models.Site site, IEnumerable<CustomError> customErrors, System.IO.Stream outputStream)
         {
             ExportToDisk(site);
 
             var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider();
-            provider.Export(site, outputStream);
+            provider.Export(site, customErrors, outputStream);
         }
 
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
@@ -69,17 +69,11 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.CustomErrorProvider
 
         public void ExportToDisk(Site site)
         {
-            var allItem = this.All(site).ToList();
-            var provider = new Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider();
-            var file = new CustomErrorsFile(site).PhysicalPath;
-            locker.EnterWriteLock();
-            try
+            var allItems = this.All(site).ToList();
+            var fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider();
+            foreach (var item in allItems)
             {
-                Serialization.Serialize<List<CustomError>>(allItem, file);
-            }
-            finally
-            {
-                locker.ExitWriteLock();
+                fileProvider.Add(item);
             }
         }
         #endregion

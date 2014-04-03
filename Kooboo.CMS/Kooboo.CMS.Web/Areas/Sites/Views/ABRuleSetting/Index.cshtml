@@ -34,24 +34,14 @@
                 @Html.IconImage("import") @("Import".Localize())
             </a>
         </li>
+        <li>
+            <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-command-type="Download">
+                @Html.IconImage("export") @("Export".Localize())
+            </a>
+        </li>
 
         <li><a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
             @Html.IconImage("delete") @("Delete".Localize())</a></li>
-
-        <li class="j_DropDown" data-show-on-check="Any">
-            <a>
-                @("More...".Localize())
-                @Html.IconImage("arrow small white-down")
-            </a>
-            <ul class="j_DropDownContent hide">
-                <li>
-                    <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="Download">
-                        @("Export".Localize())
-                    </a>
-                </li>
-                <li><a href="@Url.Action("Relations", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show A/B rule relations"))" data-show-on-check="Single" data-command-type="Redirect">@("Relations".Localize())</a></li>
-            </ul>
-        </li>
 
         @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
         {
@@ -63,5 +53,6 @@
 <div class="topbar clearfix">
     <h1 class="title">
         @ViewBag.Title</h1>
+    @Html.Partial("_Search")
 </div>
 @Html.GridForModel2()

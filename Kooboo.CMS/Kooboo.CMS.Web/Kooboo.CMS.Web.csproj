@@ -259,6 +259,7 @@
     <Compile Include="Areas\Sites\Models\ABRuleSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\SiteTemplate_ViewModel.cs" />
     <Compile Include="Areas\Sites\Models\QueryStringVisitRule_Metadata.cs" />
+    <Compile Include="Areas\Sites\Views\ABRuleSetting\ABRuleSettingIndexToolbarProvider.cs" />
     <Compile Include="Areas\Sites\Views\Page\PageIndexToolbarProvider.cs" />
     <Compile Include="Interoperability\MetaWeblog\BloggerAPI.cs">
       <SubType>Code</SubType>

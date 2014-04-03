@@ -21,17 +21,17 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             { return new ABPageSetting() { Site = site, MainPage = key }; })
         {
             fileProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.ABPageSettingProvider();
-        } 
+        }
         #endregion
 
         #region Export
-        public void Export(IEnumerable<ABTest.ABPageSetting> sources, System.IO.Stream outputStream)
+        public void Export(Site site, IEnumerable<ABTest.ABPageSetting> sources, System.IO.Stream outputStream)
         {
             foreach (var item in sources)
             {
                 fileProvider.Add(item.AsActual());
             }
-            fileProvider.Export(sources, outputStream);
+            fileProvider.Export(site, sources, outputStream);
         }
 
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)

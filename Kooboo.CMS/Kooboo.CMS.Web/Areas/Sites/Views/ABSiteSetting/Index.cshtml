@@ -17,7 +17,7 @@
             </a>
         </li>
         <li>
-            <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="Download">
+            <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-command-type="Download">
                 @Html.IconImage("export") @("Export".Localize())
             </a>
         </li>

@@ -54,7 +54,8 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
             if (permission != null && !string.IsNullOrEmpty(permission.UnauthorizedUrl))
             {
                 var unauthorizedUrl = permission.UnauthorizedUrl.AddQueryParam("returnUrl", filterContext.HttpContext.Request.RawUrl);
-                filterContext.Result = new RedirectResult(unauthorizedUrl);
+                var redirectUrl = FrontUrlHelper.WrapperUrl(unauthorizedUrl.TrimStart('~'), Page_Context.Current.PageRequestContext.Site, Page_Context.Current.PageRequestContext.RequestChannel);
+                filterContext.Result = new RedirectResult(redirectUrl.ToString());
             }
             else
             {

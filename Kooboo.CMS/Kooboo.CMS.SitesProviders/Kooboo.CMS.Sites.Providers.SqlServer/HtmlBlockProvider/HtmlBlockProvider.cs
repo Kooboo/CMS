@@ -22,32 +22,32 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.HtmlBlockProvider
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<HtmlBlock>), Order = 100)]
     public class HtmlBlockProvider : IHtmlBlockProvider
     {
-        #region version
-        public class HtmlBlockVersionLogger : Kooboo.CMS.Sites.Versioning.IVersionLogger<HtmlBlock>
-        {
-            public void LogVersion(HtmlBlock o)
-            {
-                //todo:
-            }
+        //#region version
+        //public class HtmlBlockVersionLogger : Kooboo.CMS.Sites.Versioning.IVersionLogger<HtmlBlock>
+        //{
+        //    public void LogVersion(HtmlBlock o)
+        //    {
+        //        //todo:
+        //    }
 
-            public IEnumerable<Versioning.VersionInfo> AllVersions(HtmlBlock o)
-            {
-                return new Versioning.VersionInfo[0];
-                //todo:
-            }
+        //    public IEnumerable<Versioning.VersionInfo> AllVersions(HtmlBlock o)
+        //    {
+        //        return new Versioning.VersionInfo[0];
+        //        //todo:
+        //    }
 
-            public HtmlBlock GetVersion(HtmlBlock o, int version)
-            {
-                return null;
-                //todo:
-            }
+        //    public HtmlBlock GetVersion(HtmlBlock o, int version)
+        //    {
+        //        return null;
+        //        //todo:
+        //    }
 
-            public void Revert(HtmlBlock o, int version)
-            {
-                //todo:
-            }
-        }
-        #endregion
+        //    public void Revert(HtmlBlock o, int version)
+        //    {
+        //        //todo:
+        //    }
+        //}
+        //#endregion
 
         #region general
         public IEnumerable<HtmlBlock> All()

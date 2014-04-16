@@ -60,10 +60,20 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region Localize
-        public virtual void Localize(string name, Site targetSite)
+        public virtual void Localize(string name, Site targetSite, string userName = null)
         {
-            var source = new Models.Layout(targetSite, name).LastVersion();
-            Provider.Localize(source, targetSite);
+            var target = new Models.Layout(targetSite, name);
+            var source = target.LastVersion();
+            if (target.Site != source.Site)
+            {
+                Provider.Localize(source, targetSite);
+                target = target.AsActual();
+                if (target != null)
+                {
+                    target.UserName = userName;
+                    Update(targetSite, target, target);
+                }
+            }
         }
         #endregion
 

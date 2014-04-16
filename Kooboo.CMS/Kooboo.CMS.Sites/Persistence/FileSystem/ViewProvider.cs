@@ -30,12 +30,16 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             {
                 return new ViewProvider();
             }
-            public override void Revert(Models.View o, int version)
+            public override void Revert(Models.View o, int version, string userName)
             {
                 var versionData = GetVersion(o, version);
                 if (versionData != null)
                 {
+                    versionData.UserName = userName;
+                    versionData.LastUpdateDate = DateTime.UtcNow;
                     Providers.ViewProvider.Update(versionData, o);
+                    //log a new version when revert
+                    LogVersion(versionData);
                 }
             }
 

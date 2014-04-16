@@ -60,12 +60,16 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 return page;
             }
 
-            public override void Revert(Page o, int version)
+            public override void Revert(Page o, int version, string userName)
             {
                 var versionData = GetVersion(o, version);
                 if (versionData != null)
                 {
+                    versionData.UserName = userName;
+                    versionData.LastUpdateDate = DateTime.UtcNow;
                     Providers.PageProvider.Update(versionData, o);
+                    //log a new version when revert
+                    LogVersion(versionData);
                 }
             }
         }
@@ -76,7 +80,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         protected override System.Threading.ReaderWriterLockSlim GetLocker()
         {
             return locker;
-        } 
+        }
         #endregion
 
         #region KnownTypes
@@ -99,7 +103,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 typeof(HttpDataRule)
                 };
             }
-        } 
+        }
         #endregion
 
         #region IPageRepository Members

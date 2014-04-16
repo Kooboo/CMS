@@ -331,7 +331,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 foreach (var item in model)
                 {
-                    Manager.Localize(item.UUID, Site);
+                    Manager.Localize(item.UUID, Site, User.Identity.Name);
                 }
                 data.ReloadPage = true;
             });
@@ -343,7 +343,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             data.RunWithTry((resultData) =>
             {
-                Manager.Localize(uuid, Site);
+                Manager.Localize(uuid, Site, User.Identity.Name);
                 data.ReloadPage = true;
             });
             return Json(data);
@@ -704,7 +704,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             data.RunWithTry((resultData) =>
             {
                 var page = new Page(Site, uuid);
-                Manager.VersiongLogger.Revert(page, version);
+                Manager.VersiongLogger.Revert(page, version, User.Identity.Name);
                 resultData.RedirectUrl = @return;
             });
 

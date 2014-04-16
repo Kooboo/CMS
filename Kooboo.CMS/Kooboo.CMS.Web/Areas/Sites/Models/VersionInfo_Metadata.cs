@@ -27,7 +27,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         public int Version { get; set; }
         [GridColumn(GridItemColumnType = typeof(DateTimeGridItemColumn))]
         public DateTime Date { get; set; }
-        [GridColumn()]
+        [GridColumn(HeaderText = "Commit user")]
         public string UserName { get; set; }
     }
 }

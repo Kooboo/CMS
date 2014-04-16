@@ -33,7 +33,8 @@ namespace Kooboo.CMS.Content.Services
             "OriginalUUID",
             "OriginalRepository",
             "OriginalFolder",
-            "IsLocalized"
+            "IsLocalized",
+            "Sequence"
             };
         /// <summary>
         /// 排序系统字段的其它自定义字段值

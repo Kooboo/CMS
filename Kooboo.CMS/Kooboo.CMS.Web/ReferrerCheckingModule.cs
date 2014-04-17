@@ -25,7 +25,14 @@ namespace Kooboo.CMS.Web
             var httpContext = HttpContext.Current;
             if (httpContext.Request.HttpMethod.ToUpper() == "POST")
             {
-                if (httpContext.Request.UrlReferrer != null && httpContext.Request.UrlReferrer.Host != httpContext.Request.Url.Host)
+                bool allowCrossDomainPost = false;
+                var crossdomainPostSetting = System.Configuration.ConfigurationManager.AppSettings["AllowCrossDomainPost"];
+                if (!string.IsNullOrEmpty(crossdomainPostSetting))
+                {
+                    allowCrossDomainPost = crossdomainPostSetting.ToLower() == "true";
+                }
+
+                if (!allowCrossDomainPost && httpContext.Request.UrlReferrer != null && httpContext.Request.UrlReferrer.Host != httpContext.Request.Url.Host)
                 {
                     throw new HttpException("The cross-domain POST request is not allowed.".Localize());
                 }

@@ -49,43 +49,43 @@
             }
 
             @*@if (formatters.Count() > 0)
-            {
-                <li class="j_DropDown">
-                    <a>
-                        @Html.IconImage("import")
-                    @("Import".Localize())
-                    @Html.IconImage("arrow small white-down")
-                </a>
-                <ul class="j_DropDownContent hide">
-                    @foreach (var exporter in formatters)
-                    {
-                        <li>
-                            <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("Formatter", exporter.Name).Merge("return", ViewContext.HttpContext.Request.RawUrl))">
-                                @(exporter.DisplayName)
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </li>
-
-                <li class="j_DropDown" data-show-on-check="Any">
-                    <a>
-                        @Html.IconImage("export")
-                        @("Export".Localize())
+                {
+                    <li class="j_DropDown">
+                        <a>
+                            @Html.IconImage("import")
+                        @("Import".Localize())
                         @Html.IconImage("arrow small white-down")
                     </a>
                     <ul class="j_DropDownContent hide">
                         @foreach (var exporter in formatters)
                         {
                             <li>
-                                <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("Formatter", exporter.Name).Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-command-type="Download">
+                                <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("Formatter", exporter.Name).Merge("return", ViewContext.HttpContext.Request.RawUrl))">
                                     @(exporter.DisplayName)
                                 </a>
                             </li>
                         }
                     </ul>
                 </li>
-            }*@
+
+                    <li class="j_DropDown" data-show-on-check="Any">
+                        <a>
+                            @Html.IconImage("export")
+                            @("Export".Localize())
+                            @Html.IconImage("arrow small white-down")
+                        </a>
+                        <ul class="j_DropDownContent hide">
+                            @foreach (var exporter in formatters)
+                            {
+                                <li>
+                                    <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("Formatter", exporter.Name).Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-command-type="Download">
+                                        @(exporter.DisplayName)
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }*@
             <li>
                 <a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
                     @Html.IconImage("delete") @("Delete".Localize())
@@ -100,14 +100,14 @@
                     @if (ViewBag.AllowedEdit)
                     {
                         <li>
-                            <a href="@Url.Action("BatchPublish", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.unpublished" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to publish these items?".Localize())">
-                                @Html.IconImage("publish") @("Publish".Localize())
+                            <a href="@Url.Action("BatchPublish", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".unpublished" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to publish these items?".Localize())">
+                                @("Publish".Localize())
                             </a>
                         </li>
 
                         <li>
-                            <a href="@Url.Action("BatchUnpublish", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.published" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to unpublish these items?".Localize())">
-                                @Html.IconImage("unpublish") @("Unpublish".Localize())
+                            <a href="@Url.Action("BatchUnpublish", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".published" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to unpublish these items?".Localize())">
+                                @("Unpublish".Localize())
                             </a>
                         </li>
                     }
@@ -118,25 +118,25 @@
                     </li>
 
                     <li>
-                        <a href="@Url.Action("Copy", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized" data-command-type="AjaxPost">
-                            @Html.IconImage("copy") @("Copy".Localize())
+                        <a href="@Url.Action("Copy", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost">
+                            @("Copy".Localize())
                         </a>
                     </li>
 
                     <li>
-                        <a href="@Url.Action("Rebroadcast", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized.published" data-command-type="AjaxPost">
-                            @Html.IconImage("re-broadcast") @("Re-broadcast".Localize())
+                        <a href="@Url.Action("Rebroadcast", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".published" data-command-type="AjaxPost">
+                            @("Re-broadcast".Localize())
                         </a>
                     </li>
 
                     <li>
-                        <a href="@Url.Action("Versions", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show text content versions"))" data-show-on-check="Single" data-show-on-selector=".localized" data-command-type="Redirect">
-                            @Html.IconImage("version") @("Versions".Localize())
+                        <a href="@Url.Action("Versions", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show text content versions"))" data-show-on-check="Single" data-command-type="Redirect">
+                            @("Versions".Localize())
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("Controller", "TextFolder").Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Single" data-command-type="Redirect" data-show-on-selector=".foldertr">
-                          @("Settings".Localize())
+                            @("Settings".Localize())
                         </a>
                     </li>
                     <li><a href="@Url.Action("Relations", ViewContext.RequestContext.AllRouteValues().Merge("Controller", "TextFolder").Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Show folder relations"))" data-show-on-check="Single" data-command-type="Redirect" data-show-on-selector=".foldertr">@("Relations".Localize())</a></li>

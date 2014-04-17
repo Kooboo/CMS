@@ -36,10 +36,22 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return base.Create(model);
         }
 
+        protected override void Add(HtmlBlock model)
+        {
+            model.UserName = User.Identity.Name;
+            base.Add(model);
+        }
+
         public override ActionResult Edit(string uuid)
         {
             ViewBag.ExternalCssSetting = this.GetExternalCssSetting();
             return base.Edit(uuid);
+        }
+
+        protected override void Update(HtmlBlock newModel, string old_key)
+        {
+            newModel.UserName = User.Identity.Name;
+            base.Update(newModel, old_key);
         }
 
         private string GetExternalCssSetting()
@@ -66,7 +78,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 foreach (var item in model)
                 {
-                    Manager.Localize(item.UUID, Site);
+                    Manager.Localize(item.UUID, Site, User.Identity.Name);
                 }
                 data.ReloadPage = true;
             });
@@ -111,7 +123,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             data.RunWithTry((resultData) =>
             {
-                VersionManager.Revert<HtmlBlock>(htmlBlock, version);
+                VersionManager.Revert<HtmlBlock>(htmlBlock, version, User.Identity.Name);
                 data.RedirectUrl = @return;
             });
             return Json(data);

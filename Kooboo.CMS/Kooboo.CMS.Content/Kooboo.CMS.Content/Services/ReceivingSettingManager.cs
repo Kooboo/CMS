@@ -121,7 +121,7 @@ namespace Kooboo.CMS.Content.Services
                         }
                         drivedContent.OriginalLastestVisitedVersionId = Kooboo.CMS.Content.Versioning.VersionManager.AllVersionInfos(originalContent).Max(it => it.Version);
                         var categoriesOfDrivedContent = GetAllCategories(drivedContent);
-                        Services.ServiceFactory.TextContentManager.Update(repository, targetFolder, drivedContent.UUID, values, null, DateTime.UtcNow, categoriesOfOriginalContent, categoriesOfDrivedContent);
+                        Services.ServiceFactory.TextContentManager.Update(repository, targetFolder, drivedContent.UUID, values, null, DateTime.UtcNow, categoriesOfOriginalContent, categoriesOfDrivedContent, originalContent.UserId);
                     }
                     else
                     {

@@ -36,7 +36,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             protected override string GetItemPath(Page o)
             {
                 return Path.Combine(new[] { _baseFolder }.Concat(o.PageNamePaths).ToArray());
-            }            
+            }
         }
         #region Versioning
         public class PageVersionLogger : FileVersionLogger<Page>
@@ -73,12 +73,15 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 return page;
             }
 
-            public override void Revert(Page o, int version)
+            public override void Revert(Page o, int version, string userName)
             {
                 var versionData = GetVersion(o, version);
                 if (versionData != null)
                 {
+                    versionData.UserName = userName;
+                    versionData.LastUpdateDate = DateTime.UtcNow;
                     Providers.PageProvider.Update(versionData, o);
+                    LogVersion(versionData);
                 }
             }
         }

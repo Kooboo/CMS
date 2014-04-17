@@ -31,12 +31,16 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             {
                 return new LayoutProvider();
             }
-            public override void Revert(Layout o, int version)
+            public override void Revert(Layout o, int version, string userName)
             {
                 var versionData = GetVersion(o, version);
                 if (versionData != null)
                 {
+                    versionData.UserName = userName;
+                    versionData.LastUpdateDate = DateTime.UtcNow;
                     Providers.LayoutProvider.Update(versionData, o);
+                    //log a new version when revert
+                    LogVersion(versionData);
                 }
             }
 

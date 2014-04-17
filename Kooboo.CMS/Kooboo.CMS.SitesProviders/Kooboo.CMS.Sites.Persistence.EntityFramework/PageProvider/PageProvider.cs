@@ -38,32 +38,32 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider
         }
         #endregion
 
-        #region Version
-        public class PageVersionLogger : Kooboo.CMS.Sites.Versioning.IVersionLogger<Page>
-        {
-            public void LogVersion(Page o)
-            {
-                //todo:
-            }
+        //#region Version
+        //public class PageVersionLogger : Kooboo.CMS.Sites.Versioning.IVersionLogger<Page>
+        //{
+        //    public void LogVersion(Page o)
+        //    {
+        //        //todo:
+        //    }
 
-            public IEnumerable<Versioning.VersionInfo> AllVersions(Page o)
-            {
-                return new Versioning.VersionInfo[0];
-                //todo:
-            }
+        //    public IEnumerable<Versioning.VersionInfo> AllVersions(Page o)
+        //    {
+        //        return new Versioning.VersionInfo[0];
+        //        //todo:
+        //    }
 
-            public Page GetVersion(Page o, int version)
-            {
-                return null;
-                //todo:
-            }
+        //    public Page GetVersion(Page o, int version)
+        //    {
+        //        return null;
+        //        //todo:
+        //    }
 
-            public void Revert(Page o, int version)
-            {
-                //todo:
-            }
-        }
-        #endregion
+        //    public void Revert(Page o, int version)
+        //    {
+        //        //todo:
+        //    }
+        //}
+        //#endregion
 
         #region 缓存Page表
 

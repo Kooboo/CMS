@@ -171,7 +171,14 @@ namespace Kooboo.CMS.Sites.Extension.Management
             else
             {
                 reference.Version = version;
-                reference.UserList.Add(user);
+                if (reference.UserList == null)
+                {
+                    reference.UserList = new List<string>();
+                }
+                if (!reference.UserList.Contains(user, StringComparer.OrdinalIgnoreCase))
+                {
+                    reference.UserList.Add(user);
+                }
             }
 
             SaveReferenceCollection(referenceCollection);

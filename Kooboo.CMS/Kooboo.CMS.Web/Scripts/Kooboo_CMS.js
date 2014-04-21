@@ -458,7 +458,31 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                 parse_JsonResultData(data, textStatus, jqXHR);
             }, message);
         });
-
+        $('[data-command-type="Post"]').click(function (e) {
+            var $self = $(this);
+            var $selected = $table.find("input:checkbox[checked]");
+            $selected = $selected.filter(':not(.select-all)');
+            var id = $selected.data("id-property");
+            if (id === undefined) {
+                id = "ID-PROPERTY-UNDEFINED";
+            }
+            var selectedValues = [];
+            $selected.each(function () {
+                selectedValues.push($(this).val());
+            });
+            var tempForm = $('<form>', {
+                'action': $self.attr('href'),
+                'target': '_top',
+                'method': 'post'
+            }).appendTo('body');
+            $('<input>').attr({
+                type: 'hidden',
+                name: id,
+                value: selectedValues.join(',')
+            }).appendTo(tempForm);
+            tempForm.submit();
+            return false;
+        });
         $('[data-command-type="Download"]').click(function (e) {
             var selectedModel = grid.getSelecteds();
 
@@ -530,6 +554,31 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             grid.doPost($button.attr("href"), null, function (data, textStatus, jqXHR, postData) {
                 parse_JsonResultData(data, textStatus, jqXHR);
             }, message);
+        });
+        $('[data-command-type="Post"]').click(function (e) {
+            var $self = $(this);
+            var $selected = $table.find("input:checkbox[checked]");
+            $selected = $selected.filter(':not(.select-all)');
+            var id = $selected.data("id-property");
+            if (id === undefined) {
+                id = "ID-PROPERTY-UNDEFINED";
+            }
+            var selectedValues = [];
+            $selected.each(function () {
+                selectedValues.push($(this).val());
+            });
+            var tempForm = $('<form>', {
+                'action': $self.attr('href'),
+                'target': '_top',
+                'method':'post'
+            }).appendTo('body');
+            $('<input>').attr({
+                type: 'hidden',
+                name: id,
+                value: selectedValues.join(',')
+            }).appendTo(tempForm);
+            tempForm.submit();
+            return false;
         });
         $('[data-command-type="Download"]').click(function () {
             var selectedModel = { folders: grid.getSelectedFolders(), docs: grid.getSelectedDocs() };

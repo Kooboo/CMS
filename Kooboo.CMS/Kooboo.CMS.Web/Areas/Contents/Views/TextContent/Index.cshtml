@@ -10,6 +10,7 @@
     }
     var parentUUID = ViewContext.RequestContext.GetRequestValue("parentUUID") ?? "";
     var folderPermission = Kooboo.CMS.Web.Authorizations.AuthorizationHelpers.Authorize(ViewContext.RequestContext, Kooboo.CMS.Account.Models.Permission.Contents_FolderPermission);
+    var importExportPermission = Kooboo.CMS.Web.Authorizations.AuthorizationHelpers.Authorize(ViewContext.RequestContext, Kooboo.CMS.Account.Models.Permission.Contents_ImportExportPermission);
 
     var pagedList = Model.ContentQuery.ToPageList(Model.PageIndex, Model.PageSize, folder.EnablePaging.HasValue ? folder.EnablePaging.Value : true);
 
@@ -30,7 +31,7 @@
     ViewBag.FolderPermission = folderPermission;
     ViewBag.PagedList = pagedList;
 
-    //var formatters = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<Kooboo.CMS.Content.Formatter.ITextContentFormater>();
+    var formatters = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<Kooboo.CMS.Content.Formatter.ITextContentFormater>();
 }
 @section Panel{
     @if (!string.IsNullOrEmpty(ViewBag.Menu))
@@ -48,7 +49,7 @@
                 <li><a href="@Url.Action("Create", "TextFolder", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">@Html.IconImage("add-folder")@("New folder".Localize())</a></li>
             }
 
-            @*@if (formatters.Count() > 0)
+            @if (importExportPermission && formatters.Count() > 0)
                 {
                     <li class="j_DropDown">
                         <a>
@@ -85,7 +86,7 @@
                             }
                         </ul>
                     </li>
-                }*@
+                }
             <li>
                 <a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
                     @Html.IconImage("delete") @("Delete".Localize())

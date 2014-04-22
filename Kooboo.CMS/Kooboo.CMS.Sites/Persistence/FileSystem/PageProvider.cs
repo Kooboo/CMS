@@ -225,10 +225,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                    .ToArray();
         }
         #endregion
-
-
-
-
+        
         #region Copy
         public Page Copy(Site site, string sourcePageFullName, string newPageFullName)
         {

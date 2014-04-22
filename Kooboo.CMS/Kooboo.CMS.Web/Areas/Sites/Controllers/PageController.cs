@@ -96,7 +96,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             page.Site = Site;
             page.Layout = ControllerContext.RequestContext.GetRequestValue("layout");
             page.IsDefault = isDefault;
-
+            page.Published = false;
             return base.Create(page);
         }
 
@@ -505,8 +505,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 }
             }
 
-            if (!string.IsNullOrEmpty(uuid) && route != null && !string.IsNullOrEmpty(route.Identifier))
+
+            if (route != null && !string.IsNullOrEmpty(route.Identifier))
             {
+                if (string.IsNullOrEmpty(uuid))
+                {
+                    uuid = Guid.NewGuid().ToString();
+                }
                 var page = new Page(Site.Current, uuid);
                 page.Route = route;
                 if (!route.Identifier.StartsWith("#"))

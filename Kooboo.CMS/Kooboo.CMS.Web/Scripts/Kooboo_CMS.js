@@ -1178,12 +1178,130 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
 
     // form post
     $(function () {
-        //check form changed
+        //默认的绑定延迟一点执行，可以允许特定的页面在这个绑定之前做一些事情
         setTimeout(function () {
+            //check form changed
             $('form:not(.no-stop) input,form:not(.no-stop) select:not(.select)').change(function () {
                 window.leaveConfirm.stop();
             });
-        }, 1000);
+
+            $('[data-ajaxform]').click(function (e) {
+                e.preventDefault();
+                var ajaxFormParam = {
+                    async: true,
+                    beforeSend: function () {
+                        window.loading.show();
+                    },
+                    success: function (response, statusText, xhr, $form) {
+                        parse_JsonResultData.call(this, response, statusText, xhr, $form)
+                    },
+                    error: function () {
+                        window.loading.hide();
+                    }
+                };
+
+
+                var $self = $(this);
+                var formId = $self.data('ajaxform');
+                var form = [];
+                if (formId != '') {
+                    form = $('#' + formId);
+                }
+                if (form.length == 0) {
+                    form = $self.closest('form:not(:submit)');
+                }
+                if (form.length == 0) {
+                    form = $('form:not(:submit)').closest('form');
+                }
+
+                if ($self.data('ajax-async') != undefined) {
+                    ajaxFormParam.async = $self.data('ajax-async');
+                }
+                if ($self.attr('href') != undefined && $self.attr('href') != '') {
+                    ajaxFormParam.url = $self.attr('href');
+                }
+                if (window.ajaxFormParam) {
+                    ajaxFormParam = $.extend(ajaxFormParam, window.ajaxFormParam);
+                }
+                $('.field-validation-error').empty();
+                if (!form.valid()) {
+                    if (form.find('.tabs').length) {
+                        var selector = 'input.input-validation-error,select.input-validation-error';
+                        $(selector).parents('div.tab-content')
+                                .each(function () {
+                                    var tab = $(this);
+                                    var li = $('a[href="#' + tab.attr('id') + '"]')
+                                    .hide().show('pulsate', {}, 100)
+                                    .show('highlight', {}, 200)
+                                    .show('pulsate', {}, 300)
+                                    .show('highlight', {}, 400);
+                                });
+                    }
+                }
+                else {
+                    window.leaveConfirm.pass();
+                    var confirmMsg = $self.data('confirm');
+                    if (confirmMsg) {
+                        if (!confirm(confirmMsg)) {
+                            return false;
+                        }
+                    }
+                    form.ajaxForm(ajaxFormParam);
+                    form.submit();
+                }
+            });
+
+            $('[data-download-form]').click(function (e) {
+                var $self = $(this);
+                var formId = $self.data('download-form');
+                var _retrun = $self.data('return');
+                var form = [];
+                if (formId != '') {
+                    form = $('#' + formId);
+                }
+                if (form.length == 0) {
+                    form = $self.closest('form:not(:submit)');
+                }
+                if (form.length == 0) {
+                    form = $('form:not(:submit)').closest('form');
+                }
+
+                if ($self.attr('href') != undefined && $self.attr('href') != '') {
+                    ajaxFormParam.url = $self.attr('href');
+                }
+
+                $('.field-validation-error').empty();
+                if (!form.valid()) {
+                    if (form.find('.tabs').length) {
+                        var selector = 'input.input-validation-error,select.input-validation-error';
+                        $(selector).parents('div.tab-content')
+                                .each(function () {
+                                    var tab = $(this);
+                                    var li = $('a[href="#' + tab.attr('id') + '"]')
+                                    .hide().show('pulsate', {}, 100)
+                                    .show('highlight', {}, 200)
+                                    .show('pulsate', {}, 300)
+                                    .show('highlight', {}, 400);
+                                });
+                    }
+                }
+                else {
+                    window.leaveConfirm.pass();
+                    var confirmMsg = $self.data('confirm');
+                    if (confirmMsg) {
+                        if (!confirm(confirmMsg)) {
+                            return false;
+                        }
+                    }
+                    form.submit();
+                    setTimeout(function () {
+                        if (_retrun) {
+                            location.href = _retrun;
+                        }
+                    }, 1000);
+                }
+            });
+        }, 500);
 
         $(document).ajaxStop(function () {
             window.loading.hide();
@@ -1196,122 +1314,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         $(".upload-button input:file").change(function () {
             $(this).parent().submit();
         });
-        $('[data-ajaxform]').click(function (e) {
-            e.preventDefault();
-            var ajaxFormParam = {
-                async: true,
-                beforeSend: function () {
-                    window.loading.show();
-                },
-                success: function (response, statusText, xhr, $form) {
-                    parse_JsonResultData.call(this, response, statusText, xhr, $form)
-                },
-                error: function () {
-                    window.loading.hide();
-                }
-            };
-
-
-            var $self = $(this);
-            var formId = $self.data('ajaxform');
-            var form = [];
-            if (formId != '') {
-                form = $('#' + formId);
-            }
-            if (form.length == 0) {
-                form = $self.closest('form:not(:submit)');
-            }
-            if (form.length == 0) {
-                form = $('form:not(:submit)').closest('form');
-            }
-
-            if ($self.data('ajax-async') != undefined) {
-                ajaxFormParam.async = $self.data('ajax-async');
-            }
-            if ($self.attr('href') != undefined && $self.attr('href') != '') {
-                ajaxFormParam.url = $self.attr('href');
-            }
-            if (window.ajaxFormParam) {
-                ajaxFormParam = $.extend(ajaxFormParam, window.ajaxFormParam);
-            }
-            $('.field-validation-error').empty();
-            if (!form.valid()) {
-                if (form.find('.tabs').length) {
-                    var selector = 'input.input-validation-error,select.input-validation-error';
-                    $(selector).parents('div.tab-content')
-                            .each(function () {
-                                var tab = $(this);
-                                var li = $('a[href="#' + tab.attr('id') + '"]')
-                                .hide().show('pulsate', {}, 100)
-                                .show('highlight', {}, 200)
-                                .show('pulsate', {}, 300)
-                                .show('highlight', {}, 400);
-                            });
-                }
-            }
-            else {
-                window.leaveConfirm.pass();
-                var confirmMsg = $self.data('confirm');
-                if (confirmMsg) {
-                    if (!confirm(confirmMsg)) {
-                        return false;
-                    }
-                }
-                form.ajaxForm(ajaxFormParam);
-                form.submit();
-            }
-        });
-
-        $('[data-download-form]').click(function (e) {
-            var $self = $(this);
-            var formId = $self.data('download-form');
-            var _retrun = $self.data('return');
-            var form = [];
-            if (formId != '') {
-                form = $('#' + formId);
-            }
-            if (form.length == 0) {
-                form = $self.closest('form:not(:submit)');
-            }
-            if (form.length == 0) {
-                form = $('form:not(:submit)').closest('form');
-            }
-
-            if ($self.attr('href') != undefined && $self.attr('href') != '') {
-                ajaxFormParam.url = $self.attr('href');
-            }
-
-            $('.field-validation-error').empty();
-            if (!form.valid()) {
-                if (form.find('.tabs').length) {
-                    var selector = 'input.input-validation-error,select.input-validation-error';
-                    $(selector).parents('div.tab-content')
-                            .each(function () {
-                                var tab = $(this);
-                                var li = $('a[href="#' + tab.attr('id') + '"]')
-                                .hide().show('pulsate', {}, 100)
-                                .show('highlight', {}, 200)
-                                .show('pulsate', {}, 300)
-                                .show('highlight', {}, 400);
-                            });
-                }
-            }
-            else {
-                window.leaveConfirm.pass();
-                var confirmMsg = $self.data('confirm');
-                if (confirmMsg) {
-                    if (!confirm(confirmMsg)) {
-                        return false;
-                    }
-                }
-                form.submit();
-                setTimeout(function () {
-                    if (_retrun) {
-                        location.href = _retrun;
-                    }
-                }, 1000);
-            }
-        });
+      
     });
 
     //knockout extension

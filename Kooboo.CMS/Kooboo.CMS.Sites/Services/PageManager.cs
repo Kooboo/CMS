@@ -212,7 +212,12 @@ namespace Kooboo.CMS.Sites.Services
             }
             page.Navigation.DisplayText = "";
             page.IsDefault = false;
-
+            if (page.Route != null)
+            {
+                page.Route.Identifier = null;
+            }
+            page.Published = false;
+            Update(site, page, page);
             return page;
         }
 

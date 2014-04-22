@@ -61,7 +61,7 @@ namespace Kooboo.CMS.Web.Areas.Sites
             roleManager.AddPermission(Permission.Sites_Extensions_ModulePermission);
 
             roleManager.AddPermission(Permission.Sites_Page_EditPermission);
-            roleManager.AddPermission(Permission.Sites_Page_StyleEditPermission);
+            //roleManager.AddPermission(Permission.Sites_Page_StyleEditPermission);
             roleManager.AddPermission(Permission.Sites_Page_PublishPermission);
             #endregion
             base.RegisterArea(context);

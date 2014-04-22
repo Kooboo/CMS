@@ -231,5 +231,12 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB.Tests
             var news = newsFolder.CreateQuery().WhereEquals("Published", null).OrderBy("Title");
             Assert.AreEqual(newsContent.UUID, news.First().UUID);
         }
+
+        [TestMethod]
+        public void WhereNot()
+        {
+            var news = newsFolder.CreateQuery().WhereNot(new WhereContainsExpression("title", "notintitle"));
+            Assert.AreEqual(3, news.Count());
+        }
     }
 }

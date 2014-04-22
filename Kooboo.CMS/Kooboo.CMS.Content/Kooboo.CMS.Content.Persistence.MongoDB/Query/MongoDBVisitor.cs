@@ -145,7 +145,14 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB.Query
             SetQuery(query);
 
         }
-
+        protected override void VisitNot(NotExpression expression)
+        {
+            if (expression.InnerExpression != null)
+            {
+                var rightClause = VisitInner(expression.InnerExpression);              
+                SetQuery(QueryBuilder.Query.Not(rightClause));
+            }
+        }
         protected override void VisitAndAlso(Content.Query.Expressions.AndAlsoExpression expression)
         {
             var andAlso = (AndAlsoExpression)expression;

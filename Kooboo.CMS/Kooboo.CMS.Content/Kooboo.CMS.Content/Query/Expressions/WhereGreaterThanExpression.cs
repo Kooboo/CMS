@@ -15,6 +15,11 @@ namespace Kooboo.CMS.Content.Query.Expressions
 {
     public class WhereGreaterThanExpression : BinaryExpression
     {
+        public WhereGreaterThanExpression(string fieldName, object value)
+            : this(null, fieldName, value)
+        {
+
+        }
         public WhereGreaterThanExpression(IExpression expression, string fieldName, object value)
             : base(expression, fieldName, value)
         {

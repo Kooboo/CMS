@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
+using Kooboo.CMS.Content.Query.Expressions;
 
 namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity.MvcViewEngine
 {
@@ -172,6 +173,11 @@ namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity.MvcViewEngine
         public IContentQuery<T> WhereNotIn(string fieldName, params object[] values)
         {
             var newContentQuery = this.innerContentQuery.WhereNotIn(fieldName, values);
+            return this.CreateDuck(newContentQuery);
+        }
+        public IContentQuery<T> WhereNot(IWhereExpression expression)
+        {
+            var newContentQuery = this.innerContentQuery.WhereNot(expression);
             return this.CreateDuck(newContentQuery);
         }
         public IContentQuery<T> WhereIsNullOrEmpty(string fieldName)

@@ -15,6 +15,9 @@ namespace Kooboo.CMS.Content.Query.Expressions
 {
     public class WhereBetweenExpression : WhereFieldExpression
     {
+        public WhereBetweenExpression(string fieldName, object start, object end)
+            : this(null, fieldName, start, end)
+        { }
         public WhereBetweenExpression(IExpression expression, string fieldName, object start, object end)
             : base(expression, fieldName)
         {

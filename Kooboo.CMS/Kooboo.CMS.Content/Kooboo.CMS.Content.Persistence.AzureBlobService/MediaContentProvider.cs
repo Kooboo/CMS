@@ -136,6 +136,10 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             this.Visite(expression);
         }
 
+        protected override void VisitNot(NotExpression expression)
+        {
+            throw new NotSupportedException();
+        }
         protected override void VisitAndAlso(Query.Expressions.AndAlsoExpression expression)
         {
             if (!(expression.Left is TrueExpression))

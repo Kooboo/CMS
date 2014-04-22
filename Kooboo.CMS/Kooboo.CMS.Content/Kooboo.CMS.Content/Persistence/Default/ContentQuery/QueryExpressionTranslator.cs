@@ -307,6 +307,14 @@ namespace Kooboo.CMS.Content.Persistence.Default.ContentQuery
             this.CategoryQueries = this.CategoryQueries.Concat(visitor.CategoryQueries);
             return visitor.LinqExpression;
         }
+        protected override void VisitNot(NotExpression expression)
+        {
+            if (expression.InnerExpression != null)
+            {
+                var rightClause = VisitInner(expression.InnerExpression);
+                LinqExpression = PredicateBuilder.And(PredicateBuilder.False<TextContent>(), rightClause);
+            }
+        }
         protected override void VisitAndAlso(Query.Expressions.AndAlsoExpression expression)
         {
             Expression<Func<TextContent, bool>> leftClause = it => true;

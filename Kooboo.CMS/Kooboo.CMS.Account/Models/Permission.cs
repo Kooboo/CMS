@@ -82,6 +82,7 @@ namespace Kooboo.CMS.Account.Models
         public static Permission Contents_WorkflowPermission = new Permission() { AreaName = "Contents", Group = "", Name = "Workflow" };
         public static Permission Contents_SearchSettingPermission = new Permission() { AreaName = "Contents", Group = "", Name = "SearchSetting", DisplayName = "Search setting" };
         public static Permission Contents_HtmlBlockPermission = new Permission() { AreaName = "Contents", Group = "", Name = "HtmlBlock", DisplayName = "Html block" };
+        public static Permission Contents_ImportExportPermission = new Permission() { AreaName = "Contents", Group = "", Name = "ImportExport", DisplayName = "Import/Export" };
 
         public static Permission Sites_Settings_SystemPermission = new Permission() { AreaName = "Sites", Group = "System", Name = "Settings" };
         public static Permission Sites_Settings_UserSettingPermission = new Permission() { AreaName = "Sites", Group = "System", Name = "User" };

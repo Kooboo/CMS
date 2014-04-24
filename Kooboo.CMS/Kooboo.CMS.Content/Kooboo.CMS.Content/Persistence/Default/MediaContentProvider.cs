@@ -338,6 +338,15 @@ namespace Kooboo.CMS.Content.Persistence.Default
                 visitor.Visite(expression);
                 return visitor.LinqExpression;
             }
+            protected override void VisitNot(NotExpression expression)
+            {
+                if (expression.InnerExpression != null)
+                {
+                    var rightClause = VisitInner(expression.InnerExpression);
+                    LinqExpression = PredicateBuilder.And(PredicateBuilder.False<MediaContent>(), rightClause);
+                }
+
+            }
             protected override void VisitAndAlso(Query.Expressions.AndAlsoExpression expression)
             {
                 Expression<Func<MediaContent, bool>> leftClause = it => true;

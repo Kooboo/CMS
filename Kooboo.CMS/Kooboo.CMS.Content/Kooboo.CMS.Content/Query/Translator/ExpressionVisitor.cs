@@ -113,6 +113,7 @@ namespace Kooboo.CMS.Content.Query.Translator
 
         protected abstract void VisitCall(CallExpression expression);
 
+        protected abstract void VisitNot(NotExpression expression);
         protected abstract void VisitWhereCategory(WhereCategoryExpression expression);
 
         protected abstract void VisitWhereBetweenOrEqual(WhereBetweenOrEqualExpression expression);
@@ -137,7 +138,11 @@ namespace Kooboo.CMS.Content.Query.Translator
 
         protected virtual void VisitWhere(IWhereExpression expression)
         {
-            if (expression is TrueExpression)
+            if (expression is NotExpression)
+            {
+                VisitNot((NotExpression)expression);
+            }
+            else if (expression is TrueExpression)
             {
                 VisitTrue((TrueExpression)expression);
             }
@@ -145,7 +150,7 @@ namespace Kooboo.CMS.Content.Query.Translator
             {
                 VisitFalse((FalseExpression)expression);
             }
-            if (expression is WhereBetweenOrEqualExpression)
+            else if (expression is WhereBetweenOrEqualExpression)
             {
                 var whereBetweenExpression = (WhereBetweenOrEqualExpression)expression;
                 VisitWhereBetweenOrEqual(whereBetweenExpression);

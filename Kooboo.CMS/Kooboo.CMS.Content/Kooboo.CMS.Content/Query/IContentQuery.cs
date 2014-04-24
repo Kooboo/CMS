@@ -31,6 +31,9 @@ namespace Kooboo.CMS.Content.Query
         IContentQuery<T> OrderBy(OrderExpression expression);
 
         IContentQuery<T> Or(IWhereExpression expression);
+
+        IContentQuery<T> WhereNot(IWhereExpression expression);
+
         IContentQuery<T> Where(IWhereExpression expression);
         IContentQuery<T> Where(string whereClause);
         IContentQuery<T> WhereBetween(string fieldName, object start, object end);

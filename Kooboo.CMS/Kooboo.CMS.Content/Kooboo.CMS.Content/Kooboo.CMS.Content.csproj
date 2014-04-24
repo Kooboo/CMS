@@ -136,6 +136,7 @@
     <Compile Include="Persistence\RepositoryOfflineException.cs" />
     <Compile Include="Formatter\TextContentXLIFFFormatter.cs" />
     <Compile Include="Query\Expressions\ExpressionValueHelper.cs" />
+    <Compile Include="Query\Expressions\NotExpression.cs" />
     <Compile Include="Query\Expressions\WhereNotInExpression.cs" />
     <Compile Include="Query\Expressions\WhereCategoryExpression.cs" />
     <Compile Include="Query\Expressions\WhereInExpression.cs" />

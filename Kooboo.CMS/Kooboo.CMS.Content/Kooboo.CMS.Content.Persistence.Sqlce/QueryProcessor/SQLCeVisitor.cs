@@ -268,6 +268,15 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce.QueryProcessor
 
             return visitor;
         }
+        protected override void VisitNot(NotExpression expression)
+        {
+            if (expression.InnerExpression != null)
+            {
+                var rightClause = VisitInner(expression.InnerExpression).WhereClause;
+
+                whereClause.AppendFormat(string.Format("NOT({0})", rightClause));
+            }
+        }
         protected override void VisitAndAlso(Query.Expressions.AndAlsoExpression expression)
         {
             string leftClause = "";

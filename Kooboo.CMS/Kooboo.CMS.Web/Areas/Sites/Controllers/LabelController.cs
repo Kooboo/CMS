@@ -78,7 +78,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         protected virtual void Update(Label model)
         {
-            var newModel = Manager.Get(Site, model.Category, model.Name);        
+            var newModel = Manager.Get(Site, model.Category, model.Name);
             newModel.UtcLastestModificationDate = DateTime.UtcNow;
             newModel.LastestEditor = User.Identity.Name;
             newModel.Value = model.Value;
@@ -100,7 +100,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 {
                     foreach (var uuid in docs)
                     {
-                        var label = new Label() { Site = Site, UUID = uuid };
+                        var label = new Label() { Category = category, Site = Site, UUID = uuid };
                         Remove(label);
                     }
                 }

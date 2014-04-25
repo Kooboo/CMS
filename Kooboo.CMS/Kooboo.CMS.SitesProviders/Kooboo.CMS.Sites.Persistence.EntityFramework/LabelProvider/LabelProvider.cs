@@ -71,7 +71,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.LabelProvider
                 entity.UUID = @new.UUID;
                 entity.UtcCreationDate = @new.UtcCreationDate;
                 _dbContext.Labels.Add(entity);
-            }            
+            }
             entity.LastestEditor = @new.LastestEditor;
             entity.UtcLastestModificationDate = @new.UtcLastestModificationDate;
 
@@ -109,7 +109,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.LabelProvider
             }
             else
             {
-                return labels.Where(it => it.UUID == label.UUID);
+                return labels.Where(it => it.SiteName == label.Site.FullName && it.UUID == label.UUID);
             }
         }
 

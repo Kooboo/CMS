@@ -44,7 +44,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Controllers
                 try
                 {
                     var isLockout = false;
-                    if (UserManager.ValidateUser(loginModel.UserName, loginModel.Password, out isLockout) != false)
+                    if (UserManager.ValidateUser(loginModel.UserName, loginModel.Password, out isLockout))
                     {
                         System.Web.Security.FormsAuthentication.SetAuthCookie(loginModel.UserName, loginModel.RememberMe);
 
@@ -97,7 +97,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Controllers
             {
                 data.RunWithTry((resultData) =>
                 {
-                    if (UserManager.ValidateUser(loginModel.UserName, loginModel.Password) != null)
+                    if (UserManager.ValidateUser(loginModel.UserName, loginModel.Password))
                     {
                         System.Web.Security.FormsAuthentication.SetAuthCookie(loginModel.UserName, loginModel.RememberMe);
                         if (redirect == 0)

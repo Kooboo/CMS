@@ -10,8 +10,10 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ICustomErrorProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Kooboo.CMS.Sites.Models.CustomError>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "CustomErrorProvider")]
     public class CustomErrorProvider : ICustomErrorProvider, ISiteImportExportStartup
     {
+        #region .ctor
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
         Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider provider;
         SiteDBContext _dbContext;
@@ -20,6 +22,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider
             this._dbContext = dbContext;
             provider = new Kooboo.CMS.Sites.Persistence.FileSystem.CustomErrorProvider();
         }
+        #endregion
 
         #region --- Import && Export ---
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
@@ -70,6 +73,12 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider
             {
                 UpdateOrAdd(item, item);
             }
+        }
+
+
+        public void InitializeToDB(Site site)
+        {
+            //
         }
         #endregion
 
@@ -129,5 +138,8 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider
             ((IPersistable)item).OnSaved();
         }
         #endregion
+
+
+
     }
 }

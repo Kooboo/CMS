@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Caching;
+using Kooboo.CMS.Sites.Models;
 
 namespace Kooboo.CMS.Sites.Persistence.Caching
 {
@@ -36,8 +37,14 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Localize
         public void Localize(Models.View o, Models.Site targetSite)
         {
-            ClearObjectCache(targetSite);
-            inner.Localize(o, targetSite);
+            try
+            {
+                inner.Localize(o, targetSite);
+            }
+            finally
+            {
+                ClearObjectCache(targetSite);
+            }
         }
         #endregion
 
@@ -51,18 +58,41 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Import
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
         {
-            inner.Import(site, zipStream, @override);
-
-            site.ClearCache();
+            try
+            {
+                inner.Import(site, zipStream, @override);
+            }
+            finally
+            {
+                site.ClearCache();
+            }            
         }
         #endregion
 
         #region Copy
         public Models.View Copy(Models.Site site, string sourceName, string destName)
         {
-            ClearObjectCache(site);
-            return inner.Copy(site, sourceName, destName);
+            try
+            {
+                return inner.Copy(site, sourceName, destName);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
         }
         #endregion     
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            //not need to implement.
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            //not need to implement.
+        }
+        #endregion
     }
 }

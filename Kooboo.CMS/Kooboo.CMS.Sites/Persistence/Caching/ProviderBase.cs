@@ -102,9 +102,16 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Add
         public virtual void Add(T item)
         {
-            ClearObjectCache(GetSite(item));
-
-            innerProvider.Add(item);
+            try
+            {
+                //clear the cache before add to avoid get NullObject from cache.
+                ClearObjectCache(GetSite(item));
+                innerProvider.Add(item);
+            }
+            finally
+            {
+                ClearObjectCache(GetSite(item));
+            }
 
         }
         #endregion
@@ -112,17 +119,28 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Update
         public virtual void Update(T @new, T old)
         {
-            ClearObjectCache(GetSite(old));
-
-            innerProvider.Update(@new, old);
+            try
+            {
+                innerProvider.Update(@new, old);
+            }
+            finally
+            {
+                ClearObjectCache(GetSite(@new));
+            }
         }
         #endregion
 
         #region Remove
         public virtual void Remove(T item)
         {
-            ClearObjectCache(GetSite(item));
-            innerProvider.Remove(item);
+            try
+            {
+                innerProvider.Remove(item);
+            }
+            finally
+            {
+                ClearObjectCache(GetSite(item));
+            }
         }
         #endregion
 

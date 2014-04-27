@@ -201,6 +201,16 @@
             filter.IsEditing(false);
         };
         self.EditFilter = function(filter,e) {
+            if(e!=null){              
+                var dataSet = $(e.target).closest('ul').data('dataSet');
+                if (dataSet === "WhereClauses") {
+                    filter.FolderName= self.DataRuleSetting().DataRule.FolderName();
+                }
+                if (dataSet === "CategoryClauses") {
+                    filter.FolderName= self.DataRuleSetting().DataRule.CategoryFolderName();
+                }
+            }
+
             //temp observables for editing
             filter.LogicalTemp = ko.observable(filter.Logical());
             filter.FieldNameTemp = ko.observable(filter.FieldName());
@@ -209,15 +219,7 @@
             filter.Value2Temp = ko.observable(filter.Value2());
             filter.IsNew = false;
             filter.IsEditing(true);
-            if(e!=null){
-                var dataSet = $(e.target).closest('ul').data('dataSet');
-                if (dataSet === "WhereClauses") {
-                    newFilter.FolderName= self.DataRuleSetting().DataRule.FolderName();
-                }
-                if (dataSet === "CategoryClauses") {
-                    newFilter.FolderName= self.DataRuleSetting().DataRule.CategoryFolderName();
-                }
-            }
+           
         };
         self.AddFilter = function(data,e) {
             var newFilter = utils.CloneObject(metadata.rawEmptyWhereClause);

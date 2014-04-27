@@ -13,8 +13,11 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
 
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABRuleSettingProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABRuleSetting>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "ABRuleSettingsProvider")]
     public class ABRuleSettingsProvider : IABRuleSettingProvider, ISiteImportExportStartup
     {
+
+        #region .ctor
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
         SiteDBContext _dbContext;
         IBaseDir _baseDir;
@@ -25,7 +28,8 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
             this._dbContext = dbContext;
             this._baseDir = baseDir;
             provider = new Kooboo.CMS.Sites.Persistence.FileSystem.ABRuleSettingProvider(_baseDir);
-        }
+        } 
+        #endregion
         #region --- Import / Export ---
         private void Clean(Site site = null)
         {
@@ -85,8 +89,14 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
                 UpdateOrAdd(item, item);
             }
         }
+
+        public void InitializeToDB(Site site)
+        {
+            
+        }
         #endregion
 
+        #region CURD
         public IEnumerable<ABTest.ABRuleSetting> All(Site site)
         {
             if (null == site)
@@ -177,6 +187,10 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
             }
             _dbContext.SaveChanges();
             ((IPersistable)item).OnSaved();
-        }
+        } 
+        #endregion
+
+
+      
     }
 }

@@ -160,7 +160,18 @@ namespace Kooboo.Globalization.Repository
         {
             if (Directory.Exists(path))
             {
-                Directory.Delete(path, true);
+                try
+                {
+                    foreach (var file in Directory.EnumerateFiles(path, "*.resx", SearchOption.AllDirectories))
+                    {
+                        File.Delete(file);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Kooboo.HealthMonitoring.Log.LogException(e);
+                }
+
             }
         }
 

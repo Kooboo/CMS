@@ -79,7 +79,9 @@ namespace Kooboo.CMS.Content.Persistence.SqlServer
             {
                 return null;
             }
-            return Connections.Where(it => it.Name.EqualsOrNullEmpty(repositoryName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            return Connections.Where(it => !string.IsNullOrEmpty(it.Name))
+                .Where(it => it.Name.Split(",".ToArray(), StringSplitOptions.RemoveEmptyEntries).Any(na => na.EqualsOrNullEmpty(repositoryName, StringComparison.OrdinalIgnoreCase)))
+                .FirstOrDefault();
         }
         public void AddConnection(ConnectionSetting connection)
         {

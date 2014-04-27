@@ -68,10 +68,10 @@ namespace Kooboo.CMS.Sites.Versioning
         {
             return ResolveVersionLogger<T>().GetVersion(o, version);
         }
-        public static void Revert<T>(T o, int version)
+        public static void Revert<T>(T o, int version, string userName)
               where T : DirectoryResource
         {
-            ResolveVersionLogger<T>().Revert(o, version);
+            ResolveVersionLogger<T>().Revert(o, version, userName);
         }
     }
 }

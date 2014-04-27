@@ -26,8 +26,16 @@ namespace Kooboo.CMS.Web.Models
         [System.Web.Mvc.AdditionalMetadata("accept", ".zip")]
         public virtual HttpPostedFileWrapper File { get; set; }
 
+        private bool @override = true;
         [Description("Will overwrite the exists items.")]
         [Required(ErrorMessage = "Required")]
-        public bool Override { get; set; }
+        public bool Override
+        {
+            get { return @override; }
+            set
+            {
+                @override = value;
+            }
+        }
     }
 }

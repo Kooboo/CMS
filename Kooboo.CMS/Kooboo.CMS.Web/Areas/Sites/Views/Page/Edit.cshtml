@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Edit page".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
-    var publishPermission = ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_PublishPermission);   
+    var publishPermission = ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_PublishPermission);
 }
 @section Panel{
     <ul class="panel">
@@ -14,12 +14,12 @@
             </a>
             <ul class="j_DropDownContent hide">
                 @if (Model.Published.Value == false || (Model.Published.Value == true && publishPermission))
-                { 
-                    <li><a data-ajaxform="">@("Save".Localize())</a></li>                    
+                {
+                    <li><a data-ajaxform="" id="save_bar">@("Save".Localize())</a></li>
                 }
                 <li><a data-ajaxform="" href="@Url.Action("Save", "Page", ViewContext.RequestContext.AllRouteValues().Merge("saveAsDraft", "true"))">@("Save as draft".Localize())</a></li>
                 @if (Model.Published.Value == false && publishPermission)
-                {  
+                {
                     <li><a data-ajaxform="" href="@Url.Action("Save", "Page", ViewContext.RequestContext.AllRouteValues().Merge("setPublished", "true"))">@("Save & publish".Localize())</a></li>
                 }
             </ul>
@@ -28,7 +28,8 @@
         {
             <li>
                 <a href="@Url.Action("DeleteDiskCachings", ViewContext.RequestContext.AllRouteValues())" data-ajaxform="">
-                    @Html.IconImage("delete") @("Delete disk cachings".Localize())</a>
+                    @Html.IconImage("delete") @("Delete disk cachings".Localize())
+                </a>
             </li>
         }
         @if (ServiceFactory.PageManager.IsStaticPage(Model.Site, Model))
@@ -45,14 +46,14 @@
 <div class="block common-form">
     <h1 class="title">@ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
     @using (Html.BeginForm("Save", "Page", ViewContext.RequestContext.AllRouteValues()))
-    { 
+    {
         @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
         @Html.Hidden("ParentPage", Model.Parent == null ? "" : Model.Parent.FullName)
         @Html.Hidden("old_Key", Model.FullName)
         <input type="hidden" value="@Model.Name" name="Name" />
         @Html.HiddenFor(m => m.Published)
         @Html.ValidationSummary(true)
-        @Html.Partial("_PageTabs", Model, new ViewDataDictionary() { { "IsCreating", false } })     
+        @Html.Partial("_PageTabs", Model, new ViewDataDictionary() { { "IsCreating", false } })
     }
 </div>
 

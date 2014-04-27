@@ -24,7 +24,7 @@
                 </li>
                 <!-- /ko -->
             </ul>
-            <a class="action add" href='@("@")Url.Action("Selection", ViewContext.RequestContext.AllRouteValues().Merge("Controller", "MediaContent").Merge("FolderName", null))")'>@@Html.IconImage("plus small")</a>
+            <a class="action add" href='@("@")Url.Action("Selection", ViewContext.RequestContext.AllRouteValues().Merge("page",null).Merge("Controller", "MediaContent").Merge("FolderName", null))")'>@@Html.IconImage("plus small")</a>
             @Html.Raw(FormHelper.Tooltip(Model.Tooltip))
         </div>
         <script>

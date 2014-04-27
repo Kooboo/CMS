@@ -2,33 +2,41 @@
 @{
     ViewBag.Title = ViewContext.RequestContext.GetRequestValue("title").Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
-    var customTabs = Kooboo.CMS.Web.Areas.Sites.PageCustomTabs.Tabs(Model.Layout).ToArray();
-
 }
 
 @section Panel{
     <ul class="panel">
+        <li>
+            <a href="@Url.Action("Revert", ViewContext.RequestContext.AllRouteValues())" data-ajax="Post" data-confirm="@("Are you sure you want to revert to this version?".Localize())">
+                @Html.IconImage("reset")  @("Revert".Localize())
+            </a>
+        </li>
 
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
+                @Html.IconImage("cancel") @("Back".Localize())
+            </a>
         </li>
-        <li><a href="@Url.Action("Revert", ViewContext.RequestContext.AllRouteValues())" data-ajax="Post" data-confirm="@("Are you sure you want to revert to this version?".Localize())">
-            @Html.IconImage("revert") @("Revert".Localize())</a></li>
+       
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
     </ul>
 }
 <div class="block common-form">
 
     <h1 class="title">
-        @ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID") - @ViewContext.RequestContext.GetRequestValue("version")</strong></h1>
+        @ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID") - @ViewContext.RequestContext.GetRequestValue("version")</strong>
+    </h1>
 
     @using (Html.BeginForm("Edit", "Page", ViewContext.RequestContext.AllRouteValues(), FormMethod.Post, new RouteValueDictionary(new { id = "page-form" })))
-    { 
-        @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName")) 
+    {
+        @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
         @Html.Hidden("ParentPage", ViewContext.RequestContext.GetRequestValue("ParentPage"))
         @Html.Hidden("old_Key", Model.FullName)
         @Html.ValidationSummary(true)
-        @Html.Partial("_PageTabs", Model, new ViewDataDictionary() { { "IsCreating", false } })     
+        @Html.Partial("_PageTabs", Model, new ViewDataDictionary() { { "IsCreating", false } })
     }
 </div>
 

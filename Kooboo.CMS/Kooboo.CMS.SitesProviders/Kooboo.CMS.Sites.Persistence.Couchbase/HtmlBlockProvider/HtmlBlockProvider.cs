@@ -20,6 +20,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IHtmlBlockProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<HtmlBlock>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "HtmlBlockProvider")]
     public class HtmlBlockProvider : IHtmlBlockProvider
     {
         Func<Site, string, HtmlBlock> createModel = (Site site, string key) =>
@@ -32,32 +33,32 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
         }
         #endregion
 
-        #region version
-        public class HtmlBlockVersionLogger : Kooboo.CMS.Sites.Versioning.IVersionLogger<HtmlBlock>
-        {
-            public void LogVersion(HtmlBlock o)
-            {
-                //todo:
-            }
+        //#region version
+        //public class HtmlBlockVersionLogger : Kooboo.CMS.Sites.Versioning.IVersionLogger<HtmlBlock>
+        //{
+        //    public void LogVersion(HtmlBlock o)
+        //    {
+        //        //todo:
+        //    }
 
-            public IEnumerable<Versioning.VersionInfo> AllVersions(HtmlBlock o)
-            {
-                return new Versioning.VersionInfo[0];
-                //todo:
-            }
+        //    public IEnumerable<Versioning.VersionInfo> AllVersions(HtmlBlock o)
+        //    {
+        //        return new Versioning.VersionInfo[0];
+        //        //todo:
+        //    }
 
-            public HtmlBlock GetVersion(HtmlBlock o, int version)
-            {
-                return null;
-                //todo:
-            }
+        //    public HtmlBlock GetVersion(HtmlBlock o, int version)
+        //    {
+        //        return null;
+        //        //todo:
+        //    }
 
-            public void Revert(HtmlBlock o, int version)
-            {
-                //todo:
-            }
-        }
-        #endregion
+        //    public void Revert(HtmlBlock o, int version)
+        //    {
+        //        //todo:
+        //    }
+        //}
+        //#endregion
 
         #region general
         public IEnumerable<Models.HtmlBlock> All(Models.Site site)
@@ -87,7 +88,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
         }
         private IEnumerable<HtmlBlock> QueryBySite(Site site)
         {
-            return DataHelper.QueryList<HtmlBlock>(site, ModelExtensions.GetQueryView(ModelExtensions.HtmlBlockDataType), createModel);
+            return DataHelper.QueryList<HtmlBlock>(site, ModelExtensions.GetQueryViewName(ModelExtensions.HtmlBlockDataType), createModel);
         }
 
         public HtmlBlock Get(Models.HtmlBlock dummy)
@@ -167,7 +168,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
                 this.Add(htmlBlock);
             }
         }
-        public void InitializeHtmlBlocks(Site site)
+        public void InitializeToDB(Site site)
         {
             IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
             foreach (var item in fileHtmlProvider.All(site))
@@ -178,7 +179,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
                 }
             }
         }
-        public void ExportHtmlBlocksToDisk(Site site)
+        public void ExportToDisk(Site site)
         {
             IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
 

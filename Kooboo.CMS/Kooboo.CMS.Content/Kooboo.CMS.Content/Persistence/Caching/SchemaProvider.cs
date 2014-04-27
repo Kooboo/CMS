@@ -43,8 +43,14 @@ namespace Kooboo.CMS.Content.Persistence.Caching
         #region Import
         public void Import(Repository repository, System.IO.Stream zipStream, bool @override)
         {
-            inner.Import(repository, zipStream, @override);
-            repository.ClearCache();
+            try
+            {
+                inner.Import(repository, zipStream, @override);
+            }
+            finally
+            {
+                repository.ClearCache();
+            }
         }
         #endregion
 
@@ -58,23 +64,42 @@ namespace Kooboo.CMS.Content.Persistence.Caching
         #region Initialize
         public void Initialize(Schema schema)
         {
-            inner.Initialize(schema);
+            try
+            {
+                inner.Initialize(schema);
+            }
+            finally
+            {
+                schema.Repository.ClearCache();
+            }
         }
         #endregion
 
         #region Create
         public Schema Create(Repository repository, string schemaName, System.IO.Stream templateStream)
         {
-            ClearObjectCache(new Schema(repository, schemaName));
-            return inner.Create(repository, schemaName, templateStream);
+            try
+            {
+                return inner.Create(repository, schemaName, templateStream);
+            }
+            finally
+            {
+                ClearObjectCache(new Schema(repository, schemaName));
+            }
         }
         #endregion
 
         #region Copy
         public Schema Copy(Repository repository, string sourceName, string destName)
         {
-            ClearObjectCache(new Schema(repository, destName));
-            return inner.Copy(repository, sourceName, destName);
+            try
+            {
+                return inner.Copy(repository, sourceName, destName);
+            }
+            finally
+            {
+                ClearObjectCache(new Schema(repository, destName));
+            }
         }
         #endregion
 

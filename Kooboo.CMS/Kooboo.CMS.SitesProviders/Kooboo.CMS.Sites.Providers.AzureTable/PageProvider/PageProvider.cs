@@ -19,34 +19,37 @@ using System.Linq.Expressions;
 using System.Text;
 namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPageProvider), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Page>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100)]
     public class PageProvider : IPageProvider
     {
-        #region version
-        public class PageVersionLogger : Kooboo.CMS.Sites.Versioning.IVersionLogger<Page>
-        {
-            public void LogVersion(Page o)
-            {
-                //todo:
-            }
+        //#region version
+        //public class PageVersionLogger : Kooboo.CMS.Sites.Versioning.IVersionLogger<Page>
+        //{
+        //    public void LogVersion(Page o)
+        //    {
+        //        //todo:
+        //    }
 
-            public IEnumerable<Versioning.VersionInfo> AllVersions(Page o)
-            {
-                return new Versioning.VersionInfo[0];
-                //todo:
-            }
+        //    public IEnumerable<Versioning.VersionInfo> AllVersions(Page o)
+        //    {
+        //        return new Versioning.VersionInfo[0];
+        //        //todo:
+        //    }
 
-            public Page GetVersion(Page o, int version)
-            {
-                return null;
-                //todo:
-            }
+        //    public Page GetVersion(Page o, int version)
+        //    {
+        //        return null;
+        //        //todo:
+        //    }
 
-            public void Revert(Page o, int version)
-            {
-                //todo:
-            }
-        }
-        #endregion
+        //    public void Revert(Page o, int version)
+        //    {
+        //        //todo:
+        //    }
+        //}
+        //#endregion
 
         #region Static
         static string PageTable = "Pages";
@@ -412,17 +415,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
 
             return new Page(site, fullName);
         }
-        public void InitializePages(Site site)
-        {
-            IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
-            foreach (var item in filePageProvider.All(site))
-            {
-                if (item.Site == site)
-                {
-                    InitializePageCascading(filePageProvider, item);
-                }
-            }
-        }
+       
         private void InitializePageCascading(IPageProvider filePageProvider, Page page)
         {
             this.Add(filePageProvider.Get(page));
@@ -431,19 +424,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
                 InitializePageCascading(filePageProvider, item);
             }
         }
-        public void ExportPagesToDisk(Site site)
-        {
-            IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
-
-            //remove the pages folder to clear all old pages.
-            var dummy = new Page(site, "Dummy");
-            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
-
-            foreach (var item in QueryBySite(site))
-            {
-                ExportPageCascading(filePageProvider, item);
-            }          
-        }
+      
         private void ExportPageCascading(IPageProvider filePageProvider, Page page)
         {
             filePageProvider.Add(page);
@@ -474,6 +455,34 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
 
             serviceContext.SaveChangesWithRetries();
 
+        }
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
+            foreach (var item in filePageProvider.All(site))
+            {
+                if (item.Site == site)
+                {
+                    InitializePageCascading(filePageProvider, item);
+                }
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            IPageProvider filePageProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.PageProvider();
+
+            //remove the pages folder to clear all old pages.
+            var dummy = new Page(site, "Dummy");
+            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
+
+            foreach (var item in QueryBySite(site))
+            {
+                ExportPageCascading(filePageProvider, item);
+            }          
         }
         #endregion
     }

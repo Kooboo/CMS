@@ -19,7 +19,13 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<UrlKeyMap>))]
     public class UrlKeyMapProvider : ListFileRepository<UrlKeyMap>, IUrlKeyMapProvider
     {
+        #region GetLocker
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
+        protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        {
+            return locker;
+        }
+        #endregion
 
         #region IImportRepository Members
 
@@ -51,14 +57,23 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         #endregion
 
+        #region GetFile
         protected override string GetFile(Site site)
         {
             return new UrlKeyMapsFile(site).PhysicalPath;
+        }        
+        #endregion
+        
+        #region ExportToDisk/InitializeToDB
+        public void InitializeToDB(Site site)
+        {
+            //not need to implement.
         }
 
-        protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        public void ExportToDisk(Site site)
         {
-            return locker;
-        }
+            //not need to implement.
+        } 
+        #endregion
     }
 }

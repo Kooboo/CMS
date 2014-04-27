@@ -137,3 +137,23 @@
         </div>
     }
 </div>
+@Model.Published
+<script type="text/javascript">
+    window.keepLoading = true;
+    @if (Model.Published!=true)
+    {
+        <text>
+    $(function () {
+        $('#save_bar').click(function (e) {
+            var $self = $(this);
+            if ($('#IsDefault').is(":checked")) {
+                $self.data("confirm", '@("You have set this page as homepage, but it is not yet published! Are you sure?".Localize())');
+            }
+            else {
+                $self.removeData("confirm");
+            }
+        });
+    });
+    </text>
+    }
+</script>

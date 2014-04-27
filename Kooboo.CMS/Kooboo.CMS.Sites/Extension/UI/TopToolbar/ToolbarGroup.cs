@@ -19,6 +19,8 @@ namespace Kooboo.CMS.Sites.Extension.UI.TopToolbar
 
         public string DisplayText { get; set; }
 
+        public string IconClass { get; set; }
+
         public int Order { get; set; }
 
         public IDictionary<string, object> HtmlAttributes { get; set; }

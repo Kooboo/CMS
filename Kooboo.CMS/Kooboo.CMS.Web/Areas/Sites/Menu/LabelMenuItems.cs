@@ -99,7 +99,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Menu
                 var labelCategories = labelManager.GetCategories(site);
                 foreach (var category in labelCategories)
                 {
-                    CreateMenuItem(site, category.Category, ref items);
+                    CreateMenuItem(site, category, ref items);
                 }
             }
             return items.Where(it => it.Key.IndexOf(".") == -1).Select(it => it.Value);

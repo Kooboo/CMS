@@ -12,6 +12,7 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Caching;
 using Kooboo.CMS.Sites.Caching;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Models.Options;
 using Kooboo.Globalization;
 using System;
 using System.Collections;
@@ -125,46 +126,73 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Add
         public void Add(Models.Site item)
         {
-            inner.Add(item);
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            try
+            {
+                inner.Add(item);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
         }
         #endregion
 
         #region Update
         public void Update(Models.Site @new, Models.Site old)
         {
-
-            inner.Update(@new, old);
-
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
-            @new.ClearCache();
+            try
+            {
+                inner.Update(@new, old);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+                @new.ClearCache();
+            }
         }
         #endregion
 
         #region Remove
         public void Remove(Models.Site item)
         {
-            inner.Remove(item);
-
-            item.ClearCache();
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            try
+            {
+                inner.Remove(item);
+            }
+            finally
+            {
+                item.ClearCache();
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
         }
         #endregion
 
         #region Offline
         public void Offline(Site site)
         {
+            try
+            {
+                inner.Offline(site);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
 
-            inner.Offline(site);
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
         }
         #endregion
 
         #region Online
         public void Online(Site site)
         {
-            inner.Online(site);
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            try
+            {
+                inner.Online(site);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
         }
         #endregion
 
@@ -176,18 +204,32 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #endregion
 
         #region Create
-        public Site Create(Site parentSite, string siteName, Stream packageStream, CreateSiteSetting siteSetting)
+        public Site Create(Site parentSite, string siteName, Stream packageStream, CreateSiteOptions options)
         {
-            var site = inner.Create(parentSite, siteName, packageStream, siteSetting);
-            CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
-            return site;
+            try
+            {
+                var site = inner.Create(parentSite, siteName, packageStream, options);
+
+                return site;
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
         }
         #endregion
 
         #region Initialize
         public void Initialize(Site site)
         {
-            inner.Initialize(site);
+            try
+            {
+                inner.Initialize(site);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
         }
         #endregion
 
@@ -195,6 +237,25 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         public void Export(Site site, Stream outputStream, bool includeDatabase, bool includeSubSites)
         {
             inner.Export(site, outputStream, includeDatabase, includeSubSites);
+        }
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            try
+            {
+                inner.InitializeToDB(site);
+            }
+            finally
+            {
+                CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            inner.ExportToDisk(site);
         }
         #endregion
     }

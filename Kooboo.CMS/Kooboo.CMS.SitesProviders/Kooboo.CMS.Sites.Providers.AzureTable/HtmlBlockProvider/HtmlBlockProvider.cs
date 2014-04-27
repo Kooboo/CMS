@@ -14,37 +14,41 @@ using Kooboo.CMS.Sites.Persistence;
 using Microsoft.WindowsAzure.StorageClient;
 using Kooboo.CMS.Sites.Models;
 using Ionic.Zip;
+using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Providers.AzureTable.HtmlBlockProvider
 {
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IHtmlBlockProvider), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<HtmlBlock>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100)]
     public class HtmlBlockProvider : IHtmlBlockProvider
     {
-        #region HtmlBlockVersionLogger
-        public class HtmlBlockVersionLogger : Kooboo.CMS.Sites.Versioning.IVersionLogger<HtmlBlock>
-        {
-            public void LogVersion(HtmlBlock o)
-            {
-                //todo:
-            }
+        //#region HtmlBlockVersionLogger
+        //public class HtmlBlockVersionLogger : Kooboo.CMS.Sites.Versioning.IVersionLogger<HtmlBlock>
+        //{
+        //    public void LogVersion(HtmlBlock o)
+        //    {
+        //        //todo:
+        //    }
 
-            public IEnumerable<Versioning.VersionInfo> AllVersions(HtmlBlock o)
-            {
-                return new Versioning.VersionInfo[0];
-                //todo:
-            }
+        //    public IEnumerable<Versioning.VersionInfo> AllVersions(HtmlBlock o)
+        //    {
+        //        return new Versioning.VersionInfo[0];
+        //        //todo:
+        //    }
 
-            public HtmlBlock GetVersion(HtmlBlock o, int version)
-            {
-                return null;
-                //todo:
-            }
+        //    public HtmlBlock GetVersion(HtmlBlock o, int version)
+        //    {
+        //        return null;
+        //        //todo:
+        //    }
 
-            public void Revert(HtmlBlock o, int version)
-            {
-                //todo:
-            }
-        }
-        #endregion
+        //    public void Revert(HtmlBlock o, int version)
+        //    {
+        //        //todo:
+        //    }
+        //}
+        //#endregion
 
         #region Static
         static string HtmlBlockTable = "HtmlBlocks";
@@ -164,31 +168,6 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.HtmlBlockProvider
             fileProvider.Export(sources, outputStream);
         }
 
-        public void InitializeHtmlBlocks(Site site)
-        {
-            IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
-            foreach (var item in fileHtmlProvider.All(site))
-            {
-                if (item.Site == site)
-                {
-                    this.Add(fileHtmlProvider.Get(item));
-                }
-            }
-        }
-        public void ExportHtmlBlocksToDisk(Site site)
-        {
-            IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
-
-            //remove the pages folder to clear all old pages.
-            var dummy = new HtmlBlock(site, "Dummy");
-            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
-
-            foreach (var item in QueryBySite(site))
-            {
-                fileHtmlProvider.Add(item);
-            }
-        }
-
         #endregion
 
         #region Import
@@ -237,6 +216,32 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.HtmlBlockProvider
         }
         #endregion
 
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
+            foreach (var item in fileHtmlProvider.All(site))
+            {
+                if (item.Site == site)
+                {
+                    this.Add(fileHtmlProvider.Get(item));
+                }
+            }
+        }
 
+        public void ExportToDisk(Site site)
+        {
+            IHtmlBlockProvider fileHtmlProvider = new Kooboo.CMS.Sites.Persistence.FileSystem.HtmlBlockProvider();
+
+            //remove the pages folder to clear all old pages.
+            var dummy = new HtmlBlock(site, "Dummy");
+            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
+
+            foreach (var item in QueryBySite(site))
+            {
+                fileHtmlProvider.Add(item);
+            }
+        }
+        #endregion
     }
 }

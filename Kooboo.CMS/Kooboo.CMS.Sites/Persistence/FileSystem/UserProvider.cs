@@ -20,21 +20,40 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<User>))]
     public class UserProvider : ObjectFileProviderBase<User>, IUserProvider
     {
+        #region Locker
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
 
         protected override System.Threading.ReaderWriterLockSlim GetLocker()
         {
             return locker;
-        }
-               
+        } 
+        #endregion
+
+        #region CreateObject
         protected override User CreateObject(Site site, FileInfo fileInfo)
         {
             return new User() { Site = site, UserName = Path.GetFileNameWithoutExtension(fileInfo.Name) };
-        }
+        } 
+        #endregion
 
+        #region GetBasePath
         protected override string GetBasePath(Site site)
         {
             return User.DataFilePath.GetBasePath(site);
+        } 
+        #endregion
+
+
+        #region ExportToDisk/InitializeToDB
+        public void InitializeToDB(Site site)
+        {
+         //
         }
+
+        public void ExportToDisk(Site site)
+        {
+          //
+        } 
+        #endregion
     }
 }

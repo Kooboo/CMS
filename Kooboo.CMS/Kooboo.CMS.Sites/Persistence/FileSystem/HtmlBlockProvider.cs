@@ -57,31 +57,63 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 return htmlBlock;
             }
 
-            public override void Revert(HtmlBlock o, int version)
+            public override void Revert(HtmlBlock o, int version, string userName)
             {
                 var versionData = GetVersion(o, version);
                 if (versionData != null)
                 {
+                    versionData.UserName = userName;
+                    versionData.LastUpdateDate = DateTime.UtcNow;
                     Providers.HtmlBlockProvider.Update(versionData, o);
+                    //log a new version when revert
+                    LogVersion(versionData);
                 }
             }
         }
         #endregion
+
         #region IHtmlBlockProvider
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
         protected override System.Threading.ReaderWriterLockSlim GetLocker()
         {
             return locker;
         }
-
+        private string GetSettingFile(HtmlBlock item)
+        {
+            return Path.Combine(item.PhysicalPath, "setting.config");
+        }
         protected override void Serialize(HtmlBlock item, string filePath)
         {
+            //以前HtmlBlock没有保存setting.config，导致像Username等信息没有正确保存，
+
+            var basePath = Path.GetDirectoryName(filePath);
+            var settingFile = Path.Combine(basePath, "setting.config");
+
+            Serialization.Serialize(item, KnownTypes, settingFile);
+
             IO.IOUtility.SaveStringToFile(filePath, item.Body);
         }
         protected override HtmlBlock Deserialize(HtmlBlock dummy, string filePath)
         {
-            dummy.Body = IO.IOUtility.ReadAsString(filePath);
-            return dummy;
+            var basePath = Path.GetDirectoryName(filePath);
+            var settingFile = Path.Combine(basePath, "setting.config");
+
+            if (File.Exists(settingFile))
+            {
+                //直接从setting.config中读取所有信息。
+                var o = (HtmlBlock)Serialization.Deserialize(dummy.GetType(), KnownTypes, settingFile);
+                return o;
+            }
+            else
+            {
+                //兼容以前只有Body.html的读取方式
+                if (File.Exists(filePath))
+                {
+                    dummy.Body = IO.IOUtility.ReadAsString(filePath);
+                    return dummy;
+                }
+            }
+            return null;
         }
 
         public void Localize(HtmlBlock o, Site targetSite)
@@ -124,6 +156,18 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 GetLocker().ExitWriteLock();
             }
 
+        }
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            //not need to implement.
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            //not need to implement.
         }
         #endregion
     }

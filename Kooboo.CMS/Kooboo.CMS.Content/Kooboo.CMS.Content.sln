@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{676AC07F-B942-4F7B-8E25-1F1F74F7AD42}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0BBEF6BA-66E1-47D3-9411-4003B1D60556}"
@@ -42,10 +44,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Common", "..\Koo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo", "..\Kooboo\Kooboo.csproj", "{347E47E5-3132-4BAD-B935-8282A2B16CF5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Content.Persistence.Couchbase.Tests", "Kooboo.CMS.Content.Persistence.Couchbase.Tests\Kooboo.CMS.Content.Persistence.Couchbase.Tests.csproj", "{5C9E9054-E839-4641-A856-457823EBE82B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Content.Persistence.Couchbase", "Kooboo.CMS.Content.Persistence.Couchbase\Kooboo.CMS.Content.Persistence.Couchbase.csproj", "{871077FD-3296-480E-B9E1-C6D52D925B85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Common.Runtime.Dependency.Ninject", "..\Kooboo.CMS.Common.Runtime.Dependency.Ninject\Kooboo.CMS.Common.Runtime.Dependency.Ninject.csproj", "{94A4A4BA-F5EB-44CB-9CD3-B240B80CE686}"
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Kooboo.CMS.Content.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		EmailValidator|Any CPU = EmailValidator|Any CPU
@@ -173,6 +178,30 @@ Global
 		{347E47E5-3132-4BAD-B935-8282A2B16CF5}.Publish|Any CPU.Build.0 = Publish|Any CPU
 		{347E47E5-3132-4BAD-B935-8282A2B16CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{347E47E5-3132-4BAD-B935-8282A2B16CF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C9E9054-E839-4641-A856-457823EBE82B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C9E9054-E839-4641-A856-457823EBE82B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C9E9054-E839-4641-A856-457823EBE82B}.EmailValidator|Any CPU.ActiveCfg = Release|Any CPU
+		{5C9E9054-E839-4641-A856-457823EBE82B}.EmailValidator|Any CPU.Build.0 = Release|Any CPU
+		{5C9E9054-E839-4641-A856-457823EBE82B}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{5C9E9054-E839-4641-A856-457823EBE82B}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{5C9E9054-E839-4641-A856-457823EBE82B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C9E9054-E839-4641-A856-457823EBE82B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{871077FD-3296-480E-B9E1-C6D52D925B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{871077FD-3296-480E-B9E1-C6D52D925B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{871077FD-3296-480E-B9E1-C6D52D925B85}.EmailValidator|Any CPU.ActiveCfg = Release|Any CPU
+		{871077FD-3296-480E-B9E1-C6D52D925B85}.EmailValidator|Any CPU.Build.0 = Release|Any CPU
+		{871077FD-3296-480E-B9E1-C6D52D925B85}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{871077FD-3296-480E-B9E1-C6D52D925B85}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{871077FD-3296-480E-B9E1-C6D52D925B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{871077FD-3296-480E-B9E1-C6D52D925B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94A4A4BA-F5EB-44CB-9CD3-B240B80CE686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94A4A4BA-F5EB-44CB-9CD3-B240B80CE686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94A4A4BA-F5EB-44CB-9CD3-B240B80CE686}.EmailValidator|Any CPU.ActiveCfg = Release|Any CPU
+		{94A4A4BA-F5EB-44CB-9CD3-B240B80CE686}.EmailValidator|Any CPU.Build.0 = Release|Any CPU
+		{94A4A4BA-F5EB-44CB-9CD3-B240B80CE686}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{94A4A4BA-F5EB-44CB-9CD3-B240B80CE686}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{94A4A4BA-F5EB-44CB-9CD3-B240B80CE686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94A4A4BA-F5EB-44CB-9CD3-B240B80CE686}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,6 +216,8 @@ Global
 		{0CFBFE16-8413-4D71-B876-7EA8448E3AEB} = {676AC07F-B942-4F7B-8E25-1F1F74F7AD42}
 		{AB6DDE14-EEB6-4497-80A0-D148A0A692B5} = {676AC07F-B942-4F7B-8E25-1F1F74F7AD42}
 		{347E47E5-3132-4BAD-B935-8282A2B16CF5} = {676AC07F-B942-4F7B-8E25-1F1F74F7AD42}
+		{871077FD-3296-480E-B9E1-C6D52D925B85} = {676AC07F-B942-4F7B-8E25-1F1F74F7AD42}
+		{94A4A4BA-F5EB-44CB-9CD3-B240B80CE686} = {676AC07F-B942-4F7B-8E25-1F1F74F7AD42}
 		{0BEB8B36-7C89-4C9D-9DE3-AC0EFB6983FB} = {0BBEF6BA-66E1-47D3-9411-4003B1D60556}
 		{DE36B7F2-C1B8-4375-8748-E1FB04501C32} = {0BBEF6BA-66E1-47D3-9411-4003B1D60556}
 		{08BAAD58-C80C-485D-A547-135219C97F67} = {0BBEF6BA-66E1-47D3-9411-4003B1D60556}
@@ -194,5 +225,9 @@ Global
 		{D2CDBA37-EADD-4F07-B8E9-5D156E552F79} = {0BBEF6BA-66E1-47D3-9411-4003B1D60556}
 		{FF284ACF-5818-474C-8F66-E210768FD435} = {0BBEF6BA-66E1-47D3-9411-4003B1D60556}
 		{A2C9C4D1-8F1E-4663-A829-0FFBEBE6BF6E} = {0BBEF6BA-66E1-47D3-9411-4003B1D60556}
+		{5C9E9054-E839-4641-A856-457823EBE82B} = {0BBEF6BA-66E1-47D3-9411-4003B1D60556}
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Kooboo.CMS.Content.vsmdi
 	EndGlobalSection
 EndGlobal

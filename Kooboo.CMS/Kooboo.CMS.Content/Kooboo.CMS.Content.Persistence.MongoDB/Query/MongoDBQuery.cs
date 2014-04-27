@@ -88,10 +88,10 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB.Query
                     break;
             }
 
-            if (mongoCursor.Database.Server.State != MongoServerState.Disconnected)
-            {
-                mongoCursor.Database.Server.Disconnect();
-            }
+            //if (mongoCursor.Database.Server.State != MongoServerState.Disconnected)
+            //{
+            //    mongoCursor.Database.Server.Disconnect();
+            //}
             return result;
         }
 

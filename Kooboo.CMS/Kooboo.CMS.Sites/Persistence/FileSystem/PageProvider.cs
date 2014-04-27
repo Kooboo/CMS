@@ -60,18 +60,30 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 return page;
             }
 
-            public override void Revert(Page o, int version)
+            public override void Revert(Page o, int version, string userName)
             {
                 var versionData = GetVersion(o, version);
                 if (versionData != null)
                 {
+                    versionData.UserName = userName;
+                    versionData.LastUpdateDate = DateTime.UtcNow;
                     Providers.PageProvider.Update(versionData, o);
+                    //log a new version when revert
+                    LogVersion(versionData);
                 }
             }
         }
         #endregion
 
+        #region GetLocker
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
+        protected override System.Threading.ReaderWriterLockSlim GetLocker()
+        {
+            return locker;
+        }
+        #endregion
+
+        #region KnownTypes
         protected override IEnumerable<Type> KnownTypes
         {
             get
@@ -92,6 +104,8 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 };
             }
         }
+        #endregion
+
         #region IPageRepository Members
 
         public IEnumerable<Models.Page> ChildPages(Models.Page parentPage)
@@ -211,13 +225,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                    .ToArray();
         }
         #endregion
-
-        protected override System.Threading.ReaderWriterLockSlim GetLocker()
-        {
-            return locker;
-        }
-
-
+        
         #region Copy
         public Page Copy(Site site, string sourcePageFullName, string newPageFullName)
         {
@@ -311,14 +319,12 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         #region InitializePages
 
-
-        public void InitializePages(Site site)
+        public void InitializeToDB(Site site)
         {
             // no need to implement.
         }
 
-
-        public void ExportPagesToDisk(Site site)
+        public void ExportToDisk(Site site)
         {
             // no need to implement.
         }
@@ -329,5 +335,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             // no need to implement.
         }
         #endregion
+
+
     }
 }

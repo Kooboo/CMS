@@ -16,10 +16,6 @@ namespace Kooboo.CMS.Sites.Persistence
 {
     public interface IHtmlBlockProvider : ISiteElementProvider<HtmlBlock>, ILocalizableProvider<HtmlBlock>
     {
-        void InitializeHtmlBlocks(Site site);
-
-        void ExportHtmlBlocksToDisk(Site site);
-
         void Clear(Site site);
 
         void Export(IEnumerable<HtmlBlock> sources, System.IO.Stream outputStream);

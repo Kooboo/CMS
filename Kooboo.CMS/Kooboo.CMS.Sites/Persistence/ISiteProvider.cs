@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.IO;
+using Kooboo.CMS.Sites.Models.Options;
 
 namespace Kooboo.CMS.Sites.Persistence
 {
@@ -27,11 +28,7 @@ namespace Kooboo.CMS.Sites.Persistence
         public string UserAgent { get; set; }
         public Site SiteObject { get; set; }
     }
-    public class CreateSiteSetting
-    {
-        public string Repository { get; set; }
-        public string Membership { get; set; }
-    }
+    
     public interface ISiteProvider : ISiteElementProvider<Site>
     {
         [Obsolete("Move to PageManager")]
@@ -58,7 +55,7 @@ namespace Kooboo.CMS.Sites.Persistence
 
         bool IsOnline(Site site);
 
-        Site Create(Site parentSite, string siteName, Stream packageStream, CreateSiteSetting createSitSetting);
+        Site Create(Site parentSite, string siteName, Stream packageStream, CreateSiteOptions options);
 
         void Initialize(Site site);
 

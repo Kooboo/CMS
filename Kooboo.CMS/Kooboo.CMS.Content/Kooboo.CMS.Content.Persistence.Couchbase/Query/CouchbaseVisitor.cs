@@ -256,7 +256,10 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
             this.CategoryQueries = this.CategoryQueries.Concat(visitor.CategoryQueries);
             return visitor;
         }
-
+        protected override void VisitNot(NotExpression expression)
+        {
+            throw new NotSupportedException();
+        }
         protected override void VisitAndAlso(Content.Query.Expressions.AndAlsoExpression expression)
         {
             string leftClause = "";
@@ -266,11 +269,11 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 var leftVisitor = VisitInner(expression.Left);
                 leftClause = leftVisitor.WhereClause;
                 leftViewName = leftVisitor.ViewName;
-                if (leftVisitor.OrderClause!=null)
+                if (leftVisitor.OrderClause != null)
                 {
-                    this.OrderClause = leftVisitor.OrderClause;    
+                    this.OrderClause = leftVisitor.OrderClause;
                 }
-                
+
                 this.eqUserKeys.AddRange(leftVisitor.EQUserKeys);
             }
 
@@ -319,6 +322,8 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 {
                     this.OrderClause = leftVisitor.OrderClause;
                 }
+                this.eqUUIDs.AddRange(leftVisitor.EQUUIDs);
+                this.eqUserKeys.AddRange(leftVisitor.EQUserKeys);
             }
 
             string rightClause = "";
@@ -332,6 +337,8 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase.Query
                 {
                     this.OrderClause = rightVisitor.OrderClause;
                 }
+                this.eqUUIDs.AddRange(rightVisitor.EQUUIDs);
+                this.eqUserKeys.AddRange(rightVisitor.EQUserKeys);
             }
 
             if (!string.IsNullOrEmpty(leftClause) && !string.IsNullOrEmpty(rightClause))

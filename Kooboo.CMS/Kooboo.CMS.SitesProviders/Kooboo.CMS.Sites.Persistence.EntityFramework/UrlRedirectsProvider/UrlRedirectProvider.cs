@@ -12,6 +12,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUrlRedirectProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<UrlRedirect>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "UrlRedirectProvider")]
     public class UrlRedirectProvider : IUrlRedirectProvider, ISiteImportExportStartup
     {
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
@@ -33,26 +34,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider
             provider.Export(site, outputStream);
         }
 
-        /// <summary>
-        /// Save records in Database to Disk
-        /// </summary>
-        /// <param name="site"></param>
-        /// <returns></returns>
-        public void ExportToDisk(Site site)
-        {
-            var allItem = this.All(site).ToList();
-            var file = new UrlRedirectsFile(site).PhysicalPath;
-            locker.EnterWriteLock();
-            try
-            {
-                Serialization.Serialize<List<UrlRedirect>>(allItem, file);
-            }
-            finally
-            {
-                locker.ExitWriteLock();
-            }
-        }
-
+   
         public void Import(Site site, System.IO.Stream zipStream, bool @override)
         {
             provider.Import(site, zipStream, @override);
@@ -149,6 +131,31 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider
             _dbContext.SaveChanges();
             ((IPersistable)@new).OnSaved();
         }
+        #endregion
+
+
+        #region InitializeToDB/ExportToDisk
+
+        public void InitializeToDB(Site site)
+        {
+            // no need to implement.
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            var allItem = this.All(site).ToList();
+            var file = new UrlRedirectsFile(site).PhysicalPath;
+            locker.EnterWriteLock();
+            try
+            {
+                Serialization.Serialize<List<UrlRedirect>>(allItem, file);
+            }
+            finally
+            {
+                locker.ExitWriteLock();
+            }
+        }
+
         #endregion
     }
 

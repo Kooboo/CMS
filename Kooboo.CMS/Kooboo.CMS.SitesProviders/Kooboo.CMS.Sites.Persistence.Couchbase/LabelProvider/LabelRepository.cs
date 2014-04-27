@@ -31,6 +31,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
             return new System.Globalization.CultureInfo[0].AsQueryable();
         }
         #endregion
+
         #region GetKey
         private static string GetElementKey(string name, string category, string culture)
         {
@@ -51,10 +52,11 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
                    category.ToLower());
         }
         #endregion
+
         #region Elements
         public IQueryable<Element> Elements()
         {
-            return DataHelper.QueryList<Element>(Site, ModelExtensions.GetQueryView(ModelExtensions.LabelDataType)).AsQueryable();
+            return DataHelper.QueryList<Element>(Site, ModelExtensions.GetQueryViewName(ModelExtensions.LabelDataType)).AsQueryable();
         }
         #endregion
 
@@ -70,7 +72,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
         #region Categories
         public IQueryable<ElementCategory> Categories()
         {
-            return DataHelper.QueryList<ElementCategory>(Site, ModelExtensions.GetQueryView(ModelExtensions.LabelCategoryDataType)).AsQueryable();
+            return DataHelper.QueryList<ElementCategory>(Site, ModelExtensions.GetQueryViewName(ModelExtensions.LabelCategoryDataType)).AsQueryable();
         }
         #endregion
 
@@ -101,7 +103,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
         public bool Remove(Element element)
         {
             var key = GetElementKey(element.Name, element.Category, element.Culture);
-            DataHelper.DeleteItemByKey(Site, ModelExtensions.GetBucketDocumentKey(ModelExtensions.LabelCategoryDataType, key));
+            DataHelper.DeleteItemByKey(Site, ModelExtensions.GetBucketDocumentKey(ModelExtensions.LabelDataType, key));
             return true;
         }
         #endregion

@@ -39,6 +39,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.Grid2
             {
                 @class += " unpublished";
             }
+            if (page.IsDefault)
+            {
+                @class += " homepage";
+            }
             return @class;
         }
     }

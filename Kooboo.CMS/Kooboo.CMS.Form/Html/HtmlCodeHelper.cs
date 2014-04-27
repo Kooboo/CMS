@@ -58,6 +58,10 @@ namespace Kooboo.CMS.Form.Html
                     return new HtmlString("-");
                 }
             }
+            if (v is DateTime)
+            {
+                return new HtmlString(((DateTime)v).ToLocalTime().ToShortDateString());
+            }
             if (v is string)
             {
                 var s = v.ToString();

@@ -114,7 +114,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                return OutputCache != null && OutputCache.Duration > 0;
+                return OutputCache != null && OutputCache.EnableCaching == true;
             }
         }
         public override string ToString()

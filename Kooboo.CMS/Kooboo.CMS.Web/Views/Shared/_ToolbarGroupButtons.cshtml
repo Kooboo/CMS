@@ -3,7 +3,7 @@
 {
     foreach (var item in Model.Buttons)
     {
-        @Html.Partial("_ToolbarButton", item);
+    @Html.Partial("_ToolbarButton", item);
     }
 }
 else
@@ -26,6 +26,10 @@ else
 
     <li @htmlAttributes>
         <a>
+            @if (!string.IsNullOrEmpty(Model.Group.IconClass))
+            {
+                @Html.IconImage(Model.Group.IconClass)
+            }
             @(Model.Group.DisplayText.Localize())
             @Html.IconImage("arrow small white-down")
         </a>

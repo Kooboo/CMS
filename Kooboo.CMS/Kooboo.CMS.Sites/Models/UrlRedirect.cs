@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 using Kooboo.Extensions;
 using System.ComponentModel;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Common.Persistence;
 namespace Kooboo.CMS.Sites.Models
 {
     public enum RedirectType
@@ -24,7 +25,7 @@ namespace Kooboo.CMS.Sites.Models
         Transfer = 200
     }
     [DataContract]
-    public partial class UrlRedirect
+    public partial class UrlRedirect : IChangeTimeline
     {
         public UrlRedirect()
         {
@@ -72,6 +73,15 @@ namespace Kooboo.CMS.Sites.Models
         public bool Regex { get; set; }
         [DataMember(Order = 12)]
         public RedirectType RedirectType { get; set; }
+
+        [DataMember]
+        public DateTime? UtcCreationDate { get; set; }
+
+        [DataMember]
+        public DateTime? UtcLastestModificationDate { get; set; }
+
+        [DataMember]
+        public string LastestEditor { get; set; }
 
     }
 

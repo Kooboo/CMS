@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Sites.ABTest;
+using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         protected override string GetListCacheKey()
         {
             return "All-PageVisisRules";
-        } 
+        }
         #endregion
 
         #region GetItemCacheKey
@@ -50,8 +51,33 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Import
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
         {
-            this._provider.Import(site, zipStream, @override);
-            ClearObjectCache(site);
+            try
+            {
+                this._provider.Import(site, zipStream, @override);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+        }
+        #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            try
+            {
+                _provider.InitializeToDB(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            _provider.ExportToDisk(site);
         }
         #endregion
     }

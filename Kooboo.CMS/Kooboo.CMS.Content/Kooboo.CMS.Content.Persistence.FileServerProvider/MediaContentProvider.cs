@@ -213,7 +213,13 @@ namespace Kooboo.CMS.Content.Persistence.FileServerProvider
         {
             ThrowNotSupported();
         }
+        protected override void VisitNot(NotExpression expression)
+        {
+            ThrowNotSupported();
+        }
         #endregion
+
+     
     }
     #endregion
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IMediaContentProvider), Order = 2)]
@@ -258,12 +264,12 @@ namespace Kooboo.CMS.Content.Persistence.FileServerProvider
             }
             else
             {
-                var parameter=new MediaContentParameter()
+                var parameter = new MediaContentParameter()
                 {
                     MediaContent = @new
                 };
-                
-               RemoteServiceFactory.CreateService<IMediaContentService>().Update(parameter);
+
+                RemoteServiceFactory.CreateService<IMediaContentService>().Update(parameter);
             }
 
         }

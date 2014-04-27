@@ -409,7 +409,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                return OutputCache != null && OutputCache.Duration > 0;
+                return OutputCache != null && OutputCache.EnableCaching == true;
             }
         }
         private Dictionary<string, string> customFields;

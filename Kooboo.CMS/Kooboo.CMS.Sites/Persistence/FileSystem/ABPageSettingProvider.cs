@@ -52,5 +52,17 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             base.Import(site, zipStream, @override);
         }
         #endregion
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            //not need to implement.
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            //not need to implement.
+        }
+        #endregion
     }
 }

@@ -21,6 +21,7 @@ using Kooboo.CMS.Web.Models;
 using Kooboo.CMS.Sites;
 using Kooboo.Web;
 using Kooboo.CMS.Common;
+using Kooboo.CMS.Sites.Models;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "Development", Name = "Label", Order = 1)]
@@ -40,20 +41,17 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         #endregion
 
-        #region Index,Create,Edit
-        public virtual ActionResult Index(string category, string search, string culture, int? page, int? pageSize)
+        #region Index,Edit
+        public virtual ActionResult Index(string category, string search, int? page, int? pageSize, string sortField, string sortDir)
         {
-            var queryable = Manager.GetLabels(Site, category);
+            var queryable = Manager.All(Site, category);
             if (!string.IsNullOrEmpty(search))
             {
                 search = search.Trim();
                 queryable = queryable.Where(it => it.Name.Contains(search, StringComparison.CurrentCultureIgnoreCase) || it.Value.Contains(search, StringComparison.CurrentCultureIgnoreCase));
             }
-            if (!string.IsNullOrEmpty(culture))
-            {
-                queryable = queryable.Where(it => it.Culture.Equals(culture, StringComparison.CurrentCultureIgnoreCase));
-            }
-            var pagedList = queryable.OrderBy(it => it.Name).ToPagedList<Element>(page ?? 1, pageSize ?? 50);
+
+            var pagedList = queryable.SortBy(sortField, sortDir).ToPagedList<Label>(page ?? 1, pageSize ?? 50);
 
             if (string.IsNullOrEmpty(category))
             {
@@ -63,47 +61,12 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return View(pagedList);
         }
 
+        #endregion
 
-        public virtual ActionResult Create(Element model)
-        {
-            ModelState.Clear();
-            return View(model);
-        }
-
-        [HttpPost]
-        public virtual ActionResult Create(Element model, FormCollection forms)
-        {
-            try
-            {
-                Add(model);
-                //return RedirectToIndex();
-            }
-            catch (FriendlyException e)
-            {
-                ModelState.AddModelError("", e.Message);
-
-            }
-            return View(model);
-        }
-        protected virtual void Add(Element model)
-        {
-            Manager.Add(Site, model);
-        }
-
-        public virtual ActionResult Edit(string category, string name, string culture)
-        {
-            var o = Get(category, name, culture);
-            return View(o);
-        }
-        protected virtual Element Get(string category, string name, string culture)
-        {
-            return Manager.Get(Site, category, name, culture);
-        }
-
-
+        #region Edit
         [HttpPost]
         [ValidateInput(false)]
-        public virtual ActionResult Edit(Element model, string @return)
+        public virtual ActionResult Edit(Label model, string @return)
         {
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
@@ -113,23 +76,18 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             });
             return Json(data);
         }
-        protected virtual void Update(Element model)
+        protected virtual void Update(Label model)
         {
-            Manager.Update(Site, model);
+            var newModel = Manager.Get(Site, model.Category, model.Name);        
+            newModel.UtcLastestModificationDate = DateTime.UtcNow;
+            newModel.LastestEditor = User.Identity.Name;
+            newModel.Value = model.Value;
+            Manager.Update(Site, newModel, newModel);
         }
-
         #endregion
 
-        #region Translate,Delete,Category
-        public virtual ActionResult Translate(string category, string name, string culture)
-        {
-            return Edit(category, name, culture);
-        }
-        [HttpPost]
-        public virtual ActionResult Translate(Element model)
-        {
-            return Create(model);
-        }
+
+        #region Delete
 
         public virtual ActionResult Delete(string[] docs, string[] folders)
         {
@@ -140,11 +98,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
                 if (docs != null)
                 {
-                    foreach (var name in docs)
+                    foreach (var uuid in docs)
                     {
-                        var m = new Element() { Name = name };
-                        m.Category = category;
-                        Remove(m);
+                        var label = new Label() { Site = Site, UUID = uuid };
+                        Remove(label);
                     }
                 }
 
@@ -161,11 +118,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             });
             return Json(data);
         }
-        protected virtual void Remove(Element model)
+        protected virtual void Remove(Label model)
         {
             Manager.Remove(Site, model);
         }
+        #endregion
 
+        #region Category
 
         public virtual ActionResult RemoveCategory(string category)
         {
@@ -195,13 +154,31 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         }
         #endregion
 
+        #region UpgradeFromOldLabel
+        [HttpPost]
+        public virtual ActionResult UpgradeFromOldLabel()
+        {
+            var data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+            {
+                Manager.UpgradeFromOldLabel(Site);
+                resultData.ReloadPage = true;
+            });
+            return Json(data);
+        }
+        #endregion
+
         #region Import/Export
-        public void Export()
+        public void Export(string category, string[] docs, string[] folders)
         {
             var fileName = GetZipFileName();
             Response.AttachmentHeader(fileName);
-
-            Manager.Export(Site, Response.OutputStream);
+            IEnumerable<Label> labels = new Label[0];
+            if (docs != null)
+            {
+                labels = docs.Select(it => new Label(Site, it) { Category = category });
+            }
+            Manager.Export(Site, labels, folders, Response.OutputStream);
         }
 
         protected string GetZipFileName()
@@ -211,17 +188,17 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         public ActionResult Import()
         {
-            return View();
+            return View(Kooboo.CMS.Web.Models.ImportModel.Default);
         }
         [HttpPost]
-        public virtual ActionResult Import(string fullName, bool @override, string @return)
+        public virtual ActionResult Import(bool @override, string @return)
         {
             var data = new JsonResultData(ModelState);
             data.RunWithTry((resultData) =>
             {
                 if (Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
                 {
-                    Manager.Import(Site, Request.Files[0].InputStream);
+                    Manager.Import(Site, Request.Files[0].InputStream, @override);
                 }
                 resultData.RedirectUrl = @return;
             });

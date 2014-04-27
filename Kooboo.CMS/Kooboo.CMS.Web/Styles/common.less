@@ -24,7 +24,6 @@ body {
 	&.in-dialog {
 		min-width: 0;
 		overflow: auto;
-		padding: 20px;
 
 		h1.title {
 			font-size: 24px;
@@ -659,7 +658,7 @@ body {
 				.icon {
 					background-position: -16px 0;
 					height: 6px;
-					margin: 12px 0 0 3px;
+					margin: 14px 0 0 3px;
 					width: 8px;
 				}
 
@@ -692,6 +691,7 @@ body {
 				.icon {
 					background-position: -7px -6px;
 					height: 9px;
+					margin-top: 12px;
 					width: 6px;
 				}
 
@@ -710,6 +710,7 @@ body {
 
 					&:hover .icon {
 						background-position: -25px -6px;
+						margin-top: 13px;
 					}
 				}
 			}
@@ -744,7 +745,11 @@ body {
 		color: #000;
 		display: block;
 		font-size: 20px;
+		overflow: hidden;
 		padding-left: 16px;
+		padding-right: 5px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 
 		&:hover {
 			background-color: #E7E7E7;
@@ -765,7 +770,7 @@ body {
 		.icon {
 			background-position: -18px -16px;
 			height: 8px;
-			margin: 11px 0 0 4px;
+			margin: 13px 0 0 4px;
 			width: 6px;
 		}
 

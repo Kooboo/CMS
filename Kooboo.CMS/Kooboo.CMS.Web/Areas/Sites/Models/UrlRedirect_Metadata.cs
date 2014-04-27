@@ -59,5 +59,14 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Display(Name = "Redirect type")]
         public RedirectType RedirectType { get; set; }
 
+        [GridColumn(HeaderText = "Creation date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn), Order = 5)]
+        public DateTime? UtcCreationDate { get; set; }
+
+        [GridColumn(HeaderText = "Lastest modification date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn), Order = 6)]
+        public DateTime? UtcLastestModificationDate { get; set; }
+
+        [GridColumn(HeaderText = "Editor", GridColumnType = typeof(SortableGridColumn), Order = 7)]
+        public string LastestEditor { get; set; }
+
     }
 }

@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence
 {
-    public interface ISiteElementProvider<T> : IProvider<T>
+    public interface ISiteElementProvider<T> : IProvider<T>, ISiteExportableProvider
     {
         IEnumerable<T> All(Site site);
     }

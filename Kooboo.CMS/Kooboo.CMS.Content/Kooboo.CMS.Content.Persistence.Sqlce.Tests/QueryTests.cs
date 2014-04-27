@@ -269,5 +269,12 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce.Tests
             Assert.AreEqual(0, news.Count());
 
         }
+
+        [TestMethod]
+        public void WhereNot()
+        {
+            var news = newsFolder.CreateQuery().WhereNot(new WhereContainsExpression("title", "notintitle"));
+            Assert.AreEqual(3, news.Count());
+        }
     }
 }

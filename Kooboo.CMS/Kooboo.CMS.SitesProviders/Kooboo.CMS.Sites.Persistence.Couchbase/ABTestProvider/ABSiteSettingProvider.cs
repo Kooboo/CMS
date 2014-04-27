@@ -7,6 +7,7 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.ABTest;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
+using Kooboo.CMS.Membership.Persistence;
 
 namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 {
@@ -14,24 +15,23 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABSiteSetting>), Order = 100)]
     public class ABSiteSettingProvider : IABSiteSettingProvider
     {
+        #region .ctor
         Kooboo.CMS.Sites.Persistence.FileSystem.ABSiteSettingProvider fileProvider;
-        Kooboo.CMS.Sites.Persistence.FileSystem.SiteProvider siteProvider;
+
         Func<Site, string, ABSiteSetting> createModel = (Site site, string key) =>
         {
             return new ABSiteSetting() { MainSite = key };
         };
-        public ABSiteSettingProvider()
+        public ABSiteSettingProvider(IBaseDir baseDir)
         {
-            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
-            var memberShipProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Membership.Persistence.IMembershipProvider>();
-            var elementRepositoryFactory = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Sites.Globalization.IElementRepositoryFactory>();
             fileProvider = new FileSystem.ABSiteSettingProvider(baseDir);
-            siteProvider = new FileSystem.SiteProvider(baseDir, memberShipProvider, elementRepositoryFactory);
-        }
+        } 
+        #endregion
 
+        #region CURD
         public IEnumerable<ABSiteSetting> All()
         {
-            return DataHelper.QueryList<ABSiteSetting>(new Site(), ModelExtensions.GetQueryView(ModelExtensions.ABSiteSettingDataType), createModel);
+            return DataHelper.QueryList<ABSiteSetting>(new Site(), ModelExtensions.GetQueryViewName(ModelExtensions.ABSiteSettingDataType), createModel);
         }
 
         public ABSiteSetting Get(ABSiteSetting dummy)
@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
         private void InsertOrUpdate(ABSiteSetting @new, ABSiteSetting old)
         {
             ((IPersistable)@new).OnSaving();
-            DataHelper.StoreObject(new Site(),@new, @new.UUID, ModelExtensions.ABSiteSettingDataType);
+            DataHelper.StoreObject(new Site(), @new, @new.UUID, ModelExtensions.ABSiteSettingDataType);
             ((IPersistable)@new).OnSaved();
         }
         public void Update(ABSiteSetting @new, ABSiteSetting old)
@@ -61,6 +61,9 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             DataHelper.DeleteItemByKey(new Site(), ModelExtensions.GetBucketDocumentKey(ModelExtensions.ABSiteSettingDataType, item.UUID));
         }
 
+        #endregion
+
+        #region Export
         public void Export(IEnumerable<ABSiteSetting> sources, System.IO.Stream outputStream)
         {
             ExportABSiteSettingToDisk();
@@ -109,6 +112,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
             {
                 fileProvider.Add(item.AsActual());
             }
-        }
+        } 
+        #endregion
     }
 }

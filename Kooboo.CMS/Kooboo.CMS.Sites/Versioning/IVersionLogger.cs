@@ -28,7 +28,7 @@ namespace Kooboo.CMS.Sites.Versioning
         IEnumerable<VersionInfo> AllVersions(T o);
         T GetVersion(T o, int version);
 
-        void Revert(T o, int version);
+        void Revert(T o, int version, string userName);
     }
     public abstract class FileVersionLogger<T> : IVersionLogger<T>
          where T : DirectoryResource, IVersionable
@@ -49,10 +49,10 @@ namespace Kooboo.CMS.Sites.Versioning
                     if (int.TryParse(versionItem.Name, out version))
                     {
                         var data = GetVersion(o, version);
-                        if (data!=null)
+                        if (data != null)
                         {
                             versions.Add(new VersionInfo() { Version = version, Date = versionItem.CreationTimeUtc, UserName = data.UserName });
-                        }                        
+                        }
                     }
                 }
             }
@@ -77,6 +77,6 @@ namespace Kooboo.CMS.Sites.Versioning
         public abstract T GetVersion(T o, int version);
 
 
-        public abstract void Revert(T o, int version);
+        public abstract void Revert(T o, int version, string userName);
     }
 }

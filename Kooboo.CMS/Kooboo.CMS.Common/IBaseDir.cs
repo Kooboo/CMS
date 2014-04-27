@@ -62,6 +62,7 @@ namespace Kooboo.CMS.Common
         /// </value>
         string SettingFileName { get; }
 
+        [Obsolete]
         void UpdateFileLink(string sitePath, string newSiteName, string newDatabaseName);
     }
     #endregion

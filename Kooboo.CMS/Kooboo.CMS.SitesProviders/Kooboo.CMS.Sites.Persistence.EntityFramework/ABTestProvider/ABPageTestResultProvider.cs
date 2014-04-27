@@ -13,8 +13,10 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
 
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABPageTestResultProvider), Order = 100)]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABPageTestResult>), Order = 100)]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "ABPageTestResultProvider")]
     public class ABPageTestResultProvider : IABPageTestResultProvider
     {
+        #region .ctor
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
         SiteDBContext _dbContext;
         public ABPageTestResultProvider(SiteDBContext dbContext)
@@ -22,6 +24,9 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
             this._dbContext = dbContext;
         }
 
+        #endregion
+
+        #region CURD
         public IEnumerable<ABTest.ABPageTestResult> All(Site site)
         {
             return _dbContext.ABPageTestResults.Where(it => it.SiteName.Equals(site.FullName, StringComparison.OrdinalIgnoreCase)).ToList().Select(it => it.ToABPageTestResult());
@@ -79,6 +84,20 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
             }
             _dbContext.SaveChanges();
             ((IPersistable)item).OnSaved();
+        } 
+        #endregion
+
+
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            //not need to implement.
         }
+
+        public void ExportToDisk(Site site)
+        {
+            //not need to implement.
+        }
+        #endregion
     }
 }

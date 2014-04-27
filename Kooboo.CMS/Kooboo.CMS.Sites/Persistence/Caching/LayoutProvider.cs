@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
             inner = innerRepository;
         }
         #endregion
-        
+
         #region Export
         public void Export(IEnumerable<Models.Layout> sources, System.IO.Stream outputStream)
         {
@@ -35,17 +35,28 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Import
         public void Import(Models.Site site, System.IO.Stream zipStream, bool @override)
         {
-            inner.Import(site, zipStream, @override);
-            site.ClearCache();
+            try
+            {
+                inner.Import(site, zipStream, @override);
+            }
+            finally
+            {
+                site.ClearCache();
+            }
         }
         #endregion
 
         #region Localize
         public void Localize(Models.Layout o, Models.Site targetSite)
         {
-            ClearObjectCache(targetSite);
-
-            inner.Localize(o, targetSite);
+            try
+            {
+                inner.Localize(o, targetSite);
+            }
+            finally
+            {
+                ClearObjectCache(targetSite);
+            }
         }
         #endregion
 
@@ -59,13 +70,34 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
         #region Copy
         public Layout Copy(Site site, string sourceName, string destName)
         {
-            ClearObjectCache(site);
-
-            return inner.Copy(site, sourceName, destName);
+            try
+            {
+                return inner.Copy(site, sourceName, destName);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
         }
         #endregion
 
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            try
+            {
+                inner.InitializeToDB(site);
+            }
+            finally
+            {
+                ClearObjectCache(site);
+            }
+        }
 
-
+        public void ExportToDisk(Site site)
+        {
+            inner.ExportToDisk(site);
+        }
+        #endregion
     }
 }

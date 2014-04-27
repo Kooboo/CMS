@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Membership.Persistence;
 using Kooboo.CMS.Sites.Globalization;
 using Kooboo.CMS.Sites.Models;
@@ -17,47 +18,14 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
     {
         #region .ctor
         SiteInitializer _initializer;
-        CustomErrorProvider.CustomErrorProvider customErrorProvider;
-        UrlRedirectProvider.UrlRedirectProvider urlRedirectProvider;
-        ABTestProvider.ABPageSettingProvider abPageSettingProvider;
-        ABTestProvider.ABRuleSettingProvider abRuleSettingProvider;
-        //ABTestProvider.ABSiteSettingProvider abSiteSettingProvider;
-        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, IElementRepositoryFactory elementRepositoryFactory, SiteInitializer initializer)
-            : base(baseDir, membershipProvider, elementRepositoryFactory)
+        public SiteProvider(IBaseDir baseDir, IMembershipProvider membershipProvider, ISiteExportableProvider[] exportableProivders, SiteInitializer initializer, RepositoryManager repositoryManager)
+            : base(baseDir, membershipProvider, exportableProivders,repositoryManager)
         {
-            customErrorProvider = new CustomErrorProvider.CustomErrorProvider();
-            urlRedirectProvider = new UrlRedirectProvider.UrlRedirectProvider();
-            abPageSettingProvider = new ABTestProvider.ABPageSettingProvider();
-            abRuleSettingProvider = new ABTestProvider.ABRuleSettingProvider();
             //abSiteSettingProvider = new ABTestProvider.ABSiteSettingProvider();
             _initializer = initializer;
         }
-        public override void Initialize(Site site)
-        {
-            _initializer.Initialize(site);
-            base.Initialize(site);
-
-            customErrorProvider.InitializeCustomError(site);
-            urlRedirectProvider.InitializeUrlRedirect(site, true);
-            abPageSettingProvider.InitializeABPageSetting(site);
-            abRuleSettingProvider.InitializeABRuleSetting(site);
-            //abSiteSettingProvider.InitializeABSiteSetting();
-        }
-
-        static SiteProvider()
-        {
-            //Create Kooboo_CMS global bucket
-            var defaultBucket = DatabaseSettings.Instance.DefaultBucketName;
-            if (!DatabaseHelper.ExistBucket(defaultBucket))
-            {
-                DatabaseHelper.CreateBucket(defaultBucket);
-                System.Threading.Thread.Sleep(3000);     
-            }
-            DatabaseHelper.CreateDesignDocument(defaultBucket, ModelExtensions.GetQueryView(ModelExtensions.ABRuleSettingDataType), string.Format(DataHelper.viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABRuleSettingDataType), ModelExtensions.ABRuleSettingDataType));
-            DatabaseHelper.CreateDesignDocument(defaultBucket, ModelExtensions.GetQueryView(ModelExtensions.ABSiteSettingDataType), string.Format(DataHelper.viewTemplate, ModelExtensions.GetQueryView(ModelExtensions.ABSiteSettingDataType), ModelExtensions.ABSiteSettingDataType));
-            System.Threading.Thread.Sleep(3000);
-        }
         #endregion
+
         Func<Site, string, Site> createModel = (Site site, string key) =>
         {
             return new Site(key);
@@ -107,28 +75,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             DataHelper.DeleteItemByKey(item, ModelExtensions.GetBucketDocumentKey(ModelExtensions.SiteDataType, item.Name));
             base.Remove(item);
         }
-
-        public override void Export(Site site, System.IO.Stream outputStream, bool includeDatabase, bool includeSubSites)
-        {
-            ExportDataToDisk(site, includeSubSites);
-            base.Export(site, outputStream, includeDatabase, includeSubSites);
-        }
-        private void ExportDataToDisk(Site site,bool includeSubSites)
-        {
-            customErrorProvider.ExportCustomErrorToDisk(site);
-            urlRedirectProvider.ExportUrlRedirectToDisk(site);
-            abPageSettingProvider.ExportABPageSettingToDisk(site);
-            abRuleSettingProvider.ExportABRuleSettingToDisk(site);
-            //abSiteSettingProvider.ExportABSiteSettingToDisk();
-            if(includeSubSites)
-            {
-                var subSites=ChildSites(site);
-                foreach(var s in subSites)
-                {
-                    ExportDataToDisk(s, includeSubSites);
-                }
-            }
-        }
+      
         #endregion
     }
 }

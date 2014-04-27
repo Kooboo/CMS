@@ -27,7 +27,7 @@ namespace Kooboo.CMS.Sites.Globalization
 
         public SiteLabelRepository(Site site)
         {
-            StoreRepository = new XmlElementRepository(new Label(site).PhysicalPath);
+            StoreRepository = new XmlElementRepository(new LabelPath(site).PhysicalPath);
         }
         public IElementRepository StoreRepository { get; private set; }
 

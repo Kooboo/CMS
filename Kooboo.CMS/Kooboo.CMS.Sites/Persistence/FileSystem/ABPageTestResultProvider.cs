@@ -45,5 +45,17 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             return locker;
         }
         #endregion        
+    
+        #region ISiteElementProvider InitializeToDB/ExportToDisk
+        public void InitializeToDB(Site site)
+        {
+            //not need to implement.
+        }
+
+        public void ExportToDisk(Site site)
+        {
+            //not need to implement.
+        }
+        #endregion
     }
 }

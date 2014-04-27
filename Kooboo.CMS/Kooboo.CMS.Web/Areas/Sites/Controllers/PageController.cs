@@ -96,7 +96,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             page.Site = Site;
             page.Layout = ControllerContext.RequestContext.GetRequestValue("layout");
             page.IsDefault = isDefault;
-
+            page.Published = false;
             return base.Create(page);
         }
 
@@ -331,7 +331,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 foreach (var item in model)
                 {
-                    Manager.Localize(item.UUID, Site);
+                    Manager.Localize(item.UUID, Site, User.Identity.Name);
                 }
                 data.ReloadPage = true;
             });
@@ -343,7 +343,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
             data.RunWithTry((resultData) =>
             {
-                Manager.Localize(uuid, Site);
+                Manager.Localize(uuid, Site, User.Identity.Name);
                 data.ReloadPage = true;
             });
             return Json(data);
@@ -505,8 +505,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 }
             }
 
-            if (!string.IsNullOrEmpty(uuid) && route != null && !string.IsNullOrEmpty(route.Identifier))
+
+            if (route != null && !string.IsNullOrEmpty(route.Identifier))
             {
+                if (string.IsNullOrEmpty(uuid))
+                {
+                    uuid = Guid.NewGuid().ToString();
+                }
                 var page = new Page(Site.Current, uuid);
                 page.Route = route;
                 if (!route.Identifier.StartsWith("#"))
@@ -579,7 +584,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Manager.Move(Site, model.UUID, model.ParentPage, model.CreateRedirect);
+                    Manager.Move(Site, model.UUID, model.ParentPage, model.CreateRedirect, User.Identity.Name);
                     data.RedirectUrl = @return;
                 }
             });
@@ -704,7 +709,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             data.RunWithTry((resultData) =>
             {
                 var page = new Page(Site, uuid);
-                Manager.VersiongLogger.Revert(page, version);
+                Manager.VersiongLogger.Revert(page, version, User.Identity.Name);
                 resultData.RedirectUrl = @return;
             });
 

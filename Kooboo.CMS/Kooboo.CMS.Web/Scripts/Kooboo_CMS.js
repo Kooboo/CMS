@@ -397,7 +397,8 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         var trCollection = trCollection || $(this);
         var selector = 'input:checkbox.select:checked';
         var $tbody = $tr.closest('tbody');
-        $tr.click(function () {
+        $tr.click(function (e) {
+            e.stopPropagation();
             var $self = $(this);
             var $checkbox = $self.find('input:checkbox,input:radio');
             if ($checkbox.is("input:radio")) {
@@ -457,7 +458,31 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                 parse_JsonResultData(data, textStatus, jqXHR);
             }, message);
         });
-
+        $('[data-command-type="Post"]').click(function (e) {
+            var $self = $(this);
+            var $selected = $table.find("input:checkbox[checked]");
+            $selected = $selected.filter(':not(.select-all)');
+            var id = $selected.data("id-property");
+            if (id === undefined) {
+                id = "ID-PROPERTY-UNDEFINED";
+            }
+            var selectedValues = [];
+            $selected.each(function () {
+                selectedValues.push($(this).val());
+            });
+            var tempForm = $('<form>', {
+                'action': $self.attr('href'),
+                'target': '_top',
+                'method': 'post'
+            }).appendTo('body');
+            $('<input>').attr({
+                type: 'hidden',
+                name: id,
+                value: selectedValues.join(',')
+            }).appendTo(tempForm);
+            tempForm.submit();
+            return false;
+        });
         $('[data-command-type="Download"]').click(function (e) {
             var selectedModel = grid.getSelecteds();
 
@@ -529,6 +554,31 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             grid.doPost($button.attr("href"), null, function (data, textStatus, jqXHR, postData) {
                 parse_JsonResultData(data, textStatus, jqXHR);
             }, message);
+        });
+        $('[data-command-type="Post"]').click(function (e) {
+            var $self = $(this);
+            var $selected = $table.find("input:checkbox[checked]");
+            $selected = $selected.filter(':not(.select-all)');
+            var id = $selected.data("id-property");
+            if (id === undefined) {
+                id = "ID-PROPERTY-UNDEFINED";
+            }
+            var selectedValues = [];
+            $selected.each(function () {
+                selectedValues.push($(this).val());
+            });
+            var tempForm = $('<form>', {
+                'action': $self.attr('href'),
+                'target': '_top',
+                'method':'post'
+            }).appendTo('body');
+            $('<input>').attr({
+                type: 'hidden',
+                name: id,
+                value: selectedValues.join(',')
+            }).appendTo(tempForm);
+            tempForm.submit();
+            return false;
         });
         $('[data-command-type="Download"]').click(function () {
             var selectedModel = { folders: grid.getSelectedFolders(), docs: grid.getSelectedDocs() };
@@ -1118,20 +1168,140 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             $("input[type=file].filestyle").filestyle();
         }
 
-        window.loading.hide();
-        $(window).ready(function () {
+        if (!window.keepLoading) {
             window.loading.hide();
-        });
+            $(window).ready(function () {
+                window.loading.hide();
+            });
+        }
     });
 
     // form post
     $(function () {
-        //check form changed
+        //默认的绑定延迟一点执行，可以允许特定的页面在这个绑定之前做一些事情
         setTimeout(function () {
+            //check form changed
             $('form:not(.no-stop) input,form:not(.no-stop) select:not(.select)').change(function () {
                 window.leaveConfirm.stop();
             });
-        }, 1000);
+
+            $('[data-ajaxform]').click(function (e) {
+                e.preventDefault();
+                var ajaxFormParam = {
+                    async: true,
+                    beforeSend: function () {
+                        window.loading.show();
+                    },
+                    success: function (response, statusText, xhr, $form) {
+                        parse_JsonResultData.call(this, response, statusText, xhr, $form)
+                    },
+                    error: function () {
+                        window.loading.hide();
+                    }
+                };
+
+
+                var $self = $(this);
+                var formId = $self.data('ajaxform');
+                var form = [];
+                if (formId != '') {
+                    form = $('#' + formId);
+                }
+                if (form.length == 0) {
+                    form = $self.closest('form:not(:submit)');
+                }
+                if (form.length == 0) {
+                    form = $('form:not(:submit)').closest('form');
+                }
+
+                if ($self.data('ajax-async') != undefined) {
+                    ajaxFormParam.async = $self.data('ajax-async');
+                }
+                if ($self.attr('href') != undefined && $self.attr('href') != '') {
+                    ajaxFormParam.url = $self.attr('href');
+                }
+                if (window.ajaxFormParam) {
+                    ajaxFormParam = $.extend(ajaxFormParam, window.ajaxFormParam);
+                }
+                $('.field-validation-error').empty();
+                if (!form.valid()) {
+                    if (form.find('.tabs').length) {
+                        var selector = 'input.input-validation-error,select.input-validation-error';
+                        $(selector).parents('div.tab-content')
+                                .each(function () {
+                                    var tab = $(this);
+                                    var li = $('a[href="#' + tab.attr('id') + '"]')
+                                    .hide().show('pulsate', {}, 100)
+                                    .show('highlight', {}, 200)
+                                    .show('pulsate', {}, 300)
+                                    .show('highlight', {}, 400);
+                                });
+                    }
+                }
+                else {
+                    window.leaveConfirm.pass();
+                    var confirmMsg = $self.data('confirm');
+                    if (confirmMsg) {
+                        if (!confirm(confirmMsg)) {
+                            return false;
+                        }
+                    }
+                    form.ajaxForm(ajaxFormParam);
+                    form.submit();
+                }
+            });
+
+            $('[data-download-form]').click(function (e) {
+                var $self = $(this);
+                var formId = $self.data('download-form');
+                var _retrun = $self.data('return');
+                var form = [];
+                if (formId != '') {
+                    form = $('#' + formId);
+                }
+                if (form.length == 0) {
+                    form = $self.closest('form:not(:submit)');
+                }
+                if (form.length == 0) {
+                    form = $('form:not(:submit)').closest('form');
+                }
+
+                if ($self.attr('href') != undefined && $self.attr('href') != '') {
+                    ajaxFormParam.url = $self.attr('href');
+                }
+
+                $('.field-validation-error').empty();
+                if (!form.valid()) {
+                    if (form.find('.tabs').length) {
+                        var selector = 'input.input-validation-error,select.input-validation-error';
+                        $(selector).parents('div.tab-content')
+                                .each(function () {
+                                    var tab = $(this);
+                                    var li = $('a[href="#' + tab.attr('id') + '"]')
+                                    .hide().show('pulsate', {}, 100)
+                                    .show('highlight', {}, 200)
+                                    .show('pulsate', {}, 300)
+                                    .show('highlight', {}, 400);
+                                });
+                    }
+                }
+                else {
+                    window.leaveConfirm.pass();
+                    var confirmMsg = $self.data('confirm');
+                    if (confirmMsg) {
+                        if (!confirm(confirmMsg)) {
+                            return false;
+                        }
+                    }
+                    form.submit();
+                    setTimeout(function () {
+                        if (_retrun) {
+                            location.href = _retrun;
+                        }
+                    }, 1000);
+                }
+            });
+        }, 500);
 
         $(document).ajaxStop(function () {
             window.loading.hide();
@@ -1144,122 +1314,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         $(".upload-button input:file").change(function () {
             $(this).parent().submit();
         });
-        $('[data-ajaxform]').click(function (e) {
-            e.preventDefault();
-            var ajaxFormParam = {
-                async: true,
-                beforeSend: function () {
-                    window.loading.show();
-                },
-                success: function (response, statusText, xhr, $form) {
-                    parse_JsonResultData.call(this, response, statusText, xhr, $form)
-                },
-                error: function () {
-                    window.loading.hide();
-                }
-            };
-
-
-            var $self = $(this);
-            var formId = $self.data('ajaxform');
-            var form = [];
-            if (formId != '') {
-                form = $('#' + formId);
-            }
-            if (form.length == 0) {
-                form = $self.closest('form:not(:submit)');
-            }
-            if (form.length == 0) {
-                form = $('form:not(:submit)').closest('form');
-            }
-
-            if ($self.data('ajax-async') != undefined) {
-                ajaxFormParam.async = $self.data('ajax-async');
-            }
-            if ($self.attr('href') != undefined && $self.attr('href') != '') {
-                ajaxFormParam.url = $self.attr('href');
-            }
-            if (window.ajaxFormParam) {
-                ajaxFormParam = $.extend(ajaxFormParam, window.ajaxFormParam);
-            }
-            $('.field-validation-error').empty();
-            if (!form.valid()) {
-                if (form.find('.tabs').length) {
-                    var selector = 'input.input-validation-error,select.input-validation-error';
-                    $(selector).parents('div.tab-content')
-                            .each(function () {
-                                var tab = $(this);
-                                var li = $('a[href="#' + tab.attr('id') + '"]')
-                                .hide().show('pulsate', {}, 100)
-                                .show('highlight', {}, 200)
-                                .show('pulsate', {}, 300)
-                                .show('highlight', {}, 400);
-                            });
-                }
-            }
-            else {
-                window.leaveConfirm.pass();
-                var confirmMsg = $self.data('confirm');
-                if (confirmMsg) {
-                    if (!confirm(confirmMsg)) {
-                        return false;
-                    }
-                }
-                form.ajaxForm(ajaxFormParam);
-                form.submit();
-            }
-        });
-
-        $('[data-download-form]').click(function (e) {
-            var $self = $(this);
-            var formId = $self.data('download-form');
-            var _retrun = $self.data('return');
-            var form = [];
-            if (formId != '') {
-                form = $('#' + formId);
-            }
-            if (form.length == 0) {
-                form = $self.closest('form:not(:submit)');
-            }
-            if (form.length == 0) {
-                form = $('form:not(:submit)').closest('form');
-            }
-
-            if ($self.attr('href') != undefined && $self.attr('href') != '') {
-                ajaxFormParam.url = $self.attr('href');
-            }
-
-            $('.field-validation-error').empty();
-            if (!form.valid()) {
-                if (form.find('.tabs').length) {
-                    var selector = 'input.input-validation-error,select.input-validation-error';
-                    $(selector).parents('div.tab-content')
-                            .each(function () {
-                                var tab = $(this);
-                                var li = $('a[href="#' + tab.attr('id') + '"]')
-                                .hide().show('pulsate', {}, 100)
-                                .show('highlight', {}, 200)
-                                .show('pulsate', {}, 300)
-                                .show('highlight', {}, 400);
-                            });
-                }
-            }
-            else {
-                window.leaveConfirm.pass();
-                var confirmMsg = $self.data('confirm');
-                if (confirmMsg) {
-                    if (!confirm(confirmMsg)) {
-                        return false;
-                    }
-                }
-                form.submit();
-                setTimeout(function () {
-                    if (_retrun) {
-                        location.href = _retrun;
-                    }
-                }, 100);
-            }
-        });
+      
     });
 
     //knockout extension

@@ -43,7 +43,7 @@ namespace Kooboo.CMS.Web.Areas.Sites
             var roleManager = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<RoleManager>();
 
 
-            roleManager.AddPermission(Permission.Sites_Settings_SystemPermission);
+            roleManager.AddPermission(Permission.Sites_Settings_SystemPermission);            
             roleManager.AddPermission(Permission.Sites_Settings_UserSettingPermission);
             roleManager.AddPermission(Permission.Sites_Settings_CustomErrorPermission);
             roleManager.AddPermission(Permission.Sites_Settings_UrlRedirectPermission);
@@ -61,7 +61,7 @@ namespace Kooboo.CMS.Web.Areas.Sites
             roleManager.AddPermission(Permission.Sites_Extensions_ModulePermission);
 
             roleManager.AddPermission(Permission.Sites_Page_EditPermission);
-            roleManager.AddPermission(Permission.Sites_Page_StyleEditPermission);
+            //roleManager.AddPermission(Permission.Sites_Page_StyleEditPermission);
             roleManager.AddPermission(Permission.Sites_Page_PublishPermission);
             #endregion
             base.RegisterArea(context);

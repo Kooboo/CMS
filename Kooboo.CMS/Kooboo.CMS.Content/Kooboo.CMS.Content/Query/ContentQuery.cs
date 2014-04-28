@@ -92,6 +92,10 @@ namespace Kooboo.CMS.Content.Query
             }
             return this.Create(exp);
         }
+        public IContentQuery<T> WhereNot(IWhereExpression expression)
+        {
+            return this.Create(new NotExpression(expression));
+        }
         public IContentQuery<T> Where(IWhereExpression expression)
         {
             IExpression exp = null;
@@ -255,6 +259,7 @@ namespace Kooboo.CMS.Content.Query
         {
             return new ContentQuery<T>(this.Repository, expression);
         }
+
 
         #endregion
 

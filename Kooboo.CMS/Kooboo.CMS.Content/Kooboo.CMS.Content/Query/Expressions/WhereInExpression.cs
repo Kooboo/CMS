@@ -15,6 +15,11 @@ namespace Kooboo.CMS.Content.Query.Expressions
 {
     public class WhereInExpression : WhereFieldExpression
     {
+        public WhereInExpression(string fieldName, object[] values)
+            : this(null, fieldName, values)
+        {
+
+        }
         public WhereInExpression(IExpression expression, string fieldName, object[] values)
             : base(expression, fieldName)
         {

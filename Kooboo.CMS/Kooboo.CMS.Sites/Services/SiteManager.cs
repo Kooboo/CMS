@@ -357,8 +357,8 @@ namespace Kooboo.CMS.Sites.Services
         public virtual Site Copy(Site sourceSite, string siteName, CreateSiteOptions options)
         {
             MemoryStream ms = new MemoryStream();
-            var exportReposiotry = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager.Get(sourceSite.Repository) == null;
-            Export(sourceSite.FullName, ms, exportReposiotry, true);
+            //var exportReposiotry = Kooboo.CMS.Content.Services.ServiceFactory.RepositoryManager.Get(sourceSite.Repository) == null;
+            Export(sourceSite.FullName, ms, true, true);
             ms.Position = 0;
             return Create(sourceSite.Parent, siteName, ms, options);
         }

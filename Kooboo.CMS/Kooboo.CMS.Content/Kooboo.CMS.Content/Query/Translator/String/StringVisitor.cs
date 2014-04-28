@@ -123,6 +123,18 @@ namespace Kooboo.CMS.Content.Query.Translator.String
             clauseText.AppendFormat("{0} <> {1}", expression.FieldName, expression.Value);
         }
 
+        protected override void VisitNot(NotExpression expression)
+        {
+            string clause = "True";
+            if (!(expression.InnerExpression is TrueExpression))
+            {
+                clause = VisitInner(expression.InnerExpression).ClauseText;
+            }
+
+            clauseText.AppendFormat("NOT({0})", clause);
+
+        }
+
         protected override void VisitAndAlso(Expressions.AndAlsoExpression expression)
         {
             string leftClause = "";

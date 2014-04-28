@@ -3,6 +3,16 @@
     ViewBag.Title = "System diagnosis".Localize();
     Layout = "~/Views/Shared/Site.cshtml";
 }
+@section Panel{
+    <ul class="panel">
+
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
+       
+    </ul>
+}
 <div class="block common-form diagnosis">
     <h1 class="title">@ViewBag.Title</h1>
     <fieldset>

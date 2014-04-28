@@ -15,7 +15,7 @@
                     @("Save".Localize())
                 </a>
                 <ul class="j_DropDownContent hide">
-                    <li><a data-ajaxform="">@("Save".Localize())</a></li>
+                    <li><a data-ajaxform="" id="save_bar">@("Save".Localize())</a></li>
                     <li><a data-ajaxform=""  href="@Url.Action("CreateEx", "Page", ViewContext.RequestContext.AllRouteValues().Merge("setPublished", "true"))">@("Save & publish".Localize())</a></li>
                 </ul>
             </li>

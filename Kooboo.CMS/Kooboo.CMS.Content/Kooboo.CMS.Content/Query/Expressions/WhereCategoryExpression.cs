@@ -16,6 +16,11 @@ namespace Kooboo.CMS.Content.Query.Expressions
 {
     public class WhereCategoryExpression : Expression, IWhereExpression
     {
+        public WhereCategoryExpression(IContentQuery<TextContent> categoryQuery)
+            : this(null, categoryQuery)
+        {
+
+        }
         public WhereCategoryExpression(IExpression expression, IContentQuery<TextContent> categoryQuery)
             : base(expression)
         {

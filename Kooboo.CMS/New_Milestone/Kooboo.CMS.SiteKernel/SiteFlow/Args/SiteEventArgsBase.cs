@@ -15,9 +15,9 @@ using System.Web;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class EventArgsBase : EventArgs
+    public class SiteEventArgsBase : EventArgs
     {
-        public EventArgsBase(HttpContextBase httpContext)
+        public SiteEventArgsBase(HttpContextBase httpContext)
         {
             this.HttpContext = httpContext;
         }

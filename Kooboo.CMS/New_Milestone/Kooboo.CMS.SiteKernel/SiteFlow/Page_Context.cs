@@ -11,15 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
-namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
+namespace Kooboo.CMS.SiteKernel.SiteFlow
 {
-    public class PreMapSiteEventArgs : SiteEventArgsBase
+    public class Page_Context
     {
-        public PreMapSiteEventArgs(HttpContextBase httpContext)
-            : base(httpContext)
-        {
-        }
     }
 }

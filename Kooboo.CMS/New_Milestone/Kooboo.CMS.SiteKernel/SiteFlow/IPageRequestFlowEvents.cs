@@ -17,7 +17,7 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
     /// <summary>
     /// 页面处理流程事件
     /// </summary>
-    public interface IPageRequestEvents
+    public interface IPageRequestFlowEvents
     {
         /// <summary>
         /// 查找页面之前触发
@@ -30,6 +30,10 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
         /// 适用场景：A/B page test.
         /// </summary>
         void PostMapPage(object sender, PostMapPageEventArgs args);
+
+        void PreCreatePageContext(object sender, PreCreatePageContextEventArgs args);
+
+        void PostCreatePageContext(object sender, PostCreatePageContextEventArgs args);
 
         /// <summary>
         /// 执行页面之前触发

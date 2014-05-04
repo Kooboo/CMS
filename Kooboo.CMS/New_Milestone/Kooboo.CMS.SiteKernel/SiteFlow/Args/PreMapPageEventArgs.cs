@@ -13,16 +13,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class PreMapPageEventArgs : EventArgsBase
+    public class PreMapPageEventArgs : EventArgs
     {
-        public PreMapPageEventArgs(HttpContextBase httpContext, Site site)
-            : base(httpContext)
+        public PreMapPageEventArgs(ControllerContext controllerContext, Site site)
         {
+            this.ControllerContext = controllerContext;
             this.Site = site;
         }
+        public ControllerContext ControllerContext { get; private set; }
         public Site Site { get; private set; }
+
+
     }
 }

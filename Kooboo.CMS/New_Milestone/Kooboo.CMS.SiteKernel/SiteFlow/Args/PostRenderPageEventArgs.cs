@@ -13,24 +13,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class PostRenderPageEventArgs : EventArgsBase
+    public class PostRenderPageEventArgs : EventArgs
     {
-        public PostRenderPageEventArgs(HttpContextBase httpContext, Site site, Page page)
-            : base(httpContext)
+        public PostRenderPageEventArgs(Page_Context page_context, ActionResult actionResult)
         {
-            this.Site = site;
-            this.Page = page;
+            this.Page_Context = page_context;
+            this.ActionResult = ActionResult;
         }
-        public Site Site { get; private set; }
-        /// <summary>
-        /// Gets or sets the page.
-        /// </summary>
-        /// <value>
-        /// The page.
-        /// </value>
-        public Page Page { get; private set; }
+        public Page_Context Page_Context { get; private set; }
+
+        public ActionResult ActionResult { get; private set; }
     }
 }

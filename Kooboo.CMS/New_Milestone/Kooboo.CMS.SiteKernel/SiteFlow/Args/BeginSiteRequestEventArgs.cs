@@ -15,7 +15,7 @@ using System.Web;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class BeginSiteRequestEventArgs : EventArgsBase
+    public class BeginSiteRequestEventArgs : SiteEventArgsBase
     {
         public BeginSiteRequestEventArgs(HttpContextBase httpContext)
             :base(httpContext)

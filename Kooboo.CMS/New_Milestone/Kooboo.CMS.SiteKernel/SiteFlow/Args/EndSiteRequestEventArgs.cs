@@ -16,7 +16,7 @@ using System.Web;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class EndSiteRequestEventArgs : EventArgsBase
+    public class EndSiteRequestEventArgs : SiteEventArgsBase
     {
         public EndSiteRequestEventArgs(HttpContextBase httpContext, Site site)
             : base(httpContext)

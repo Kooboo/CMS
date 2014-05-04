@@ -16,7 +16,7 @@ using System.Web;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class ErrorEventArgs : EventArgsBase
+    public class ErrorEventArgs : SiteEventArgsBase
     {
         public ErrorEventArgs(HttpContextBase httpContext, Site site, Exception e)
             : base(httpContext)

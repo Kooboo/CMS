@@ -16,7 +16,7 @@ using System.Web;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class PostExecuteRequestHandlerEventArgs : EventArgsBase
+    public class PostExecuteRequestHandlerEventArgs : SiteEventArgsBase
     {
         public PostExecuteRequestHandlerEventArgs(HttpContextBase httpContext, Site site, IRequestHandler requestHandler)
             : base(httpContext)

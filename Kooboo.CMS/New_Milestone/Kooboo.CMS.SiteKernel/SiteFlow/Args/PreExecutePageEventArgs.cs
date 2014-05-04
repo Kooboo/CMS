@@ -16,23 +16,13 @@ using System.Web;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class PreExecutePageEventArgs : EventArgsBase
+    public class PreExecutePageEventArgs : EventArgs
     {
-        public PreExecutePageEventArgs(HttpContextBase httpContext, Site site, Page page)
-            : base(httpContext)
+        public PreExecutePageEventArgs(Page_Context page_context)
         {
-            this.Site = site;
-            this.Page = page;
+            this.Page_Context = page_context;
         }
 
-        public Site Site { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the page.
-        /// </summary>
-        /// <value>
-        /// The page.
-        /// </value>
-        public Page Page { get; private set; }
+        public Page_Context Page_Context { get; private set; }
     }
 }

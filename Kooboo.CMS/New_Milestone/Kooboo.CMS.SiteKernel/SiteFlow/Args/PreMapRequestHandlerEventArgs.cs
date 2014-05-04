@@ -16,7 +16,7 @@ using System.Web;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class PreMapRequestHandlerEventArgs : EventArgsBase
+    public class PreMapRequestHandlerEventArgs : SiteEventArgsBase
     {
         public PreMapRequestHandlerEventArgs(HttpContextBase httpContext, Site site)
             : base(httpContext)

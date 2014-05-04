@@ -54,7 +54,9 @@
     <Compile Include="SiteFlow\Args\EndPageRequestEvengArgs.cs" />
     <Compile Include="SiteFlow\Args\EndSiteRequestEventArgs.cs" />
     <Compile Include="SiteFlow\Args\ErrorEventArgs.cs" />
-    <Compile Include="SiteFlow\Args\EventArgsBase.cs" />
+    <Compile Include="SiteFlow\Args\PostCreatePageContextEventArgs.cs" />
+    <Compile Include="SiteFlow\Args\PreCreatePageContextEventArgs.cs" />
+    <Compile Include="SiteFlow\Args\SiteEventArgsBase.cs" />
     <Compile Include="SiteFlow\Args\PostExecutePageEventArgs.cs" />
     <Compile Include="SiteFlow\Args\PostExecuteRequestHandlerEventArgs.cs" />
     <Compile Include="SiteFlow\Args\PostMapPageEventArgs.cs" />
@@ -65,13 +67,18 @@
     <Compile Include="SiteFlow\Args\PreMapPageEventArgs.cs" />
     <Compile Include="SiteFlow\Args\PreMapRequestHandlerEventArgs.cs" />
     <Compile Include="SiteFlow\Args\PreRenderPageEventArgs.cs" />
-    <Compile Include="SiteFlow\IPageRequestEvents.cs" />
+    <Compile Include="SiteFlow\IPageRequestFlow.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SiteFlow\IPageRequestFlowEvents.cs" />
     <Compile Include="SiteFlow\IRequestHandler.cs" />
     <Compile Include="SiteFlow\ISiteRequestFlow.cs" />
     <Compile Include="SiteFlow\ISiteRequestFlowEvents.cs" />
     <Compile Include="SiteFlow\Args\PostMapSiteEventArgs.cs" />
     <Compile Include="SiteFlow\Args\PreMapSiteEventArgs.cs" />
+    <Compile Include="SiteFlow\PageRequestFlowAdapter.cs" />
     <Compile Include="SiteFlow\PageRequestHandler.cs" />
+    <Compile Include="SiteFlow\Page_Context.cs" />
     <Compile Include="SiteFlow\SiteRequestFlowAdapter.cs" />
   </ItemGroup>
   <ItemGroup />

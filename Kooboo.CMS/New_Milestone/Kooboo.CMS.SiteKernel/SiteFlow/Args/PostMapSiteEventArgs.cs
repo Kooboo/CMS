@@ -16,7 +16,7 @@ using System.Web;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class PostMapSiteEventArgs : EventArgsBase
+    public class PostMapSiteEventArgs : SiteEventArgsBase
     {
         /// <summary>
         /// Pres the map site event arguments.

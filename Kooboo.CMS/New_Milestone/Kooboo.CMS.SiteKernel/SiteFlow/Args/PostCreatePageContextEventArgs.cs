@@ -6,26 +6,21 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.SiteKernel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class PreRenderPageEventArgs : EventArgs
+    public class PostCreatePageContextEventArgs
     {
-        public PreRenderPageEventArgs(Page_Context page_context, ActionResult actionResult)
+        public PostCreatePageContextEventArgs(Page_Context page_context)
         {
             this.Page_Context = page_context;
-            this.ActionResult = ActionResult;
         }
-        public Page_Context Page_Context { get; private set; }
 
-        public ActionResult ActionResult { get; private set; }
+        public Page_Context Page_Context { get; set; }
     }
 }

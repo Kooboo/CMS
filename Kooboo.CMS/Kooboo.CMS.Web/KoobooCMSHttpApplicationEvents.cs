@@ -135,6 +135,7 @@ Thread information:
 
             ModelBinders.Binders.Add(typeof(Kooboo.CMS.Sites.Models.PagePosition), new Kooboo.CMS.Web.Areas.Sites.ModelBinders.PagePositionBinder());
             ModelBinders.Binders.Add(typeof(Kooboo.CMS.Sites.Models.Parameter), new Kooboo.CMS.Web.Areas.Sites.ModelBinders.ParameterBinder());
+            ModelBinders.Binders.Add(typeof(Kooboo.CMS.Sites.DataSource.IDataSource), new Kooboo.CMS.Web.Areas.Sites.ModelBinders.DataSourceModelBinder());
             #endregion
 
             RegisterRoutes(RouteTable.Routes);

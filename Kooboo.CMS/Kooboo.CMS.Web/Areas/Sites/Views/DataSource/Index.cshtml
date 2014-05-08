@@ -1,0 +1,44 @@
+﻿@model System.Collections.Generic.IEnumerable<Kooboo.CMS.Sites.DataSource.DataSourceSetting>
+@{
+    ViewBag.Title = "Data sources".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+
+}
+@section Panel{
+    <ul class="panel">
+        <li class="j_DropDown">
+            <a>
+                @Html.IconImage("add")
+                @("Create New".Localize())
+                @Html.IconImage("arrow small white-down")
+            </a>
+            @Html.Partial("_Designers", ViewData["Designers"])
+        </li>
+        <li>
+            <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import visit rules"))">
+                @Html.IconImage("import") @("Import".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-command-type="Download">
+                @Html.IconImage("export") @("Export".Localize())
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
+                @Html.IconImage("delete") @("Delete".Localize())
+            </a>
+        </li>
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
+    </ul>
+}
+
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title
+    </h1>
+</div>
+@Html.GridForModel2()

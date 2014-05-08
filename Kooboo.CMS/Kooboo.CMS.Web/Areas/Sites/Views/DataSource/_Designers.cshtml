@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Kooboo.CMS.Sites.DataSource.IDataSourceDesigner>
+@{
+    var designers = Model.ToArray();
+}
+<ul class="j_DropDownContent hide">
+    @if (designers.Length == 0)
+    {
+        <li>@("No data source designers".Localize())</li>
+    }
+    else
+    {
+        foreach (var designer in designers)
+        {
+            <li>
+                @Html.ActionLink(designer.Name, "Create", "DataSource", ViewContext.RequestContext.AllRouteValues().Merge("Designer", designer.Name).Merge("return", ViewContext.HttpContext.Request.RawUrl), new RouteValueDictionary())
+            </li>
+        }
+    }
+</ul>

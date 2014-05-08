@@ -72,6 +72,47 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
     }
 };
 
+//knockout extension
+$(function () {
+    if (typeof (ko) != 'undefined') {
+        ko.bindingHandlers.uniqueId = {
+            init: function (element) {
+                element.id = ko.bindingHandlers.uniqueId.prefix + (++ko.bindingHandlers.uniqueId.counter);
+            },
+            counter: 0,
+            prefix: "unique"
+        };
+
+        ko.bindingHandlers.uniqueFor = {
+            init: function (element, valueAccessor) {
+                var after = ko.bindingHandlers.uniqueId.counter + (ko.utils.unwrapObservable(valueAccessor()) === "after" ? 0 : 1);
+                element.setAttribute("for", ko.bindingHandlers.uniqueId.prefix + after);
+            }
+        };
+
+        if (!ko.bindingHandlers.stopBinding) {
+            ko.bindingHandlers.stopBinding = {
+                init: function (element, valueAccessor) {
+                    var stop = ko.utils.unwrapObservable(valueAccessor());
+                    return { controlsDescendantBindings: stop !== false };
+                }
+            };
+            //
+            ko.virtualElements.allowedBindings.stopBinding = true;
+        };
+
+        ko.bindingHandlers.templateWithContext = {
+            init: ko.bindingHandlers.template.init,
+            update: function (element, valueAccessor, allBindings, data, context) {
+                var options = ko.utils.unwrapObservable(valueAccessor());
+
+                ko.utils.extend(context, options.context);
+
+                return ko.bindingHandlers.template.update.apply(this, arguments);
+            }
+        };
+    }
+});
 
 (function ($) {
     $.fn.dialogLink = function () {
@@ -570,7 +611,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             var tempForm = $('<form>', {
                 'action': $self.attr('href'),
                 'target': '_top',
-                'method':'post'
+                'method': 'post'
             }).appendTo('body');
             $('<input>').attr({
                 type: 'hidden',
@@ -1314,38 +1355,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
         $(".upload-button input:file").change(function () {
             $(this).parent().submit();
         });
-      
-    });
 
-    //knockout extension
-    $(function () {
-        if (typeof (ko) != 'undefined') {
-            ko.bindingHandlers.uniqueId = {
-                init: function (element) {
-                    element.id = ko.bindingHandlers.uniqueId.prefix + (++ko.bindingHandlers.uniqueId.counter);
-                },
-                counter: 0,
-                prefix: "unique"
-            };
-
-            ko.bindingHandlers.uniqueFor = {
-                init: function (element, valueAccessor) {
-                    var after = ko.bindingHandlers.uniqueId.counter + (ko.utils.unwrapObservable(valueAccessor()) === "after" ? 0 : 1);
-                    element.setAttribute("for", ko.bindingHandlers.uniqueId.prefix + after);
-                }
-            };
-
-            if (!ko.bindingHandlers.stopBinding) {
-                ko.bindingHandlers.stopBinding = {
-                    init: function (element, valueAccessor) {
-                        var stop = ko.utils.unwrapObservable(valueAccessor());
-                        return { controlsDescendantBindings: stop !== false };
-                    }
-                };
-                //
-                ko.virtualElements.allowedBindings.stopBinding = true;
-            }
-        }
     });
 })(jQuery);
 

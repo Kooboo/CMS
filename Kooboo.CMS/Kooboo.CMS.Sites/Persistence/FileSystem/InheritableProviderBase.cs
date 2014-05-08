@@ -20,7 +20,7 @@ using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
     public abstract class InheritableProviderBase<T> : FileProviderBase<T>
-        where T : ISiteObject, IFilePersistable, IPersistable, IIdentifiable, IInheritable<T>, new()
+        where T : ISiteObject, IPersistable, IIdentifiable, IInheritable<T>, new()
     {
         //public override IEnumerable<T> All(Models.Site site)
         //{

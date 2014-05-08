@@ -1,0 +1,217 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+@using Kooboo.CMS.Sites.DataSource.ContentDataSource;
+
+@using (Html.BeginForm())
+{
+    @Html.Hidden("Designer", ((Kooboo.CMS.Sites.DataSource.IDataSourceDesigner)ViewBag.Designer).Name)
+    <div id="contentDataSource" class="block common-form">
+        @if (ViewBag.IsEditing != true)
+        {
+            <h1 class="title left">@ViewBag.Title :</h1><p class="field big clearfix">@Html.EditorFor(m => m.DataName, new { Layout = "_NoLabel.cshtml" })</p>
+        }
+        else
+        {
+            <h1 class="title">@ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+        }
+        <div class="process-steps">
+            <div class="steps-inner">
+                <span data-bind="css:{current:Step()==0}">@("Choose Folder".Localize())<b></b></span>
+                <span data-bind="css:{current:Step()==1}">@("Edit filters".Localize())</span>
+            </div>
+        </div>
+        <div class="step-content clearfix">
+            <div data-bind="visible:Step()==0">
+                @Html.Partial("_TextFolderTree")
+                <script>
+                    $('input:radio[name=FolderName]:first').attr('checked', true);
+                </script>
+                <div class="common-form">
+                    <table>
+                        <tr>
+                            <th>
+                                <label>@("Query type".Localize())</label>
+                            </th>
+                            <td>
+                                <ul class="radio-list">
+                                    <li>
+                                        <input name="DataSource.TakeOperation" type="radio" id="List" name="TakeOperation" data-bind="checked:DataSourceSetting.DataSource.TakeOperation" value="0" />
+                                        <label for="List" class="inline">@("List of contents in the selected folder".Localize())</label>
+                                    </li>
+                                    <li>
+                                        <input name="DataSource.TakeOperation" type="radio" id="First" name="TakeOperation" data-bind="checked:DataSourceSetting.DataSource.TakeOperation" value="1" />
+                                        <label for="First" class="inline">@("First or default (one content item)".Localize())</label>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <p class="buttons">
+                    <button data-bind="click:NextStep" type="button">Next</button>
+                </p>
+            </div>
+
+            <div data-bind="visible:Step()==1">
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>
+                                <label>@("Folder".Localize())</label>
+                                <input type="hidden" name="DataSource.FolderName" data-bind="value:DataSourceSetting.DataSource.FolderName" />
+                            </th>
+                            <td data-bind="text:DataSourceSetting.DataSource.FolderName"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>@("Content filter".Localize())</label>
+                            </th>
+                            <td>
+                                <ul class="filter-list" data-data-set="WhereClauses" data-bind="templateWithContext: { name: 'filter-list-template', foreach:DataSourceSetting.DataSource.WhereClauses,context:{PropertyName:'WhereClauses'} }"></ul>
+                                <a class="action" data-bind="click:AddFilter">@Html.IconImage("plus small")</a>
+                            </td>
+                        </tr>
+                        <tr data-bind="if:util.GetCategoryFolders(DataSourceSetting.DataSource.FolderName())!= null">
+                            <th>
+                                <label>@("Category folder".Localize())</label>
+                            </th>
+                            <td>
+                                <select name="DataSource.CategoryFolderName" data-bind="options:util.GetCategoryFolders(DataSourceSetting.DataSource.FolderName()),optionsText:'FolderName',optionsValue:'FolderName',optionsCaption: '@("Select a category".Localize())',value:DataSourceSetting.DataSource.CategoryFolderName" class="medium"></select>
+                            </td>
+                        </tr>
+                        <tr data-bind="if:util.GetCategoryFolders(DataSourceSetting.DataSource.FolderName())!= null,
+                                           visible:DataSourceSetting.DataSource.CategoryFolderName()!=null">
+                            <th>
+                                <label>@("Category filter".Localize())</label>
+                            </th>
+                            <td>
+                                <ul class="filter-list" data-data-set="CategoryClauses" data-bind="templateWithContext: { name: 'filter-list-template', foreach:DataSourceSetting.DataSource.CategoryClauses,context:{PropertyName:'CategoryClauses'}}"></ul>
+                                <a data-bind="click:AddFilter" class="action">@Html.IconImage("plus small")</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <fieldset data-bind="if:DataSourceSetting.DataSource.TakeOperation() == 0">
+                    <legend class="clickable clearfix no-bind">@Html.IconImage("arrow")@("Advanced".Localize())</legend>
+                    <table style="display: none;">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    <label>@("Top".Localize())</label>
+                                </th>
+                                <td>
+                                    <input name="DataSource.Top" class="short" data-bind="value:DataSourceSetting.DataSource.Top" type="text">
+                                    <span class="field-validation-valid" data-valmsg-for="DataSource.Top" data-valmsg-replace="true"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>@("Sort filed".Localize())</label>
+                                </th>
+                                <td>
+                                    @*这里必须要单向绑定，要不然默认排序字段会被更改掉*@
+                                    <select name="DataSource.SortField" data-bind="options:util.GetSchemaColumns(DataSourceSetting.DataSource.FolderName()),
+                                                        optionsText:'Name',optionsValue:'Name',
+                                                        value:DataSourceSetting.DataSource.SortField()" class="short"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>@("Sort direction".Localize())</label>
+                                </th>
+                                <td>
+                                    <select name="DataSource.SortDirection" class="short" data-bind="value:DataSourceSetting.DataSource.SortDirection()">
+                                        @*这里必须要单向绑定，要不然默认排序字段会被更改掉*@
+                                        <option value="0">@("ASC".Localize())</option>
+                                        <option value="1">@("DESC".Localize())</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>@("Enable paging".Localize())</label>
+                                </th>
+                                <td>
+                                    <input type="checkbox" data-bind="checked:DataSourceSetting.DataSource.EnablePaging,click:DataSourceSetting.DataSource.OnEnablePaging">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>@("Page size".Localize())</label>
+                                </th>
+                                <td>
+                                    <input name="DataSource.PageSize" class="short" type="text" data-bind="value:DataSourceSetting.DataSource.PageSize,enable:DataSourceSetting.DataSource.EnablePaging">
+                                    <em class="tip">@("A const value OR dynamic value get from query string. eg: 10 OR {PageSize}".Localize())</em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>@("Page index".Localize())</label>
+                                </th>
+                                <td>
+                                    <input name="DataSource.PageIndex" class="short" type="text" data-bind="value:DataSourceSetting.DataSource.PageIndex,enable:DataSourceSetting.DataSource.EnablePaging">
+                                    <em class="tip">@("The page index parameter name. eg:{PageIndex}".Localize())</em>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+                @if (ViewBag.IsEditing != true)
+                {
+                    <p class="buttons">
+                        <button data-bind="click:PreviousStep" type="button">@("Previous".Localize())</button>
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+}
+<script type="text/html" id="filter-list-template">
+    <li class="clearfix" data-bind="if:!$data.IsEditing()">
+        <span data-bind="text:util.GetFilterExpression($data)"></span>
+        <input type="hidden" data-bind="attr: { name: 'DataSource.' + PropertyName + '['+$index()+'].Logical'}, value:$data.Logical" />
+        <input type="hidden" data-bind="attr: { name: 'DataSource.' + PropertyName + '['+$index()+'].FieldName'}, value:$data.FieldName" />
+        <input type="hidden" data-bind="attr: { name: 'DataSource.' + PropertyName + '['+$index()+'].Operator'}, value:$data.Operator" />
+        <input type="hidden" data-bind="attr: { name: 'DataSource.' + PropertyName + '['+$index()+'].Value1'}, value:$data.Value1" />
+        <a class="action" data-bind="click:$root.EditFilter">@Html.IconImage("edit small")</a>
+        <a class="action" data-bind="click:$root.RemoveFilter">@Html.IconImage("minus small")</a>
+    </li>
+    <li data-bind="if: $data.IsEditing">
+        <div class="filter-form clearfix">
+            <h5></h5>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <select class="short" data-bind="options:metadata.logicList,optionsText:'Text',optionsValue:'Value',value:$data.LogicalTemp"></select>
+                            <select class="medium" data-bind="options: util.GetSchemaColumns($data.FolderName),optionsText:'Name',optionsValue:'Name',value:$data.FieldNameTemp"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="short" data-bind="options:metadata.operatorList,optionsText:'Text',optionsValue:'Value',value:$data.OperatorTemp"></select>
+                            <input type="text" class="medium" data-bind="value:Value1Temp">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <a class="button save" data-bind="click:$root.SaveEditingFilter">@("Save".Localize())</a>
+            <a class="button cancel gray action" data-bind="click:$root.CancelEditingFilter">@("Cancel".Localize())</a>
+        </div>
+    </li>
+</script>
+@Html.Partial("~/Areas/Sites/Views/DataSource/ContentDatabase/_Scripts.cshtml")
+<script type="text/javascript">
+    $(function () {
+        $('#contentDataSource').on('click', 'legend.clickable.no-bind', function () {
+            var handle = $(this), next = handle.next();
+            if (handle.hasClass('active')) {
+                handle.removeClass('active');
+                next.fadeOut();
+            } else {
+                handle.addClass('active');
+                next.fadeIn();
+            }
+        });
+    });
+</script>

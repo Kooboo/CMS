@@ -1,0 +1,207 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+@using Newtonsoft.Json;
+@using Kooboo.CMS.Sites.DataSource;
+@using Kooboo.CMS.Sites.DataSource.ContentDataSource;
+
+@{
+    var repository = new Repository(Site.Current.Repository).AsActual();
+    var folderManager = Kooboo.CMS.Content.Services.ServiceFactory.TextFolderManager;
+    var schemaManager = Kooboo.CMS.Content.Services.ServiceFactory.SchemaManager;
+
+
+    var schemaList = schemaManager.All(repository, "").Select(it => it.AsActual()).Select(it => new { Name = it.Name, Columns = it.AllColumns });
+    var allFloders = folderManager.AllFoldersFlattened(repository).Select(it => it.AsActual()).Select(it => new { FullName = it.FullName, DisplayName = it.FriendlyText, SchemaName = it.SchemaName, Categories = it.Categories });
+
+    var model = Model;
+
+    if (model == null || model.DataSource == null)
+    {
+        model = new DataSourceSetting() { DataSource = new FolderDataSource() { WhereClauses = new WhereClause[0], CategoryClauses = new WhereClause[0] } };
+    }
+    var operatorList = new List<object>
+        {
+            new {Text = "Equals".Localize(), Value = 0, Operator = "=="},
+            new {Text = "NotEquals".Localize(), Value = 1, Operator = "!="},
+            new {Text = "Greater than".Localize(), Value = 2, Operator = ">"},
+            new {Text = "Less than".Localize(), Value = 3, Operator = "<"},
+            new {Text = "Contains".Localize(), Value = 4, Operator = "Contains"},
+            new {Text = "Start with".Localize(), Value = 5, Operator = "Start with"},
+            new {Text = "End with".Localize(), Value = 6, Operator = "End with"},
+            new {Text = "NotNull".Localize(), Value = 9, Operator = "Not Null"},
+            new {Text = "IsNull".Localize(), Value = 8, Operator = "Is Null"},
+        };
+    var logicList = new List<object>
+        {
+            new {Text = "AND".Localize(), Value = 0},
+            new {Text = "OR".Localize(), Value = 1},
+            new {Text = "Then AND".Localize(), Value = 2},
+            new {Text = "Then OR".Localize(), Value = 3},
+        };
+}
+<script type="text/javascript">
+
+    var metadata = {
+        rawEmptyWhereClause:@Html.Raw(JsonConvert.SerializeObject(new WhereClause(), Formatting.None, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None })),
+        operatorList:@Html.Raw(JsonConvert.SerializeObject(operatorList, Formatting.None, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None })) ,
+        logicList:@Html.Raw(JsonConvert.SerializeObject(logicList, Formatting.None, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None })),
+        schemaList:@Html.Raw(JsonConvert.SerializeObject(schemaList, Formatting.None, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None })),
+        allFloders:@Html.Raw(JsonConvert.SerializeObject(allFloders, Formatting.None, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.None }))};
+    var util = {
+        FindFolder:function(folderName)
+        {
+            var folder = ko.utils.arrayFirst(metadata.allFloders, function(item) {
+                return item.FullName === folderName;
+            });
+            return folder;
+        },
+        FindSchema :function(schemaName)
+        {
+            var schema = ko.utils.arrayFirst(metadata.schemaList, function(item) {
+                return item.Name === schemaName;
+            });
+            return schema;
+        },
+        GetSchemaColumns: function(folderName) {
+            var folder = util.FindFolder(folderName);
+            if (folder == null) {
+                return {};
+            }
+            var schema = util.FindSchema(folder.SchemaName);
+            return schema.Columns;
+        },
+        GetCategoryFolders : function(folderName) {
+            var folder = util.FindFolder(folderName);
+            if (folder == null) {
+                return null;
+            }
+            return folder.Categories;
+        },
+        GetFilterExpression : function(filter) {
+            var logic = ko.utils.arrayFirst(metadata.logicList, function(item) {
+                return item.Value === filter.Logical();
+            });
+            var fieldName = filter.FieldName();
+            var operator = ko.utils.arrayFirst(metadata.operatorList, function(item) {
+                return item.Value === filter.Operator();
+            });
+            var value1 = filter.Value1();
+            var value2 = filter.Value2();
+            var expression = logic.Text + '  ' + fieldName + '  ' + operator.Operator + '  ' + (value1==undefined?"":value1);
+            return expression;
+        }
+    };
+    $(function () {
+
+        function AppViewModel() {
+            var self = this;
+
+            var folderDataSourceMappingOptions = {
+                'WhereClauses': {
+                    create:function(parameter) {
+                        if (parameter.data != null) {
+                            var data = ko.mapping.fromJS(parameter.data);
+                            data.IsEditing = ko.observable(false);
+                            data.IsNew = ko.observable(false);
+                            return data;
+                        }
+                        return ko.observableArray([]);
+                    }
+                },
+                'CategoryClauses': {
+                    create:function(parameter) {
+                        if (parameter.data != null) {
+                            var data = ko.mapping.fromJS(parameter.data);
+                            data.IsEditing = ko.observable(false);
+                            data.IsNew = ko.observable(false);                            
+                            return data;
+                        }
+                        return ko.observableArray([]);
+                    }
+                },
+            };
+            self.DataSourceSetting = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(model, Formatting.None, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects })),folderDataSourceMappingOptions);
+
+            self.Step = ko.observable(@(ViewBag.IsEditing==true ? 1:0));
+
+            self.NextStep = function () {
+                var folderName = $('input:radio[name=FolderName]:checked').val();
+                self.DataSourceSetting.DataSource.FolderName(folderName);
+                self.Step(1);
+            };
+
+            self.PreviousStep = function () {
+                self.Step(0);
+            };
+
+            self.AddFilter = function (data,e) {
+                var newFilter =ko.mapping.fromJS(metadata.rawEmptyWhereClause);
+                newFilter.IsEditing = ko.observable(false);
+                self.EditFilter(newFilter);
+                newFilter.IsNew = true;
+                var dataSet = $(e.target).parent().siblings('ul.filter-list').data('dataSet');
+                if (dataSet === "WhereClauses") {
+                    newFilter.FolderName = self.DataSourceSetting.DataSource.FolderName();
+                    self.DataSourceSetting.DataSource.WhereClauses.push(newFilter);
+                }
+                if (dataSet === "CategoryClauses") {
+                    newFilter.FolderName = self.DataSourceSetting.DataSource.CategoryFolderName();
+                    self.DataSourceSetting.DataSource.CategoryClauses.push(newFilter);
+                }
+            };
+
+            self.EditFilter = function(filter,e) {
+                if(e!=null){
+                    var dataSet = $(e.target).closest('ul').data('dataSet');
+                    if (dataSet === "WhereClauses") {
+                        filter.FolderName= self.DataSourceSetting.DataSource.FolderName();
+                    }
+                    if (dataSet === "CategoryClauses") {
+                        filter.FolderName= self.DataSourceSetting.DataSource.CategoryFolderName();
+                    }
+                }
+
+                //temp observables for editing
+                filter.LogicalTemp = ko.observable(filter.Logical());
+                filter.FieldNameTemp = ko.observable(filter.FieldName());
+                filter.OperatorTemp = ko.observable(filter.Operator());
+                filter.Value1Temp = ko.observable(filter.Value1());
+                filter.Value2Temp = ko.observable(filter.Value2());
+                filter.IsNew = false;
+                if (filter.IsEditing==undefined) {
+                    filter.IsEditing = ko.observable(false);
+                }
+                filter.IsEditing(true);
+            };
+
+            self.SaveEditingFilter = function(filter,e) {
+                filter.Logical(filter.LogicalTemp());
+                filter.FieldName(filter.FieldNameTemp());
+                filter.Operator(filter.OperatorTemp());
+                filter.Value1(filter.Value1Temp());
+                filter.Value2(filter.Value2Temp());
+                filter.IsEditing(false);
+            };
+
+            self.CancelEditingFilter = function(filter,e) {
+                if (filter.IsNew) {
+                    self.RemoveFilter(filter,e);
+                }
+                filter.IsEditing(false);
+            };
+
+            self.RemoveFilter = function(filter,e) {
+                var dataSet = $(e.target).closest('ul').data('dataSet');
+                if (dataSet === "WhereClauses") {
+                    self.DataSourceSetting.DataSource.WhereClauses.remove(filter);
+                }
+                if (dataSet === "CategoryClauses") {
+                    self.DataSourceSetting.DataSource.CategoryClauses.remove(filter);
+                }
+            };
+        }
+        var $template = $('#contentDataSource');
+        var model = new AppViewModel()
+        $template.data("KO_ViewModel", model);
+        ko.applyBindings(model, $template[0]);
+    });
+</script>

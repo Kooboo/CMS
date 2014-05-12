@@ -222,12 +222,16 @@
 		b {
 			background: #0078B1;
 			bottom: 0;
-			display: block;
+			display: none;
 			height: 3px;
 			position: absolute;
 			right: 50%;
 			width: 9999px;
 			z-index: 2;
+		}
+
+		&.current b {
+			display: block;
 		}
 	}
 
@@ -312,6 +316,10 @@
 	.active {
 		> .tree-icon {
 			background-position: -11px -94px;
+		}
+
+		> ul {
+			display: block;
 		}
 	}
 }

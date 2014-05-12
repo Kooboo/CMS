@@ -3,22 +3,25 @@
 
 @using (Html.BeginForm())
 {
+    if (ViewBag.IsEditing != true)
+    {
+        <h1 class="title"><label for="DataName">@ViewBag.Title:</label> @Html.EditorFor(m => m.DataName, new { Layout = "_NoLabel.cshtml" })</h1>
+    }
+    else
+    {
+        <h1 class="title">@ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+    }
     @Html.Hidden("Designer", ((Kooboo.CMS.Sites.DataSource.IDataSourceDesigner)ViewBag.Designer).Name)
     <div id="contentDataSource" class="block common-form">
         @if (ViewBag.IsEditing != true)
         {
-            <h1 class="title left">@ViewBag.Title :</h1><p class="field big clearfix">@Html.EditorFor(m => m.DataName, new { Layout = "_NoLabel.cshtml" })</p>
-        }
-        else
-        {
-            <h1 class="title">@ViewBag.Title : <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
-        }
-        <div class="process-steps">
-            <div class="steps-inner">
-                <span data-bind="css:{current:Step()==0}">@("Choose Folder".Localize())<b></b></span>
-                <span data-bind="css:{current:Step()==1}">@("Edit filters".Localize())</span>
+            <div class="process-steps">
+                <div class="steps-inner">
+                    <span data-bind="css:{current:Step()==0}">@("Choose Folder".Localize())<b></b></span>
+                    <span data-bind="css:{current:Step()==1}">@("Edit filters".Localize())<b></b></span>
+                </div>
             </div>
-        </div>
+        }
         <div class="step-content clearfix">
             <div data-bind="visible:Step()==0">
                 @Html.Partial("_TextFolderTree")
@@ -46,8 +49,8 @@
                         </tr>
                     </table>
                 </div>
-                <p class="buttons">
-                    <button data-bind="click:NextStep" type="button">Next</button>
+                <p class="process-buttons">
+                    <button data-bind="click:NextStep" type="button">Next &raquo;</button>
                 </p>
             </div>
 
@@ -100,7 +103,7 @@
                                     <label>@("Top".Localize())</label>
                                 </th>
                                 <td>
-                                    <input name="DataSource.Top" class="short" data-bind="value:DataSourceSetting.DataSource.Top" type="text">
+                                    <input name="DataSource.Top" class="long" data-bind="value:DataSourceSetting.DataSource.Top" type="text">
                                     <span class="field-validation-valid" data-valmsg-for="DataSource.Top" data-valmsg-replace="true"></span>
                                 </td>
                             </tr>
@@ -112,7 +115,7 @@
                                     @*这里必须要单向绑定，要不然默认排序字段会被更改掉*@
                                     <select name="DataSource.SortField" data-bind="options:util.GetSchemaColumns(DataSourceSetting.DataSource.FolderName()),
                                                         optionsText:'Name',optionsValue:'Name',
-                                                        value:DataSourceSetting.DataSource.SortField()" class="short"></select>
+                                                        value:DataSourceSetting.DataSource.SortField()" class="long"></select>
                                 </td>
                             </tr>
                             <tr>
@@ -120,7 +123,7 @@
                                     <label>@("Sort direction".Localize())</label>
                                 </th>
                                 <td>
-                                    <select name="DataSource.SortDirection" class="short" data-bind="value:DataSourceSetting.DataSource.SortDirection()">
+                                    <select name="DataSource.SortDirection" class="long" data-bind="value:DataSourceSetting.DataSource.SortDirection()">
                                         @*这里必须要单向绑定，要不然默认排序字段会被更改掉*@
                                         <option value="0">@("ASC".Localize())</option>
                                         <option value="1">@("DESC".Localize())</option>
@@ -140,7 +143,7 @@
                                     <label>@("Page size".Localize())</label>
                                 </th>
                                 <td>
-                                    <input name="DataSource.PageSize" class="short" type="text" data-bind="value:DataSourceSetting.DataSource.PageSize,enable:DataSourceSetting.DataSource.EnablePaging">
+                                    <input name="DataSource.PageSize" class="long" type="text" data-bind="value:DataSourceSetting.DataSource.PageSize,enable:DataSourceSetting.DataSource.EnablePaging">
                                     <em class="tip">@("A const value OR dynamic value get from query string. eg: 10 OR {PageSize}".Localize())</em>
                                 </td>
                             </tr>
@@ -149,7 +152,7 @@
                                     <label>@("Page index".Localize())</label>
                                 </th>
                                 <td>
-                                    <input name="DataSource.PageIndex" class="short" type="text" data-bind="value:DataSourceSetting.DataSource.PageIndex,enable:DataSourceSetting.DataSource.EnablePaging">
+                                    <input name="DataSource.PageIndex" class="long" type="text" data-bind="value:DataSourceSetting.DataSource.PageIndex,enable:DataSourceSetting.DataSource.EnablePaging">
                                     <em class="tip">@("The page index parameter name. eg:{PageIndex}".Localize())</em>
                                 </td>
                             </tr>
@@ -158,8 +161,8 @@
                 </fieldset>
                 @if (ViewBag.IsEditing != true)
                 {
-                    <p class="buttons">
-                        <button data-bind="click:PreviousStep" type="button">@("Previous".Localize())</button>
+                    <p class="process-buttons">
+                        <button data-bind="click:PreviousStep" type="button">&laquo; @("Previous".Localize())</button>
                     </p>
                 }
             </div>

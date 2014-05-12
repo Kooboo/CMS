@@ -12,19 +12,24 @@
             }));
 
     var koTemplateId = elementId + "_List";
+    
+    
 }
 <h6 class="title active">
     @Html.IconImage("arrow")
-    @("Plugins".Localize())</h6>
+    @(ViewBag.Title)
+</h6>
 <div class="container">
     <p class="actions clearfix">
-        @Html.DropDownList("PluginList", ViewData.ModelMetadata.GetDataSource().GetSelectListItems(ViewContext.RequestContext))
-        <a id="addPlugin" class="right" >@Html.IconImage("plus")</a>
+        @Html.DropDownList("list", ViewData.ModelMetadata.GetDataSource().GetSelectListItems(ViewContext.RequestContext), new { @class = "short" })
+        <a id="@(ViewData.ModelMetadata.PropertyName + "_addPlugin")" class="right">@Html.IconImage("plus")</a>
     </p>
     <ul id="@koTemplateId" class="plugins list" data-bind="foreach: data">
-        <li data-bind="{attr:{id:'@koTemplateId' + '_li_' + $index()}}"><span data-bind="text: text"></span>
+        <li data-bind="{attr:{id:'@koTemplateId' + '_li_' + $index()}}">
+            <span data-bind="text: text"></span>
             <input type="hidden" data-bind="value: value, attr: {name: $parent.getName($index())}" />
-            <a  class="right" data-bind="click: $parent.removeItem">@Html.IconImage("minus small")</a></li>
+            <a class="right" data-bind="click: $parent.removeItem">@Html.IconImage("minus small")</a>
+        </li>
     </ul>
 
     <script type="text/javascript">
@@ -57,10 +62,10 @@
                 };
             }
             var pluginsModel = new PluginsModel();
-            var pluginList = $('#Plugins_PluginList');
-            $('#addPlugin').click(function () {
-                var text = pluginList.find('option:selected').text()
-                var value = pluginList.val();
+            var $list = $('#@(ViewData.ModelMetadata.PropertyName + "_list")');
+            $('#@(ViewData.ModelMetadata.PropertyName + "_addPlugin")').click(function () {
+                var text = $list.find('option:selected').text()
+                var value = $list.val();
                 pluginsModel.addItem({ text: text, value: value });
             });
 

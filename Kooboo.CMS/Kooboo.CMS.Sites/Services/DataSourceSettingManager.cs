@@ -20,10 +20,11 @@ namespace Kooboo.CMS.Sites.Services
     public class DataSourceSettingManager : ManagerBase<DataSourceSetting, IDataSourceSettingProvider>
     {
         #region .ctor
-        public DataSourceSettingManager(IDataSourceSettingProvider provider)
+        IViewProvider _viewProvider;
+        public DataSourceSettingManager(IDataSourceSettingProvider provider, IViewProvider viewProvider)
             : base(provider)
         {
-
+            this._viewProvider = viewProvider;
         }
         #endregion
 
@@ -48,6 +49,19 @@ namespace Kooboo.CMS.Sites.Services
             @new.Site = site;
             @old.Site = site;
             Provider.Update(@new, @old);
+        }
+        #endregion
+
+        #region Relation
+        public override IEnumerable<RelationModel> Relations(DataSourceSetting dataSourceSetting)
+        {
+            return _viewProvider.All().Select(it => it.AsActual()).Where(it => it.DataSources != null && it.DataSources.Contains(dataSourceSetting.DataName, StringComparer.OrdinalIgnoreCase)).Select(it => new RelationModel()
+            {
+                DisplayName = it.Name,
+                ObjectUUID = it.Name,
+                RelationObject = it,
+                RelationType = "View"
+            });
         }
         #endregion
     }

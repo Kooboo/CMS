@@ -124,7 +124,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             }
             if (whereClause != null && whereClause.Count() > 0)
             {
-                var expression = WhereClauseToContentQueryHelper.Parse(whereClause, schema, new MVCValueProviderWrapper(ValueProvider));
+                var expression = WhereClauseToContentQueryHelper.Parse(whereClause, schema, ValueProvider);
                 query = query.Where(expression);
                 showTreeStyle = false;
             }
@@ -495,7 +495,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             }
             if (whereClause != null && whereClause.Count() > 0)
             {
-                var expression = WhereClauseToContentQueryHelper.Parse(whereClause, schema, new MVCValueProviderWrapper(ValueProvider));
+                var expression = WhereClauseToContentQueryHelper.Parse(whereClause, schema, ValueProvider);
                 query = query.Where(expression);
                 showTreeStyle = false;
             }

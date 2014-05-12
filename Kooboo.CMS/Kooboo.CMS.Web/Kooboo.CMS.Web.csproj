@@ -227,6 +227,7 @@
     <Compile Include="Areas\Sites\Models\DataSources\SiteMembershipGroupDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\SubmissionPluginsDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSourceSetting_Metadata.cs" />
+    <Compile Include="Areas\Sites\Models\DataSources\DataSourceSetting_DataSource.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_HitTimes_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\ABPageTestHitsReport_ShowTimes_GridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\Grid2\Inheritable_Status_GridItemColumn.cs" />

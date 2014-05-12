@@ -24,6 +24,7 @@ namespace Kooboo.CMS.Sites.View.PositionRender
     using Kooboo.CMS.Common.Persistence.Non_Relational;
     using Kooboo.CMS.Sites.Caching;
     using System.Runtime.Caching;
+    using Kooboo.CMS.Sites.DataSource;
 
     public class ViewRender
     {
@@ -33,7 +34,7 @@ namespace Kooboo.CMS.Sites.View.PositionRender
 {1}
 <!--/View:{0}-->";
         #endregion
-        
+
         public virtual IHtmlString RenderView(HtmlHelper htmlHelper, Page_Context pageContext, string viewName, ViewDataDictionary viewData, object parameters, bool executeDataRule)
         {
             Kooboo.CMS.Sites.Models.View view = (new Kooboo.CMS.Sites.Models.View(pageContext.PageRequestContext.Site, viewName).LastVersion()).AsActual();
@@ -50,13 +51,20 @@ namespace Kooboo.CMS.Sites.View.PositionRender
                 {
                     viewData = new ViewDataDictionary(viewData);
                     var pageRequestContext = pageContext.PageRequestContext;
+                    var valueProvider = pageRequestContext.GetValueProvider();
+                    valueProvider.Insert(0, new DictionaryValueProvider<object>(pageContext.ViewDataContext.Parameters, CultureInfo.CurrentCulture));
                     if (view.DataRules != null)
-                    {
-                        var valueProvider = pageRequestContext.GetValueProvider();
-                        valueProvider.Insert(0, new ViewParameterValueProvider(pageContext.ViewDataContext.Parameters));
+                    {                       
                         var dataRuleContext = new DataRuleContext(pageRequestContext.Site, pageRequestContext.Page) { ValueProvider = valueProvider };
                         DataRuleExecutor.Execute(viewData, dataRuleContext, view.DataRules);
                     }
+                    if (view.DataSources != null)
+                    {
+                        var dataSources = view.DataSources.Select(it => new DataSourceSetting(pageRequestContext.Site, it).LastVersion().AsActual()).Where(it => it != null);
+
+                        DataSourceExecutor.Execute(viewData, new DataSourceContext(pageRequestContext.Site, pageRequestContext.Page) { ValueProvider = valueProvider }, dataSources);
+                    }
+
                 }
 
                 var html = RenderViewInternal(htmlHelper, view.TemplateFileVirutalPath, viewData, null);
@@ -110,8 +118,8 @@ namespace Kooboo.CMS.Sites.View.PositionRender
             StringWriter writer = new StringWriter(CultureInfo.CurrentCulture);
 
             ViewContext viewContext = new ViewContext(htmlHelper.ViewContext, htmlHelper.ViewContext.View, dictionary, htmlHelper.ViewContext.TempData, writer);
-            
-			TemplateEngines.GetEngineByFileExtension(Path.GetExtension(viewPath)).CreateView(htmlHelper.ViewContext.Controller.ControllerContext, viewPath, null).Render(viewContext, writer);
+
+            TemplateEngines.GetEngineByFileExtension(Path.GetExtension(viewPath)).CreateView(htmlHelper.ViewContext.Controller.ControllerContext, viewPath, null).Render(viewContext, writer);
 
             return new HtmlString(writer.ToString());
         }

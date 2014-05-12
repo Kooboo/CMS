@@ -47,5 +47,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
 
         [UIHint("Parameters")]
         public List<Parameter> Parameters { get; set; }
+
+        [UIHint("Plugins")]
+        [DataSource(typeof(DataSourceSetting_DataSource))]
+        public List<string> DataSources { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
 
         public IDataSource DataSource { get; set; }
 
-        [GridColumn(Order = 1, GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(InheritableEditGridActionItemColumn))]
+        [GridColumn(Order = 1, HeaderText = "Data name", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(InheritableEditGridActionItemColumn))]
         public string UUID
         {
             get;

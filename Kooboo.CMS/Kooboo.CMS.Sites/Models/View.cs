@@ -103,7 +103,20 @@ namespace Kooboo.CMS.Sites.Models
                 parameters = value;
             }
         }
-        
+
+        private List<string> dataSources = new List<string>();
+        [DataMember(Order = 30)]
+        public List<string> DataSources
+        {
+            get
+            {
+                return dataSources ?? new List<string>();
+            }
+            set
+            {
+                dataSources = value;
+            }
+        }
         public static string ParameterTemplateFileName = "ParameterTemplate.cshtml";
         public string ParameterTemplate
         {

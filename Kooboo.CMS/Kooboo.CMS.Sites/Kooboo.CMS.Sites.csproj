@@ -115,6 +115,7 @@
     <Compile Include="DataSource\ContentDataSource\WhereClause.cs" />
     <Compile Include="DataSource\ContentDataSource\WhereClauseToContentQueryHelper.cs" />
     <Compile Include="DataSource\DataSourceContext.cs" />
+    <Compile Include="DataSource\DataSourceExecutor.cs" />
     <Compile Include="DataSource\DataSourceSetting.cs" />
     <Compile Include="DataSource\Http\HttpDataRequest.cs" />
     <Compile Include="DataSource\Http\HttpDataSource.cs" />
@@ -126,12 +127,6 @@
     <Compile Include="DataSource\Http\XmlTextParser.cs" />
     <Compile Include="DataSource\IDataSource.cs" />
     <Compile Include="DataSource\IDataSourceDesigner.cs" />
-    <Compile Include="DataSource\ValueProvider\DictionaryValueProvider.cs" />
-    <Compile Include="DataSource\ValueProvider\IValueProvider.cs" />
-    <Compile Include="DataSource\ValueProvider\MVCValueProviderWrapper.cs" />
-    <Compile Include="DataSource\ValueProvider\NameValueCollectionValueProvider.cs" />
-    <Compile Include="DataSource\ValueProvider\SessionValueProvider.cs" />
-    <Compile Include="DataSource\ValueProvider\ValueProviderCollection.cs" />
     <Compile Include="Extension\ContactUsPlugin.cs" />
     <Compile Include="Extension\EmailPlugin.cs" />
     <Compile Include="Extension\IHttpMethodPagePlugin.cs" />
@@ -287,7 +282,6 @@
     <Compile Include="DataRule\DataRuleExecutor.cs" />
     <Compile Include="DataRule\DataRulePagedList.cs" />
     <Compile Include="DataRule\DataRuleType.cs" />
-    <Compile Include="DataRule\IValueProvider.cs" />
     <Compile Include="DataRule\ParameterizedFieldValue.cs" />
     <Compile Include="DataRule\DataRuleContext.cs" />
     <Compile Include="DataRule\FolderDataRule.cs" />

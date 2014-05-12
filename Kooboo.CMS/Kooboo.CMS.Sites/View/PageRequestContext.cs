@@ -357,14 +357,12 @@ namespace Kooboo.CMS.Sites.View
         #endregion
 
         #region GetValueProvider
-        public Kooboo.CMS.Sites.DataRule.ValueProviderCollection GetValueProvider()
+        public System.Web.Mvc.ValueProviderCollection GetValueProvider()
         {
-            return new Kooboo.CMS.Sites.DataRule.ValueProviderCollection(new List<Kooboo.CMS.Sites.DataRule.IValueProvider>()
-            {
-                new Kooboo.CMS.Sites.DataRule.FormValueProvider(this.ControllerContext),
-                new RouteValueProvider(this),
-                new Kooboo.CMS.Sites.DataRule.QueryStringValueProvider(this.ControllerContext),
-                new SessionValueProvider(this.ControllerContext)
+            return new System.Web.Mvc.ValueProviderCollection(new List<System.Web.Mvc.IValueProvider>()
+            {                 
+                new DictionaryValueProvider<object>(this.RouteValues,System.Globalization.CultureInfo.CurrentCulture),
+                this.ControllerContext.Controller.ValueProvider
             });
         }
         #endregion

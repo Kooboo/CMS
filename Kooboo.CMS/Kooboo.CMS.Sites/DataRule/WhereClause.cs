@@ -15,6 +15,7 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query.Expressions;
 using Kooboo.CMS.Common.Runtime;
 using Kooboo.CMS.Content.Models.Binder;
+using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.DataRule
 {

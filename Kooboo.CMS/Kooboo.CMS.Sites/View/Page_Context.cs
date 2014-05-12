@@ -10,6 +10,7 @@ using Kooboo.CMS.Common.Formula;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Common.Runtime.Dependency;
 using Kooboo.CMS.Sites.DataRule;
+using Kooboo.CMS.Sites.DataSource;
 using Kooboo.CMS.Sites.Extension;
 using Kooboo.CMS.Sites.Extension.ModuleArea;
 using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
@@ -397,14 +398,25 @@ namespace Kooboo.CMS.Sites.View
                 if (view != null)
                 {
                     var positionViewData = (ViewDataDictionary)GetPositionViewData(viewPosition.PagePositionId).Merge(pageViewData);
+
                     var viewDataContext = new PagePositionContext(view, viewPosition.ToParameterDictionary(), positionViewData);
+
+                    var valueProviders = PageRequestContext.GetValueProvider();
+                    valueProviders.Insert(0, new DictionaryValueProvider<object>(viewDataContext.Parameters, System.Globalization.CultureInfo.CurrentCulture));
+
+                    dataRuleContext = new DataRuleContext(site, page) { ValueProvider = valueProviders };
+
                     var dataRules = view.DataRules;
                     if (dataRules != null)
                     {
-                        var valueProvider = PageRequestContext.GetValueProvider();
-                        valueProvider.Insert(0, new ViewParameterValueProvider(viewDataContext.Parameters));
-                        dataRuleContext.ValueProvider = valueProvider;
                         DataRuleExecutor.Execute(positionViewData, dataRuleContext, dataRules);
+                    }
+
+                    if (view.DataSources != null)
+                    {
+                        var dataSources = view.DataSources.Select(it => new DataSourceSetting(site, it).LastVersion().AsActual()).Where(it => it != null);
+                        
+                        DataSourceExecutor.Execute(positionViewData, new DataSourceContext(site, page) { ValueProvider = valueProviders }, dataSources);
                     }
                     if (positionViewData.Model == null)
                     {

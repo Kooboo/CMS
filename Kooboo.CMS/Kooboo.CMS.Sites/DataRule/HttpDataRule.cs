@@ -22,7 +22,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.DataRule
 {
-    
+
     [DataContract(Name = "HttpDataRule")]
     [KnownTypeAttribute(typeof(HttpDataRule))]
     public class HttpDataRule : IDataRule
@@ -115,14 +115,20 @@ namespace Kooboo.CMS.Sites.DataRule
         #region EvaluateStringFormulas
         private class ValueProviderBridge : Kooboo.CMS.Common.Formula.IValueProvider
         {
-            Kooboo.CMS.Sites.DataRule.IValueProvider _valueProvider;
-            public ValueProviderBridge(Kooboo.CMS.Sites.DataRule.IValueProvider valueProvider)
+            System.Web.Mvc.IValueProvider _valueProvider;
+            public ValueProviderBridge(System.Web.Mvc.IValueProvider valueProvider)
             {
                 _valueProvider = valueProvider;
             }
             public object GetValue(string name)
             {
-                return _valueProvider.GetValue(name);
+                var result = _valueProvider.GetValue(name);
+
+                if (result != null)
+                {
+                    return result.AttemptedValue;
+                }
+                return null;
             }
         }
         private static string EvaluateStringFormulas(string formula, DataRuleContext dataRuleContext)

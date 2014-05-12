@@ -22,10 +22,10 @@ namespace Kooboo.CMS.Sites.DataRule
         public DataRuleContext(Site site, Page page)
         {
             this.Site = site;
-            this.Page = page;         
+            this.Page = page;
         }
         public Site Site { get; private set; }
         public Page Page { get; private set; }
-        public IValueProvider ValueProvider { get; set; }
+        public System.Web.Mvc.IValueProvider ValueProvider { get; set; }
     }
 }

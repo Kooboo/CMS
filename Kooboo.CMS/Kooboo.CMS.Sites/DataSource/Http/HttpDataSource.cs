@@ -101,14 +101,20 @@ namespace Kooboo.CMS.Sites.DataSource.Http
         #region EvaluateStringFormulas
         private class ValueProviderBridge : Kooboo.CMS.Common.Formula.IValueProvider
         {
-            Kooboo.CMS.Sites.DataSource.ValueProvider.IValueProvider _valueProvider;
-            public ValueProviderBridge(Kooboo.CMS.Sites.DataSource.ValueProvider.IValueProvider valueProvider)
+            System.Web.Mvc.IValueProvider _valueProvider;
+            public ValueProviderBridge(System.Web.Mvc.IValueProvider valueProvider)
             {
                 _valueProvider = valueProvider;
             }
             public object GetValue(string name)
             {
-                return _valueProvider.GetValue(name);
+                var result = _valueProvider.GetValue(name);
+
+                if (result != null)
+                {
+                    return result.AttemptedValue;
+                }
+                return null;
             }
         }
         private static string EvaluateStringFormulas(string formula, DataSourceContext dataSourceContext)

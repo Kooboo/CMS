@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.DataRule
 {
@@ -35,7 +36,7 @@ namespace Kooboo.CMS.Sites.DataRule
             {
                 fieldName = field.Substring(1, field.Length - 2);
                 var value = valueProvider.GetValue(fieldName);
-                return value == null ? null : value.ToString();
+                return value == null ? null : value.AttemptedValue;
             }
             return field;
         }

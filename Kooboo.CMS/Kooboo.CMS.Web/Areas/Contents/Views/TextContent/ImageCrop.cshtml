@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/Popup.cshtml";
     var sourceUrl = ViewData["SourceUrl"] as string;
-    var previewUrl = this.Url.Action("ResizeImage", "Resource", new { siteName = Site.Current.FullName, url = sourceUrl, area = "", width = 600, height = 400, preserverAspectRatio = true, quality = 80 });
+    var previewUrl = this.Url.Action("ResizeImage", "Resource", new { siteName = Site.Current.FullName, url = sourceUrl, area = "", width = 640, height = 400, preserverAspectRatio = true, quality = 80 });
     if (!string.IsNullOrEmpty(sourceUrl))
     {
         sourceUrl = Url.Content(sourceUrl);
@@ -53,8 +53,8 @@
             </ul>
         </div>
 
-        <div class="image-container">
-            <img style="display: none" alt="@("Crope".Localize())" id="crop-image" width="640" height="400" />
+        <div class="image-container" id="crop-box">
+            <img style="display: none;" alt="@("Crope".Localize())" id="crop-image"  />
         </div>
     </div>
 
@@ -75,7 +75,7 @@
         var jcropAPI;
         var percent = 1;
         var imgContainerWidth = 600;
-        var imgContainerHeight = 400;
+        var imgContainerHeight = 600;
         var sourceWidth, sourceHeight;
         var cropParam = $top.data('crop-param') || {};
         function setJscrop(option) {
@@ -117,15 +117,27 @@
         };
         function loadImage(preview, imageUrl) {
             $('<img/>').hide().appendTo('body').attr('src', imageUrl).load(function () {
+                console.log("load")
                 window.loading.hide();
+
                 $cropImage.attr('src', imageUrl).show();
+
                 var source = $(this);
                 setTimeout(function () {
+                    
+                    if (jcropAPI != null) {
+                        jcropAPI.destroy();
+                        
+                        //$('#crop-box').append("<img id='crop-image'/>")
+                        $cropImage.attr('style','').show()
+                        //jcropAPI.release()
+                    }
+
                     sourceHeight = source.height(),
                     sourceWidth = source.width(),
                     cropParam.Model = cropParam.Url = imageUrl,
-                    croperWidth = imgContainerWidth; //$cropImage.width(),
-                    croperHeight = imgContainerHeight;//$cropImage.height(),
+                    croperWidth = $cropImage.width(), //imgContainerWidth
+                    croperHeight = $cropImage.height(), //imgContainerHeight
                     sXY = sourceWidth / sourceHeight,
                     crXY = croperWidth / croperHeight,
                     ctXY = imgContainerWidth / imgContainerHeight;
@@ -140,10 +152,6 @@
                         }
                     }
 
-                    if (jcropAPI != null) {
-                        jcropAPI.destroy();
-                    }
-
                     var cropSetting = {};
                     cropSetting['onChange'] = cropChange;
                     cropSetting['onSelect'] = cropChange;
@@ -154,12 +162,15 @@
                         cropSetting.minSize[1] = cropSetting.minSize[1] * percent;
                     }
 
-                    jcropAPI = $.Jcrop($cropImage, cropSetting);
+                    
+                    $cropImage.Jcrop(cropSetting, function () { jcropAPI = this; });
+                    
                     setJcropRatio();
                     var select = getSelect(percent, croperWidth, croperHeight);
                     if (select) {
-                        jcropAPI.setSelect(select);
+                        jcropAPI.setSelect([0, 0, $cropImage.width(), $cropImage.height()]);
                     }
+                    jcropAPI.release()
                 }, 200);
             });
         };
@@ -178,6 +189,7 @@
                         }
 
                     }
+
                     loadImage(responseData.Model.PreviewUrl, responseData.Model.ImageUrl);
                 }
             });
@@ -185,7 +197,10 @@
 
         var getSelect = function (percent, width, height) {
             if (cropParam.X) {
-                return [cropParam.X * percent, cropParam.Y * percent, cropParam.X * percent + cropParam.Width * percent, cropParam.Y * percent + cropParam.Height * percent];
+                return [cropParam.X * percent,
+                    cropParam.Y * percent,
+                    cropParam.X * percent + cropParam.Width * percent,
+                    cropParam.Y * percent + cropParam.Height * percent];
             }
             else {
                 return [width * 0.25, height * 0.25, width * 0.75, height * 0.75];

@@ -53,7 +53,7 @@ namespace Kooboo.CMS.Sites.Models
             }
             else
             {
-                cachePolicy.SlidingExpiration = Duration == 0 ? TimeSpan.MaxValue : TimeSpan.FromSeconds(Duration);
+                cachePolicy.SlidingExpiration = Duration == 0 ? TimeSpan.FromDays(1) : TimeSpan.FromSeconds(Duration);
             }
             return cachePolicy;
         }

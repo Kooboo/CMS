@@ -1,10 +1,13 @@
-﻿using Kooboo.CMS.Sites.DataSource;
+﻿using Kooboo.Web;
+using Kooboo.CMS.Sites.DataSource;
 using Kooboo.CMS.Sites.Services;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
@@ -21,12 +24,16 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             this._designers = designers;
         }
         #endregion
+
+        #region OnActionExecutiong
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             ViewBag.Designers = this._designers;
             base.OnActionExecuting(filterContext);
         }
+        #endregion
 
+        #region Create
         public override System.Web.Mvc.ActionResult Create(DataSourceSetting model)
         {
             var designer = HttpContext.Request.QueryString["Designer"];
@@ -47,7 +54,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             model.LastestEditor = User.Identity.Name;
             return base.Create(model, @return);
         }
+        #endregion
 
+        #region Edit
         public override ActionResult Edit(string uuid)
         {
             var o = Get(uuid);
@@ -66,6 +75,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             newModel.LastestEditor = User.Identity.Name;
             return base.Edit(newModel, uuid, @return);
         }
+        #endregion
+
+        #region IsDataNameAvailable
         public virtual ActionResult IsDataNameAvailable(string dataName, string old_Key)
         {
             if (old_Key == null || !dataName.EqualsOrNullEmpty(old_Key, StringComparison.CurrentCultureIgnoreCase))
@@ -77,5 +89,55 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
             return Json(true, JsonRequestBehavior.AllowGet);
         }
+        #endregion
+
+        #region import/export
+        public void Export(DataSourceSetting[] model)
+        {
+            var fileName = GetZipFileName();
+            Response.AttachmentHeader(fileName);
+            if (model != null)
+            {
+                foreach (var item in model)
+                {
+                    item.Site = Site;
+                }
+            }
+            Manager.Provider.Export(Site, model, Response.OutputStream);
+        }
+
+        protected string GetZipFileName()
+        {
+            return "DataSources.zip";
+        }
+
+        public virtual ActionResult Import()
+        {
+            return View();
+        }
+        [HttpPost]
+        public virtual ActionResult Import(bool @override, string @return)
+        {
+            var data = new JsonResultData(ModelState);
+            data.RunWithTry((resultData) =>
+            {
+                if (Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
+                {
+                    Manager.Provider.Import(Site, Request.Files[0].InputStream, @override);
+                }
+                data.RedirectUrl = @return;
+            });
+            return Json(data, "text/plain", System.Text.Encoding.UTF8);
+        }
+
+        #endregion
+
+        #region Relations
+        public virtual ActionResult Relations(string uuid)
+        {
+            var model = Manager.Relations(new DataSourceSetting(Site, uuid));
+            return View("Relations", model);
+        }
+        #endregion
     }
 }

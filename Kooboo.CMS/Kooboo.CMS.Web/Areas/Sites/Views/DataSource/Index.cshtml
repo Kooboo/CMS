@@ -20,12 +20,12 @@
             </a>
         </li>
         <li>
-            <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-command-type="Download">
+            <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-command-type="Download" data-show-on-check="Any" data-show-on-selector=".localized">
                 @Html.IconImage("export") @("Export".Localize())
             </a>
         </li>
         <li>
-            <a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
+            <a href="@Url.Action("Delete", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-show-on-selector=".localized" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">
                 @Html.IconImage("delete") @("Delete".Localize())
             </a>
         </li>

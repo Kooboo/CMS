@@ -124,14 +124,25 @@ namespace Kooboo.CMS.Sites.DataRule
                 {
                     intPageIndexValue = 1;
                 }
-
-                string pageSizeParameterName;
-                var pageSizeValue = ParameterizedFieldValue.GetFieldValue(this.PageSize, dataRuleContext.ValueProvider, out pageSizeParameterName);
+                               
                 var intPageSize = 10;
-                int.TryParse(pageSizeValue, out intPageSize);
-                if (intPageSize < 1)
+                if (string.IsNullOrEmpty(this.Top))
                 {
-                    intPageSize = 10;
+                    string pageSizeParameterName;
+                    var pageSizeValue = ParameterizedFieldValue.GetFieldValue(this.PageSize, dataRuleContext.ValueProvider, out pageSizeParameterName);
+
+                    int.TryParse(pageSizeValue, out intPageSize);
+                    if (intPageSize < 1)
+                    {
+                        intPageSize = 10;
+                    }
+                }
+                else
+                {
+                    string fieldName;
+                    var topValue = ParameterizedFieldValue.GetFieldValue(this.Top, dataRuleContext.ValueProvider,
+                        out fieldName);
+                    int.TryParse(topValue, out intPageSize);
                 }
 
                 var totalCount = contentQuery.Count();

@@ -392,7 +392,7 @@
             // cancel events
             ctx.eventPropagation.release(this.el);
             // remove editor
-            currentEditor.setEnable(true);
+            currentEditor.setEnable(false);
             if (revert !== false) { currentEditor.setHtml(originalContent, { processScript: false }); }
             currentEditor.remove();
             currentEditor = null;

@@ -17,6 +17,6 @@ namespace Kooboo.CMS.Sites.DataSource
     {
         object Execute(DataSourceContext dataSourceContext);
 
-        bool HasAnyParameters();
+        IEnumerable<string> GetParameters();
     }
 }

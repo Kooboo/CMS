@@ -2581,6 +2581,9 @@
     <Content Include="Areas\Sites\Views\DataSource\Http\_Http.cshtml" />
     <Content Include="Areas\Sites\Views\DataSource\Http\_Scripts.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\DataSource\Embedded.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

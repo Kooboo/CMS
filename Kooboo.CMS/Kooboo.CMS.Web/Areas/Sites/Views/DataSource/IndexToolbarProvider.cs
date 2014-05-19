@@ -48,10 +48,19 @@ namespace Kooboo.CMS.Web.Areas.Sites.Views.DataSource
             buttons.Add(new ToolbarButton()
             {
                 GroupName = "More",
+                CommandTarget = new MvcRoute() { Action = "Embedded", Controller = "DataSource", RouteValues = new Dictionary<string, object>() { } },
+                CommandText = "Embedded relation",
+                HtmlAttributes = new Dictionary<string, object>() { { "data-show-on-check", "Single" }, { "data-show-on-selector", ".localized" }, { "data-command-type", "Redirect" } }
+            });
+
+            buttons.Add(new ToolbarButton()
+            {
+                GroupName = "More",
                 CommandTarget = new MvcRoute() { Action = "Relations", Controller = "DataSource", RouteValues = new Dictionary<string, object>() { { "title", "Show data source relations".Localize() } } },
                 CommandText = "Relations",
                 HtmlAttributes = new Dictionary<string, object>() { { "data-show-on-check", "Single" }, { "data-show-on-selector", ".localized" }, { "data-command-type", "Redirect" } }
             });
+
 
             return buttons;
         }

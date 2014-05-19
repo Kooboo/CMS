@@ -139,5 +139,15 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return View("Relations", model);
         }
         #endregion
+
+        #region Embedded
+        public ActionResult Embedded(string uuid)
+        {
+            ViewBag.AllDataSourceSettings = Manager.All(Site, null);
+            var dataSourceSetting = Manager.Get(Site, uuid);
+            return View(dataSourceSetting);
+        }
+        #endregion
+
     }
 }

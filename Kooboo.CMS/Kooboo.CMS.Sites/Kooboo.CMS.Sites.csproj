@@ -116,6 +116,7 @@
     <Compile Include="DataSource\ContentDataSource\WhereClauseToContentQueryHelper.cs" />
     <Compile Include="DataSource\DataSourceContext.cs" />
     <Compile Include="DataSource\DataSourceExecutor.cs" />
+    <Compile Include="DataSource\DataSourceRelation.cs" />
     <Compile Include="DataSource\DataSourceSetting.cs" />
     <Compile Include="DataSource\Http\HttpDataRequest.cs" />
     <Compile Include="DataSource\Http\HttpDataSource.cs" />
@@ -127,6 +128,9 @@
     <Compile Include="DataSource\Http\XmlTextParser.cs" />
     <Compile Include="DataSource\IDataSource.cs" />
     <Compile Include="DataSource\IDataSourceDesigner.cs" />
+    <Compile Include="DataSource\Misc\DynamicObjectValueProvider.cs" />
+    <Compile Include="DataSource\Misc\GetMemberBinderWrapper.cs" />
+    <Compile Include="DataSource\Misc\SetMemberBinderWrapper.cs" />
     <Compile Include="Extension\ContactUsPlugin.cs" />
     <Compile Include="Extension\EmailPlugin.cs" />
     <Compile Include="Extension\IHttpMethodPagePlugin.cs" />
@@ -627,6 +631,7 @@
       <Name>Kooboo</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -6,8 +6,10 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.Collections;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,7 @@ using System.Runtime.Serialization;
 using System.Text;
 
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Common.Formula;
 
 namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
 {
@@ -210,8 +213,12 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
             return folder.AsActual() != null;
         }
 
-        public virtual bool HasAnyParameters()
+        public virtual IEnumerable<string> GetParameters()
         {
+            FormulaParser parser = new FormulaParser();
+
+            List<string> parameters = new List<string>();
+
             //if (ParameterizedFieldValue.IsParameterizedField(PageIndex))
             //{
             //    return true;
@@ -220,21 +227,30 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
             //{
             //    return true;
             //}
-            if (ParameterizedFieldValue.IsParameterizedField(Top))
+            if (!string.IsNullOrEmpty(this.Top))
             {
-                return true;
+                var topParameters = parser.GetParameters(this.Top);
+                parameters.AddRange(topParameters, StringComparer.OrdinalIgnoreCase);
             }
+
+
             if (WhereClauses != null)
             {
                 foreach (var item in WhereClauses)
                 {
-                    if (ParameterizedFieldValue.IsParameterizedField(item.Value1) || ParameterizedFieldValue.IsParameterizedField(item.Value2))
+                    if (!string.IsNullOrEmpty(item.Value1))
                     {
-                        return true;
+                        var value1Parameters = parser.GetParameters(item.Value1);
+                        parameters.AddRange(value1Parameters, StringComparer.OrdinalIgnoreCase);
+                    }
+                    if (!string.IsNullOrEmpty(item.Value2))
+                    {
+                        var value2Paramters = parser.GetParameters(item.Value2);
+                        parameters.AddRange(value2Paramters, StringComparer.OrdinalIgnoreCase);
                     }
                 }
             }
-            return false;
+            return parameters;
         }
         #endregion
     }

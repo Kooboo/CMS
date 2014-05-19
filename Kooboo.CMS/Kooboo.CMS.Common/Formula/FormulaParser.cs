@@ -45,5 +45,26 @@ namespace Kooboo.CMS.Common.Formula
             }
             return s;
         }
+
+
+        public IEnumerable<string> GetParameters(string formula)
+        {
+            List<string> parameters = new List<string>();
+            if (!string.IsNullOrEmpty(formula))
+            {
+                var matches = Regex.Matches(formula, "{(?<Name>[^{^}]+)}");
+
+                foreach (Match match in matches)
+                {
+                    var parameter = match.Groups["Name"].Value;
+                    if (!parameters.Contains(parameter, StringComparer.OrdinalIgnoreCase))
+                    {
+                        parameters.Add(parameter);
+                    }
+
+                }
+            }
+            return parameters;
+        }
     }
 }

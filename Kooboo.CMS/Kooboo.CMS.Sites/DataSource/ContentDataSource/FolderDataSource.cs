@@ -6,16 +6,19 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.Collections;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
 using Kooboo.Globalization;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Common.Formula;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+
 
 
 namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
@@ -86,7 +89,7 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
             //    //        new Content.Query.Expressions.WhereEqualsExpression(null, "Published", null)));
             //}
             //else
-                contentQuery = contentQuery.WhereEquals("Published", true); //default query published=true.
+            contentQuery = contentQuery.WhereEquals("Published", true); //default query published=true.
             return contentQuery;
         }
 
@@ -95,23 +98,29 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
             return FolderHelper.Parse<TextFolder>(repository, FolderName).GetSchema();
         }
 
-        public override bool HasAnyParameters()
+        public override IEnumerable<string> GetParameters()
         {
-            if (base.HasAnyParameters())
-                return true;
+            FormulaParser parser = new FormulaParser();
+            var parameters = base.GetParameters().ToList();
             if (CategoryClauses != null)
             {
                 foreach (var item in CategoryClauses)
                 {
-                    if (ParameterizedFieldValue.IsParameterizedField(item.Value1) || ParameterizedFieldValue.IsParameterizedField(item.Value2))
+                    if (!string.IsNullOrEmpty(item.Value1))
                     {
-                        return true;
+                        var value1Parameters = parser.GetParameters(item.Value1);
+                        parameters.AddRange(value1Parameters, StringComparer.OrdinalIgnoreCase);
+                    }
+                    if (!string.IsNullOrEmpty(item.Value2))
+                    {
+                        var value2Paramters = parser.GetParameters(item.Value2);
+                        parameters.AddRange(value2Paramters, StringComparer.OrdinalIgnoreCase);
                     }
                 }
             }
-            return false;
-        }
 
+            return parameters;
+        }
 
         public override bool IsValid(Kooboo.CMS.Content.Models.Repository repository)
         {

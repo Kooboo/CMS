@@ -36,7 +36,7 @@ namespace Kooboo.CMS.Sites.DataSource.Http
         {
             get
             {
-                return Kooboo.Web.Url.UrlUtility.Combine("~","Areas", "Sites", "Views", "DataSource", "Designer", "_Http.cshtml");
+                return Kooboo.Web.Url.UrlUtility.Combine("~","Areas", "Sites", "Views", "DataSource", "Http", "_Http.cshtml");
             }
         }
     }

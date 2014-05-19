@@ -12,10 +12,5 @@ using System.Reflection;
 [assembly: AssemblyCopyright("Copyright © Yari 2009-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-<<<<<<< HEAD
 [assembly: AssemblyVersion("4.4.0.0403")]
 [assembly: AssemblyFileVersion("4.4.0.0403")]
-=======
-[assembly: AssemblyVersion("4.4.0.0425")]
-[assembly: AssemblyFileVersion("4.4.0.0425")]
->>>>>>> master

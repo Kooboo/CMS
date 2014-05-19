@@ -17,5 +17,7 @@ namespace Kooboo.CMS.Common.Formula
     public interface IFormulaParser
     {
         string Populate(string formula, IValueProvider valueProvider);
+
+        IEnumerable<string> GetParameters(string formula);
     }
 }

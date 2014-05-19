@@ -136,7 +136,10 @@
     <Compile Include="CultureInfoHelper.cs" />
     <Compile Include="Diagnostics\LoopWatch.cs" />
     <Compile Include="Drawing\WebPageCapture_DefaultProvider.cs" />
+    <Compile Include="Dynamic\ExpandoObjectWrapper.cs" />
+    <Compile Include="Dynamic\ReflectionDynamicObject.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Collections\ListExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="FileExtensions.cs" />
     <Compile Include="Globalization\CurrencyInfo.cs" />

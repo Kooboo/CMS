@@ -36,7 +36,6 @@ namespace Kooboo.CMS.Sites.Services
         }
         #endregion
 
-
         #region All
         public override IEnumerable<ABPageSetting> All(Site site, string filterName)
         {

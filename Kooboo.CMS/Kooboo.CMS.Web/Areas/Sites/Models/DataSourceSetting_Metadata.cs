@@ -13,7 +13,8 @@ using System.Web;
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
     [MetadataFor(typeof(DataSourceSetting))]
-    [Grid(Checkable = true, IdProperty = "UUID", EmptyText = "No datasources")]
+    [Grid(Checkable = true, IdProperty = "UUID", GridItemType = typeof(InheritablGridItem), EmptyText = "No datasources")]
+    [GridColumn(GridItemColumnType = typeof(Inheritable_Status_GridItemColumn), HeaderText = "Inheritance", Order = 2)]
     public class DataSourceSetting_Metadata
     {
         [Required(ErrorMessage = "Required")]

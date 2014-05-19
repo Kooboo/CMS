@@ -6,8 +6,10 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.Collections;
 using Kooboo.CMS.Common.Formula;
 using Kooboo.Collections.Generic;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -60,11 +62,6 @@ namespace Kooboo.CMS.Sites.DataSource.Http
         public ResponseDataType ResponseDataType { get; set; }
         [DataMember]
         public string ContentType { get; set; }
-
-        public bool HasAnyParameters()
-        {
-            return false;
-        }
 
         #region Execute
         public object Execute(DataSourceContext dataSourceContext)
@@ -121,6 +118,41 @@ namespace Kooboo.CMS.Sites.DataSource.Http
         {
             var formulaParser = new FormulaParser();
             return formulaParser.Populate(formula, new ValueProviderBridge(dataSourceContext.ValueProvider));
+        }
+        #endregion
+
+
+        #region GetParameters
+        public IEnumerable<string> GetParameters()
+        {
+            FormulaParser parser = new FormulaParser();
+
+            List<string> parameters = new List<string>();
+
+            if (!string.IsNullOrEmpty(URL))
+            {
+                var urlParameters = parser.GetParameters(URL);
+                parameters.AddRange(urlParameters, StringComparer.OrdinalIgnoreCase);
+            }
+            ParseKeyValueList(FormData, ref parameters);
+            ParseKeyValueList(Headers, ref parameters);
+
+            return parameters;
+        }
+        private void ParseKeyValueList(IEnumerable<CKeyValuePair<string, string>> keyValues, ref List<string> parameters)
+        {
+            FormulaParser parser = new FormulaParser();
+            if (keyValues != null)
+            {
+                foreach (var item in keyValues)
+                {
+                    if (!string.IsNullOrEmpty(item.Key))
+                    {
+                        var valueParameters = parser.GetParameters(item.Value);
+                        parameters.AddRange(valueParameters, StringComparer.OrdinalIgnoreCase);
+                    }
+                }
+            }
         }
         #endregion
     }

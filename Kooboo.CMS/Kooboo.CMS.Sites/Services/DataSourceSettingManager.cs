@@ -55,7 +55,7 @@ namespace Kooboo.CMS.Sites.Services
         #region Relation
         public override IEnumerable<RelationModel> Relations(DataSourceSetting dataSourceSetting)
         {
-            return _viewProvider.All().Select(it => it.AsActual()).Where(it => it.DataSources != null && it.DataSources.Contains(dataSourceSetting.DataName, StringComparer.OrdinalIgnoreCase)).Select(it => new RelationModel()
+            return _viewProvider.All(dataSourceSetting.Site).Select(it => it.AsActual()).Where(it => it.DataSources != null && it.DataSources.Contains(dataSourceSetting.DataName, StringComparer.OrdinalIgnoreCase)).Select(it => new RelationModel()
             {
                 DisplayName = it.Name,
                 ObjectUUID = it.Name,

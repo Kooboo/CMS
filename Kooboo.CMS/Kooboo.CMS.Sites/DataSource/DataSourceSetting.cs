@@ -31,6 +31,9 @@ namespace Kooboo.CMS.Sites.DataSource
 
         [DataMember]
         public string LastestEditor { get; set; }
+
+        [DataMember]
+        public List<DataSourceRelation> Relations { get; set; }
     }
 
     public partial class DataSourceSetting : ISiteObject, IPersistable, IIdentifiable, IInheritable<DataSourceSetting>

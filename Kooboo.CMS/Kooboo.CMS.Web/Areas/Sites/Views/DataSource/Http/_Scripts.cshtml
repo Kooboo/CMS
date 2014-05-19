@@ -1,0 +1,48 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+@using Newtonsoft.Json;
+@using Kooboo.CMS.Sites.DataSource;
+@using Kooboo.CMS.Sites.DataSource.ContentDataSource;
+@using Kooboo.CMS.Sites.DataSource.Http;
+
+@{
+    var model = Model;
+    if (model == null || model.DataSource == null)
+    {
+        model = new DataSourceSetting(){DataSource=new HttpDataSource()};
+    }
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        function AppViewModel() {
+            var self = this;
+
+            self.DataSourceSetting = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(model, Formatting.None, new JsonSerializerSettings() { TypeNameHandling=TypeNameHandling.Objects})));
+
+            self.addFormData = function () {
+                self.addItemToDictionary(self.DataSourceSetting.DataSource.FormData);
+            };
+            self.removeFormData = function () {
+                self.DataSourceSetting.DataSource.FormData.remove(this);
+            };
+            self.addItemToDictionary = function (dictionary) {
+                dictionary.push({ Key: '', Value: '' });
+            }
+
+            self.addHttpHeader = function () {
+                self.addItemToDictionary(self.DataSourceSetting.DataSource.Headers);
+            };
+            self.removeHttpHeader = function () {
+                self.DataSourceSetting.DataSource.Headers.remove(this);
+            };
+
+            self.getPrefixFieldName = function (name, index) {
+                return name + '[' + (index) + '].';
+            };
+
+        }
+        var model = new AppViewModel()
+        ko.applyBindings(model, $('#http').get()[0]);
+    });
+</script>

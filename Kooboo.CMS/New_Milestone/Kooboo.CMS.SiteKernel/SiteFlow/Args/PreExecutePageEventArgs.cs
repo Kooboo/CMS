@@ -24,5 +24,7 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
         }
 
         public Page_Context Page_Context { get; private set; }
+
+        //public ActionResult ActionResult { get; set; }
     }
 }

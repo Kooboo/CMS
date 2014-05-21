@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.SiteKernel.SiteFlow.Args
 {
-    public class PostCreatePageContextEventArgs
+    public class PostCreatePageContextEventArgs : EventArgs
     {
         public PostCreatePageContextEventArgs(Page_Context page_context)
         {

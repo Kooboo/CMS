@@ -31,7 +31,7 @@ namespace Kooboo.CMS.Sites.View
     {
         public InvalidPageRouteException(Page page)
             : base(
-            string.Format("Plese set the default route values for the page \"{0}\".".Localize(), page))
+            string.Format("Invalid page URL route, This exception may be thrown if the URL path needs some route values but can not get from the URL generation helper. If you make sure the route value is optional, please set the default values in the URL Route tab. \"{0}\".".Localize(), page))
         {
             this.Page = page;
         }

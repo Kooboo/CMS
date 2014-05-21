@@ -35,7 +35,7 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
                 var page = Page_Context.Current.PageRequestContext.Page.AsActual();
 
                 var outputTextWriterWrapper = filterContext.HttpContext.Response.Output as OutputTextWriterWrapper;
-                if (outputTextWriterWrapper != null
+                if (Page_Context.Current.InlineEditing == false && outputTextWriterWrapper != null
                     && !(filterContext.Result is CachedContentResult)
                     && filterContext.Exception == null
                     && filterContext.HttpContext.Response.ContentType.ToLower().Contains("text/html"))

@@ -157,7 +157,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             {
                 var manager = ServiceFactory.GetService<HtmlBlockManager>();
                 var old = manager.Get(this.Site, blockName);
-                var @new = new HtmlBlock(this.Site, blockName) { Body = value };
+                var @new = new HtmlBlock(this.Site, blockName) { Body = value, UserName = User.Identity.Name };
                 manager.Update(this.Site, @new, old);
             });
             return Json(data);

@@ -31,8 +31,11 @@ namespace Kooboo.Web.Mvc.Menu
         public bool Visible { get; set; }
         public string Area { get; set; }
 
+
         private bool localizable = true;
         public virtual bool Localizable { get { return localizable; } set { localizable = value; } }
+        
+        public string Tips { get; set; }
 
         public RouteValueDictionary RouteValues { get; set; }
         public RouteValueDictionary HtmlAttributes { get; set; }

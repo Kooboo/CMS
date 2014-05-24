@@ -172,5 +172,45 @@
                 });
             </script>
         </div>
+        
+        if (folder.Categories != null)
+        {
+            var categoryFolderName = folder.Categories.FirstOrDefault().FolderName;
+            var categoryFolder = ContentHelper.TextFolder(categoryFolderName);
+            var categorySchema = categoryFolder.GetSchema();
+            string categoryTextColumnName = categorySchema.AsActual().Columns.OrderBy(m => m.Order).FirstOrDefault(m => m.ShowInGrid).Name;
+
+            var categoriesSelectListItems = new List<System.Web.Mvc.SelectListItem> { 
+                new System.Web.Mvc.SelectListItem { Text = "All Categories".Localize(),Value = ""}
+            }.Union(categoryFolder.CreateQuery().Select(m => new System.Web.Mvc.SelectListItem { Text = (string)m[categoryTextColumnName], Value = m.UUID }));
+            
+
+        <div class="searchbox  common-form" style="margin-left: 1em; margin-right: 1em;">
+            <form action="@Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("page", "1"))"
+                  class="no-stop" method="get">
+                <input type="hidden" name="SiteName" value="@Request["SiteName"]" />
+                <input type="hidden" name="RepositoryName" value="@Request["RepositoryName"]" />
+                <input type="hidden" name="FolderName" value="@Request["FolderName"]" />
+                <input type="hidden" name="Folder" value="@Request["Folder"]" />
+                <input type="hidden" name="ParentFolder" value="@Request["ParentFolder"]" />
+                <input type="hidden" name="ParentUUID" value="@Request["ParentUUID"]" />
+
+
+                @Html.DropDownList("Category", categoriesSelectListItems,
+                                        new RouteValueDictionary() { { "class", "medium j_FieldNameInput" } }
+                                        .Merge("data-bind", "value:FieldName, attr: {id:'FieldName' +$index(),  name: $parent.getPrefixFieldName($index()) + 'FieldName'}"))
+
+                <script type="text/javascript">
+                    $(function(){
+                        $('#Category').change(function(){
+                            $(this).parent('form').submit();
+                        });
+                    });
+                </script>
+
+
+            </form>
+        </div>
+        }
     } @*end if*@
 </div>

@@ -78,7 +78,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
         [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
         public virtual ActionResult Index(string folderName, string parentUUID, string parentFolder, string search
-            , IEnumerable<WhereClause> whereClause, int? page, int? pageSize, string sortField = null, string sortDir = null)
+            , IEnumerable<WhereClause> whereClause, int? page, int? pageSize, string sortField = null, string sortDir = null, string category = null)
         {
             //compatible with the Folder parameter changed to FolderName.
             folderName = folderName ?? this.ControllerContext.RequestContext.GetRequestValue("Folder");
@@ -92,6 +92,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             ViewData["Menu"] = textFolder.GetFormTemplate(FormType.Grid_Menu);
             ViewData["Template"] = textFolder.GetFormTemplate(FormType.Grid);
             ViewData["WhereClause"] = whereClause;
+            ViewData["Category"] = category;
 
             SetPermissionData(textFolder);
 
@@ -151,6 +152,14 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                     .Where(it => it.Visible)
                     .Where(it => Kooboo.CMS.Content.Services.ServiceFactory.WorkflowManager.AvailableViewContent(it, User.Identity.Name));
             }
+
+            // Category filter
+            if (!string.IsNullOrEmpty(category) && textFolder.Categories != null)
+            {
+                var categories = Kooboo.CMS.Sites.View.ContentHelper.TextFolder(textFolder.Categories.FirstOrDefault().FolderName).CreateQuery().WhereEquals("UUID", category);
+                query = query.WhereCategory(categories);
+            }
+
             page = page ?? 1;
             pageSize = pageSize ?? textFolder.PageSize;
 

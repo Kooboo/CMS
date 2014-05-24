@@ -153,11 +153,18 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                     .Where(it => Kooboo.CMS.Content.Services.ServiceFactory.WorkflowManager.AvailableViewContent(it, User.Identity.Name));
             }
 
-            // Category filter
+            // Category filter, only ONE category currently
             if (!string.IsNullOrEmpty(category) && textFolder.Categories != null)
             {
-                var categories = Kooboo.CMS.Sites.View.ContentHelper.TextFolder(textFolder.Categories.FirstOrDefault().FolderName).CreateQuery().WhereEquals("UUID", category);
-                query = query.WhereCategory(categories);
+                foreach (var item in textFolder.Categories)
+                {
+                    var categories = Kooboo.CMS.Sites.View.ContentHelper.TextFolder(item.FolderName).CreateQuery().WhereEquals("UUID", category);
+                    if (categories.Count() > 0)
+                    {
+                        query = query.WhereCategory(categories);
+                        break;
+                    }
+                }
             }
 
             page = page ?? 1;

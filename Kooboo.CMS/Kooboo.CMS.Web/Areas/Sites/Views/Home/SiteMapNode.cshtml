@@ -18,7 +18,7 @@
 
     <div class="map-item @( isLocal ? "" : "inherited") @(isStaticPage ? "static" : "dynamic") @(!Model.Page.Published == true ? "unpublished" : "") @(Model.Page.Navigation.Show ? "show-in-menu" : "") @(isABTestPage == true ? "ab-testing" : "")">
         <span class="status">@Html.IconImage("status")</span>
-        <span class="text trigger" title="@((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)">
+        <span class="text trigger" title="@(Model.Page.Name)">
             <span>@((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)</span>
             @Html.IconImage("arrow white-right")
         </span>

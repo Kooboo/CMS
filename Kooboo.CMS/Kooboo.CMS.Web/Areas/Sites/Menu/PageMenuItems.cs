@@ -31,6 +31,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Menu
             {
                 base.Text = page.Navigation.DisplayText;
             }
+            base.Tips = page.Name;
 
             base.Visible = true;
             RouteValues = new System.Web.Routing.RouteValueDictionary();

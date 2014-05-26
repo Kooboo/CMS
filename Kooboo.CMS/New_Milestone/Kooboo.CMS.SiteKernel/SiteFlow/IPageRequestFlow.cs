@@ -32,7 +32,7 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
         Page MapPage(ControllerContext controllerContext, Site site);
 
         /// <summary>
-        /// Creates the page context.
+        /// 创建Page_Context
         /// </summary>
         /// <param name="controllerContext">The controller context.</param>
         /// <param name="site">The site.</param>
@@ -43,11 +43,17 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
         /// <summary>
         /// 执行页面逻辑
         /// </summary>
-        ActionResult ExecutePage(Page_Context page_Context);
+        ActionResult ExecutePage(Page_Context page_context);
         /// <summary>
         /// 渲染输出页面
         /// </summary>
-        void RenderPage(Page_Context page_Context, ActionResult actionResult);
+        void RenderPage(Page_Context page_context, ActionResult actionResult);
+
+        /// <summary>
+        /// 结束页面请求
+        /// </summary>
+        /// <param name="page_Context"></param>
+        void EndPageRequest(Page_Context page_context);
 
         //void ExecutePlugins();
         //void ExecuteDataRules();

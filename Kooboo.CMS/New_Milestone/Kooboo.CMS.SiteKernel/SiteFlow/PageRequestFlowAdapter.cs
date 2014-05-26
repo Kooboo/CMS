@@ -71,6 +71,13 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
         }
 
 
+        /// <summary>
+        /// 创建Page_Context
+        /// </summary>
+        /// <param name="controllerContext"></param>
+        /// <param name="site"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         public Page_Context CreatePageContext(ControllerContext controllerContext, Site site, Page page)
         {
             Contract.Requires(controllerContext != null);
@@ -92,6 +99,11 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
             return page_context;
         }
 
+        /// <summary>
+        /// 执行页面逻辑
+        /// </summary>
+        /// <param name="page_context"></param>
+        /// <returns></returns>
         public ActionResult ExecutePage(Page_Context page_context)
         {
             Contract.Requires(page_context != null);
@@ -112,6 +124,11 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
             return actionResult;
         }
 
+        /// <summary>
+        /// 渲染输出页面
+        /// </summary>
+        /// <param name="page_context"></param>
+        /// <param name="actionResult"></param>
         public void RenderPage(Page_Context page_context, ActionResult actionResult)
         {
             Contract.Requires(page_context != null);
@@ -129,6 +146,22 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
                 item.PostRenderPage(this, args);
 
             }
+        }
+
+        /// <summary>
+        /// 结束页面请求
+        /// </summary>
+        /// <param name="page_Context"></param>
+        public void EndPageRequest(Page_Context page_context)
+        {
+            Contract.Requires(page_context != null);
+            foreach (var item in _events)
+            {
+                item.EndPageRequest(this, new EndPageRequestEvengArgs(page_context));
+            }
+
+            _pageRequestFlow.EndPageRequest(page_context);
+            
         }
 
         /// <summary>

@@ -31,10 +31,13 @@
             <span class="arrow">@Html.IconImage("arrow")</span>
         }
         @if (!string.IsNullOrEmpty(menuItem.Action) || !string.IsNullOrEmpty(menuItem.Controller))
-        {
+        {            
             var text = menuItem.Localizable ? menuItem.Text.Localize() : menuItem.Text;
+
+            var tips = string.IsNullOrEmpty(menuItem.Tips) ? text : menuItem.Localizable ? menuItem.Tips.Localize() : menuItem.Tips;
+            
             var htmlAttributes = menuItem.HtmlAttributes ?? new RouteValueDictionary();
-            htmlAttributes["title"] = text;
+            htmlAttributes["title"] = tips;
             @Html.ActionLink(text, menuItem.Action, menuItem.Controller, menuItem.RouteValues, htmlAttributes)
         }
         else

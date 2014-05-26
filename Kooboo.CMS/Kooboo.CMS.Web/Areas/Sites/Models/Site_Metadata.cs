@@ -39,6 +39,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [Description("The name of your website.")]
         public string Name { get; set; }
 
+        [DisplayName("Display name")]
         [Description("The name of your website how it would be displayed on this CMS")]
         public string DisplayName { get; set; }
 

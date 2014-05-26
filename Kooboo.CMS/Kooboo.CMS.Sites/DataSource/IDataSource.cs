@@ -18,5 +18,7 @@ namespace Kooboo.CMS.Sites.DataSource
         object Execute(DataSourceContext dataSourceContext);
 
         IEnumerable<string> GetParameters();
+
+        IDictionary<string, object> GetDefinitions(DataSourceContext dataSourceContext);
     }
 }

@@ -1,0 +1,86 @@
+﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
+@using Newtonsoft.Json;
+@using Kooboo.CMS.Sites.DataSource;
+@using Kooboo.CMS.Sites.DataSource.ContentDataSource;
+@using Kooboo.CMS.Sites.DataSource.Http;
+
+@{
+    var dataSources = ((IEnumerable<DataSourceSetting>)ViewBag.AllDataSourceSettings).Select(it => it.DataName).ToArray();
+
+    var site = ViewContext.RequestContext.GetRequestValue("siteName");
+
+    var relations = (Model.Relations ?? new List<DataSourceRelation>()).Select(it => new
+    {
+        it.TargetDataSourceName,
+        it.LazyLoad,
+        ParameterValues = it.ParameterValues.Select(kv => new { Key = kv.Key, Value = kv.Value })
+    });
+}
+
+
+<script type="text/javascript">
+    $(function () {
+
+        var util = {
+            wrapRelationObject: function (o) {
+                var wrapped = {};
+
+                o = o || { TargetDataSourceName: '', LazyLoad: true, ParameterValues: [] };
+
+                wrapped.TargetDataSourceName = ko.observable(o.TargetDataSourceName == null ? "" : o.TargetDataSourceName);
+                wrapped.LazyLoad = ko.observable(o.LazyLoad == null ? false : o.LazyLoad);
+                wrapped.ParameterValues = ko.observableArray(o.ParameterValues == null ? [] : o.ParameterValues);
+
+                wrapped.AddParameter = function () {
+                    wrapped.ParameterValues.push({ Key: '', Value: '' });
+                }
+
+                wrapped.RemoveParameter = function (parameter) {
+                    wrapped.ParameterValues.remove(parameter);
+                }
+                return wrapped;
+            }
+        };
+        function AppViewModel() {
+            var self = this;
+            //  获取所有的DataSource
+            self.AllDataSourceSettings = ko.mapping.fromJS(@Html.Raw(JsonConvert.SerializeObject(dataSources, Formatting.None)));
+
+            self.ActiveDataSouceName = ko.observable('');
+
+            var rawRelations = @Html.Raw(JsonConvert.SerializeObject(relations, Formatting.None))
+
+            self.DataSourceRelations = ko.observableArray([]);
+
+            _.each(rawRelations, function (item) {
+                self.AllDataSourceSettings.remove(item.TargetDataSourceName);
+                self.DataSourceRelations.push(util.wrapRelationObject(item));
+            });
+
+
+
+            self.AddRelation = function () {
+                var relation = { TargetDataSourceName: self.ActiveDataSouceName(), ParameterValues: [] };
+
+                $.post('@Html.Raw(Url.Action("GetDataSourceParameters", "DataSource", new { sitename=site}))', { uuid: relation.TargetDataSourceName })
+                .done(function (data) {
+                    _.each(data, function (item) {
+                        relation.ParameterValues.push({ Key: item.Key, Value: item.Value });
+                    })
+
+                    self.AllDataSourceSettings.remove(relation.TargetDataSourceName);
+
+                    self.DataSourceRelations.push(util.wrapRelationObject(relation));
+                });
+            };
+
+
+            self.RemoveRelation = function (relation) {
+                self.AllDataSourceSettings.push(relation.TargetDataSourceName());
+                self.DataSourceRelations.remove(relation);
+            };
+        }
+        var model = new AppViewModel()
+        ko.applyBindings(model, $('#Embedded').get()[0]);
+    });
+</script>

@@ -1,141 +1,143 @@
 ﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
 @using Kooboo.CMS.Sites.DataSource.Http;
 
-@using (Html.BeginForm())
-{
-    @Html.Hidden("Designer", ((Kooboo.CMS.Sites.DataSource.IDataSourceDesigner)ViewBag.Designer).Name)
-    <div id="http" class="block common-form">
-        <table>
-            <tbody>
-                <tr>
-                    <th>
-                        <label>@("Data name".Localize())</label>
-                    </th>
-                    @if (ViewBag.IsEditing != true)
-                    {
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    @using (Html.BeginForm())
+    {
+        @Html.Hidden("Designer", ((Kooboo.CMS.Sites.DataSource.IDataSourceDesigner)ViewBag.Designer).Name)
+        <div id="http" class="block common-form">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>
+                            <label>@("Data name".Localize())</label>
+                        </th>
+                        @if (ViewBag.IsEditing != true)
+                        {
+                            <td>
+                                <input type="text" name="DataName" data-bind="value:DataSourceSetting.DataName" data-val="true" data-val-required="@("Required".Localize())" class="long" />
+                                <span class="field-validation-valid" data-valmsg-for="DataName" data-valmsg-replace="true"></span>
+                            </td>
+                        }
+                        else
+                        {
+                            <td><span class="gray">@ViewContext.RequestContext.GetRequestValue("UUID")</span></td>
+                        }
+                    </tr>
+                    <tr>
+                        <th>
+                            <label>@("URL".Localize())</label>
+                        </th>
                         <td>
-                            <input type="text" name="DataName" data-bind="value:DataSourceSetting.DataName" data-val="true" data-val-required="@("Required".Localize())" class="long" />
-                            <span class="field-validation-valid" data-valmsg-for="DataName" data-valmsg-replace="true"></span>
+                            <input type="text" name="DataSource.URL" data-bind="value:DataSourceSetting.DataSource.URL" data-val="true" data-val-required="@("Required".Localize())" class="long" />
+                            <span class="field-validation-valid" data-valmsg-for="DataSource.URL" data-valmsg-replace="true"></span>
+                            <em class="tip">@Html.Raw("The URL that responses with Json/XML data source <br /> You can use {QueryString} to match the keys in your page url <br /> Example:http://www.kooboo.com/product/{userkey}".Localize())</em>
                         </td>
-                    }
-                    else
-                    {
-                        <td><span class="gray">@ViewContext.RequestContext.GetRequestValue("UUID")</span></td>
-                    }
-                </tr>
-                <tr>
-                    <th>
-                        <label>@("URL".Localize())</label>
-                    </th>
-                    <td>
-                        <input type="text" name="DataSource.URL" data-bind="value:DataSourceSetting.DataSource.URL" data-val="true" data-val-required="@("Required".Localize())" class="long" />
-                        <span class="field-validation-valid" data-valmsg-for="DataSource.URL" data-valmsg-replace="true"></span>
-                        <em class="tip">@Html.Raw("The URL that responses with Json/XML data source <br /> You can use {QueryString} to match the keys in your page url <br /> Example:http://www.kooboo.com/product/{userkey}".Localize())</em>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label>@("HTTP method".Localize())</label>
-                    </th>
-                    <td>
-                        <ul class="radio-list">
-                            <li>
-                                <input type="radio" id="httpmethod_get" name="DataSource.HttpMethod" data-bind="checked:DataSourceSetting.DataSource.HttpMethod" value="GET" />
-                                <label for="httpmethod_get" class="inline">@("GET".Localize())</label>
-                            </li>
-                            <li>
-                                <input type="radio" id="httpmethod_post" name="DataSource.HttpMethod" data-bind="checked:DataSourceSetting.DataSource.HttpMethod" value="POST" />
-                                <label for="httpmethod_post" class="inline">@("POST".Localize())</label>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label>@("Content type".Localize())</label>
-                    </th>
-                    <td>
-                        <input type="text" name="DataSource.ContentType" data-bind="value:DataSourceSetting.DataSource.ContentType" class="long">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label>@("Form data".Localize())</label>
-                    </th>
-                    <td>
-                        <table class="key-value">
-                            <thead data-bind="visible: DataSourceSetting.DataSource.FormData().length > 0">
-                                <tr>
-                                    <th>
-                                        @("Key".Localize())
-                                    </th>
-                                    <th>
-                                        @("Value".Localize())
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody data-bind="foreach: DataSourceSetting.DataSource.FormData">
-                                <tr>
-                                    <td>
-                                        <input type="text" title='key' class="short" data-bind="value: $data.Key, attr: { name: $parent.getPrefixFieldName('DataSource.FormData',$index()) + 'Key' }" />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="long" data-bind="value: $data.Value, attr: { name: $parent.getPrefixFieldName('DataSource.FormData',$index()) + 'Value' }" />
-                                    </td>
-                                    <td>
-                                        <a class="action" data-bind="click: $parent.removeFormData">@Html.IconImage("minus")</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td><a class="action" data-bind="click: addFormData">@Html.IconImage("plus")</a></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label>@("HTTP headers".Localize())</label>
-                    </th>
-                    <td>
-                        <table class="key-value">
-                            <thead data-bind="visible: DataSourceSetting.DataSource.Headers().length > 0">
-                                <tr>
-                                    <th>
-                                        @("Key".Localize())
-                                    </th>
-                                    <th>
-                                        @("Value".Localize())
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody data-bind="foreach: DataSourceSetting.DataSource.Headers()">
-                                <tr>
-                                    <td>
-                                        <input type="text" title='key' class="short" data-bind="value: $data.Key, attr: { name: $parent.getPrefixFieldName('DataSource.Headers',$index()) + 'Key' }" />
-                                    </td>
-                                    <td>
-                                        <textarea data-bind="value: $data.Value, attr: { name: $parent.getPrefixFieldName('DataSource.Headers',$index()) + 'Value' }"></textarea>
-                                    </td>
-                                    <td>
-                                        <a class="action" data-bind="click: $parent.removeHttpHeader">@Html.IconImage("minus")</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td><a class="action" data-bind="click: addHttpHeader">@Html.IconImage("plus")</a></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label>@("HTTP method".Localize())</label>
+                        </th>
+                        <td>
+                            <ul class="radio-list">
+                                <li>
+                                    <input type="radio" id="httpmethod_get" name="DataSource.HttpMethod" data-bind="checked:DataSourceSetting.DataSource.HttpMethod" value="GET" />
+                                    <label for="httpmethod_get" class="inline">@("GET".Localize())</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="httpmethod_post" name="DataSource.HttpMethod" data-bind="checked:DataSourceSetting.DataSource.HttpMethod" value="POST" />
+                                    <label for="httpmethod_post" class="inline">@("POST".Localize())</label>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label>@("Content type".Localize())</label>
+                        </th>
+                        <td>
+                            <input type="text" name="DataSource.ContentType" data-bind="value:DataSourceSetting.DataSource.ContentType" class="long">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label>@("Form data".Localize())</label>
+                        </th>
+                        <td>
+                            <table class="key-value">
+                                <thead data-bind="visible: DataSourceSetting.DataSource.FormData().length > 0">
+                                    <tr>
+                                        <th>
+                                            @("Key".Localize())
+                                        </th>
+                                        <th>
+                                            @("Value".Localize())
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: DataSourceSetting.DataSource.FormData">
+                                    <tr>
+                                        <td>
+                                            <input type="text" title='key' class="short" data-bind="value: $data.Key, attr: { name: $parent.getPrefixFieldName('DataSource.FormData',$index()) + 'Key' }" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="long" data-bind="value: $data.Value, attr: { name: $parent.getPrefixFieldName('DataSource.FormData',$index()) + 'Value' }" />
+                                        </td>
+                                        <td>
+                                            <a class="action" data-bind="click: $parent.removeFormData">@Html.IconImage("minus")</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td><a class="action" data-bind="click: addFormData">@Html.IconImage("plus")</a></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label>@("HTTP headers".Localize())</label>
+                        </th>
+                        <td>
+                            <table class="key-value">
+                                <thead data-bind="visible: DataSourceSetting.DataSource.Headers().length > 0">
+                                    <tr>
+                                        <th>
+                                            @("Key".Localize())
+                                        </th>
+                                        <th>
+                                            @("Value".Localize())
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: DataSourceSetting.DataSource.Headers()">
+                                    <tr>
+                                        <td>
+                                            <input type="text" title='key' class="short" data-bind="value: $data.Key, attr: { name: $parent.getPrefixFieldName('DataSource.Headers',$index()) + 'Key' }" />
+                                        </td>
+                                        <td>
+                                            <textarea data-bind="value: $data.Value, attr: { name: $parent.getPrefixFieldName('DataSource.Headers',$index()) + 'Value' }"></textarea>
+                                        </td>
+                                        <td>
+                                            <a class="action" data-bind="click: $parent.removeHttpHeader">@Html.IconImage("minus")</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td><a class="action" data-bind="click: addHttpHeader">@Html.IconImage("plus")</a></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-    </div>
-}
-
+        </div>
+    }
+</div>
 @Html.Partial("~/Areas/Sites/Views/DataSource/Http/_Scripts.cshtml")

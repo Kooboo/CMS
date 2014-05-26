@@ -55,13 +55,47 @@ namespace Kooboo.CMS.Sites.Services
         #region Relation
         public override IEnumerable<RelationModel> Relations(DataSourceSetting dataSourceSetting)
         {
-            return _viewProvider.All(dataSourceSetting.Site).Select(it => it.AsActual()).Where(it => it.DataSources != null && it.DataSources.Contains(dataSourceSetting.DataName, StringComparer.OrdinalIgnoreCase)).Select(it => new RelationModel()
+            var usedInViews = _viewProvider.All(dataSourceSetting.Site)
+                .Select(it => it.AsActual())
+                .Where(it => it.DataSources != null && it.DataSources.Contains(dataSourceSetting.DataName, StringComparer.OrdinalIgnoreCase))
+                .Select(it => new RelationModel()
             {
                 DisplayName = it.Name,
                 ObjectUUID = it.Name,
                 RelationObject = it,
                 RelationType = "View"
             });
+
+            var usedInDataSources = All(dataSourceSetting.Site, null)
+                .Select(it => it.AsActual())
+                .Where(it => it.Relations != null && !it.DataName.EqualsOrNullEmpty(dataSourceSetting.DataName, StringComparison.OrdinalIgnoreCase) && it.Relations.Any(r => r.TargetDataSourceName.EqualsOrNullEmpty(dataSourceSetting.DataName, StringComparison.OrdinalIgnoreCase)))
+                .Select(it => new RelationModel()
+                {
+                    DisplayName = it.DataName,
+                    ObjectUUID = it.DataName,
+                    RelationObject = it,
+                    RelationType = "Data source"
+                });
+
+            return usedInDataSources.Concat(usedInViews);
+        }
+        #endregion
+
+        #region GetDefinitions
+        public virtual Dictionary<string, object> GetDefinitions(DataSourceSetting setting, DataSourceContext dataSourceContext)
+        {
+            var definitions = setting.DataSource.GetDefinitions(dataSourceContext);
+
+            if (setting.Relations != null)
+            {
+                foreach (var item in setting.Relations)
+                {
+                    var name = item.TargetDataSourceName;
+                    var relateDataSource = new DataSourceSetting(setting.Site, name);
+                }
+            }
+
+
         }
         #endregion
     }

@@ -9,6 +9,7 @@
 using Kooboo.Collections;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
+using Kooboo.CMS.Sites.Models;
 
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
     [DataContract(Name = "DataSourceBase")]
     [KnownTypeAttribute(typeof(DataSourceBase))]
     [KnownTypeAttribute(typeof(FolderDataSource))]
-    public abstract class DataSourceBase : IContentDataSource
+    public abstract class DataSourceBase
     {
         [DataMember]
         public string FolderName { get; set; }
@@ -89,9 +90,9 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
         [DataMember]
         public TakeOperation TakeOperation { get; set; }
 
-        public abstract IContentQuery<TextContent> GetContentQuery(DataSourceContext dataSourceContext);
 
-        #region IDataRule Members
+        #region Execute Members
+        public abstract IContentQuery<TextContent> GetContentQuery(DataSourceContext dataSourceContext);
         public object Execute(DataSourceContext dataSourceContext)
         {
             var contentQuery = this.GetContentQuery(dataSourceContext);
@@ -162,24 +163,6 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
         }
         private static object GetData(IContentQuery<TextContent> contentQuery, TakeOperation operation)//, int cacheDuration)
         {
-            //if (cacheDuration > 0)
-            //{
-            //    var policy = new CacheItemPolicy() { SlidingExpiration = TimeSpan.FromSeconds(cacheDuration) };
-            //    switch (operation)
-            //    {
-            //        case TakeOperation.First:
-            //            var lazyFirst = contentQuery.LazyFirstOrDefault();
-            //            return GetCacheData(contentQuery, operation, policy, () => lazyFirst.Value);
-            //        case TakeOperation.Count:
-            //            var lazyCount = contentQuery.LazyCount();
-            //            return GetCacheData(contentQuery, operation, policy, () => lazyCount.Value);
-            //        case TakeOperation.List:
-            //        default:
-            //            return GetCacheData(contentQuery, operation, policy, () => contentQuery.ToArray());
-            //    }
-            //}
-            //else
-            //{
             switch (operation)
             {
                 case TakeOperation.First:
@@ -190,28 +173,30 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
                 default:
                     return contentQuery.ToArray();
             }
-            //}
         }
-        //private static object GetCacheData(IContentQuery<TextContent> contentQuery, TakeOperation operation, CacheItemPolicy policy, Func<object> getData)
-        //{
-        //    string cacheKey = "TakeOperation:" + operation.ToString() + " " + TextTranslator.Translate(contentQuery);
-        //    var data = contentQuery.Repository.ObjectCache().Get(cacheKey);
-        //    if (data == null)
-        //    {
-        //        data = getData();
-        //        contentQuery.Repository.ObjectCache().AddOrGetExisting(cacheKey, data, policy);
-        //    }
-        //    return data;
-        //}
 
-        //public abstract DataRuleType DataRuleType { get; }
-
-        public abstract Schema GetSchema(Repository repository);
-        public virtual bool IsValid(Repository repository)
+        public virtual IDictionary<string, object> GetDefinitions(DataSourceContext dataSourceContext)
         {
-            var folder = FolderHelper.Parse<TextFolder>(repository, FolderName);
-            return folder.AsActual() != null;
+            if (dataSourceContext != null && dataSourceContext.Site != null)
+            {
+                var repository = dataSourceContext.Site.GetRepository();
+                if (repository != null)
+                {
+                    var folder = new TextFolder(repository, FolderName).AsActual();
+                    if (folder != null)
+                    {
+                        var schema = folder.GetSchema();
+
+                        if (schema != null)
+                        {
+                            return schema.AllColumns.ToDictionary(it => it.Name, it => (object)(it.DataType));
+                        }
+                    }
+                }
+            }
+            return new Dictionary<string, object>();
         }
+
 
         public virtual IEnumerable<string> GetParameters()
         {

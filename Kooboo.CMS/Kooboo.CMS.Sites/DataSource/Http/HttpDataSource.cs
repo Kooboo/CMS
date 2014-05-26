@@ -121,7 +121,6 @@ namespace Kooboo.CMS.Sites.DataSource.Http
         }
         #endregion
 
-
         #region GetParameters
         public IEnumerable<string> GetParameters()
         {
@@ -153,6 +152,14 @@ namespace Kooboo.CMS.Sites.DataSource.Http
                     }
                 }
             }
+        }
+        #endregion
+
+        #region GetDefinitions
+        public IDictionary<string, object> GetDefinitions(DataSourceContext dataSourceContext)
+        {
+            //可以试着去请求一下，拿到示例结果？
+            return new Dictionary<string, object>();
         }
         #endregion
     }

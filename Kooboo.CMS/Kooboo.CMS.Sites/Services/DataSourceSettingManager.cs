@@ -82,7 +82,7 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region GetDefinitions
-        public virtual Dictionary<string, object> GetDefinitions(DataSourceSetting setting, DataSourceContext dataSourceContext)
+        public virtual IDictionary<string, object> GetDefinitions(DataSourceSetting setting, DataSourceContext dataSourceContext)
         {
             var definitions = setting.DataSource.GetDefinitions(dataSourceContext);
 
@@ -91,11 +91,14 @@ namespace Kooboo.CMS.Sites.Services
                 foreach (var item in setting.Relations)
                 {
                     var name = item.TargetDataSourceName;
-                    var relateDataSource = new DataSourceSetting(setting.Site, name);
+                    var relateDataSource = new DataSourceSetting(setting.Site, name).AsActual();
+                    if (relateDataSource != null)
+                    {
+                        definitions[name] = GetDefinitions(relateDataSource, dataSourceContext);
+                    }
                 }
             }
-
-
+            return definitions;
         }
         #endregion
     }

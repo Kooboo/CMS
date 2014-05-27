@@ -49,11 +49,11 @@ namespace Kooboo.CMS.Sites.Models
             CacheItemPolicy cachePolicy = new CacheItemPolicy();
             if (ExpirationPolicy == Models.ExpirationPolicy.AbsoluteExpiration)
             {
-                cachePolicy.AbsoluteExpiration = Duration == 0 ? DateTime.MaxValue : DateTime.UtcNow.AddSeconds(Duration);
+                cachePolicy.AbsoluteExpiration = Duration == 0 ? DateTimeOffset.MaxValue : DateTime.UtcNow.AddSeconds(Duration);
             }
             else
             {
-                cachePolicy.SlidingExpiration = Duration == 0 ? TimeSpan.MaxValue : TimeSpan.FromSeconds(Duration);
+                cachePolicy.SlidingExpiration = Duration == 0 ? TimeSpan.FromDays(1) : TimeSpan.FromSeconds(Duration);
             }
             return cachePolicy;
         }

@@ -61,13 +61,15 @@ namespace Kooboo.CMS.Content.Models
                     userKey = userKey.Substring(0, 256);
                 }
 
-                var tmpUserKey = EscapeUserKey(content, userKey);
+               var escapedUserKey = EscapeUserKey(content, userKey);
+
+               var tmpUserKey = escapedUserKey;
 
                 int tries = 0;
                 while (IfUserKeyExists(content, tmpUserKey))
                 {
-                    tries++;                    
-                    tmpUserKey = userKey + "-" + Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(tries);
+                    tries++;
+                    tmpUserKey = escapedUserKey + "-" + Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(tries);
                 }
                 userKey = tmpUserKey;
             }

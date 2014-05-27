@@ -8,7 +8,7 @@
 @if (ServiceFactory.UserManager.Authorize(Model.Site, ViewContext.HttpContext.User.Identity.Name))
 {
     <div class="map-item @(Model.IsOnLine ? "" : "offline")">
-        <a href="@Url.Action("SiteMap", new { siteName = Model.Site.FullName, repositoryName = Model.Site.Repository })" title="@displayName"><span>@displayName</span></a>
+        <a href="@Url.Action("SiteMap", new { siteName = Model.Site.FullName, repositoryName = Model.Site.Repository })" title="@(Model.Site.Name)"><span>@displayName</span></a>
         <span class="arrow trigger">
             @Html.IconImage("arrow-right")
         </span>

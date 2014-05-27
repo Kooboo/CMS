@@ -76,6 +76,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Menu
             RouteValues["FolderName"] = folder.FullName;
 
             this.Area = "Contents";
+            base.Tips = folder.Name;
             base.Text = folder.FriendlyText;
             var cssClass = "";
             if (folder is TextFolder)

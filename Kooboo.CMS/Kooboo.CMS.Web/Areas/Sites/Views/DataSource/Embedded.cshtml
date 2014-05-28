@@ -1,6 +1,6 @@
 ﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
 @{
-    ViewBag.Title = "Edit data source relation".Localize();
+    ViewBag.Title = "Embedded data source in".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
@@ -23,47 +23,43 @@
 }
 
 <div class="block common-form">
-    <h1 class="title">@ViewBag.Title: <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+    <h1 class="title">@ViewBag.Title <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
     @using (Html.BeginForm())
     {
-        <div id="Embedded" class="block common-form">
-            <div>
-                <table>
-                    <tbody data-bind="visible:AllDataSourceSettings().length>0">
-                        <tr>
-                            <th>@("Data Sources".Localize())</th>
-                            <td>
-                                <select class="long" data-bind="options:AllDataSourceSettings,value:ActiveDataSouceName"></select>
-                                <a href="javascript:void(0)" class="form-action">
-                                    <img class="icon plus" src="/Images/invis.gif" data-bind="click:AddRelation" />
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
+        <div id="Embedded">
             <table>
+                <thead data-bind="visible:AllDataSourceSettings().length>0">
+                    <tr>
+                        <th>@("Select the data Source you want to embed in:".Localize())</th>
+                        <td>
+                            <select class="long" data-bind="options:AllDataSourceSettings,value:ActiveDataSouceName"></select>
+                            <a href="javascript:void(0)" class="action">
+                                <img class="icon plus" src="/Images/invis.gif" data-bind="click:AddRelation" />
+                            </a>
+                        </td>
+                    </tr>
+                </thead>
                 <tbody data-bind="foreach:{data:DataSourceRelations,as:'relation'}">
                     <tr class="border">
-                        <td colspan="3"></td>
+                        <td colspan="2"></td>
                     </tr>
                     <tr>
-                        <th>@("Target data source".Localize())</th>
+                        <th>@("Embedded data source:".Localize())</th>
                         <td>
-                            <label data-bind="text: $data.TargetDataSourceName"></label>
+                            <strong data-bind="text: $data.TargetDataSourceName"></strong>
                             <input type="hidden" data-bind="value: $data.TargetDataSourceName, attr: { name: '[' +　$index() + '].TargetDataSourceName' }" />
-                        </td>
-                        <td style="width: 26px;">
-                            <a title="Remove" class="action" data-bind="click:$root.RemoveRelation">
+                            <a title="Remove" class="action right" data-bind="click:$root.RemoveRelation">
                                 <img class="icon minus" src="/Images/invis.gif">
                             </a>
                         </td>
                     </tr>
                     <tr>
-                        <th>@("Parameters".Localize())</th>
+                        <th>
+                            @("Parameters:".Localize())
+                            <!--<em class="tip">Tips here</em>-->
+                        </th>
                         <td>
-                            <table>
+                            <table class="key-value">
                                 <thead>
                                     <tr>
                                         <th>@("Key".Localize())</th>
@@ -84,12 +80,11 @@
                                             </a>
                                         </td>
                                     </tr>
-
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td>
-                                            <a href="javascript:void(0)" class="form-action">
+                                            <a href="javascript:void(0)" class="action left">
                                                 <img class="icon plus" src="/Images/invis.gif" data-bind="click:$data.AddParameter" />
                                             </a>
                                         </td>
@@ -97,7 +92,6 @@
                                 </tfoot>
                             </table>
                         </td>
-
                     </tr>
                     <tr>
                         <th></th>

@@ -70,9 +70,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         [HttpPost]
         public override ActionResult Edit(DataSourceSetting newModel, string uuid, string @return)
         {
-            newModel.UtcCreationDate = Get(uuid).UtcCreationDate;
+            var old = Get(uuid);
+            newModel.UtcCreationDate = old.UtcCreationDate;
             newModel.UtcLastestModificationDate = DateTime.UtcNow;
             newModel.LastestEditor = User.Identity.Name;
+            newModel.Relations = old.Relations;
             return base.Edit(newModel, uuid, @return);
         }
         #endregion
@@ -143,9 +145,41 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         #region Embedded
         public ActionResult Embedded(string uuid)
         {
-            ViewBag.AllDataSourceSettings = Manager.All(Site, null);
+            var AllDataSourceSettings = Manager.All(Site, null);
+            ViewBag.AllDataSourceSettings = AllDataSourceSettings;
             var dataSourceSetting = Manager.Get(Site, uuid);
+
             return View(dataSourceSetting);
+        }
+
+        [HttpPost]
+        public ActionResult Embedded(string uuid, DataSourceRelation[] model, string @return)
+        {
+            var data = new JsonResultData(ModelState) { RedirectUrl = @return };
+            if (ModelState.IsValid)
+            {
+                data.RunWithTry((resultData) =>
+                {
+                    var dataSource = Manager.Get(Site, uuid);
+                    dataSource.Relations = model.ToList();
+                    Manager.Update(Site, dataSource, dataSource);
+                });
+            }
+            return Json(data);
+        }
+
+        #endregion
+
+        #region GetDataSourceParameters
+
+        public ActionResult GetDataSourceParameters(string uuid)
+        {
+            var dataSource = Get(uuid);
+
+            var parameters = dataSource.DataSource.GetParameters()
+                .Select(it => new { Key = it, Value = "" }).ToList();
+
+            return Json(parameters, JsonRequestBehavior.AllowGet);
         }
         #endregion
 

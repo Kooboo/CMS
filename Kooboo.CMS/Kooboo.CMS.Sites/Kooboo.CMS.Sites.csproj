@@ -99,14 +99,13 @@
     <Compile Include="DataRule\Http\IHttpDataRequest.cs" />
     <Compile Include="DataRule\Http\JsonTextParser.cs" />
     <Compile Include="DataRule\Http\XmlTextParser.cs" />
-    <Compile Include="DataRule\IContentDataRule.cs" />
     <Compile Include="DataRule\Http\IResponseTextParser.cs" />
+    <Compile Include="DataRule\IContentDataRule.cs" />
     <Compile Include="DataRule\ResponseType.cs" />
     <Compile Include="DataSource\ContentDataSource\ContentDataSourceDesigner.cs" />
     <Compile Include="DataSource\ContentDataSource\ContentPagedList.cs" />
     <Compile Include="DataSource\ContentDataSource\DataSourceBase.cs" />
     <Compile Include="DataSource\ContentDataSource\FolderDataSource.cs" />
-    <Compile Include="DataSource\ContentDataSource\IContentDataSource.cs" />
     <Compile Include="DataSource\ContentDataSource\Logical.cs" />
     <Compile Include="DataSource\ContentDataSource\Operator.cs" />
     <Compile Include="DataSource\ContentDataSource\ParameterizedFieldValue.cs" />

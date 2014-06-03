@@ -42,7 +42,8 @@ namespace Kooboo.CMS.Sites.DataSource
 
             if (dataSourceSetting.Relations != null && dataSourceSetting.Relations.Count > 0)
             {
-                if (data is IEnumerable)
+                if (data is IEnumerable
+                    && !IsDictionary(data.GetType()))
                 {
                     List<object> list = new List<object>();
                     foreach (var item in (IEnumerable)data)
@@ -59,9 +60,35 @@ namespace Kooboo.CMS.Sites.DataSource
             return data;
         }
 
+        private static bool IsDictionary(Type type)
+        {
+            if (typeof(IDictionary).IsAssignableFrom(type))
+            {
+                return true;
+            }
+            var t = type;
+            while (t != null)
+            {
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IDictionary<,>))
+                {
+                    return true;
+                }
+                t = t.BaseType;
+            }
+            foreach (var interfaceType in type.GetInterfaces())
+            {
+                if (IsDictionary(interfaceType))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private static object PopulateRelations(object data, DataSourceSetting dataSourceSetting, DataSourceContext dataSourceContext)
         {
             DynamicObject dynamicObject = new Kooboo.Dynamic.ExpandoObjectWrapper(data);
+            dynamicObject.TrySetMember(new SetMemberBinderWrapper("_RawObject_"), data);
             foreach (var relation in dataSourceSetting.Relations)
             {
                 var relatedDataSource = new DataSourceSetting(dataSourceSetting.Site, relation.TargetDataSourceName).LastVersion().AsActual();
@@ -94,7 +121,7 @@ namespace Kooboo.CMS.Sites.DataSource
             if (parameters != null)
             {
                 FormulaParser parser = new FormulaParser();
-                var valueProvider = new MvcValueProvider(new DynamicObjectValueProvider(new Kooboo.Dynamic.ReflectionDynamicObject(data)));
+                var valueProvider = new MvcValueProvider(new DynamicObjectValueProvider(new Kooboo.Dynamic.ExpandoObjectWrapper(data)));
                 foreach (var item in parameters)
                 {
                     parameterValues[item.Key] = parser.Populate(item.Value, valueProvider);

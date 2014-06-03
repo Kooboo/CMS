@@ -55,7 +55,7 @@ namespace Kooboo.Dynamic
 
             return _wrapped.TryGetMember(binder, out result);
 
-        } 
+        }
         #endregion
 
         #region TryInvokeMember
@@ -67,14 +67,14 @@ namespace Kooboo.Dynamic
                 return true;
             }
             return _wrapped.TryInvokeMember(binder, args, out result);
-        } 
+        }
         #endregion
 
         #region TrySetMember
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
             var set = _wrapped.TrySetMember(binder, value);
-            if (!set)
+            if (!set || value is Delegate)
             {
                 var setMethod = "set_" + binder.Name;
                 if (methods.ContainsKey(setMethod))
@@ -92,7 +92,7 @@ namespace Kooboo.Dynamic
                 set = true;
             }
             return true;
-        } 
+        }
         #endregion
     }
 }

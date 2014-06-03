@@ -25,7 +25,7 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
 {
     [DataContract(Name = "FolderDataSource")]
     [KnownTypeAttribute(typeof(FolderDataSource))]
-    public class FolderDataSource : DataSourceBase
+    public class FolderDataSource : DataSourceBase, IDataSource
     {
         [DataMember]
         public string CategoryFolderName { get; set; }
@@ -36,9 +36,6 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
             get;
             set;
         }
-
-        //[DataMember(Order = 13)]
-        //public new string FolderName { get; set; }
         public override IContentQuery<TextContent> GetContentQuery(DataSourceContext dataSourceContext)
         {
             var site = dataSourceContext.Site;
@@ -58,11 +55,6 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
                 var textFolder = (TextFolder)folder;
                 contentQuery = textFolder.CreateQuery();
             }
-            //else
-            //{
-            //    var binaryFolder = (MediaFolder)folder;
-            //    contentQuery = binaryFolder.CreateQuery();
-            //}
             if (WhereClauses != null)
             {
                 contentQuery = contentQuery.Where(WhereClauses.Parse(folder.GetSchema(), dataSourceContext.ValueProvider));
@@ -78,8 +70,6 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
                     contentQuery = contentQuery.WhereCategory(categoryQuery);
                 }
             }
-
-
             //query the Published=null content for inline editor..
             //if (Page_Context.Current.EnabledInlineEditing(EditingType.Content))
             //{
@@ -91,11 +81,6 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
             //else
             contentQuery = contentQuery.WhereEquals("Published", true); //default query published=true.
             return contentQuery;
-        }
-
-        public override Schema GetSchema(Repository repository)
-        {
-            return FolderHelper.Parse<TextFolder>(repository, FolderName).GetSchema();
         }
 
         public override IEnumerable<string> GetParameters()
@@ -120,17 +105,6 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
             }
 
             return parameters;
-        }
-
-        public override bool IsValid(Kooboo.CMS.Content.Models.Repository repository)
-        {
-            var valid = base.IsValid(repository);
-            if (valid && !string.IsNullOrEmpty(CategoryFolderName))
-            {
-                var folder = FolderHelper.Parse<TextFolder>(repository, CategoryFolderName);
-                return folder.AsActual() != null;
-            }
-            return valid;
         }
     }
 }

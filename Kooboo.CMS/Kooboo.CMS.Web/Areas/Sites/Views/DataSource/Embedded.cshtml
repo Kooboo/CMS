@@ -1,6 +1,6 @@
 ﻿@model Kooboo.CMS.Sites.DataSource.DataSourceSetting
 @{
-    ViewBag.Title = "Edit data source relation".Localize();
+    ViewBag.Title = "Embedded data source in".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
@@ -21,3 +21,91 @@
         </li>
     </ul>
 }
+
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+    @using (Html.BeginForm())
+    {
+        <div id="Embedded">
+            <table>
+                <thead data-bind="visible:AllDataSourceSettings().length>0">
+                    <tr>
+                        <th>@("Select the data Source you want to embed in:".Localize())</th>
+                        <td>
+                            <select class="long" data-bind="options:AllDataSourceSettings,value:ActiveDataSouceName"></select>
+                            <a href="javascript:void(0)" class="action">
+                                <img class="icon plus" src="/Images/invis.gif" data-bind="click:AddRelation" />
+                            </a>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach:{data:DataSourceRelations,as:'relation'}">
+                    <tr class="border">
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <th>@("Embedded data source:".Localize())</th>
+                        <td>
+                            <strong data-bind="text: $data.TargetDataSourceName"></strong>
+                            <input type="hidden" data-bind="value: $data.TargetDataSourceName, attr: { name: '[' +　$index() + '].TargetDataSourceName' }" />
+                            <a title="Remove" class="action right" data-bind="click:$root.RemoveRelation">
+                                <img class="icon minus" src="/Images/invis.gif">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            @("Parameters:".Localize())
+                            <!--<em class="tip">Tips here</em>-->
+                        </th>
+                        <td>
+                            <table class="key-value">
+                                <thead>
+                                    <tr>
+                                        <th>@("Key".Localize())</th>
+                                        <th>@("Value".Localize())</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach:{data:$data.ParameterValues,as:'parameter'}">
+                                    <tr>
+                                        <td>
+                                            <input type="text" title="key" data-bind="value:parameter.Key, attr: { name: '[' +　$parentContext.$index() + '].ParameterValues[' + $index() + '].Key' }" class="short">
+                                        </td>
+                                        <td>
+                                            <input type="text" title="value" data-bind="value:parameter.Value, attr: { name: '[' +　$parentContext.$index() + '].ParameterValues[' + $index() + '].Value' }" class="long">
+                                        </td>
+                                        <td>
+                                            <a class="action">
+                                                <img class="icon minus" src="/Images/invis.gif" data-bind="click:relation.RemoveParameter">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td>
+                                            <a href="javascript:void(0)" class="action left">
+                                                <img class="icon plus" src="/Images/invis.gif" data-bind="click:$data.AddParameter" />
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                            <input type="checkbox" data-bind="checked: $data.LazyLoad, attr: {id:'LazyLoad_' +$index(), name: '[' +　$index() + '].LazyLoad' }" value="true" />
+                            <input type="hidden" data-bind="attr: { name: '[' +　$index() + '].LazyLoad' }" value="false" />
+                            <label data-bind="attr: {for:'LazyLoad_' +$index()}" class="inline">@("Lazy load".Localize())</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+    }
+</div>
+@Html.Partial("~/Areas/Sites/Views/DataSource/_EmbeddedScripts.cshtml")

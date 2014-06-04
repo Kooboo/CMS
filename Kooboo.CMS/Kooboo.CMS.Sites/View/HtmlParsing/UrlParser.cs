@@ -27,26 +27,55 @@ namespace Kooboo.CMS.Sites.View.HtmlParsing
         {
             get { return "url"; }
         }
+        internal static bool HasIllegalCharacters(string path, bool checkAdditional)
+        {
+            for (int i = 0; i < path.Length; i++)
+            {
+                int num2 = path[i];
+                //0x22="  60=<  0x3e=> 0x7c=| 0x20= 
+                if (((num2 == 0x22) || (num2 == 60)) || (((num2 == 0x3e) || (num2 == 0x7c)) || (num2 < 0x20)))
+                {
+                    return true;
+                }
+                //0x3f=? 0x2a=*
+                if (checkAdditional && ((num2 == 0x3f) || (num2 == 0x2a)))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         public string Parse(string parameters)
         {
-            if (!string.IsNullOrEmpty(parameters))
+            try
             {
-                RouteValueDictionary routes = new RouteValueDictionary();
-                var list = parameters.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-                var pageName = list[0].Trim();
-                foreach (var item in list.Skip(1))
+                if (!string.IsNullOrEmpty(parameters))
                 {
-                    var keyValue = Split(item);
-                    if (!string.IsNullOrEmpty(keyValue.Key))
+                    RouteValueDictionary routes = new RouteValueDictionary();
+                    var list = parameters.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                    var pageName = list[0].Trim();
+                    foreach (var item in list.Skip(1))
                     {
-                        routes[keyValue.Key] = keyValue.Value;
+                        var keyValue = Split(item);
+                        if (!string.IsNullOrEmpty(keyValue.Key))
+                        {
+                            routes[keyValue.Key] = keyValue.Value;
+                        }
+                    }
+
+                    if (!HasIllegalCharacters(pageName, false))
+                    {
+                        return _pageUrlGenerator.PageUrl(pageName, routes);
                     }
                 }
-
-                return _pageUrlGenerator.PageUrl(pageName, routes);
+                return null;
             }
-            return null;
+            catch (Exception e)
+            {
+                Kooboo.HealthMonitoring.Log.LogException(e);
+                return null;
+            }           
         }
 
         private KeyValuePair<string, string> Split(string s)

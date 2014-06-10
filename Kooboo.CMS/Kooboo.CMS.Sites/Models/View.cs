@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Sites.Models
             {
                 if (string.IsNullOrEmpty(fileExtension))
                 {
-                    return Kooboo.CMS.Sites.View.TemplateEngines.GetEngineByName(this.EngineName).GetFileExtensionForView();
+                    return Kooboo.CMS.Sites.View.TemplateEngines.GetEngineByName(this.EngineName).ViewExtension;
                 }
                 return fileExtension;
             }
@@ -104,13 +104,13 @@ namespace Kooboo.CMS.Sites.Models
             }
         }
 
-        private List<string> dataSources = new List<string>();
+        private List<DataSourceSelection> dataSources = new List<DataSourceSelection>();
         [DataMember(Order = 30)]
-        public List<string> DataSources
+        public List<DataSourceSelection> DataSources
         {
             get
             {
-                return dataSources ?? new List<string>();
+                return dataSources ?? new List<DataSourceSelection>();
             }
             set
             {

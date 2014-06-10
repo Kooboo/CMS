@@ -51,7 +51,6 @@
     <Compile Include="..\..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
-    <Compile Include="AssemblyInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebFormCodeHelper.cs" />
     <Compile Include="WebFormDetailCodeSnippet.cs" />

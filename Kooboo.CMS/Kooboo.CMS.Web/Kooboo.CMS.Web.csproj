@@ -1978,8 +1978,8 @@
     <Content Include="Areas\Sites\Views\View\Edit.cshtml" />
     <Content Include="Areas\Sites\Views\View\Index.cshtml" />
     <Content Include="Areas\Sites\Views\View\PreviewVersion.cshtml" />
-    <Content Include="Areas\Sites\Views\View\TaskPanel.cshtml" />
-    <Content Include="Areas\Sites\Views\View\TemplateEditor.cshtml" />
+    <Content Include="Areas\Sites\Views\View\_TaskPanel.cshtml" />
+    <Content Include="Areas\Sites\Views\View\_ViewEditor.cshtml" />
     <Content Include="Areas\Sites\Views\View\View.Script.cshtml" />
     <Content Include="Areas\Account\Views\Users\Index.cshtml" />
     <Content Include="Areas\Contents\Views\MediaContent\Html5Uploader.cshtml" />
@@ -2586,6 +2586,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\DataSource\_EmbeddedScripts.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\View\_ViewDefaultEditor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\View\_TALEditor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\View\EditorTemplates\DataSourceSelection.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

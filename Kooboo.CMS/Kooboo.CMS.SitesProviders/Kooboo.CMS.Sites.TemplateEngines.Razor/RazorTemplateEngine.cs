@@ -14,31 +14,42 @@ using Kooboo.CMS.Sites.View;
 using System.Web.Mvc;
 using Kooboo.CMS.Sites.View.CodeSnippet;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.CMS.Sites.TemplateEngines.Razor
 {
+    [Dependency(typeof(ITemplateEngine), Key = "RazorTemplateEngine")]
     public class RazorTemplateEngine : ITemplateEngine
     {
+        #region Properties
         public string Name
         {
             get { return "Razor"; }
         }
 
-        public string GetFileExtensionForLayout()
+        public string LayoutExtension
         {
-            return ".cshtml";
+            get { return ".cshtml"; }
         }
 
-        public string GetFileExtensionForView()
+        public string ViewExtension
         {
-            return ".cshtml";
+            get { return ".cshtml"; }
         }
 
-        public IEnumerable<string> FileExtensions
+        public int Order
         {
-            get { return new string[] { ".cshtml" }; }
+            get { return 1; }
         }
 
+        public string EditorVirtualPath
+        {
+            //default editor
+            get { return null; }
+        }
+        #endregion
+
+        #region CreateView
         public IViewEngine GetViewEngine()
         {
             return new RazorViewEngine();
@@ -49,6 +60,9 @@ namespace Kooboo.CMS.Sites.TemplateEngines.Razor
             return new RazorView(controllerContext, viewPath, masterPath, false, null);
         }
 
+        #endregion
+
+        #region CodeHelper
         public IDataRuleCodeSnippet GetDataRuleCodeSnippet(TakeOperation takeOperation)
         {
             switch (takeOperation)
@@ -72,11 +86,11 @@ namespace Kooboo.CMS.Sites.TemplateEngines.Razor
         {
             return new RazorCodeHelper();
         }
+        #endregion
 
 
-        public int Order
-        {
-            get { return 1; }
-        }
+
+
+
     }
 }

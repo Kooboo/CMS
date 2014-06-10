@@ -18,16 +18,41 @@ using Kooboo.CMS.Content.Models;
 using System.Text.RegularExpressions;
 using System.Web;
 using Kooboo.CMS.Sites.TemplateEngines.NVelocity.MvcViewEngine;
+using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity
 {
+    [Dependency(typeof(ITemplateEngine), Key = "NVelocityTemplateEngine")]
     public class NVelocityTemplateEngine : ITemplateEngine
     {
-        public IEnumerable<string> FileExtensions
+
+        #region Properties
+        public string Name
         {
-            get { return new string[] { ".vm" }; }
+            get { return "NVelocity"; }
         }
 
+        public string LayoutExtension
+        {
+            get { return ".vm"; }
+        }
+
+        public string ViewExtension
+        {
+            get { return ".vm"; }
+        }
+        public string EditorVirtualPath
+        {
+            //default editor
+            get { return null; }
+        }
+        public int Order
+        {
+            get { return 3; }
+        }
+        #endregion
+
+        #region CreateView
         public System.Web.Mvc.IViewEngine GetViewEngine()
         {
             return NVelocityViewEngine.Default;
@@ -37,23 +62,11 @@ namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity
         {
             return new NVelocityView(controllerContext, viewPath, masterPath);
         }
+        #endregion
 
-        public string Name
-        {
-            get { return "NVelocity"; }
-        }
+        
 
-        public string GetFileExtensionForLayout()
-        {
-            return ".vm";
-        }
-
-        public string GetFileExtensionForView()
-        {
-            return ".vm";
-        }
-
-
+        #region CodeHelper
         public Kooboo.CMS.Sites.View.CodeSnippet.IDataRuleCodeSnippet GetDataRuleCodeSnippet(TakeOperation takeOperation)
         {
             switch (takeOperation)
@@ -79,11 +92,6 @@ namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity
         {
             return new NVelocityCodeHelper();
         }
-
-
-        public int Order
-        {
-            get { return 3; }
-        }
+        #endregion
     }
 }

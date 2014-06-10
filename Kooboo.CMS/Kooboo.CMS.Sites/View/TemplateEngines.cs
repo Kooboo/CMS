@@ -24,45 +24,54 @@ namespace Kooboo.CMS.Sites.View
     }
     public interface ITemplateEngine
     {
+        #region Properties
         string Name { get; }
         int Order { get; }
-        string GetFileExtensionForLayout();
-        string GetFileExtensionForView();
-        IEnumerable<string> FileExtensions { get; }
+        string LayoutExtension { get; }
+        string ViewExtension { get; }
+        string EditorVirtualPath { get; }
+        #endregion
+
+        #region CreateView
         IViewEngine GetViewEngine();
         IView CreateView(ControllerContext controllerContext, string viewPath, string masterPath);
+        #endregion
 
+        #region CodeHelper
         IDataRuleCodeSnippet GetDataRuleCodeSnippet(TakeOperation takeOperation);
         ILayoutPositionParser GetLayoutPositionParser();
         ICodeHelper GetCodeHelper();
+        #endregion
+
+
     }
 
     public static class TemplateEngines
     {
-        private static List<ITemplateEngine> engines = new List<ITemplateEngine>();
-        static TemplateEngines()
-        {
-            //RegisterEngine(new ASPXTemplateEngine());
-            //RegisterEngine(new RazorTemplateEngine());
-        }
+        //private static List<ITemplateEngine> engines = new List<ITemplateEngine>();
+        //static TemplateEngines()
+        //{
+        //    //RegisterEngine(new ASPXTemplateEngine());
+        //    //RegisterEngine(new RazorTemplateEngine());
+        //}
         public static IEnumerable<ITemplateEngine> Engines
         {
             get
             {
-                return engines.OrderBy(it => it.Order);
+                return Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<ITemplateEngine>();
             }
         }
-        public static void RegisterEngine(ITemplateEngine engine)
-        {
-            lock (engines)
-            {
-                engines.Add(engine);
-            }
-        }
+        //public static void RegisterEngine(ITemplateEngine engine)
+        //{
+        //    lock (engines)
+        //    {
+        //        engines.Add(engine);
+        //    }
+        //}
 
         public static ITemplateEngine GetEngineByFileExtension(string fileExtension)
         {
-            var engine = engines.Where(it => it.FileExtensions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase)).FirstOrDefault();
+            var engine = Engines.Where(it => new[] { it.LayoutExtension, it.ViewExtension }.Contains(fileExtension, StringComparer.OrdinalIgnoreCase)).FirstOrDefault();
             if (engine == null)
             {
                 throw new NotSupportedException(string.Format("Not supported engine for '{0}'", fileExtension));
@@ -71,7 +80,7 @@ namespace Kooboo.CMS.Sites.View
         }
         public static ITemplateEngine GetEngineByName(string name)
         {
-            var engine = engines.Where(it => it.Name.EqualsOrNullEmpty(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            var engine = Engines.Where(it => it.Name.EqualsOrNullEmpty(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
             if (engine == null)
             {
                 throw new NotSupportedException(string.Format("Not found the engine. Name:'{0}'", name));

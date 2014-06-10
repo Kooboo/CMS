@@ -54,13 +54,13 @@ namespace Kooboo.CMS.Sites.View.PositionRender
                     var valueProvider = pageRequestContext.GetValueProvider();
                     valueProvider.Insert(0, new DictionaryValueProvider<object>(pageContext.ViewDataContext.Parameters, CultureInfo.CurrentCulture));
                     if (view.DataRules != null)
-                    {                       
+                    {
                         var dataRuleContext = new DataRuleContext(pageRequestContext.Site, pageRequestContext.Page) { ValueProvider = valueProvider };
                         DataRuleExecutor.Execute(viewData, dataRuleContext, view.DataRules);
                     }
                     if (view.DataSources != null)
                     {
-                        var dataSources = view.DataSources.Select(it => new DataSourceSetting(pageRequestContext.Site, it).LastVersion().AsActual()).Where(it => it != null);
+                        var dataSources = view.DataSources.Select(it => new DataSourceSetting(pageRequestContext.Site, it.MainDataSourceName).LastVersion().AsActual()).Where(it => it != null);
 
                         DataSourceExecutor.Execute(viewData, new DataSourceContext(pageRequestContext.Site, pageRequestContext.Page) { ValueProvider = valueProvider }, dataSources);
                     }

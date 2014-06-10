@@ -414,7 +414,7 @@ namespace Kooboo.CMS.Sites.View
 
                     if (view.DataSources != null)
                     {
-                        var dataSources = view.DataSources.Select(it => new DataSourceSetting(site, it).LastVersion().AsActual()).Where(it => it != null);
+                        var dataSources = view.DataSources.Select(it => new DataSourceSetting(site, it.MainDataSourceName).LastVersion().AsActual()).Where(it => it != null);
                         
                         DataSourceExecutor.Execute(positionViewData, new DataSourceContext(site, page) { ValueProvider = valueProviders }, dataSources);
                     }

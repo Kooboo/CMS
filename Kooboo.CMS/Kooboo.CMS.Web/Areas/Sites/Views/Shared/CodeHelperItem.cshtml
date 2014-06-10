@@ -1,11 +1,11 @@
 ﻿@model CodeSnippetGroup
-@if (Model != null)
+@if (Model != null && Model.CodeSnippets != null)
 {
     <ul>
         @foreach (var c in Model.CodeSnippets)
         {
             <li>
-                <a  title="@(c.Code)" class="right">@Html.IconImage("insert")</a>
+                <a title="@(c.Code)" class="right">@Html.IconImage("insert")</a>
                 @(c.Name)
             </li>
         }
@@ -16,5 +16,5 @@
                 @Html.Partial("CodeHelperItem", g)
             </li>
         }
-    </ul> 
+    </ul>
 }

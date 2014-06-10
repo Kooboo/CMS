@@ -14,11 +14,14 @@ using Kooboo.CMS.Sites.View.CodeSnippet;
 using Kooboo.CMS.Sites.Models;
 using System.Web.Mvc;
 using Kooboo.CMS.Sites.View;
+using Kooboo.CMS.Common.Runtime.Dependency;
 
 namespace Kooboo.CMS.Sites.TemplateEngines.WebForm
 {
+    [Dependency(typeof(ITemplateEngine), Key = "TalTemplateEngine")]
     public class WebFormTemplateEngine : ITemplateEngine
     {
+        #region CreateView
         public IViewEngine GetViewEngine()
         {
             return new WebFormViewEngine();
@@ -28,11 +31,9 @@ namespace Kooboo.CMS.Sites.TemplateEngines.WebForm
             return new WebFormView(controllerContext, viewPath, masterPath);
         }
 
-        public IEnumerable<string> FileExtensions
-        {
-            get { return new string[] { ".ascx", ".aspx" }; }
-        }
+        #endregion
 
+        #region Properties
         public string Name
         {
             get
@@ -41,15 +42,27 @@ namespace Kooboo.CMS.Sites.TemplateEngines.WebForm
             }
         }
 
-        public string GetFileExtensionForLayout()
+        public string LayoutExtension
         {
-            return ".aspx";
+            get { return ".aspx"; }
         }
 
-        public string GetFileExtensionForView()
+        public string ViewExtension
         {
-            return ".ascx";
+            get { return ".ascx"; }
         }
+        public string EditorVirtualPath
+        {
+            //default editor
+            get { return null; }
+        }
+        public int Order
+        {
+            get { return 2; }
+        }
+        #endregion
+
+        #region CodeHelper
 
         public IDataRuleCodeSnippet GetDataRuleCodeSnippet(TakeOperation takeOperation)
         {
@@ -70,17 +83,11 @@ namespace Kooboo.CMS.Sites.TemplateEngines.WebForm
             return new WebFormLayoutPositionParser();
         }
 
-
         public ICodeHelper GetCodeHelper()
         {
             return new WebFormCodeHelper();
         }
-
-
-        public int Order
-        {
-            get { return 2; }
-        }
+        #endregion
     }
 
 }

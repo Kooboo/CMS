@@ -56,7 +56,6 @@
     <Compile Include="..\..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
-    <Compile Include="AssemblyInitializer.cs" />
     <Compile Include="MvcViewEngine\ContentHelper.cs" />
     <Compile Include="MvcViewEngine\ExtensionDuck.cs" />
     <Compile Include="MvcViewEngine\HtmlExtensionDuck.cs" />

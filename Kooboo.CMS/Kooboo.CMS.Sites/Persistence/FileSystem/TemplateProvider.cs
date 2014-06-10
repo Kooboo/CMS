@@ -134,7 +134,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             if (o!=null)
             {
-                o.Body = Kooboo.IO.IOUtility.ReadAsString(GetTemplateFilePath(dummy));
+                o.Body = Kooboo.IO.IOUtility.ReadAsString(GetTemplateFilePath(o));
             }            
 
             return o;

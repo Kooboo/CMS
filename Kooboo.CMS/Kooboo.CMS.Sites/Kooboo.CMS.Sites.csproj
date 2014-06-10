@@ -219,6 +219,7 @@
     <Compile Include="Membership\SignOutMemberPlugin.cs" />
     <Compile Include="Membership\ValidateMemberModel.cs" />
     <Compile Include="Membership\ValidateMemberPlugin.cs" />
+    <Compile Include="Models\DataSourceSelection.cs" />
     <Compile Include="Models\HtmlMeta.cs" />
     <Compile Include="Models\Label.cs" />
     <Compile Include="Models\Options\CreateSiteOptions.cs" />

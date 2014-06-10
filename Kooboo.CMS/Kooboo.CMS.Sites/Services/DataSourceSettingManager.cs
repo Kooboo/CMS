@@ -10,6 +10,7 @@ using Kooboo.CMS.Sites.DataSource;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace Kooboo.CMS.Sites.Services
         {
             var usedInViews = _viewProvider.All(dataSourceSetting.Site)
                 .Select(it => it.AsActual())
-                .Where(it => it.DataSources != null && it.DataSources.Contains(dataSourceSetting.DataName, StringComparer.OrdinalIgnoreCase))
+                .Where(it => it.DataSources != null && it.DataSources.Any(ds => ds.MainDataSourceName.EqualsOrNullEmpty(dataSourceSetting.DataName, StringComparison.OrdinalIgnoreCase)))
                 .Select(it => new RelationModel()
             {
                 DisplayName = it.Name,

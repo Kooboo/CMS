@@ -1,0 +1,353 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharpTAL</name>
+    </assembly>
+    <members>
+        <member name="T:SharpTAL.RenderContext">
+            <summary>
+            Render context implementation
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateProgram.ProgramGeneratorResult.MainProgram">
+            <summary>
+            Main template program compiled from TemplateBody.
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateProgram.ProgramGeneratorResult.ImportedPrograms">
+            <summary>
+            Dictionary of TemplatePrograms compiled from templates imported by "metal:import" command.
+            The key contains the full path to the template file.
+            The value contains the compiled program.
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateProgram.ProgramGeneratorResult.ImportedNamespaces">
+            <summary>
+            Dictionary of paths to imported programs hashed by namespace created by "metal:import" command.
+            The key contains the imported program namespace.
+            The value contains the list of full paths to template files.
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateProgram.ProgramGeneratorParameters.TemplateBody">
+            <summary>
+            Template body.
+            </summary>
+        </member>
+        <member name="T:SharpTAL.RepeatDictionary">
+            <summary>
+            Repeat dictionary implementation
+            </summary>
+        </member>
+        <member name="T:SharpTAL.ITalesIterator">
+             <summary>
+             TAL Iterator provided by TALES
+            
+             Values of this iterator are assigned to items in the repeat namespace.
+            
+             For example, with a TAL statement like: tal:repeat="item items",
+             an iterator will be assigned to "repeat/item".  The iterator
+             provides a number of handy methods useful in writing TAL loops.
+            
+             The results are undefined of calling any of the methods except
+             'length' before the first iteration.
+             </summary>
+        </member>
+        <member name="M:SharpTAL.ITemplate.Compile">
+            <summary>
+            Compile template to ensure that the compiled assembly is already in cache when
+            RenderTemplate is called for the first time. For precompiling, the actual values
+            of globals are not required, just the names and types of the global variables.
+            </summary>
+        </member>
+        <member name="M:SharpTAL.ITemplate.Render(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Render the template
+            </summary>
+            <param name="globals">Dictionary of global variables</param>
+            <returns>Rendered template</returns>
+        </member>
+        <member name="M:SharpTAL.ITemplate.Render(System.IO.StreamWriter,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Render the template
+            </summary>
+            <param name="outputWriter">The output stream</param>
+            <param name="globals">Dictionary of global variables</param>
+        </member>
+        <member name="P:SharpTAL.ITemplate.TemplateCache">
+            <summary>
+            Template cache to store the compiled template body
+            </summary>
+        </member>
+        <member name="M:SharpTAL.TemplateCache.ITemplateCache.CompileTemplate(System.String,System.Collections.Generic.Dictionary{System.String,System.Type},System.Collections.Generic.List{System.Reflection.Assembly})">
+            <summary>
+            Compile template to ensure that the compiled assembly is already in cache when
+            RenderTemplate is called for the first time. For precompiling, the actual values
+            of globals are not required, just the names and types of the global variables.
+            </summary>
+            <param name="templateBody">The template body</param>
+            <param name="globalsTypes">Dictionary of types of global variables</param>
+            <param name="referencedAssemblies">List of referenced assemblies</param>
+            <returns>The TemplateInfo generated from compiled template body</returns>
+        </member>
+        <member name="M:SharpTAL.TemplateCache.AbstractTemplateCache.CompileTemplate(System.String,System.Collections.Generic.Dictionary{System.String,System.Type},System.Collections.Generic.List{System.Reflection.Assembly})">
+            <summary>
+            Compile template to ensure that the compiled assembly is already in cache when
+            RenderTemplate is called for the first time. For precompiling, the actual values
+            of globals are not required, just the names and types of the global variables.
+            </summary>
+            <param name="templateBody">The template body</param>
+            <param name="globalsTypes">Dictionary of types of global variables</param>
+            <param name="referencedAssemblies">List of referenced assemblies</param>
+            <returns>The TemplateInfo generated from compiled template body</returns>
+        </member>
+        <member name="M:SharpTAL.TemplateCache.AbstractTemplateCache.ComputeTemplateKey(SharpTAL.TemplateInfo)">
+            <summary>
+            Returns a unique key that represent the template in the template cache.
+            The template key is computed from the following parts:
+             Template body hash,
+             Global types hash,
+             Imported templates hash,
+             Referenced assemblies hash
+            </summary>
+            <param name="ti">Template info</param>
+            <returns>Template key</returns>
+        </member>
+        <member name="M:SharpTAL.TemplateCache.AbstractTemplateCache.GenerateTemplateProgram(System.String,System.Collections.Generic.Dictionary{System.String,System.Type},System.Collections.Generic.List{System.Reflection.Assembly})">
+            <summary>
+            Generate template program from template body and generate the TemplateKey
+            </summary>
+            <param name="templateBody"></param>
+            <param name="globalsTypes"></param>
+            <param name="referencedAssemblies"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharpTAL.TemplateCache.AbstractTemplateCache.GetTemplateRenderMethod(System.Reflection.Assembly,SharpTAL.TemplateInfo)">
+            <summary>
+            Try to find the render method in assembly
+            </summary>
+            <param name="assembly"></param>
+            <param name="ti"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SharpTAL.TemplateCache.AbstractTemplateCache.GetTemplateGeneratorVersion(System.Reflection.Assembly,SharpTAL.TemplateInfo)">
+            <summary>
+            Try to find the template source generator version
+            </summary>
+            <param name="assembly"></param>
+            <param name="ti"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SharpTAL.TemplateParser.AbstractTemplateParser">
+            <summary>
+            Abstract XML/HTML parser
+            </summary>
+        </member>
+        <member name="T:SharpTAL.TemplateProgram.CommandTypeComparer">
+            <summary>
+            Sort commands by order of execution
+            </summary>
+        </member>
+        <member name="T:SharpTAL.TemplateProgram.CommandType">
+            <summary>
+            Command types (declared in order of execution).
+            </summary>
+        </member>
+        <member name="T:SharpTAL.TemplateProgram.ProgramMacro">
+            <summary>
+            The TemplateProgramMacro represents part (macro) of another TemplateProgram, and is used for the METAL implementation.
+            The two uses for this class are:
+            1 - metal:define-macro results in a TemplateProgramMacro that is the macro
+            2 - metal:fill-slot results in a TemplateProgramMacro that is a parameter to metal:use-macro
+            </summary>
+        </member>
+        <member name="P:SharpTAL.TemplateProgram.IProgram.Name">
+            <summary>
+            Name of macro
+            </summary>
+        </member>
+        <member name="P:SharpTAL.TemplateProgram.IProgram.TemplatePath">
+            <summary>
+            Source template path
+            </summary>
+        </member>
+        <member name="P:SharpTAL.TemplateProgram.IProgram.TemplateBody">
+            <summary>
+            Source template body
+            </summary>
+        </member>
+        <member name="P:SharpTAL.TemplateProgram.IProgram.TemplateBodyHash">
+            <summary>
+            Source template body hash
+            </summary>
+        </member>
+        <member name="P:SharpTAL.TemplateProgram.IProgram.EndTagLocationTable">
+            <summary>
+            End tags locations table
+            </summary>
+        </member>
+        <member name="P:SharpTAL.TemplateProgram.IProgram.TemplateCommands">
+            <summary>
+            Commands of the entite template
+            </summary>
+        </member>
+        <member name="P:SharpTAL.TemplateProgram.IProgram.ProgramCommands">
+            <summary>
+            Commands of this program
+            </summary>
+        </member>
+        <member name="P:SharpTAL.TemplateProgram.IProgram.Start">
+            <summary>
+            Index of the first program command
+            </summary>
+        </member>
+        <member name="P:SharpTAL.TemplateProgram.IProgram.End">
+            <summary>
+            Index of the last program command
+            </summary>
+        </member>
+        <member name="P:SharpTAL.TemplateProgram.IProgram.Macros">
+            <summary>
+            Program macros
+            </summary>
+        </member>
+        <member name="M:SharpTAL.TemplateProgram.ProgramMacro.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            The startRange and endRange are indexes into the parent program command list, 
+            and defines the range of commands that we can execute
+            </summary>
+        </member>
+        <member name="P:SharpTAL.TemplateProgram.Program.ImportMacroCommands">
+            <summary>
+            Metal import:macro commands cache
+            </summary>
+        </member>
+        <member name="T:SharpTAL.TemplateParser.ParseError">
+            <summary>
+            An error occurred during parsing.
+            Indicates an error on the structural level.
+            </summary>
+        </member>
+        <member name="T:SharpTAL.TemplateParser.ElementParser">
+            <summary>
+            Parses tokens into elements.
+            </summary>
+        </member>
+        <member name="M:SharpTAL.TemplateCache.MemoryTemplateCache.#ctor">
+            <summary>
+            Initialize the template cache
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateInfo.TemplateKey">
+            <summary>
+            Contains a unique key that represent the template in the template cache.
+            The template key is computed from the following parts:
+             Template body hash
+             Global types hash
+             Imported templates hash
+             Referenced assemblies hash
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateInfo.RenderMethod">
+            <summary>
+            Reference to template render method.
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateInfo.GeneratorVersion">
+            <summary>
+            Template generator version.
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateInfo.TemplateBody">
+            <summary>
+            Template body.
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateInfo.GlobalsTypes">
+            <summary>
+            Types of global objects
+            The key contains the object name.
+            The value contains the object type.
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateInfo.ReferencedAssemblies">
+            <summary>
+            List of referenced assemblies.
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateInfo.MainProgram">
+            <summary>
+            Main template program compiled from TemplateBody.
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateInfo.ImportedPrograms">
+            <summary>
+            Dictionary of TemplatePrograms compiled from templates imported by "metal:import" command.
+            The key contains the full path to the template file.
+            The value contains the compiled program.
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateInfo.ImportedNamespaces">
+            <summary>
+            Dictionary of paths to imported programs hashed by namespace created by "metal:import" command.
+            The key contains the imported program namespace.
+            The value contains the list of full paths to template files.
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateInfo.GeneratedSourceCode">
+            <summary>
+            Contains the C# source code used to compile the assembly.
+            </summary>
+        </member>
+        <member name="M:SharpTAL.TemplateCache.FileSystemTemplateCache.#ctor(System.String)">
+            <summary>
+            Initialize the filesystem template cache
+            </summary>
+            <param name="cacheFolder">Folder where cache will write and read generated assemblies</param>
+        </member>
+        <member name="M:SharpTAL.TemplateCache.FileSystemTemplateCache.#ctor(System.String,System.Boolean)">
+            <summary>
+            Initialize the filesystem template cache
+            </summary>
+            <param name="cacheFolder">Folder where cache will write and read generated assemblies</param>
+            <param name="clearCache">If it's true, clear all files matching the default pattern from cache folder</param>
+        </member>
+        <member name="M:SharpTAL.TemplateCache.FileSystemTemplateCache.#ctor(System.String,System.Boolean,System.String)">
+            <summary>
+            Initialize the filesystem template cache
+            </summary>
+            <param name="cacheFolder">Folder where cache will write and read generated assemblies</param>
+            <param name="clearCache">If it's true, clear all files matching the <paramref name="pattern"/> from cache folder</param>
+            <param name="pattern">
+            File name regular expression pattern.
+            Default pattern is "Template_{key}.dll".
+            Macro {key} will be replaced with computed hash key."
+            </param>
+        </member>
+        <member name="F:SharpTAL.HtmlEntityDefs.Name2Code">
+            <summary>
+            Maps the HTML entity name to the Unicode codepoint
+            </summary>
+        </member>
+        <member name="F:SharpTAL.HtmlEntityDefs.Code2Name">
+            <summary>
+            Maps the Unicode codepoint to the HTML entity name
+            </summary>
+        </member>
+        <member name="F:SharpTAL.HtmlEntityDefs.EntityDefs">
+            <summary>
+            Maps the HTML entity name to the character
+            (or a character reference if the character is outside the Latin-1 range)
+            </summary>
+        </member>
+        <member name="T:SharpTAL.TemplateProgram.ProgramGenerator">
+            <summary>
+            ZPT (Zope Page Template) parser and Template program generator
+            </summary>
+        </member>
+        <member name="F:SharpTAL.TemplateProgram.ProgramGenerator.TemplateProgramCache">
+            <summary>
+            Contains compiled template programs. The key is the template body hash.
+            </summary>
+        </member>
+    </members>
+</doc>

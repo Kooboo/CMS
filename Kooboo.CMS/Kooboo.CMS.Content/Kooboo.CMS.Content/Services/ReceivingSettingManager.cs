@@ -119,7 +119,11 @@ namespace Kooboo.CMS.Content.Services
                                 values["Published"] = originalContent.Published.Value.ToString();
                             }
                         }
-                        drivedContent.OriginalLastestVisitedVersionId = Kooboo.CMS.Content.Versioning.VersionManager.AllVersionInfos(originalContent).Max(it => it.Version);
+                        var versions = Kooboo.CMS.Content.Versioning.VersionManager.AllVersionInfos(originalContent);
+                        if (versions.Count()>0)
+                        {
+                            drivedContent.OriginalLastestVisitedVersionId = Kooboo.CMS.Content.Versioning.VersionManager.AllVersionInfos(originalContent).Max(it => it.Version);
+                        }                        
                         var categoriesOfDrivedContent = GetAllCategories(drivedContent);
                         Services.ServiceFactory.TextContentManager.Update(repository, targetFolder, drivedContent.UUID, values, null, DateTime.UtcNow, categoriesOfOriginalContent, categoriesOfDrivedContent, originalContent.UserId);
                     }

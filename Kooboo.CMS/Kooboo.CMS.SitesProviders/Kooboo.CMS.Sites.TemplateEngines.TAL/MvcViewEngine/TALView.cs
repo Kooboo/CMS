@@ -16,6 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
@@ -66,18 +67,43 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
                 {
                     var body = IOUtility.ReadAsString(viewPhysicalPath);
 
-                    Dictionary<string, object> globals = new Dictionary<string, object>(ViewData);
+                    if (IsDesignMode(viewContext.HttpContext))
+                    {
+                        writer.Write(body);
+                    }
+                    else
+                    {
+                        Dictionary<string, object> globals = new Dictionary<string, object>(ViewData);
+                        globals = PushHelpers(viewContext, globals);
 
-                    var types = GetReferencedTypes(globals);
-                    var assemblies = GetReferencedAssemblies(types);
-                    Template template = new Template(body, types, assemblies);
-                    template.TemplateCache = templateCache;
-                    // Global variables used in template
+                        var types = GetReferencedTypes(globals);
+                        var assemblies = GetReferencedAssemblies(types);
+                        Template template = new Template(body, types, assemblies);
+                        template.TemplateCache = templateCache;
+                        // Global variables used in template
 
-                    writer.Write(template.Render(globals));
+                        writer.Write(template.Render(globals));
+                    }
                 }
 
             }
+        }
+        private bool IsDesignMode(HttpContextBase httpContext)
+        {
+            return httpContext.Items["TALDesign"] != null && httpContext.Items["TALDesign"].ToString() == "true";
+        }
+        protected virtual Dictionary<string, object> PushHelpers(ViewContext viewContext, Dictionary<string, object> globals)
+        {
+            //globals["ViewBag"] = viewContext.Controller.ViewBag;
+            globals["ViewData"] = viewContext.ViewData;
+            globals["TempData"] = viewContext.TempData;
+            globals["RouteData"] = viewContext.RouteData;
+            globals["Controller"] = viewContext.Controller;
+            globals["HttpContext"] = viewContext.HttpContext;
+            globals["Html"] = new HtmlHelper(viewContext, this);
+            globals["Url"] = new UrlHelper(viewContext.RequestContext);
+            globals["Ajax"] = new AjaxHelper(viewContext, this);
+            return globals;
         }
         protected virtual Dictionary<string, Type> GetReferencedTypes(IDictionary<string, object> globals)
         {

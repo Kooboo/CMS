@@ -189,7 +189,7 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
 
                         if (schema != null)
                         {
-                            return schema.AllColumns.ToDictionary(it => it.Name, it => (object)(it.DataType));
+                            return schema.AllColumns.ToDictionary(it => it.Name, it => (object)(it.DataType.ToString()));
                         }
                     }
                 }

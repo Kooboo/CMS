@@ -1,0 +1,44 @@
+﻿@model Kooboo.CMS.Sites.Models.View
+@{
+    var layouts = ServiceFactory.LayoutManager.All(Site.Current, null).Select(it => new
+    {
+        it.Name,
+        Positions = it.Positions.Select(po => po.ID)
+    });
+    var previewUrl = Url.Action("Preview", new { controller = "TALViewEditor", siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), view = Model == null ? "" : Model.Name });
+}
+<div id="layoutSelector" class="layout-selector right">
+    <label>Choose a preview layout &amp; Position:</label>
+    <select data-bind="options: layouts,optionsText:'Name',optionsValue:'Name',value: selectedLayout,optionsCaption:'--Layout--'"></select>
+    <select data-bind="options: positions,value: selectedPosition,optionsCaption:'--Position--'"></select>
+</div>
+
+<script>
+    $(function () {
+        function LayoutSelectorViewModel() {
+            var self = this;
+            var url = '@Html.Raw(previewUrl)';
+            self.layouts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(layouts));
+            self.selectedLayout = ko.observable();
+            self.selectedPosition = ko.observable();
+            self.positions = ko.computed(function(){
+                var layoutName = self.selectedLayout();
+                var layout = _.find(self.layouts,function(item){
+                    return item.Name == layoutName
+                });
+                if (layout!=null) {
+                    return layout.Positions;
+                }
+                else {
+                    return [];
+                }
+            });
+            self.selectedPosition.subscribe(function(newValue) {
+                var previewUrl = url + "&layout=" + self.selectedLayout()+"&position=" + self.selectedPosition();
+                $('#iframe-preview').attr('src',previewUrl);
+            });
+        }
+        var viewModel = new LayoutSelectorViewModel()
+        ko.applyBindings(viewModel, $('#layoutSelector')[0]);
+    });
+</script>

@@ -39,11 +39,10 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL
 
         public string ViewExtension
         {
-          get { return ".tal";}
+            get { return ".tal"; }
         }
         public string EditorVirtualPath
         {
-            //default editor
             get { return "_TALEditor"; }
         }
         #endregion
@@ -59,7 +58,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL
         public System.Web.Mvc.IView CreateView(System.Web.Mvc.ControllerContext controllerContext, string viewPath, string masterPath)
         {
             return new TALView(controllerContext, viewPath, masterPath);
-        } 
+        }
         #endregion
 
         #region GetDataRuleCodeSnippet

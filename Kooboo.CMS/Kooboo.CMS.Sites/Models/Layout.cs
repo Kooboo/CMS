@@ -80,20 +80,6 @@ namespace Kooboo.CMS.Sites.Models
             }
         }
 
-        private void Parse(string body)
-        {
-            if (!string.IsNullOrEmpty(body))
-            {
-                var parsedPositions = TemplateEngines.GetEngineByName(EngineName).GetLayoutPositionParser().Parse(body);
-                positions = new List<LayoutPosition>();
-                foreach (var position in parsedPositions)
-                {
-                    positions.Add(new LayoutPosition() { ID = position });
-                }
-            }
-        }
-
-        private List<LayoutPosition> positions = new List<LayoutPosition>();
         /// <summary>
         /// public set method is only use in serialization.
         /// </summary>
@@ -103,15 +89,23 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                return this.positions;
+                return Parse(Body);
             }
         }
-
-        public override void OnSaving()
+        private List<LayoutPosition> Parse(string body)
         {
-            base.OnSaving();
-            Parse(this.Body);
-        }        
+            var positions = new List<LayoutPosition>();
+            if (!string.IsNullOrEmpty(body))
+            {
+                var parsedPositions = TemplateEngines.GetEngineByName(EngineName).GetLayoutPositionParser().Parse(body);
+
+                foreach (var position in parsedPositions)
+                {
+                    positions.Add(new LayoutPosition() { ID = position });
+                }
+            }
+            return positions;
+        }
     }
 
 

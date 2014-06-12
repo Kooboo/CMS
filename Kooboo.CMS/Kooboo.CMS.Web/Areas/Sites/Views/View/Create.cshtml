@@ -21,18 +21,4 @@
         </li>
     </ul>
 }
-@using (Html.BeginForm())
-{
-    <div class="topbar">
-        <h1 class="title left">@ViewBag.Title</h1>
-        <p class="field left">
-            @Html.EditorFor(m => m.Name, new { Layout = "_NoLabel.cshtml" })
-        </p>
-    </div>
-    <div class="common-form fixed">
-        @Html.ValidationSummary(true)
-        @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
-        @Html.Partial("_ViewEditor", Model)
-    </div>
-}
-@Html.Partial("View.Script")
+@Html.Partial("_ViewEditor", Model)

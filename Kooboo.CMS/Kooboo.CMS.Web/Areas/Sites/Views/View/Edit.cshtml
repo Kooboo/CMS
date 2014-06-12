@@ -1,7 +1,7 @@
 ﻿@model Kooboo.CMS.Sites.Models.View
 @{
     ViewBag.Title = "Edit view".Localize();
-    Layout = "~/Views/Shared/Blank.cshtml";
+    Layout = "~/Views/Shared/Blank.cshtml";    
 }
 @section Panel{
     <ul class="panel">
@@ -19,18 +19,4 @@
         </li>
     </ul>
 }
-<div class="topbar">
-    <h1 class="title">@ViewBag.Title: <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
-</div>
-<div class="common-form fixed">
-    @using (Html.BeginForm())
-    { 
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(m => m.EngineName)
-        @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
-        @Html.Hidden("old_Key", Model.Name)
-        @Html.Partial("_ViewEditor", Model)
-    }
-</div>
-@Html.Partial("View.Script")
-
+@Html.Partial("_ViewEditor", Model)

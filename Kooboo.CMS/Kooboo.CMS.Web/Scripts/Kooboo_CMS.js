@@ -218,102 +218,107 @@ $(function () {
         toggleLegend(legend);
     };
     $.fn.koobooTab = function (option) {
-        var api = this.data('koobooTab');
-        if (api == undefined) {
-            var config = {
-                containerClass: "tab-content",
-                currentClass: "active",
-                tabClass: "tab-content",
-                event: "click",
-                tabContentTag: "<div></div>",
-                showTabIndex: 0,
-                preventDefault: true
-            };
-
-            var tabContents = this.children('.' + config.tabClass).hide();
-            var tabMap = [];
-            $.extend(config, option);
-            var ul = this.children("ul");
-
-            function initTab(current, index) {
-                var href = current.attr("href");
-                if (href.indexOf("#") == 0) {
-                    current.bind(config.event, function (e) {
-                        document.location.hash = href.substring(href.indexOf('#'));
-                        api.show();
-                        if (config.preventDefault) {
-                            e.preventDefault();
-                        }
-                    });
-                }
-
-                var api = {
-                    show: function () {
-                        var expire = /#\S+$/;
-                        var id = expire.exec(href);
-                        if (id && id[0]) {
-                            tabContents.hide();
-                            current.parent().siblings().removeClass(config.currentClass);
-                            current.parent().addClass(config.currentClass);
-                            $(id[0]).show();
-                        }
-
-                    }
+        var $self = $(this);
+        $self.each(function () {
+            var $el = $(this);
+            var api = $el.data('koobooTab');
+            if (api == undefined) {
+                var config = {
+                    containerClass: "tab-content",
+                    currentClass: "active",
+                    tabClass: "tab-content",
+                    event: "click",
+                    tabContentTag: "<div></div>",
+                    showTabIndex: 0,
+                    preventDefault: true
                 };
-                tabMap.push({ id: href, handle: current, tab: api, index: index });
-                return api;
-            }
 
-            var index = 0;
-            ul.find("li a").each(function (val) {
-                var current = $(this);
-                var tabApi = initTab(current, index);
-                index++;
-            });
+                var tabContents = $el.children('.' + config.tabClass).hide();
+                console.log(tabContents);
+                var tabMap = [];
+                $.extend(config, option);
+                var ul = $el.children("ul");
 
-
-
-            api = {
-                showTab: function (tab) {
-                    tab = tab == undefined ? 0 : tab;
-                    var tabObj;
-                    if (typeof (tab) == 'string') {
-                        tabObj = _.find(tabMap, (function (o, index) {
-                            return o.id == tab;
-                        }));
-                    } else if (!isNaN(tab)) {
-                        tabObj = _.find(tabMap, (function (o, index) { return index == tab; }));
+                function initTab(current, index) {
+                    var href = current.attr("href");
+                    if (href.indexOf("#") == 0) {
+                        current.bind(config.event, function (e) {
+                            document.location.hash = href.substring(href.indexOf('#'));
+                            api.show();
+                            if (config.preventDefault) {
+                                e.preventDefault();
+                            }
+                        });
                     }
-                    tabObj = tabObj ? tabObj : _.first(tabMap);
-                    tabObj.tab.show();
+
+                    var api = {
+                        show: function () {
+                            var expire = /#\S+$/;
+                            var id = expire.exec(href);
+                            if (id && id[0]) {
+                                tabContents.hide();
+                                current.parent().siblings().removeClass(config.currentClass);
+                                current.parent().addClass(config.currentClass);
+                                $(id[0]).show();
+                            }
+
+                        }
+                    };
+                    tabMap.push({ id: href, handle: current, tab: api, index: index });
+                    return api;
                 }
-            };
 
-            this.data('koobooTab', api);
-
-            function getAddressTab() {
-                var url = location.href;
-                var expire = /#\w+$/;
-                var tab = config.showTabIndex;
-
-                if (expire.test(url)) {
-                    var tabId = expire.exec(url);
-                    tab = tabId[0];
-                }
-                return tab;
-            }
-
-            $(function () {
-                api.showTab(getAddressTab());
-
-                $(window).bind('onhashchange', function () {
-                    api.showTab(getAddressTab());
+                var index = 0;
+                ul.find("li a").each(function (val) {
+                    var current = $(this);
+                    var tabApi = initTab(current, index);
+                    index++;
                 });
 
-            });
-        }
 
-        return api;
+
+                api = {
+                    showTab: function (tab) {
+                        tab = tab == undefined ? 0 : tab;
+                        var tabObj;
+                        if (typeof (tab) == 'string') {
+                            tabObj = _.find(tabMap, (function (o, index) {
+                                return o.id == tab;
+                            }));
+                        } else if (!isNaN(tab)) {
+                            tabObj = _.find(tabMap, (function (o, index) { return index == tab; }));
+                        }
+                        tabObj = tabObj ? tabObj : _.first(tabMap);
+                        tabObj.tab.show();
+                    }
+                };
+
+                $el.data('koobooTab', api);
+
+                function getAddressTab() {
+                    var url = location.href;
+                    var expire = /#\w+$/;
+                    var tab = config.showTabIndex;
+
+                    if (expire.test(url)) {
+                        var tabId = expire.exec(url);
+                        tab = tabId[0];
+                    }
+                    return tab;
+                }
+
+                $(function () {
+                    api.showTab(getAddressTab());
+
+                    $(window).bind('onhashchange', function () {
+                        api.showTab(getAddressTab());
+                    });
+
+                });
+            }
+
+            return api;
+        });
     }
     $.fn.reset_check_relateds = function (options) {
         var $check_relateds = options.check_relateds;

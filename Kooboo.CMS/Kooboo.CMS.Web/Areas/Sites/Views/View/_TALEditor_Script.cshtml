@@ -1,0 +1,54 @@
+﻿@model dynamic
+@{
+    var dataSourceContext = new Kooboo.CMS.Sites.DataSource.DataSourceContext(Site.Current, null);
+    var dataSourceMetadata = ServiceFactory.GetService<DataSourceSettingManager>().All(Site.Current, "")
+        .Select(it => new
+        {
+            Name = it.DataName,
+            Definitions = it.DataSource.GetDefinitions(dataSourceContext).Keys
+        });
+
+    var metadataJson = Newtonsoft.Json.JsonConvert.SerializeObject(dataSourceMetadata);
+}
+<script>
+
+    $(function () {
+        (function initCodeMirror() {
+            var textArea = $('#Body');
+            textArea.codeMirror();
+            var codeMirrorAPI = textArea.data("codeMirror");
+            codeMirrorAPI.on('change', function (e) {
+                if (e && e.historySize().undo > 0) {
+                    window.leaveConfirm.stop();
+                } else {
+                    window.leaveConfirm.pass();
+                }
+            });
+            window.ajaxFormParam = {
+                beforeSerialize: function ($form, options) {
+                    var codeMirrorAPI = textArea.data("codeMirror");
+                    var text = codeMirrorAPI.getText();
+                    textArea.val(text);
+                }
+            };
+        })();
+
+        $('.tabs').koobooTab();
+    });
+    var dataSource = {
+        metadata : @Html.Raw(metadataJson) ,
+        getSelectedDataSources :function(){
+            return _.map(listModel.selectedDataSources(),function(item){
+                return {MainDataSourceName:item.MainDataSourceName(),RelatedDataSources:item.RelatedDataSources()}
+            });
+        },
+        getDataSourceDefinitions:function(dataSources){
+            return _.filter(this.metadata,function(item){
+                return _.find(dataSources,function(ds){
+                    return ds.MainDataSourceName == item.Name;
+                })!=null;
+            });
+        }
+    };
+
+</script>

@@ -77,7 +77,7 @@
         <!--/ko-->
         <!--ko if: dataSources().length == 0-->
         <span>@("Not available data sources.".Localize())</span>
-        <p class="buttons">           
+        <p class="buttons">
             <a class="button gray cancel">
                 @("Cancel".Localize())
             </a>
@@ -86,124 +86,122 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function () {
-        var allDataSources = @Html.Raw(dataSources);
-        var editTemplate = $('#@editTemplateId');
-        var listTemplate = $('#@listTemplateId');
-        var util = {
-            wrapDataSources:function(dataSources){
-                _.each(dataSources(),function(item){
-                    _.each(item.Relations(),function(ir){
-                        ir.Checked.subscribe(function(newValue){
-                            if (newValue==true) {
-                                item.Checked(true);
-                            }
-                        });
-                    });
-                });
-                return dataSources;
-            },
-            showEditDialog:function(dataSources,closeCallback)
-            {
-                var editModel = new EditViewModel(dataSources);
-                var dialoagTemplate = editTemplate.clone().attr('id',null);
-                dialoagTemplate.insertAfter(editTemplate);
-                ko.applyBindings(editModel, dialoagTemplate[0]);
-                var dialog = dialoagTemplate.dialog({
-                    autoOpen: false,
-                    modal: true,
-                    width: 500,
-                    draggable: false,
-                    resizable: false,
-                    title: this.Name
-                }).dialog('open');
-                dialog.find('a.save').unbind('click').click(function () {
-                    closeCallback(editModel);
-                    ko.cleanNode(dialoagTemplate[0]);
-                    dialog.remove();
-                    dialoagTemplate.remove();
-                });
-                dialog.find('a.cancel').one('click', function () {
-                    ko.cleanNode(dialoagTemplate[0]);
-                    dialog.remove();
-                    dialoagTemplate.remove();
-                });
-            }
 
-        };
-        function ListViewModel() {
-            var self= this;
-            self.selectedDataSources = ko.mapping.fromJS(@Html.Raw(modelJson));
-            var namePrfix = '@fullPropertyName';
-            self.getPrefixFieldName = function (index) {
-                return namePrfix + '[' + (index) + '].';
-            };
-            self.addItem=function(){
-                var availableDataSource = _.filter(allDataSources,function(it){
-                    available= _.find(self.selectedDataSources(),function(sit){
-                        return sit.MainDataSourceName() == it.Name;
-                    })==null;
-                    return available;
-                });
-                var dataSources = util.wrapDataSources(ko.mapping.fromJS(availableDataSource));
-
-                util.showEditDialog(dataSources,function(editModel){
-                    ko.utils.arrayPushAll(self.selectedDataSources, editModel.getSelectedDataSource());
-                });
-            };
-            self.removeItem = function (item) {
-                self.selectedDataSources.remove(item);
-            };
-            self.editItem=function(item){
-                var editDataSources  = _.filter(allDataSources,function(it){
-                    return item.MainDataSourceName() == it.Name;
-                });
-                _.each(editDataSources,function(it){
-                    it.Checked = true;
-                    _.each(it.Relations,function(ir){
-                        var index = _.indexOf(item.RelatedDataSources(),ir.Name);
-                        if (index!=-1) {
-                            ir.Checked=true;
+    var allDataSources = @Html.Raw(dataSources);
+    var editTemplate = $('#@editTemplateId');
+    var listTemplate = $('#@listTemplateId');
+    var util = {
+        wrapDataSources:function(dataSources){
+            _.each(dataSources(),function(item){
+                _.each(item.Relations(),function(ir){
+                    ir.Checked.subscribe(function(newValue){
+                        if (newValue==true) {
+                            item.Checked(true);
                         }
                     });
                 });
-                var dataSources = util.wrapDataSources(ko.mapping.fromJS(editDataSources));
-                util.showEditDialog(dataSources,function(editModel){
-                    var selected = editModel.getSelectedDataSource();
-                    if (selected.length >0) {
-                        item.MainDataSourceName(selected[0].MainDataSourceName());
-                        item.RelatedDataSources.removeAll();
-                        ko.utils.arrayPushAll(item.RelatedDataSources,selected[0].RelatedDataSources());
-                    }
-                    else {
-                        self.selectedDataSources.remove(item);
-                    }
-                    //   self.selectedDataSources.splice(0,1,editModel.getSelectedDataSource());
-                });
-            }
-
+            });
+            return dataSources;
+        },
+        showEditDialog:function(dataSources,closeCallback)
+        {
+            var editModel = new EditViewModel(dataSources);
+            var dialoagTemplate = editTemplate.clone().attr('id',null);
+            dialoagTemplate.insertAfter(editTemplate);
+            ko.applyBindings(editModel, dialoagTemplate[0]);
+            var dialog = dialoagTemplate.dialog({
+                autoOpen: false,
+                modal: true,
+                width: 500,
+                draggable: false,
+                resizable: false,
+                title: this.Name
+            }).dialog('open');
+            dialog.find('a.save').unbind('click').click(function () {
+                closeCallback(editModel);
+                ko.cleanNode(dialoagTemplate[0]);
+                dialog.remove();
+                dialoagTemplate.remove();
+            });
+            dialog.find('a.cancel').one('click', function () {
+                ko.cleanNode(dialoagTemplate[0]);
+                dialog.remove();
+                dialoagTemplate.remove();
+            });
         }
-        var listModel = new ListViewModel()
-        ko.applyBindings(listModel, listTemplate[0]);
+    };
+    function ListViewModel() {
+        var self= this;
+        self.selectedDataSources = ko.mapping.fromJS(@Html.Raw(modelJson));
+        var namePrfix = '@fullPropertyName';
+        self.getPrefixFieldName = function (index) {
+            return namePrfix + '[' + (index) + '].';
+        };
+        self.addItem=function(){
+            var availableDataSource = _.filter(allDataSources,function(it){
+                available= _.find(self.selectedDataSources(),function(sit){
+                    return sit.MainDataSourceName() == it.Name;
+                })==null;
+                return available;
+            });
+            var dataSources = util.wrapDataSources(ko.mapping.fromJS(availableDataSource));
 
-        function EditViewModel(dataSources) {
-            var self = this;
-            self.dataSources = dataSources;
-            self.getSelectedDataSource=function(){
-                var selected =[];
-                _.each(self.dataSources(),function(item){
-                    if (item.Checked()==true) {
-                        var o = {'MainDataSourceName': ko.observable(item.Name()),'RelatedDataSources':ko.observableArray([])};
-                        _.each(item.Relations(),function(ir){
-                            if( ir.Checked()==true){
-                                o.RelatedDataSources.push(ir.Name());
-                            }
-                        });
-                        selected.push(o);
+            util.showEditDialog(dataSources,function(editModel){
+                ko.utils.arrayPushAll(self.selectedDataSources, editModel.getSelectedDataSource());
+            });
+        };
+        self.removeItem = function (item) {
+            self.selectedDataSources.remove(item);
+        };
+        self.editItem=function(item){
+            var editDataSources  = _.filter(allDataSources,function(it){
+                return item.MainDataSourceName() == it.Name;
+            });
+            _.each(editDataSources,function(it){
+                it.Checked = true;
+                _.each(it.Relations,function(ir){
+                    var index = _.indexOf(item.RelatedDataSources(),ir.Name);
+                    if (index!=-1) {
+                        ir.Checked=true;
                     }
                 });
-                return selected;
-            }
+            });
+            var dataSources = util.wrapDataSources(ko.mapping.fromJS(editDataSources));
+            util.showEditDialog(dataSources,function(editModel){
+                var selected = editModel.getSelectedDataSource();
+                if (selected.length >0) {
+                    item.MainDataSourceName(selected[0].MainDataSourceName());
+                    item.RelatedDataSources.removeAll();
+                    ko.utils.arrayPushAll(item.RelatedDataSources,selected[0].RelatedDataSources());
+                }
+                else {
+                    self.selectedDataSources.remove(item);
+                }
+                //   self.selectedDataSources.splice(0,1,editModel.getSelectedDataSource());
+            });
         }
-    });
+    }
+    var listModel = new ListViewModel()
+    ko.applyBindings(listModel, listTemplate[0]);
+
+    function EditViewModel(dataSources) {
+        var self = this;
+        self.dataSources = dataSources;
+        self.getSelectedDataSource=function(){
+            var selected =[];
+            _.each(self.dataSources(),function(item){
+                if (item.Checked()==true) {
+                    var o = {'MainDataSourceName': ko.observable(item.Name()),'RelatedDataSources':ko.observableArray([])};
+                    _.each(item.Relations(),function(ir){
+                        if( ir.Checked()==true){
+                            o.RelatedDataSources.push(ir.Name());
+                        }
+                    });
+                    selected.push(o);
+                }
+            });
+            return selected;
+        }
+    }
+
 </script>

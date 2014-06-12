@@ -1,297 +1,297 @@
 /* Editor
 ----------------------------------------------------------*/
 .block.editor {
-	.editor {
-		bottom: 0;
-		left: 0;
-		overflow: hidden;
-		position: absolute;
-		right: 401px;
-		top: 0;
+    .tal-editor {
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        position: absolute;
+        right: 401px;
+        top: 0;
 
-		.ui-tabs {
-			bottom: 0;
-			left: 0;
-			overflow: hidden;
-			position: absolute;
-			right: 0;
-			top: 0;
+        .tabs {
+            bottom: 0;
+            left: 0;
+            overflow: hidden;
+            position: absolute;
+            right: 0;
+            top: 0;
 
-			.ui-tabs-panel {
-				margin: 0;
-				bottom: 37px;
-				left: 0;
-				position: absolute;
-				right: 0;
-				top: 0;
-			}
+            .tab-content {
+                margin: 0;
+                bottom: 37px;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
 
-			.ui-tabs-nav {
-				background: #F5F5F5;
-				border-color: #DDD;
-				bottom: 0;
-				left: 0;
-				padding-bottom: 5px;
-				position: absolute;
-				right: 0;
+            .tab-index {
+                background: #F5F5F5;
+                border-color: #DDD;
+                bottom: 0;
+                left: 0;
+                padding-bottom: 5px;
+                position: absolute;
+                right: 0;
 
-				a {
-					height: 30px;
-					line-height: 30px;
+                a {
+                    height: 30px;
+                    line-height: 30px;
 
-					&:hover {
-						background: #DDD;
-						border-color: #DDD;
-					}
-				}
+                    &:hover {
+                        background: #DDD;
+                        border-color: #DDD;
+                    }
+                }
 
-				.ui-tabs-active a {
-					background: #FFF;
-					border-color: #DDD;
-				}
-			}
-		}
+                &.active a {
+                    background: #FFF;
+                    border-color: #DDD;
+                }
+            }
+        }
 
-		iframe {
-			border: none;
-			height: 100%;
-			padding: 10px;
-			width: 100%;
-			.box-sizing(border-box);
-		}
-	}
+        iframe {
+            border: none;
+            height: 100%;
+            padding: 10px;
+            width: 100%;
+            .box-sizing(border-box);
+        }
+    }
 
-	.panel {
-		border-left: 1px solid #DDD;
-		bottom: 0;
-		overflow-x: hidden;
-		overflow-y: scroll;
-		padding-top: 10px;
-		position: absolute;
-		right: 0;
-		top: 0;
-		width: 400px;
+    .tal-panel {
+        border-left: 1px solid #DDD;
+        bottom: 0;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        padding-top: 10px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 400px;
 
-		.block {
-			margin: 20px 0;
+        .block {
+            margin: 20px 0;
 
-			.title {
-				cursor: pointer;
-				font-size: 18px;
-				font-weight: 400;
-				line-height: 28px;
-				margin-bottom: 5px;
-				padding: 0 20px;
-				position: relative;
+            .title {
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 28px;
+                margin-bottom: 5px;
+                padding: 0 20px;
+                position: relative;
 
-				.sprite {
-					position: absolute;
-					left: 7px;
-					top: 10px;
-				}
-			}
+                .sprite {
+                    position: absolute;
+                    left: 7px;
+                    top: 10px;
+                }
+            }
 
-			.container {
-				display: none;
+            .container {
+                display: none;
 
-				.empty {
-					background: #F9F9F9;
-					color: #333;
-					font-style: italic;
-					padding: 5px 20px;
-				}
-			}
+                .empty {
+                    background: #F9F9F9;
+                    color: #333;
+                    font-style: italic;
+                    padding: 5px 20px;
+                }
+            }
 
-			&.active {
-				.title .sprite {
-					left: 6px;
-					top: 11px;
-				}
+            &.active {
+                .title .sprite {
+                    left: 6px;
+                    top: 11px;
+                }
 
-				.container {
-					display: block;
-				}
-			}
+                .container {
+                    display: block;
+                }
+            }
 
-			&.text-setting {
-				.item {
-					background: #EEE;
-					border-bottom: 1px solid #CCC;
-					border-top: 1px solid #CCC;
-					margin-bottom: 20px;
-					padding: 10px 20px;
-					position: relative;
+            &.text-setting {
+                .item {
+                    background: #EEE;
+                    border-bottom: 1px solid #CCC;
+                    border-top: 1px solid #CCC;
+                    margin-bottom: 20px;
+                    padding: 10px 20px;
+                    position: relative;
 
-					&.new {
-						background: #FFFFF0;
-					}
+                    &.new {
+                        background: #FFFFF0;
+                    }
 
-					&.minimized {
-						background: #F9F9F9;
-						border-color: #EEE;
+                    &.minimized {
+                        background: #F9F9F9;
+                        border-color: #EEE;
 
-						.text .sprite {
-							left: 7px;
-							top: 6px;
-						}
-					}
+                        .text .sprite {
+                            left: 7px;
+                            top: 6px;
+                        }
+                    }
 
-					> .action {
-						position: absolute;
-						right: 20px;
-						top: 10px;
-					}
+                    > .action {
+                        position: absolute;
+                        right: 20px;
+                        top: 10px;
+                    }
 
-					.text {
-						cursor: pointer;
-						font-size: 14px;
-						font-weight: 600;
-						line-height: 16px;
-						margin: 0 30px 0 -20px;
-						overflow: hidden;
-						padding-left: 20px;
-						position: relative;
-						text-overflow: ellipsis;
-						white-space: nowrap;
+                    .text {
+                        cursor: pointer;
+                        font-size: 14px;
+                        font-weight: 600;
+                        line-height: 16px;
+                        margin: 0 30px 0 -20px;
+                        overflow: hidden;
+                        padding-left: 20px;
+                        position: relative;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
 
-						.sprite {
-							left: 6px;
-							position: absolute;
-							top: 7px;
-						}
-					}
+                        .sprite {
+                            left: 6px;
+                            position: absolute;
+                            top: 7px;
+                        }
+                    }
 
-					.confirm {
-						overflow: hidden;
+                    .confirm {
+                        overflow: hidden;
 
-						p {
-							margin-bottom: 10px;
-						}
+                        p {
+                            margin-bottom: 10px;
+                        }
 
-						.button {
-							float: left;
-							margin-right: 10px;
-						}
-					}
+                        .button {
+                            float: left;
+                            margin-right: 10px;
+                        }
+                    }
 
-					.form-row {
-						padding: 10px 0 0;
-					}
-				}
+                    .form-row {
+                        padding: 10px 0 0;
+                    }
+                }
 
-				.label-editor {
-					border-top: 1px solid #DDD;
-					margin-top: 15px;
-					padding-top: 15px;
+                .label-editor {
+                    border-top: 1px solid #DDD;
+                    margin-top: 15px;
+                    padding-top: 15px;
 
-					textarea {
-						min-height: 30px;
-					}
-				}
+                    textarea {
+                        min-height: 30px;
+                    }
+                }
 
-				.data-editor {
-					border-top: 1px solid #DDD;
-					margin-top: 15px;
-					padding-top: 15px;
+                .data-editor {
+                    border-top: 1px solid #DDD;
+                    margin-top: 15px;
+                    padding-top: 15px;
 
-					table {
-						width: 100%;
+                    table {
+                        width: 100%;
 
-						td {
-							padding: 0 5px 5px 0;
+                        td {
+                            padding: 0 5px 5px 0;
 
-							&.action {
-								padding: 0;
-								width: 16px;
-							}
-						}
-					}
-				}
+                            &.action {
+                                padding: 0;
+                                width: 16px;
+                            }
+                        }
+                    }
+                }
 
-				.link-editor {
-					border-top: 1px solid #DDD;
-					margin-top: 15px;
-					padding-top: 15px;
+                .link-editor {
+                    border-top: 1px solid #DDD;
+                    margin-top: 15px;
+                    padding-top: 15px;
 
-					.form-row {
-						padding: 0;
+                    .form-row {
+                        padding: 0;
 
-						> div {
-							margin-bottom: 5px;
-						}
-					}
+                        > div {
+                            margin-bottom: 5px;
+                        }
+                    }
 
-					label {
-						font-weight: 600;
-					}
+                    label {
+                        font-weight: 600;
+                    }
 
-					.external-link {
-						margin-top: 5px;
-					}
-				}
-			}
+                    .external-link {
+                        margin-top: 5px;
+                    }
+                }
+            }
 
-			&.text-list {
-				table {
-					width: 100%;
+            &.text-list {
+                table {
+                    width: 100%;
 
-					th {
-						font-weight: 600;
-						padding-bottom: 5px;
-					}
+                    th {
+                        font-weight: 600;
+                        padding-bottom: 5px;
+                    }
 
-					.mini {
-						padding-left: 5px;
-						text-align: center;
-						width: 10px;
-					}
+                    .mini {
+                        padding-left: 5px;
+                        text-align: center;
+                        width: 10px;
+                    }
 
-					td.action {
-						padding-left: 10px;
-						width: 10px;
-					}
+                    td.action {
+                        padding-left: 10px;
+                        width: 10px;
+                    }
 
-					input {
-						float: none;
-						margin: 0;
-					}
-				}
-			}
+                    input {
+                        float: none;
+                        margin: 0;
+                    }
+                }
+            }
 
-			&.label-list {
-				li {
-					margin-bottom: 10px;
-					padding-right: 38px;
-					position: relative;
+            &.label-list {
+                li {
+                    margin-bottom: 10px;
+                    padding-right: 38px;
+                    position: relative;
 
-					.editable-field {
-						display: block;
-					}
+                    .editable-field {
+                        display: block;
+                    }
 
-					.action {
-						position: absolute;
-						right: 0;
-						top: 0;
-					}
-				}
-			}
+                    .action {
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                    }
+                }
+            }
 
-			&.source-list {
-				.container {
-					background: #F9F9F9;
-					padding: 10px 20px;
-				}
+            &.source-list {
+                .container {
+                    background: #F9F9F9;
+                    padding: 10px 20px;
+                }
 
-				li {
-					margin-bottom: 5px;
-					overflow: hidden;
+                li {
+                    margin-bottom: 5px;
+                    overflow: hidden;
 
-					.action {
-						float: right;
-						margin-left: 5px;
-					}
-				}
-			}
-		}
-	}
+                    .action {
+                        float: right;
+                        margin-left: 5px;
+                    }
+                }
+            }
+        }
+    }
 }

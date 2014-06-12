@@ -1,2 +1,41 @@
 ﻿@model Kooboo.CMS.Sites.Models.View
-@Html.Raw(Html.TextAreaFor(o => o.Body, new { rows = 20, cols = 20 }))
+
+@if (ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower() == "create")
+{
+    using (Html.BeginForm())
+    {
+        <div class="topbar">
+            <h1 class="title left">@ViewBag.Title</h1>
+            <p class="field left">
+                @Html.EditorFor(m => m.Name, new { Layout = "_NoLabel.cshtml" })
+            </p>
+
+            @Html.Partial("LayoutSelector")
+        </div>
+        <div class="common-form fixed">
+            @Html.ValidationSummary(true)
+            @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
+            @*@Html.Raw(Html.TextAreaFor(o => o.Body, new { rows = 20, cols = 20 }))*@
+
+            @Html.Partial("_TALBody", Model)
+        </div>
+    }
+}
+else
+{
+    <div class="topbar">
+        <h1 class="title">@ViewBag.Title: <strong>@ViewContext.RequestContext.GetRequestValue("UUID")</strong></h1>
+        @Html.Partial("LayoutSelector")
+    </div>
+    <div class="common-form fixed">
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(m => m.EngineName)
+            @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
+            @Html.Hidden("old_Key", Model.Name)
+            @Html.Partial("_TALBody", Model)
+        }
+    </div>
+}
+@Html.Partial("_TALEditor_Script")

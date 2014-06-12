@@ -218,6 +218,7 @@
     <Compile Include="Areas\Sites\Controllers\SiteTemplateController.cs" />
     <Compile Include="Areas\Sites\Controllers\ABSiteSettingController.cs" />
     <Compile Include="Areas\Sites\Controllers\ABRuleSettingController.cs" />
+    <Compile Include="Areas\Sites\Controllers\TALViewEditorController.cs" />
     <Compile Include="Areas\Sites\Menu\MembershipMenuItems.cs" />
     <Compile Include="Areas\Sites\ModelBinders\DataSourceModelBinder.cs" />
     <Compile Include="Areas\Sites\Models\ABPageTestHitsReport.cs" />
@@ -2595,6 +2596,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\View\EditorTemplates\DataSourceSelection.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\View\_TALEditor_Script.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Styles\editor.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\View\_TALBody.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\View\LayoutSelector.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

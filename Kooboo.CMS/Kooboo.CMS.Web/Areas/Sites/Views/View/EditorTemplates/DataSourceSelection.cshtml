@@ -20,28 +20,24 @@
 
     var viewEngine = (Kooboo.CMS.Sites.View.ITemplateEngine)ViewData["ViewEngine"];
 }
-<div class="block datasources">
-    <h6 class="title active">
-        @Html.IconImage("arrow")
+<div class="block list active">
+    <h6 class="title">
+        @Html.IconImage("sprite")
         @("Data sources".Localize())
     </h6>
     <div id="@listTemplateId" class="container">
         <ul data-bind="foreach: selectedDataSources">
             <li data-bind="{attr:{id:'@listTemplateId'+'_li_' + $index()}}">
-                <div class="clearfix">
-                    <span data-bind="text: $data.MainDataSourceName"></span>
-
-                    <a class="action" data-bind="click: $parent.removeItem">@Html.IconImage("minus small")</a>
-                    <a class="action" data-bind="click:$parent.editItem">@Html.IconImage("edit small")</a>
-
-                    <ul data-bind="foreach: {data:$data.RelatedDataSources,as:'$relation'}">
-                        <li>
-                            <span data-bind="text: $relation"></span>
-                            <input type="hidden" data-bind="value: $relation, attr: {name: $root.getPrefixFieldName($parentContext.$index()) + 'RelatedDataSources[' + $index() +']'}" />
-                        </li>
-                    </ul>
-                    <input type="hidden" data-bind="value: $data.MainDataSourceName, attr: {name: $root.getPrefixFieldName($index()) + 'MainDataSourceName'}" />
-                </div>
+                <a class="action" data-bind="click: $parent.removeItem">@Html.IconImage("minus small")</a>
+                <a class="action" data-bind="click:$parent.editItem">@Html.IconImage("edit small")</a>
+                <span data-bind="text: $data.MainDataSourceName"></span>
+                <ul data-bind="foreach: {data:$data.RelatedDataSources,as:'$relation'}">
+                    <li>
+                        <span data-bind="text: $relation"></span>
+                        <input type="hidden" data-bind="value: $relation, attr: {name: $root.getPrefixFieldName($parentContext.$index()) + 'RelatedDataSources[' + $index() +']'}" />
+                    </li>
+                </ul>
+                <input type="hidden" data-bind="value: $data.MainDataSourceName, attr: {name: $root.getPrefixFieldName($index()) + 'MainDataSourceName'}" />
             </li>
         </ul>
         <p class="actions clearfix">
@@ -50,39 +46,49 @@
     </div>
 </div>
 <div class="hide">
-    <div id="@editTemplateId" class="common-form">
-        <!--ko if: dataSources().length>0-->
-        <ul data-bind="foreach:dataSources">
-            <li>
-                <input type="checkbox" data-bind="checked: $data.Checked,attr:{id:'checkbox_'+$index()}" value="true" />
-                <label data-bind="text:$data.Name,attr:{for:'checkbox_'+$index()}" class="inline"></label>
-
-                <ul data-bind="foreach:$data.Relations" style="padding:20px;">
-                    <li>
-                        <input type="checkbox" data-bind="checked: $data.Checked,attr:{id:'checkbox_'+$index() +'_'+$parentContext.$index()}" value="true" />
-                        <label data-bind="text:$data.Name,attr:{for:'checkbox_'+$index() +'_'+$parentContext.$index()}" class="inline"></label>
+    <div id="@editTemplateId" class="block dialog">
+        <h2 class="title">@("Data source".Localize())</h2>
+        <div class="common-form">
+            <!--ko if: dataSources().length>0-->
+            <div class="block treeview">
+                <ul data-bind="foreach:dataSources">
+                    <li class="tree-node clearfix active">
+                        <span>
+                            @Html.IconImage("folder")
+                            <input type="checkbox" data-bind="checked: $data.Checked,attr:{id:'checkbox_'+$index()}" value="true" />
+                            <label data-bind="text:$data.Name,attr:{for:'checkbox_'+$index()}" class="inline"></label>
+                        </span>
+                        <ul data-bind="foreach:$data.Relations">
+                            <li>
+                                <span>
+                                    @Html.IconImage("folder")
+                                    <input type="checkbox" data-bind="checked: $data.Checked,attr:{id:'checkbox_'+$index() +'_'+$parentContext.$index()}" value="true" />
+                                    <label data-bind="text:$data.Name,attr:{for:'checkbox_'+$index() +'_'+$parentContext.$index()}" class="inline"></label>
+                                </span>
+                            </li>
+                        </ul>
                     </li>
-                </ul>
-            </li>
 
-        </ul>
-        <p class="buttons">
-            <a class="button save">
-                @("Save".Localize())
-            </a>
-            <a class="button gray cancel">
-                @("Cancel".Localize())
-            </a>
-        </p>
-        <!--/ko-->
-        <!--ko if: dataSources().length == 0-->
-        <span>@("Not available data sources.".Localize())</span>
-        <p class="buttons">
-            <a class="button gray cancel">
-                @("Cancel".Localize())
-            </a>
-        </p>
-        <!--/ko-->
+                </ul>
+            </div>
+            <p class="buttons">
+                <a class="button save">
+                    @("Save".Localize())
+                </a>
+                <a class="button gray cancel">
+                    @("Cancel".Localize())
+                </a>
+            </p>
+            <!--/ko-->
+            <!--ko if: dataSources().length == 0-->
+            <span>@("Not available data sources.".Localize())</span>
+            <p class="buttons">
+                <a class="button gray cancel">
+                    @("Cancel".Localize())
+                </a>
+            </p>
+            <!--/ko-->
+        </div>
     </div>
 </div>
 <script type="text/javascript">

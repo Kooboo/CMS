@@ -125,6 +125,17 @@
 				display: block;
 			}
 		}
+
+		&.bottom {
+			border-bottom: none;
+			border-top: 1px solid #BABABA;
+			margin-bottom: 0;
+
+			.active {
+				bottom: 0;
+				top: -1px;
+			}
+		}
 	}
 
 	.tab-content {

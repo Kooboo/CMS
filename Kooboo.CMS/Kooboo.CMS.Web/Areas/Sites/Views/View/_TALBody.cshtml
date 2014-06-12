@@ -10,7 +10,7 @@
                 <div id="J_Tab1_2" class="tab-content">
                     @Html.Raw(Html.TextAreaFor(o => o.Body, new { rows = 20, cols = 20 }))
                 </div>
-                <ul id="panel-top-tabs" class="tab-index">
+                <ul id="panel-top-tabs" class="tab-index bottom">
                     <li class="active"><a type="preview" href="#J_Tab1_1">Preview</a></li>
                     <li><a type="source" href="#J_Tab1_2">Source code</a></li>
                 </ul>
@@ -26,9 +26,7 @@
                     <li><a href="#J_Tab2_2" id='tab-data-binding'>Data binding</a></li>
                 </ul>
                 <div id="J_Tab2_1" class="tab-content">
-                    <div class="block source-list active">
-                        @Html.EditorFor(m => m.DataSources, new { Title = "Data sources".Localize() })
-                    </div>
+                    @Html.EditorFor(m => m.DataSources, new { Title = "Data sources".Localize() })
                 </div>
                 <div id="J_Tab2_2" class="tab-content">
                     <div id="div-repeat-item-setting" class="block text-setting active"

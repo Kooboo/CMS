@@ -14,13 +14,16 @@ using System.IO;
 using Kooboo.CMS.Sites.Models;
 using System.Reflection;
 using Kooboo.CMS.Sites.Extension.Management;
+using Kooboo.CMS.Caching;
+using Kooboo.CMS.Sites.Caching;
 
 namespace Kooboo.CMS.Sites.Services
 {
     /// <summary>
-    /// Plugin 管理
+    /// Plugin 管理 
+    /// Singleton是因为在构造器里面需要拷贝DLL到BIN，实际发现很耗性能。
     /// </summary>
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(AssemblyManager))]
+    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(AssemblyManager), Kooboo.CMS.Common.Runtime.Dependency.ComponentLifeStyle.Singleton)]
     public class AssemblyManager
     {
         #region .ctor
@@ -72,24 +75,30 @@ namespace Kooboo.CMS.Sites.Services
         #region GetTypes
         public virtual IEnumerable<Type> GetTypes(Site site)
         {
-            List<Type> types = new List<Type>();
-            foreach (var assembly in GetAssemblies(site))
+            return site.ObjectCache().GetCache<List<Type>>("AssemblyManager.GetTypes", () =>
             {
-                types.AddRange(assembly.GetTypes());
-            }
-            return types;
+                List<Type> types = new List<Type>();
+                foreach (var assembly in GetAssemblies(site))
+                {
+                    types.AddRange(assembly.GetTypes());
+                }
+                return types;
+            });
         }
 
         public virtual IEnumerable<Type> GetTypes(Site site, Type type)
         {
-            List<Type> types = new List<Type>();
-            while (site != null)
+            return site.ObjectCache().GetCache<List<Type>>("AssemblyManager.GetTypes_" + type.FullName, () =>
             {
-                types.AddRange(GetTypes(site)
-                .Where(it => type.IsAssignableFrom(it) && !it.IsInterface && !it.IsAbstract));
-                site = site.Parent;
-            }
-            return types.Distinct();
+                List<Type> types = new List<Type>();
+                while (site != null)
+                {
+                    types.AddRange(GetTypes(site)
+                    .Where(it => type.IsAssignableFrom(it) && !it.IsInterface && !it.IsAbstract));
+                    site = site.Parent;
+                }
+                return types.Distinct().ToList();
+            });
         }
 
         public virtual IEnumerable<Type> GetTypes(Site site, string fileName)
@@ -175,13 +184,13 @@ namespace Kooboo.CMS.Sites.Services
             //}
             if (copyParent && site.Parent != null)
             {
-                EnsureAssembliesExistsInBin(site.Parent, copyParent, copyChildren);
+                EnsureAssembliesExistsInBin(site.Parent, overwrite, copyParent, copyChildren);
             }
             if (copyChildren)
             {
                 foreach (var child in ServiceFactory.SiteManager.ChildSites(site))
                 {
-                    EnsureAssembliesExistsInBin(child, copyParent, copyChildren);
+                    EnsureAssembliesExistsInBin(child, overwrite, copyParent, copyChildren);
                 }
             }
         }

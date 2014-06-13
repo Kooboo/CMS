@@ -68,7 +68,6 @@
                 menubar: false,
                 force_p_newlines: false,
                 forced_root_block: false,
-                verify_html: false,
                 toolbar_items_size: 'small',
                 toolbar: "save exit | undo redo |",
                 init_instance_callback: function (ed) {

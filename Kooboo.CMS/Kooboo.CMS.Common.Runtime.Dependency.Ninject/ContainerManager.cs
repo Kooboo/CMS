@@ -221,7 +221,7 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
                 foreach (var parameter in parameters)
                 {
                     var service = Resolve(parameter.ParameterType);
-                    if (service == null)
+                    if (service != null)
                         parameterInstances.Add(service);
                 }
                 return Activator.CreateInstance(type, parameterInstances.ToArray());

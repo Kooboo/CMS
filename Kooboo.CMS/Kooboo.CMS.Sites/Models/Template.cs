@@ -98,7 +98,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                if (string.IsNullOrEmpty(body) && this.Site != null)
+                if (body == null && this.Site != null)
                 {
                     return IOUtility.ReadAsString(this.PhysicalTemplateFileName);
                 }
@@ -154,10 +154,11 @@ namespace Kooboo.CMS.Sites.Models
         {
             this.IsDummy = false;
 
-            if (!string.IsNullOrEmpty(body))
+            if (body == null)
             {
-                IOUtility.SaveStringToFile(this.PhysicalTemplateFileName, body);
+                body = "";
             }
+            IOUtility.SaveStringToFile(this.PhysicalTemplateFileName, body);
         }
 
         public string DataFile

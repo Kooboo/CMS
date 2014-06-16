@@ -5,6 +5,17 @@ var fixHelper = function (e, ui) {
     });
     return ui;
 };
+//jQuery onshow, onhide events
+(function ($) {
+    $.each(['show', 'hide'], function (i, ev) {
+        var el = $.fn[ev];
+        $.fn[ev] = function () {
+            var result = el.apply(this, arguments);
+            this.trigger(ev);
+            return result;
+        };
+    });
+})(jQuery);
 
 function parse_JsonResultData(response, statusText, xhr, $form) {
     var form = $form;
@@ -234,7 +245,6 @@ $(function () {
                 };
 
                 var tabContents = $el.children('.' + config.tabClass).hide();
-                console.log(tabContents);
                 var tabMap = [];
                 $.extend(config, option);
                 var ul = $el.children("ul");
@@ -1363,4 +1373,6 @@ $(function () {
 
     });
 })(jQuery);
+
+
 

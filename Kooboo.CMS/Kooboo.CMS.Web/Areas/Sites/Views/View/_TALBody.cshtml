@@ -3,16 +3,16 @@
     <div class="block editor">
         <div class="tal-editor" id="div-editor-container">
             <div class="J_Tabs tabs-bottom tabs">
-                <div id="J_Tab1_1" class="tab-content">
+                <div id="tab_preview" class="tab-content">
                     <iframe id="iframe-preview"
                             src="@Url.Action("Preview", new { controller = "TALViewEditor", siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), layout = "one_column", view = Model == null ? "" : Model.Name, position = "mainContainer" })"></iframe>
                 </div>
-                <div id="J_Tab1_2" class="tab-content">
+                <div id="tab_sourceCode" class="tab-content">
                     @Html.Raw(Html.TextAreaFor(o => o.Body, new { rows = 20, cols = 20 }))
                 </div>
                 <ul id="panel-top-tabs" class="tab-index bottom">
-                    <li class="active"><a type="preview" href="#J_Tab1_1">Preview</a></li>
-                    <li><a type="source" href="#J_Tab1_2">Source code</a></li>
+                    <li class="active"><a type="preview" href="#tab_preview">Preview</a></li>
+                    <li><a type="source" href="#tab_sourceCode">Source code</a></li>
                 </ul>
             </div>
         </div>
@@ -22,13 +22,13 @@
 
             <div class="J_Tabs tabs">
                 <ul class="tab-index clearfix">
-                    <li class="active"><a href="#J_Tab2_1" id='tab-data-source'>Data source</a></li>
-                    <li><a href="#J_Tab2_2" id='tab-data-binding'>Data binding</a></li>
+                    <li class="active"><a href="#tab_dataSource" id='tab-data-source'>Data source</a></li>
+                    <li><a href="#tab_dataBinding" id='tab-data-binding'>Data binding</a></li>
                 </ul>
-                <div id="J_Tab2_1" class="tab-content">
+                <div id="tab_dataSource" class="tab-content">
                     @Html.EditorFor(m => m.DataSources, new { Title = "Data sources".Localize() })
                 </div>
-                <div id="J_Tab2_2" class="tab-content">
+                <div id="tab_dataBinding" class="tab-content">
                     <div id="div-repeat-item-setting" class="block text-setting active"
                          data-bind="template: { name: 'tmpl-datasource-setting', data: dataSource },visible:false">
                     </div>

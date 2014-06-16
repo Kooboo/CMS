@@ -24,6 +24,10 @@
                     window.leaveConfirm.pass();
                 }
             });
+            $('#tab_sourceCode').on('show',function(){     
+                codeMirrorAPI.refresh();
+                //setTimeout(function(){codeMirrorAPI.refresh();},10);
+            })
             window.ajaxFormParam = {
                 beforeSerialize: function ($form, options) {
                     var codeMirrorAPI = textArea.data("codeMirror");
@@ -34,6 +38,8 @@
         })();
 
         $('.tabs').koobooTab();
+
+
     });
     var dataSource = {
         metadata : @Html.Raw(metadataJson) ,

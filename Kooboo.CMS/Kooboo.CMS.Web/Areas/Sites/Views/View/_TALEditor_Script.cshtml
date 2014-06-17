@@ -5,6 +5,7 @@
         .Select(it => new
         {
             Name = it.DataName,
+            IsEnumerable = it.DataSource.IsEnumerable(),
             Definitions = it.DataSource.GetDefinitions(dataSourceContext).Keys
         });
 
@@ -24,7 +25,7 @@
                     window.leaveConfirm.pass();
                 }
             });
-            $('#tab_sourceCode').on('show',function(){     
+            $('#tab_sourceCode').on('show',function(){
                 codeMirrorAPI.refresh();
                 //setTimeout(function(){codeMirrorAPI.refresh();},10);
             })

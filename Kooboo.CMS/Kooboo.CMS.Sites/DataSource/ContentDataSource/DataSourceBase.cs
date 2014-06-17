@@ -238,5 +238,10 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
             return parameters;
         }
         #endregion
+
+        public bool IsEnumerable()
+        {
+            return TakeOperation == TakeOperation.List;
+        }
     }
 }

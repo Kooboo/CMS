@@ -20,5 +20,7 @@ namespace Kooboo.CMS.Sites.DataSource
         IEnumerable<string> GetParameters();
 
         IDictionary<string, object> GetDefinitions(DataSourceContext dataSourceContext);
+
+        bool IsEnumerable();
     }
 }

@@ -162,5 +162,11 @@ namespace Kooboo.CMS.Sites.DataSource.Http
             return new Dictionary<string, object>();
         }
         #endregion
+
+
+        public bool IsEnumerable()
+        {
+            return false;
+        }
     }
 }

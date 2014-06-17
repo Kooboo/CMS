@@ -24,23 +24,22 @@ namespace Kooboo.CMS.Sites.DataSource
     public class DataSourceExecutor
     {
         public static string ModelName = "model";
-        public static void Execute(ViewDataDictionary viewData, DataSourceContext dataSourceContext, IEnumerable<DataSourceSetting> dataSourceSettings)
+        public static void Execute(ViewDataDictionary viewData, DataSourceContext dataSourceContext, IEnumerable<ExecutingDataSource> dataSources)
         {
-            foreach (var item in dataSourceSettings)
+            foreach (var item in dataSources)
             {
                 var data = ExecuteDataSource(item, dataSourceContext);
-                if (item.DataName.EqualsOrNullEmpty(ModelName, StringComparison.CurrentCultureIgnoreCase))
+                if (item.DataSourceSetting.DataName.EqualsOrNullEmpty(ModelName, StringComparison.CurrentCultureIgnoreCase))
                 {
                     viewData.Model = data;
                 }
-                viewData[item.DataName] = data;
+                viewData[item.DataSourceSetting.DataName] = data;
             }
         }
-        private static object ExecuteDataSource(DataSourceSetting dataSourceSetting, DataSourceContext dataSourceContext)
+        private static object ExecuteDataSource(ExecutingDataSource dataSource, DataSourceContext dataSourceContext)
         {
-            var data = dataSourceSetting.DataSource.Execute(dataSourceContext);
-
-            if (dataSourceSetting.Relations != null && dataSourceSetting.Relations.Count > 0)
+            var data = dataSource.DataSourceSetting.DataSource.Execute(dataSourceContext);
+            if (data != null && dataSource.IncludedRelations != null && dataSource.IncludedRelations.Count() > 0)
             {
                 if (data is IEnumerable
                     && !IsDictionary(data.GetType()))
@@ -48,13 +47,13 @@ namespace Kooboo.CMS.Sites.DataSource
                     List<object> list = new List<object>();
                     foreach (var item in (IEnumerable)data)
                     {
-                        list.Add(PopulateRelations(item, dataSourceSetting, dataSourceContext));
+                        list.Add(PopulateRelations(item, dataSource, dataSourceContext));
                     }
                     data = list;
                 }
                 else
                 {
-                    data = PopulateRelations(data, dataSourceSetting, dataSourceContext);
+                    data = PopulateRelations(data, dataSource, dataSourceContext);
                 }
             }
             return data;
@@ -85,13 +84,13 @@ namespace Kooboo.CMS.Sites.DataSource
             return false;
         }
 
-        private static object PopulateRelations(object data, DataSourceSetting dataSourceSetting, DataSourceContext dataSourceContext)
+        private static object PopulateRelations(object data, ExecutingDataSource dataSource, DataSourceContext dataSourceContext)
         {
             DynamicObject dynamicObject = new Kooboo.Dynamic.ExpandoObjectWrapper(data);
             dynamicObject.TrySetMember(new SetMemberBinderWrapper("_RawObject_"), data);
-            foreach (var relation in dataSourceSetting.Relations)
+            foreach (var relation in dataSource.IncludedRelations)
             {
-                var relatedDataSource = new DataSourceSetting(dataSourceSetting.Site, relation.TargetDataSourceName).LastVersion().AsActual();
+                var relatedDataSource = new DataSourceSetting(dataSource.DataSourceSetting.Site, relation.TargetDataSourceName).LastVersion().AsActual();
                 if (relatedDataSource != null)
                 {
                     Func<object> getRelation = () =>
@@ -99,7 +98,7 @@ namespace Kooboo.CMS.Sites.DataSource
                         var parameterValues = PopulateParameters(data, relation.ParameterValues);
                         var valueProvider = new ValueProviderCollection() { new DictionaryValueProvider<object>(parameterValues, System.Globalization.CultureInfo.CurrentCulture), dataSourceContext.ValueProvider };
                         var relationDataSourceContext = new DataSourceContext(dataSourceContext.Site, dataSourceContext.Page) { ValueProvider = valueProvider };
-                        return ExecuteDataSource(relatedDataSource, relationDataSourceContext);
+                        return ExecuteDataSource(new ExecutingDataSource(relatedDataSource, relatedDataSource.Relations), relationDataSourceContext);
                     };
 
                     if (relation.LazyLoad == true)

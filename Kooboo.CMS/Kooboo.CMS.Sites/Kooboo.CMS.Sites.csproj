@@ -117,6 +117,8 @@
     <Compile Include="DataSource\DataSourceExecutor.cs" />
     <Compile Include="DataSource\DataSourceRelation.cs" />
     <Compile Include="DataSource\DataSourceSetting.cs" />
+    <Compile Include="DataSource\ExecutingDataSource.cs" />
+    <Compile Include="DataSource\ExecutingDataSourceHelper.cs" />
     <Compile Include="DataSource\Http\HttpDataRequest.cs" />
     <Compile Include="DataSource\Http\HttpDataSource.cs" />
     <Compile Include="DataSource\Http\HttpDataSourceDesigner.cs" />

@@ -170,6 +170,9 @@
                     if (index!=-1) {
                         ir.Checked=true;
                     }
+                    else {
+                        ir.Checked=false;
+                    }
                 });
             });
             var dataSources = util.wrapDataSources(ko.mapping.fromJS(editDataSources));

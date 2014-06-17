@@ -60,9 +60,9 @@ namespace Kooboo.CMS.Sites.View.PositionRender
                     }
                     if (view.DataSources != null)
                     {
-                        var dataSources = view.DataSources.Select(it => new DataSourceSetting(pageRequestContext.Site, it.MainDataSourceName).LastVersion().AsActual()).Where(it => it != null);
+                        var executingDataSources = ExecutingDataSourceHelper.ToExecutingDataSources(pageRequestContext.Site, view.DataSources);
 
-                        DataSourceExecutor.Execute(viewData, new DataSourceContext(pageRequestContext.Site, pageRequestContext.Page) { ValueProvider = valueProvider }, dataSources);
+                        DataSourceExecutor.Execute(viewData, new DataSourceContext(pageRequestContext.Site, pageRequestContext.Page) { ValueProvider = valueProvider }, executingDataSources);
                     }
 
                 }

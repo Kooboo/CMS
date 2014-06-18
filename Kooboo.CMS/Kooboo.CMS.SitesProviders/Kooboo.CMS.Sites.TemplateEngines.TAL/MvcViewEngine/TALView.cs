@@ -11,6 +11,7 @@ using SharpTAL;
 using SharpTAL.TemplateCache;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -76,7 +77,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
                         Dictionary<string, object> globals = new Dictionary<string, object>(ViewData);
                         globals = PushHelpers(viewContext, globals);
 
-                        var types = GetReferencedTypes(globals);
+                        var types = GetGlobalsTypes(globals);
                         var assemblies = GetReferencedAssemblies(types);
                         Template template = new Template(body, types, assemblies);
                         template.TemplateCache = templateCache;
@@ -94,7 +95,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
         }
         protected virtual Dictionary<string, object> PushHelpers(ViewContext viewContext, Dictionary<string, object> globals)
         {
-            //globals["ViewBag"] = viewContext.Controller.ViewBag;
+            globals["ViewBag"] = viewContext.Controller.ViewBag;
             globals["ViewData"] = viewContext.ViewData;
             globals["TempData"] = viewContext.TempData;
             globals["RouteData"] = viewContext.RouteData;
@@ -105,15 +106,22 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
             globals["Ajax"] = new AjaxHelper(viewContext, this);
             return globals;
         }
-        protected virtual Dictionary<string, Type> GetReferencedTypes(IDictionary<string, object> globals)
+        private static List<string> StaticTypeVars = new List<string>() { "ViewData", "TempData", "RouteData", "Controller", "HttpContext", "Html", "Url", "Ajax" };
+        private bool IsDynamicObject(string varName)
+        {
+            return !StaticTypeVars.Contains(varName);
+        }
+        protected virtual Dictionary<string, Type> GetGlobalsTypes(IDictionary<string, object> globals)
         {
             var globalsTypes = new Dictionary<string, Type>();
             foreach (var kw in globals)
             {
-                globalsTypes.Add(kw.Key, kw.Value.GetType());
+                if (IsDynamicObject(kw.Key))
+                {
+                    globalsTypes.Add(kw.Key,typeof(DynamicObject));
+                }
             }
-            globalsTypes.Add("ContentBase", typeof(Kooboo.CMS.Content.Models.ContentBase));
-            globalsTypes.Add("DynamicDictionary", typeof(Kooboo.Collections.DynamicDictionary));
+
             return globalsTypes;
         }
         protected virtual List<Assembly> GetReferencedAssemblies(IDictionary<string, Type> globalTypes)

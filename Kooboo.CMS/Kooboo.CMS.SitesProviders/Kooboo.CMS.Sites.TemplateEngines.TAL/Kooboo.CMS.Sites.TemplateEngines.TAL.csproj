@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SharpTAL">
-      <HintPath>..\..\..\..\Kooboo_CMS_new_milestone\Lib\SharpTAL\SharpTAL.dll</HintPath>
+      <HintPath>..\..\..\Lib\SharpTAL\SharpTAL.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

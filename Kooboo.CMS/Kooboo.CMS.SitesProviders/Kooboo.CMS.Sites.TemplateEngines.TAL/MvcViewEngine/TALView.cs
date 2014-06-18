@@ -28,19 +28,14 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
         private ControllerContext _controllerContext;
         private readonly string _masterTemplate;
         private readonly string _viewTemplate;
-        private static FileSystemTemplateCache templateCache;
+        private static ITemplateCache templateCache;
 
         static TALView()
         {
-            string cacheFolder = Path.Combine(Path.GetDirectoryName(
-               Assembly.GetExecutingAssembly().Location), "Template Cache");
-
-            Kooboo.IO.IOUtility.EnsureDirectoryExists(cacheFolder);
-
             // Create the template cache.
             // We want to clear the cache folder on startup, setting the clearCache parameter to true,
             // and using customized file name pattern.
-            templateCache = new FileSystemTemplateCache(cacheFolder, true);
+            templateCache = new MemoryTemplateCache();
         }
 
         public TALView(ControllerContext controllerContext, string viewPath, string masterPath)
@@ -82,7 +77,6 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
                         Template template = new Template(body, types, assemblies);
                         template.TemplateCache = templateCache;
                         // Global variables used in template
-
                         writer.Write(template.Render(globals));
                     }
                 }
@@ -118,7 +112,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
             {
                 if (IsDynamicObject(kw.Key))
                 {
-                    globalsTypes.Add(kw.Key,typeof(DynamicObject));
+                    globalsTypes.Add(kw.Key, typeof(DynamicObject));
                 }
             }
 
@@ -126,7 +120,9 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
         }
         protected virtual List<Assembly> GetReferencedAssemblies(IDictionary<string, Type> globalTypes)
         {
-            return AppDomain.CurrentDomain.GetAssemblies().Where(it => !it.IsDynamic && !it.FullName.Contains("Mono.Cecil")).ToList();
+            return new List<Assembly>();
+            //很大影响了性能
+            //return AppDomain.CurrentDomain.GetAssemblies().Where(it => !it.IsDynamic && !it.FullName.Contains("Mono.Cecil")).ToList();
 
             //List<Assembly> assemblies = new List<Assembly>();
             //foreach (var type in globalTypes.Values)

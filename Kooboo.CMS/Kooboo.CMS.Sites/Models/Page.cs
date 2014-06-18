@@ -22,6 +22,7 @@ using System.Collections;
 using Kooboo.Dynamic;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using System.Security.Principal;
+using Kooboo.CMS.Common.Formula;
 namespace Kooboo.CMS.Sites.Models
 {
     public enum PageType
@@ -133,6 +134,19 @@ namespace Kooboo.CMS.Sites.Models
                 parsedRoute = RouteParser.Parse(GetRouteUrl());
             }
             return parsedRoute;
+        }
+
+        public IEnumerable<string> GetRouteParameters()
+        {
+            List<string> parameters = new List<string>();
+
+            if (!string.IsNullOrEmpty(this.RoutePath))
+            {
+                var parser = new FormulaParser();
+
+                parameters.AddRange(parser.GetParameters(this.RoutePath));
+            }
+            return parameters;
         }
 
     }

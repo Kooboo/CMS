@@ -72,7 +72,7 @@
                                             <input type="text" title="key" data-bind="value:parameter.Key, attr: { name: '[' +　$parentContext.$index() + '].ParameterValues[' + $index() + '].Key' }" class="short">
                                         </td>
                                         <td>
-                                            <input type="text" title="value" data-bind="value:parameter.Value, attr: { name: '[' +　$parentContext.$index() + '].ParameterValues[' + $index() + '].Value' }" class="long">
+                                            <select title="value" data-bind="options: $root.Definitions,optionsText: 'Text',optionsValue: 'Value',value:parameter.Value, attr: { name: '[' +　$parentContext.$index() + '].ParameterValues[' + $index() + '].Value' }" class="long"></select>
                                         </td>
                                         <td>
                                             <a class="action">

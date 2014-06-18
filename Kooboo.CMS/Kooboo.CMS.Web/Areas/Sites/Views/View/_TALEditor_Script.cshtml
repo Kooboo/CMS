@@ -1,7 +1,7 @@
 ﻿@model dynamic
 @{
     var dataSourceContext = new Kooboo.CMS.Sites.DataSource.DataSourceContext(Site.Current, null);
-    var dataSourceMetadata = ServiceFactory.GetService<DataSourceSettingManager>().All(Site.Current, "")
+    var dataSources = ServiceFactory.GetService<DataSourceSettingManager>().All(Site.Current, "")
         .Select(it => new
         {
             Name = it.DataName,
@@ -9,7 +9,17 @@
             Definitions = it.DataSource.GetDefinitions(dataSourceContext).Keys
         });
 
-    var metadataJson = Newtonsoft.Json.JsonConvert.SerializeObject(dataSourceMetadata);
+    var dataSourceJson = Newtonsoft.Json.JsonConvert.SerializeObject(dataSources);
+
+    var pages = ServiceFactory.PageManager.AllPagesFlattened(Site.Current)
+        .Select(it => it.LastVersion().AsActual())
+        .Where(it => it != null)
+        .Select(it => new
+        {
+            it.FullName,
+            Parameters = it.Route.GetRouteParameters()
+        });
+    var pagesJosn = Newtonsoft.Json.JsonConvert.SerializeObject(pages);
 }
 <script>
 
@@ -42,20 +52,21 @@
 
 
     });
-    var dataSource = {
-        metadata : @Html.Raw(metadataJson) ,
+    var meta = {
+        dataSourceMeta : @Html.Raw(dataSourceJson),
         getSelectedDataSources :function(){
             return _.map(listModel.selectedDataSources(),function(item){
                 return {MainDataSourceName:item.MainDataSourceName(),RelatedDataSources:item.RelatedDataSources()}
             });
         },
         getDataSourceDefinitions:function(dataSources){
-            return _.filter(this.metadata,function(item){
+            return _.filter(this.dataSourceMeta,function(item){
                 return _.find(dataSources,function(ds){
                     return ds.MainDataSourceName == item.Name;
                 })!=null;
             });
-        }
-    };
+        },
+        pages: @Html.Raw(pagesJosn)
+        };
 
 </script>

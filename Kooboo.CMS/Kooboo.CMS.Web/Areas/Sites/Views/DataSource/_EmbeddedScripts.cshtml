@@ -15,6 +15,13 @@
         it.LazyLoad,
         ParameterValues = it.ParameterValues.Select(kv => new { Key = kv.Key, Value = kv.Value })
     });
+
+    var definitions = Model.DataSource.GetDefinitions(new Kooboo.CMS.Sites.DataSource.DataSourceContext(Site.Current, null))
+       .Select(it => new
+       {
+           Text = it.Key,
+           Value = "{" + it.Key + "}"
+       });
 }
 
 
@@ -48,7 +55,9 @@
 
             self.ActiveDataSouceName = ko.observable('');
 
-            var rawRelations = @Html.Raw(JsonConvert.SerializeObject(relations, Formatting.None))
+            var rawRelations = @Html.Raw(JsonConvert.SerializeObject(relations, Formatting.None));
+
+            self.Definitions = @Html.Raw(JsonConvert.SerializeObject(definitions));
 
             self.DataSourceRelations = ko.observableArray([]);
 

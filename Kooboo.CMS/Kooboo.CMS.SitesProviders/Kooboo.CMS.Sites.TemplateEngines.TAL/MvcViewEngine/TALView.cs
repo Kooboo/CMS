@@ -89,7 +89,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
         }
         protected virtual Dictionary<string, object> PushHelpers(ViewContext viewContext, Dictionary<string, object> globals)
         {
-            globals["ViewBag"] = viewContext.Controller.ViewBag;
+            globals["ViewBag"] = viewContext.ViewBag;
             globals["ViewData"] = viewContext.ViewData;
             globals["TempData"] = viewContext.TempData;
             globals["RouteData"] = viewContext.RouteData;

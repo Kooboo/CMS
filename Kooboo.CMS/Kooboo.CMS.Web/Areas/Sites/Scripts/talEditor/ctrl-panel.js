@@ -69,22 +69,22 @@ var calloutEnum = {
 };
 
 //utils
-var utils={
-    getRandomId: function(prefix) {
-        var ran = String(Math.random()).replace('0.','');
-        var id = prefix+ran;
+var utils = {
+    getRandomId: function (prefix) {
+        var ran = String(Math.random()).replace('0.', '');
+        var id = prefix + ran;
         return id;
     },
-    messageFlash: function(msg) {
+    messageFlash: function (msg) {
         alert(msg);
     },
     t: function (str) {
         return str;
     },
-    mixin:function(cls,mixins) {
+    mixin: function (cls, mixins) {
         var prototype = cls.prototype;
-        _.each(mixins, function(mx) {
-            if(mx){
+        _.each(mixins, function (mx) {
+            if (mx) {
                 var _prototype = mx.prototype;
                 for (var p in _prototype) {
                     prototype[p] = _prototype[p];
@@ -92,6 +92,20 @@ var utils={
             }
         });
         return cls;
+    },
+    unescapeHTML:function (str) {
+        str = String(str).replace(/&gt;/g, '>').
+        replace(/&lt;/g, '<').
+        replace(/&quot;/g, '"').
+        replace(/&amp;/g, '&');
+        return str;
+    },
+    escapeHTML:function (str) {
+        str = String(str).replace(/&/g, '&amp;').
+        replace(/>/g, '&gt;').
+        replace(/</g, '&lt;').
+        replace(/"/g, '&quot;');
+        return str;
     }
 };
 //end conf
@@ -105,11 +119,11 @@ var utils={
 
 (function ($) {
     var highlightPos = {};
-    var setHighlighterPos=function($obj){
+    var setHighlighterPos = function ($obj) {
         $obj.show();
-        var pos = ['left','right','top','bottom'];
-        for(var i=0;i<pos.length;i++ ){
-            var div = $obj.find('.'+pos[i]);
+        var pos = ['left', 'right', 'top', 'bottom'];
+        for (var i = 0; i < pos.length; i++) {
+            var div = $obj.find('.' + pos[i]);
             div.css(highlightPos[pos[i]]);
         }
     };
@@ -130,14 +144,14 @@ var utils={
             top: target.offset().top - borderWidth,
             width: target.outerWidth() + borderWidth * 2
         };
-        highlightPos.bottom={
+        highlightPos.bottom = {
             left: target.offset().left - borderWidth,
             top: target.offset().top + target.outerHeight(),
             width: target.outerWidth() + borderWidth * 2
         };
         setHighlighterPos(__ctx__.highlighter);
     };
-    $.fn.highlight=function(){
+    $.fn.highlight = function () {
         elementHighlight(this);
         return $(this);
     };
@@ -147,13 +161,13 @@ var utils={
     $.fn.xchildren = function (selector) {
         selector = selector || '>';
         var children = [];
-        if(__parser__.isLabel($(this))){
+        if (__parser__.isLabel($(this))) {
             //return children;
         }
-        var prefix='code-node-';
-        _.each(this.find(selector), function(child) {
-            var data = {id:utils.getRandomId(prefix),jqtag:$(child),tag:child};
-            __ctx__.codeDomTags[data.id]=data.jqtag;
+        var prefix = 'code-node-';
+        _.each(this.find(selector), function (child) {
+            var data = { id: utils.getRandomId(prefix), jqtag: $(child), tag: child };
+            __ctx__.codeDomTags[data.id] = data.jqtag;
             children.push(data);
         });
         return children;
@@ -173,13 +187,13 @@ _.mixin({
     hasItem: function (list, item) {
         var has = false;
         for (var i = 0; i < list.length; i++) {
-            if(list[i].is){
-                if(list[i].is(item)){
+            if (list[i].is) {
+                if (list[i].is(item)) {
                     has = true;
                     break;
                 }
-            }else{
-                if(_.isEqual(list[i],item)){
+            } else {
+                if (_.isEqual(list[i], item)) {
                     has = true;
                     break;
                 }
@@ -233,7 +247,7 @@ LangParser.prototype = {
 var SharpParser = function () { };
 SharpParser.prototype = {
     gennerateLabelExpr: function (text) {
-        return __conf__.tal.structure+"\"" + text + "\"." + __conf__.labelMethodName + "()";
+        return __conf__.tal.structure + "\"" + text + "\"." + __conf__.labelMethodName + "()";
     },
     generatePageLink: function (page, params) {
         var paramString = [];
@@ -258,7 +272,7 @@ SharpParser.prototype = {
         } else {
             console.log("what the hell?");
         }
-        var start = href.indexOf("{")+1;
+        var start = href.indexOf("{") + 1;
         var end = href.indexOf("}");
         var keyValues = href.substring(start, end).split(',');
         var params = [];
@@ -309,8 +323,8 @@ PyParser.prototype = {
     }
 
 };
-utils.mixin(LangParser,[SharpParser]);
-var __lang__=new LangParser();
+utils.mixin(LangParser, [SharpParser]);
+var __lang__ = new LangParser();
 
 //tal parser
 var TalParser = function () {
@@ -318,9 +332,9 @@ var TalParser = function () {
     self.tag = function () {
         return __ctx__.clickedTag;
     };
-    self.isLabel= function ($tag) {
-        var attr  =$tag.attr(__conf__.tal.content);
-        return attr&&(attr.indexOf(__lang__.labelFlag())!=-1);//re
+    self.isLabel = function ($tag) {
+        var attr = $tag.attr(__conf__.tal.content);
+        return attr && (attr.indexOf(__lang__.labelFlag()) != -1);//re
     }
     self.analyseDataType = function ($tag) {
         $tag = $tag || self.tag();
@@ -333,11 +347,11 @@ var TalParser = function () {
                 type = dataTypeEnum.data;
             }
         }
-        attr=$tag.attr(__conf__.tal.repeat);
-        if(attr){
-            type=dataTypeEnum.repeater;
+        attr = $tag.attr(__conf__.tal.repeat);
+        if (attr) {
+            type = dataTypeEnum.repeater;
         }
-        if($tag[0].tagName.toLowerCase()=='img'){
+        if ($tag[0].tagName.toLowerCase() == 'img') {
             //static
             //dynamic
         }
@@ -348,7 +362,7 @@ var TalParser = function () {
         var expr = __lang__.gennerateLabelExpr(labelText);//__conf__.tal.string+
         return expr;
     };
-    
+
     self.generateRepeat = function () {
         return {
             name: __conf__.tal.repeat,
@@ -390,12 +404,12 @@ var TalParser = function () {
             if (href) {
                 if (href.indexOf(__conf__.pageUrlApi) != -1) {
                     var ret = __lang__.analyseLink(href);
-                    return {isext: false, name: ret.page,params:ret.params};
+                    return { isext: false, name: ret.page, params: ret.params };
                 } else {
                     var re = new RegExp("('|\")", 'g');
                     var result = $.trim(href.replace('href', ''));
                     result = result.replace(re, '');
-                    return {isext: true, name: result};//ext link
+                    return { isext: true, name: result };//ext link
                 }
             } else {
                 return '';
@@ -410,7 +424,7 @@ var TalParser = function () {
         for (var i = 0; i < attrs.length; i++) {
             var name = attrs[i].name;
             var val = attrs[i].value;
-            if (val&&name.startsWith(__conf__.tal.prefix)
+            if (val && name.startsWith(__conf__.tal.prefix)
                 && name != __conf__.tal.repeat) {
                 is = true;
                 break;
@@ -437,11 +451,11 @@ var TalParser = function () {
     self.analyseAllBinding = function () {
         __ctx__.boundTags = [];
         var tags = __ctx__.editorWrapper.find("*");
-        $.each(tags, function() {
-            var $this=$(this);
-            var dataType=self.analyseDataType($this);
-            if(dataType!=dataTypeEnum.nothing){
-                var obj = {type:dataType,tag:$this};
+        $.each(tags, function () {
+            var $this = $(this);
+            var dataType = self.analyseDataType($this);
+            if (dataType != dataTypeEnum.nothing) {
+                var obj = { type: dataType, tag: $this };
                 __ctx__.boundTags.push(obj);
             }
         });
@@ -465,36 +479,36 @@ var TalBinder = function () {
         return field && field != __conf__.defaultOption.value;
     };
     self.bindData = function (value) {
-        var $tag  = self.tag();
+        var $tag = self.tag();
         if (self.notEmptyDataField(value)) {
             value = __conf__.tal.structure + value;
             $tag.attr(self.contentAttr, value);
         } else {
-            if(!__parser__.isLabel($tag)){
+            if (!__parser__.isLabel($tag)) {
                 self.unbindData();
             }
         }
     };
-    self.unbindContent= function ($tag) {
-        $tag=$tag||self.tag();
+    self.unbindContent = function ($tag) {
+        $tag = $tag || self.tag();
         $tag.removeAttr(self.contentAttr);
     };
     self.unbindData = function () {
         self.unbindContent(self.tag());
     };
-    self.clearLabel= function() {
+    self.clearLabel = function () {
         self.unbindContent();
     };
-    self.setLabel = function (text,$tag) {
-        if(!text&&!$tag){
+    self.setLabel = function (text, $tag) {
+        if (!text && !$tag) {
             self.clearLabel();
             return;
         }
-        $tag=$tag||self.tag();
-        text=text||$tag.text();
-        $tag.html(text);
+        $tag = $tag || self.tag();
+        text = text || $tag.html();
+        $tag.html(utils.escapeHTML(text));
         var expr = __parser__.wrapLabel(text);
-        $tag.attr(__conf__.tal.content,expr);
+        $tag.attr(__conf__.tal.content, expr);
         return expr;
     };
 
@@ -512,10 +526,10 @@ var TalBinder = function () {
         $tag = $tag || self.tag();
         $tag.removeAttr(__conf__.tal.repeat);
     };
-    self.bindLink = function (page,params,extLinkValue,$tag) {
+    self.bindLink = function (page, params, extLinkValue, $tag) {
         if (page != __conf__.defaultOption.name) {
             $tag = $tag || self.tag();
-            var url = __lang__.generatePageLink(page,params);
+            var url = __lang__.generatePageLink(page, params);
             if (page == externalLink) {
                 url = extLinkValue ? extLinkValue : "#";
                 if (url.indexOf("'") == -1 && url.indexOf('"') == -1) {
@@ -548,7 +562,7 @@ var TalBinder = function () {
             })
             var newattr = temp.join(';');
             $tag.attr(__conf__.tal.attrs, newattr);
-            if(!$.trim($tag.attr(__conf__.tal.attrs))){
+            if (!$.trim($tag.attr(__conf__.tal.attrs))) {
                 $tag.removeAttr(__conf__.tal.attrs);
             }
             return newattr;
@@ -556,11 +570,11 @@ var TalBinder = function () {
             return '';
         }
     };
-    self.unbindAll= function ($tag) {
-        $tag=$tag||self.tag();
+    self.unbindAll = function ($tag) {
+        $tag = $tag || self.tag();
         var attrs = $tag.clone()[0].attributes;
-        for(var i=0;i<attrs.length;i++){
-            if(attrs[i].name.indexOf(__conf__.tal.prefix)!=-1){
+        for (var i = 0; i < attrs.length; i++) {
+            if (attrs[i].name.indexOf(__conf__.tal.prefix) != -1) {
                 $tag.removeAttr(attrs[i].name);
             }
         }
@@ -622,7 +636,7 @@ var PageSet = function () {
     var self = this;
 };
 
-__ctx__.clickedTag=__ctx__.editorWrapper;
+__ctx__.clickedTag = __ctx__.editorWrapper;
 var PanelModel = function () {
     //base
     var self = this;
@@ -647,16 +661,16 @@ var PanelModel = function () {
         ]
     );
     self.boundTags = ko.observableArray(__ctx__.boundTags);
-    self.clickedTag=ko.observable(__ctx__.clickedTag);
-    self.wrappedRepeater=ko.observable(null);
-    self.isLinkTag=ko.observable(false);
-    self.isImgTag=ko.observable(false);
+    self.clickedTag = ko.observable(__ctx__.clickedTag);
+    self.wrappedRepeater = ko.observable(null);
+    self.isLinkTag = ko.observable(false);
+    self.isImgTag = ko.observable(false);
     self.hasChildren = ko.observable(false);
     self._hasChildren = function ($tag) {
         $tag = $tag || self.tag();
-        if($tag) {
+        if ($tag) {
             return $tag.children().length > 0;
-        }else{
+        } else {
             return false;
         }
     };
@@ -666,24 +680,24 @@ var PanelModel = function () {
     };
     self.resetBoundTags = function () {
         __parser__.analyseAllBinding();
-        self.boundTags( __ctx__.boundTags);
+        self.boundTags(__ctx__.boundTags);
     };
 
     //groups
     self.dataSource = {
         availableDataSources: ko.observableArray([]),
         chosenDataSource: ko.observable(__conf__.defaultOption.name),
-        fillDataSource: function (data,event) {
+        fillDataSource: function (data, event) {
             __dataset__.init();
             self.dataSource.availableDataSources(__dataset__.allNames());
             self.dataItem.dataFields(__dataset__.allDataFields());
         },
-        change: function (data,event) {
+        change: function (data, event) {
             var target = $(event.target);
             var dsName = target.val();
             self.dataSource.chosenDataSource(dsName);
         },
-        add: function (data,event) {
+        add: function (data, event) {
             var testDs = {
                 'name': 'ds',
                 'fields': ['field1', 'field2', 'field3']
@@ -692,7 +706,7 @@ var PanelModel = function () {
             self.dataItem.dataFields(__dataset__.allDataFields());
             self.dataSource.availableDataSources(__dataset__.allNames());
         },
-        remove: function (data,event) {
+        remove: function (data, event) {
             var link = $(event.target).parent();
             var toDel = link.attr('ds');
             __dataset__.remove(toDel);
@@ -711,18 +725,18 @@ var PanelModel = function () {
             }
         },
         getWrappedRepeater: function ($tag) {
-            var ds=null;
-            var temp=$tag||self.tag();
-            while(true){
-                if(!temp||temp.is(__ctx__.editorWrapper)){
+            var ds = null;
+            var temp = $tag || self.tag();
+            while (true) {
+                if (!temp || temp.is(__ctx__.editorWrapper)) {
                     break;
                 }
                 var attr = temp.attr(__conf__.tal.repeat);
-                if(attr){
-                    ds=__parser__.analyseDataSource(temp);
+                if (attr) {
+                    ds = __parser__.analyseDataSource(temp);
                     break
-                }else{
-                    temp=temp.parent();
+                } else {
+                    temp = temp.parent();
                 }
             }
             return ds;
@@ -731,7 +745,7 @@ var PanelModel = function () {
 
     self.dataItem = {
         dataContent: ko.observable('content'),
-        dataContentOuter:ko.observable('content'),
+        dataContentOuter: ko.observable('content'),
         dataType: ko.observable(dataTypeEnum.nothing),
         dataFields: ko.observableArray([]),
         chosenField: ko.observable(__conf__.defaultOption.value),
@@ -769,13 +783,13 @@ var PanelModel = function () {
         },
         dataTypeChange: function (data, event) {
             var isinit = false;
-            self.dataItem.setDataType($(event.target).attr('value'),isinit);
+            self.dataItem.setDataType($(event.target).attr('value'), isinit);
         },
-        setDataType: function (dataType,isinit) {
+        setDataType: function (dataType, isinit) {
             self.dataItem.dataType(dataType);
-            var radio = $("input[flag='data-type'][value="+dataType+"]");
-            radio.prop('checked',true);
-            switch(dataType){
+            var radio = $("input[flag='data-type'][value=" + dataType + "]");
+            radio.prop('checked', true);
+            switch (dataType) {
                 case dataTypeEnum.label:
                     self.dataItem.initLabel(isinit);
                     break;
@@ -797,11 +811,11 @@ var PanelModel = function () {
                     break;
             }
         },
-        labelTextChange: function (data,event) {
+        labelTextChange: function (data, event) {
             var text = event.target.value;
             self.dataItem.dataContent(text);
         },
-        dataFieldChange: function (data,event) {
+        dataFieldChange: function (data, event) {
             self.dataItem.chooseThis($(event.target).val());
         }
     };
@@ -810,12 +824,12 @@ var PanelModel = function () {
         pages: ko.observableArray(self.pagesForSelect),
         chosenPage: ko.observable(__conf__.defaultOption.name),
         parameters: ko.observableArray([]),
-        chosenParams:[],
+        chosenParams: [],
         extLinkValue: ko.observable(''),
         isVisible: ko.computed(function () {
-            var show=self.isLinkTag();
-            var type=self.dataItem.dataType();
-            show=show&&(type==dataTypeEnum.label||type==dataTypeEnum.data);
+            var show = self.isLinkTag();
+            var type = self.dataItem.dataType();
+            show = show && (type == dataTypeEnum.label || type == dataTypeEnum.data);
             return show;
         }),
         chooseFirst: function () {
@@ -829,12 +843,12 @@ var PanelModel = function () {
             });
             self.linkTo.parameters(page.params);
         },
-        init:function(){
+        init: function () {
             self.linkTo.chooseFirst();
             self.linkTo.extLinkValue('');
-            self.linkTo.chosenParams=[];
-            var types=[dataTypeEnum.label,dataTypeEnum.data,dataTypeEnum.nothing];
-            if(_.include(types,self.dataItem.dataType())){
+            self.linkTo.chosenParams = [];
+            var types = [dataTypeEnum.label, dataTypeEnum.data, dataTypeEnum.nothing];
+            if (_.include(types, self.dataItem.dataType())) {
                 var page = __parser__.analyseLink();
                 if (page) {
                     if (page.isext) {
@@ -847,148 +861,148 @@ var PanelModel = function () {
                         _.each(page.params, function (p) {
                             $('select[paramname=' + p.name + ']').val(p.value);
                         });
-                        self.linkTo.chosenParams=page.params;
+                        self.linkTo.chosenParams = page.params;
                     }
                 }
             }
         },
-        pageChange: function(data,event) {
+        pageChange: function (data, event) {
             var name = $(event.target).val();
             self.linkTo.chooseThis(name);
             self.linkTo.extLinkValue('');
         },
-        pageParamChange: function (data,event) {
+        pageParamChange: function (data, event) {
             var target = $(event.target);
-            var paramName=target.attr('paramname');
-            var params = _.filter(self.linkTo.chosenParams,function(p){return p.name!=paramName});
-            if(target.val()!=__conf__.defaultOption.value){
-                params.push({name:paramName,value:target.val()});
+            var paramName = target.attr('paramname');
+            var params = _.filter(self.linkTo.chosenParams, function (p) { return p.name != paramName });
+            if (target.val() != __conf__.defaultOption.value) {
+                params.push({ name: paramName, value: target.val() });
             }
             self.linkTo.chosenParams = params;
         },
-        extLinkChange: function (data,event) {
+        extLinkChange: function (data, event) {
             var val = $.trim($(event.target).val());
-            if(!__re__.url.test(val)){
+            if (!__re__.url.test(val)) {
                 self.linkTo.extLinkValue(val);
                 utils.messageFlash(__msgs__.url_invalid);
             }
             self.linkTo.extLinkValue(val);
         },
         bindLink: function () {
-            if(self.linkTo.isVisible()){
-                if(self.linkTo.chosenPage()==externalLink&&!__re__.url.test(self.linkTo.extLinkValue())){
+            if (self.linkTo.isVisible()) {
+                if (self.linkTo.chosenPage() == externalLink && !__re__.url.test(self.linkTo.extLinkValue())) {
                     utils.messageFlash(__msgs__.url_invalid);
                     return false;
                 }
-                var extLink=self.linkTo.extLinkValue();
+                var extLink = self.linkTo.extLinkValue();
                 __binder__.bindLink(self.linkTo.chosenPage(), self.linkTo.chosenParams, extLink);
             }
             return true;
         }
     };
 
-    self.codeDom={
-        itemClick:function(data,event) {
+    self.codeDom = {
+        itemClick: function (data, event) {
             //$("div.code-viewer").find("span.active").removeClass('active');
             //$(event.target).addClass('active');
-            var tag = data.tag ||data.jqtag|| data[0];
+            var tag = data.tag || data.jqtag || data[0];
             tag.click();
         },
-        itemHover: function (data,event) {
-            var tag = data.jqtag||data.clickedTag();
+        itemHover: function (data, event) {
+            var tag = data.jqtag || data.clickedTag();
             var name = $(event.target).attr("name");
-            $.each($("span[name="+ name+"]"),function(){
+            $.each($("span[name=" + name + "]"), function () {
                 var $this = $(this);
                 var cls = 'hover';
-                var clickedNode=$("#div-node-path a:last");
-                if($this.hasClass(cls)){
+                var clickedNode = $("#div-node-path a:last");
+                if ($this.hasClass(cls)) {
                     $this.removeClass(cls);
                     __ctx__.highlighter.hide();
-                    if(self.isClickedTag(tag)){
+                    if (self.isClickedTag(tag)) {
                         clickedNode.removeClass(cls);
                     }
-                }else{
+                } else {
                     $this.addClass(cls);
                     tag.highlight();
-                    if(self.isClickedTag(tag)){
+                    if (self.isClickedTag(tag)) {
                         clickedNode.addClass(cls);
                     }
                 }
             });
         },
-        pathHover:function(data,event){
+        pathHover: function (data, event) {
             var $this = $(event.target);
             var tag = data.jqtag;
             var cls = 'hover';
-            var clickedNode=$("span[name=code-node-top]");
-            if($this.hasClass('ahl')){
+            var clickedNode = $("span[name=code-node-top]");
+            if ($this.hasClass('ahl')) {
                 $this.removeClass('ahl');
                 __ctx__.highlighter.hide();
-                if(self.isClickedTag(tag)){
+                if (self.isClickedTag(tag)) {
                     clickedNode.removeClass(cls);
                 }
-            }else{
+            } else {
                 $this.addClass('ahl');
                 tag.highlight();
-                if(self.isClickedTag(tag)){
+                if (self.isClickedTag(tag)) {
                     clickedNode.addClass(cls);
                 }
             }
         },
-        markupStart:function(tag){
-            var name = '<'+tag.tagName.toLowerCase();
-            _.each(['id','name','class'], function (item) {
+        markupStart: function (tag) {
+            var name = '<' + tag.tagName.toLowerCase();
+            _.each(['id', 'name', 'class'], function (item) {
                 var attr = $.trim($(tag).attr(item));
-                if(attr){
-                    name+=' '+item+'="'+attr+'"';
+                if (attr) {
+                    name += ' ' + item + '="' + attr + '"';
                 }
             });
-            name +=">";
+            name += ">";
             return name;
         },
-        markupEnd:function(tag){
-            var name = '</'+tag.tagName+'>';
+        markupEnd: function (tag) {
+            var name = '</' + tag.tagName + '>';
             return name.toLowerCase();
         },
-        markup:function(tag){
-            var singles=['input','img','hr'];
+        markup: function (tag) {
+            var singles = ['input', 'img', 'hr'];
             var lower = tag.tagName.toLowerCase();
             var name;
-            if(_.include(singles,lower)){
-                name='<'+lower+' />';
-            }else{
-                name = '<'+lower+'>...</'+lower+'>';
+            if (_.include(singles, lower)) {
+                name = '<' + lower + ' />';
+            } else {
+                name = '<' + lower + '>...</' + lower + '>';
             }
             return name;
         },
-        parents: function($tag) {
+        parents: function ($tag) {
             var temp = $tag;
-            var parents=[];
-            __ctx__.codePathTags={};
-            while(temp){
-                if(temp.is(__ctx__.editorWrapper)){
+            var parents = [];
+            __ctx__.codePathTags = {};
+            while (temp) {
+                if (temp.is(__ctx__.editorWrapper)) {
                     break;
-                }else{
-                    var name=utils.getRandomId('code-path-');
-                    parents.push({name:name,jqtag:temp});
-                    __ctx__.codePathTags[name]=temp;
-                    temp=temp.parent();
+                } else {
+                    var name = utils.getRandomId('code-path-');
+                    parents.push({ name: name, jqtag: temp });
+                    __ctx__.codePathTags[name] = temp;
+                    temp = temp.parent();
                 }
             }
             return parents.reverse();
         },
-        fullTagName:function($tag){
-            var name=$tag[0].tagName.toLowerCase();
-            var id=$.trim($tag.attr('id'));
-            var _name=$.trim($tag.attr('name'));
-            if(id){
-                name = name+'#'+id;
-            }else if(_name){
-                name = name+'['+_name+']';
-            }else{
-                var cls=$.trim($tag.attr('class'));
-                if(cls){
-                    name=name+"."+cls.split(' ')[0];
+        fullTagName: function ($tag) {
+            var name = $tag[0].tagName.toLowerCase();
+            var id = $.trim($tag.attr('id'));
+            var _name = $.trim($tag.attr('name'));
+            if (id) {
+                name = name + '#' + id;
+            } else if (_name) {
+                name = name + '[' + _name + ']';
+            } else {
+                var cls = $.trim($tag.attr('class'));
+                if (cls) {
+                    name = name + "." + cls.split(' ')[0];
                 }
             }
             return name;
@@ -1007,21 +1021,21 @@ var PanelModel = function () {
         //init
         self.hasClickedTag(true);
         var tag = __ctx__.clickedTag;
-        __ctx__.codeDomTags={'code-node-top':tag};
+        __ctx__.codeDomTags = { 'code-node-top': tag };
         self.clickedTag(tag);
         self.wrappedRepeater(self.dataSource.getWrappedRepeater());
-        self.isImgTag(tag&&tag[0].tagName.toLowerCase()=='img');
+        self.isImgTag(tag && tag[0].tagName.toLowerCase() == 'img');
         self.hasChildren(self._hasChildren());
         var islink = (tag[0].tagName.toLowerCase() === 'a');
         self.isLinkTag(islink);
-        self.dataItem.dataContent(tag.html());
+        self.dataItem.dataContent(utils.unescapeHTML(tag.html()));
         self.dataItem.dataContentOuter(tag[0].outerHTML);
         $("#label-textarea").autosize().trigger('autosize.resize');
         //data type
         var dataType = __parser__.analyseDataType(tag);
-        dataType=dataType||dataTypeEnum.nothing;
+        dataType = dataType || dataTypeEnum.nothing;
         self.dataItem.dataType(dataType);
-        self.dataItem.setDataType(dataType,true);
+        self.dataItem.setDataType(dataType, true);
         //link to
         self.linkTo.init();
         //render list
@@ -1039,11 +1053,11 @@ var PanelModel = function () {
     };
 
     //edit events
-    self.cancelEdit= function (data,event) {
+    self.cancelEdit = function (data, event) {
         __ctx__.editorWrapper[0].click();
     };
 
-    self.displayCallout= function(show) {
+    self.displayCallout = function (show) {
         var id = utils.getRandomId('callout-');
         for (var _id in __ctx__.calloutTags) {
             var temp = __ctx__.calloutTags[_id];
@@ -1053,7 +1067,7 @@ var PanelModel = function () {
             }
         }
         var callout = __ctx__.iframeBody.find('#' + id);
-        if(show) {
+        if (show) {
             var text = calloutEnum[self.dataItem.dataType()];
 
             if (callout.length == 0) {
@@ -1062,35 +1076,35 @@ var PanelModel = function () {
             callout.find('span').show().text(text);
             callout.show().appendTo(__ctx__.iframeBody);
             __ctx__.calloutTags[id] = __ctx__.clickedTag;
-        }else{
+        } else {
             callout.remove();
             delete __ctx__.calloutTags[id];
         }
     };
 
-    self.saveBindings= function() {
-        switch(self.dataItem.dataType()){
+    self.saveBindings = function () {
+        switch (self.dataItem.dataType()) {
             case dataTypeEnum.label:
-                if(!self.linkTo.bindLink()){return;}
+                if (!self.linkTo.bindLink()) { return; }
                 __binder__.unbindRepeater();
                 __binder__.setLabel(self.dataItem.dataContent());
                 utils.messageFlash(__msgs__.save_binding_success);
-                var showCallout=true;
-                if(!self.dataItem.dataContent()){
-                    showCallout=false;
+                var showCallout = true;
+                if (!self.dataItem.dataContent()) {
+                    showCallout = false;
                 }
                 self.displayCallout(showCallout);
                 __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.data:
-                if(!self.linkTo.bindLink()){return;}
+                if (!self.linkTo.bindLink()) { return; }
                 __binder__.unbindRepeater();
                 __binder__.bindData(self.dataItem.chosenField());
                 utils.messageFlash(__msgs__.save_binding_success);
-                var showCallout=true;
-                if(self.dataItem.chosenField()==__conf__.defaultOption.value&&
-                    self.linkTo.chosenPage()==__conf__.defaultOption.name) {
-                    showCallout=false;
+                var showCallout = true;
+                if (self.dataItem.chosenField() == __conf__.defaultOption.value &&
+                    self.linkTo.chosenPage() == __conf__.defaultOption.name) {
+                    showCallout = false;
                 }
                 self.displayCallout(showCallout);
                 __ctx__.editorWrapper[0].click();
@@ -1099,9 +1113,9 @@ var PanelModel = function () {
                 __binder__.unbindContent();
                 __binder__.bindRepeater(self.dataSource.chosenDataSource());
                 utils.messageFlash(__msgs__.save_binding_success);
-                var showCallout=true;
-                if(self.dataSource.chosenDataSource()==__conf__.defaultOption.name){
-                    showCallout=false;
+                var showCallout = true;
+                if (self.dataSource.chosenDataSource() == __conf__.defaultOption.name) {
+                    showCallout = false;
                 }
                 self.displayCallout(showCallout);
                 __ctx__.editorWrapper[0].click();
@@ -1121,7 +1135,7 @@ var PanelModel = function () {
     self.removeDataBinding = function (data, event) {
         if (confirm(__msgs__.remove_data_binding_confrim)) {
             __binder__.unbindAll(data.tag);
-            if(data.tag.is(__ctx__.clickedTag)) {
+            if (data.tag.is(__ctx__.clickedTag)) {
                 self.dataItem.dataType(dataTypeEnum.nothing);
                 $("#data-type-nothing").prop('checked', true);
             }

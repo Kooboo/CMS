@@ -85,7 +85,7 @@
         </div>
     </div>
     <div class="item label-editor" data-bind="visible:dataItem.dataType()==dataTypeEnum.label">
-        <textarea id="label-textarea" data-bind="value:dataItem.dataContent(),event:{change:dataItem.labelTextChange}">
+        <textarea id="label-textarea" data-bind="value:utils.unescapeHTML(dataItem.dataContent()),event:{change:dataItem.labelTextChange}">
             Lorem ipsum dolor sit amet
         </textarea>
     </div>
@@ -179,7 +179,7 @@
                 <!-- ko if:$data.type==dataTypeEnum.label-->
                 <li>
                     @listButtons()
-                    <span data-bind="text:$data.tag.html()"></span>
+                    <span data-bind="text:utils.unescapeHTML($data.tag.html())"></span>
                 </li>
                 <!-- /ko -->
             </ul>

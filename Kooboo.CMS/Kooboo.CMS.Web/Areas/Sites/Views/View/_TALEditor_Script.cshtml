@@ -63,7 +63,6 @@
 <script src="~/Areas/Sites/Scripts/talEditor/ctrl-panel.js"></script>
 <script>
     $(function () {
-        //(function initCodeMirror() {
         var textArea = $('#Body');
         textArea.codeMirror();
         var codeMirrorAPI = textArea.data("codeMirror");
@@ -80,12 +79,9 @@
         });
         window.ajaxFormParam = {
             beforeSerialize: function ($form, options) {
-                var codeMirrorAPI = textArea.data("codeMirror");
-                var text = codeMirrorAPI.getText();
-                textArea.val(text);
+                textArea.val(__ctx__.editorWrapper.html());
             }
         };
-        //})();
 
         $('.tabs').koobooTab();
         $("#tab_dataBinding").applyBindings(new PanelModel());
@@ -99,6 +95,7 @@
             $('label[for='+$(this).attr('id')+']').click();
         });
         $("#label-textarea").autosize();
+        $("#tab-data-source").click();
 
         //switch design mode
         __conf__.editorPosRight = $("#div-editor-container").css("right");

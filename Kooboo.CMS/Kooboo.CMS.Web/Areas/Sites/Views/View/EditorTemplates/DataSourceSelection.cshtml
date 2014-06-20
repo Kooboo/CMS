@@ -147,7 +147,7 @@
             else {
                 var name = ds.MainDataSourceName();
             }
-            var dsDef = _.find(meta.dataSourceMeta,function(d){return d.Name=name});
+            var dsDef = _.find(meta.dataSourceMeta,function(d){return d.Name==name});
             __datasrc__.push({
                 name:dsDef.Name,
                 islist:dsDef.IsEnumerable,

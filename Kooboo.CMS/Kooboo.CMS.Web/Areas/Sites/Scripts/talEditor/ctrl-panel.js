@@ -24,7 +24,7 @@ var __conf__ = {
     contentHolder: '[Data binding ...]',
     defaultOption: { name: '--------', value: '--------' },
     repeatItemName: "{ds}.$Item",//ds$Item.Id
-    labelMethodName: 'Localize',
+    labelMethodName: 'RawLabel',
     tmplCtxObjName: 'ViewBag',//ViewBag
     isStaticView: true,//no ds
     editorPosRight: 0,
@@ -144,8 +144,12 @@ var utils={
 })(jQuery);
 
 (function ($) {
-    $.fn.xchildren = function(selector) {
+    $.fn.xchildren = function (selector) {
+        selector = selector || '>';
         var children = [];
+        if(__parser__.isLabel($(this))){
+            //return children;
+        }
         var prefix='code-node-';
         _.each(this.find(selector), function(child) {
             var data = {id:utils.getRandomId(prefix),jqtag:$(child),tag:child};
@@ -229,7 +233,7 @@ LangParser.prototype = {
 var SharpParser = function () { };
 SharpParser.prototype = {
     gennerateLabelExpr: function (text) {
-        return "\"" + text + "\"." + __conf__.labelMethodName + "()";
+        return __conf__.tal.structure+"\"" + text + "\"." + __conf__.labelMethodName + "()";
     },
     generatePageLink: function (page, params) {
         var paramString = [];
@@ -748,24 +752,32 @@ var PanelModel = function () {
                 self.dataItem.chooseFirst();
             }
         },
-        initLabel: function () {
+        initLabel: function (isinit) {
             if (self.hasChildren()) {
-                utils.messageFlash(__msgs__.can_not_be_label);
-                __ctx__.clickedTag.click();
+                if (isinit) {
+                    self.dataItem.dataContent(__ctx__.clickedTag.html());
+                } else {
+                    if (confirm(__msgs__.convert_to_label_confirm)) {
+                        self.dataItem.dataContent(__ctx__.clickedTag.html());
+                    } else {
+                        __ctx__.clickedTag.click();
+                    }
+                }
             } else {
                 self.dataItem.dataContent(__ctx__.clickedTag.html());
             }
         },
-        dataTypeChange: function (data,event) {
-            self.dataItem.setDataType($(event.target).attr('value'));
+        dataTypeChange: function (data, event) {
+            var isinit = false;
+            self.dataItem.setDataType($(event.target).attr('value'),isinit);
         },
-        setDataType: function (dataType) {
+        setDataType: function (dataType,isinit) {
             self.dataItem.dataType(dataType);
             var radio = $("input[flag='data-type'][value="+dataType+"]");
             radio.prop('checked',true);
             switch(dataType){
                 case dataTypeEnum.label:
-                    self.dataItem.initLabel();
+                    self.dataItem.initLabel(isinit);
                     break;
                 case dataTypeEnum.data:
                     self.dataItem.initData();
@@ -877,8 +889,8 @@ var PanelModel = function () {
 
     self.codeDom={
         itemClick:function(data,event) {
-            $("div.code-viewer").find("span.active").removeClass('active');
-            $(event.target).addClass('active');
+            //$("div.code-viewer").find("span.active").removeClass('active');
+            //$(event.target).addClass('active');
             var tag = data.tag ||data.jqtag|| data[0];
             tag.click();
         },
@@ -887,18 +899,19 @@ var PanelModel = function () {
             var name = $(event.target).attr("name");
             $.each($("span[name="+ name+"]"),function(){
                 var $this = $(this);
+                var cls = 'hover';
                 var clickedNode=$("#div-node-path a:last");
-                if($this.hasClass('active')){
-                    $this.removeClass('active');
+                if($this.hasClass(cls)){
+                    $this.removeClass(cls);
                     __ctx__.highlighter.hide();
                     if(self.isClickedTag(tag)){
-                        clickedNode.removeClass('active');
+                        clickedNode.removeClass(cls);
                     }
                 }else{
-                    $this.addClass('active');
+                    $this.addClass(cls);
                     tag.highlight();
                     if(self.isClickedTag(tag)){
-                        clickedNode.addClass('active');
+                        clickedNode.addClass(cls);
                     }
                 }
             });
@@ -906,18 +919,19 @@ var PanelModel = function () {
         pathHover:function(data,event){
             var $this = $(event.target);
             var tag = data.jqtag;
+            var cls = 'hover';
             var clickedNode=$("span[name=code-node-top]");
             if($this.hasClass('ahl')){
                 $this.removeClass('ahl');
                 __ctx__.highlighter.hide();
                 if(self.isClickedTag(tag)){
-                    clickedNode.removeClass('active');
+                    clickedNode.removeClass(cls);
                 }
             }else{
                 $this.addClass('ahl');
                 tag.highlight();
                 if(self.isClickedTag(tag)){
-                    clickedNode.addClass('active');
+                    clickedNode.addClass(cls);
                 }
             }
         },
@@ -1002,11 +1016,12 @@ var PanelModel = function () {
         self.isLinkTag(islink);
         self.dataItem.dataContent(tag.html());
         self.dataItem.dataContentOuter(tag[0].outerHTML);
+        $("#label-textarea").autosize().trigger('autosize.resize');
         //data type
         var dataType = __parser__.analyseDataType(tag);
         dataType=dataType||dataTypeEnum.nothing;
         self.dataItem.dataType(dataType);
-        self.dataItem.setDataType(dataType);
+        self.dataItem.setDataType(dataType,true);
         //link to
         self.linkTo.init();
         //render list

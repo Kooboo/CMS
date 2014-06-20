@@ -37,15 +37,15 @@
                                 <ul>
                                     <li>
                                         <!-- ko if:clickedTag().children().length>0-->
-                                        <span name="code-node-top" class="code"
-                                            data-bind="text:$root.codeDom.markupStart(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
-                                        <!-- ko template: { name: 'tmpl-code-dom', data: {top:clickedTag()}}-->
-                                        <!-- /ko -->
-                                        <span name="code-node-top" class="code"
-                                            data-bind="text:$root.codeDom.markupEnd(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                            <span name="code-node-top" class="code active"
+                                                data-bind="text:$root.codeDom.markupStart(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                            <!-- ko template: { name: 'tmpl-code-dom', data: {top:clickedTag()}}-->
+                                            <!-- /ko -->
+                                            <span name="code-node-top" class="code active"
+                                                data-bind="text:$root.codeDom.markupEnd(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
                                         <!-- /ko -->
                                         <!-- ko if:clickedTag().children().length==0-->
-                                        <span name="code-node-top" class="code"
+                                        <span name="code-node-top" class="code active"
                                             data-bind="text:$root.codeDom.markup(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
                                         <!-- /ko -->
                                     </li>
@@ -53,10 +53,13 @@
                             </div>
                             <div class="bottom" id="div-node-path">
                                 <!-- ko foreach:{data:$root.codeDom.parents(clickedTag()),as:'step'}-->
-                                <a href="#"
+                                 <!-- ko if:$root.isClickedTag(step.jqtag)-->
+                                <a href="#" class="active"
                                     data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>
+                                <!-- /ko -->
                                 <!-- ko ifnot:$root.isClickedTag(step.jqtag)-->
-                                &gt;<!-- /ko -->
+                                 <a href="#"
+                                    data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>&gt;<!-- /ko -->
                                 <!-- /ko -->
                             </div>
                         </div>

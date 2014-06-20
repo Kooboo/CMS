@@ -171,7 +171,7 @@
 </script>
 
 <script type="text/html" id="tmpl-binding-list">
-    <div class="block list active">
+    <div class="block list active" data-bind="visible:_.find(boundTags(),function(t){return t.type==dataTypeEnum.label;})">
         <h6 class="title">@Html.IconImage("arrow")@("Label".Localize())</h6>
 
         <div class="container">
@@ -179,13 +179,13 @@
                 <!-- ko if:$data.type==dataTypeEnum.label-->
                 <li>
                     @listButtons()
-                    <span data-bind="text:$data.tag.text()"></span>
+                    <span data-bind="text:$data.tag.html()"></span>
                 </li>
                 <!-- /ko -->
             </ul>
         </div>
     </div>
-    <div class="block list active">
+    <div class="block list active" data-bind="visible:_.find(boundTags(),function(t){return t.type==dataTypeEnum.data;})">
         <h6 class="title">@Html.IconImage("arrow")@("Data".Localize())</h6>
 
         <div class="container">
@@ -199,7 +199,7 @@
             </ul>
         </div>
     </div>
-    <div class="block list active">
+    <div class="block list active" data-bind="visible:_.find(boundTags(),function(t){return t.type==dataTypeEnum.repeater;})">
         <h6 class="title">@Html.IconImage("arrow")@("Repeated item".Localize())</h6>
 
         <div class="container">
@@ -213,7 +213,7 @@
             </ul>
         </div>
     </div>
-    <div class="block thumbnail active">
+    <div class="block thumbnail active" data-bind="visible:_.find(boundTags(),function(t){return t.type==dataTypeEnum.staticImg||t.type==dataTypeEnum.dynamicImg;})">
         <h6 class="title">@Html.IconImage("arrow")@("Image".Localize())</h6>
 
         <div class="container">
@@ -235,15 +235,15 @@
 </script>
 
 <script type="text/html" id="tmpl-code-dom">
-    <ul data-bind="foreach:{data:top.xchildren('>'),as:'sub'}">
+    <ul data-bind="foreach:{data:top.xchildren(),as:'sub'}">
         <li>
             <!-- ko if:sub.jqtag.children().length>0-->
-            <span class="code"
-                  data-bind="attr:{name:sub.id},text:$root.codeDom.markupStart(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
-            <!-- ko template:{name:'tmpl-code-dom',data:{'top':sub.jqtag}}-->
-            <!-- /ko -->
-            <span class="code"
-                  data-bind="attr:{name:sub.id},text:$root.codeDom.markupEnd(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                <span class="code"
+                      data-bind="attr:{name:sub.id},text:$root.codeDom.markupStart(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                <!-- ko template:{name:'tmpl-code-dom',data:{'top':sub.jqtag}}-->
+                <!-- /ko -->
+                <span class="code"
+                      data-bind="attr:{name:sub.id},text:$root.codeDom.markupEnd(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
             <!-- /ko -->
             <!-- ko if:sub.jqtag.children().length==0-->
             <span class="code"

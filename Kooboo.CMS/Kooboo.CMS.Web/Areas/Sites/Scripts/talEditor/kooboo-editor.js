@@ -113,26 +113,28 @@
         var codeDomTagMouseover= function ($this) {
             for(var id in __ctx__.codeDomTags){
                 var tag = __ctx__.codeDomTags[id];
+                var cls = 'hover';
                 if(tag&&tag.is($this)){
-                    __parent__.$('div.code-viewer span.active').removeClass('active');
-                    __parent__.$('span[name='+id+']').addClass('active');
+                    __parent__.$('div.code-viewer span.'+cls).removeClass(cls);
+                    __parent__.$('span[name='+id+']').addClass(cls);
                     if(tag.is(__ctx__.clickedTag)){
                         var clickedNode=__parent__.$("#div-node-path a:last");
-                        clickedNode.addClass('active');
+                        clickedNode.addClass(cls);
                     }
                     break;
                 }
             }
             for(var id in __ctx__.codePathTags){
                 if(__ctx__.codePathTags[id].is($this)){
-                    __parent__.$('a[name='+id+']').addClass('active');
+                    __parent__.$('a[name='+id+']').addClass(cls);
                     break;
                 }
             }
         };
-        var codeDomTagMouseout= function (target) {
-            __parent__.$('div.code-viewer span.active').removeClass('active');
-            __parent__.$("#div-node-path a.active").removeClass('active');
+        var codeDomTagMouseout = function (target) {
+            var cls = 'hover';
+            __parent__.$('div.code-viewer span.'+cls).removeClass(cls);
+            __parent__.$("#div-node-path a."+cls).removeClass(cls);
         }
 
         $.fn.KoobooHighlight = function (options) {

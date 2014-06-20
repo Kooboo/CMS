@@ -1,4 +1,5 @@
-﻿@helper listButtons(){
+﻿@helper listButtons()
+{
     <a class="action" href="#" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">@Html.IconImage("minus small")</a>
     <a class="action" href="#" data-bind="click:$root.editListItem">@Html.IconImage("edit small")</a>
 }
@@ -19,14 +20,16 @@
                 <input name="ConvertedType" id="data-type-rpt" flag="data-type" value="RepeatedItem" type="radio">
                 <label class="inline" data-bind="click:dataItem.dataTypeChange" value="RepeatedItem" for="data-type-rpt">
                     Repeated
-                    item</label>
+                    item
+                </label>
             </li>
             <li data-bind="visible:false">
                 <input name="ConvertedType" checked id="data-type-nothing" flag="data-type" value="Nothing"
-                    type="radio">
+                       type="radio">
                 <label class="inline" data-bind="click:dataItem.dataTypeChange" value="Nothing"
-                    for="data-type-nothing">
-                    Nothing</label>
+                       for="data-type-nothing">
+                    Nothing
+                </label>
             </li>
         </ul>
     </div>
@@ -36,8 +39,9 @@
             <li>
                 <input name="ImageType" id="data-type-staticimg" flag="data-type" value="StaticImg" type="radio">
                 <label class="inline" data-bind="click:dataItem.dataTypeChange" value="StaticImg"
-                    for="data-type-staticimg">
-                    Static</label>
+                       for="data-type-staticimg">
+                    Static
+                </label>
             </li>
             <li>
                 <input name="ImageType" id="data-type-dynamicimg" flag="data-type" value="DynamicImg" type="radio">
@@ -59,12 +63,14 @@
                         <div class="file-thumbnail">
                             <img src="images/demo-1.jpg">
                             <a href="#" class="action">
-                                <img class="icon minus-small" src="images/invis.gif"></a>
+                                <img class="icon minus-small" src="images/invis.gif">
+                            </a>
                         </div>
                     </li>
                 </ul>
                 <a href="#" class="action">
-                    <img class="icon plus-small" src="images/invis.gif"></a>
+                    <img class="icon plus-small" src="images/invis.gif">
+                </a>
             </div>
         </div>
     </div>
@@ -84,21 +90,21 @@
         </textarea>
     </div>
     <div class="item data-editor" data-bind="visible:dataItem.dataType()==dataTypeEnum.data">
-        <select class="data-simple" flag="datafield" data-bind="event:{change:dataItem.dataFieldChange},template:{data:$root,name:'tmpl-data-fields'}">
-        </select>
+        <select class="data-simple" flag="datafield" data-bind="event:{change:dataItem.dataFieldChange},template:{data:$root,name:'tmpl-data-fields'}"></select>
         <div class="data-mutiple hide">
             <table>
                 <tbody>
                     <tr>
                         <td>
                             <select class="data-simple"
-                                data-bind="foreach:{data:dataItem.dataFields,as:'field'},event:{change:dataItem.dataFieldChange}">
+                                    data-bind="foreach:{data:dataItem.dataFields,as:'field'},event:{change:dataItem.dataFieldChange}">
                                 <option data-bind="value:field['value'],html:field['name']"></option>
                             </select>
                         </td>
                         <td>Replace:</td>
                         <td>
-                            <input type="text"></td>
+                            <input type="text">
+                        </td>
                         <td class="action"><a class="action" href="#">@Html.IconImage("minus-small")</a></td>
                     </tr>
                 </tbody>
@@ -113,13 +119,13 @@
             </div>
             <div class="span8">
                 <select class="J_LinkType"
-                    data-bind="foreach:{data:linkTo.pages,as:'page'},value:linkTo.chosenPage,event:{change:linkTo.pageChange}">
+                        data-bind="foreach:{data:linkTo.pages,as:'page'},value:linkTo.chosenPage,event:{change:linkTo.pageChange}">
                     <option data-bind="value:page.name,text:page.name"></option>
                 </select>
             </div>
         </div>
         <div class="form-row page-link"
-            data-bind="visible:linkTo.chosenPage()!=externalLink&&linkTo.chosenPage()!=__conf__.defaultOption.name">
+             data-bind="visible:linkTo.chosenPage()!=externalLink&&linkTo.chosenPage()!=__conf__.defaultOption.name">
             <div class="span4">
                 <label>Parameter</label>
             </div>
@@ -133,15 +139,14 @@
                         data-bind="attr:{'paramname':param.name},foreach:{data:$root.dataItem.dataFields,as:'field'},event:{change:$root.linkTo.pageParamChange}">
                     <option data-bind="value:field['value'],html:field['name']"></option>
                 </select>-->
-                <select class="data-simple" data-bind="attr:{'paramname':param.name},template:{data:$root,name:'tmpl-data-fields'},event:{change:$root.linkTo.pageParamChange}">
-                </select>
+                <select class="data-simple" data-bind="attr:{'paramname':param.name},template:{data:$root,name:'tmpl-data-fields'},event:{change:$root.linkTo.pageParamChange}"></select>
             </div>
             <!-- /ko -->
 
         </div>
         <div class="external-link" data-bind="visible:linkTo.chosenPage()==externalLink">
             <input id="txt-extlink-value" type="text" placeholder="http://"
-                data-bind="value:linkTo.extLinkValue(),event:{change:linkTo.extLinkChange}">
+                   data-bind="value:linkTo.extLinkValue(),event:{change:linkTo.extLinkChange}">
         </div>
     </div>
     <div class="item form-row" data-bind="visible:dataItem.dataType()==dataTypeEnum.repeater">
@@ -150,7 +155,7 @@
         </div>
         <div class="span8">
             <select id="sel-repeated-items"
-                data-bind="value:dataSource.chosenDataSource(),event:{change:dataSource.change}">
+                    data-bind="value:dataSource.chosenDataSource(),event:{change:dataSource.change}">
                 <option data-bind="value:__conf__.defaultOption.value,html:__conf__.defaultOption.name"></option>
                 <!-- ko foreach:{'data':dataSource.availableDataSources(),as:'ds'} -->
                 <option data-bind="value:ds,html:ds"></option>
@@ -167,7 +172,7 @@
 
 <script type="text/html" id="tmpl-binding-list">
     <div class="block list active">
-        <h6 class="title">@Html.IconImage("icon sprite")@("Label".Localize())</h6>
+        <h6 class="title">@Html.IconImage("arrow")@("Label".Localize())</h6>
 
         <div class="container">
             <ul data-bind="foreach:boundTags()">
@@ -181,7 +186,7 @@
         </div>
     </div>
     <div class="block list active">
-        <h6 class="title">@Html.IconImage("sprite")@("Data".Localize())</h6>
+        <h6 class="title">@Html.IconImage("arrow")@("Data".Localize())</h6>
 
         <div class="container">
             <ul data-bind="foreach:boundTags()">
@@ -195,7 +200,7 @@
         </div>
     </div>
     <div class="block list active">
-        <h6 class="title">@Html.IconImage("sprite")@("Repeated item".Localize())</h6>
+        <h6 class="title">@Html.IconImage("arrow")@("Repeated item".Localize())</h6>
 
         <div class="container">
             <ul data-bind="foreach:boundTags()">
@@ -209,14 +214,15 @@
         </div>
     </div>
     <div class="block thumbnail active">
-        <h6 class="title">@Html.IconImage("sprite")@("Image".Localize())</h6>
+        <h6 class="title">@Html.IconImage("arrow")@("Image".Localize())</h6>
 
         <div class="container">
             <ul data-bind="foreach:boundTags()">
                 <!-- ko if:$data.type==dataTypeEnum.staticImg||$data.type==dataTypeEnum.dynamicImg-->
                 <li>
                     <a href="#" title="Click to edit">
-                        <img src="images/demo-1.jpg" alt="Image"></a>
+                        <img src="images/demo-1.jpg" alt="Image">
+                    </a>
                     <a class="action" href="#" title="Click to remove this image">
                         <img src="images/invis.gif" class="icon minus-small" alt="Remove">
                     </a>
@@ -233,15 +239,15 @@
         <li>
             <!-- ko if:sub.jqtag.children().length>0-->
             <span class="code"
-                data-bind="attr:{name:sub.id},text:$root.codeDom.markupStart(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                  data-bind="attr:{name:sub.id},text:$root.codeDom.markupStart(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
             <!-- ko template:{name:'tmpl-code-dom',data:{'top':sub.jqtag}}-->
             <!-- /ko -->
             <span class="code"
-                data-bind="attr:{name:sub.id},text:$root.codeDom.markupEnd(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                  data-bind="attr:{name:sub.id},text:$root.codeDom.markupEnd(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
             <!-- /ko -->
             <!-- ko if:sub.jqtag.children().length==0-->
             <span class="code"
-                data-bind="attr:{name:sub.id},text:$root.codeDom.markup(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                  data-bind="attr:{name:sub.id},text:$root.codeDom.markup(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
             <!-- /ko -->
         </li>
     </ul>

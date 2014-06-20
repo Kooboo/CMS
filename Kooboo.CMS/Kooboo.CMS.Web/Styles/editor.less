@@ -93,6 +93,7 @@
 				background: #FFF;
 				border: 1px solid #CCC;
 				border-bottom: none;
+				line-height: 1.3;
 				padding: 10px;
 			}
 
@@ -103,7 +104,8 @@
 			.code {
 				cursor: pointer;
 
-				&.active {
+				&.active,
+				&.hover {
 					background: #39F;
 					color: #FFF;
 					.rounded(3px);
@@ -113,10 +115,10 @@
 			.bottom {
 				background: #F5F5F5;
 				border: 1px solid #CCC;
+				line-height: 20px;
 
 				a {
 					display: inline-block;
-					line-height: 20px;
 					margin: 0 5px;
 					padding: 0 5px;
 
@@ -124,7 +126,8 @@
 						background: #DDD;
 					}
 
-					&.active {
+					&.active,
+					&.hover {
 						background: #39F;
 						color: #FFF;
 					}
@@ -160,6 +163,14 @@
 				}
 			}
 
+			input[type="text"],
+			select,
+			textarea {
+				margin: 0;
+				width: 100%;
+				.box-sizing(border-box);
+			}
+
 			.buttons {
 				border-top: 1px solid #DDD;
 				margin-top: 10px;
@@ -169,7 +180,7 @@
 				.button {
 					color: #FFF;
 					float: left;
-					margin-right: 20px;
+					margin: 0 20px 0 0;
 
 					&.gray {
 						color: #000;
@@ -184,14 +195,17 @@
 				font-size: 18px;
 				font-weight: 400;
 				line-height: 28px;
-				margin-bottom: 5px;
+				margin-bottom: 5px !important;
 				padding: 0 20px;
 				position: relative;
 
-				.sprite {
+				.arrow {
+					background-position: -18px -16px;
+					height: 8px;
 					position: absolute;
 					left: 7px;
 					top: 10px;
+					width: 6px;
 				}
 
 				&:hover {
@@ -211,9 +225,12 @@
 			}
 
 			&.active {
-				.title .sprite {
+				.title .arrow {
+					background-position: -16px 0;
+					height: 6px;
 					left: 6px;
 					top: 11px;
+					width: 8px;
 				}
 
 				.container {
@@ -222,7 +239,10 @@
 			}
 
 			&.list {
+				margin-top: 20px;
+
 				li {
+					line-height: 16px;
 					overflow: hidden;
 					padding: 5px 20px;
 
@@ -238,9 +258,32 @@
 						white-space: nowrap;
 					}
 
+					li {
+						background: url(images/line.png) no-repeat 6px -35px;
+						padding: 0 0 0 16px;
+
+						&:last-child {
+							background: url(images/line-end.png) no-repeat 6px -11px;
+						}
+
+						span {
+							background: #FFF;
+							padding-left: 4px;
+						}
+					}
+
 					&:hover {
 						background: #F5F5F5;
+
+						span {
+							background-color: #F5F5F5;
+						}
 					}
+				}
+
+				.actions {
+					background: #F5F5F5;
+					padding: 5px 20px;
 				}
 			}
 

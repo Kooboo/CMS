@@ -1,0 +1,279 @@
+﻿@helper listButtons(){
+    <a class="action" href="#" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">@Html.IconImage("minus small")</a>
+    <a class="action" href="#" data-bind="click:$root.editListItem">@Html.IconImage("edit small")</a>
+}
+
+<script type="text/html" id="tmpl-binding-convert">
+    <div class="item convert" data-bind="visible:!isImgTag()">
+        <p>Convert this element into:</p>
+        <ul class="radio-list" id="data-type-panel">
+            <li data-bind="">
+                <input name="ConvertedType" id="data-type-label" flag="data-type" value="Label" type="radio">
+                <label class="inline" data-bind="click:dataItem.dataTypeChange" value="Label" for="data-type-label">Label</label>
+            </li>
+            <li>
+                <input name="ConvertedType" id="data-type-data" flag="data-type" value="Data" type="radio">
+                <label class="inline" data-bind="click:dataItem.dataTypeChange" value="Data" for="data-type-data">Data</label>
+            </li>
+            <li>
+                <input name="ConvertedType" id="data-type-rpt" flag="data-type" value="RepeatedItem" type="radio">
+                <label class="inline" data-bind="click:dataItem.dataTypeChange" value="RepeatedItem" for="data-type-rpt">
+                    Repeated
+                    item</label>
+            </li>
+            <li data-bind="visible:false">
+                <input name="ConvertedType" checked id="data-type-nothing" flag="data-type" value="Nothing"
+                    type="radio">
+                <label class="inline" data-bind="click:dataItem.dataTypeChange" value="Nothing"
+                    for="data-type-nothing">
+                    Nothing</label>
+            </li>
+        </ul>
+    </div>
+    <div class="item convert" data-bind="visible:isImgTag()">
+        <p>Please select an image type:</p>
+        <ul class="form-list vertical">
+            <li>
+                <input name="ImageType" id="data-type-staticimg" flag="data-type" value="StaticImg" type="radio">
+                <label class="inline" data-bind="click:dataItem.dataTypeChange" value="StaticImg"
+                    for="data-type-staticimg">
+                    Static</label>
+            </li>
+            <li>
+                <input name="ImageType" id="data-type-dynamicimg" flag="data-type" value="DynamicImg" type="radio">
+                <label class="inline" data-bind="click:dataItem.dataTypeChange" for="data-type-dynamicimg" value="DynamicImg">Dynamic</label>
+            </li>
+        </ul>
+    </div>
+</script>
+
+<script type="text/html" id="tmpl-binding-editor">
+    <div class="item file-editor" data-bind="visible:dataItem.dataType()==dataTypeEnum.staticImg">
+        <div class="form-row">
+            <div class="span4">
+                <label>Media library:</label>
+            </div>
+            <div class="span8">
+                <ul class="form-list images">
+                    <li>
+                        <div class="file-thumbnail">
+                            <img src="images/demo-1.jpg">
+                            <a href="#" class="action">
+                                <img class="icon minus-small" src="images/invis.gif"></a>
+                        </div>
+                    </li>
+                </ul>
+                <a href="#" class="action">
+                    <img class="icon plus-small" src="images/invis.gif"></a>
+            </div>
+        </div>
+    </div>
+    <div class="item form-row" data-bind="visible:dataItem.dataType()==dataTypeEnum.dynamicImg">
+        <div class="span4">
+            <label>File source:</label>
+        </div>
+        <div class="span8">
+            <select>
+                <option>Product.Image</option>
+            </select>
+        </div>
+    </div>
+    <div class="item label-editor" data-bind="visible:dataItem.dataType()==dataTypeEnum.label">
+        <textarea id="label-textarea" data-bind="value:dataItem.dataContent(),event:{change:dataItem.labelTextChange}">
+            Lorem ipsum dolor sit amet
+        </textarea>
+    </div>
+    <div class="item data-editor" data-bind="visible:dataItem.dataType()==dataTypeEnum.data">
+        <select class="data-simple" flag="datafield" data-bind="event:{change:dataItem.dataFieldChange},template:{data:$root,name:'tmpl-data-fields'}">
+        </select>
+        <div class="data-mutiple hide">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <select class="data-simple"
+                                data-bind="foreach:{data:dataItem.dataFields,as:'field'},event:{change:dataItem.dataFieldChange}">
+                                <option data-bind="value:field['value'],html:field['name']"></option>
+                            </select>
+                        </td>
+                        <td>Replace:</td>
+                        <td>
+                            <input type="text"></td>
+                        <td class="action"><a class="action" href="#">@Html.IconImage("minus-small")</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <a class="action" href="#">@Html.IconImage("plus-small")</a>
+        </div>
+    </div>
+    <div class="item link-editor" data-bind="visible:linkTo.isVisible()">
+        <div class="form-row">
+            <div class="span4">
+                <label>Link to:</label>
+            </div>
+            <div class="span8">
+                <select class="J_LinkType"
+                    data-bind="foreach:{data:linkTo.pages,as:'page'},value:linkTo.chosenPage,event:{change:linkTo.pageChange}">
+                    <option data-bind="value:page.name,text:page.name"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row page-link"
+            data-bind="visible:linkTo.chosenPage()!=externalLink&&linkTo.chosenPage()!=__conf__.defaultOption.name">
+            <div class="span4">
+                <label>Parameter</label>
+            </div>
+            <div class="span8">
+                <label>Value</label>
+            </div>
+            <!-- ko foreach:{data:linkTo.parameters,as:'param'} -->
+            <div class="span4" data-bind="html:param.name"></div>
+            <div class="span8">
+                <!-- <select class="data-simple"
+                        data-bind="attr:{'paramname':param.name},foreach:{data:$root.dataItem.dataFields,as:'field'},event:{change:$root.linkTo.pageParamChange}">
+                    <option data-bind="value:field['value'],html:field['name']"></option>
+                </select>-->
+                <select class="data-simple" data-bind="attr:{'paramname':param.name},template:{data:$root,name:'tmpl-data-fields'},event:{change:$root.linkTo.pageParamChange}">
+                </select>
+            </div>
+            <!-- /ko -->
+
+        </div>
+        <div class="external-link" data-bind="visible:linkTo.chosenPage()==externalLink">
+            <input id="txt-extlink-value" type="text" placeholder="http://"
+                data-bind="value:linkTo.extLinkValue(),event:{change:linkTo.extLinkChange}">
+        </div>
+    </div>
+    <div class="item form-row" data-bind="visible:dataItem.dataType()==dataTypeEnum.repeater">
+        <div class="span4">
+            <label>Repeated source:</label>
+        </div>
+        <div class="span8">
+            <select id="sel-repeated-items"
+                data-bind="value:dataSource.chosenDataSource(),event:{change:dataSource.change}">
+                <option data-bind="value:__conf__.defaultOption.value,html:__conf__.defaultOption.name"></option>
+                <!-- ko foreach:{'data':dataSource.availableDataSources(),as:'ds'} -->
+                <option data-bind="value:ds,html:ds"></option>
+                <!-- /ko -->
+            </select>
+        </div>
+    </div>
+    <!--</div>-->
+    <p class="buttons" data-bind="visible:dataItem.dataType()!=dataTypeEnum.nothing">
+        <a class="button" href="#" data-bind="click:saveBindings">Save</a>
+        <a class="button gray" href="#" data-bind="click:cancelEdit">Cancel</a>
+    </p>
+</script>
+
+<script type="text/html" id="tmpl-binding-list">
+    <div class="block list active">
+        <h6 class="title">@Html.IconImage("icon sprite")@("Label".Localize())</h6>
+
+        <div class="container">
+            <ul data-bind="foreach:boundTags()">
+                <!-- ko if:$data.type==dataTypeEnum.label-->
+                <li>
+                    @listButtons()
+                    <span data-bind="text:$data.tag.text()"></span>
+                </li>
+                <!-- /ko -->
+            </ul>
+        </div>
+    </div>
+    <div class="block list active">
+        <h6 class="title">@Html.IconImage("sprite")@("Data".Localize())</h6>
+
+        <div class="container">
+            <ul data-bind="foreach:boundTags()">
+                <!-- ko if:$data.type==dataTypeEnum.data-->
+                <li>
+                    @listButtons()
+                    <span data-bind="text:__parser__.analyseDataField($data.tag)"></span>
+                </li>
+                <!-- /ko -->
+            </ul>
+        </div>
+    </div>
+    <div class="block list active">
+        <h6 class="title">@Html.IconImage("sprite")@("Repeated item".Localize())</h6>
+
+        <div class="container">
+            <ul data-bind="foreach:boundTags()">
+                <!-- ko if:$data.type==dataTypeEnum.repeater-->
+                <li>
+                    @listButtons()
+                    <span data-bind="text:__parser__.analyseDataSource($data.tag)"></span>
+                </li>
+                <!-- /ko -->
+            </ul>
+        </div>
+    </div>
+    <div class="block thumbnail active">
+        <h6 class="title">@Html.IconImage("sprite")@("Image".Localize())</h6>
+
+        <div class="container">
+            <ul data-bind="foreach:boundTags()">
+                <!-- ko if:$data.type==dataTypeEnum.staticImg||$data.type==dataTypeEnum.dynamicImg-->
+                <li>
+                    <a href="#" title="Click to edit">
+                        <img src="images/demo-1.jpg" alt="Image"></a>
+                    <a class="action" href="#" title="Click to remove this image">
+                        <img src="images/invis.gif" class="icon minus-small" alt="Remove">
+                    </a>
+                </li>
+                <!-- /ko -->
+            </ul>
+        </div>
+    </div>
+
+</script>
+
+<script type="text/html" id="tmpl-code-dom">
+    <ul data-bind="foreach:{data:top.xchildren('>'),as:'sub'}">
+        <li>
+            <!-- ko if:sub.jqtag.children().length>0-->
+            <span class="code"
+                data-bind="attr:{name:sub.id},text:$root.codeDom.markupStart(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+            <!-- ko template:{name:'tmpl-code-dom',data:{'top':sub.jqtag}}-->
+            <!-- /ko -->
+            <span class="code"
+                data-bind="attr:{name:sub.id},text:$root.codeDom.markupEnd(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+            <!-- /ko -->
+            <!-- ko if:sub.jqtag.children().length==0-->
+            <span class="code"
+                data-bind="attr:{name:sub.id},text:$root.codeDom.markup(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+            <!-- /ko -->
+        </li>
+    </ul>
+</script>
+
+<script type="text/html" id="tmpl-data-fields">
+    <!-- ko if:dataSource.availableDataSources().length>1 -->
+    <optgroup label="Empty Value">
+        <option data-bind="value:__conf__.defaultOption.value,html:__conf__.defaultOption.name"></option>
+    </optgroup>
+    <!-- ko if:wrappedRepeater()-->
+    <optgroup data-bind="attr:{label:wrappedRepeater()},foreach:_.filter($root.dataItem.dataFields(),function(f){return f.ds==wrappedRepeater();})">
+        <option data-bind="value:$data['value'],html:$data['fullName']"></option>
+    </optgroup>
+    <optgroup label="Others" data-bind="foreach:_.filter($root.dataItem.dataFields(),function(f){return f.ds!=wrappedRepeater();})">
+        <option data-bind="value:$data['value'],html:$data['fullName']"></option>
+    </optgroup>
+    <!-- /ko -->
+    <!-- ko if:!wrappedRepeater()-->
+    <!-- ko foreach:{data:dataSource.availableDataSources(),as:'ds'}-->
+    <optgroup data-bind="attr:{label:ds}">
+        <!-- ko foreach:{data:_.filter($root.dataItem.dataFields(),function(f){return f.ds==ds;}),as:'field'}-->
+        <option data-bind="attr:{test:field.ds,xx:ds},value:field['value'],html:field['fullName']"></option>
+        <!-- /ko -->
+    </optgroup>
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- ko ifnot:dataSource.availableDataSources().length>1 -->
+    <option data-bind="value:__conf__.defaultOption.value,html:__conf__.defaultOption.name"></option>
+    <!-- ko foreach:dataItem.dataFields() -->
+    <option data-bind="value:$data['value'],html:$data['fullName']"></option>
+    <!-- /ko -->
+    <!-- /ko -->
+</script>

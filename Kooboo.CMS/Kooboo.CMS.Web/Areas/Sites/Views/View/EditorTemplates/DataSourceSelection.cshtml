@@ -22,7 +22,7 @@
 }
 <div class="block list active">
     <h6 class="title">
-        @Html.IconImage("sprite")
+        @Html.IconImage("arrow")
         @("Data sources".Localize())
     </h6>
     <div id="@listTemplateId" class="container">
@@ -41,7 +41,7 @@
             </li>
         </ul>
         <p class="actions clearfix">
-            <a class="right" data-bind="click:addItem">@Html.IconImage("plus small")</a>
+            <a class="action right" data-bind="click:addItem">@Html.IconImage("plus small")</a>
         </p>
     </div>
 </div>
@@ -147,7 +147,7 @@
             else {
                 var name = ds.MainDataSourceName();
             }
-            var dsDef = _.find(meta.dataSourceMeta,function(d){return d.Name=name});
+            var dsDef = _.find(meta.dataSourceMeta,function(d){return d.Name==name});
             __datasrc__.push({
                 name:dsDef.Name,
                 islist:dsDef.IsEnumerable,

@@ -1,5 +1,73 @@
 //version:0.2
 
+//conf
+var __ctx__ = {
+    clickedTag: null,
+    editorWrapper: null,
+    iframeBody: null,
+    initEditorHandler: null,
+    isPreview: true,
+    highlighter: null,
+    highlighterCopy: null,
+    boundTags: [],
+    codeDomTags: {},
+    codePathTags: {},
+    calloutTags: {}
+};
+
+var langEnum = {
+    csharp: 'csharp',
+    py: 'python'
+};
+
+var __conf__ = {
+    contentHolder: '[Data binding ...]',
+    defaultOption: { name: '--------', value: '--------' },
+    repeatItemName: "{ds}.$Item",//ds$Item.Id
+    labelMethodName: 'Localize',
+    tmplCtxObjName: 'ViewBag',//ViewBag
+    isStaticView: true,//no ds
+    editorPosRight: 0,
+    pageUrlApi: 'Url.FrontUrl().PageUrl',
+    tal: {
+        define: 'tal:define',
+        switch: 'tal:switch',
+        case: 'tal:case',
+        condition: 'tal:condition',
+        repeat: 'tal:repeat',
+        content: 'tal:content',
+        replace: 'tal:replace',
+        omit: 'tal:omit-tag',
+        attrs: 'tal:attributes',
+        error: 'tal:on-error',
+        string: 'string ',
+        structure: 'structure ',
+        prefix: 'tal:'
+    },
+    lang: {
+        for: langEnum.csharp
+    }
+};
+
+var __re__ = {
+    url: /^(https|http):\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\:+!]*([^<>])*$/
+};
+
+var dataTypeEnum = {
+    label: 'Label',
+    data: 'Data',
+    repeater: 'RepeatedItem',
+    staticImg: 'StaticImg',
+    dynamicImg: 'DynamicImg',
+    partial: 'Partial',
+    nothing: 'Nothing'
+};
+var calloutEnum = {
+    Label: 'L',
+    Data: 'D',
+    RepeatedItem: 'R'
+};
+
 //utils
 var utils={
     getRandomId: function(prefix) {
@@ -26,6 +94,7 @@ var utils={
         return cls;
     }
 };
+//end conf
 
 //ext
 (function ($) {
@@ -128,97 +197,112 @@ _.mixin({
         };
     }
 })();
-
-//conf
-var __ctx__ = {
-    clickedTag: null,
-    editorWrapper: null,
-    iframeBody:null,
-    initEditorHandler: null,
-    isPreview: true,
-    highlighter: null,
-    highlighterCopy: null,
-    boundTags: [],
-    codeDomTags:{},
-    codePathTags:{},
-    calloutTags:{}
-};
-
-var __conf__ = {
-    contentHolder: '[Data binding ...]',
-    defaultOption: {name: '--------', value: '--------'},
-    repeatItemName: "{ds}.$Item",//ds$Item.Id
-    labelMethodName: 'label',
-    tmplCtxObjName: 'ViewBag',//ViewBag
-    isStaticView: true,//no ds
-    editorPosRight: 0,
-    pageUrlApi: 'Url.FrontUrl().PageUrl',
-    tal: {
-        define: 'tal:define',
-        switch: 'tal:switch',
-        case: 'tal:case',
-        condition: 'tal:condition',
-        repeat: 'tal:repeat',
-        content: 'tal:content',
-        replace: 'tal:replace',
-        omit: 'tal:omit-tag',
-        attrs: 'tal:attributes',
-        error: 'tal:on-error',
-        string: 'string ',
-        structure: 'structure ',
-        prefix: 'tal:'
-    },
-    lang: {
-        for:'sharp'
-    }
-};
-
-var __re__={
-    url:/^(https|http):\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\:+!]*([^<>])*$/
-};
-
-var dataTypeEnum = {
-    label: 'Label',
-    data: 'Data',
-    repeater:'RepeatedItem',
-    staticImg:'StaticImg',
-    dynamicImg:'DynamicImg',
-    partial:'Partial',
-    nothing:'Nothing'
-};
-var calloutEnum={
-    Label:'L',
-    Data:'D',
-    RepeatedItem:'R'
-};
+// end ext
 
 //language parser
-var LangParser= function() {
-    this.repeatItemHolder='Item';
+var LangParser = function () {
+    this.repeatItemHolder = 'Item';
 };
-LangParser.prototype={
-    formatFieldName: function(ds, field) {
+LangParser.prototype = {
+    formatFieldName: function (ds, field) {
         //list: ds.$item.Id,ds$Item.Id
         //object: ds.Id,ctx.ds.Id
         var name = ds.name + "." + field;
-        var val = __conf__.tmplCtxObjName +"."+ds.name+ "." + field;
+        var val = __conf__.tmplCtxObjName + "." + ds.name + "." + field;
         if (ds.islist) {
             var holder = this.repeatItemHolder;
             name = ds.name + ".$" + holder + "." + field;
             val = ds.name + holder + "." + field;
         }
-        return {'fullName':name,'name': field, 'value': val,'ds':ds.name};
+        return { 'fullName': name, 'name': field, 'value': val, 'ds': ds.name };
     },
     generateDataSource: function () {
         return __conf__.tmplCtxObjName + '.{ds}';
+    },
+    labelFlag: function () {
+        return __conf__.labelMethodName + "(";
+    }
+
+    //data field
+    //repeater
+};
+var SharpParser = function () { };
+SharpParser.prototype = {
+    gennerateLabelExpr: function (text) {
+        return "\"" + text + "\"." + __conf__.labelMethodName + "()";
+    },
+    generatePageLink: function (page, params) {
+        var paramString = [];
+        _.each(params, function (p) {
+            if (p.value) {
+                paramString.push(p.name + "=" + p.value);
+            }
+        });
+        var _paramstr = "";
+        if (paramString.length > 0) {
+            _paramstr = ",new {" + paramString.join(',') + "}";
+        }
+        var pageUrl = __conf__.pageUrlApi + "(\"" + page + "\"" + _paramstr + ")";
+        return pageUrl;
+    },
+    analyseLink: function (href) {
+        var pageName = '';
+        if (href.indexOf("'") != -1) {
+            pageName = href.split("'")[1];
+        } else if (href.indexOf('"')) {
+            pageName = href.split('"')[1];
+        } else {
+            console.log("what the hell?");
+        }
+        var start = href.indexOf("{")+1;
+        var end = href.indexOf("}");
+        var keyValues = href.substring(start, end).split(',');
+        var params = [];
+        _.each(keyValues, function (item) {
+            var s = item.split('=');
+            var name = $.trim(s[0]);
+            var val = $.trim(s[1]);
+            params.push({ name: name, value: val });
+        });
+        return { page: pageName, params: params };
     }
 };
-var SharpParser = function () {};
-SharpParser.prototype={
-
-};
-var PyParser= function () {};
-PyParser.prototype={
+var PyParser = function () { };
+PyParser.prototype = {
+    gennerateLabelExpr: function () {
+        return __conf__.labelMethodName + "('" + labelText + "')";
+    },
+    generatePageLink: function (page, params) {
+        var paramString = [];
+        _.each(params, function (p) {
+            if (p.value) {
+                paramString.push("'" + p.name + "'=" + p.value);
+            }
+        });
+        var _paramstr = paramString.length > 0 ? "," + paramString.join(',') : "";
+        var pageUrl = __conf__.pageUrlApi + "('" + page + "'" + _paramstr + ")";
+        return pageUrl;
+    },
+    analyseLink: function (href) {
+        var re = new RegExp("('|\")", 'g');
+        var pageName = '';
+        if (href.indexOf("'") != -1) {
+            pageName = href.split("'")[1];
+        } else if (href.indexOf('"')) {
+            pageName = href.split('"')[1];
+        } else {
+            console.log("what the hell?");
+        }
+        var keyValues = href.split(',').slice(1);
+        var params = [];
+        _.each(keyValues, function (item) {
+            var s = item.split('=');
+            var _name = s[0].replace(re, '');
+            var _val = s[1].replace(')', '');
+            params.push({ name: _name, value: _val });
+        });
+        return { page: pageName, params: params };
+    }
 
 };
 utils.mixin(LangParser,[SharpParser]);
@@ -232,7 +316,7 @@ var TalParser = function () {
     };
     self.isLabel= function ($tag) {
         var attr  =$tag.attr(__conf__.tal.content);
-        return attr&&(attr.indexOf(__conf__.labelMethodName + "(")!=-1);//re
+        return attr&&(attr.indexOf(__lang__.labelFlag())!=-1);//re
     }
     self.analyseDataType = function ($tag) {
         $tag = $tag || self.tag();
@@ -257,15 +341,10 @@ var TalParser = function () {
     };
     self.wrapLabel = function (labelText) {
         labelText = labelText || tag.html();
-        var expr = __conf__.tal.string+__conf__.labelMethodName + "('" + labelText + "')";
+        var expr = __lang__.gennerateLabelExpr(labelText);//__conf__.tal.string+
         return expr;
     };
-    self.unwrapLabel = function (expr) {
-        var start = expr.indexOf(__conf__.labelMethodName.length)+2;
-        var end = expr.indexOf("')") - 2;//re?
-        var text = expr.substring(start, end);
-        return text;
-    };
+    
     self.generateRepeat = function () {
         return {
             name: __conf__.tal.repeat,
@@ -304,30 +383,14 @@ var TalParser = function () {
                     href = $.trim(attr);
                 }
             });
-            var re = new RegExp("'", 'g');
-            var _re = new RegExp('"', 'g');
             if (href) {
                 if (href.indexOf(__conf__.pageUrlApi) != -1) {
-                    var pageName = '';
-                    if (href.indexOf("'") != -1) {
-                        pageName = href.split("'")[1];
-                    } else if (href.indexOf('"')) {
-                        pageName = href.split('"')[1];
-                    } else {
-                        console.log("what the hell?");
-                    }
-                    var keyValues = href.split(',').slice(1);
-                    var params = [];
-                    _.each(keyValues,function(item){
-                        var s=item.split('=');
-                        var _name  =s[0].replace(re,'').replace(_re,'');
-                        var _val = s[1].replace(')','');
-                        params.push({name:_name,value:_val});
-                    });
-                    return {isext: false, name: pageName,params:params};
+                    var ret = __lang__.analyseLink(href);
+                    return {isext: false, name: ret.page,params:ret.params};
                 } else {
+                    var re = new RegExp("('|\")", 'g');
                     var result = $.trim(href.replace('href', ''));
-                    result = result.replace(re, '').replace(_re, '');
+                    result = result.replace(re, '');
                     return {isext: true, name: result};//ext link
                 }
             } else {
@@ -445,21 +508,10 @@ var TalBinder = function () {
         $tag = $tag || self.tag();
         $tag.removeAttr(__conf__.tal.repeat);
     };
-    self.generatePageLink= function (page,params) {
-        var paramString=[];
-        _.each(params, function (p) {
-            if(p.value) {
-                paramString.push("'"+p.name + "'=" + p.value);//todo: cs/py
-            }
-        });
-        var _paramstr=paramString.length>0?","+paramString.join(','):"";
-        var pageUrl=__conf__.pageUrlApi + "('" + page+"'" +_paramstr +")";
-        return pageUrl;
-    };
     self.bindLink = function (page,params,extLinkValue,$tag) {
         if (page != __conf__.defaultOption.name) {
             $tag = $tag || self.tag();
-            var url = self.generatePageLink(page,params);
+            var url = __lang__.generatePageLink(page,params);
             if (page == externalLink) {
                 url = extLinkValue ? extLinkValue : "#";
                 if (url.indexOf("'") == -1 && url.indexOf('"') == -1) {
@@ -595,7 +647,7 @@ var PanelModel = function () {
     self.wrappedRepeater=ko.observable(null);
     self.isLinkTag=ko.observable(false);
     self.isImgTag=ko.observable(false);
-    self.hasChildren=ko.observable(false);
+    self.hasChildren = ko.observable(false);
     self._hasChildren = function ($tag) {
         $tag = $tag || self.tag();
         if($tag) {
@@ -1013,7 +1065,6 @@ var PanelModel = function () {
                     showCallout=false;
                 }
                 self.displayCallout(showCallout);
-
                 __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.data:
@@ -1037,7 +1088,7 @@ var PanelModel = function () {
                 if(self.dataSource.chosenDataSource()==__conf__.defaultOption.name){
                     showCallout=false;
                 }
-                self.displayCallout(true);
+                self.displayCallout(showCallout);
                 __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.staticImg:

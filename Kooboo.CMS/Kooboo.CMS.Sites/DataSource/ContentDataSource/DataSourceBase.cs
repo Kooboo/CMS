@@ -185,7 +185,7 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
                     var folder = new TextFolder(repository, FolderName).AsActual();
                     if (folder != null)
                     {
-                        var schema = folder.GetSchema();
+                        var schema = folder.GetSchema().AsActual();
 
                         if (schema != null)
                         {

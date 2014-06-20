@@ -140,8 +140,14 @@
     var DatasourceAdapter=function(){
         var self = this;
         self.parse=function(ds){
-            var name = ds.MainDataSourceName();
-            var dsDef = _.find(meta.dataSourceMeta,function(d){return d.name=name});
+            var name ="";
+            if (typeof(ds)== "string") {
+                name =  ds;
+            }
+            else {
+                var name = ds.MainDataSourceName();
+            }
+            var dsDef = _.find(meta.dataSourceMeta,function(d){return d.Name=name});
             __datasrc__.push({
                 name:dsDef.Name,
                 islist:dsDef.IsEnumerable,
@@ -185,7 +191,7 @@
             util.showEditDialog(dataSources,function(editModel){
                 ko.utils.arrayPushAll(self.selectedDataSources, editModel.getSelectedDataSource());
             });
-            
+
         };
         self.removeItem = function (item) {
             self.selectedDataSources.remove(item);
@@ -246,6 +252,9 @@
     }
 
     $(function(){
+        listModel.selectedDataSources.subscribe(function(){
+            initDatasource(listModel.selectedDataSources());
+        });
         initDatasource(listModel.selectedDataSources());
     });
 

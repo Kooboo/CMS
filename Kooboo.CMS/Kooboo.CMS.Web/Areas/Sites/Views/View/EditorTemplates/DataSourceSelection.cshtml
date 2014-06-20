@@ -92,7 +92,6 @@
     </div>
 </div>
 <script type="text/javascript">
-
     var allDataSources = @Html.Raw(dataSources);
     var editTemplate = $('#@editTemplateId');
     var listTemplate = $('#@listTemplateId');
@@ -128,6 +127,7 @@
                 ko.cleanNode(dialoagTemplate[0]);
                 dialog.remove();
                 dialoagTemplate.remove();
+                //initDatasource(self.selectedDataSources());
             });
             dialog.find('a.cancel').one('click', function () {
                 ko.cleanNode(dialoagTemplate[0]);
@@ -136,6 +136,36 @@
             });
         }
     };
+
+    var DatasourceAdapter=function(){
+        var self = this;
+        self.parse=function(ds){
+            var name = ds.MainDataSourceName();
+            var dsDef = _.find(meta.dataSourceMeta,function(d){return d.name=name});
+            __datasrc__.push({
+                name:dsDef.Name,
+                islist:dsDef.IsEnumerable,
+                fields:dsDef.Definitions
+            });
+        };
+        self.parseAll=function(list){
+            __datasrc__ = [];
+            _.each(list,function(ds){
+                self.parse(ds);
+                var subDs = ds.RelatedDataSources();
+                _.each(subDs,function(sds){
+                    self.parse(sds);
+                });
+            });
+        };
+    };
+
+    function initDatasource(list){
+        var ada = new DatasourceAdapter();
+        ada.parseAll(list);
+        $("#span-fill-ds")[0].click();
+    };
+
     function ListViewModel() {
         var self= this;
         self.selectedDataSources = ko.mapping.fromJS(@Html.Raw(modelJson));
@@ -155,9 +185,11 @@
             util.showEditDialog(dataSources,function(editModel){
                 ko.utils.arrayPushAll(self.selectedDataSources, editModel.getSelectedDataSource());
             });
+            
         };
         self.removeItem = function (item) {
             self.selectedDataSources.remove(item);
+            //initDatasource(self.selectedDataSources());
         };
         self.editItem=function(item){
             var editDataSources  = _.filter(allDataSources,function(it){
@@ -190,7 +222,7 @@
             });
         }
     }
-    var listModel = new ListViewModel()
+    var listModel = new ListViewModel();
     ko.applyBindings(listModel, listTemplate[0]);
 
     function EditViewModel(dataSources) {
@@ -212,5 +244,9 @@
             return selected;
         }
     }
+
+    $(function(){
+        initDatasource(listModel.selectedDataSources());
+    });
 
 </script>

@@ -10,16 +10,13 @@
                 <div id="tab_sourceCode" class="tab-content">
                     @Html.Raw(Html.TextAreaFor(o => o.Body, new { rows = 20, cols = 20 }))
                 </div>
-                <ul id="panel-top-tabs" class="tab-index bottom">
+                <ul id="design-view-tags" class="tab-index bottom">
                     <li class="active"><a type="preview" href="#tab_preview">Preview</a></li>
                     <li><a type="source" href="#tab_sourceCode">Source code</a></li>
                 </ul>
             </div>
         </div>
         <div class="tal-panel" id="div-panel-container">
-            <span style='display:none;' id="span-relaying-click" data-bind="click:relayingElementClick">&nbsp;</span>
-            <span style='display:none;' id="span-clear-clicked" data-bind="click:clearClickedElement">&nbsp;</span>
-
             <div class="J_Tabs tabs">
                 <ul class="tab-index clearfix">
                     <li class="active"><a href="#tab_dataSource" id='tab-data-source'>Data source</a></li>
@@ -29,28 +26,65 @@
                     @Html.EditorFor(m => m.DataSources, new { Title = "Data sources".Localize() })
                 </div>
                 <div id="tab_dataBinding" class="tab-content">
-                    <div id="div-repeat-item-setting" class="block text-setting active"
-                         data-bind="template: { name: 'tmpl-datasource-setting', data: dataSource },visible:false">
-                    </div>
-                    <div class="block text-setting active">
-                        <h6 class="title">@Html.IconImage("sprite")Text &amp; Link</h6>
-
-                        <div class="container" data-bind="foreach:{data:boundTags(),as:'tag'}">
-                            <!-- ko if:$root.isClickedTag(tag)-->
-                            <!-- ko template: { name: 'tmpl-data-binding', data: $root }-->
-                            <!-- /ko -->
-                            <!-- /ko -->
-                            <!-- ko ifnot:$root.isClickedTag(tag)-->
-                            <div class="item minimized" data-bind="click:$root.listItemClick">
-                                <div class="text">
-                                    @Html.IconImage("sprite")<span data-bind="text:tag.html(),attr:{title:tag.html()}"></span>
-                                </div>
+                    <span style='display: none;' id="span-main-process" data-bind="click:mainProcess">&nbsp;</span>
+                    <span style='display: none;' id="span-clear-clicked" data-bind="click:clearProcess">&nbsp;</span>
+                    <span style='display: none;' id="span-fill-ds" data-bind="click:dataSource.fillDataSource">&nbsp;</span>
+                    <div class="settings" data-bind="visible:hasClickedTag()">
+                        <!-- ko if:clickedTag()-->
+                        <div class="code-viewer">
+                            <h6 class="title">Code:</h6>
+                            <div class="container">
+                                <ul>
+                                    <li>
+                                        <!-- ko if:clickedTag().children().length>0-->
+                                        <span name="code-node-top" class="code"
+                                            data-bind="text:$root.codeDom.markupStart(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                        <!-- ko template: { name: 'tmpl-code-dom', data: {top:clickedTag()}}-->
+                                        <!-- /ko -->
+                                        <span name="code-node-top" class="code"
+                                            data-bind="text:$root.codeDom.markupEnd(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                        <!-- /ko -->
+                                        <!-- ko if:clickedTag().children().length==0-->
+                                        <span name="code-node-top" class="code"
+                                            data-bind="text:$root.codeDom.markup(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                        <!-- /ko -->
+                                    </li>
+                                </ul>
                             </div>
-                            <!-- /ko -->
+                            <div class="bottom" id="div-node-path">
+                                <!-- ko foreach:{data:$root.codeDom.parents(clickedTag()),as:'step'}-->
+                                <a href="#"
+                                    data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>
+                                <!-- ko ifnot:$root.isClickedTag(step.jqtag)-->
+                                &gt;<!-- /ko -->
+                                <!-- /ko -->
+                            </div>
                         </div>
+                        <!-- /ko -->
+
+                        <!-- ko template:{name:'tmpl-binding-convert',data:$root}-->
+                        <!-- /ko -->
+                        <!-- ko template:{name:'tmpl-binding-editor',data:$root}-->
+                        <!-- /ko -->
+
                     </div>
+
+                    <!-- ko if:boundTags().length==0&&!hasClickedTag()-->
+                    <div class="container">
+                        <p class="empty">
+                            You don't have any data bindings, please define one
+                        first.
+                        </p>
+                    </div>
+                    <!-- /ko -->
+                    <!-- ko if:boundTags().length!=0-->
+                        <!-- ko template:{name:'tmpl-binding-list',data:$root}-->
+                        <!-- /ko -->
+                    <!-- /ko -->
                 </div>
             </div>
         </div>
     </div>
 </div>
+@Html.Partial("EditorTemplates/CtrlPanelBlocks")
+

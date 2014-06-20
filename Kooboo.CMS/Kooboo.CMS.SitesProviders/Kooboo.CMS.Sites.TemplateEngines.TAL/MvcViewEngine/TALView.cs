@@ -65,7 +65,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
 
                     if (IsDesignMode(viewContext.HttpContext))
                     {
-                        writer.Write(body);
+                        writer.Write(WrapViewContent(body));
                     }
                     else
                     {
@@ -80,8 +80,15 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
                         writer.Write(template.Render(globals));
                     }
                 }
-
             }
+        }
+        private string WrapViewContent(string body){
+            StringBuilder str = new StringBuilder();
+            var wrapper = string.Format("<var id=\"view-editor-wrapper\">{0}</var>", body);
+            str.Append(wrapper);
+            str.Append("<link type=\"text/css\" href=\"/Areas/Sites/Scripts/talEditor/kooboo-editor.css\" rel=\"Stylesheet\">");
+            str.Append("<script src=\"/Areas/Sites/Scripts/talEditor/import-lib.js\"></script>");
+            return str.ToString();
         }
         private bool IsDesignMode(HttpContextBase httpContext)
         {

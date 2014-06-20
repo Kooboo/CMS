@@ -83,6 +83,101 @@
 			padding: 0 10px;
 		}
 
+		.code-viewer {
+			.title {
+				font-size: 12px;
+				font-weight: 600;
+			}
+
+			.container {
+				background: #FFF;
+				border: 1px solid #CCC;
+				border-bottom: none;
+				padding: 10px;
+			}
+
+			li ul {
+				margin-left: 30px;
+			}
+
+			.code {
+				cursor: pointer;
+
+				&.active {
+					background: #39F;
+					color: #FFF;
+					.rounded(3px);
+				}
+			}
+
+			.bottom {
+				background: #F5F5F5;
+				border: 1px solid #CCC;
+
+				a {
+					display: inline-block;
+					line-height: 20px;
+					margin: 0 5px;
+					padding: 0 5px;
+
+					&:hover {
+						background: #DDD;
+					}
+
+					&.active {
+						background: #39F;
+						color: #FFF;
+					}
+				}
+			}
+		}
+
+		.settings {
+			background: #F6F6F6;
+			border-bottom: 1px solid #CCC;
+			border-top: 1px solid #CCC;
+			margin-bottom: 20px;
+			padding: 10px;
+
+			.item {
+				border-top: 1px solid #DDD;
+				margin-top: 10px;
+				padding-top: 10px;
+				.clearfix();
+
+				&.convert {
+					p {
+						font-weight: 600;
+					}
+
+					.form-list.vertical li {
+						margin-bottom: 5px;
+
+						&:last-child {
+							margin: 0;
+						}
+					}
+				}
+			}
+
+			.buttons {
+				border-top: 1px solid #DDD;
+				margin-top: 10px;
+				overflow: hidden;
+				padding-top: 10px;
+
+				.button {
+					color: #FFF;
+					float: left;
+					margin-right: 20px;
+
+					&.gray {
+						color: #000;
+					}
+				}
+			}
+		}
+
 		.block {
 			.title {
 				cursor: pointer;
@@ -138,36 +233,49 @@
 
 					span {
 						display: block;
-						line-height: 16px;
 						overflow: hidden;
 						text-overflow: ellipsis;
 						white-space: nowrap;
 					}
 
-					li {
-						background: url(images/line.png) no-repeat 6px -35px;
-						padding: 0 0 0 20px;
+					&:hover {
+						background: #F5F5F5;
+					}
+				}
+			}
 
-						&:last-child {
-							background: url(images/line-end.png) no-repeat 6px -11px;
-						}
+			&.thumbnail {
+				.container {
+					padding: 20px;
+				}
 
-						span {
-							background: #FFF;
-						}
+				li {
+					border: 2px solid transparent;
+					float: left;
+					height: 100px;
+					margin: 0 15px 15px 0;
+					overflow: hidden;
+					position: relative;
+					width: 100px;
+
+					&:nth-child(3n) {
+						margin-right: 0;
 					}
 
 					&:hover {
-						background-color: #F5F5F5;
-
-						span {
-							background-color: #F5F5F5;
-						}
+						border-color: #DDD;
 					}
-				}
 
-				.actions {
-					padding: 5px 20px;
+					img {
+						display: block;
+					}
+
+					.action {
+						cursor: default;
+						position: absolute;
+						right: 0;
+						top: 0;
+					}
 				}
 			}
 		}

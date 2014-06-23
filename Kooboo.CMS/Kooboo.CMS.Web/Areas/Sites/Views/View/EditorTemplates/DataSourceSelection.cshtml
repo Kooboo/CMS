@@ -139,28 +139,30 @@
 
     var DatasourceAdapter=function(){
         var self = this;
-        self.parse=function(ds){
+        self.datasources = [];
+        self.parse=function(ds,parentName){
             var name ="";
-            if (typeof(ds)== "string") {
+            if (typeof(ds)== "string") {//sub ds
                 name =  ds;
             }
             else {
                 var name = ds.MainDataSourceName();
             }
             var dsDef = _.find(meta.dataSourceMeta,function(d){return d.Name==name});
-            __datasrc__.push({
-                name:dsDef.Name,
+            var fullDsName=parentName?parentName+'.'+dsDef.Name:dsDef.Name;
+            self.datasources.push({
+                name:fullDsName,
                 islist:dsDef.IsEnumerable,
                 fields:dsDef.Definitions
             });
         };
         self.parseAll=function(list){
-            __datasrc__ = [];
+            self.datasources = [];
             _.each(list,function(ds){
                 self.parse(ds);
                 var subDs = ds.RelatedDataSources();
                 _.each(subDs,function(sds){
-                    self.parse(sds);
+                    self.parse(sds,ds.MainDataSourceName());
                 });
             });
         };
@@ -169,7 +171,8 @@
     function initDatasource(list){
         var ada = new DatasourceAdapter();
         ada.parseAll(list);
-        $("#span-fill-ds")[0].click();
+        var panelModel = new PanelModel();
+        panelModel.dataSource.fillDataSource(ada.datasources);
     };
 
     function ListViewModel() {

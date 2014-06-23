@@ -79,7 +79,11 @@
         });
         window.ajaxFormParam = {
             beforeSerialize: function ($form, options) {
-                textArea.val(__ctx__.editorWrapper.html());
+                if(__ctx__.isPreview){
+                    textArea.val(__ctx__.editorWrapper.html());
+                }else{
+                    textArea.val(codeMirrorAPI.getValue());
+                }
             }
         };
 

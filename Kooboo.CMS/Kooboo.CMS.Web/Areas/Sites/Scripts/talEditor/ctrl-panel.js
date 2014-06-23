@@ -212,17 +212,25 @@ LangParser.prototype = {
         if (ds.islist) {
             var holder = this.repeatItemHolder;
             name = ds.name + ".$" + holder + "." + field;
-            val = ds.name + holder + "." + field;
+            val = __lang__.generateRepeatItem(ds.name) + "." + field;
         }
         return { 'fullName': name, 'name': field, 'value': val, 'ds': ds.name };
     },
-    generateDataSource: function () {
-        return __conf__.tmplCtxObjName + '.{ds}';
+    generateDataSource: function (ds) {
+        return __conf__.tmplCtxObjName + '.'+ds;
+    },
+    generateRepeatItem:function(ds){
+        var item=ds.replace('.','') + this.repeatItemHolder;
+        return item;
     },
     labelFlag: function () {
         return __conf__.labelMethodName + "(";
+    },
+    generateRepeatExpr:function (ds) {
+        //'dsItem ctx.ds'
+        var expr= __lang__.generateRepeatItem(ds) + ' ' + __lang__.generateDataSource(ds)
+        return expr;
     }
-
     //data field
     //repeater
 };
@@ -305,7 +313,11 @@ PyParser.prototype = {
     }
 
 };
-utils.mixin(LangParser,[SharpParser]);
+if (__conf__.lang.for == langEnum.csharp) {
+    utils.mixin(LangParser, [SharpParser]);
+} else {
+    utils.mixin(LangParser, [PyParser]);
+}
 var __lang__=new LangParser();
 
 //tal parser
@@ -345,12 +357,6 @@ var TalParser = function () {
         return expr;
     };
     
-    self.generateRepeat = function () {
-        return {
-            name: __conf__.tal.repeat,
-            value: '{ds}' + __lang__.repeatItemHolder + ' ' + __lang__.generateDataSource()//'dsItem ctx.ds'
-        }
-    };
     self.analyseDataSource = function ($tag) {
         $tag = $tag || self.tag();
         var repeat = $tag.attr(__conf__.tal.repeat);
@@ -497,9 +503,9 @@ var TalBinder = function () {
     self.bindRepeater = function (datasrcName, $tag) {
         if (self.notEmptyDsName(datasrcName)) {
             $tag = $tag || self.tag();
-            var attr = __parser__.generateRepeat();
-            var re = new RegExp('{ds}', 'g');
-            $tag.attr(attr.name, attr.value.replace(re, datasrcName));
+            var attr = __conf__.tal.repeat;
+            var rptExpr = __lang__.generateRepeatExpr(datasrcName);
+            $tag.attr(attr,rptExpr);
         } else {
             self.unbindRepeater();
         }
@@ -669,7 +675,11 @@ var PanelModel = function () {
     self.dataSource = {
         availableDataSources: ko.observableArray([]),
         chosenDataSource: ko.observable(__conf__.defaultOption.name),
-        fillDataSource: function (data,event) {
+        fillDataSource:function(datasrc){
+            __datasrc__ = datasrc;
+            $("#span-fill-ds")[0].click();
+        },
+        _fillDataSource: function (data,event) {
             __dataset__.init();
             self.dataSource.availableDataSources(__dataset__.allNames());
             self.dataItem.dataFields(__dataset__.allDataFields());

@@ -65,12 +65,16 @@ namespace Kooboo.CMS.Sites.Services
         {
             item.Site = site;
 
+            CheckIsBeingUsed(item);
+
+            Provider.Remove(item);
+        }
+        protected virtual void CheckIsBeingUsed(T item)
+        {
             if (Relations(item).Count() > 0)
             {
                 throw new Exception(string.Format("'{0}' is being used".Localize(), item.UUID));
             }
-
-            Provider.Remove(item);
         }
         #endregion
 

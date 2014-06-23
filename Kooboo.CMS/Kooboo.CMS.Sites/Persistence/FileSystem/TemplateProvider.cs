@@ -74,6 +74,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 return null;
             }
             var template = base.Get(dummyObject);
+            template.Body = IOUtility.ReadAsString(Kooboo.Web.Url.UrlUtility.MapPath(template.TemplateFileVirutalPath));
             template.Init(dummyObject);
             return template;
         }
@@ -110,13 +111,13 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         #region ISiteElementProvider InitializeToDB/ExportToDisk
         public void InitializeToDB(Site site)
         {
-              //not need to implement
+            //not need to implement
         }
 
         public void ExportToDisk(Site site)
         {
-             //not need to implement
-        } 
+            //not need to implement
+        }
         #endregion
     }
 }

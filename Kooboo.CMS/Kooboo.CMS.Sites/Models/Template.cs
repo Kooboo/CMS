@@ -100,7 +100,10 @@ namespace Kooboo.CMS.Sites.Models
             {
                 if (body == null && this.Site != null)
                 {
-                    return IOUtility.ReadAsString(this.PhysicalTemplateFileName);
+                    if (File.Exists(this.PhysicalTemplateFileName))
+                    {
+                        body = IOUtility.ReadAsString(this.PhysicalTemplateFileName);
+                    }
                 }
                 return body;
             }

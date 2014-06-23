@@ -51,7 +51,8 @@
     var externalLink = "@("External link".Localize())";
 
     var __msgs__ = {
-        'can_not_be_label': 'Can not convert this element into a label!',
+        'convert_to_label_confirm': 'Do you want to convert this element with children into a label!',
+        'can_not_be_label':'Can not convert an element with children into a label!',
         'remove_data_binding_confrim': 'Are you sure to delete the data binding?',
         'save_binding_success': 'successed!',
         'url_invalid': 'url invalid!'
@@ -98,7 +99,6 @@
         $("input[name=ConvertedType],input[name=ImageType]").on('click', function () {
             $('label[for='+$(this).attr('id')+']').click();
         });
-        $("#label-textarea").autosize();
         $("#tab-data-source").click();
 
         //switch design mode

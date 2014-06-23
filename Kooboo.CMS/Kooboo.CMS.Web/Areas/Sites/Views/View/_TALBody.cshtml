@@ -1,11 +1,22 @@
 ﻿@model Kooboo.CMS.Sites.Models.View
+@{
+    var defaultLayout = ServiceFactory.LayoutManager.All(Site.Current, "").FirstOrDefault();
+    string defaultLayoutName = "";
+    string defaultPosition = "";
+    if (defaultLayout != null)
+    {
+        defaultLayoutName = defaultLayout.Name;
+        var position = defaultLayout.Positions.FirstOrDefault();
+        defaultPosition = position == null ? "" : position.ID;
+    }
+}
 <div class="wrap with-topbar">
     <div class="block editor">
         <div class="tal-editor" id="div-editor-container">
             <div class="J_Tabs tabs-bottom tabs">
                 <div id="tab_preview" class="tab-content">
                     <iframe id="iframe-preview"
-                            src="@Url.Action("Preview", new { controller = "TALViewEditor", siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), layout = "one_column", view = Model == null ? "" : Model.Name, position = "mainContainer" })"></iframe>
+                    src="@Url.Action("Preview", new { controller = "TALViewEditor", siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), layout = defaultLayoutName, view = Model == null ? "" : Model.Name, position = defaultPosition })"></iframe>
                 </div>
                 <div id="tab_sourceCode" class="tab-content">
                     @Html.Raw(Html.TextAreaFor(o => o.Body, new { rows = 20, cols = 20 }))
@@ -37,31 +48,33 @@
                                 <ul>
                                     <li>
                                         <!-- ko if:clickedTag().children().length>0-->
-                                        <span name="code-node-top" class="code"
-                                            data-bind="text:$root.codeDom.markupStart(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                        <span name="code-node-top" class="code active"
+                                              data-bind="text:$root.codeDom.markupStart(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
                                         <!-- ko template: { name: 'tmpl-code-dom', data: {top:clickedTag()}}-->
                                         <!-- /ko -->
-                                        <span name="code-node-top" class="code"
-                                            data-bind="text:$root.codeDom.markupEnd(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                        <span name="code-node-top" class="code active"
+                                              data-bind="text:$root.codeDom.markupEnd(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
                                         <!-- /ko -->
                                         <!-- ko if:clickedTag().children().length==0-->
-                                        <span name="code-node-top" class="code"
-                                            data-bind="text:$root.codeDom.markup(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                        <span name="code-node-top" class="code active"
+                                              data-bind="text:$root.codeDom.markup(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
                                         <!-- /ko -->
                                     </li>
                                 </ul>
                             </div>
                             <div class="bottom" id="div-node-path">
                                 <!-- ko foreach:{data:$root.codeDom.parents(clickedTag()),as:'step'}-->
-                                <a href="#"
-                                    data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>
+                                <!-- ko if:$root.isClickedTag(step.jqtag)-->
+                                <a href="#" class="active"
+                                   data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>
+                                <!-- /ko -->
                                 <!-- ko ifnot:$root.isClickedTag(step.jqtag)-->
-                                &gt;<!-- /ko -->
+                                <a href="#"
+                                   data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>&gt;<!-- /ko -->
                                 <!-- /ko -->
                             </div>
                         </div>
                         <!-- /ko -->
-
                         <!-- ko template:{name:'tmpl-binding-convert',data:$root}-->
                         <!-- /ko -->
                         <!-- ko template:{name:'tmpl-binding-editor',data:$root}-->
@@ -73,13 +86,13 @@
                     <div class="container">
                         <p class="empty">
                             You don't have any data bindings, please define one
-                        first.
+                            first.
                         </p>
                     </div>
                     <!-- /ko -->
                     <!-- ko if:boundTags().length!=0-->
-                        <!-- ko template:{name:'tmpl-binding-list',data:$root}-->
-                        <!-- /ko -->
+                    <!-- ko template:{name:'tmpl-binding-list',data:$root}-->
+                    <!-- /ko -->
                     <!-- /ko -->
                 </div>
             </div>

@@ -254,7 +254,7 @@ LangParser.prototype = {
 };
 var SharpParser = function () { };
 SharpParser.prototype = {
-    gennerateLabelExpr: function (text) {
+    generateLabelExpr: function (text) {
         return __conf__.tal.structure + "\"" + text + "\"." + __conf__.labelMethodName + "()";
     },
     generatePageLink: function (page, params) {
@@ -295,7 +295,7 @@ SharpParser.prototype = {
 };
 var PyParser = function () { };
 PyParser.prototype = {
-    gennerateLabelExpr: function () {
+    generateLabelExpr: function () {
         return __conf__.labelMethodName + "('" + labelText + "')";
     },
     generatePageLink: function (page, params) {
@@ -371,7 +371,7 @@ var TalParser = function () {
     };
     self.wrapLabel = function (labelText) {
         labelText = labelText || tag.html();
-        var expr = __lang__.gennerateLabelExpr(labelText);//__conf__.tal.string+
+        var expr = __lang__.generateLabelExpr(labelText);//__conf__.tal.string+
         return expr;
     };
 

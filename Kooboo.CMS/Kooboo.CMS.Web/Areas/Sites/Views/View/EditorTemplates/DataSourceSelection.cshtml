@@ -171,8 +171,10 @@
     function initDatasource(list){
         var ada = new DatasourceAdapter();
         ada.parseAll(list);
-        var panelModel = new PanelModel();
-        panelModel.dataSource.fillDataSource(ada.datasources);
+        if(PanelModel){
+            var panelModel = new PanelModel();
+            panelModel.dataSource.fillDataSource(ada.datasources);
+        }
     };
 
     function ListViewModel() {

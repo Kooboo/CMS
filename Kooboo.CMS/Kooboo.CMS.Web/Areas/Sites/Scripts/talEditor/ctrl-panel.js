@@ -75,8 +75,8 @@ var utils = {
         var id = prefix + ran;
         return id;
     },
-    messageFlash: function (msg) {
-        alert(msg);
+    messageFlash: function (msg,success) {
+        window.info.show(msg, success);
     },
     t: function (str) {
         return str;
@@ -894,14 +894,14 @@ var PanelModel = function () {
             var val = $.trim($(event.target).val());
             if (!__re__.url.test(val)) {
                 self.linkTo.extLinkValue(val);
-                utils.messageFlash(__msgs__.url_invalid);
+                utils.messageFlash(__msgs__.url_invalid,false);
             }
             self.linkTo.extLinkValue(val);
         },
         bindLink: function () {
             if (self.linkTo.isVisible()) {
                 if (self.linkTo.chosenPage() == externalLink && !__re__.url.test(self.linkTo.extLinkValue())) {
-                    utils.messageFlash(__msgs__.url_invalid);
+                    utils.messageFlash(__msgs__.url_invalid,false);
                     return false;
                 }
                 var extLink = self.linkTo.extLinkValue();
@@ -1098,7 +1098,7 @@ var PanelModel = function () {
                 if (!self.linkTo.bindLink()) { return; }
                 __binder__.unbindRepeater();
                 __binder__.setLabel(self.dataItem.dataContent());
-                utils.messageFlash(__msgs__.save_binding_success);
+                utils.messageFlash(__msgs__.save_binding_success,true);
                 var showCallout = true;
                 if (!self.dataItem.dataContent()) {
                     showCallout = false;
@@ -1110,7 +1110,7 @@ var PanelModel = function () {
                 if (!self.linkTo.bindLink()) { return; }
                 __binder__.unbindRepeater();
                 __binder__.bindData(self.dataItem.chosenField());
-                utils.messageFlash(__msgs__.save_binding_success);
+                utils.messageFlash(__msgs__.save_binding_success,true);
                 var showCallout = true;
                 if (self.dataItem.chosenField() == __conf__.defaultOption.value &&
                     self.linkTo.chosenPage() == __conf__.defaultOption.name) {
@@ -1122,7 +1122,7 @@ var PanelModel = function () {
             case dataTypeEnum.repeater:
                 __binder__.unbindContent();
                 __binder__.bindRepeater(self.dataSource.chosenDataSource());
-                utils.messageFlash(__msgs__.save_binding_success);
+                utils.messageFlash(__msgs__.save_binding_success,true);
                 var showCallout = true;
                 if (self.dataSource.chosenDataSource() == __conf__.defaultOption.name) {
                     showCallout = false;

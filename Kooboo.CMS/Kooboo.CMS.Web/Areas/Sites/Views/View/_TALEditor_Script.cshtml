@@ -124,6 +124,11 @@
                 $("div.layout-selector").hide();
             }
         });
+        var action='@ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower()';
+        if (action == "create"){
+            $('#design-view-tags a[type=source]').click();
+        }
+       
 
     });
 </script>

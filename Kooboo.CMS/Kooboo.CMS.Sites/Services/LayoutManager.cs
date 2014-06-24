@@ -48,14 +48,12 @@ namespace Kooboo.CMS.Sites.Services
         #endregion
 
         #region Remove
-        public override void Remove(Site site, Layout o)
+        protected override void CheckIsBeingUsed(Layout item)
         {
-            o.Site = site;
-            if (!o.HasParentVersion() && Relations(o).Count() > 0)
+            if (!item.HasParentVersion() && Relations(item).Count() > 0)
             {
-                throw new KoobooException(string.Format("'{0}' is being used.".Localize(), o.Name));
+                throw new KoobooException(string.Format("'{0}' is being used.".Localize(), item.Name));
             }
-            base.Remove(site, o);
         }
         #endregion
 

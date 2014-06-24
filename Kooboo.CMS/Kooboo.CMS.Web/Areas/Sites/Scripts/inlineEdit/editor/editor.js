@@ -166,17 +166,21 @@
                 selector: selector,
                 plugins: [
                     ["advlist autolink link image lists charmap hr anchor pagebreak spellchecker"],
-                    ["searchreplace wordcount visualblocks visualchars code media nonbreaking"],
+		    ["searchreplace wordcount visualblocks visualchars rawcode media nonbreaking"],
                     ["exit table contextmenu directionality emoticons template paste"]
                 ],
                 schema: "html5",
                 inline: true,
                 menubar: false,
                 toolbar_items_size: 'small',
-                toolbar: "save exit | searchreplace undo redo | bold italic forecolor formatselect | indent outdent | alignleft aligncenter alignright alignjustify | bullist numlist | image link unlink | code",
-		setup:function(){
-			tinymce.ui.FloatPanel.zIndex=0x7FFFFFFF;
- 		},
+		toolbar: "save exit | searchreplace undo redo | bold italic forecolor formatselect | indent outdent | alignleft aligncenter alignright alignjustify | bullist numlist | image link unlink | rawcode",
+                setup: function (ed) {                   
+		     tinymce.ui.FloatPanel.zIndex=0x7FFFFFFF;
+                     ed.on('BeforeSetContent', function (e) {
+                         e.format = 'raw';
+                     });
+                },
+                verify_html: false,
                 init_instance_callback: function (ed) {
                     self.editorInstance = ed;
                     setTimeout(function () {

@@ -68,8 +68,12 @@
                 menubar: false,
                 force_p_newlines: false,
                 forced_root_block: false,
+		verify_html: false,
                 toolbar_items_size: 'small',
                 toolbar: "save exit | undo redo |",
+		setup:function(ed){
+		     tinymce.ui.FloatPanel.zIndex=0x7FFFFFFF;			
+		},
                 init_instance_callback: function (ed) {
                     self.editorInstance = ed;
                     setTimeout(function () {
@@ -78,13 +82,14 @@
                     }, 500);
                 },
                 exit_onsavecallback: function (ed) {
-                    self.onSave && self.onSave();
-                    self.stripHtml(false);
+		    self.onSave && self.onSave();
+        	    self.stripHtml(false);
                 },
                 exit_onbeforeexit: function (ed) {
-                    self.onCancel && self.onCancel();
-                    self._onBeforeExit();
-                    return false;
+		    setTimeout(function(){
+                       self.onCancel && self.onCancel();
+                       self._onBeforeExit();
+		    },100);
                 }
             });
         },

@@ -116,7 +116,9 @@
                 $("#div-panel-container").show();
                 $("div.layout-selector").show();
             } else {
-                codeMirrorAPI.setValue(wrapper.html());
+                if(wrapper){
+                    codeMirrorAPI.setValue(wrapper.html());
+                }
                 __ctx__.isPreview = false;
                 $("#tab-data-binding").click();
                 $("#div-editor-container").css({'right':0});
@@ -126,9 +128,10 @@
         });
         var action='@ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower()';
         if (action == "create"){
-            $('#design-view-tags a[type=source]').click();
+            _.delay(function(){
+                $("#design-view-tags a[type=source]").click();
+            },200);
         }
-       
 
     });
 </script>

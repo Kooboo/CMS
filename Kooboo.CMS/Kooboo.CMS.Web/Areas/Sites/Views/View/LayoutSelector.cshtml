@@ -34,8 +34,15 @@
                 }
             });
             self.selectedPosition.subscribe(function(newValue) {
-                var previewUrl = url + "&layout=" + self.selectedLayout()+"&position=" + self.selectedPosition();
-                $('#iframe-preview').attr('src',previewUrl);
+                var redirect = true;
+                var msg = window.leaveConfirm.confirmMessage();
+                if (msg!=null) {
+                    redirect =confirm(msg);
+                }
+                if (redirect) {
+                    var previewUrl = url + "&layout=" + self.selectedLayout()+"&position=" + self.selectedPosition();
+                    $('#iframe-preview').attr('src',previewUrl);
+                }
             });
         }
         var viewModel = new LayoutSelectorViewModel()

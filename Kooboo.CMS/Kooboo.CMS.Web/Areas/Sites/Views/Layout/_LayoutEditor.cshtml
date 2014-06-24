@@ -1,0 +1,12 @@
+﻿@model Kooboo.CMS.Sites.Models.Layout
+@{
+var editorPath = (string)ViewBag.ViewEngine.EditorVirtualPath;
+}
+@if (editorPath == null)
+{
+    @Html.Partial("_LayoutDefaultEditor", Model)
+}
+else
+{
+    @Html.Partial(editorPath, Model)
+}

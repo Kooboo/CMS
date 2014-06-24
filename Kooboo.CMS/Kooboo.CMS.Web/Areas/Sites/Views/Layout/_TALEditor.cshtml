@@ -1,0 +1,25 @@
+﻿@model Kooboo.CMS.Sites.Models.Layout
+@{
+    var body = (Model == null || string.IsNullOrEmpty(Model.Body)) ? (string)(ViewBag.DefaultLayout == null ? "" : ViewBag.DefaultLayout.Template) : Model.Body;
+
+    var viewEngine = (ITemplateEngine)(ViewData["ViewEngine"]);
+    var viewEngineName = viewEngine.Name;
+}
+@Html.TextArea("Body", body, new { rows = 30, cols = 20 })
+
+<script>
+    $(function () {        
+        var textArea = $('#Body').codeMirror();
+        var codeMirrorAPI = textArea.data("codeMirror");
+        codeMirrorAPI.on('change', function (cm) {
+            if (cm && cm.historySize().undo > 0) {
+                window.leaveConfirm.stop();
+            } else {
+                window.leaveConfirm.pass();
+            }
+        });
+    })
+</script>
+
+
+

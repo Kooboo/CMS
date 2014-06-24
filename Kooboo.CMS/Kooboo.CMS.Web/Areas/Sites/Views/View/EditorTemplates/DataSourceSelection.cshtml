@@ -171,7 +171,7 @@
     function initDatasource(list){
         var ada = new DatasourceAdapter();
         ada.parseAll(list);
-        if(PanelModel){
+        if(typeof(PanelModel)==undefined){
             var panelModel = new PanelModel();
             panelModel.dataSource.fillDataSource(ada.datasources);
         }

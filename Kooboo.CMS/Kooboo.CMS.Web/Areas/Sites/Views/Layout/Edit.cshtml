@@ -29,6 +29,6 @@
         @Html.HiddenFor(m => m.EngineName)
         @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
         @Html.Hidden("old_Key", Model.Name)
-        @Html.Partial("TemplateEditor", Model)
+        @Html.Partial("_LayoutEditor", Model)
     }
 </div>

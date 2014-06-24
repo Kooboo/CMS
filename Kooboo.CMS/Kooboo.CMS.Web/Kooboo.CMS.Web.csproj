@@ -1934,7 +1934,7 @@
     <Content Include="Areas\Sites\Views\Layout\Index.cshtml" />
     <Content Include="Areas\Sites\Views\Layout\LayoutSamples.cshtml" />
     <Content Include="Areas\Sites\Views\Layout\PreviewVersion.cshtml" />
-    <Content Include="Areas\Sites\Views\Layout\TemplateEditor.cshtml" />
+    <Content Include="Areas\Sites\Views\Layout\_LayoutDefaultEditor.cshtml" />
     <Content Include="Areas\Sites\Views\Module\Index.cshtml" />
     <Content Include="Areas\Sites\Views\ModuleManagement\Index.cshtml" />
     <Content Include="Areas\Sites\Views\ModuleManagement\Install.cshtml" />
@@ -2621,6 +2621,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\View\EditorTemplates\CtrlPanelBlocks.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Layout\_TALEditor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Layout\_LayoutEditor.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

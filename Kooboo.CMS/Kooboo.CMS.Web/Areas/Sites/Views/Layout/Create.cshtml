@@ -33,7 +33,7 @@
         @Html.ValidationSummary(true)
         @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
 
-        @Html.Partial("TemplateEditor", Model)
+        @Html.Partial("_LayoutEditor", Model)
 
     </div>   
 }

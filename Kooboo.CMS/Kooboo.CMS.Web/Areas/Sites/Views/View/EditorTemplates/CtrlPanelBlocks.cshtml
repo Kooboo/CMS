@@ -85,7 +85,7 @@
         </div>
     </div>
     <div class="item label-editor" data-bind="visible:dataItem.dataType()==dataTypeEnum.label">
-        <textarea id="label-textarea" data-bind="value:utils.unescapeHTML(dataItem.dataContent()),event:{change:dataItem.labelTextChange}">
+        <textarea id="label-textarea" data-bind="value:utils.unescapeHTML(dataItem.dataContent()),event:{change:dataItem.labelTextChange}" class="autoresize">
             Lorem ipsum dolor sit amet
         </textarea>
     </div>
@@ -238,12 +238,12 @@
     <ul data-bind="foreach:{data:top.xchildren(),as:'sub'}">
         <li>
             <!-- ko if:sub.jqtag.children().length>0-->
-                <span class="code"
-                      data-bind="attr:{name:sub.id},text:$root.codeDom.markupStart(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
-                <!-- ko template:{name:'tmpl-code-dom',data:{'top':sub.jqtag}}-->
-                <!-- /ko -->
-                <span class="code"
-                      data-bind="attr:{name:sub.id},text:$root.codeDom.markupEnd(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+            <span class="code"
+                  data-bind="attr:{name:sub.id},text:$root.codeDom.markupStart(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+            <!-- ko template:{name:'tmpl-code-dom',data:{'top':sub.jqtag}}-->
+            <!-- /ko -->
+            <span class="code"
+                  data-bind="attr:{name:sub.id},text:$root.codeDom.markupEnd(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
             <!-- /ko -->
             <!-- ko if:sub.jqtag.children().length==0-->
             <span class="code"

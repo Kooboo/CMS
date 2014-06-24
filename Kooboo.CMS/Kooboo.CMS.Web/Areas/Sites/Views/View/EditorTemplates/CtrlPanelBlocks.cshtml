@@ -127,10 +127,10 @@
         <div class="form-row page-link"
              data-bind="visible:linkTo.chosenPage()!=externalLink&&linkTo.chosenPage()!=__conf__.defaultOption.name">
             <div class="span4">
-                <label>Parameter</label>
+                <strong>Parameter</strong>
             </div>
             <div class="span8">
-                <label>Value</label>
+                <strong>Value</strong>
             </div>
             <!-- ko foreach:{data:linkTo.parameters,as:'param'} -->
             <div class="span4" data-bind="html:param.name"></div>

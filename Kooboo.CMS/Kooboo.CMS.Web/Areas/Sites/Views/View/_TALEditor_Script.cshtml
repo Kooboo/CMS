@@ -58,7 +58,6 @@
         'remove_data_binding_confrim': "@("Are you sure to delete the data binding?".Localize())",
         'save_binding_success':"@("successed".Localize())",
         'url_invalid':"@("url invalid!".Localize())",
-        'position_existed':"@("position existed!".Localize())",
         'not_empty':"@("please enter a vlaue".Localize())"
     };
 
@@ -94,9 +93,9 @@
 
         $('.tabs').koobooTab();
         $("#tab_dataBinding").applyBindings(new PanelModel());
-        $("#span-tag-text-container").on('click','a', function (e) {
-            e.preventDefault();
-        });
+        //$("#span-tag-text-container").on('click','a', function (e) {
+        //    e.preventDefault();
+        //});
         $('div.block').on('click','.title', function () {
             $(this).parent('.block').toggleClass('active');
         });

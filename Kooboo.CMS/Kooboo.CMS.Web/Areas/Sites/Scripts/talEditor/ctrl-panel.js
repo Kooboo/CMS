@@ -25,7 +25,7 @@ var calloutEnum = {
 var __conf__ = {
     contentHolder: '[Data binding ...]',
     defaultOption: {
-        name: defaultOptionName?defaultOptionName:'--------',
+        name: typeof(defaultOptionName)!='undefined'?defaultOptionName:'--------',
         value: '--------'
     },
     repeatItemName: "{ds}.$Item",//ds$Item.Id
@@ -60,7 +60,9 @@ var __conf__ = {
 var __ctx__ = {
     clickedTag: null,
     editorWrapper: null,
+    koobooStuffContainer:null,
     iframeBody: null,
+    iframeObj:null,
     initEditorHandler: null,
     isPreview: true,
     highlighter: null,
@@ -706,6 +708,8 @@ var PageSet = function () {
 };
 
 __ctx__.clickedTag = __ctx__.editorWrapper;
+__pages__ = typeof(__pages__)=='undefined'?[]:__pages__;
+externalLink = typeof(externalLink )=='undefined'?"External Link ":externalLink;
 var PanelModel = function () {
     //base
     var self = this;
@@ -730,7 +734,7 @@ var PanelModel = function () {
         ]
     );
     self.boundTags = ko.observableArray(__ctx__.boundTags);
-    self.clickedTag = ko.observable(__ctx__.clickedTag);
+    self.clickedTag=ko.observable(null);
     self.wrappedRepeater = ko.observable(null);
     self.isLinkTag = ko.observable(false);
     self.isImgTag = ko.observable(false);
@@ -1116,7 +1120,7 @@ var PanelModel = function () {
         self.hasClickedTag(true);
         var tag = __ctx__.clickedTag;
         self.clickedTag(tag);
-        if (__ctx__.isLayout) {//layout editor
+        if (__conf__.isLayout) {//layout editor
             var dataType = __parser__.analyseDataType(tag);
             dataType = dataType || dataTypeEnum.nothing;
             self.dataItem.dataType(dataType);
@@ -1173,10 +1177,10 @@ var PanelModel = function () {
             var text = calloutEnum[self.dataItem.dataType()];
 
             if (callout.length == 0) {
-                callout = __ctx__.highlighterCopy.clone().addClass('mark').attr('id', id);
+                callout = __ctx__.highlighterCopy.clone().addClass('mark').attr('id', id)
             }
             callout.find('span').show().text(text);
-            callout.show().appendTo(__ctx__.iframeBody);
+            callout.show().appendTo(__ctx__.koobooStuffContainer);
             __ctx__.calloutTags[id] = $tag;
         } else {
             callout.remove();

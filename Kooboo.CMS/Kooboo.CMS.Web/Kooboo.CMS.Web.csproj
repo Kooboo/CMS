@@ -606,6 +606,7 @@
     <Content Include="Areas\Sites\Scripts\pageDesign\nest.js" />
     <Content Include="Areas\Sites\Scripts\pageDesign\page.css" />
     <Content Include="Areas\Sites\Scripts\pageDesign\page.js" />
+    <Content Include="Areas\Sites\Scripts\talEditor\common.js" />
     <Content Include="Areas\Sites\Scripts\talEditor\ctrl-panel.js" />
     <Content Include="Areas\Sites\Scripts\talEditor\example\base.css" />
     <Content Include="Areas\Sites\Scripts\talEditor\example\common.css" />
@@ -616,6 +617,8 @@
     <Content Include="Areas\Sites\Scripts\talEditor\import-lib.js" />
     <Content Include="Areas\Sites\Scripts\talEditor\kooboo-editor.css" />
     <Content Include="Areas\Sites\Scripts\talEditor\kooboo-editor.js" />
+    <Content Include="Areas\Sites\Scripts\talEditor\layout-editor.js" />
+    <Content Include="Areas\Sites\Scripts\talEditor\layout-panel.js" />
     <Content Include="Areas\Sites\Scripts\visualStyle\front.css" />
     <Content Include="Areas\Sites\Scripts\visualStyle\front.js" />
     <Content Include="Areas\Sites\Scripts\visualStyle\index.js" />

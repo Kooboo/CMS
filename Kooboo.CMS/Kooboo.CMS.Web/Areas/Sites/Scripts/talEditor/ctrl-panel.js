@@ -1,34 +1,41 @@
 //version:0.2
 
-//conf
-var __ctx__ = {
-    clickedTag: null,
-    editorWrapper: null,
-    iframeBody: null,
-    initEditorHandler: null,
-    isPreview: true,
-    highlighter: null,
-    highlighterCopy: null,
-    boundTags: [],
-    codeDomTags: {},
-    codePathTags: {},
-    calloutTags: {}
-};
-
 var langEnum = {
     csharp: 'csharp',
     py: 'python'
 };
+var dataTypeEnum = {
+    label: 'Label',
+    data: 'Data',
+    repeater: 'RepeatedItem',
+    staticImg: 'StaticImg',
+    dynamicImg: 'DynamicImg',
+    partial: 'Partial',
+    position: 'Position',
+    nothing: 'Nothing'
+};
+var calloutEnum = {
+    Label: 'L',
+    Data: 'D',
+    RepeatedItem: 'R',
+    Position:'P'
+};
 
+//conf
 var __conf__ = {
     contentHolder: '[Data binding ...]',
-    defaultOption: { name: '--------', value: '--------' },
+    defaultOption: {
+        name: defaultOptionName?defaultOptionName:'--------',
+        value: '--------'
+    },
     repeatItemName: "{ds}.$Item",//ds$Item.Id
     labelMethodName: 'RawLabel',
-    tmplCtxObjName: 'ViewBag',//ViewBag
+    tmplCtxObjName: 'ViewBag',
     isStaticView: true,//no ds
     editorPosRight: 0,
     pageUrlApi: 'Url.FrontUrl().PageUrl',
+    positionApi: 'Html.FrontHtml().Position',
+    isLayout: __isLayout__,
     tal: {
         define: 'tal:define',
         switch: 'tal:switch',
@@ -48,25 +55,27 @@ var __conf__ = {
         for: langEnum.csharp
     }
 };
+//end conf
+
+var __ctx__ = {
+    clickedTag: null,
+    editorWrapper: null,
+    iframeBody: null,
+    initEditorHandler: null,
+    isPreview: true,
+    highlighter: null,
+    highlighterCopy: null,
+    boundTags: [],
+    codeDomTags: {},
+    codePathTags: {},
+    calloutTags: {}
+};
+
 
 var __re__ = {
     url: /^(https|http):\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\:+!]*([^<>])*$/
 };
 
-var dataTypeEnum = {
-    label: 'Label',
-    data: 'Data',
-    repeater: 'RepeatedItem',
-    staticImg: 'StaticImg',
-    dynamicImg: 'DynamicImg',
-    partial: 'Partial',
-    nothing: 'Nothing'
-};
-var calloutEnum = {
-    Label: 'L',
-    Data: 'D',
-    RepeatedItem: 'R'
-};
 
 //utils
 var utils = {
@@ -75,7 +84,7 @@ var utils = {
         var id = prefix + ran;
         return id;
     },
-    messageFlash: function (msg,success) {
+    messageFlash: function (msg, success) {
         window.info.show(msg, success);
     },
     t: function (str) {
@@ -93,22 +102,22 @@ var utils = {
         });
         return cls;
     },
-    unescapeHTML:function (str) {
+    unescapeHTML: function (str) {
         str = String(str).replace(/&gt;/g, '>').
-        replace(/&lt;/g, '<').
-        replace(/&quot;/g, '"').
-        replace(/&amp;/g, '&');
+            replace(/&lt;/g, '<').
+            replace(/&quot;/g, '"').
+            replace(/&amp;/g, '&');
         return str;
     },
-    escapeHTML:function (str) {
+    escapeHTML: function (str) {
         str = String(str).replace(/&/g, '&amp;').
-        replace(/>/g, '&gt;').
-        replace(/</g, '&lt;').
-        replace(/"/g, '&quot;');
+            replace(/>/g, '&gt;').
+            replace(/</g, '&lt;').
+            replace(/"/g, '&quot;');
         return str;
     }
 };
-//end conf
+
 
 //ext
 (function ($) {
@@ -235,24 +244,38 @@ LangParser.prototype = {
         return { 'fullName': name, 'name': field, 'value': val, 'ds': ds.name };
     },
     generateDataSource: function (ds) {
-        return __conf__.tmplCtxObjName + '.'+ds;
+        return __conf__.tmplCtxObjName + '.' + ds;
     },
-    generateRepeatItem:function(ds){
-        var item=ds.replace('.','') + this.repeatItemHolder;
+    generateRepeatItem: function (ds) {
+        var item = ds.replace('.', '') + this.repeatItemHolder;
         return item;
     },
     labelFlag: function () {
         return __conf__.labelMethodName + "(";
     },
-    generateRepeatExpr:function (ds) {
+    generateRepeatExpr: function (ds) {
         //'dsItem ctx.ds'
-        var expr= __lang__.generateRepeatItem(ds) + ' ' + __lang__.generateDataSource(ds)
+        var expr = __lang__.generateRepeatItem(ds) + ' ' + __lang__.generateDataSource(ds)
         return expr;
+    },
+    analysePosition: function (attrVal) {
+        var re = new RegExp("('|\")", 'g');
+        var posName = '';
+        if (attrVal.indexOf("'") != -1) {
+            posName = attrVal.split("'")[1];
+        } else if (attrVal.indexOf('"')) {
+            posName = attrVal.split('"')[1];
+        } else {
+            console.log("what the hell?");
+        }
+        return posName;
     }
+
     //data field
     //repeater
 };
-var SharpParser = function () { };
+var SharpParser = function () {
+};
 SharpParser.prototype = {
     generateLabelExpr: function (text) {
         return __conf__.tal.structure + "\"" + text + "\"." + __conf__.labelMethodName + "()";
@@ -291,9 +314,14 @@ SharpParser.prototype = {
             params.push({ name: name, value: val });
         });
         return { page: pageName, params: params };
+    },
+    generatePositionExpr: function (positionName) {
+        var pos = __conf__.positionApi + "(\"" + positionName + "\")";
+        return pos;
     }
 };
-var PyParser = function () { };
+var PyParser = function () {
+};
 PyParser.prototype = {
     generateLabelExpr: function () {
         return __conf__.labelMethodName + "('" + labelText + "')";
@@ -328,7 +356,12 @@ PyParser.prototype = {
             params.push({ name: _name, value: _val });
         });
         return { page: pageName, params: params };
+    },
+    generatePositionExpr: function (positionName) {
+        var pos = __conf__.positionApi + "('" + positionName + "')";
+        return pos;
     }
+
 
 };
 if (__conf__.lang.for == langEnum.csharp) {
@@ -336,7 +369,7 @@ if (__conf__.lang.for == langEnum.csharp) {
 } else {
     utils.mixin(LangParser, [PyParser]);
 }
-var __lang__=new LangParser();
+var __lang__ = new LangParser();
 
 //tal parser
 var TalParser = function () {
@@ -346,8 +379,13 @@ var TalParser = function () {
     };
     self.isLabel = function ($tag) {
         var attr = $tag.attr(__conf__.tal.content);
-        return attr && (attr.indexOf(__lang__.labelFlag()) != -1);//re
-    }
+        return attr && (attr.indexOf(__lang__.labelFlag()) != -1);
+    };
+    self.isPosition = function ($tag) {
+        $tag = $tag || self.tag();
+        var attr = $tag.attr(__conf__.tal.content);
+        return attr && (attr.indexOf(__conf__.positionApi) != -1);
+    };
     self.analyseDataType = function ($tag) {
         $tag = $tag || self.tag();
         var type = dataTypeEnum.nothing;
@@ -355,6 +393,8 @@ var TalParser = function () {
         if (attr) {
             if (self.isLabel($tag)) {//re
                 type = dataTypeEnum.label;
+            } else if (self.isPosition($tag)) {
+                type = dataTypeEnum.position;
             } else {
                 type = dataTypeEnum.data;
             }
@@ -465,6 +505,20 @@ var TalParser = function () {
                 __ctx__.boundTags.push(obj);
             }
         });
+    };
+    self.generatePosition = function (positionName) {
+        var val = __conf__.tal.structure + __lang__.generatePositionExpr(positionName);
+        var talattr = {name: __conf__.tal.content, val: val};
+        return talattr;
+    };
+    self.analysePosition = function ($tag) {
+        $tag = $tag || self.tag();
+        var attr = $tag.attr(__conf__.tal.content);
+        if (attr&&attr.indexOf(__conf__.positionApi) != -1) {
+            return __lang__.analysePosition(attr);
+        } else {
+            return "";
+        }
     }
 }
 var __parser__ = new TalParser();
@@ -523,7 +577,7 @@ var TalBinder = function () {
             $tag = $tag || self.tag();
             var attr = __conf__.tal.repeat;
             var rptExpr = __lang__.generateRepeatExpr(datasrcName);
-            $tag.attr(attr,rptExpr);
+            $tag.attr(attr, rptExpr);
         } else {
             self.unbindRepeater();
         }
@@ -585,6 +639,15 @@ var TalBinder = function () {
             }
         }
     };
+    self.setPosition = function (name,$tag) {
+        $tag = $tag || self.tag();
+        var attr = __parser__.generatePosition(name);
+        $tag.attr(attr.name, attr.val);
+    };
+    self.clearPosition = function ($tag) {
+        $tag = $tag || self.tag();
+        self.unbindContent($tag);
+    };
 };
 var __binder__ = new TalBinder();
 
@@ -596,7 +659,7 @@ var DataSet = function () {
         return self._allNames;
     };
     self.allDataFields = function () {
-        return self._allDataFields
+        return self._allDataFields;
     };
     self.init = function (dataSources) {
         if (dataSources) {
@@ -693,11 +756,11 @@ var PanelModel = function () {
     self.dataSource = {
         availableDataSources: ko.observableArray([]),
         chosenDataSource: ko.observable(__conf__.defaultOption.name),
-        fillDataSource:function(datasrc){
+        fillDataSource: function (datasrc) {
             __datasrc__ = datasrc;
             $("#span-fill-ds")[0].click();
         },
-        _fillDataSource: function (data,event) {
+        _fillDataSource: function (data, event) {
             __dataset__.init();
             self.dataSource.availableDataSources(__dataset__.allNames());
             self.dataItem.dataFields(__dataset__.allDataFields());
@@ -794,10 +857,11 @@ var PanelModel = function () {
         dataTypeChange: function (data, event) {
             var isinit = false;
             self.dataItem.setDataType($(event.target).attr('value'), isinit);
+            $("#txt-postion-name").val("");
         },
         setDataType: function (dataType, isinit) {
             self.dataItem.dataType(dataType);
-            var radio = $("input[flag='data-type'][value=" + dataType + "]");
+            var radio = $("[flag='data-type'][value=" + dataType + "]");
             radio.prop('checked', true);
             switch (dataType) {
                 case dataTypeEnum.label:
@@ -814,6 +878,9 @@ var PanelModel = function () {
                 case dataTypeEnum.dynamicImg:
                     break;
                 case dataTypeEnum.partial:
+                    break;
+                case dataTypeEnum.position:
+                    self.position.init();
                     break;
                 case dataTypeEnum.nothing:
                     break;
@@ -840,6 +907,7 @@ var PanelModel = function () {
             var show = self.isLinkTag();
             var type = self.dataItem.dataType();
             show = show && (type == dataTypeEnum.label || type == dataTypeEnum.data);
+            show = show && (__conf__.isLayout == false);
             return show;
         }),
         chooseFirst: function () {
@@ -884,7 +952,9 @@ var PanelModel = function () {
         pageParamChange: function (data, event) {
             var target = $(event.target);
             var paramName = target.attr('paramname');
-            var params = _.filter(self.linkTo.chosenParams, function (p) { return p.name != paramName });
+            var params = _.filter(self.linkTo.chosenParams, function (p) {
+                return p.name != paramName
+            });
             if (target.val() != __conf__.defaultOption.value) {
                 params.push({ name: paramName, value: target.val() });
             }
@@ -894,14 +964,14 @@ var PanelModel = function () {
             var val = $.trim($(event.target).val());
             if (!__re__.url.test(val)) {
                 self.linkTo.extLinkValue(val);
-                utils.messageFlash(__msgs__.url_invalid,false);
+                utils.messageFlash(__msgs__.url_invalid, false);
             }
             self.linkTo.extLinkValue(val);
         },
         bindLink: function () {
             if (self.linkTo.isVisible()) {
                 if (self.linkTo.chosenPage() == externalLink && !__re__.url.test(self.linkTo.extLinkValue())) {
-                    utils.messageFlash(__msgs__.url_invalid,false);
+                    utils.messageFlash(__msgs__.url_invalid, false);
                     return false;
                 }
                 var extLink = self.linkTo.extLinkValue();
@@ -1019,6 +1089,21 @@ var PanelModel = function () {
         }
     };
 
+    self.position = {
+        existedPositions: ko.observableArray([]),
+        init: function () {
+            var pos = __parser__.analysePosition();
+            $("#txt-postion-name").val(pos);
+        },
+        getPositions: function () {
+
+        },
+        _getPositions: function () {
+
+        }
+
+    };
+
     //tag click events
     self.elementClick = function (tag) {
         var $tag = $(tag);
@@ -1028,28 +1113,34 @@ var PanelModel = function () {
     };
 
     self.mainProcess = function (data, event) {
-        //init
         self.hasClickedTag(true);
         var tag = __ctx__.clickedTag;
-        __ctx__.codeDomTags = { 'code-node-top': tag };
         self.clickedTag(tag);
-        self.wrappedRepeater(self.dataSource.getWrappedRepeater());
-        self.isImgTag(tag && tag[0].tagName.toLowerCase() == 'img');
-        self.hasChildren(self._hasChildren());
-        var islink = (tag[0].tagName.toLowerCase() === 'a');
-        self.isLinkTag(islink);
-        self.dataItem.dataContent(utils.unescapeHTML(tag.html()));
-        self.dataItem.dataContentOuter(tag[0].outerHTML);
-        $("#label-textarea").autosize().trigger('autosize.resize');
-        //data type
-        var dataType = __parser__.analyseDataType(tag);
-        dataType = dataType || dataTypeEnum.nothing;
-        self.dataItem.dataType(dataType);
-        self.dataItem.setDataType(dataType, true);
-        //link to
-        self.linkTo.init();
-        //render list
-        self.resetBoundTags();
+        if (__ctx__.isLayout) {//layout editor
+            var dataType = __parser__.analyseDataType(tag);
+            dataType = dataType || dataTypeEnum.nothing;
+            self.dataItem.dataType(dataType);
+            self.dataItem.setDataType(dataType, true);
+        } else {//view editor
+            __ctx__.codeDomTags = { 'code-node-top': tag };
+            self.wrappedRepeater(self.dataSource.getWrappedRepeater());
+            self.isImgTag(tag && tag[0].tagName.toLowerCase() == 'img');
+            self.hasChildren(self._hasChildren());
+            var islink = (tag[0].tagName.toLowerCase() === 'a');
+            self.isLinkTag(islink);
+            self.dataItem.dataContent(utils.unescapeHTML(tag.html()));
+            self.dataItem.dataContentOuter(tag[0].outerHTML);
+            $("#label-textarea").autosize().trigger('autosize.resize');
+            //data type
+            var dataType = __parser__.analyseDataType(tag);
+            dataType = dataType || dataTypeEnum.nothing;
+            self.dataItem.dataType(dataType);
+            self.dataItem.setDataType(dataType, true);
+            //link to
+            self.linkTo.init();
+            //render list
+            self.resetBoundTags();
+        }
     };
 
     self.clearProcess = function (data, event) {
@@ -1067,11 +1158,12 @@ var PanelModel = function () {
         __ctx__.editorWrapper[0].click();
     };
 
-    self.displayCallout = function (show) {
+    self.displayCallout = function (show,$tag) {
+        $tag=$tag||self.tag();
         var id = utils.getRandomId('callout-');
         for (var _id in __ctx__.calloutTags) {
             var temp = __ctx__.calloutTags[_id];
-            if (temp.is(__ctx__.clickedTag)) {
+            if (temp.is($tag)) {
                 id = _id;
                 break;
             }
@@ -1085,7 +1177,7 @@ var PanelModel = function () {
             }
             callout.find('span').show().text(text);
             callout.show().appendTo(__ctx__.iframeBody);
-            __ctx__.calloutTags[id] = __ctx__.clickedTag;
+            __ctx__.calloutTags[id] = $tag;
         } else {
             callout.remove();
             delete __ctx__.calloutTags[id];
@@ -1095,10 +1187,12 @@ var PanelModel = function () {
     self.saveBindings = function () {
         switch (self.dataItem.dataType()) {
             case dataTypeEnum.label:
-                if (!self.linkTo.bindLink()) { return; }
+                if (!self.linkTo.bindLink()) {
+                    return;
+                }
                 __binder__.unbindRepeater();
                 __binder__.setLabel(self.dataItem.dataContent());
-                utils.messageFlash(__msgs__.save_binding_success,true);
+                utils.messageFlash(__msgs__.save_binding_success, true);
                 var showCallout = true;
                 if (!self.dataItem.dataContent()) {
                     showCallout = false;
@@ -1107,10 +1201,12 @@ var PanelModel = function () {
                 __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.data:
-                if (!self.linkTo.bindLink()) { return; }
+                if (!self.linkTo.bindLink()) {
+                    return;
+                }
                 __binder__.unbindRepeater();
                 __binder__.bindData(self.dataItem.chosenField());
-                utils.messageFlash(__msgs__.save_binding_success,true);
+                utils.messageFlash(__msgs__.save_binding_success, true);
                 var showCallout = true;
                 if (self.dataItem.chosenField() == __conf__.defaultOption.value &&
                     self.linkTo.chosenPage() == __conf__.defaultOption.name) {
@@ -1122,7 +1218,7 @@ var PanelModel = function () {
             case dataTypeEnum.repeater:
                 __binder__.unbindContent();
                 __binder__.bindRepeater(self.dataSource.chosenDataSource());
-                utils.messageFlash(__msgs__.save_binding_success,true);
+                utils.messageFlash(__msgs__.save_binding_success, true);
                 var showCallout = true;
                 if (self.dataSource.chosenDataSource() == __conf__.defaultOption.name) {
                     showCallout = false;
@@ -1136,19 +1232,43 @@ var PanelModel = function () {
                 break;
             case dataTypeEnum.partial:
                 break;
+            case dataTypeEnum.position:
+                var pos = $.trim($("#txt-postion-name").val());
+                if(!pos){
+                    utils.messageFlash(__msgs__.not_empty,false);
+                }else if(_.hasItem(self.position.existedPositions(),pos)){
+                   utils.messageFlash(__msgs__.position_existed,false);
+                }else{
+                    __binder__.setPosition(pos);
+                    self.position.existedPositions.push(pos);
+                    self.displayCallout(true);
+                    __ctx__.editorWrapper[0].click();
+                }
+                break;
             case dataTypeEnum.nothing:
                 break;
-        };
+        }
+
     };
 
     //list events
     self.removeDataBinding = function (data, event) {
         if (confirm(__msgs__.remove_data_binding_confrim)) {
             __binder__.unbindAll(data.tag);
-            if (data.tag.is(__ctx__.clickedTag)) {
-                self.dataItem.dataType(dataTypeEnum.nothing);
-                $("#data-type-nothing").prop('checked', true);
+            if(__conf__.isLayout){
+                var posName=$(event.target).closest("li").find("span").html();
+                var temp = _.removeItem(self.position.existedPositions(),posName);
+                self.position.existedPositions(temp);
+            }else{
+               /* if (data.tag.is(__ctx__.clickedTag)) {
+                    self.dataItem.dataType(dataTypeEnum.nothing);
+                    $("#data-type-nothing").prop('checked', true);
+                }*/
             }
+            if (data.tag.is(__ctx__.clickedTag)) {
+                __ctx__.clickedTag[0].click();
+            }
+            self.displayCallout(false,data.tag);
             self.resetBoundTags();
         }
     };

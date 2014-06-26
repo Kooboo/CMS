@@ -18,7 +18,9 @@ var calloutEnum = {
     Label: 'L',
     Data: 'D',
     RepeatedItem: 'R',
-    Position: 'P'
+    Position: 'P',
+    DynamicImg:'I',
+    StaticImg:"I"
 };
 
 //conf
@@ -73,7 +75,8 @@ var __ctx__ = {
 
 
 var __re__ = {
-    url: /^(https|http):\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\:+!]*([^<>])*$/
+    url: /^(https|http):\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\:+!]*([^<>])*$/,
+    imgExt:new RegExp("(.png|.gif|.icon|.jpg|.jpeg|.bmp)", 'g')
 };
 
 
@@ -269,6 +272,17 @@ LangParser.prototype = {
             console.log("what the hell?");
         }
         return posName;
+    },
+    isStaticImg:function(attrs){
+        attrs=(attrs||"").split(";");
+        var is=false;
+        for(var i=0;i<attrs.length;i++){
+            if($.trim(attrs[i]).toLowerCase().startsWith("src ")){
+                is=true;
+                break;
+            }
+        }
+        return is;
     }
 
     //data field
@@ -318,6 +332,9 @@ SharpParser.prototype = {
     generatePositionExpr: function (positionName) {
         var pos = __conf__.positionApi + "(\"" + positionName + "\")";
         return pos;
+    },
+    quot:function(text){
+        return "\""+text+"\"";
     }
 };
 var PyParser = function () {
@@ -360,6 +377,9 @@ PyParser.prototype = {
     generatePositionExpr: function (positionName) {
         var pos = __conf__.positionApi + "('" + positionName + "')";
         return pos;
+    },
+    quot:function(text){
+        return "'"+text+"'";
     }
 
 
@@ -395,7 +415,14 @@ var TalParser = function () {
                 type = dataTypeEnum.label;
             } else if (self.isPosition($tag)) {
                 type = dataTypeEnum.position;
-            } else {
+            } else if($tag[0].tagName.toLowerCase()=='img'){
+                var srcAttr=$tag.attr(__conf__.tal.attrs);
+                if(__lang__.isStaticImg(srcAttr)){
+                    type=dataTypeEnum.staticImg;
+                }else{
+                    type=dataTypeEnum.dynamicImg;
+                }
+            } else{
                 type = dataTypeEnum.data;
             }
         }
@@ -522,7 +549,27 @@ var TalParser = function () {
         } else {
             return "";
         }
-    }
+    };
+    self.analyseImage = function ($tag) {
+        $tag = $tag || self.tag();
+        var attrstr=$tag.attr(__conf__.tal.attrs);
+        if(__lang__.isStaticImg(attrstr)) {
+            var attrs = attrstr.split(';');
+            var src = '';
+            _.each(attrs, function (attr) {
+                if ($.trim(attr).toLowerCase().startsWith('src ')) {
+                    src = $.trim(attr);
+                }
+            });
+            if (src) {
+                return src.split(' ')[1];
+            } else {
+                return '';
+            }
+        }else{
+            return self.analyseDataField($tag);
+        }
+    };
 }
 var __parser__ = new TalParser();
 
@@ -594,9 +641,9 @@ var TalBinder = function () {
             $tag = $tag || self.tag();
             var url = __lang__.generatePageLink(page, params);
             if (page == externalLink) {
-                url = extLinkValue ? extLinkValue : "#";
+                url = extLinkValue ? extLinkValue : "";
                 if (url.indexOf("'") == -1 && url.indexOf('"') == -1) {
-                    url = "'" + url + "'";
+                    url =__lang__.quot(url);
                 }
             }
             var href = "href " + url;
@@ -650,6 +697,21 @@ var TalBinder = function () {
     self.clearPosition = function ($tag) {
         $tag = $tag || self.tag();
         self.unbindContent($tag);
+    };
+    self.bindDynamicImg=function(value,$tag){
+        $tag=$tag||self.tag();
+        if (self.notEmptyDataField(value)) {
+            $tag.attr(self.contentAttr, value);
+        } else {
+            self.unbindContent($tag);
+        }
+    };
+    self.unbindDynamicImg=function($tag){
+        $tag=$tag||self.tag();
+        self.unbindContent($tag);
+    }
+    self.bindStaticImg=function(){
+
     };
 };
 var __binder__ = new TalBinder();

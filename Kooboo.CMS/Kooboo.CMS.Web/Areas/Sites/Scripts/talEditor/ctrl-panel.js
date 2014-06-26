@@ -900,7 +900,7 @@ var PanelModel = function () {
             self.dataItem.chooseThis($(event.target).val());
         }
     };
-
+    
     self.linkTo = {
         pages: ko.observableArray(self.pagesForSelect),
         chosenPage: ko.observable(__conf__.defaultOption.name),
@@ -1119,6 +1119,7 @@ var PanelModel = function () {
     self.mainProcess = function (data, event) {
         self.hasClickedTag(true);
         var tag = __ctx__.clickedTag;
+        __ctx__.codeDomTags = { 'code-node-top': tag };
         self.clickedTag(tag);
         if (__conf__.isLayout) {//layout editor
             var dataType = __parser__.analyseDataType(tag);
@@ -1126,7 +1127,6 @@ var PanelModel = function () {
             self.dataItem.dataType(dataType);
             self.dataItem.setDataType(dataType, true);
         } else {//view editor
-            __ctx__.codeDomTags = { 'code-node-top': tag };
             self.wrappedRepeater(self.dataSource.getWrappedRepeater());
             self.isImgTag(tag && tag[0].tagName.toLowerCase() == 'img');
             self.hasChildren(self._hasChildren());

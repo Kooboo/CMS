@@ -132,39 +132,19 @@
 
 //binding
 (function (__parent__, __ctx__, __conf__) {
-
-    __ctx__.iframeBody = $('body');
-    __ctx__.iframeObj = window;
-    __ctx__.koobooStuffContainer = $("#kooboo-stuff-container");
-    //var $editorWrapper = $("#view-editor-wrapper");
-    __ctx__.editorWrapper = $("body");
-
+    window.parent.__ctx__.iframeObj = window;
     var initLayoutEditor = function () {
         $("body").KoobooHighlight();
-        //$("a").click(function () {
-        //    return false;
-        //});
-        //$(":text,textarea,input[type=search]").attr('readonly', 'readonly');
+        document.onclick = function () {
+            $("#kooboo-highlight-copy").hide();
+            $("#kooboo-highlight").hide();
+            __parent__.$("#span-clear-clicked").trigger('click');
+        }
     };
-    $("body").on('click', function (e) {
-        e.stopPropagation();
-        $("#kooboo-highlight-copy").hide();
-        $("#kooboo-highlight").hide();
-        __parent__.$("#span-clear-clicked").trigger('click');
-        //overview;
-    });
     $(function () {
-            initLayoutEditor();
-            __ctx__.initEditorHandler = initLayoutEditor;
+        initLayoutEditor();
+        __ctx__.initEditorHandler = initLayoutEditor;
     });
 
 })(window.parent, window.parent.__ctx__, window.parent.__conf__);
 
-function setIframeContent(html) {
-    var stuff = $("#kooboo-stuff-container").clone()[0].outerHTML;
-    var re = new RegExp("(<html>|<HTML>|</html>|</HTML>)", 'g');
-    html = html.replace(re, "");
-    window.document.documentElement.innerHTML = html;
-    var bodyInner = window.document.body.innerHTML;
-    window.document.body.innerHTML = bodyInner + stuff;
-}

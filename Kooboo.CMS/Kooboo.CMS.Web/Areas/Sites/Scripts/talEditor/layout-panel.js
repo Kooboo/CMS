@@ -1,5 +1,4 @@
-﻿__ctx__.clickedTag = __ctx__.editorWrapper;
-console.log( __ctx__.editorWrapper);
+﻿
 var PanelModel = function () {
     //base
     var self = this;
@@ -16,6 +15,7 @@ var PanelModel = function () {
         var container = __ctx__.iframeObj.$("body");
         __parser__.analyseAllBinding(container);
         self.boundTags(__ctx__.boundTags);
+        self.position.getPositions();
     };
 
     //groups
@@ -30,30 +30,11 @@ var PanelModel = function () {
         },
         setDataType: function (dataType, isinit) {
             self.dataItem.dataType(dataType);
-            var radio = $("[flag='data-type'][value=" + dataType + "]");
-            radio.prop('checked', true);
             switch (dataType) {
-                case dataTypeEnum.label:
-                    self.dataItem.initLabel(isinit);
-                    break;
-                case dataTypeEnum.data:
-                    self.dataItem.initData();
-                    break;
-                case dataTypeEnum.repeater:
-                    self.dataSource.init();
-                    break;
-                case dataTypeEnum.staticImg:
-                    break;
-                case dataTypeEnum.dynamicImg:
-                    break;
-                case dataTypeEnum.partial:
-                    break;
                 case dataTypeEnum.position:
                     self.position.init();
                     break;
                 case dataTypeEnum.nothing:
-                    break;
-                default:
                     break;
             }
         }
@@ -61,8 +42,6 @@ var PanelModel = function () {
 
     self.codeDom = {
         itemClick: function (data, event) {
-            //$("div.code-viewer").find("span.active").removeClass('active');
-            //$(event.target).addClass('active');
             var tag = data.tag || data.jqtag || data[0];
             tag.click();
         },
@@ -174,30 +153,37 @@ var PanelModel = function () {
             $("#txt-postion-name").val(pos);
         },
         getPositions: function () {
-
-        },
-        _getPositions: function () {
-
+            var temp=[];
+            _.each(self.boundTags(),function(obj){
+                if(obj.type==dataTypeEnum.position){
+                    var pos = __parser__.analysePosition(obj.tag);
+                    if(pos){
+                        temp.push(pos);
+                    }
+                }
+            });
+            self.position.existedPositions(temp);
         }
-
     };
 
     //tag click events
     self.elementClick = function (tag) {
         var $tag = $(tag);
         __ctx__.clickedTag = $tag;
-        $("#tab-data-binding").trigger('click');
         $("#span-main-process").trigger('click');
     };
 
     self.mainProcess = function (data, event) {
         self.hasClickedTag(true);
         var tag = __ctx__.clickedTag;
+        __ctx__.codeDomTags = { 'code-node-top': tag };
         self.clickedTag(tag);
         var dataType = __parser__.analyseDataType(tag);
         dataType = dataType || dataTypeEnum.nothing;
         self.dataItem.dataType(dataType);
         self.dataItem.setDataType(dataType, true);
+        self.resetBoundTags();
+
     };
 
     self.clearProcess = function (data, event) {
@@ -205,14 +191,12 @@ var PanelModel = function () {
         self.clickedTag(null);
         self.hasClickedTag(false);
         //data binding overview
-        $("#tab-data-binding").click();
-        $("#div-repeat-item-setting").show();
         self.resetBoundTags();
     };
 
     //edit events
     self.cancelEdit = function (data, event) {
-        __ctx__.editorWrapper[0].click();
+        __ctx__.iframeObj.document.documentElement.click();
     };
 
     self.displayCallout = function (show, $tag) {
@@ -225,7 +209,7 @@ var PanelModel = function () {
                 break;
             }
         }
-        var callout = __ctx__.iframeBody.find('#' + id);
+        var callout = __ctx__.iframeObj.$('#' + id);
         if (show) {
             var text = calloutEnum[self.dataItem.dataType()];
 
@@ -233,7 +217,7 @@ var PanelModel = function () {
                 callout = __ctx__.highlighterCopy.clone().addClass('mark').attr('id', id)
             }
             callout.find('span').show().text(text);
-            callout.show().appendTo(__ctx__.koobooStuffContainer);
+            callout.show().appendTo(__ctx__.iframeObj.$("#kooboo-stuff-container"));
             __ctx__.calloutTags[id] = $tag;
         } else {
             callout.remove();
@@ -243,52 +227,6 @@ var PanelModel = function () {
 
     self.saveBindings = function () {
         switch (self.dataItem.dataType()) {
-            case dataTypeEnum.label:
-                if (!self.linkTo.bindLink()) {
-                    return;
-                }
-                __binder__.unbindRepeater();
-                __binder__.setLabel(self.dataItem.dataContent());
-                utils.messageFlash(__msgs__.save_binding_success, true);
-                var showCallout = true;
-                if (!self.dataItem.dataContent()) {
-                    showCallout = false;
-                }
-                self.displayCallout(showCallout);
-                __ctx__.editorWrapper[0].click();
-                break;
-            case dataTypeEnum.data:
-                if (!self.linkTo.bindLink()) {
-                    return;
-                }
-                __binder__.unbindRepeater();
-                __binder__.bindData(self.dataItem.chosenField());
-                utils.messageFlash(__msgs__.save_binding_success, true);
-                var showCallout = true;
-                if (self.dataItem.chosenField() == __conf__.defaultOption.value &&
-                    self.linkTo.chosenPage() == __conf__.defaultOption.name) {
-                    showCallout = false;
-                }
-                self.displayCallout(showCallout);
-                __ctx__.editorWrapper[0].click();
-                break;
-            case dataTypeEnum.repeater:
-                __binder__.unbindContent();
-                __binder__.bindRepeater(self.dataSource.chosenDataSource());
-                utils.messageFlash(__msgs__.save_binding_success, true);
-                var showCallout = true;
-                if (self.dataSource.chosenDataSource() == __conf__.defaultOption.name) {
-                    showCallout = false;
-                }
-                self.displayCallout(showCallout);
-                __ctx__.editorWrapper[0].click();
-                break;
-            case dataTypeEnum.staticImg:
-                break;
-            case dataTypeEnum.dynamicImg:
-                break;
-            case dataTypeEnum.partial:
-                break;
             case dataTypeEnum.position:
                 var pos = $.trim($("#txt-postion-name").val());
                 if (!pos) {
@@ -299,34 +237,27 @@ var PanelModel = function () {
                     __binder__.setPosition(pos);
                     self.position.existedPositions.push(pos);
                     self.displayCallout(true);
-                    __ctx__.editorWrapper[0].click();
+                    __ctx__.iframeObj.document.documentElement.click();
                 }
                 break;
             case dataTypeEnum.nothing:
                 break;
         }
-
     };
 
     //list events
     self.removeDataBinding = function (data, event) {
         if (confirm(__msgs__.remove_data_binding_confrim)) {
             __binder__.unbindAll(data.tag);
-            if (__conf__.isLayout) {
-                var posName = $(event.target).closest("li").find("span").html();
-                var temp = _.removeItem(self.position.existedPositions(), posName);
-                self.position.existedPositions(temp);
-            } else {
-                /* if (data.tag.is(__ctx__.clickedTag)) {
-                     self.dataItem.dataType(dataTypeEnum.nothing);
-                     $("#data-type-nothing").prop('checked', true);
-                 }*/
-            }
+            var posName = $(event.target).closest("li").find("span").html();
+            var temp = _.removeItem(self.position.existedPositions(), posName);
+            self.position.existedPositions(temp);
             if (data.tag.is(__ctx__.clickedTag)) {
                 __ctx__.clickedTag[0].click();
             }
             self.displayCallout(false, data.tag);
             self.resetBoundTags();
+            __ctx__.iframeObj.document.documentElement.click();
         }
     };
 

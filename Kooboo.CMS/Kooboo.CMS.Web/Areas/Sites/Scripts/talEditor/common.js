@@ -60,8 +60,6 @@ var __conf__ = {
 var __ctx__ = {
     clickedTag: null,
     editorWrapper: null,
-    koobooStuffContainer: null,
-    iframeBody: null,
     iframeObj: null,
     initEditorHandler: null,
     isPreview: true,

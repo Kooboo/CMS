@@ -44,7 +44,7 @@
                 wrap.append('<div class="right"></div>');
                 wrap.append('<div class="top"></div>');
                 wrap.append('<div class="bottom"></div>');
-                wrap.appendTo('body');
+                wrap.appendTo($("#kooboo-stuff-container"));
                 Mask(target);
                 $(window).resize(function () {
                     Mask(target);
@@ -147,11 +147,13 @@
                 wrap.append('<div class="right"></div>');
                 wrap.append('<div class="top"></div>');
                 wrap.append('<div class="bottom">');
-                wrap.append("<span class='kooboo-label' style='position: absolute;display:none;padding-top:0px;margin-top:0px;float:right'></span>");
+                wrap.append("<span class='kooboo-label' style='display:none;'></span>");
                 wrap.append('</div>');
-                wrap.appendTo('body');
-                var copy = wrap.clone().removeClass('hover').attr("id","kooboo-highlight-copy");
-                copy.appendTo($('body'));
+                if ($("#kooboo-highlight").length==0) {
+                    wrap.appendTo($("#kooboo-stuff-container"));
+                    var copy = wrap.clone().removeClass('hover').attr("id", "kooboo-highlight-copy");
+                    copy.appendTo($("#kooboo-stuff-container"));
+                }
                 __ctx__.highlighter = $("#kooboo-highlight");
                 __ctx__.highlighterCopy =$("#kooboo-highlight-copy");
 
@@ -202,7 +204,7 @@
         });
         $.fn.KoobooToolbar = function () {
             return this.each(function () {
-                Toolbar.appendTo('body');
+                Toolbar.appendTo($("#kooboo-stuff-container"));
             })
         }
         $.fn.KoobooToolbar.show = function (target) {
@@ -217,7 +219,7 @@
         };
     })(jQuery);
     (function ($) {
-        var CopyMask = $('<div class="kooboo-copy-mask">');
+        var CopyMask = $('<div class="kooboo-copy-mask" >');
         CopyMaskInit = function (container) {
             CopyMask.css({
                 left: container.offset().left,
@@ -227,7 +229,7 @@
             });
         };
         $.fn.KoobooCopyMask = function () {
-            CopyMask.appendTo('body');
+            CopyMask.appendTo($("#kooboo-stuff-container"));
             return this.each(function () {
                 var Container = $(this);
                 CopyMaskInit(Container);
@@ -240,11 +242,22 @@
 
 })(window.parent, window.parent.__ctx__, window.parent.__conf__);
 
+
 //binding
 (function (__parent__, __ctx__, __conf__) {
-    var $editorWrapper = $("#view-editor-wrapper");
+    
     __ctx__.iframeBody = $('body');
-    var initEditor = function () {
+    __ctx__.iframeObj = window;
+    __ctx__.koobooStuffContainer = $("#kooboo-stuff-container");
+
+    var initViewEditor = function () {
+        var $editorWrapper = $("#view-editor-wrapper");
+        $editorWrapper.find("*").each(function (i, o) {
+            $o = $(o);
+            if ($o.attr(__conf__.tal.content) && $.trim($o.html()) == "") {
+                $o.html(__conf__.contentHolder);
+            }
+        });
         __ctx__.editorWrapper = $editorWrapper;
         /*var viewContent = __ctx__.editorWrapper.html();
         $(":not('#view-editor-wrapper')").css({
@@ -266,15 +279,31 @@
         $(":text,textarea,input[type=search]").attr('readonly', 'readonly');
         var style = $editorWrapper.parent().attr('style');
     };
-    $(function () {
-        $editorWrapper.find("*").each(function (i, o) {
-            $o = $(o);
-            if ($o.attr(__conf__.tal.content) && $.trim($o.html()) == "") {
-                $o.html(__conf__.contentHolder);
-            }
+
+    var initLayoutEditor = function () {
+        $("body").KoobooHighlight();
+        $("a").click(function () {
+            return false;
         });
-        initEditor();
-        __ctx__.initEditorHandler = initEditor;
+        $(":text,textarea,input[type=search]").attr('readonly', 'readonly');
+    }
+    $(function () {
+        if (__conf__.isLayout) {
+            initLayoutEditor();
+            __ctx__.initEditorHandler = initLayoutEditor;
+        } else {
+            initViewEditor();
+            __ctx__.initEditorHandler = initViewEditor;
+        }
     });
 
 })(window.parent, window.parent.__ctx__, window.parent.__conf__);
+
+function setIframeContent(html) {
+    var stuff = $("#kooboo-stuff-container").clone()[0].outerHTML;
+    var re = new RegExp("(<html>|<HTML>|</html>|</HTML>)", 'g');
+    html = html.replace(re, "");
+    window.document.documentElement.innerHTML = html;
+    var body = window.document.body.innerHTML;
+    window.document.body.innerHTML = body + stuff;
+}

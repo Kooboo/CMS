@@ -86,8 +86,10 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
             StringBuilder str = new StringBuilder();
             var wrapper = string.Format("<var id=\"view-editor-wrapper\">{0}</var>", body);
             str.Append(wrapper);
+            str.Append("<div id=\"kooboo-stuff-container\">");
             str.Append("<link type=\"text/css\" href=\"/Areas/Sites/Scripts/talEditor/kooboo-editor.css\" rel=\"Stylesheet\">");
             str.Append("<script src=\"/Areas/Sites/Scripts/talEditor/import-lib.js\"></script>");
+            str.Append("</div>");
             return str.ToString();
         }
         private bool IsDesignMode(HttpContextBase httpContext)

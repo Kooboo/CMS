@@ -31,6 +31,7 @@
     
 </script>
 <script>
+    var __isLayout__ = false;
     var __datasrc__ = [];
     var __pages__ = [];
     _.each(meta.pages,function(page){
@@ -49,13 +50,15 @@
     });
    
     var externalLink = "@("External link".Localize())";
+    var defaultOptionName = "@("--Please selece an item--".Localize())";
 
     var __msgs__ = {
-        'convert_to_label_confirm': 'Do you want to convert this element with children into a label!',
-        'can_not_be_label':'Can not convert an element with children into a label!',
-        'remove_data_binding_confrim': 'Are you sure to delete the data binding?',
-        'save_binding_success': 'successed!',
-        'url_invalid': 'url invalid!'
+        'convert_to_label_confirm': "@("Do you want to convert this element with children into a label!".Localize())",
+        'can_not_be_label':"@("Can not convert an element with children into a label!".Localize())",
+        'remove_data_binding_confrim': "@("Are you sure to delete the data binding?".Localize())",
+        'save_binding_success':"@("successed".Localize())",
+        'url_invalid':"@("url invalid!".Localize())",
+        'not_empty':"@("please enter a vlaue".Localize())"
     };
 
     var __urls__ = {};
@@ -90,9 +93,9 @@
 
         $('.tabs').koobooTab();
         $("#tab_dataBinding").applyBindings(new PanelModel());
-        $("#span-tag-text-container").on('click','a', function (e) {
-            e.preventDefault();
-        });
+        //$("#span-tag-text-container").on('click','a', function (e) {
+        //    e.preventDefault();
+        //});
         $('div.block').on('click','.title', function () {
             $(this).parent('.block').toggleClass('active');
         });

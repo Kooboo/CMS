@@ -13,12 +13,12 @@ var PanelModel = function () {
         return tag.is(__ctx__.clickedTag);
     };
     self.resetBoundTags = function () {
-        __parser__.analyseAllBinding();
+        var container = __ctx__.iframeObj.$("body");
+        __parser__.analyseAllBinding(container);
         self.boundTags(__ctx__.boundTags);
     };
 
     //groups
-
     self.dataItem = {
         dataContent: ko.observable('content'),
         dataContentOuter: ko.observable('content'),
@@ -193,9 +193,7 @@ var PanelModel = function () {
     self.mainProcess = function (data, event) {
         self.hasClickedTag(true);
         var tag = __ctx__.clickedTag;
-        _.delay(function(){
-            self.clickedTag(tag);
-        },200);
+        self.clickedTag(tag);
         var dataType = __parser__.analyseDataType(tag);
         dataType = dataType || dataTypeEnum.nothing;
         self.dataItem.dataType(dataType);

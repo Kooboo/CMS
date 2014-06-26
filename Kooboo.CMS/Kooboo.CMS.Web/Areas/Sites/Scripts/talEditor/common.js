@@ -496,11 +496,8 @@ var TalParser = function () {
         }
         return is;
     };
-    self.analyseAllBinding = function () {
-        var container;
-        if(__conf__.isLayout){
-            container=__ctx__.iframeObj.$("body");
-        }else{
+    self.analyseAllBinding = function (container) {
+        if(!container){
             container=__ctx__.editorWrapper;
         }
         __ctx__.boundTags = [];
@@ -712,3 +709,4 @@ var __dataset__ = new DataSet();
 var PageSet = function () {
     var self = this;
 };
+

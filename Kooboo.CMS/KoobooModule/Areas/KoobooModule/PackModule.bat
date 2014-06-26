@@ -10,7 +10,7 @@ for /f %%a in (loglist.txt) do (
 del /s /q Bin\*.pdb
 del /s /q Bin\*.xml
 
-for %%* in (.) do set CurrDirName=%%~n*
+for %%* in (.) do set CurrDirName=%%~nx*
 
 ..\..\7z\7z a -r %CurrDirName%.zip *.* -x@..\..\7z\ignores.txt
 

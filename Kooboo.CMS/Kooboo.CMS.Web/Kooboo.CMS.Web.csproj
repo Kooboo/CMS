@@ -218,6 +218,7 @@
     <Compile Include="Areas\Sites\Controllers\SiteTemplateController.cs" />
     <Compile Include="Areas\Sites\Controllers\ABSiteSettingController.cs" />
     <Compile Include="Areas\Sites\Controllers\ABRuleSettingController.cs" />
+    <Compile Include="Areas\Sites\Controllers\TALLayoutEditorController.cs" />
     <Compile Include="Areas\Sites\Controllers\TALViewEditorController.cs" />
     <Compile Include="Areas\Sites\Menu\MembershipMenuItems.cs" />
     <Compile Include="Areas\Sites\ModelBinders\DataSourceModelBinder.cs" />

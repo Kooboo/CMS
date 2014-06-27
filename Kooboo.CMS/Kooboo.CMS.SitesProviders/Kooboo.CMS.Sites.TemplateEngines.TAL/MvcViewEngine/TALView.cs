@@ -50,7 +50,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
         {
             this.ViewData = viewContext.ViewData;
 
-            bool hasLayout = _masterTemplate != null;
+            bool hasLayout = !string.IsNullOrEmpty(_masterTemplate);
 
             if (hasLayout)
             {

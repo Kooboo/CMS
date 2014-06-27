@@ -1,6 +1,6 @@
 ﻿@model Kooboo.CMS.Sites.Models.Layout
 @{
-    var body = (Model == null || string.IsNullOrEmpty(Model.Body)) ? (string)(ViewBag.DefaultLayout == null ? "" : ViewBag.DefaultLayout.Template) : Model.Body;
+    //var body = (Model == null || string.IsNullOrEmpty(Model.Body)) ? (string)(ViewBag.DefaultLayout == null ? "" : ViewBag.DefaultLayout.Template) : Model.Body;
 
     var viewEngine = (ITemplateEngine)(ViewData["ViewEngine"]);
     var viewEngineName = viewEngine.Name;
@@ -16,7 +16,6 @@
         'not_empty': "@("please enter a vlaue".Localize())",
         'iframe_loading':"@("Please wait for the iframe to finish loading".Localize())"
     };
-    var defaultLayout = "<html><head></head><body><test>test <test2>test2</test2></test></body></html>";
 </script>
 <script src="~/Areas/Sites/Scripts/talEditor/common.js"></script>
 <script src="~/Areas/Sites/Scripts/talEditor/layout-panel.js"></script>
@@ -27,7 +26,7 @@
             <div class="J_Tabs tabs-bottom tabs">
                 <div id="tab_preview" class="tab-content">
                     <iframe id="iframe-preview"
-                    src="@Url.Action("Preview", new { controller = "TALViewEditor", siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), layout = "", view = Model == null ? "" : Model.Name, position = "" })"></iframe>
+                            src="@Url.Action("Preview", new { controller = "TALLayoutEditor", siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), layout = Model == null ? "" : Model.Name })"></iframe>
                 </div>
                 <div id="tab_sourceCode" class="tab-content">
                     @Html.Raw(Html.TextAreaFor(o => o.Body, new { rows = 20, cols = 20 }))
@@ -43,36 +42,36 @@
             <span style='display: none;' id="span-clear-clicked" data-bind="click:clearProcess">&nbsp;</span>
             <div class="settings" data-bind="visible:hasClickedTag()">
                 <!-- ko if:clickedTag()-->
-                    <div class="code-viewer">
+                <div class="code-viewer">
                     <h6 class="title">Code:</h6>
                     <div class="container">
                         <ul>
                             <li>
                                 <!-- ko if:clickedTag().children().length>0-->
                                 <span name="code-node-top" class="code active"
-                                        data-bind="text:$root.codeDom.markupStart(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                      data-bind="text:$root.codeDom.markupStart(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
                                 <!-- ko template: { name: 'tmpl-code-dom', data: {top:clickedTag()}}-->
                                 <!-- /ko -->
                                 <span name="code-node-top" class="code active"
-                                        data-bind="text:$root.codeDom.markupEnd(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                      data-bind="text:$root.codeDom.markupEnd(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
                                 <!-- /ko -->
                                 <!-- ko if:clickedTag().children().length==0-->
                                 <span name="code-node-top" class="code active"
-                                        data-bind="text:$root.codeDom.markup(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                      data-bind="text:$root.codeDom.markup(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
                                 <!-- /ko -->
                             </li>
                         </ul>
                     </div>
                     <div class="bottom" id="div-node-path">
                         <!-- ko foreach:{data:$root.codeDom.parents(clickedTag()),as:'step'}-->
-                            <!-- ko if:$root.isClickedTag(step.jqtag)-->
-                            <a href="#" class="active"
-                                data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>
-                            <!-- /ko -->
-                            <!-- ko ifnot:$root.isClickedTag(step.jqtag)-->
-                            <a href="#"
-                                data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>&gt;
-                            <!-- /ko -->
+                        <!-- ko if:$root.isClickedTag(step.jqtag)-->
+                        <a href="#" class="active"
+                           data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>
+                        <!-- /ko -->
+                        <!-- ko ifnot:$root.isClickedTag(step.jqtag)-->
+                        <a href="#"
+                           data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>&gt;
+                        <!-- /ko -->
                         <!-- /ko -->
                     </div>
                 </div>
@@ -92,8 +91,8 @@
             </div>
             <!-- /ko -->
             <!-- ko if:boundTags().length!=0-->
-                <!-- ko template:{name:'tmpl-binding-list',data:$root}-->
-                <!-- /ko -->
+            <!-- ko template:{name:'tmpl-binding-list',data:$root}-->
+            <!-- /ko -->
             <!-- /ko -->
         </div>
     </div>
@@ -143,7 +142,7 @@
             //}
             html += __ctx__.iframeObj.document.documentElement.outerHTML;
             var stuff = koobooDiv.outerHTML;
-            return html.replace(stuff,"");
+            return html.replace(stuff, "");
         }
         function setIframeContent(html, koobooDiv) {
             var stuff = koobooDiv.outerHTML;
@@ -184,13 +183,13 @@
                 }
             }
         });
-        var action = '@ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower()';
+        @*var action = '@ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower()';
         if (action == "create") {
             _.delay(function () {
                 $('.tabs').koobooTab().data("koobooTab").showTab(1);
             }, 200);
             codeMirrorAPI.setValue(defaultLayout);
-        }
+        }*@
 
     });
 </script>

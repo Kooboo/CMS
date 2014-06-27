@@ -267,4 +267,76 @@ var PanelModel = function () {
 };
 
 
+var __iframe__ = {
+    init: function (selector,hideLoadHandler) {
+        if (!__ctx__.iframeObj) {
+            __ctx__.iframeObj = $(selector)[0].contentWindow;
+        }
+        $(selector).load(function () {
+            __iframe__.loaded(this, hideLoadHandler);
+        });
+    },
+    isLoaded:function(){
+        var koobooDiv = __ctx__.iframeObj.document.getElementById("kooboo-stuff-container");
+        if (__ctx__.iframeObj.$ && koobooDiv) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    loaded: function (iframe, callback) {
+        var win, body;
+        if (__ctx__.iframeObj) {
+            win = __ctx__.iframeObj;
+        } else {
+            win = iframe.contentWindow;
+        }
+        body = win.document.body;
+        var div = win.document.createElement('div');
+        div.setAttribute('id', 'kooboo-stuff-container');
+        body.appendChild(div);
+        _.each(__conf__.statics, function (s) {
+            if (s.type == 'css') {
+                var css = win.document.createElement("link");
+                css.setAttribute('type', 'text/css');
+                css.setAttribute('rel', 'Stylesheet');
+                css.setAttribute('href', s.url);
+                div.appendChild(css);
+            } else if (s.type == 'js') {
+                var js = win.document.createElement("script");
+                js.src = s.url;
+                div.appendChild(js);
+            }
+        });
+        if (callback) {
+            callback.call();
+        }
+    },
+    getKoobooStuff: function () {
+        var koobooDiv = __ctx__.iframeObj.$("#kooboo-stuff-container");
+        var stuff = koobooDiv[0].outerHTML;
+        return stuff;
+    },
+    getHtml: function () {
+        var html = "";
+        //var doctypeName = __ctx__.iframeObj.document.doctype.name;
+        //if (doctypeName) {
+        //    html+="<!DOCTYPE " + doctypeName + ">";
+        //}
+        html += __ctx__.iframeObj.document.documentElement.outerHTML;
+        var stuff = __iframe__.getKoobooStuff();
+        return html.replace(stuff, "");
+    },
+    setHtml: function (html) {
+        var stuff = __iframe__.getKoobooStuff();
+        var re = new RegExp("(<html>|<HTML>|</html>|</HTML>)", 'g');
+        html = html.replace(re, "");
+        var doc = __ctx__.iframeObj.document;
+        doc.documentElement.innerHTML = html;
+        var bodyInner = doc.body.innerHTML;
+        doc.body.innerHTML = bodyInner + stuff;
+    }
+}
+
+
 

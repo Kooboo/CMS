@@ -37,6 +37,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             var page = new Page(Site, "TALEditor_Preview") { IsDummy = false, Layout = layout, EnableTheming = true, EnableScript = true };
 
             this.HttpContext.Items["TALDesign"] = "true";
+            this.HttpContext.Items["TalLayoutEditor"] = "true";
             // new context
             var requestContext = new PageRequestContext(this.ControllerContext, Site, page, CMS.Sites.Web.FrontRequestChannel.Debug, "/");
 

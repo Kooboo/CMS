@@ -21,6 +21,13 @@
 <script src="~/Areas/Sites/Scripts/talEditor/layout-panel.js"></script>
 
 <div class="wrap with-topbar">
+    <div class="block loading">
+        <div class="layer"></div>
+        <div class="wrap">
+            <span>Loading</span>
+            <img src="/Images/loading.gif">
+        </div>
+    </div>
     <div class="block editor">
         <div class="tal-editor" id="div-editor-container">
             <div class="J_Tabs tabs-bottom tabs">
@@ -103,6 +110,9 @@
 
 <script>
     $(function () {
+        _.delay(function () {
+            window.loading.show();
+        }, 200);
         var textArea = $('#Body');
         textArea.codeMirror();
         var codeMirrorAPI = textArea.data("codeMirror");
@@ -119,7 +129,7 @@
         window.ajaxFormParam = {
             beforeSerialize: function ($form, options) {
                 if (__ctx__.isPreview) {
-                    textArea.val(getIframeContent());
+                    textArea.val(__iframe__.getHtml());
                 } else {
                     textArea.val(codeMirrorAPI.getValue());
                 }
@@ -131,49 +141,32 @@
         $('div.block').on('click', '.title', function () {
             $(this).parent('.block').toggleClass('active');
         });
-        if (!__ctx__.iframeObj) {
-            __ctx__.iframeObj = $("#iframe-preview")[0].contentWindow;
-        }
-        function getIframeContent(koobooDiv) {
-            var html = "";
-            //var doctypeName = __ctx__.iframeObj.document.doctype.name;
-            //if (doctypeName) {
-            //    html+="<!DOCTYPE " + doctypeName + ">";
-            //}
-            html += __ctx__.iframeObj.document.documentElement.outerHTML;
-            var stuff = koobooDiv.outerHTML;
-            return html.replace(stuff, "");
-        }
-        function setIframeContent(html, koobooDiv) {
-            var stuff = koobooDiv.outerHTML;
-            var re = new RegExp("(<html>|<HTML>|</html>|</HTML>)", 'g');
-            html = html.replace(re, "");
-            var doc = __ctx__.iframeObj.document;
-            doc.documentElement.innerHTML = html;
-            var bodyInner = doc.body.innerHTML;
-            doc.body.innerHTML = bodyInner + stuff;
-        }
+
+        __iframe__.init("#iframe-preview", function () {
+            _.delay(function () {
+                window.loading.hide();
+            },200);
+        });
+        
         //switch design mode
         __conf__.editorPosRight = $("#div-editor-container").css("right");
         $("#design-view-tags").on('click', 'a', function (e) {
-            var koobooDiv = __ctx__.iframeObj.document.getElementById("kooboo-stuff-container");
             if ($(this).attr('type') == 'preview') {
-                if (__ctx__.iframeObj.$ && koobooDiv) {
-                    setIframeContent(codeMirrorAPI.getValue(), koobooDiv);
+                if (__iframe__.isLoaded()) {
+                    __iframe__.setHtml(codeMirrorAPI.getValue());
                     __ctx__.initEditorHandler();
                     __ctx__.isPreview = true;
                     __ctx__.highlighter.hide();
                     __ctx__.highlighterCopy.hide();
                     $("#div-editor-container").css({ 'right': __conf__.editorPosRight });
                     $("#div-panel-container").show();
-                    //__ctx__.iframeObj.$("body").KoobooHighlight();
                 } else {
                     e.preventDefault();
                     alert(__msgs__.iframe_loading);
                 }
             } else {
-                if (__ctx__.iframeObj.$ && koobooDiv) {
-                    codeMirrorAPI.setValue(getIframeContent(koobooDiv));
+                if (__iframe__.isLoaded()) {
+                    codeMirrorAPI.setValue(__iframe__.getHtml());
                     __ctx__.isPreview = false;
                     $("#div-editor-container").css({ 'right': 0 });
                     $("#div-panel-container").hide();

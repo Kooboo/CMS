@@ -55,7 +55,11 @@ var __conf__ = {
     },
     lang: {
         for: langEnum.csharp
-    }
+    },
+    statics: [
+        { type: 'css', url: "/Areas/Sites/Scripts/talEditor/kooboo-editor.css" },
+        {type:'js',url:"/Areas/Sites/Scripts/talEditor/import-lib.js"}
+    ]//for layout editor
 };
 //end conf
 
@@ -70,7 +74,8 @@ var __ctx__ = {
     boundTags: [],
     codeDomTags: {},
     codePathTags: {},
-    calloutTags: {}
+    calloutTags: {},
+    loader:null
 };
 
 
@@ -646,6 +651,7 @@ var TalBinder = function () {
                     url =__lang__.quot(url);
                 }
             }
+            //todo:self.bindAttr("src",value,self.unbindStaticImg,$tag);
             var href = "href " + url;
             var attrs = $tag.attr(__conf__.tal.attrs);
             if (attrs) {
@@ -660,6 +666,7 @@ var TalBinder = function () {
         }
     };
     self.unbindLink = function ($tag) {
+        //todo:self.unbindAttr('src',$tag);
         $tag = $tag || self.tag();
         var attrstr = $.trim($tag.attr(__conf__.tal.attrs));
         if (attrstr) {
@@ -710,9 +717,44 @@ var TalBinder = function () {
         $tag=$tag||self.tag();
         self.unbindContent($tag);
     }
-    self.bindStaticImg=function(){
-
+    self.bindStaticImg=function(value,$tag){
+        self.bindAttr("src",value,self.unbindStaticImg,$tag);
     };
+    self.bindAttr=function(attrName,attrValue,unbindHandler,$tag){
+        var attr = attrName+" " + attrValue;
+        var attrs = $tag.attr(__conf__.tal.attrs);
+        if (attrs) {
+            var newattr = unbindHandler(attrName,$tag);
+            attrs = newattr ? (newattr + ";") : '';
+        } else {
+            attrs = '';
+        }
+        $tag.attr(__conf__.tal.attrs, attrs + attr);
+    };
+    self.unbindStaticImg=function($tag){
+        self.unbindAttr('src',$tag);
+    };
+    self.unbindAttr=function(attrName,$tag){
+        $tag = $tag || self.tag();
+        var attrstr = $.trim($tag.attr(__conf__.tal.attrs));
+        if (attrstr) {
+            var attrs = attrstr.split(';');
+            var temp = [];
+            _.each(attrs, function (attr) {
+                if (!$.trim(attr).startsWith(attrName)) {
+                    temp.push(attr);
+                }
+            })
+            var newattr = temp.join(';');
+            $tag.attr(__conf__.tal.attrs, newattr);
+            if (!$.trim($tag.attr(__conf__.tal.attrs))) {
+                $tag.removeAttr(__conf__.tal.attrs);
+            }
+            return newattr;
+        } else {
+            return '';
+        }
+    }
 };
 var __binder__ = new TalBinder();
 

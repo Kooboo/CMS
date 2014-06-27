@@ -1,5 +1,4 @@
-﻿__ctx__.clickedTag = __ctx__.editorWrapper;
-console.log( __ctx__.editorWrapper);
+﻿
 var PanelModel = function () {
     //base
     var self = this;
@@ -13,12 +12,13 @@ var PanelModel = function () {
         return tag.is(__ctx__.clickedTag);
     };
     self.resetBoundTags = function () {
-        __parser__.analyseAllBinding();
+        var container = __ctx__.iframeObj.$("body");
+        __parser__.analyseAllBinding(container);
         self.boundTags(__ctx__.boundTags);
+        self.position.getPositions();
     };
 
     //groups
-
     self.dataItem = {
         dataContent: ko.observable('content'),
         dataContentOuter: ko.observable('content'),
@@ -30,30 +30,11 @@ var PanelModel = function () {
         },
         setDataType: function (dataType, isinit) {
             self.dataItem.dataType(dataType);
-            var radio = $("[flag='data-type'][value=" + dataType + "]");
-            radio.prop('checked', true);
             switch (dataType) {
-                case dataTypeEnum.label:
-                    self.dataItem.initLabel(isinit);
-                    break;
-                case dataTypeEnum.data:
-                    self.dataItem.initData();
-                    break;
-                case dataTypeEnum.repeater:
-                    self.dataSource.init();
-                    break;
-                case dataTypeEnum.staticImg:
-                    break;
-                case dataTypeEnum.dynamicImg:
-                    break;
-                case dataTypeEnum.partial:
-                    break;
                 case dataTypeEnum.position:
                     self.position.init();
                     break;
                 case dataTypeEnum.nothing:
-                    break;
-                default:
                     break;
             }
         }
@@ -61,8 +42,6 @@ var PanelModel = function () {
 
     self.codeDom = {
         itemClick: function (data, event) {
-            //$("div.code-viewer").find("span.active").removeClass('active');
-            //$(event.target).addClass('active');
             var tag = data.tag || data.jqtag || data[0];
             tag.click();
         },
@@ -174,32 +153,37 @@ var PanelModel = function () {
             $("#txt-postion-name").val(pos);
         },
         getPositions: function () {
-
-        },
-        _getPositions: function () {
-
+            var temp=[];
+            _.each(self.boundTags(),function(obj){
+                if(obj.type==dataTypeEnum.position){
+                    var pos = __parser__.analysePosition(obj.tag);
+                    if(pos){
+                        temp.push(pos);
+                    }
+                }
+            });
+            self.position.existedPositions(temp);
         }
-
     };
 
     //tag click events
     self.elementClick = function (tag) {
         var $tag = $(tag);
         __ctx__.clickedTag = $tag;
-        $("#tab-data-binding").trigger('click');
         $("#span-main-process").trigger('click');
     };
 
     self.mainProcess = function (data, event) {
         self.hasClickedTag(true);
         var tag = __ctx__.clickedTag;
-        _.delay(function(){
-            self.clickedTag(tag);
-        },200);
+        __ctx__.codeDomTags = { 'code-node-top': tag };
+        self.clickedTag(tag);
         var dataType = __parser__.analyseDataType(tag);
         dataType = dataType || dataTypeEnum.nothing;
         self.dataItem.dataType(dataType);
         self.dataItem.setDataType(dataType, true);
+        self.resetBoundTags();
+
     };
 
     self.clearProcess = function (data, event) {
@@ -207,14 +191,12 @@ var PanelModel = function () {
         self.clickedTag(null);
         self.hasClickedTag(false);
         //data binding overview
-        $("#tab-data-binding").click();
-        $("#div-repeat-item-setting").show();
         self.resetBoundTags();
     };
 
     //edit events
     self.cancelEdit = function (data, event) {
-        __ctx__.editorWrapper[0].click();
+        __ctx__.iframeObj.document.documentElement.click();
     };
 
     self.displayCallout = function (show, $tag) {
@@ -227,7 +209,7 @@ var PanelModel = function () {
                 break;
             }
         }
-        var callout = __ctx__.iframeBody.find('#' + id);
+        var callout = __ctx__.iframeObj.$('#' + id);
         if (show) {
             var text = calloutEnum[self.dataItem.dataType()];
 
@@ -235,7 +217,7 @@ var PanelModel = function () {
                 callout = __ctx__.highlighterCopy.clone().addClass('mark').attr('id', id)
             }
             callout.find('span').show().text(text);
-            callout.show().appendTo(__ctx__.koobooStuffContainer);
+            callout.show().appendTo(__ctx__.iframeObj.$("#kooboo-stuff-container"));
             __ctx__.calloutTags[id] = $tag;
         } else {
             callout.remove();
@@ -245,52 +227,6 @@ var PanelModel = function () {
 
     self.saveBindings = function () {
         switch (self.dataItem.dataType()) {
-            case dataTypeEnum.label:
-                if (!self.linkTo.bindLink()) {
-                    return;
-                }
-                __binder__.unbindRepeater();
-                __binder__.setLabel(self.dataItem.dataContent());
-                utils.messageFlash(__msgs__.save_binding_success, true);
-                var showCallout = true;
-                if (!self.dataItem.dataContent()) {
-                    showCallout = false;
-                }
-                self.displayCallout(showCallout);
-                __ctx__.editorWrapper[0].click();
-                break;
-            case dataTypeEnum.data:
-                if (!self.linkTo.bindLink()) {
-                    return;
-                }
-                __binder__.unbindRepeater();
-                __binder__.bindData(self.dataItem.chosenField());
-                utils.messageFlash(__msgs__.save_binding_success, true);
-                var showCallout = true;
-                if (self.dataItem.chosenField() == __conf__.defaultOption.value &&
-                    self.linkTo.chosenPage() == __conf__.defaultOption.name) {
-                    showCallout = false;
-                }
-                self.displayCallout(showCallout);
-                __ctx__.editorWrapper[0].click();
-                break;
-            case dataTypeEnum.repeater:
-                __binder__.unbindContent();
-                __binder__.bindRepeater(self.dataSource.chosenDataSource());
-                utils.messageFlash(__msgs__.save_binding_success, true);
-                var showCallout = true;
-                if (self.dataSource.chosenDataSource() == __conf__.defaultOption.name) {
-                    showCallout = false;
-                }
-                self.displayCallout(showCallout);
-                __ctx__.editorWrapper[0].click();
-                break;
-            case dataTypeEnum.staticImg:
-                break;
-            case dataTypeEnum.dynamicImg:
-                break;
-            case dataTypeEnum.partial:
-                break;
             case dataTypeEnum.position:
                 var pos = $.trim($("#txt-postion-name").val());
                 if (!pos) {
@@ -301,34 +237,27 @@ var PanelModel = function () {
                     __binder__.setPosition(pos);
                     self.position.existedPositions.push(pos);
                     self.displayCallout(true);
-                    __ctx__.editorWrapper[0].click();
+                    __ctx__.iframeObj.document.documentElement.click();
                 }
                 break;
             case dataTypeEnum.nothing:
                 break;
         }
-
     };
 
     //list events
     self.removeDataBinding = function (data, event) {
         if (confirm(__msgs__.remove_data_binding_confrim)) {
             __binder__.unbindAll(data.tag);
-            if (__conf__.isLayout) {
-                var posName = $(event.target).closest("li").find("span").html();
-                var temp = _.removeItem(self.position.existedPositions(), posName);
-                self.position.existedPositions(temp);
-            } else {
-                /* if (data.tag.is(__ctx__.clickedTag)) {
-                     self.dataItem.dataType(dataTypeEnum.nothing);
-                     $("#data-type-nothing").prop('checked', true);
-                 }*/
-            }
+            var posName = $(event.target).closest("li").find("span").html();
+            var temp = _.removeItem(self.position.existedPositions(), posName);
+            self.position.existedPositions(temp);
             if (data.tag.is(__ctx__.clickedTag)) {
                 __ctx__.clickedTag[0].click();
             }
             self.displayCallout(false, data.tag);
             self.resetBoundTags();
+            __ctx__.iframeObj.document.documentElement.click();
         }
     };
 
@@ -336,6 +265,78 @@ var PanelModel = function () {
         data.tag[0].click();
     };
 };
+
+
+var __iframe__ = {
+    init: function (selector,hideLoadHandler) {
+        if (!__ctx__.iframeObj) {
+            __ctx__.iframeObj = $(selector)[0].contentWindow;
+        }
+        $(selector).load(function () {
+            __iframe__.loaded(this, hideLoadHandler);
+        });
+    },
+    isLoaded:function(){
+        var koobooDiv = __ctx__.iframeObj.document.getElementById("kooboo-stuff-container");
+        if (__ctx__.iframeObj.$ && koobooDiv) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    loaded: function (iframe, callback) {
+        var win, body;
+        if (__ctx__.iframeObj) {
+            win = __ctx__.iframeObj;
+        } else {
+            win = iframe.contentWindow;
+        }
+        body = win.document.body;
+        var div = win.document.createElement('div');
+        div.setAttribute('id', 'kooboo-stuff-container');
+        body.appendChild(div);
+        _.each(__conf__.statics, function (s) {
+            if (s.type == 'css') {
+                var css = win.document.createElement("link");
+                css.setAttribute('type', 'text/css');
+                css.setAttribute('rel', 'Stylesheet');
+                css.setAttribute('href', s.url);
+                div.appendChild(css);
+            } else if (s.type == 'js') {
+                var js = win.document.createElement("script");
+                js.src = s.url;
+                div.appendChild(js);
+            }
+        });
+        if (callback) {
+            callback.call();
+        }
+    },
+    getKoobooStuff: function () {
+        var koobooDiv = __ctx__.iframeObj.$("#kooboo-stuff-container");
+        var stuff = koobooDiv[0].outerHTML;
+        return stuff;
+    },
+    getHtml: function () {
+        var html = "";
+        //var doctypeName = __ctx__.iframeObj.document.doctype.name;
+        //if (doctypeName) {
+        //    html+="<!DOCTYPE " + doctypeName + ">";
+        //}
+        html += __ctx__.iframeObj.document.documentElement.outerHTML;
+        var stuff = __iframe__.getKoobooStuff();
+        return html.replace(stuff, "");
+    },
+    setHtml: function (html) {
+        var stuff = __iframe__.getKoobooStuff();
+        var re = new RegExp("(<html>|<HTML>|</html>|</HTML>)", 'g');
+        html = html.replace(re, "");
+        var doc = __ctx__.iframeObj.document;
+        doc.documentElement.innerHTML = html;
+        var bodyInner = doc.body.innerHTML;
+        doc.body.innerHTML = bodyInner + stuff;
+    }
+}
 
 
 

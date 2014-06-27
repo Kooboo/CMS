@@ -5,7 +5,7 @@
 }
 
 <script type="text/html" id="tmpl-binding-convert">
-    <div class="item convert" data-bind="visible:!isImgTag()&&!__conf__.isLayout">
+    <div class="item convert" data-bind="visible:!isImgTag()">
         <p>Convert this element into:</p>
         <ul class="radio-list" id="data-type-panel">
             <li data-bind="">
@@ -33,31 +33,26 @@
             </li>
         </ul>
     </div>
-    <div class="item convert" data-bind="visible:isImgTag()&&!__conf__.isLayout">
+    <div class="item convert" data-bind="visible:isImgTag()">
         <p>Please select an image type:</p>
         <ul class="form-list vertical">
             <li>
-                <input name="ImageType" id="data-type-staticimg" flag="data-type" value="StaticImg" type="radio">
+                <input name="ConvertedType" id="data-type-staticimg" flag="data-type" value="StaticImg" type="radio">
                 <label class="inline" data-bind="click:dataItem.dataTypeChange" value="StaticImg"
                        for="data-type-staticimg">
                     Static
                 </label>
             </li>
             <li>
-                <input name="ImageType" id="data-type-dynamicimg" flag="data-type" value="DynamicImg" type="radio">
+                <input name="ConvertedType" id="data-type-dynamicimg" flag="data-type" value="DynamicImg" type="radio">
                 <label class="inline" data-bind="click:dataItem.dataTypeChange" for="data-type-dynamicimg" value="DynamicImg">Dynamic</label>
             </li>
         </ul>
     </div>
 
-    <p class="buttons" flag="data-type" data-bind="visible:__conf__.isLayout&&(dataItem.dataType()!=dataTypeEnum.position)" >
-		<a class="button" href="#" data-bind="click:dataItem.dataTypeChange" value="Position">Convert to position</a>
-	</p>
-    
 </script>
 
 <script type="text/html" id="tmpl-binding-editor">
-    
     <div class="item file-editor" data-bind="visible:dataItem.dataType()==dataTypeEnum.staticImg">
         <div class="form-row">
             <div class="span4">
@@ -85,9 +80,7 @@
             <label>File source:</label>
         </div>
         <div class="span8">
-            <select>
-                <option>Product.Image</option>
-            </select>
+           <select class="data-simple" flag="datafield" data-bind="event:{change:dataItem.dataFieldChange},template:{data:$root,name:'tmpl-data-fields'}"></select>
         </div>
     </div>
     <div class="item label-editor" data-bind="visible:dataItem.dataType()==dataTypeEnum.label">
@@ -169,16 +162,6 @@
             </select>
         </div>
     </div>
-
-    <div class="item form-row" data-bind="visible:dataItem.dataType()==dataTypeEnum.position">
-	    <div class="span4">
-		    <label>Position name:</label>
-	    </div>
-	    <div class="span8">
-		    <input type="text" id="txt-postion-name">
-	    </div>
-    </div>
-    <!--</div>-->
     <p class="buttons" data-bind="visible:dataItem.dataType()!=dataTypeEnum.nothing">
         <a class="button" href="#" data-bind="click:saveBindings">Save</a>
         <a class="button gray" href="#" data-bind="click:cancelEdit">Cancel</a>
@@ -235,10 +218,10 @@
             <ul data-bind="foreach:boundTags()">
                 <!-- ko if:$data.type==dataTypeEnum.staticImg||$data.type==dataTypeEnum.dynamicImg-->
                 <li>
-                    <a href="#" title="Click to edit">
-                        <!--<img src="images/demo-1.jpg" alt="Image">-->
+                    <a href="#" title="@("Click to edit".Localize())" data-bind="click:$root.editListItem">
+                        <img src="/Areas/Sites/Scripts/talEditor/images/thumbnail.png" alt="Image">
                     </a>
-                    <a class="action" href="#" title="Click to remove this image">
+                    <a class="action" href="#" title="@("Click to remove this image".Localize())" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">
                         @Html.IconImage("minus small")
                     </a>
                 </li>
@@ -246,19 +229,6 @@
             </ul>
         </div>
     </div>
-    <div class="block list active" data-bind="visible:_.find(boundTags(),function(t){return t.type==dataTypeEnum.position;})">
-		<h6 class="title">@Html.IconImage("arrow")@("Positions".Localize())</h6>
-		<div class="container">
-			<ul  data-bind="foreach:boundTags()">
-                <!-- ko if:$data.type==dataTypeEnum.position-->
-				<li>
-					 <a class="action" href="#" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">@Html.IconImage("minus small")</a>
-					<span data-bind="text:__parser__.analysePosition($data.tag)"></span>
-				</li>
-                <!-- /ko -->
-			</ul>
-		</div>
-	</div>
 </script>
 
 <script type="text/html" id="tmpl-code-dom">

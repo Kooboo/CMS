@@ -1,6 +1,6 @@
 ﻿@model Kooboo.CMS.Sites.Models.Layout
 @{
-    var body = (Model == null || string.IsNullOrEmpty(Model.Body)) ? (string)(ViewBag.DefaultLayout == null ? "" : ViewBag.DefaultLayout.Template) : Model.Body;
+    //var body = (Model == null || string.IsNullOrEmpty(Model.Body)) ? (string)(ViewBag.DefaultLayout == null ? "" : ViewBag.DefaultLayout.Template) : Model.Body;
 
     var viewEngine = (ITemplateEngine)(ViewData["ViewEngine"]);
     var viewEngineName = viewEngine.Name;
@@ -13,20 +13,27 @@
         'remove_data_binding_confrim': "@("Are you sure to delete the data binding?".Localize())",
         'save_binding_success': "@("successed".Localize())",
         'position_existed': "@("position existed!".Localize())",
-        'not_empty': "@("please enter a vlaue".Localize())"
+        'not_empty': "@("please enter a vlaue".Localize())",
+        'iframe_loading':"@("Please wait for the iframe to finish loading".Localize())"
     };
-    var defaultLayout = "<html><head></head><body></body></html>";
 </script>
 <script src="~/Areas/Sites/Scripts/talEditor/common.js"></script>
 <script src="~/Areas/Sites/Scripts/talEditor/layout-panel.js"></script>
 
 <div class="wrap with-topbar">
+    <div class="block loading">
+        <div class="layer"></div>
+        <div class="wrap">
+            <span>Loading</span>
+            <img src="/Images/loading.gif">
+        </div>
+    </div>
     <div class="block editor">
         <div class="tal-editor" id="div-editor-container">
             <div class="J_Tabs tabs-bottom tabs">
                 <div id="tab_preview" class="tab-content">
                     <iframe id="iframe-preview"
-                    src="@Url.Action("Preview", new { controller = "TALViewEditor", siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), layout = "", view = Model == null ? "" : Model.Name, position = "" })"></iframe>
+                            src="@Url.Action("Preview", new { controller = "TALLayoutEditor", siteName = ViewContext.RequestContext.GetRequestValue("SiteName"), layout = Model == null ? "" : Model.Name })"></iframe>
                 </div>
                 <div id="tab_sourceCode" class="tab-content">
                     @Html.Raw(Html.TextAreaFor(o => o.Body, new { rows = 20, cols = 20 }))
@@ -42,36 +49,36 @@
             <span style='display: none;' id="span-clear-clicked" data-bind="click:clearProcess">&nbsp;</span>
             <div class="settings" data-bind="visible:hasClickedTag()">
                 <!-- ko if:clickedTag()-->
-                    <div class="code-viewer">
+                <div class="code-viewer">
                     <h6 class="title">Code:</h6>
                     <div class="container">
                         <ul>
                             <li>
                                 <!-- ko if:clickedTag().children().length>0-->
                                 <span name="code-node-top" class="code active"
-                                        data-bind="text:$root.codeDom.markupStart(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                      data-bind="text:$root.codeDom.markupStart(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
                                 <!-- ko template: { name: 'tmpl-code-dom', data: {top:clickedTag()}}-->
                                 <!-- /ko -->
                                 <span name="code-node-top" class="code active"
-                                        data-bind="text:$root.codeDom.markupEnd(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                      data-bind="text:$root.codeDom.markupEnd(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
                                 <!-- /ko -->
                                 <!-- ko if:clickedTag().children().length==0-->
                                 <span name="code-node-top" class="code active"
-                                        data-bind="text:$root.codeDom.markup(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                                      data-bind="text:$root.codeDom.markup(clickedTag()[0]),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
                                 <!-- /ko -->
                             </li>
                         </ul>
                     </div>
                     <div class="bottom" id="div-node-path">
                         <!-- ko foreach:{data:$root.codeDom.parents(clickedTag()),as:'step'}-->
-                            <!-- ko if:$root.isClickedTag(step.jqtag)-->
-                            <a href="#" class="active"
-                                data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>
-                            <!-- /ko -->
-                            <!-- ko ifnot:$root.isClickedTag(step.jqtag)-->
-                            <a href="#"
-                                data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>&gt;
-                            <!-- /ko -->
+                        <!-- ko if:$root.isClickedTag(step.jqtag)-->
+                        <a href="#" class="active"
+                           data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>
+                        <!-- /ko -->
+                        <!-- ko ifnot:$root.isClickedTag(step.jqtag)-->
+                        <a href="#"
+                           data-bind="attr:{name:step.name},click:$root.codeDom.itemClick,text:$root.codeDom.fullTagName(step.jqtag),event:{mouseover:$root.codeDom.pathHover,mouseout:$root.codeDom.pathHover}"></a>&gt;
+                        <!-- /ko -->
                         <!-- /ko -->
                     </div>
                 </div>
@@ -86,79 +93,26 @@
             <!-- ko if:boundTags().length==0&&!hasClickedTag()-->
             <div class="container">
                 <p class="empty">
-                    You don't have any data bindings, please define one
-                    first.
+                    You don't have any positions, please define one first.
                 </p>
             </div>
             <!-- /ko -->
             <!-- ko if:boundTags().length!=0-->
-                <!-- ko template:{name:'tmpl-binding-list',data:$root}-->
-                <!-- /ko -->
+            <!-- ko template:{name:'tmpl-binding-list',data:$root}-->
+            <!-- /ko -->
             <!-- /ko -->
         </div>
     </div>
 </div>
 
+@Html.Partial("LayoutPanelBlocks.cshtml")
 
-<script type="text/html" id="tmpl-binding-convert">
-    <p class="buttons" flag="data-type" data-bind="visible:__conf__.isLayout&&(dataItem.dataType()!=dataTypeEnum.position)" >
-		<a class="button" href="#" data-bind="click:dataItem.dataTypeChange" value="Position">Convert to position</a>
-	</p>
-</script>
-
-<script type="text/html" id="tmpl-binding-editor">
-    <div class="item form-row" data-bind="visible:dataItem.dataType()==dataTypeEnum.position">
-	    <div class="span4">
-		    <label>Position name:</label>
-	    </div>
-	    <div class="span8">
-		    <input type="text" id="txt-postion-name">
-	    </div>
-    </div>
-    <!--</div>-->
-    <p class="buttons" data-bind="visible:dataItem.dataType()!=dataTypeEnum.nothing">
-        <a class="button" href="#" data-bind="click:saveBindings">Save</a>
-        <a class="button gray" href="#" data-bind="click:cancelEdit">Cancel</a>
-    </p>
-</script>
-
-<script type="text/html" id="tmpl-code-dom">
-    <ul data-bind="foreach:{data:top.xchildren(),as:'sub'}">
-        <li>
-            <!-- ko if:sub.jqtag.children().length>0-->
-                <span class="code"
-                      data-bind="attr:{name:sub.id},text:$root.codeDom.markupStart(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
-                <!-- ko template:{name:'tmpl-code-dom',data:{'top':sub.jqtag}}-->
-                <!-- /ko -->
-                <span class="code"
-                      data-bind="attr:{name:sub.id},text:$root.codeDom.markupEnd(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
-            <!-- /ko -->
-            <!-- ko if:sub.jqtag.children().length==0-->
-            <span class="code"
-                  data-bind="attr:{name:sub.id},text:$root.codeDom.markup(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
-            <!-- /ko -->
-        </li>
-    </ul>
-</script>
-
-<script type="text/html" id="tmpl-binding-list">
-    <div class="block list active" data-bind="visible:_.find(boundTags(),function(t){return t.type==dataTypeEnum.position;})">
-		<h6 class="title">@Html.IconImage("arrow")@("Positions".Localize())</h6>
-		<div class="container">
-			<ul  data-bind="foreach:boundTags()">
-                <!-- ko if:$data.type==dataTypeEnum.position-->
-				<li>
-					 <a class="action" href="#" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">@Html.IconImage("minus small")</a>
-					<span data-bind="text:__parser__.analysePosition($data.tag)"></span>
-				</li>
-                <!-- /ko -->
-			</ul>
-		</div>
-	</div>
-</script>
 
 <script>
     $(function () {
+        _.delay(function () {
+            window.loading.show();
+        }, 200);
         var textArea = $('#Body');
         textArea.codeMirror();
         var codeMirrorAPI = textArea.data("codeMirror");
@@ -174,9 +128,8 @@
         });
         window.ajaxFormParam = {
             beforeSerialize: function ($form, options) {
-                debugger;
                 if (__ctx__.isPreview) {
-                    textArea.val(getIframeContent());
+                    textArea.val(__iframe__.getHtml());
                 } else {
                     textArea.val(codeMirrorAPI.getValue());
                 }
@@ -188,49 +141,48 @@
         $('div.block').on('click', '.title', function () {
             $(this).parent('.block').toggleClass('active');
         });
-        function getIframeContent() {
-            var html = "";
-            //var doctypeName = __ctx__.iframeObj.document.doctype.name;
-            //if (doctypeName) {
-            //    html+="<!DOCTYPE " + doctypeName + ">";
-            //}
-            html += __ctx__.iframeObj.document.documentElement.outerHTML;
-            var stuff = __ctx__.iframeObj.$("#kooboo-stuff-container")[0].outerHTML;
-            return html.replace(stuff,"");
-        }
+
+        __iframe__.init("#iframe-preview", function () {
+            _.delay(function () {
+                window.loading.hide();
+            },200);
+        });
+        
         //switch design mode
         __conf__.editorPosRight = $("#div-editor-container").css("right");
-        $("#design-view-tags").on('click', 'a', function () {
+        $("#design-view-tags").on('click', 'a', function (e) {
             if ($(this).attr('type') == 'preview') {
-                debugger;
-                __ctx__.iframeObj.setIframeContent(codeMirrorAPI.getValue());
-                __ctx__.initEditorHandler();
-                __ctx__.isPreview = true;
-                __ctx__.highlighter.hide();
-                __ctx__.highlighterCopy.hide();
-                $("#tab-data-source").click();
-                $("#div-editor-container").css({ 'right': __conf__.editorPosRight });
-                $("#div-panel-container").show();
-                $("div.layout-selector").show();
-                __ctx__.iframeObj.$("body").KoobooHighlight();
-            } else {
-                if (__ctx__.iframeObj) {
-                    codeMirrorAPI.setValue(getIframeContent());
+                if (__iframe__.isLoaded()) {
+                    __iframe__.setHtml(codeMirrorAPI.getValue());
+                    __ctx__.initEditorHandler();
+                    __ctx__.isPreview = true;
+                    __ctx__.highlighter.hide();
+                    __ctx__.highlighterCopy.hide();
+                    $("#div-editor-container").css({ 'right': __conf__.editorPosRight });
+                    $("#div-panel-container").show();
+                } else {
+                    e.preventDefault();
+                    alert(__msgs__.iframe_loading);
                 }
-                __ctx__.isPreview = false;
-                $("#tab-data-binding").click();
-                $("#div-editor-container").css({ 'right': 0 });
-                $("#div-panel-container").hide();
-                $("div.layout-selector").hide();
+            } else {
+                if (__iframe__.isLoaded()) {
+                    codeMirrorAPI.setValue(__iframe__.getHtml());
+                    __ctx__.isPreview = false;
+                    $("#div-editor-container").css({ 'right': 0 });
+                    $("#div-panel-container").hide();
+                } else {
+                    e.preventDefault();
+                    alert(__msgs__.iframe_loading);
+                }
             }
         });
-        var action = '@ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower()';
+        @*var action = '@ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower()';
         if (action == "create") {
             _.delay(function () {
-                $("#design-view-tags a[type=source]").click();
-                codeMirrorAPI.setValue(defaultLayout);
+                $('.tabs').koobooTab().data("koobooTab").showTab(1);
             }, 200);
-        }
+            codeMirrorAPI.setValue(defaultLayout);
+        }*@
 
     });
 </script>

@@ -18,7 +18,9 @@ var calloutEnum = {
     Label: 'L',
     Data: 'D',
     RepeatedItem: 'R',
-    Position: 'P'
+    Position: 'P',
+    DynamicImg:'I',
+    StaticImg:"I"
 };
 
 //conf
@@ -53,15 +55,17 @@ var __conf__ = {
     },
     lang: {
         for: langEnum.csharp
-    }
+    },
+    statics: [
+        { type: 'css', url: "/Areas/Sites/Scripts/talEditor/kooboo-editor.css" },
+        {type:'js',url:"/Areas/Sites/Scripts/talEditor/import-lib.js"}
+    ]//for layout editor
 };
 //end conf
 
 var __ctx__ = {
     clickedTag: null,
     editorWrapper: null,
-    koobooStuffContainer: null,
-    iframeBody: null,
     iframeObj: null,
     initEditorHandler: null,
     isPreview: true,
@@ -70,12 +74,14 @@ var __ctx__ = {
     boundTags: [],
     codeDomTags: {},
     codePathTags: {},
-    calloutTags: {}
+    calloutTags: {},
+    loader:null
 };
 
 
 var __re__ = {
-    url: /^(https|http):\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\:+!]*([^<>])*$/
+    url: /^(https|http):\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\:+!]*([^<>])*$/,
+    imgExt:new RegExp("(.png|.gif|.icon|.jpg|.jpeg|.bmp)", 'g')
 };
 
 
@@ -271,6 +277,17 @@ LangParser.prototype = {
             console.log("what the hell?");
         }
         return posName;
+    },
+    isStaticImg:function(attrs){
+        attrs=(attrs||"").split(";");
+        var is=false;
+        for(var i=0;i<attrs.length;i++){
+            if($.trim(attrs[i]).toLowerCase().startsWith("src ")){
+                is=true;
+                break;
+            }
+        }
+        return is;
     }
 
     //data field
@@ -320,6 +337,9 @@ SharpParser.prototype = {
     generatePositionExpr: function (positionName) {
         var pos = __conf__.positionApi + "(\"" + positionName + "\")";
         return pos;
+    },
+    quot:function(text){
+        return "\""+text+"\"";
     }
 };
 var PyParser = function () {
@@ -362,6 +382,9 @@ PyParser.prototype = {
     generatePositionExpr: function (positionName) {
         var pos = __conf__.positionApi + "('" + positionName + "')";
         return pos;
+    },
+    quot:function(text){
+        return "'"+text+"'";
     }
 
 
@@ -397,7 +420,14 @@ var TalParser = function () {
                 type = dataTypeEnum.label;
             } else if (self.isPosition($tag)) {
                 type = dataTypeEnum.position;
-            } else {
+            } else if($tag[0].tagName.toLowerCase()=='img'){
+                var srcAttr=$tag.attr(__conf__.tal.attrs);
+                if(__lang__.isStaticImg(srcAttr)){
+                    type=dataTypeEnum.staticImg;
+                }else{
+                    type=dataTypeEnum.dynamicImg;
+                }
+            } else{
                 type = dataTypeEnum.data;
             }
         }
@@ -496,11 +526,8 @@ var TalParser = function () {
         }
         return is;
     };
-    self.analyseAllBinding = function () {
-        var container;
-        if(__conf__.isLayout){
-            container=__ctx__.iframeObj.$("body");
-        }else{
+    self.analyseAllBinding = function (container) {
+        if(!container){
             container=__ctx__.editorWrapper;
         }
         __ctx__.boundTags = [];
@@ -527,7 +554,27 @@ var TalParser = function () {
         } else {
             return "";
         }
-    }
+    };
+    self.analyseImage = function ($tag) {
+        $tag = $tag || self.tag();
+        var attrstr=$tag.attr(__conf__.tal.attrs);
+        if(__lang__.isStaticImg(attrstr)) {
+            var attrs = attrstr.split(';');
+            var src = '';
+            _.each(attrs, function (attr) {
+                if ($.trim(attr).toLowerCase().startsWith('src ')) {
+                    src = $.trim(attr);
+                }
+            });
+            if (src) {
+                return src.split(' ')[1];
+            } else {
+                return '';
+            }
+        }else{
+            return self.analyseDataField($tag);
+        }
+    };
 }
 var __parser__ = new TalParser();
 
@@ -599,11 +646,12 @@ var TalBinder = function () {
             $tag = $tag || self.tag();
             var url = __lang__.generatePageLink(page, params);
             if (page == externalLink) {
-                url = extLinkValue ? extLinkValue : "#";
+                url = extLinkValue ? extLinkValue : "";
                 if (url.indexOf("'") == -1 && url.indexOf('"') == -1) {
-                    url = "'" + url + "'";
+                    url =__lang__.quot(url);
                 }
             }
+            //todo:self.bindAttr("src",value,self.unbindStaticImg,$tag);
             var href = "href " + url;
             var attrs = $tag.attr(__conf__.tal.attrs);
             if (attrs) {
@@ -618,6 +666,7 @@ var TalBinder = function () {
         }
     };
     self.unbindLink = function ($tag) {
+        //todo:self.unbindAttr('src',$tag);
         $tag = $tag || self.tag();
         var attrstr = $.trim($tag.attr(__conf__.tal.attrs));
         if (attrstr) {
@@ -656,6 +705,56 @@ var TalBinder = function () {
         $tag = $tag || self.tag();
         self.unbindContent($tag);
     };
+    self.bindDynamicImg=function(value,$tag){
+        $tag=$tag||self.tag();
+        if (self.notEmptyDataField(value)) {
+            $tag.attr(self.contentAttr, value);
+        } else {
+            self.unbindContent($tag);
+        }
+    };
+    self.unbindDynamicImg=function($tag){
+        $tag=$tag||self.tag();
+        self.unbindContent($tag);
+    }
+    self.bindStaticImg=function(value,$tag){
+        self.bindAttr("src",value,self.unbindStaticImg,$tag);
+    };
+    self.bindAttr=function(attrName,attrValue,unbindHandler,$tag){
+        var attr = attrName+" " + attrValue;
+        var attrs = $tag.attr(__conf__.tal.attrs);
+        if (attrs) {
+            var newattr = unbindHandler(attrName,$tag);
+            attrs = newattr ? (newattr + ";") : '';
+        } else {
+            attrs = '';
+        }
+        $tag.attr(__conf__.tal.attrs, attrs + attr);
+    };
+    self.unbindStaticImg=function($tag){
+        self.unbindAttr('src',$tag);
+    };
+    self.unbindAttr=function(attrName,$tag){
+        $tag = $tag || self.tag();
+        var attrstr = $.trim($tag.attr(__conf__.tal.attrs));
+        if (attrstr) {
+            var attrs = attrstr.split(';');
+            var temp = [];
+            _.each(attrs, function (attr) {
+                if (!$.trim(attr).startsWith(attrName)) {
+                    temp.push(attr);
+                }
+            })
+            var newattr = temp.join(';');
+            $tag.attr(__conf__.tal.attrs, newattr);
+            if (!$.trim($tag.attr(__conf__.tal.attrs))) {
+                $tag.removeAttr(__conf__.tal.attrs);
+            }
+            return newattr;
+        } else {
+            return '';
+        }
+    }
 };
 var __binder__ = new TalBinder();
 
@@ -712,3 +811,4 @@ var __dataset__ = new DataSet();
 var PageSet = function () {
     var self = this;
 };
+

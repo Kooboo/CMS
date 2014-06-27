@@ -237,7 +237,7 @@
                         editViewModel.ValidationTypes.push(metadata.validationTypes[i]);
                     }
                 });
-                dialogTemplate.find('#tabs').koobooTab().showTab(0);
+                dialogTemplate.find('#tabs').koobooTab().data('koobooTab').showTab(0);
                 Utilities.ReSetValidation();
             },
             InitColumn:function(column) {

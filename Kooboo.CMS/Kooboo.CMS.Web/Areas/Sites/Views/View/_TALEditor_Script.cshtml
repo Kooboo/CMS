@@ -64,7 +64,8 @@
     var __urls__ = {};
 
 </script>
-<script src="~/Areas/Sites/Scripts/talEditor/ctrl-panel.js"></script>
+<script src="~/Areas/Sites/Scripts/talEditor/common.js"></script>
+<script src="~/Areas/Sites/Scripts/talEditor/view-panel.js"></script>
 <script>
     $(function () {
         var textArea = $('#Body');
@@ -99,7 +100,7 @@
         $('div.block').on('click','.title', function () {
             $(this).parent('.block').toggleClass('active');
         });
-        $("input[name=ConvertedType],input[name=ImageType]").on('click', function () {
+        $("input[name=ConvertedType]").on('click', function () {
             $('label[for='+$(this).attr('id')+']').click();
         });
         $("#tab-data-source").click();
@@ -132,7 +133,7 @@
         var action='@ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower()';
         if (action == "create"){
             _.delay(function(){
-                $("#design-view-tags a[type=source]").click();
+                $('.tabs').koobooTab().data("koobooTab").showTab(1);
             },200);
         }
 

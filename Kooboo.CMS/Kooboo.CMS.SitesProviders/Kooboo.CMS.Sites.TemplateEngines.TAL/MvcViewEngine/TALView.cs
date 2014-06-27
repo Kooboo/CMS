@@ -50,7 +50,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
         {
             this.ViewData = viewContext.ViewData;
 
-            bool hasLayout = _masterTemplate != null;
+            bool hasLayout = !string.IsNullOrEmpty(_masterTemplate);
 
             if (hasLayout)
             {
@@ -65,7 +65,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
 
                     if (IsDesignMode(viewContext.HttpContext))
                     {
-                        writer.Write(WrapViewContent(body));
+                        writer.Write(WrapBody(body,IsLayoutEditor(viewContext.HttpContext)));
                     }
                     else
                     {
@@ -82,19 +82,34 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
                 }
             }
         }
-        private string WrapViewContent(string body){
+        private string WrapBody(string body,bool isLayoutEditor){
+            StringBuilder koobooStuff = new StringBuilder();
+            koobooStuff.Append("<div id=\"kooboo-stuff-container\">");
+            koobooStuff.Append("<link type=\"text/css\" href=\"/Areas/Sites/Scripts/talEditor/kooboo-editor.css\" rel=\"Stylesheet\">");
+            koobooStuff.Append("<script src=\"/Areas/Sites/Scripts/talEditor/import-lib.js\"></script>");
+            koobooStuff.Append("</div>");
+
             StringBuilder str = new StringBuilder();
-            var wrapper = string.Format("<var id=\"view-editor-wrapper\">{0}</var>", body);
-            str.Append(wrapper);
-            str.Append("<div id=\"kooboo-stuff-container\">");
-            str.Append("<link type=\"text/css\" href=\"/Areas/Sites/Scripts/talEditor/kooboo-editor.css\" rel=\"Stylesheet\">");
-            str.Append("<script src=\"/Areas/Sites/Scripts/talEditor/import-lib.js\"></script>");
-            str.Append("</div>");
-            return str.ToString();
+            var result = string.Empty;
+            if (isLayoutEditor)
+            {
+                result = body;
+            }
+            else {
+                var viewWrapper = string.Format("<var id=\"view-editor-wrapper\">{0}</var>", body);
+                str.Append(viewWrapper);
+                str.Append(koobooStuff.ToString());
+                result = str.ToString();
+            }
+            return result;
         }
         private bool IsDesignMode(HttpContextBase httpContext)
         {
             return httpContext.Items["TALDesign"] != null && httpContext.Items["TALDesign"].ToString() == "true";
+        }
+        private bool IsLayoutEditor(HttpContextBase httpContext)
+        {
+            return httpContext.Items.Contains("TalLayoutEditor") && httpContext.Items["TalLayoutEditor"].ToString() == "true";
         }
         protected virtual Dictionary<string, object> PushHelpers(ViewContext viewContext, Dictionary<string, object> globals)
         {

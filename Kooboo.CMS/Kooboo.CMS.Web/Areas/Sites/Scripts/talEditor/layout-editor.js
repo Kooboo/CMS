@@ -38,8 +38,6 @@
                 width: target.outerWidth() + borderWidth * 2
             };
             var span = $('#kooboo-highlight span');
-            //alert(span.width());
-            //alert(span.outerWidth());
             var left = target.offset().left + target.outerWidth() + borderWidth;
             if (target.outerWidth() > 300) {
                 left = left - 10;
@@ -47,7 +45,6 @@
             highlightPos.span = {
                 left: left,
                 top: target.offset().top - borderWidth
-                //width: highlightPos.width
             };
             setHighlighterPos('#kooboo-highlight');
         };
@@ -117,10 +114,10 @@
                         ElementHighlight($target);
                         e.preventDefault();
                         e.stopPropagation();
-                        //codeDomTagMouseover($target);
+                        codeDomTagMouseover($target);
                     }).bind('mouseout', function (e) {
                         $("#kooboo-highlight").hide();
-                        //codeDomTagMouseout($(e.target));
+                        codeDomTagMouseout($(e.target));
                     });
                 } else {
                     $(this).find('[data-kooboo="repeat-item"] *').bind(options.activeEvent, function (e) {
@@ -135,39 +132,19 @@
 
 //binding
 (function (__parent__, __ctx__, __conf__) {
-
-    __ctx__.iframeBody = $('body');
-    __ctx__.iframeObj = window;
-    __ctx__.koobooStuffContainer = $("#kooboo-stuff-container");
-    //var $editorWrapper = $("#view-editor-wrapper");
-    __ctx__.editorWrapper = $("body");
-
+    window.parent.__ctx__.iframeObj = window;
     var initLayoutEditor = function () {
         $("body").KoobooHighlight();
-        //$("a").click(function () {
-        //    return false;
-        //});
-        //$(":text,textarea,input[type=search]").attr('readonly', 'readonly');
-    }
-    $("body").on('click', function (e) {
-        e.stopPropagation();
-        $("#kooboo-highlight-copy").hide();
-        $("#kooboo-highlight").hide();
-        __parent__.$("#span-clear-clicked").trigger('click');
-        //overview;
-    });
+        document.onclick = function () {
+            $("#kooboo-highlight-copy").hide();
+            $("#kooboo-highlight").hide();
+            __parent__.$("#span-clear-clicked").trigger('click');
+        }
+    };
     $(function () {
-            initLayoutEditor();
-            __ctx__.initEditorHandler = initLayoutEditor;
+        initLayoutEditor();
+        __ctx__.initEditorHandler = initLayoutEditor;
     });
 
 })(window.parent, window.parent.__ctx__, window.parent.__conf__);
 
-function setIframeContent(html) {
-    var stuff = $("#kooboo-stuff-container").clone()[0].outerHTML;
-    var re = new RegExp("(<html>|<HTML>|</html>|</HTML>)", 'g');
-    html = html.replace(re, "");
-    window.document.documentElement.innerHTML = html;
-    var body = window.document.body.innerHTML;
-    window.document.body.innerHTML = body + stuff;
-}

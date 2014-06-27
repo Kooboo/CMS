@@ -100,7 +100,7 @@
         $('div.block').on('click','.title', function () {
             $(this).parent('.block').toggleClass('active');
         });
-        $("input[name=ConvertedType],input[name=ImageType]").on('click', function () {
+        $("input[name=ConvertedType]").on('click', function () {
             $('label[for='+$(this).attr('id')+']').click();
         });
         $("#tab-data-source").click();

@@ -123,6 +123,24 @@ var utils = {
             replace(/</g, '&lt;').
             replace(/"/g, '&quot;');
         return str;
+    },
+    getCookie:function(name){
+        var re = new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        var arr = document.cookie.match(re);
+        if(arr != null){
+            return unescape(arr[2]);
+        }else{
+            return null;
+        }
+    },
+    delCookie:function(name){
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var val=utils.getCookie(name);
+        if(val!=null){
+            var str = name + "="+escape(val)+";expires="+exp.toGMTString();
+            document.cookie= str;
+        }
     }
 };
 

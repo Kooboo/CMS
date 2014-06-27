@@ -273,6 +273,11 @@ var __iframe__ = {
             __ctx__.iframeObj = $(selector)[0].contentWindow;
         }
         $(selector).load(function () {
+            var defs = utils.getCookie("docdef");
+            if(defs){
+                __iframe__.defs=defs+"\n";
+                utils.delCookie("docdef");
+            }
             __iframe__.loaded(this, hideLoadHandler);
         });
     },
@@ -317,19 +322,28 @@ var __iframe__ = {
         var stuff = koobooDiv[0].outerHTML;
         return stuff;
     },
+    defs: "",
+    getDef: function (code) {
+        //doctype and defs
+        var edges = code.indexOf("<html");
+        if (edges == -1) {
+            edges = code.indexOf("<HTML");
+        }
+        if (edges != -1) {
+            __iframe__.defs = code.substring(0, edges-1)+"\n";
+        }
+    },
     getHtml: function () {
         var html = "";
-        //var doctypeName = __ctx__.iframeObj.document.doctype.name;
-        //if (doctypeName) {
-        //    html+="<!DOCTYPE " + doctypeName + ">";
-        //}
         html += __ctx__.iframeObj.document.documentElement.outerHTML;
         var stuff = __iframe__.getKoobooStuff();
-        return html.replace(stuff, "");
+        html = __iframe__.defs + html.replace(stuff, "");
+        return html;
     },
     setHtml: function (html) {
+        __iframe__.getDef(html);
         var stuff = __iframe__.getKoobooStuff();
-        var re = new RegExp("(<html>|<HTML>|</html>|</HTML>)", 'g');
+        var re = new RegExp("(<html[^>]*>|<HTML>|</html>|</HTML>)", 'g');
         html = html.replace(re, "");
         var doc = __ctx__.iframeObj.document;
         doc.documentElement.innerHTML = html;

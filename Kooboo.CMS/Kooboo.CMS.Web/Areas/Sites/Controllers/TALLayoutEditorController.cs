@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.JScript;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
@@ -64,9 +65,16 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 
         protected override void OnResultExecuted(ResultExecutedContext filterContext)
         {
+            AttachDocDefine();
             base.OnResultExecuted(filterContext);
-
             ClearTemp();
+        }
+
+        private void AttachDocDefine()
+        {
+            HttpCookie cookie = new HttpCookie("docdef");
+            cookie.Value = GlobalObject.escape(ViewData["DocDefine"].ToString());
+            HttpContext.Response.Cookies.Add(cookie);
         }
 
         private void ClearTemp()

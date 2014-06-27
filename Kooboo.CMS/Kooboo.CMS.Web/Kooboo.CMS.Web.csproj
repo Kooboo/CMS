@@ -62,6 +62,7 @@
       <HintPath>..\..\Lib\dotLess\dotless.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.JScript" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>

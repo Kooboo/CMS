@@ -65,7 +65,15 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
 
                     if (IsDesignMode(viewContext.HttpContext))
                     {
-                        writer.Write(WrapBody(body,IsLayoutEditor(viewContext.HttpContext)));
+                        if (IsLayoutEditor(viewContext.HttpContext))
+                        {
+                            SaveDocDefine(body);
+                        }
+                        else
+                        {
+                            body = WrapViewBody(body);
+                        }
+                        writer.Write(body);
                     }
                     else
                     {
@@ -82,26 +90,30 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
                 }
             }
         }
-        private string WrapBody(string body,bool isLayoutEditor){
-            StringBuilder koobooStuff = new StringBuilder();
-            koobooStuff.Append("<div id=\"kooboo-stuff-container\">");
-            koobooStuff.Append("<link type=\"text/css\" href=\"/Areas/Sites/Scripts/talEditor/kooboo-editor.css\" rel=\"Stylesheet\">");
-            koobooStuff.Append("<script src=\"/Areas/Sites/Scripts/talEditor/import-lib.js\"></script>");
-            koobooStuff.Append("</div>");
-
-            StringBuilder str = new StringBuilder();
-            var result = string.Empty;
-            if (isLayoutEditor)
+        private void SaveDocDefine(string body) {
+            var edges = body.IndexOf("<html");
+            if (edges == -1) {
+                edges = body.IndexOf("<HTML");
+            }
+            if (edges != -1)
             {
-                result = body;
+                ViewData["DocDefine"] = body.Substring(0,edges-1);
             }
             else {
-                var viewWrapper = string.Format("<var id=\"view-editor-wrapper\">{0}</var>", body);
-                str.Append(viewWrapper);
-                str.Append(koobooStuff.ToString());
-                result = str.ToString();
+                ViewData["DocDefine"] = "";
             }
-            return result;
+                            
+        }
+        private string WrapViewBody(string body)
+        {
+            StringBuilder str = new StringBuilder();
+            var viewWrapper = string.Format("<var id=\"view-editor-wrapper\">{0}</var>", body);
+            str.Append(viewWrapper);
+            str.Append("<div id=\"kooboo-stuff-container\">");
+            str.Append("<link type=\"text/css\" href=\"/Areas/Sites/Scripts/talEditor/kooboo-editor.css\" rel=\"Stylesheet\">");
+            str.Append("<script src=\"/Areas/Sites/Scripts/talEditor/import-lib.js\"></script>");
+            str.Append("</div>");
+            return str.ToString();
         }
         private bool IsDesignMode(HttpContextBase httpContext)
         {

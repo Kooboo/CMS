@@ -21,13 +21,6 @@
 <script src="~/Areas/Sites/Scripts/talEditor/layout-panel.js"></script>
 
 <div class="wrap with-topbar">
-    <div class="block loading">
-        <div class="layer"></div>
-        <div class="wrap">
-            <span>Loading</span>
-            <img src="/Images/loading.gif">
-        </div>
-    </div>
     <div class="block editor">
         <div class="tal-editor" id="div-editor-container">
             <div class="J_Tabs tabs-bottom tabs">
@@ -129,6 +122,7 @@
         window.ajaxFormParam = {
             beforeSerialize: function ($form, options) {
                 if (__ctx__.isPreview) {
+                    alert(__iframe__.getHtml());
                     textArea.val(__iframe__.getHtml());
                 } else {
                     textArea.val(codeMirrorAPI.getValue());

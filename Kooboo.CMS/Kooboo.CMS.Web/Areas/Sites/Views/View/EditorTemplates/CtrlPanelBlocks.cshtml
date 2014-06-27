@@ -37,14 +37,14 @@
         <p>Please select an image type:</p>
         <ul class="form-list vertical">
             <li>
-                <input name="ImageType" id="data-type-staticimg" flag="data-type" value="StaticImg" type="radio">
+                <input name="ConvertedType" id="data-type-staticimg" flag="data-type" value="StaticImg" type="radio">
                 <label class="inline" data-bind="click:dataItem.dataTypeChange" value="StaticImg"
                        for="data-type-staticimg">
                     Static
                 </label>
             </li>
             <li>
-                <input name="ImageType" id="data-type-dynamicimg" flag="data-type" value="DynamicImg" type="radio">
+                <input name="ConvertedType" id="data-type-dynamicimg" flag="data-type" value="DynamicImg" type="radio">
                 <label class="inline" data-bind="click:dataItem.dataTypeChange" for="data-type-dynamicimg" value="DynamicImg">Dynamic</label>
             </li>
         </ul>
@@ -218,10 +218,10 @@
             <ul data-bind="foreach:boundTags()">
                 <!-- ko if:$data.type==dataTypeEnum.staticImg||$data.type==dataTypeEnum.dynamicImg-->
                 <li>
-                    <a href="#" title="Click to edit">
-                        <!--<img src="images/demo-1.jpg" alt="Image">-->
+                    <a href="#" title="@("Click to edit".Localize())" data-bind="click:$root.editListItem">
+                        <img src="/Areas/Sites/Scripts/talEditor/images/thumbnail.png" alt="Image">
                     </a>
-                    <a class="action" href="#" title="Click to remove this image">
+                    <a class="action" href="#" title="@("Click to remove this image".Localize())" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">
                         @Html.IconImage("minus small")
                     </a>
                 </li>

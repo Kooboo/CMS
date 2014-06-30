@@ -21,7 +21,6 @@
 
 @Html.DropDownList(propertyName, ViewData.ModelMetadata.GetDataSource()
                     .GetSelectListItems(ViewContext.RequestContext, "").SetActiveItem(Model), editorHtmlAttributes)
-@Html.Hidden(propertyName)
     @Html.ValidationMessage(ViewData.ModelMetadata, new { name = ViewData["name"] })
     @if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
     {

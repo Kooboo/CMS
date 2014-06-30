@@ -385,17 +385,50 @@ var PanelModel = function () {
     };
 
     self.image = {
+        boundStaticImg: ko.observable(""),
+        thumbnailSrc:  ko.observable(""),
         init:function(){
             var img = __parser__.analyseImage();
-            if(self.dataItem.dataType()==dataTypeEnum.staticImg){
-
+            if(img.type=='static'){
+                self.image.boundStaticImg(img.src);
+                self.image.thumbnailSrc(self.image.getThumbnailSrc(img.src));
             }else{
-                if (img) {
-                    self.dataItem.chooseThis(img);
+                self.image.boundStaticImg("");
+                self.image.thumbnailSrc("");
+            }
+            if(img.type=="dynamic"){
+                if (img.src) {
+                    self.dataItem.chooseThis(img.src);
                 } else {
                     self.dataItem.chooseFirst();
                 }
+            }else{
+                self.dataItem.chooseFirst();
             }
+        },
+        getThumbnailSrc:function(src){
+            return __conf__.resizeImageUri.replace("{url}", src);
+        },
+        showStaticImgs:function(data,event){
+            __ctx__.showStaticImgsHandler();
+        },
+        unbindStaticImg:function(data,event){
+            __binder__.unbindStaticImg();
+            self.image.boundStaticImg("");
+        },
+        saveTempStaticImg:function(src,text){
+            var data = { src: src, text: text};
+            $("#save-static-img-temp").data("img",data)[0].click();
+        },
+        _saveTempStaticImg:function(data,event){
+            var data = $(event.target).data("img");
+            self.image.boundStaticImg(data.src);
+            var tsrc = self.image.getThumbnailSrc(data.src);
+            self.image.thumbnailSrc(tsrc);
+        },
+        deleteTempStaticImg: function (data,event) {
+            self.image.boundStaticImg("");
+            self.image.thumbnailSrc("");
         }
     };
 
@@ -516,6 +549,14 @@ var PanelModel = function () {
                 __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.staticImg:
+                __binder__.bindStaticImg(self.image.boundStaticImg());
+                utils.messageFlash(__msgs__.save_binding_success, true);
+                var showCallout = true;
+                if (self.image.boundStaticImg()=="") {
+                    showCallout = false;
+                }
+                self.displayCallout(showCallout);
+                __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.dynamicImg:
                 __binder__.bindDynamicImg(self.dataItem.chosenField());

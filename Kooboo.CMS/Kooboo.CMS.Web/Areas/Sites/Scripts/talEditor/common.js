@@ -59,7 +59,8 @@ var __conf__ = {
     statics: [
         { type: 'css', url: "/Areas/Sites/Scripts/talEditor/kooboo-editor.css" },
         {type:'js',url:"/Areas/Sites/Scripts/talEditor/import-lib.js"}
-    ]//for layout editor
+    ],
+    resizeImageUri:"/SampleSite/Kooboo-Resource/ResizeImage?url={url}&width=0&height=120&preserverAspectRatio=True&quality=80"
 };
 //end conf
 
@@ -75,7 +76,7 @@ var __ctx__ = {
     codeDomTags: {},
     codePathTags: {},
     calloutTags: {},
-    loader:null
+    showStaticImgsHandler:function(){}
 };
 
 
@@ -306,6 +307,13 @@ LangParser.prototype = {
             }
         }
         return is;
+    },
+    unquot:function(str){
+        if($.trim(str)){
+            return str.substring(1,str.length-1);
+        }else{
+            return str;
+        }
     }
 
     //data field
@@ -439,12 +447,7 @@ var TalParser = function () {
             } else if (self.isPosition($tag)) {
                 type = dataTypeEnum.position;
             } else if($tag[0].tagName.toLowerCase()=='img'){
-                var srcAttr=$tag.attr(__conf__.tal.attrs);
-                if(__lang__.isStaticImg(srcAttr)){
-                    type=dataTypeEnum.staticImg;
-                }else{
-                    type=dataTypeEnum.dynamicImg;
-                }
+                type=dataTypeEnum.dynamicImg;
             } else{
                 type = dataTypeEnum.data;
             }
@@ -453,9 +456,13 @@ var TalParser = function () {
         if (attr) {
             type = dataTypeEnum.repeater;
         }
-        if ($tag[0].tagName.toLowerCase() == 'img') {
-            //static
-            //dynamic
+        attr = $tag.attr(__conf__.tal.attrs);
+        if(attr){
+            if($tag[0].tagName.toLowerCase() == 'img'){
+                if(__lang__.isStaticImg(attr)){
+                    type=dataTypeEnum.staticImg;
+                }
+            }
         }
         return type;
     };
@@ -585,12 +592,13 @@ var TalParser = function () {
                 }
             });
             if (src) {
-                return src.split(' ')[1];
+                realsrc = __lang__.unquot(src.split(' ')[1]);
+                return {type:'static',src:realsrc};
             } else {
-                return '';
+                return {type:'nothing',src:''};
             }
         }else{
-            return self.analyseDataField($tag);
+            return {type:'dynamic',src:self.analyseDataField($tag)};
         }
     };
 }
@@ -727,6 +735,7 @@ var TalBinder = function () {
         $tag=$tag||self.tag();
         if (self.notEmptyDataField(value)) {
             $tag.attr(self.contentAttr, value);
+            self.unbindStaticImg($tag);
         } else {
             self.unbindContent($tag);
         }
@@ -736,20 +745,28 @@ var TalBinder = function () {
         self.unbindContent($tag);
     }
     self.bindStaticImg=function(value,$tag){
+        $tag=$tag||self.tag();
+        self.unbindDynamicImg($tag);
         self.bindAttr("src",value,self.unbindStaticImg,$tag);
     };
     self.bindAttr=function(attrName,attrValue,unbindHandler,$tag){
-        var attr = attrName+" " + attrValue;
         var attrs = $tag.attr(__conf__.tal.attrs);
         if (attrs) {
-            var newattr = unbindHandler(attrName,$tag);
+            var newattr = unbindHandler($tag);
             attrs = newattr ? (newattr + ";") : '';
         } else {
             attrs = '';
         }
-        $tag.attr(__conf__.tal.attrs, attrs + attr);
+        if(attrValue){
+            var attr = attrName+" " + __lang__.quot(attrValue);
+            attrs = attrs+attr;
+        }
+        if(attrs) {
+            $tag.attr(__conf__.tal.attrs, attrs);
+        }
     };
     self.unbindStaticImg=function($tag){
+        $tag=$tag||self.tag();
         self.unbindAttr('src',$tag);
     };
     self.unbindAttr=function(attrName,$tag){

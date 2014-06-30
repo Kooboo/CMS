@@ -20,17 +20,15 @@
             Parameters = it.Route.GetRouteParameters()
         });
     var pagesJosn = Newtonsoft.Json.JsonConvert.SerializeObject(pages);
+    var route = ViewContext.RequestContext.AllRouteValues().Merge("search", null);
+    var mediaLibraryUrl = Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType", "grid").Merge("SingleChoice", "true"));
 }
 <script>
-
-
+    var mediaLibraryUrl = '@Html.Raw(mediaLibraryUrl)';
     var meta = {
             dataSourceMeta : @Html.Raw(dataSourceJson),
             pages: @Html.Raw(pagesJosn)
         };
-
-</script>
-<script>
     var __isLayout__ = false;
     var __datasrc__ = [];
     var __pages__ = [];
@@ -136,6 +134,20 @@
                 $('.tabs').koobooTab().data("koobooTab").showTab(1);
             },200);
         }
-
+        __ctx__.showStaticImgsHandler=function(){
+            $.pop({
+                url: mediaLibraryUrl,
+                width: 900,
+                height: 500,
+                dialogClass: 'iframe-dialog',
+                frameHeight: '100%',
+                onload: function (handle, pop, config) {
+                    top.onFileSelected = function (src, text) {
+                        var panel = new PanelModel();
+                        panel.image.saveTempStaticImg(src,text);
+                    };
+                }
+            });
+        };
     });
 </script>

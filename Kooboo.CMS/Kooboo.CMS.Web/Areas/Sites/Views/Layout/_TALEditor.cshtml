@@ -103,9 +103,6 @@
 
 <script>
     $(function () {
-        _.delay(function () {
-            window.loading.show();
-        }, 200);
         var textArea = $('#Body');
         textArea.codeMirror();
         var codeMirrorAPI = textArea.data("codeMirror");
@@ -137,9 +134,6 @@
         });
 
         __iframe__.init("#iframe-preview", function () {
-            _.delay(function () {
-                window.loading.hide();
-            },200);
         });
         
         //switch design mode

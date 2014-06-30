@@ -59,18 +59,19 @@
                 <label>Media library:</label>
             </div>
             <div class="span8">
-                <ul class="form-list images">
+                <ul class="form-list images" data-bind="visible:image.boundStaticImg()!=''">
                     <li>
                         <div class="file-thumbnail">
-                            <img src="images/demo-1.jpg">
-                            <a href="#" class="action">
-                                <img class="icon minus-small" src="images/invis.gif">
+                            <img data-bind="attr:{src:image.thumbnailSrc()}">
+                            <a href="#" class="action" data-bind="click:image.deleteTempStaticImg">
+                                @Html.IconImage("minus small")
                             </a>
                         </div>
                     </li>
                 </ul>
-                <a href="#" class="action">
-                    <img class="icon plus-small" src="images/invis.gif">
+                <span style="display:none" id="save-static-img-temp" data-bind="click:image._saveTempStaticImg"></span>
+                <a href="#" class="action" data-bind="click:image.showStaticImgs,visible:image.boundStaticImg()==''">
+                   @Html.IconImage("plus small")
                 </a>
             </div>
         </div>
@@ -219,7 +220,12 @@
                 <!-- ko if:$data.type==dataTypeEnum.staticImg||$data.type==dataTypeEnum.dynamicImg-->
                 <li>
                     <a href="#" title="@("Click to edit".Localize())" data-bind="click:$root.editListItem">
-                        <img src="/Areas/Sites/Scripts/talEditor/images/thumbnail.png" alt="Image">
+                         <!-- ko if:$data.type==dataTypeEnum.dynamicImg-->
+                            <img src="/Areas/Sites/Scripts/talEditor/images/thumbnail.png" alt="Image">
+                         <!-- /ko -->
+                          <!-- ko if:$data.type==dataTypeEnum.staticImg-->
+                            <img data-bind="attr:{src:$root.image.getThumbnailSrc(__parser__.analyseImage($data.tag).src)}"alt="Image">
+                         <!-- /ko -->
                     </a>
                     <a class="action" href="#" title="@("Click to remove this image".Localize())" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">
                         @Html.IconImage("minus small")

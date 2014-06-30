@@ -329,6 +329,8 @@ $(function () {
 
             return api;
         });
+
+        return $self;
     }
     $.fn.reset_check_relateds = function (options) {
         var $check_relateds = options.check_relateds;

@@ -1,0 +1,56 @@
+﻿<script type="text/html" id="tmpl-binding-convert">
+    <p class="buttons" flag="data-type" data-bind="visible:dataItem.dataType()!=dataTypeEnum.position" >
+		<a class="button" href="#" data-bind="click:dataItem.dataTypeChange" value="Position">Convert to position</a>
+	</p>
+</script>
+
+<script type="text/html" id="tmpl-binding-editor">
+    <div class="item form-row" data-bind="visible:dataItem.dataType()==dataTypeEnum.position">
+	    <div class="span4">
+		    <label>Position name:</label>
+	    </div>
+	    <div class="span8">
+		    <input type="text" id="txt-postion-name">
+	    </div>
+    </div>
+    <!--</div>-->
+    <p class="buttons" data-bind="visible:dataItem.dataType()!=dataTypeEnum.nothing">
+        <a class="button" href="#" data-bind="click:saveBindings">Save</a>
+        <a class="button gray" href="#" data-bind="click:cancelEdit">Cancel</a>
+    </p>
+</script>
+
+<script type="text/html" id="tmpl-code-dom">
+    <ul data-bind="foreach:{data:top.xchildren(),as:'sub'}">
+        <li>
+            <!-- ko if:sub.jqtag.children().length>0-->
+                <span class="code"
+                      data-bind="attr:{name:sub.id},text:$root.codeDom.markupStart(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+                <!-- ko template:{name:'tmpl-code-dom',data:{'top':sub.jqtag}}-->
+                <!-- /ko -->
+                <span class="code"
+                      data-bind="attr:{name:sub.id},text:$root.codeDom.markupEnd(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+            <!-- /ko -->
+            <!-- ko if:sub.jqtag.children().length==0-->
+            <span class="code"
+                  data-bind="attr:{name:sub.id},text:$root.codeDom.markup(sub.tag),click:$root.codeDom.itemClick,event:{mouseover:$root.codeDom.itemHover,mouseout:$root.codeDom.itemHover}"></span>
+            <!-- /ko -->
+        </li>
+    </ul>
+</script>
+
+<script type="text/html" id="tmpl-binding-list">
+    <div class="block list active" data-bind="visible:_.find(boundTags(),function(t){return t.type==dataTypeEnum.position;})">
+		<h6 class="title">@Html.IconImage("arrow")@("Positions".Localize())</h6>
+		<div class="container">
+			<ul  data-bind="foreach:boundTags()">
+                <!-- ko if:$data.type==dataTypeEnum.position-->
+				<li>
+					 <a class="action" href="#" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">@Html.IconImage("minus small")</a>
+					<span data-bind="text:__parser__.analysePosition($data.tag)"></span>
+				</li>
+                <!-- /ko -->
+			</ul>
+		</div>
+	</div>
+</script>

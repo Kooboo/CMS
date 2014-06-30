@@ -20,17 +20,16 @@
             Parameters = it.Route.GetRouteParameters()
         });
     var pagesJosn = Newtonsoft.Json.JsonConvert.SerializeObject(pages);
+    var route = ViewContext.RequestContext.AllRouteValues().Merge("search", null);
+    var mediaLibraryUrl = Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType", "grid").Merge("SingleChoice", "true"));
 }
 <script>
-
-
+    var mediaLibraryUrl = '@Html.Raw(mediaLibraryUrl)';
     var meta = {
             dataSourceMeta : @Html.Raw(dataSourceJson),
             pages: @Html.Raw(pagesJosn)
         };
-    
-</script>
-<script>
+    var __isLayout__ = false;
     var __datasrc__ = [];
     var __pages__ = [];
     _.each(meta.pages,function(page){
@@ -49,19 +48,22 @@
     });
    
     var externalLink = "@("External link".Localize())";
+    var defaultOptionName = "@("--Please selece an item--".Localize())";
 
     var __msgs__ = {
-        'convert_to_label_confirm': 'Do you want to convert this element with children into a label!',
-        'can_not_be_label':'Can not convert an element with children into a label!',
-        'remove_data_binding_confrim': 'Are you sure to delete the data binding?',
-        'save_binding_success': 'successed!',
-        'url_invalid': 'url invalid!'
+        'convert_to_label_confirm': "@("Do you want to convert this element with children into a label!".Localize())",
+        'can_not_be_label':"@("Can not convert an element with children into a label!".Localize())",
+        'remove_data_binding_confrim': "@("Are you sure to delete the data binding?".Localize())",
+        'save_binding_success':"@("successed".Localize())",
+        'url_invalid':"@("url invalid!".Localize())",
+        'not_empty':"@("please enter a vlaue".Localize())"
     };
 
     var __urls__ = {};
 
 </script>
-<script src="~/Areas/Sites/Scripts/talEditor/ctrl-panel.js"></script>
+<script src="~/Areas/Sites/Scripts/talEditor/common.js"></script>
+<script src="~/Areas/Sites/Scripts/talEditor/view-panel.js"></script>
 <script>
     $(function () {
         var textArea = $('#Body');
@@ -90,13 +92,13 @@
 
         $('.tabs').koobooTab();
         $("#tab_dataBinding").applyBindings(new PanelModel());
-        $("#span-tag-text-container").on('click','a', function (e) {
-            e.preventDefault();
-        });
+        //$("#span-tag-text-container").on('click','a', function (e) {
+        //    e.preventDefault();
+        //});
         $('div.block').on('click','.title', function () {
             $(this).parent('.block').toggleClass('active');
         });
-        $("input[name=ConvertedType],input[name=ImageType]").on('click', function () {
+        $("input[name=ConvertedType]").on('click', function () {
             $('label[for='+$(this).attr('id')+']').click();
         });
         $("#tab-data-source").click();
@@ -129,9 +131,23 @@
         var action='@ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower()';
         if (action == "create"){
             _.delay(function(){
-                $("#design-view-tags a[type=source]").click();
+                $('.tabs').koobooTab().data("koobooTab").showTab(1);
             },200);
         }
-
+        __ctx__.showStaticImgsHandler=function(){
+            $.pop({
+                url: mediaLibraryUrl,
+                width: 900,
+                height: 500,
+                dialogClass: 'iframe-dialog',
+                frameHeight: '100%',
+                onload: function (handle, pop, config) {
+                    top.onFileSelected = function (src, text) {
+                        var panel = new PanelModel();
+                        panel.image.saveTempStaticImg(src,text);
+                    };
+                }
+            });
+        };
     });
 </script>

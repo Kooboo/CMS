@@ -182,6 +182,7 @@
     var iframeUrl = decodeURIComponent($(settings.pageDesignUrl).val());
     $(settings.iframeMarkup).insertAfter(settings.iframeMask);
     $(settings.iframeSelector).load(function () {
+        console.log(arguments);
         // get doc
         var doc;
         try {
@@ -253,8 +254,13 @@
                 // in ie7, the array object in inner iframe content window scope, 
                 // when it pass to the top window scope is become to a native object but not a array.
                 // so now parse the setting object to json string in inner iframe scope.
-                var json = designContext.getSettingsJson(); //var json = $.toJSON(designContext.getSettings());
-                $(settings.pagePositionsJson).val(encodeURIComponent(json));
+                if (designContext.designerLoaded()) {
+                    var json = designContext.getSettingsJson(); //var json = $.toJSON(designContext.getSettings());
+                    $(settings.pagePositionsJson).val(encodeURIComponent(json));
+                }
+                else {
+                    $(settings.pagePositionsJson).val("");
+                }
             }
         };
     });

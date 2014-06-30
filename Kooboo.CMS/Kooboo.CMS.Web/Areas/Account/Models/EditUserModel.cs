@@ -72,6 +72,10 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
             {
                 userToUpdate.GlobalRoles = string.Join(",", this.GlobalRoles);
             }
+            else
+            {
+                userToUpdate.GlobalRoles = null;
+            }
 
             return userToUpdate;
         }

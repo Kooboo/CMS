@@ -76,7 +76,9 @@ var __ctx__ = {
     codeDomTags: {},
     codePathTags: {},
     calloutTags: {},
-    showStaticImgsHandler:function(){}
+    showStaticImgsHandler: function () { },
+    siteStatics: [],
+    siteEnablejQuery:true
 };
 
 

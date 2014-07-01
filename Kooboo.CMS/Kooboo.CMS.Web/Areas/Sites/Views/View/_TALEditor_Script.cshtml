@@ -20,8 +20,10 @@
             Parameters = it.Route.GetRouteParameters()
         });
     var pagesJosn = Newtonsoft.Json.JsonConvert.SerializeObject(pages);
+    
     var route = ViewContext.RequestContext.AllRouteValues().Merge("search", null);
     var mediaLibraryUrl = Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType", "grid").Merge("SingleChoice", "true"));
+    
 }
 <script>
     var mediaLibraryUrl = '@Html.Raw(mediaLibraryUrl)';

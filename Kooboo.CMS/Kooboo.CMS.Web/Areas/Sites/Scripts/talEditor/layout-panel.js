@@ -300,7 +300,8 @@ var __iframe__ = {
         var div = win.document.createElement('div');
         div.setAttribute('id', 'kooboo-stuff-container');
         body.appendChild(div);
-        _.each(__conf__.statics, function (s) {
+        var statics = _.union(__ctx__.siteStatics, __conf__.statics);
+        _.each(statics, function (s) {
             if (s.type == 'css') {
                 var css = win.document.createElement("link");
                 css.setAttribute('type', 'text/css');

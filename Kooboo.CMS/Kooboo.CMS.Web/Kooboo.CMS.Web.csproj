@@ -62,7 +62,6 @@
       <HintPath>..\..\Lib\dotLess\dotless.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.JScript" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -2655,11 +2654,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349C5851-65DF-11DA-9384-00065B846F21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>3810</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:3810/</IISUrl>
+          <IISUrl>http://localhost:3812/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

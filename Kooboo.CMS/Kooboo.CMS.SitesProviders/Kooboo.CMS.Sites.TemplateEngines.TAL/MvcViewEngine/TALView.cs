@@ -50,6 +50,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
         {
             this.ViewData = viewContext.ViewData;
 
+
             bool hasLayout = !string.IsNullOrEmpty(_masterTemplate);
 
             if (hasLayout)
@@ -67,7 +68,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
                     {
                         if (IsLayoutEditor(viewContext.HttpContext))
                         {
-                            SaveDocDefine(body);
+                            SaveDocDefine(body, viewContext.HttpContext);
                         }
                         else
                         {
@@ -90,19 +91,20 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
                 }
             }
         }
-        private void SaveDocDefine(string body) {
+        private void SaveDocDefine(string body, HttpContextBase httpContext)
+        {
             var edges = body.IndexOf("<html");
             if (edges == -1) {
                 edges = body.IndexOf("<HTML");
             }
+            string docDefine = string.Empty;
             if (edges != -1)
             {
-                ViewData["DocDefine"] = body.Substring(0,edges-1);
+                docDefine = body.Substring(0, edges - 1);
             }
-            else {
-                ViewData["DocDefine"] = "";
-            }
-                            
+            HttpCookie cookie = new HttpCookie("docdef");
+            cookie.Value =Microsoft.JScript.GlobalObject.escape(docDefine);
+            httpContext.Response.Cookies.Add(cookie);
         }
         private string WrapViewBody(string body)
         {

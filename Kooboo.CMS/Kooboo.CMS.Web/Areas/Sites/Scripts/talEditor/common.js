@@ -89,7 +89,7 @@ var __re__ = {
 
 
 //utils
-var utils = {
+var __utils__ = {
     getRandomId: function (prefix) {
         var ran = String(Math.random()).replace('0.', '');
         var id = prefix + ran;
@@ -139,7 +139,7 @@ var utils = {
     delCookie:function(name){
         var exp = new Date();
         exp.setTime(exp.getTime() - 1);
-        var val=utils.getCookie(name);
+        var val=__utils__.getCookie(name);
         if(val!=null){
             var str = name + "="+escape(val)+";expires="+exp.toGMTString();
             document.cookie= str;
@@ -204,7 +204,7 @@ var utils = {
         }
         var prefix = 'code-node-';
         _.each(this.find(selector), function (child) {
-            var data = { id: utils.getRandomId(prefix), jqtag: $(child), tag: child };
+            var data = { id: __utils__.getRandomId(prefix), jqtag: $(child), tag: child };
             __ctx__.codeDomTags[data.id] = data.jqtag;
             children.push(data);
         });
@@ -418,9 +418,9 @@ PyParser.prototype = {
 
 };
 if (__conf__.lang.for == langEnum.csharp) {
-    utils.mixin(LangParser, [SharpParser]);
+    __utils__.mixin(LangParser, [SharpParser]);
 } else {
-    utils.mixin(LangParser, [PyParser]);
+    __utils__.mixin(LangParser, [PyParser]);
 }
 var __lang__ = new LangParser();
 
@@ -649,7 +649,7 @@ var TalBinder = function () {
         }
         $tag = $tag || self.tag();
         text = text || $tag.html();
-        $tag.html(utils.escapeHTML(text));
+        $tag.html(__utils__.escapeHTML(text));
         var expr = __parser__.wrapLabel(text);
         $tag.attr(__conf__.tal.content, expr);
         return expr;

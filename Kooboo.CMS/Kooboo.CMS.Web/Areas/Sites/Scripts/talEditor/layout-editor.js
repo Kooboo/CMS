@@ -132,18 +132,20 @@
 
 //binding
 (function (__parent__, __ctx__, __conf__) {
-    window.parent.__ctx__.iframeObj = window;
+    __ctx__.iframeObj = window;
+    var panelModel = new __parent__.PanelModel();
     var initLayoutEditor = function () {
         $("body").KoobooHighlight();
         document.onclick = function () {
             $("#kooboo-highlight-copy").hide();
             $("#kooboo-highlight").hide();
-            __parent__.$("#span-clear-clicked").trigger('click');
+            panelModel.initBoundList();
         }
     };
     $(function () {
         initLayoutEditor();
         __ctx__.initEditorHandler = initLayoutEditor;
+        panelModel.initBoundList();
     });
 
 })(window.parent, window.parent.__ctx__, window.parent.__conf__);

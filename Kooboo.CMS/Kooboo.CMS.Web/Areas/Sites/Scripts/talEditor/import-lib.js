@@ -1,12 +1,12 @@
 ﻿(function (__parent__,__ctx__,__conf__) {
     var container = document.getElementById("kooboo-stuff-container");
-    if (__ctx__.siteEnablejQuery == false) {
+    //if (__ctx__.siteEnablejQuery == false) {
         if (typeof (jQuery) != 'function') {
             var s = document.createElement('script');
             s.src = "/Scripts/jquery.js";
             container.appendChild(s);
         }
-    }
+    //}
     if (typeof (ko) != 'object') {
         var s = document.createElement('script');
         s.src = "/Scripts/knockout.js";

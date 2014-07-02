@@ -194,6 +194,10 @@ var PanelModel = function () {
         self.resetBoundTags();
     };
 
+    self.initBoundList = function () {
+        $("#span-clear-clicked").trigger('click');
+    }
+
     //edit events
     self.cancelEdit = function (data, event) {
         __ctx__.iframeObj.document.documentElement.click();

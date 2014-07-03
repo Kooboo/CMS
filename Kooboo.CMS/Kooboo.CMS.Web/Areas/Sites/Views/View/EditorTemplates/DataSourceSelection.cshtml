@@ -257,10 +257,12 @@
     }
 
     $(function(){
-        listModel.selectedDataSources.subscribe(function(){
+        if (typeof(meta)!="undefined") {
+            listModel.selectedDataSources.subscribe(function(){
+                initDatasource(listModel.selectedDataSources());
+            });
             initDatasource(listModel.selectedDataSources());
-        });
-        initDatasource(listModel.selectedDataSources());
+        }
     });
 
 </script>

@@ -340,10 +340,7 @@ var __iframe__ = {
     defs: "",
     getDef: function (code) {
         //doctype and defs
-        var edges = code.indexOf("<html");
-        if (edges == -1) {
-            edges = code.indexOf("<HTML");
-        }
+        var edges = code.search(/<html/i);
         if (edges != -1) {
             __iframe__.defs = code.substring(0, edges-1)+"\n";
         }
@@ -358,7 +355,7 @@ var __iframe__ = {
     setHtml: function (html) {
         __iframe__.getDef(html);
         var stuff = __iframe__.getKoobooStuff();
-        var re = new RegExp("(<html[^>]*>|<HTML>|</html>|</HTML>)", 'g');
+        var re=/(<!DOCTYPE[^>]*>)|(<[\s]*html[^>]*>)|(<[\s]*\/[\s]*html[\s]*>)/gi;
         html = html.replace(re, "");
         var doc = __ctx__.iframeObj.document;
         doc.documentElement.innerHTML = html;

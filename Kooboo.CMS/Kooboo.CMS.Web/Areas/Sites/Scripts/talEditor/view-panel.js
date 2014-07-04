@@ -71,7 +71,7 @@ var PanelModel = function () {
             var testDs = {
                 'name': 'ds',
                 'fields': ['field1', 'field2', 'field3']
-            }
+            };
             __dataset__.add(testDs);
             self.dataItem.dataFields(__dataset__.allDataFields());
             self.dataSource.availableDataSources(__dataset__.allNames());

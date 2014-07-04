@@ -342,14 +342,7 @@ SharpParser.prototype = {
         return pageUrl;
     },
     analyseLink: function (href) {
-        var pageName = '';
-        if (href.indexOf("'") != -1) {
-            pageName = href.split("'")[1];
-        } else if (href.indexOf('"')) {
-            pageName = href.split('"')[1];
-        } else {
-            console.log("what the hell?");
-        }
+        var pageName = href.split('"')[1];
         var start = href.indexOf("{") + 1;
         var end = href.indexOf("}");
         var keyValues = href.substring(start, end).split(',');
@@ -388,7 +381,6 @@ PyParser.prototype = {
         return pageUrl;
     },
     analyseLink: function (href) {
-        var re = new RegExp("('|\")", 'g');
         var pageName = '';
         if (href.indexOf("'") != -1) {
             pageName = href.split("'")[1];
@@ -399,6 +391,7 @@ PyParser.prototype = {
         }
         var keyValues = href.split(',').slice(1);
         var params = [];
+        var re = new RegExp("('|\")", 'g');
         _.each(keyValues, function (item) {
             var s = item.split('=');
             var _name = s[0].replace(re, '');
@@ -679,41 +672,14 @@ var TalBinder = function () {
                     url =__lang__.quot(url);
                 }
             }
-            //todo:self.bindAttr("src",value,self.unbindStaticImg,$tag);
-            var href = "href " + url;
-            var attrs = $tag.attr(__conf__.tal.attrs);
-            if (attrs) {
-                var newattr = self.unbindLink($tag);
-                attrs = newattr ? (newattr + ";") : '';
-            } else {
-                attrs = '';
-            }
-            $tag.attr(__conf__.tal.attrs, attrs + href);
+            self.bindAttr("href",url,self.unbindLink,$tag);
         } else {
             self.unbindLink();
         }
     };
     self.unbindLink = function ($tag) {
-        //todo:self.unbindAttr('src',$tag);
-        $tag = $tag || self.tag();
-        var attrstr = $.trim($tag.attr(__conf__.tal.attrs));
-        if (attrstr) {
-            var attrs = attrstr.split(';');
-            var temp = [];
-            _.each(attrs, function (attr) {
-                if (!$.trim(attr).startsWith('href')) {
-                    temp.push(attr);
-                }
-            })
-            var newattr = temp.join(';');
-            $tag.attr(__conf__.tal.attrs, newattr);
-            if (!$.trim($tag.attr(__conf__.tal.attrs))) {
-                $tag.removeAttr(__conf__.tal.attrs);
-            }
-            return newattr;
-        } else {
-            return '';
-        }
+        $tag=$tag||self.tag();
+        self.unbindAttr("href",$tag);
     };
     self.unbindAll = function ($tag) {
         $tag = $tag || self.tag();
@@ -749,6 +715,7 @@ var TalBinder = function () {
     self.bindStaticImg=function(value,$tag){
         $tag=$tag||self.tag();
         self.unbindDynamicImg($tag);
+        value=__lang__.quot(value);
         self.bindAttr("src",value,self.unbindStaticImg,$tag);
     };
     self.bindAttr=function(attrName,attrValue,unbindHandler,$tag){
@@ -760,7 +727,7 @@ var TalBinder = function () {
             attrs = '';
         }
         if(attrValue){
-            var attr = attrName+" " + __lang__.quot(attrValue);
+            var attr = attrName+" " + attrValue
             attrs = attrs+attr;
         }
         if(attrs) {

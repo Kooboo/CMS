@@ -136,8 +136,12 @@
                     };
                     var codeDomTagMouseout = function (target) {
                         var cls = 'hover';
-                        __parent__.$('div.code-viewer span.' + cls).removeClass(cls);
-                        __parent__.$("#div-node-path a." + cls).removeClass(cls);
+                        try{
+                            __parent__.$('div.code-viewer span.' + cls).removeClass(cls);
+                            __parent__.$("#div-node-path a." + cls).removeClass(cls);
+                        } catch (e) {
+                            console.log('leave');
+                        }
                     }
                     $.fn.KoobooHighlight = function (options) {
                         var options = $.extend(defaults, options);
@@ -288,7 +292,7 @@
                         return false;
                     });
                     $(":text,textarea,input[type=search]").attr('readonly', 'readonly');
-                }
+                };
                 $(function () {
                     initViewEditor();
                     __ctx__.initEditorHandler = initViewEditor;

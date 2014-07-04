@@ -22,16 +22,16 @@
                     @Html.Raw(Html.TextAreaFor(o => o.Body, new { rows = 20, cols = 20 }))
                 </div>
                 <ul id="design-view-tags" class="tab-index bottom">
-                    <li class="active"><a type="preview" href="#tab_preview">Preview</a></li>
-                    <li><a type="source" href="#tab_sourceCode">Source code</a></li>
+                    <li class="active"><a type="preview" href="#tab_preview">@("Preview".Localize())</a></li>
+                    <li><a type="source" href="#tab_sourceCode">@("Source code".Localize())</a></li>
                 </ul>
             </div>
         </div>
         <div class="tal-panel" id="div-panel-container">
             <div class="J_Tabs tabs">
                 <ul class="tab-index clearfix">
-                    <li class="active"><a href="#tab_dataSource" id='tab-data-source'>Data source</a></li>
-                    <li><a href="#tab_dataBinding" id='tab-data-binding'>Data binding</a></li>
+                    <li class="active"><a href="#tab_dataSource" id='tab-data-source'>@("Data source".Localize())</a></li>
+                    <li><a href="#tab_dataBinding" id='tab-data-binding'>@("Data binding".Localize())</a></li>
                 </ul>
                 <div id="tab_dataSource" class="tab-content">
                     @Html.EditorFor(m => m.DataSources, new { Title = "Data sources".Localize() })
@@ -85,8 +85,7 @@
                     <!-- ko if:boundTags().length==0&&!hasClickedTag()-->
                     <div class="container">
                         <p class="empty">
-                            You don't have any data bindings, please define one
-                            first.
+                            @("You don't have any data bindings, please define one first.".Localize())
                         </p>
                     </div>
                     <!-- /ko -->

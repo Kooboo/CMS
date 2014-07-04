@@ -16,7 +16,7 @@
         obj.Add("url", Html.ResolveUrl(css.VirtualPath));
         staticFiles.Add(obj);
     }
-    var jQuerySrc = Url.Action("Index", new
+    /*var jQuerySrc = Url.Action("Index", new
     {
         area = "",
         controller = "WebResource",
@@ -33,7 +33,7 @@
         obj.Add("type", "js");
         obj.Add("url", Html.ResolveUrl(js.VirtualPath));
         staticFiles.Add(obj);
-    }
+    }*/
 }
 
 @*@Html.TextArea("Body", body, new { rows = 30, cols = 20 })*@
@@ -61,8 +61,8 @@
                     @Html.Raw(Html.TextAreaFor(o => o.Body, new { rows = 20, cols = 20 }))
                 </div>
                 <ul id="design-view-tags" class="tab-index bottom">
-                    <li class="active"><a type="preview" href="#tab_preview">Preview</a></li>
-                    <li><a type="source" href="#tab_sourceCode">Source code</a></li>
+                    <li class="active"><a type="preview" href="#tab_preview">@("Preview".Localize())</a></li>
+                    <li><a type="source" href="#tab_sourceCode">@("Source code".Localize())</a></li>
                 </ul>
             </div>
         </div>

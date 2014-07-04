@@ -1,22 +1,21 @@
 ﻿<script type="text/html" id="tmpl-binding-convert">
     <p class="buttons" flag="data-type" data-bind="visible:dataItem.dataType()!=dataTypeEnum.position" >
-		<a class="button" href="#" data-bind="click:dataItem.dataTypeChange" value="Position">Convert to position</a>
+		<a class="button" href="#" data-bind="click:dataItem.dataTypeChange" value="Position">@("Convert to position".Localize())</a>
 	</p>
 </script>
 
 <script type="text/html" id="tmpl-binding-editor">
     <div class="item form-row" data-bind="visible:dataItem.dataType()==dataTypeEnum.position">
 	    <div class="span4">
-		    <label>Position name:</label>
+		    <label>@("Position name".Localize()):</label>
 	    </div>
 	    <div class="span8">
 		    <input type="text" id="txt-postion-name">
 	    </div>
     </div>
-    <!--</div>-->
     <p class="buttons" data-bind="visible:dataItem.dataType()!=dataTypeEnum.nothing">
-        <a class="button" href="#" data-bind="click:saveBindings">Save</a>
-        <a class="button gray" href="#" data-bind="click:cancelEdit">Cancel</a>
+        <a class="button" href="#" data-bind="click:saveBindings">@("Save".Localize())</a>
+        <a class="button gray" href="#" data-bind="click:cancelEdit">@("Cancel".Localize())</a>
     </p>
 </script>
 

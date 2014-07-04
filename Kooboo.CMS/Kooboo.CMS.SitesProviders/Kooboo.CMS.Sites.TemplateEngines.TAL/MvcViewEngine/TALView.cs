@@ -93,17 +93,14 @@ namespace Kooboo.CMS.Sites.TemplateEngines.TAL.MvcViewEngine
         }
         private void SaveDocDefine(string body, HttpContextBase httpContext)
         {
-            var edges = body.IndexOf("<html");
-            if (edges == -1) {
-                edges = body.IndexOf("<HTML");
-            }
+            var edges = body.TrimStart().IndexOf("<html", StringComparison.OrdinalIgnoreCase);
             string docDefine = string.Empty;
-            if (edges != -1)
+            if (edges > 0)
             {
                 docDefine = body.Substring(0, edges - 1);
             }
             HttpCookie cookie = new HttpCookie("docdef");
-            cookie.Value =Microsoft.JScript.GlobalObject.escape(docDefine);
+            cookie.Value = Microsoft.JScript.GlobalObject.escape(docDefine);
             httpContext.Response.Cookies.Add(cookie);
         }
         private string WrapViewBody(string body)

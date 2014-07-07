@@ -4,6 +4,36 @@
 
     var viewEngine = (ITemplateEngine)(ViewData["ViewEngine"]);
     var viewEngineName = viewEngine.Name;
+
+    var themeRuleBody = string.Empty;
+    var theme = new Theme(Site.Current, Site.Current.Theme).LastVersion();
+    var styles = Kooboo.CMS.Sites.Parsers.ThemeRule.ThemeRuleParser.Parse(theme, out themeRuleBody);
+    var staticFiles = new List<Dictionary<string, string>>();
+    foreach (var css in styles)
+    {
+        var obj = new Dictionary<string, string>();
+        obj.Add("type", "css");
+        obj.Add("url", Html.ResolveUrl(css.VirtualPath));
+        staticFiles.Add(obj);
+    }
+    /*var jQuerySrc = Url.Action("Index", new
+    {
+        area = "",
+        controller = "WebResource",
+        action = "Index",
+        name = "jQuery"
+    });
+    var jq = new Dictionary<string, string>();
+    jq.Add("type", "js"); jq.Add("url", jQuerySrc);
+    staticFiles.Add(jq);
+    var scripts = ServiceFactory.ScriptManager.GetFiles(Site.Current, string.Empty);
+    foreach (var js in scripts)
+    {
+        var obj = new Dictionary<string, string>();
+        obj.Add("type", "js");
+        obj.Add("url", Html.ResolveUrl(js.VirtualPath));
+        staticFiles.Add(obj);
+    }*/
 }
 
 @*@Html.TextArea("Body", body, new { rows = 30, cols = 20 })*@
@@ -19,15 +49,7 @@
 </script>
 <script src="~/Areas/Sites/Scripts/talEditor/common.js"></script>
 <script src="~/Areas/Sites/Scripts/talEditor/layout-panel.js"></script>
-
 <div class="wrap with-topbar">
-    <div class="block loading">
-        <div class="layer"></div>
-        <div class="wrap">
-            <span>Loading</span>
-            <img src="/Images/loading.gif">
-        </div>
-    </div>
     <div class="block editor">
         <div class="tal-editor" id="div-editor-container">
             <div class="J_Tabs tabs-bottom tabs">
@@ -39,8 +61,8 @@
                     @Html.Raw(Html.TextAreaFor(o => o.Body, new { rows = 20, cols = 20 }))
                 </div>
                 <ul id="design-view-tags" class="tab-index bottom">
-                    <li class="active"><a type="preview" href="#tab_preview">Preview</a></li>
-                    <li><a type="source" href="#tab_sourceCode">Source code</a></li>
+                    <li class="active"><a type="preview" href="#tab_preview">@("Preview".Localize())</a></li>
+                    <li><a type="source" href="#tab_sourceCode">@("Source code".Localize())</a></li>
                 </ul>
             </div>
         </div>
@@ -107,12 +129,9 @@
 
 @Html.Partial("LayoutPanelBlocks.cshtml")
 
-
 <script>
+    __ctx__.siteStatics = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(staticFiles));
     $(function () {
-        _.delay(function () {
-            window.loading.show();
-        }, 200);
         var textArea = $('#Body');
         textArea.codeMirror();
         var codeMirrorAPI = textArea.data("codeMirror");
@@ -143,11 +162,8 @@
         });
 
         __iframe__.init("#iframe-preview", function () {
-            _.delay(function () {
-                window.loading.hide();
-            },200);
         });
-        
+
         //switch design mode
         __conf__.editorPosRight = $("#div-editor-container").css("right");
         $("#design-view-tags").on('click', 'a', function (e) {

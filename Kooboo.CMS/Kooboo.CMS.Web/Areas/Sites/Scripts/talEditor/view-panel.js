@@ -71,7 +71,7 @@ var PanelModel = function () {
             var testDs = {
                 'name': 'ds',
                 'fields': ['field1', 'field2', 'field3']
-            }
+            };
             __dataset__.add(testDs);
             self.dataItem.dataFields(__dataset__.allDataFields());
             self.dataSource.availableDataSources(__dataset__.allNames());
@@ -259,14 +259,14 @@ var PanelModel = function () {
             var val = $.trim($(event.target).val());
             if (!__re__.url.test(val)) {
                 self.linkTo.extLinkValue(val);
-                utils.messageFlash(__msgs__.url_invalid, false);
+                __utils__.messageFlash(__msgs__.url_invalid, false);
             }
             self.linkTo.extLinkValue(val);
         },
         bindLink: function () {
             if (self.linkTo.isVisible()) {
                 if (self.linkTo.chosenPage() == externalLink && !__re__.url.test(self.linkTo.extLinkValue())) {
-                    utils.messageFlash(__msgs__.url_invalid, false);
+                    __utils__.messageFlash(__msgs__.url_invalid, false);
                     return false;
                 }
                 var extLink = self.linkTo.extLinkValue();
@@ -358,7 +358,7 @@ var PanelModel = function () {
                 if (temp.is(__ctx__.editorWrapper)) {
                     break;
                 } else {
-                    var name = utils.getRandomId('code-path-');
+                    var name = __utils__.getRandomId('code-path-');
                     parents.push({ name: name, jqtag: temp });
                     __ctx__.codePathTags[name] = temp;
                     temp = temp.parent();
@@ -385,17 +385,50 @@ var PanelModel = function () {
     };
 
     self.image = {
+        boundStaticImg: ko.observable(""),
+        thumbnailSrc:  ko.observable(""),
         init:function(){
             var img = __parser__.analyseImage();
-            if(self.dataItem.dataType()==dataTypeEnum.staticImg){
-
+            if(img.type=='static'){
+                self.image.boundStaticImg(img.src);
+                self.image.thumbnailSrc(self.image.getThumbnailSrc(img.src));
             }else{
-                if (img) {
-                    self.dataItem.chooseThis(img);
+                self.image.boundStaticImg("");
+                self.image.thumbnailSrc("");
+            }
+            if(img.type=="dynamic"){
+                if (img.src) {
+                    self.dataItem.chooseThis(img.src);
                 } else {
                     self.dataItem.chooseFirst();
                 }
+            }else{
+                self.dataItem.chooseFirst();
             }
+        },
+        getThumbnailSrc:function(src){
+            return __conf__.resizeImageUri.replace("{url}", src);
+        },
+        showStaticImgs:function(data,event){
+            __ctx__.showStaticImgsHandler();
+        },
+        unbindStaticImg:function(data,event){
+            __binder__.unbindStaticImg();
+            self.image.boundStaticImg("");
+        },
+        saveTempStaticImg:function(src,text){
+            var data = { src: src, text: text};
+            $("#save-static-img-temp").data("img",data)[0].click();
+        },
+        _saveTempStaticImg:function(data,event){
+            var data = $(event.target).data("img");
+            self.image.boundStaticImg(data.src);
+            var tsrc = self.image.getThumbnailSrc(data.src);
+            self.image.thumbnailSrc(tsrc);
+        },
+        deleteTempStaticImg: function (data,event) {
+            self.image.boundStaticImg("");
+            self.image.thumbnailSrc("");
         }
     };
 
@@ -418,7 +451,7 @@ var PanelModel = function () {
         self.hasChildren(self._hasChildren());
         var islink = (tag[0].tagName.toLowerCase() === 'a');
         self.isLinkTag(islink);
-        self.dataItem.dataContent(utils.unescapeHTML(tag.html()));
+        self.dataItem.dataContent(__utils__.unescapeHTML(tag.html()));
         self.dataItem.dataContentOuter(tag[0].outerHTML);
         $("#label-textarea").autosize().trigger('autosize.resize');
         //data type
@@ -442,6 +475,10 @@ var PanelModel = function () {
         self.resetBoundTags();
     };
 
+    self.initBoundList = function () {
+        $("#span-clear-clicked").trigger('click');
+    }
+
     //edit events
     self.cancelEdit = function (data, event) {
         __ctx__.editorWrapper[0].click();
@@ -449,7 +486,7 @@ var PanelModel = function () {
 
     self.displayCallout = function (show,$tag) {
         $tag=$tag||self.tag();
-        var id = utils.getRandomId('callout-');
+        var id = __utils__.getRandomId('callout-');
         for (var _id in __ctx__.calloutTags) {
             var temp = __ctx__.calloutTags[_id];
             if (temp.is($tag)) {
@@ -481,7 +518,7 @@ var PanelModel = function () {
                 }
                 __binder__.unbindRepeater();
                 __binder__.setLabel(self.dataItem.dataContent());
-                utils.messageFlash(__msgs__.save_binding_success, true);
+                __utils__.messageFlash(__msgs__.save_binding_success, true);
                 var showCallout = true;
                 if (!self.dataItem.dataContent()) {
                     showCallout = false;
@@ -495,7 +532,7 @@ var PanelModel = function () {
                 }
                 __binder__.unbindRepeater();
                 __binder__.bindData(self.dataItem.chosenField());
-                utils.messageFlash(__msgs__.save_binding_success, true);
+                __utils__.messageFlash(__msgs__.save_binding_success, true);
                 var showCallout = true;
                 if (self.dataItem.chosenField() == __conf__.defaultOption.value &&
                     self.linkTo.chosenPage() == __conf__.defaultOption.name) {
@@ -507,7 +544,7 @@ var PanelModel = function () {
             case dataTypeEnum.repeater:
                 __binder__.unbindContent();
                 __binder__.bindRepeater(self.dataSource.chosenDataSource());
-                utils.messageFlash(__msgs__.save_binding_success, true);
+                __utils__.messageFlash(__msgs__.save_binding_success, true);
                 var showCallout = true;
                 if (self.dataSource.chosenDataSource() == __conf__.defaultOption.name) {
                     showCallout = false;
@@ -516,10 +553,18 @@ var PanelModel = function () {
                 __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.staticImg:
+                __binder__.bindStaticImg(self.image.boundStaticImg());
+                __utils__.messageFlash(__msgs__.save_binding_success, true);
+                var showCallout = true;
+                if (self.image.boundStaticImg()=="") {
+                    showCallout = false;
+                }
+                self.displayCallout(showCallout);
+                __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.dynamicImg:
                 __binder__.bindDynamicImg(self.dataItem.chosenField());
-                utils.messageFlash(__msgs__.save_binding_success, true);
+                __utils__.messageFlash(__msgs__.save_binding_success, true);
                 var showCallout = true;
                 if (self.dataItem.chosenField() == __conf__.defaultOption.value) {
                     showCallout = false;

@@ -43,7 +43,9 @@ var PanelModel = function () {
     self.codeDom = {
         itemClick: function (data, event) {
             var tag = data.tag || data.jqtag || data[0];
-            tag.click();
+            if (!self.clickedTag().is(tag)) {
+                tag.click();
+            }
         },
         itemHover: function (data, event) {
             var tag = data.jqtag || data.clickedTag();
@@ -120,7 +122,7 @@ var PanelModel = function () {
                 if (temp.is(__ctx__.iframeObj.$("body"))) {
                     break;
                 } else {
-                    var name = utils.getRandomId('code-path-');
+                    var name = __utils__.getRandomId('code-path-');
                     parents.push({ name: name, jqtag: temp });
                     __ctx__.codePathTags[name] = temp;
                     temp = temp.parent();
@@ -174,8 +176,17 @@ var PanelModel = function () {
     };
 
     self.mainProcess = function (data, event) {
-        self.hasClickedTag(true);
         var tag = __ctx__.clickedTag;
+        /*var koobooId = "#kooboo-stuff-container";
+        if (tag.parent(koobooId).length > 0) {
+            return;
+        } else {
+            if (tag.parent()) {
+                if (tag.parent().parent(koobooId).length > 0);
+                return;
+            }
+        }*/
+        self.hasClickedTag(true);
         __ctx__.codeDomTags = { 'code-node-top': tag };
         self.clickedTag(tag);
         var dataType = __parser__.analyseDataType(tag);
@@ -183,7 +194,6 @@ var PanelModel = function () {
         self.dataItem.dataType(dataType);
         self.dataItem.setDataType(dataType, true);
         self.resetBoundTags();
-
     };
 
     self.clearProcess = function (data, event) {
@@ -194,6 +204,10 @@ var PanelModel = function () {
         self.resetBoundTags();
     };
 
+    self.initBoundList = function () {
+        $("#span-clear-clicked").trigger('click');
+    }
+
     //edit events
     self.cancelEdit = function (data, event) {
         __ctx__.iframeObj.document.documentElement.click();
@@ -201,7 +215,7 @@ var PanelModel = function () {
 
     self.displayCallout = function (show, $tag) {
         $tag = $tag || self.tag();
-        var id = utils.getRandomId('callout-');
+        var id = __utils__.getRandomId('callout-');
         for (var _id in __ctx__.calloutTags) {
             var temp = __ctx__.calloutTags[_id];
             if (temp.is($tag)) {
@@ -230,9 +244,9 @@ var PanelModel = function () {
             case dataTypeEnum.position:
                 var pos = $.trim($("#txt-postion-name").val());
                 if (!pos) {
-                    utils.messageFlash(__msgs__.not_empty, false);
+                    __utils__.messageFlash(__msgs__.not_empty, false);
                 } else if (_.hasItem(self.position.existedPositions(), pos)) {
-                    utils.messageFlash(__msgs__.position_existed, false);
+                    __utils__.messageFlash(__msgs__.position_existed, false);
                 } else {
                     __binder__.setPosition(pos);
                     self.position.existedPositions.push(pos);
@@ -273,6 +287,11 @@ var __iframe__ = {
             __ctx__.iframeObj = $(selector)[0].contentWindow;
         }
         $(selector).load(function () {
+            var defs = __utils__.getCookie("docdef");
+            if(defs){
+                __iframe__.defs=defs+"\n";
+                __utils__.delCookie("docdef");
+            }
             __iframe__.loaded(this, hideLoadHandler);
         });
     },
@@ -295,7 +314,8 @@ var __iframe__ = {
         var div = win.document.createElement('div');
         div.setAttribute('id', 'kooboo-stuff-container');
         body.appendChild(div);
-        _.each(__conf__.statics, function (s) {
+        var statics = _.union(__ctx__.siteStatics, __conf__.statics);
+        _.each(statics, function (s) {
             if (s.type == 'css') {
                 var css = win.document.createElement("link");
                 css.setAttribute('type', 'text/css');
@@ -317,19 +337,25 @@ var __iframe__ = {
         var stuff = koobooDiv[0].outerHTML;
         return stuff;
     },
+    defs: "",
+    getDef: function (code) {
+        //doctype and defs
+        var edges = code.search(/<html/i);
+        if (edges != -1) {
+            __iframe__.defs = code.substring(0, edges-1)+"\n";
+        }
+    },
     getHtml: function () {
         var html = "";
-        //var doctypeName = __ctx__.iframeObj.document.doctype.name;
-        //if (doctypeName) {
-        //    html+="<!DOCTYPE " + doctypeName + ">";
-        //}
         html += __ctx__.iframeObj.document.documentElement.outerHTML;
         var stuff = __iframe__.getKoobooStuff();
-        return html.replace(stuff, "");
+        html = __iframe__.defs + html.replace(stuff, "");
+        return html;
     },
     setHtml: function (html) {
+        __iframe__.getDef(html);
         var stuff = __iframe__.getKoobooStuff();
-        var re = new RegExp("(<html>|<HTML>|</html>|</HTML>)", 'g');
+        var re=/(<!DOCTYPE[^>]*>)|(<[\s]*html[^>]*>)|(<[\s]*\/[\s]*html[\s]*>)/gi;
         html = html.replace(re, "");
         var doc = __ctx__.iframeObj.document;
         doc.documentElement.innerHTML = html;

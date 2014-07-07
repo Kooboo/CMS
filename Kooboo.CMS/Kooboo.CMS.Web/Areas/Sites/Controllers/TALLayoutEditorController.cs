@@ -65,7 +65,6 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         protected override void OnResultExecuted(ResultExecutedContext filterContext)
         {
             base.OnResultExecuted(filterContext);
-
             ClearTemp();
         }
 

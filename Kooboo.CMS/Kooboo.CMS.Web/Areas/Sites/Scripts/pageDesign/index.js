@@ -480,6 +480,10 @@
                 return settings;
             },
 
+            designerLoaded: function () {
+                return holders.length > 0;
+            },
+
             getSettingsJson: function () {
                 // check, prevent prototype.js pollute the native object.
                 var list = [], undef;

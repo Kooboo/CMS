@@ -59,7 +59,8 @@ var __conf__ = {
     statics: [
         { type: 'css', url: "/Areas/Sites/Scripts/talEditor/kooboo-editor.css" },
         {type:'js',url:"/Areas/Sites/Scripts/talEditor/import-lib.js"}
-    ]//for layout editor
+    ],
+    resizeImageUri:"/SampleSite/Kooboo-Resource/ResizeImage?url={url}&width=0&height=120&preserverAspectRatio=True&quality=80"
 };
 //end conf
 
@@ -75,7 +76,9 @@ var __ctx__ = {
     codeDomTags: {},
     codePathTags: {},
     calloutTags: {},
-    loader:null
+    showStaticImgsHandler: function () { },
+    siteStatics: [],
+    siteEnablejQuery:true
 };
 
 
@@ -86,7 +89,7 @@ var __re__ = {
 
 
 //utils
-var utils = {
+var __utils__ = {
     getRandomId: function (prefix) {
         var ran = String(Math.random()).replace('0.', '');
         var id = prefix + ran;
@@ -123,6 +126,24 @@ var utils = {
             replace(/</g, '&lt;').
             replace(/"/g, '&quot;');
         return str;
+    },
+    getCookie:function(name){
+        var re = new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        var arr = document.cookie.match(re);
+        if(arr != null){
+            return unescape(arr[2]);
+        }else{
+            return null;
+        }
+    },
+    delCookie:function(name){
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var val=__utils__.getCookie(name);
+        if(val!=null){
+            var str = name + "="+escape(val)+";expires="+exp.toGMTString();
+            document.cookie= str;
+        }
     }
 };
 
@@ -183,7 +204,7 @@ var utils = {
         }
         var prefix = 'code-node-';
         _.each(this.find(selector), function (child) {
-            var data = { id: utils.getRandomId(prefix), jqtag: $(child), tag: child };
+            var data = { id: __utils__.getRandomId(prefix), jqtag: $(child), tag: child };
             __ctx__.codeDomTags[data.id] = data.jqtag;
             children.push(data);
         });
@@ -288,6 +309,13 @@ LangParser.prototype = {
             }
         }
         return is;
+    },
+    unquot:function(str){
+        if($.trim(str)){
+            return str.substring(1,str.length-1);
+        }else{
+            return str;
+        }
     }
 
     //data field
@@ -314,14 +342,7 @@ SharpParser.prototype = {
         return pageUrl;
     },
     analyseLink: function (href) {
-        var pageName = '';
-        if (href.indexOf("'") != -1) {
-            pageName = href.split("'")[1];
-        } else if (href.indexOf('"')) {
-            pageName = href.split('"')[1];
-        } else {
-            console.log("what the hell?");
-        }
+        var pageName = href.split('"')[1];
         var start = href.indexOf("{") + 1;
         var end = href.indexOf("}");
         var keyValues = href.substring(start, end).split(',');
@@ -360,7 +381,6 @@ PyParser.prototype = {
         return pageUrl;
     },
     analyseLink: function (href) {
-        var re = new RegExp("('|\")", 'g');
         var pageName = '';
         if (href.indexOf("'") != -1) {
             pageName = href.split("'")[1];
@@ -371,6 +391,7 @@ PyParser.prototype = {
         }
         var keyValues = href.split(',').slice(1);
         var params = [];
+        var re = new RegExp("('|\")", 'g');
         _.each(keyValues, function (item) {
             var s = item.split('=');
             var _name = s[0].replace(re, '');
@@ -390,9 +411,9 @@ PyParser.prototype = {
 
 };
 if (__conf__.lang.for == langEnum.csharp) {
-    utils.mixin(LangParser, [SharpParser]);
+    __utils__.mixin(LangParser, [SharpParser]);
 } else {
-    utils.mixin(LangParser, [PyParser]);
+    __utils__.mixin(LangParser, [PyParser]);
 }
 var __lang__ = new LangParser();
 
@@ -421,12 +442,7 @@ var TalParser = function () {
             } else if (self.isPosition($tag)) {
                 type = dataTypeEnum.position;
             } else if($tag[0].tagName.toLowerCase()=='img'){
-                var srcAttr=$tag.attr(__conf__.tal.attrs);
-                if(__lang__.isStaticImg(srcAttr)){
-                    type=dataTypeEnum.staticImg;
-                }else{
-                    type=dataTypeEnum.dynamicImg;
-                }
+                type=dataTypeEnum.dynamicImg;
             } else{
                 type = dataTypeEnum.data;
             }
@@ -435,9 +451,13 @@ var TalParser = function () {
         if (attr) {
             type = dataTypeEnum.repeater;
         }
-        if ($tag[0].tagName.toLowerCase() == 'img') {
-            //static
-            //dynamic
+        attr = $tag.attr(__conf__.tal.attrs);
+        if(attr){
+            if($tag[0].tagName.toLowerCase() == 'img'){
+                if(__lang__.isStaticImg(attr)){
+                    type=dataTypeEnum.staticImg;
+                }
+            }
         }
         return type;
     };
@@ -567,12 +587,13 @@ var TalParser = function () {
                 }
             });
             if (src) {
-                return src.split(' ')[1];
+                realsrc = __lang__.unquot(src.split(' ')[1]);
+                return {type:'static',src:realsrc};
             } else {
-                return '';
+                return {type:'nothing',src:''};
             }
         }else{
-            return self.analyseDataField($tag);
+            return {type:'dynamic',src:self.analyseDataField($tag)};
         }
     };
 }
@@ -621,7 +642,7 @@ var TalBinder = function () {
         }
         $tag = $tag || self.tag();
         text = text || $tag.html();
-        $tag.html(utils.escapeHTML(text));
+        $tag.html(__utils__.escapeHTML(text));
         var expr = __parser__.wrapLabel(text);
         $tag.attr(__conf__.tal.content, expr);
         return expr;
@@ -651,41 +672,14 @@ var TalBinder = function () {
                     url =__lang__.quot(url);
                 }
             }
-            //todo:self.bindAttr("src",value,self.unbindStaticImg,$tag);
-            var href = "href " + url;
-            var attrs = $tag.attr(__conf__.tal.attrs);
-            if (attrs) {
-                var newattr = self.unbindLink($tag);
-                attrs = newattr ? (newattr + ";") : '';
-            } else {
-                attrs = '';
-            }
-            $tag.attr(__conf__.tal.attrs, attrs + href);
+            self.bindAttr("href",url,self.unbindLink,$tag);
         } else {
             self.unbindLink();
         }
     };
     self.unbindLink = function ($tag) {
-        //todo:self.unbindAttr('src',$tag);
-        $tag = $tag || self.tag();
-        var attrstr = $.trim($tag.attr(__conf__.tal.attrs));
-        if (attrstr) {
-            var attrs = attrstr.split(';');
-            var temp = [];
-            _.each(attrs, function (attr) {
-                if (!$.trim(attr).startsWith('href')) {
-                    temp.push(attr);
-                }
-            })
-            var newattr = temp.join(';');
-            $tag.attr(__conf__.tal.attrs, newattr);
-            if (!$.trim($tag.attr(__conf__.tal.attrs))) {
-                $tag.removeAttr(__conf__.tal.attrs);
-            }
-            return newattr;
-        } else {
-            return '';
-        }
+        $tag=$tag||self.tag();
+        self.unbindAttr("href",$tag);
     };
     self.unbindAll = function ($tag) {
         $tag = $tag || self.tag();
@@ -709,6 +703,7 @@ var TalBinder = function () {
         $tag=$tag||self.tag();
         if (self.notEmptyDataField(value)) {
             $tag.attr(self.contentAttr, value);
+            self.unbindStaticImg($tag);
         } else {
             self.unbindContent($tag);
         }
@@ -718,20 +713,29 @@ var TalBinder = function () {
         self.unbindContent($tag);
     }
     self.bindStaticImg=function(value,$tag){
+        $tag=$tag||self.tag();
+        self.unbindDynamicImg($tag);
+        value=__lang__.quot(value);
         self.bindAttr("src",value,self.unbindStaticImg,$tag);
     };
     self.bindAttr=function(attrName,attrValue,unbindHandler,$tag){
-        var attr = attrName+" " + attrValue;
         var attrs = $tag.attr(__conf__.tal.attrs);
         if (attrs) {
-            var newattr = unbindHandler(attrName,$tag);
+            var newattr = unbindHandler($tag);
             attrs = newattr ? (newattr + ";") : '';
         } else {
             attrs = '';
         }
-        $tag.attr(__conf__.tal.attrs, attrs + attr);
+        if(attrValue){
+            var attr = attrName+" " + attrValue
+            attrs = attrs+attr;
+        }
+        if(attrs) {
+            $tag.attr(__conf__.tal.attrs, attrs);
+        }
     };
     self.unbindStaticImg=function($tag){
+        $tag=$tag||self.tag();
         self.unbindAttr('src',$tag);
     };
     self.unbindAttr=function(attrName,$tag){

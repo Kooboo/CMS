@@ -1,4 +1,4 @@
-﻿//version:0.2
+﻿//version:0.3
 
 var langEnum = {
     csharp: 'csharp',
@@ -60,7 +60,7 @@ var __conf__ = {
         { type: 'css', url: "/Areas/Sites/Scripts/talEditor/kooboo-editor.css" },
         {type:'js',url:"/Areas/Sites/Scripts/talEditor/import-lib.js"}
     ],
-    resizeImageUri:"/SampleSite/Kooboo-Resource/ResizeImage?url={url}&width=0&height=120&preserverAspectRatio=True&quality=80"
+    resizeImageUri: ""
 };
 //end conf
 
@@ -78,7 +78,7 @@ var __ctx__ = {
     calloutTags: {},
     showStaticImgsHandler: function () { },
     siteStatics: [],
-    siteEnablejQuery:true
+    siteEnablejQuery: true
 };
 
 
@@ -367,7 +367,7 @@ var PyParser = function () {
 };
 PyParser.prototype = {
     generateLabelExpr: function () {
-        return __conf__.labelMethodName + "('" + labelText + "')";
+        return  __conf__.tal.structure+__conf__.labelMethodName + "('" + labelText + "')";
     },
     generatePageLink: function (page, params) {
         var paramString = [];

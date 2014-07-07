@@ -1,5 +1,5 @@
 (function () {
-    function main() {
+    var main=function() {
         if (typeof (jQuery) == 'function') {
             window.parent.loading.hide();
             //editor
@@ -300,10 +300,10 @@
             })(window.parent, window.parent.__ctx__, window.parent.__conf__);
         } else {
             //waiting for jQuery object to init.
-            setTimeout(main, 200);
+            setTimeout(main, 500);
         }
     }
-    setTimeout(main, 200);
+    setTimeout(main, 500);
 })();
 
 

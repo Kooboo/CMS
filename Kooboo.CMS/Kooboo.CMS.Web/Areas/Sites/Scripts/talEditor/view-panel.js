@@ -1,4 +1,3 @@
-//version:0.2
 
 __ctx__.clickedTag = __ctx__.editorWrapper;
 __pages__ = typeof(__pages__)=='undefined'?[]:__pages__;

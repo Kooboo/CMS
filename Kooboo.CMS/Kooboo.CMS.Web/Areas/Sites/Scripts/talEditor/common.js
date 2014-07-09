@@ -366,8 +366,8 @@ SharpParser.prototype = {
 var PyParser = function () {
 };
 PyParser.prototype = {
-    generateLabelExpr: function () {
-        return  __conf__.tal.structure+__conf__.labelMethodName + "('" + labelText + "')";
+    generateLabelExpr: function (text) {
+        return __conf__.tal.structure + __conf__.labelMethodName + "('" + text + "')";
     },
     generatePageLink: function (page, params) {
         var paramString = [];

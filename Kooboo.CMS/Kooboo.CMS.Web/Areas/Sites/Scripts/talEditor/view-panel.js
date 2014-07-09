@@ -280,7 +280,9 @@ var PanelModel = function () {
             //$("div.code-viewer").find("span.active").removeClass('active');
             //$(event.target).addClass('active');
             var tag = data.tag || data.jqtag || data[0];
-            tag.click();
+            if (!self.clickedTag().is(tag)) {
+                tag.click();
+            }
         },
         itemHover: function (data, event) {
             var tag = data.jqtag || data.clickedTag();

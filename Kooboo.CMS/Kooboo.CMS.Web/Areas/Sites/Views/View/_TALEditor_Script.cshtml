@@ -63,6 +63,7 @@
     };
 
     var __urls__ = {};
+   
 
 </script>
 <script src="~/Areas/Sites/Scripts/talEditor/common.js"></script>
@@ -152,5 +153,7 @@
                 }
             });
         };
+        var siteName ='@ViewContext.RequestContext.GetRequestValue("SiteName")';
+        __conf__.resizeImageUri="/{SiteName}/Kooboo-Resource/ResizeImage?url={url}&width=0&height=120&preserverAspectRatio=True&quality=80".replace("{SiteName}",siteName);
     });
 </script>

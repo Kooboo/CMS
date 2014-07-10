@@ -1,5 +1,5 @@
 (function () {
-    function main() {
+    var main=function() {
         if (typeof (jQuery) == 'function') {
             window.parent.loading.hide();
             //editor
@@ -42,13 +42,16 @@
                     $.fn.KoobooMask = function () {
                         return this.each(function () {
                             var target = $(this);
-                            var wrap = $('<div class="kooboo-mask">');
-                            wrap.append('<div class="left"></div>');
-                            wrap.append('<div class="right"></div>');
-                            wrap.append('<div class="top"></div>');
-                            wrap.append('<div class="bottom"></div>');
-                            wrap.appendTo($("#kooboo-stuff-container"));
-                            Mask(target);
+                            var koobooDiv=$("#kooboo-stuff-container");
+                            if (koobooDiv.find("div.kooboo-mask").length == 0) {
+                                var wrap = $('<div class="kooboo-mask">');
+                                wrap.append('<div class="left"></div>');
+                                wrap.append('<div class="right"></div>');
+                                wrap.append('<div class="top"></div>');
+                                wrap.append('<div class="bottom"></div>');
+                                wrap.appendTo(koobooDiv);
+                                Mask(target);
+                            }
                             $(window).resize(function () {
                                 Mask(target);
                             });
@@ -300,10 +303,10 @@
             })(window.parent, window.parent.__ctx__, window.parent.__conf__);
         } else {
             //waiting for jQuery object to init.
-            setTimeout(main, 200);
+            setTimeout(main, 500);
         }
     }
-    setTimeout(main, 200);
+    setTimeout(main, 500);
 })();
 
 

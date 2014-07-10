@@ -1,4 +1,3 @@
-//version:0.2
 
 __ctx__.clickedTag = __ctx__.editorWrapper;
 __pages__ = typeof(__pages__)=='undefined'?[]:__pages__;
@@ -281,7 +280,9 @@ var PanelModel = function () {
             //$("div.code-viewer").find("span.active").removeClass('active');
             //$(event.target).addClass('active');
             var tag = data.tag || data.jqtag || data[0];
-            tag.click();
+            if (!self.clickedTag().is(tag)) {
+                tag.click();
+            }
         },
         itemHover: function (data, event) {
             var tag = data.jqtag || data.clickedTag();

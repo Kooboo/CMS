@@ -33,7 +33,7 @@
         </ul>
     </div>
     <div class="item convert" data-bind="visible:isImgTag()">
-        <p>Please select an image type:</p>
+        <p>@("Please select an image type".Localize()):</p>
         <ul class="form-list vertical">
             <li>
                 <input name="ConvertedType" id="data-type-staticimg" flag="data-type" value="StaticImg" type="radio">
@@ -114,7 +114,7 @@
     <div class="item link-editor" data-bind="visible:linkTo.isVisible()">
         <div class="form-row">
             <div class="span4">
-                <label>Link to:</label>
+                <label>@("Link to".Localize()):</label>
             </div>
             <div class="span8">
                 <select class="J_LinkType"

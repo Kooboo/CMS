@@ -204,7 +204,7 @@ namespace Kooboo
 
         public void Dispose()
         {
-            if (this.RegisteredObjects == null)
+            if (this.RegisteredObjects != null)
             {
                 foreach (var o in this.RegisteredObjects.Values)
                 {

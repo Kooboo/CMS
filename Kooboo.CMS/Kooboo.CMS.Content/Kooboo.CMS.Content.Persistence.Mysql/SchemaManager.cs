@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Kooboo.Common.Data;
 namespace Kooboo.CMS.Content.Persistence.Mysql
 {
     public class SchemaManager

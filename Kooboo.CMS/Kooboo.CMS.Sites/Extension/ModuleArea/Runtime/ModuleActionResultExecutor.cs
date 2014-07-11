@@ -11,11 +11,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using Kooboo.Web;
+
 using System.Web;
 using System.IO;
 using System.Web.Routing;
 using Kooboo.CMS.Sites.Web;
+using Kooboo.Common.Web;
+using Kooboo.Common;
 namespace Kooboo.CMS.Sites.Extension.ModuleArea.Runtime
 {
     public static class ModuleActionResultExecutor

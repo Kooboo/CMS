@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Membership.Models;
 using System;
 using System.Collections.Generic;

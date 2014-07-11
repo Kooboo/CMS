@@ -10,7 +10,7 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Versioning;
-using Kooboo.IO;
+using Kooboo.Common.IO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -70,7 +70,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 if (File.Exists(versionDataFile))
                 {
                     var provider = GetTemplateProvider();
-                    template = (T)Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize(typeof(T), KnownTypes, versionDataFile);
+                    template = (T)Kooboo.Common.Misc.DataContractSerializationHelper.Deserialize(typeof(T), KnownTypes, versionDataFile);
                     template.Body = IOUtility.ReadAsString(versionTemplateFile);
                     template.Init(o);
                 }
@@ -134,7 +134,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
             if (o!=null)
             {
-                o.Body = Kooboo.IO.IOUtility.ReadAsString(GetTemplateFilePath(dummy));
+                o.Body = Kooboo.Common.IO.IOUtility.ReadAsString(GetTemplateFilePath(dummy));
             }            
 
             return o;
@@ -142,7 +142,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         private void SaveTemplate(T item)
         {
-            Kooboo.IO.IOUtility.SaveStringToFile(GetTemplateFilePath(item), item.Body);
+            Kooboo.Common.IO.IOUtility.SaveStringToFile(GetTemplateFilePath(item), item.Body);
         }
 
         public override void Add(T item)

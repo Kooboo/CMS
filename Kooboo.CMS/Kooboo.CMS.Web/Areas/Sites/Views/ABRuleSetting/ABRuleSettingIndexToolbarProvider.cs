@@ -1,4 +1,4 @@
-﻿using Kooboo.Globalization;
+﻿using Kooboo.Common.Globalization;
 using Kooboo.CMS.Sites.Extension.UI;
 using Kooboo.CMS.Sites.Extension.UI.TopToolbar;
 
@@ -9,7 +9,7 @@ using System.Web;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Views.Page
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IToolbarProvider), Key = "ABRuleSettingIndexToolbarProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IToolbarProvider), Key = "ABRuleSettingIndexToolbarProvider")]
     public class ABRuleSettingIndexToolbarProvider : IToolbarProvider
     {
         public CMS.Sites.Extension.UI.MvcRoute[] ApplyTo

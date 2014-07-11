@@ -9,10 +9,11 @@
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Form;
 using Kooboo.CMS.Web.Models;
-using Kooboo.ComponentModel;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Grid;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Misc;
+using Kooboo.Common.Web.Metadata;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,7 +38,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
         public string Label { get; set; }
 
         [UIHint("DropDownList")]
-        [EnumDataType(typeof(Kooboo.CMS.Common.DataType))]
+        [EnumDataType(typeof(Kooboo.Common.Data.DataType))]
         [Required(ErrorMessage = "Required")]
         [DisplayName("Data type")]
         public DataType DataType { get; set; }

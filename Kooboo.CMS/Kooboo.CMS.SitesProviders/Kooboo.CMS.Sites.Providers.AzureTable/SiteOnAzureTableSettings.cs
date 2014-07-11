@@ -12,7 +12,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
-using Kooboo.Runtime.Serialization;
+using Kooboo.Common.Misc;
+using Kooboo.Common;
+
 namespace Kooboo.CMS.Sites.Providers.AzureTable
 { 
     [DataContract]
@@ -45,7 +47,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable
         }
         private static string GetSettingFile()
         {
-            return Path.Combine(Kooboo.Settings.BinDirectory, "AzureTableSettings.config");
+            return Path.Combine(Settings.BinDirectory, "AzureTableSettings.config");
         }
         public static SiteOnAzureTableSettings Instance
         {

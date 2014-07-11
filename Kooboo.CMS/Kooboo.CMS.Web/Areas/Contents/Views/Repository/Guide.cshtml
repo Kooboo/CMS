@@ -1,6 +1,6 @@
 ﻿@model object
 
-@using Kooboo.Web.Script.Serialization
+@using Newtonsoft.Json;
 @{
     ViewBag.Title = "Start".Localize();
     Layout = "~/Views/Shared/Site.cshtml";
@@ -75,7 +75,7 @@
     </div>
 </div>
 <script>
-    //kooboo.cms.content.home.init(@Html.Raw(Model.ToJSON()));
+    //kooboo.cms.content.home.init(@Html.Raw(JsonConvert.SerializeObject(Model));
 
     $(function () {
         var model = @Html.Raw(Model.ToJSON());

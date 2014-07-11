@@ -13,11 +13,11 @@ using System.Text;
 
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Persistence;
-using Kooboo.Extensions;
+
 
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(CustomErrorManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(CustomErrorManager))]
     public class CustomErrorManager : ManagerBase<CustomError, ICustomErrorProvider>
     {
         #region .ctor

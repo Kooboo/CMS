@@ -27,7 +27,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models
         {
             get
             {
-                return Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ITextContentFormater>(this.Formatter.ToLower());
+                return Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<ITextContentFormater>(this.Formatter.ToLower());
             }
         }
     }

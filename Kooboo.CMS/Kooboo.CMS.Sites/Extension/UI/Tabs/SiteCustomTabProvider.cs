@@ -6,10 +6,10 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
-using Kooboo.Web.Mvc;
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 using System;
@@ -18,10 +18,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Routing;
+using Kooboo.Common;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Extension.UI.Tabs
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITabProvider), Key = "SiteCustomTabProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ITabProvider), Key = "SiteCustomTabProvider")]
     public class SiteCustomTabProvider : ITabProvider
     {
         public MvcRoute[] ApplyTo
@@ -46,7 +48,7 @@ namespace Kooboo.CMS.Sites.Extension.UI.Tabs
         #region SystemTabs
         public static IEnumerable<TabInfo> SystemTabs()
         {
-            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+            var baseDir = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IBaseDir>();
             string tabPath = Path.Combine(baseDir.Cms_DataPhysicalPath, SiteTabsDir);
             return GetTabs(tabPath);
 
@@ -83,7 +85,7 @@ namespace Kooboo.CMS.Sites.Extension.UI.Tabs
             foreach (var moduleName in modules)
             {
 
-                string tabPath = Path.Combine(Kooboo.Settings.BaseDirectory, "Areas", moduleName, SiteTabsDir);
+                string tabPath = Path.Combine(Settings.BaseDirectory, "Areas", moduleName, SiteTabsDir);
 
                 tabs = GetTabs(tabPath).Concat(tabs);
 
@@ -104,7 +106,7 @@ namespace Kooboo.CMS.Sites.Extension.UI.Tabs
                     var name = Path.GetFileNameWithoutExtension(file);
                     tabInfo.Name = name;
                     tabInfo.DisplayText = name;
-                    tabInfo.VirtualPath = file.Replace(Kooboo.Settings.BaseDirectory, "~/");
+                    tabInfo.VirtualPath = file.Replace(Settings.BaseDirectory, "~/");
                     yield return tabInfo;
                 }
             }

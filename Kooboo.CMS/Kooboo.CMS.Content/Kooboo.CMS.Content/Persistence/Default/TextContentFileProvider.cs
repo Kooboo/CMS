@@ -10,14 +10,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.CMS.Content.Models;
 using System.IO;
+
 using Kooboo.CMS.Content.Models.Paths;
-using Kooboo.Web.Url;
-using Kooboo.IO;
+using Kooboo.CMS.Content.Models;
+using Kooboo.Common.Web;
+using Kooboo.Common.IO;
 namespace Kooboo.CMS.Content.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentFileProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ITextContentFileProvider))]
     public class TextContentFileProvider : ITextContentFileProvider
     {
         #region Save
@@ -30,7 +31,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
             file.Stream.SaveAs(filePath, true);
 
             return UrlUtility.Combine(contentPath.VirtualPath, fileName);
-        } 
+        }
         #endregion
 
         #region DeleteFiles
@@ -46,9 +47,9 @@ namespace Kooboo.CMS.Content.Persistence.Default
             }
             catch (Exception e)
             {
-                Kooboo.HealthMonitoring.Log.LogException(e);
+                Kooboo.Common.Logging.Logger.Error(e.Message, e);
             }
-        } 
+        }
         #endregion
     }
 }

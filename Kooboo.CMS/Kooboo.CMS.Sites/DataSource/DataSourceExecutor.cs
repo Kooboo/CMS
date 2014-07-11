@@ -16,8 +16,8 @@ using System.Text;
 using System.Web.Mvc;
 using System.Dynamic;
 using Kooboo.CMS.Sites.DataSource.Misc;
-using Kooboo.CMS.Common.Formula;
 using System.Collections;
+using Kooboo.Common.TokenTemplate;
 
 namespace Kooboo.CMS.Sites.DataSource
 {
@@ -61,7 +61,7 @@ namespace Kooboo.CMS.Sites.DataSource
 
         private static object PopulateRelations(object data, DataSourceSetting dataSourceSetting, DataSourceContext dataSourceContext)
         {
-            DynamicObject dynamicObject = new Kooboo.Dynamic.ExpandoObjectWrapper(data);
+            DynamicObject dynamicObject = new Kooboo.Common.Dynamic.ExpandoObjectWrapper(data);
             foreach (var relation in dataSourceSetting.Relations)
             {
                 var relatedDataSource = new DataSourceSetting(dataSourceSetting.Site, relation.TargetDataSourceName).LastVersion().AsActual();
@@ -93,11 +93,11 @@ namespace Kooboo.CMS.Sites.DataSource
             Dictionary<string, object> parameterValues = new Dictionary<string, object>();
             if (parameters != null)
             {
-                FormulaParser parser = new FormulaParser();
-                var valueProvider = new MvcValueProvider(new DynamicObjectValueProvider(new Kooboo.Dynamic.ReflectionDynamicObject(data)));
+                ITemplateParser templateParser = new TemplateParser();
+                var valueProvider = new MvcValueProvider(new DynamicObjectValueProvider(new Kooboo.Common.Dynamic.ReflectionDynamicObject(data)));
                 foreach (var item in parameters)
                 {
-                    parameterValues[item.Key] = parser.Populate(item.Value, valueProvider);
+                    parameterValues[item.Key] = templateParser.Merge(item.Value, valueProvider);
                 }
             }
             return parameterValues;

@@ -1,11 +1,14 @@
-﻿using System;
+﻿extern alias EntityFramework;
+using EntityFramework::System.Data.Entity.ModelConfiguration;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider.Mapping
 {
-    public class ABPageTestResultMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<ABPageTestResultEntity>
+    public class ABPageTestResultMapping : EntityTypeConfiguration<ABPageTestResultEntity>
     {
         public ABPageTestResultMapping()
         {

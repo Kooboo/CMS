@@ -6,11 +6,12 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Web.Mvc.Paging;
+
 
 namespace Kooboo.CMS.Search
 {
@@ -24,6 +25,6 @@ namespace Kooboo.CMS.Search
         void BatchDelete<T>(IEnumerable<T> list);
         void BatchDelete(string folderName);
 
-        PagedList<Models.ResultObject> Search(string key, int pageIndex, int pageSize, params string[] folders);
+        IPagedList<Models.ResultObject> Search(string key, int pageIndex, int pageSize, params string[] folders);
     }
 }

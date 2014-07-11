@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
@@ -17,10 +17,10 @@ using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Sites.Versioning;
 using Kooboo.CMS.Web.Areas.Sites.Models;
 using Kooboo.CMS.Web.Models;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.Web;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Paging;
+
+using Kooboo.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +28,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using ContentService = Kooboo.CMS.Content.Services;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "Development", Name = "View", Order = 1)]

@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Membership.OAuthClients
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IAuthClient), Key = "twitter")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IAuthClient), Key = "twitter")]
     public class TwitterClient : OpenAuthClient, IAuthClient
     {
         public override DotNetOpenAuth.AspNet.IAuthenticationClient GetOpenAuthClient()

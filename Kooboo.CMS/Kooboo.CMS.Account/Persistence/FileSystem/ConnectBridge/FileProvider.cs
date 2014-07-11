@@ -11,7 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Kooboo.Runtime.Serialization;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Misc;
+
 
 namespace Kooboo.Connect
 {
@@ -21,7 +23,7 @@ namespace Kooboo.Connect
 
         public FileProvider()
         {
-            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Common.IBaseDir>();
+            var baseDir =  EngineContext.Current.Resolve<Kooboo.CMS.Common.IBaseDir>();
             BaseDir = Path.Combine(baseDir.Cms_DataPhysicalPath, "Connect");
 
         }

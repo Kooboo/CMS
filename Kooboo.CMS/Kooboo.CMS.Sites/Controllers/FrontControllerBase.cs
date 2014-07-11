@@ -11,16 +11,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using System.Web;
+using System.Net;
+
+using Kooboo.CMS.Sites.View;
+using Kooboo.Common.Globalization;
+using Kooboo.CMS.Sites.View.PositionRender;
+using Kooboo.Common.Web;
 using Kooboo.CMS.Sites.Web;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Extension;
-using Kooboo.Web.Url;
-using System.Web;
-using System.Net;
-using Kooboo.CMS.Sites.View;
-using Kooboo.Web.Mvc;
-using Kooboo.Globalization;
-using Kooboo.CMS.Sites.View.PositionRender;
+
 
 namespace Kooboo.CMS.Sites.Controllers
 {
@@ -63,7 +64,7 @@ namespace Kooboo.CMS.Sites.Controllers
 
         protected override void OnException(ExceptionContext filterContext)
         {
-           
+
 
             HttpErrorStatusCode statusCode = HttpErrorStatusCode.InternalServerError_500;
             HttpException httpException = filterContext.Exception as HttpException;
@@ -74,7 +75,7 @@ namespace Kooboo.CMS.Sites.Controllers
             }
             if (statusCode == HttpErrorStatusCode.NotFound_404)
             {
-                ProxyRender proxyRender = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ProxyRender>();
+                ProxyRender proxyRender = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<ProxyRender>();
                 var actionResult = proxyRender.TryRemoteRequest(filterContext.Controller.ControllerContext);
                 if (actionResult != null)
                 {
@@ -82,7 +83,7 @@ namespace Kooboo.CMS.Sites.Controllers
                     filterContext.ExceptionHandled = true;
                 }
             }
-            if (filterContext.ExceptionHandled==false)
+            if (filterContext.ExceptionHandled == false)
             {
                 if (Site != null)
                 {
@@ -107,9 +108,9 @@ namespace Kooboo.CMS.Sites.Controllers
                         filterContext.ExceptionHandled = true;
                     }
                 }
-                Kooboo.HealthMonitoring.Log.LogException(filterContext.Exception);
+                Kooboo.Common.Logging.Logger.Error(filterContext.Exception.Message, filterContext.Exception);
             }
-            
+
             base.OnException(filterContext);
         }
         protected virtual ActionResult RedirectTo404()

@@ -10,17 +10,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Linq.Dynamic;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Content.Query.Expressions;
-using Kooboo.Linq;
+
 using System.Linq.Expressions;
-using Kooboo.Extensions;
+
 using System.Diagnostics;
 using Kooboo.CMS.Content.Query.Translator;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Content.Persistence.Default.ContentQuery;
 namespace Kooboo.CMS.Content.Persistence.Default
 {
@@ -38,8 +37,8 @@ namespace Kooboo.CMS.Content.Persistence.Default
     } 
     #endregion
 
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IContentProvider<TextContent>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ITextContentProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IContentProvider<TextContent>))]
     public class TextContentProvider : ITextContentProvider
     {
         #region ClearCategories/AddCategories/DeleteCategories

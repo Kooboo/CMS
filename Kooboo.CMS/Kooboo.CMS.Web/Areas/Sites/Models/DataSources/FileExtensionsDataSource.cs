@@ -8,14 +8,14 @@
 #endregion
 
 using Kooboo.CMS.Sites.Services;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource;
+using Kooboo.Common.Web.SelectList;
+using Kooboo.Common.Web.WebResourceLoader.DynamicClientResource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using System.Web.Routing;
 namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
 {
     public class FileExtensionsDataSource : ISelectListDataSource
@@ -26,7 +26,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
 
             var type = requestContext.GetRequestValue("type").ToLower();
 
-            var fileManager = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<FileManager>(type);
+            var fileManager = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<FileManager>(type);
             items.Add(new SelectListItem() { Text = "*.*", Value = "" });
             if (fileManager is ThemeManager)
             {
@@ -55,7 +55,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
 
         private static void AddDynamicClientResourceTypes(List<SelectListItem> items, ResourceType resourceType)
         {
-            var dynamicClientResource = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<IDynamicClientResource>();
+            var dynamicClientResource = Kooboo.Common.ObjectContainer.EngineContext.Current.ResolveAll<IDynamicClientResource>();
             if (resourceType != ResourceType.Unspecified)
             {
                 dynamicClientResource = dynamicClientResource.Where(it => it.ResourceType == resourceType);

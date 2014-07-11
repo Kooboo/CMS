@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -346,7 +347,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity.MvcViewEngine
             {
                 return new string[0];
             }
-            return files.Split('|').Select(it => Kooboo.Web.Url.UrlUtility.ResolveUrl(it)).ToArray();
+            return files.Split('|').Select(it => Kooboo.Common.Web.UrlUtility.ResolveUrl(it)).ToArray();
         }
     }
 }

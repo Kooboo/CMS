@@ -17,8 +17,8 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUrlKeyMapProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<UrlKeyMap>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IUrlKeyMapProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<UrlKeyMap>))]
     public class UrlKeyMapProvider : FileProviderBase<UrlKeyMap>, IUrlKeyMapProvider
     {
         #region lock

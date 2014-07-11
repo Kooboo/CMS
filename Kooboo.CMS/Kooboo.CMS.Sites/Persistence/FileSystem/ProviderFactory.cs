@@ -11,11 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProviderFactory))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProviderFactory))]
     public class ProviderFactory : IProviderFactory
     {
 

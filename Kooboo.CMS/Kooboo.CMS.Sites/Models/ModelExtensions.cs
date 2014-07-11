@@ -9,6 +9,7 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Membership.Models;
+using Kooboo.Common.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,7 +88,7 @@ namespace Kooboo.CMS.Sites.Models
                 {
                     HttpPostedFileBase file = files[key] as HttpPostedFileBase;
 
-                    message.Attachments.Add(new Attachment(file.InputStream, file.FileName, IO.IOUtility.MimeType(file.FileName)));
+                    message.Attachments.Add(new Attachment(file.InputStream, file.FileName, IOUtility.MimeType(file.FileName)));
                 }
             }
 

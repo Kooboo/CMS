@@ -16,7 +16,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.Controllers
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IActionInvoker))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IActionInvoker))]
     public class PageControllerActionInvoker : ControllerActionInvoker
     {
         protected override void InvokeActionResult(ControllerContext controllerContext, ActionResult actionResult)

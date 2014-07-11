@@ -12,12 +12,13 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Persistence;
-using Kooboo.Extensions;
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(UserManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(UserManager))]
     public class UserManager : ManagerBase<User, IUserProvider>
     {
         #region .ctor
@@ -77,7 +78,7 @@ namespace Kooboo.CMS.Sites.Services
         public virtual bool Authorize(Site site, string userName, Kooboo.CMS.Account.Models.Permission permission)
         {
             string contextKey = "Permission:" + permission.ToString();
-            var allow = CallContext.Current.GetObject<bool?>(contextKey);
+            var allow = ContextVariables.Current.GetObject<bool?>(contextKey);
             if (!allow.HasValue)
             {
                 allow = false;
@@ -90,8 +91,8 @@ namespace Kooboo.CMS.Sites.Services
                 {
                     var roles = GetRoles(site, userName);
                     allow = roles.Any(it => it.HasPermission(permission));
-                }                
-                CallContext.Current.RegisterObject(contextKey, allow);
+                }
+                ContextVariables.Current.SetObject(contextKey, allow);
             }
             return allow.Value;
         }

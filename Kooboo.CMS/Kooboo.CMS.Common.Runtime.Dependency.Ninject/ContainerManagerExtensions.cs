@@ -12,9 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.CMS.Common.Runtime.Dependency.Ninject.InRequestScope;
+using Kooboo.Common.ObjectContainer.Dependency.Ninject.InRequestScope;
 
-namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
+namespace Kooboo.Common.ObjectContainer.Dependency.Ninject
 {
     public static class ContainerManagerExtensions
     {

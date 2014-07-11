@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer;
 
 namespace Kooboo.CMS.Account.Services
 {

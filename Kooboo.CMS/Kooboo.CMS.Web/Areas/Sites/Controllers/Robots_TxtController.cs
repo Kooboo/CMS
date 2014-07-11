@@ -13,9 +13,10 @@ using System.Web;
 using System.Web.Mvc;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Web.Models;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Sites;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Robots.txt", Order = 1)]

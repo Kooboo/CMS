@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +16,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Content.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(RepositoryTemplateManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(RepositoryTemplateManager))]
     public class RepositoryTemplateManager : ItemTemplateManager
     {
         private IBaseDir _baseDir;

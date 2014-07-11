@@ -11,10 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using Kooboo.Extensions;
+
 using System.ComponentModel;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Common.Persistence;
+using Kooboo.Common.Misc;
 namespace Kooboo.CMS.Sites.Models
 {
     public enum RedirectType
@@ -35,7 +36,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             this.Site = site;
         }
-        string uuid = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(8);
+        string uuid = UniqueIdGenerator.GetInstance().GetBase32UniqueId(8);
         [DataMember]
         public string UUID
         {

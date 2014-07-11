@@ -8,9 +8,9 @@ using Kooboo.CMS.Sites.Models;
 
 namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABRuleSettingProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABRuleSetting>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "ABRuleSettingsProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IABRuleSettingProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<ABRuleSetting>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "ABRuleSettingsProvider")]
     public class ABRuleSettingProvider : ProviderBase<ABRuleSetting>, IABRuleSettingProvider
     {
         #region .ctor

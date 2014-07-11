@@ -1,4 +1,4 @@
-﻿using Kooboo.CMS.Common;
+﻿using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.ABTest;
@@ -12,8 +12,8 @@ using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABPageSettingProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABPageSetting>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IABPageSettingProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<ABPageSetting>))]
     public class ABPageSettingProvider : FileProviderBase<ABPageSetting>, IABPageSettingProvider
     {
         #region .ctor

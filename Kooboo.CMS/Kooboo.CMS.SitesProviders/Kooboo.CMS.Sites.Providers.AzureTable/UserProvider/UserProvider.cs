@@ -17,9 +17,9 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Providers.AzureTable.UserProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUserProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<User>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IUserProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<User>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100)]
     public class UserProvider : IUserProvider
     {
         #region .ctor

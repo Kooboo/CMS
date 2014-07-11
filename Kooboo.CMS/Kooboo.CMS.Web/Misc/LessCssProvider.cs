@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
-using Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource;
+using Kooboo.Common.Web.WebResourceLoader.DynamicClientResource;
 using dotless.Core;
 using dotless.Core.Input;
 using dotless.Core.Parser;
@@ -13,13 +13,13 @@ using dotless.Core.Parser.Infrastructure;
 using dotless.Core.Parser.Tree;
 namespace Kooboo.CMS.Web.Misc
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IDynamicClientResource), Key = "less")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IDynamicClientResource), Key = "less")]
     public class LessCssProvider : IDynamicClientResource
     {
         #region IDynamicClientResource
         public ResourceType ResourceType
         {
-            get { return Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource.ResourceType.Stylesheet; }
+            get { return Kooboo.Common.Web.WebResourceLoader.DynamicClientResource.ResourceType.Stylesheet; }
         }
         public IEnumerable<string> SupportedFileExtensions
         {
@@ -39,16 +39,16 @@ namespace Kooboo.CMS.Web.Misc
 
         public string RegisterClientParser()
         {
-            return string.Format("<script src=\"{0}\" type=\"text/javascript\"></script>", Kooboo.Web.Url.UrlUtility.ResolveUrl("~/Scripts/less.js"));
+            return string.Format("<script src=\"{0}\" type=\"text/javascript\"></script>", Kooboo.Common.Web.UrlUtility.ResolveUrl("~/Scripts/less.js"));
         }
 
         public string Parse(string virtualPath)
         {
-            var physicalPath = Kooboo.Web.Url.UrlUtility.MapPath(virtualPath);
+            var physicalPath = Kooboo.Common.Web.UrlUtility.MapPath(virtualPath);
             if (File.Exists(physicalPath))
             {
                 var lessEngine = GetLessEngine(physicalPath);
-                var source = Kooboo.IO.IOUtility.ReadAsString(physicalPath);
+                var source = Kooboo.Common.IO.IOUtility.ReadAsString(physicalPath);
                 return lessEngine.TransformToCss(source, null);
             }
             return "";

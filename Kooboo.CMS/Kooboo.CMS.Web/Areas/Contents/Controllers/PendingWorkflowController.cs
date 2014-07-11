@@ -15,7 +15,8 @@ using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Content.Query;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {

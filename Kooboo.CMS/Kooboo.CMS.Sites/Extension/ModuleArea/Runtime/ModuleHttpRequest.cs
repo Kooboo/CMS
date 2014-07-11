@@ -15,7 +15,8 @@ using System.Collections.Specialized;
 using System.Collections;
 using System.Runtime.Serialization;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc;
+using System.Web.Routing;
+
 namespace Kooboo.CMS.Sites.Extension.ModuleArea.Runtime
 {
     [Serializable]

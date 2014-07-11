@@ -12,10 +12,10 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Persistence;
-using Kooboo.Extensions;
+
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(UrlKeyMapManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(UrlKeyMapManager))]
     public class UrlKeyMapManager : ManagerBase<UrlKeyMap, IUrlKeyMapProvider>
     {
         public UrlKeyMapManager(IUrlKeyMapProvider provider) : base(provider) { }

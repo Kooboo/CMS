@@ -13,6 +13,7 @@ using System.Text;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Content.Models;
 using System.Data.SqlClient;
+using Kooboo.Common;
 
 namespace Kooboo.CMS.Content.Persistence.SqlServer.QueryProcessor
 {

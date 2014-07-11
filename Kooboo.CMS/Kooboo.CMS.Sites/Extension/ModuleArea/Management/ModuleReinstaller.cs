@@ -10,14 +10,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System.IO;
 using System.Web.Mvc;
 using Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleReinstaller))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IModuleReinstaller))]
     public class ModuleReinstaller : IModuleReinstaller
     {
         #region .ctor
@@ -35,10 +35,10 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #region RunEvent
         public void RunEvent(string moduleName, System.Web.Mvc.ControllerContext controllerContext)
         {
-            var moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleReinstallingEvents>(moduleName);
+            var moduleEvent = Kooboo.Common.ObjectContainer.EngineContext.Current.TryResolve<IModuleReinstallingEvents>(moduleName);
             if (moduleEvent == null)
             {
-                moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
+                moduleEvent = Kooboo.Common.ObjectContainer.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
             }
             if (moduleEvent != null)
             {

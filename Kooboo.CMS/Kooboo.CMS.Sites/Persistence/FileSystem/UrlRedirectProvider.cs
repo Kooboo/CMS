@@ -16,8 +16,8 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUrlRedirectProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<UrlRedirect>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IUrlRedirectProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<UrlRedirect>))]
     public class UrlRedirectProvider : FileProviderBase<UrlRedirect>, IUrlRedirectProvider
     {
         #region GetLocker

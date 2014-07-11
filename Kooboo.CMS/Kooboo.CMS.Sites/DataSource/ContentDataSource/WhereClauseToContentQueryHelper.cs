@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Binder;
 using Kooboo.CMS.Content.Query.Expressions;

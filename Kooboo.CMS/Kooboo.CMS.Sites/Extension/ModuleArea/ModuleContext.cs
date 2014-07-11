@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.Web.Routing;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
 using System.Web;
 

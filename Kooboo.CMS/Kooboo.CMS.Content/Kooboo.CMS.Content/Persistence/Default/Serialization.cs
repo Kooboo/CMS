@@ -13,6 +13,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.IO;
 using System.Xml;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Content.Persistence
 {
@@ -34,7 +35,7 @@ namespace Kooboo.CMS.Content.Persistence
         {
             DataContractSerializer ser = new DataContractSerializer(typeof(T), knownTypes);
             string folderPath = Path.GetDirectoryName(filePath);
-            Kooboo.IO.IOUtility.EnsureDirectoryExists(folderPath);
+            IOUtility.EnsureDirectoryExists(folderPath);
 
             var settings = new XmlWriterSettings()
             {

@@ -14,10 +14,12 @@ using System.Web.Mvc;
 using Kooboo.CMS.Web.Areas.Account.Models;
 using Kooboo.Connect;
 using Kooboo.CMS.Sites;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Account.Services;
-using Kooboo.CMS.Common;
-using Kooboo.CMS.Common.DataViolation;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
+using Kooboo.Common.Data.DataViolation;
+
 namespace Kooboo.CMS.Web.Areas.Account.Controllers
 {
     public class LogOnController : ControllerBase

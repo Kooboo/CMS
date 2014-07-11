@@ -16,6 +16,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.Collections;
+using Kooboo.Common.Misc;
 
 namespace Kooboo.CMS.Account.Models
 {
@@ -118,7 +119,7 @@ namespace Kooboo.CMS.Account.Models
                 string xml = "";
                 if (CustomFields != null)
                 {
-                    xml = Kooboo.Runtime.Serialization.DataContractSerializationHelper.SerializeAsXml(this.CustomFields);
+                    xml = DataContractSerializationHelper.SerializeAsXml(this.CustomFields);
                 }
                 return xml;
             }
@@ -126,7 +127,7 @@ namespace Kooboo.CMS.Account.Models
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    CustomFields = Kooboo.Runtime.Serialization.DataContractSerializationHelper.DeserializeFromXml<DynamicDictionary>(value);
+                    CustomFields = DataContractSerializationHelper.DeserializeFromXml<DynamicDictionary>(value);
                 }
             }
         }

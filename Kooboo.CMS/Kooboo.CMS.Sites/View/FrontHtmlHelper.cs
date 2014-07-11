@@ -6,8 +6,8 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Caching;
-using Kooboo.CMS.Common;
+
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
@@ -19,13 +19,16 @@ using Kooboo.CMS.Sites.Parsers.ThemeRule;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Sites.View.PositionRender;
 using Kooboo.CMS.Sites.Web;
-using Kooboo.Globalization;
-using Kooboo.Web;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Html;
-using Kooboo.Web.Mvc.Paging;
-using Kooboo.Web.Url;
+using Kooboo.Common.Globalization;
+
+using Kooboo.Common.Data;
 using Kooboo.CMS.Sites.Membership;
+using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
+using Kooboo.Common.Web.WebResourceLoader.DynamicClientResource;
+using Kooboo.Common.Web.Paging;
+using Kooboo.Common.Web;
+using Kooboo.Common.Caching;
+
 //# define Page_Trace
 using System;
 using System.Collections.Generic;
@@ -39,8 +42,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
-using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
-using Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource;
+
+
 namespace Kooboo.CMS.Sites.View
 {
     /// <summary>
@@ -236,7 +239,7 @@ namespace Kooboo.CMS.Sites.View
             {
                 if (viewPosition.SkipError)
                 {
-                    Kooboo.HealthMonitoring.Log.LogException(e);
+                    Kooboo.Common.Logging.Logger.Error(e.Message, e);
                     return new HtmlString("");
                 }
 
@@ -276,7 +279,7 @@ namespace Kooboo.CMS.Sites.View
             var repository = site.GetRepository();
             if (repository == null)
             {
-                throw new KoobooException("The repository for site is null.");
+                throw new Exception("The repository for site is null.");
             }
             var dataRule = (IContentDataRule)(contentPosition.DataRule);
             var dataRuleContext = new DataRuleContext(this.PageContext.PageRequestContext.Site,
@@ -526,7 +529,7 @@ namespace Kooboo.CMS.Sites.View
                     yield return InlineEditingVariablesScript();
                     yield return this.Html.Script("~/Scripts/tiny_mce/tinymce.min.js");
                     //Inline editing的脚本样式不能用CDN
-                    yield return Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, "Sites", "inlineEditingJs", null, null);
+                    yield return Kooboo.Common.Web.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, "Sites", "inlineEditingJs", null, null);
                 }
             }
         }
@@ -553,7 +556,7 @@ namespace Kooboo.CMS.Sites.View
                 {
                     yield return this.StyleEditingVariablesScript();
                     //Inline editing的脚本样式不能用CDN
-                    yield return Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, "Sites", "styleEditingFrontJs", null, null);
+                    yield return Kooboo.Common.Web.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, "Sites", "styleEditingFrontJs", null, null);
                 }
             }
         }
@@ -580,7 +583,7 @@ namespace Kooboo.CMS.Sites.View
             {
                 if (this.PageContext.PageRequestContext.Site.EnableJquery)
                 {
-                    scripts.Add(Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, null, "jQuery", null, baseUrl));
+                    scripts.Add(Kooboo.Common.Web.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, null, "jQuery", null, baseUrl));
                 }
                 scripts.AddRange(GetScriptsBySite(site, "", compressed, baseUrl));
             }
@@ -597,7 +600,7 @@ namespace Kooboo.CMS.Sites.View
                 {
                     foreach (var script in siteScripts)
                     {
-                        var virtualPath = Kooboo.Web.Url.UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath);
+                        var virtualPath = UrlUtility.ToHttpAbsolute(baseUri, script.VirtualPath);
                         var dynamicScript = DynamicClientResourceFactory.Default.ResolveProvider(virtualPath);
                         if (dynamicScript != null)
                         {
@@ -709,7 +712,7 @@ namespace Kooboo.CMS.Sites.View
 
                 if (this.PageContext.PageRequestContext.Site.EnableJquery)
                 {
-                    styles = styles.Concat(new[] { Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, null, "jQuery-Styles", null, baseUri) });
+                    styles = styles.Concat(new[] { Kooboo.Common.Web.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, null, "jQuery-Styles", null, baseUri) });
                 }
                 styles = styles.Concat(this.PageContext.Styles);
                 Html.ViewContext.HttpContext.Items[key] = new object();
@@ -727,7 +730,7 @@ namespace Kooboo.CMS.Sites.View
                 if (PageContext.InlineEditing)
                 {
                     //Inline editing的脚本样式不能用CDN
-                    yield return Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, "Sites", "inlineEditingCss", null, null);
+                    yield return Kooboo.Common.Web.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, "Sites", "inlineEditingCss", null, null);
                 }
             }
         }
@@ -739,7 +742,7 @@ namespace Kooboo.CMS.Sites.View
                 if (PageContext.StyleEditing)
                 {
                     //Inline editing的脚本样式不能用CDN
-                    yield return Kooboo.Web.Mvc.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, "Sites", "styleEditingFrontCss", null, null);
+                    yield return Kooboo.Common.Web.WebResourceLoader.MvcExtensions.ExternalResources(this.Html, "Sites", "styleEditingFrontCss", null, null);
                 }
             }
         }
@@ -857,7 +860,7 @@ namespace Kooboo.CMS.Sites.View
             var title = string.IsNullOrEmpty(this.PageContext.HtmlMeta.HtmlTitle) ? defaultTitle : this.PageContext.HtmlMeta.HtmlTitle;
             if (!string.IsNullOrEmpty(title))
             {
-                return new HtmlString(string.Format("<title>{0}</title>", Kooboo.StringExtensions.StripAllTags(title)));
+                return new HtmlString(string.Format("<title>{0}</title>", title.StripAllTags()));
             }
             return new HtmlString("");
         }
@@ -869,7 +872,7 @@ namespace Kooboo.CMS.Sites.View
             {
                 if (!string.IsNullOrEmpty(htmlMeta.Canonical))
                 {
-                    htmlStrings.Add(new HtmlString(string.Format("<link rel=\"canonical\" href=\"{0}\"/>", Kooboo.StringExtensions.StripAllTags(htmlMeta.Canonical))));
+                    htmlStrings.Add(new HtmlString(string.Format("<link rel=\"canonical\" href=\"{0}\"/>", htmlMeta.Canonical.StripAllTags())));
                 }
                 if (!string.IsNullOrEmpty(htmlMeta.Author))
                 {
@@ -897,7 +900,7 @@ namespace Kooboo.CMS.Sites.View
         }
         private static IHtmlString BuildMeta(string name, string value)
         {
-            return new HtmlString(string.Format("<meta name=\"{0}\" content=\"{1}\" />", name, Kooboo.StringExtensions.StripAllTags(value)));
+            return new HtmlString(string.Format("<meta name=\"{0}\" content=\"{1}\" />", name, value.StripAllTags()));
         }
         #endregion
 
@@ -920,7 +923,7 @@ namespace Kooboo.CMS.Sites.View
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 #endif
-            var htmlValues = RouteValuesHelpers.GetRouteValues(htmlAttributes);
+            var htmlValues = RouteValuesHelper.GetRouteValues(htmlAttributes);
             Page page;
 
             string url = this.PageContext.FrontUrl.PageUrl(urlMapKey, routeValues, out page).ToString();
@@ -967,7 +970,7 @@ namespace Kooboo.CMS.Sites.View
         }
         public virtual IHtmlString ViewLink(object linkText, string viewName, object routeValues, object htmlAttributes)
         {
-            var htmlValues = RouteValuesHelpers.GetRouteValues(htmlAttributes);
+            var htmlValues = RouteValuesHelper.GetRouteValues(htmlAttributes);
 
             string url = this.PageContext.FrontUrl.ViewUrl(viewName, routeValues).ToString();
 
@@ -1040,8 +1043,8 @@ namespace Kooboo.CMS.Sites.View
                  this,
                  pagedList,
                  options,
-                 RouteValuesHelpers.GetRouteValues(routeValues),
-                 RouteValuesHelpers.GetRouteValues(htmlAttributes)
+                 RouteValuesHelper.GetRouteValues(routeValues),
+                 RouteValuesHelper.GetRouteValues(htmlAttributes)
              );
             return new HtmlString(builder.RenderPager().ToString());
         }

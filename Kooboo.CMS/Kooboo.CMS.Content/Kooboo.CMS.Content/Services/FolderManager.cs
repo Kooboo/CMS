@@ -10,7 +10,7 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Content.Persistence;
-using Kooboo.Extensions;
+
 using System;
 using System.Collections.Generic;
 using System.IO;

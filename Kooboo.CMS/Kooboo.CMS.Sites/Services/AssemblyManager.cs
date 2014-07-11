@@ -14,13 +14,14 @@ using System.IO;
 using Kooboo.CMS.Sites.Models;
 using System.Reflection;
 using Kooboo.CMS.Sites.Extension.Management;
+using Kooboo.Common;
 
 namespace Kooboo.CMS.Sites.Services
 {
     /// <summary>
     /// Plugin 管理
     /// </summary>
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(AssemblyManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(AssemblyManager))]
     public class AssemblyManager
     {
         #region .ctor

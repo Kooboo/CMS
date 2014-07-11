@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Kooboo.CMS.Common.Runtime.Dependency.Ninject")]
+[assembly: AssemblyTitle("Kooboo.Common.ObjectContainer.Dependency.Ninject")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 

@@ -20,11 +20,12 @@ using Lucene.Net.Index;
 using Lucene.Net.Store;
 using Lucene.Net.Search;
 using Lucene.Net.QueryParsers;
-using Kooboo.Web.Mvc.Paging;
+
 using Kooboo.CMS.Content.Models;
 using System.Threading;
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer;
 using Lucene.Net.Search.Highlight;
+using Kooboo.Common.Data;
 
 namespace Kooboo.CMS.Search
 {
@@ -299,14 +300,14 @@ namespace Kooboo.CMS.Search
                     }
                     catch (Exception e)
                     {
-                        Kooboo.HealthMonitoring.Log.LogException(e);
+                        Kooboo.Common.Logging.Logger.Error(e.Message, e);
                     }
 
                 });
             thread.Start();
         }
 
-        public virtual PagedList<Models.ResultObject> Search(string key, int pageIndex, int pageSize, params string[] folders)
+        public virtual IPagedList<Models.ResultObject> Search(string key, int pageIndex, int pageSize, params string[] folders)
         {
             var indexDirectory = FSDirectory.Open(new DirectoryInfo(indexDir));
             if (!IndexReader.IndexExists(indexDirectory) || string.IsNullOrEmpty(key) && (folders == null || folders.Length == 0))

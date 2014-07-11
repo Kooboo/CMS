@@ -11,11 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
+
 using Kooboo.CMS.Content.Query.Expressions;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
-using Kooboo.Linq;
-using Kooboo.Extensions;
+
+
 namespace Kooboo.CMS.Content.Persistence.Default.ContentQuery
 {
     internal class OrderExpression

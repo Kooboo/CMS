@@ -6,13 +6,14 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
 {
-    using Kooboo.CMS.Common;
+    using Kooboo.Common.ObjectContainer;
     using Kooboo.CMS.Common.Persistence.Non_Relational;
     using Kooboo.CMS.Sites.ABTest;
     using Kooboo.CMS.Sites.Models;
+    using Kooboo.CMS.Common;
 
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABSiteSettingProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABSiteSetting>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IABSiteSettingProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<ABSiteSetting>), Order = 100)]
     public class ABSiteSettingProvider : IABSiteSettingProvider
     {
         Kooboo.CMS.Sites.Persistence.FileSystem.ABSiteSettingProvider provider;

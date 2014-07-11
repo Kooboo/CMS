@@ -6,11 +6,11 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Web.Areas.Sites.Models;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.Globalization;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +18,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kooboo.Web;
+using System.Web.Routing;
+using Kooboo.Common.Web;
+
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "Development", Name = "File", Order = 1)]
@@ -32,7 +35,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 if (_fileManager == null)
                 {
                     var type = ControllerContext.RequestContext.GetRequestValue("type").ToLower();
-                    _fileManager = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<FileManager>(type);
+                    _fileManager = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<FileManager>(type);
                 }
                 return _fileManager;
             }

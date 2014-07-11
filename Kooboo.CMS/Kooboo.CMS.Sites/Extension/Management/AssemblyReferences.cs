@@ -1,5 +1,5 @@
-﻿using Kooboo.IO;
-using Kooboo.CMS.Common;
+﻿
+using Kooboo.Common.ObjectContainer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,10 +8,12 @@ using System.Text;
 
 using Newtonsoft.Json;
 using System.Reflection;
+using Kooboo.Common.IO;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Extension.Management
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IAssemblyReferences))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IAssemblyReferences))]
     public class AssemblyReferences : IAssemblyReferences
     {
         #region .ctor
@@ -48,7 +50,7 @@ namespace Kooboo.CMS.Sites.Extension.Management
                     return RebuildReferenceData();
                 }
 
-                var jsonData = Kooboo.IO.IOUtility.ReadAsString(dataFile);
+                var jsonData = IOUtility.ReadAsString(dataFile);
                 if (string.IsNullOrEmpty(jsonData))
                 {
                     return RebuildReferenceData();
@@ -96,7 +98,7 @@ namespace Kooboo.CMS.Sites.Extension.Management
                 _readerWriterLock.EnterWriteLock();
                 var dataFile = GetReferenceDataFile();
                 var jsonData = JsonConvert.SerializeObject(referenceCollection, Formatting.Indented);
-                Kooboo.IO.IOUtility.SaveStringToFile(dataFile, jsonData);
+                IOUtility.SaveStringToFile(dataFile, jsonData);
             }
             finally
             {

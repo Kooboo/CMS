@@ -9,15 +9,16 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Web.Grid2;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Grid2;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Web.Grid;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Mvc.Html;
-
+using System.Web.Routing;
 namespace Kooboo.CMS.Web.Areas.Sites.Models.Grid2
 {
     public class Page_Move_GridItemColumn : GridItemColumn
@@ -42,7 +43,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.Grid2
                 return viewContext.HtmlHelper().ActionLink(linkText, "Move", viewContext.RequestContext.AllRouteValues().Merge("UUID", data.UUID),
                     new Dictionary<string, object> { { "class", "o-icon move-page dialog-link" } });
             }
-           return  new HtmlString("");
+            return new HtmlString("");
         }
     }
 }

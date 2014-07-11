@@ -11,10 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Kooboo.Web.Url;
-using Kooboo.CMS.Common;
+
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {

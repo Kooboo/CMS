@@ -14,14 +14,16 @@ using Kooboo.CMS.Sites.Models;
 using Ionic.Zip;
 using System.IO;
 using Kooboo;
+using Kooboo.Common.Web;
+using Kooboo.Common.Misc;
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(LayoutItemTemplateManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(LayoutItemTemplateManager))]
     public class LayoutItemTemplateManager : ItemTemplateManager
     {
         protected override string BasePath
         {
-            get { return Kooboo.Web.Mvc.AreaHelpers.CombineAreaFilePhysicalPath("Sites", "Templates", "Layout"); }
+            get { return  AreaHelpers.CombineAreaFilePhysicalPath("Sites", "Templates", "Layout"); }
         }
 
         public virtual IEnumerable<LayoutSample> GetLayoutSamples(string engineName)
@@ -35,19 +37,19 @@ namespace Kooboo.CMS.Sites.Services
                     var settingEntryName = PathResource.SettingFileName;
                     if (!zipFile.ContainsEntry(settingEntryName))
                     {
-                        throw new KoobooException("The layout item template is invalid, setting.config is required.");
+                        throw new Exception("The layout item template is invalid, setting.config is required.");
                     }
                     Layout layout = null;
                     using (MemoryStream ms = new MemoryStream())
                     {
                         zipFile[settingEntryName].Extract(ms);
                         ms.Position = 0;
-                        layout = (Layout)Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize(typeof(Layout), null, ms);
+                        layout = (Layout)DataContractSerializationHelper.Deserialize(typeof(Layout), null, ms);
                     }
                     var templateEntryName = layout.TemplateFileName;
                     if (!zipFile.ContainsEntry(templateEntryName))
                     {
-                        throw new KoobooException(string.Format("The layout item template is invalid.{0} is requried.", templateEntryName));
+                        throw new Exception(string.Format("The layout item template is invalid.{0} is requried.", templateEntryName));
                     }
                     LayoutSample sample = new LayoutSample() { Name = item.TemplateName, ThumbnailVirtualPath = item.Thumbnail };
                     using (MemoryStream ms = new MemoryStream())

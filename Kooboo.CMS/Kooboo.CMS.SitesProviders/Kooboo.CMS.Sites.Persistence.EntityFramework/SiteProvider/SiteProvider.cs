@@ -6,22 +6,23 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Caching;
-using Kooboo.CMS.Common;
+using Kooboo.Common.Caching;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Membership.Persistence;
 using Kooboo.CMS.Sites.Globalization;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Runtime.Serialization;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.SiteProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Site>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Site>), Order = 100)]
     public class SiteProvider : Kooboo.CMS.Sites.Persistence.FileSystem.SiteProvider
     {
         #region .ctor

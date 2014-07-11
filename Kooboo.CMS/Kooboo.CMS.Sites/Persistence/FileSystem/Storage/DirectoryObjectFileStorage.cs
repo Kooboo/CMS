@@ -8,6 +8,7 @@
 #endregion
 using Ionic.Zip;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -71,7 +72,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
             if (Directory.Exists(_baseFolder))
             {
                 var dir = new DirectoryInfo(_baseFolder);
-                foreach (var dirInfo in IO.IOUtility.EnumerateDirectoriesExludeHidden(_baseFolder))
+                foreach (var dirInfo in IOUtility.EnumerateDirectoriesExludeHidden(_baseFolder))
                 {
                     if (IsValidDataItem(dirInfo))
                     {
@@ -184,7 +185,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
             {
                 if (Directory.Exists(dirPath))
                 {
-                    Kooboo.IO.IOUtility.DeleteDirectory(dirPath, true);
+                    Kooboo.Common.IO.IOUtility.DeleteDirectory(dirPath, true);
                 }
             }
             finally

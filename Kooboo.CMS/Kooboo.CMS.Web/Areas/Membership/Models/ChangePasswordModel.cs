@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Models
         [Required(ErrorMessage = "Required")]
         public string NewPassword { get; set; }
 
-        [Compare("NewPassword")]
+        [System.Web.Mvc.Compare("NewPassword")]
         [UIHint("Password")]
         [Required(ErrorMessage = "Required")]
         [DisplayName("Confirm password")]

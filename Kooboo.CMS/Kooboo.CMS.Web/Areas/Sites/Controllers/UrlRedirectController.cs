@@ -6,19 +6,20 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Web.Models;
 using Kooboo.Web;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Paging;
+
+using Kooboo.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "System", Name = "Url redirect", Order = 1)]

@@ -84,7 +84,7 @@ namespace Kooboo.CMS.Web.Areas.Membership.Controllers
                 if (result.Error != null)
                 {
                     reason = result.Error.Message;
-                    Kooboo.HealthMonitoring.Log.LogException(result.Error);
+                    Kooboo.Common.Logging.Logger.Error(result.Error.Message, result.Error);
                 }
                 return RedirectToAction("ExternalLoginFailure", new { returnUrl = returnUrl, reason = reason });
             }

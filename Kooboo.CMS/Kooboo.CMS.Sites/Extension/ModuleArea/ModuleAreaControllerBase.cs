@@ -23,7 +23,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         {
             get
             {
-                return Kooboo.Web.Mvc.AreaHelpers.GetAreaName(RouteData);
+                return Kooboo.Common.Web.AreaHelpers.GetAreaName(RouteData);
             }
         }
     }

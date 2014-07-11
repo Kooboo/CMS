@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Form;
 using System;
@@ -16,7 +16,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Data;
 namespace Kooboo.CMS.Content.Models
 {
     /// <summary>
@@ -103,14 +104,14 @@ namespace Kooboo.CMS.Content.Models
             Label = "Creation date",
             AllowNull = true,
             ShowInGrid = true,
-            DataType = Common.DataType.DateTime,
+            DataType = DataType.DateTime,
             Order = 98,
         };
         public static Column UtcLastModificationDate = new Column()
         {
             Name = "UtcLastModificationDate",
             Label = "UtcLastModificationDate",
-            DataType = Common.DataType.DateTime,
+            DataType = DataType.DateTime,
             ControlType = "Hidden"
         };
         public static Column Published = new Column()

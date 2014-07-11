@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.DataRule.Http
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IResponseTextParser), Key = "JsonTextParser")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IResponseTextParser), Key = "JsonTextParser")]
     public class JsonTextParser : IResponseTextParser
     {
         public bool Accept(string responseText, string contentType)

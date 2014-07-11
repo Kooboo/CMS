@@ -9,7 +9,8 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
-using Kooboo.CMS.Common;
+using Kooboo.Common.Data;
+using Kooboo.Common.ObjectContainer;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlServerCe;

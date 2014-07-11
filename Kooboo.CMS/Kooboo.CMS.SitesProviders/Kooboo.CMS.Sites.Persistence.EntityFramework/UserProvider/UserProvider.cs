@@ -16,9 +16,9 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UserProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUserProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<User>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "UserProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IUserProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<User>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "UserProvider")]
     public class UserProvider : IUserProvider
     {
         #region .ctor
@@ -120,7 +120,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UserProvider
 
             //remove the pages folder to clear all old pages.
             var basePhysicalPath = User.DataFilePath.GetBasePath(site);
-            Kooboo.IO.IOUtility.DeleteDirectory(basePhysicalPath, true);
+            Kooboo.Common.IO.IOUtility.DeleteDirectory(basePhysicalPath, true);
 
             foreach (var item in All(site))
             {

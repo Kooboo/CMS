@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 namespace Kooboo.CMS.Web.Misc
 {
     public static class RenderHelper

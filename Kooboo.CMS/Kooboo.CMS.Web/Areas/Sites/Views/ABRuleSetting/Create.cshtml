@@ -4,7 +4,7 @@
     ViewBag.Title = "Create A/B rule".Localize();
     Layout = "~/Views/Shared/Blank.cshtml";
 
-    var allRules = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<IVisitRule>();
+    var allRules = Kooboo.Common.ObjectContainer.EngineContext.Current.ResolveAll<IVisitRule>();
     if (!string.IsNullOrEmpty(Model.RuleType))
     {
 

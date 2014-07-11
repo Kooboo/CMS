@@ -12,9 +12,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+
 using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Content.Models;
-using Kooboo.Web.Mvc;
+
 
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {

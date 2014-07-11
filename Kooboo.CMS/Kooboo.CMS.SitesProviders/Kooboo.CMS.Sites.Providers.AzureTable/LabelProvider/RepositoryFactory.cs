@@ -16,7 +16,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.LabelProvider
 {
     public class RepositoryFactory : IElementRepositoryFactory
     {
-        public Kooboo.Globalization.IElementRepository CreateRepository(Models.Site site)
+        public Kooboo.Common.Globalization.IElementRepository CreateRepository(Models.Site site)
         {
             return new LabelRepository(site.FullName);
         }

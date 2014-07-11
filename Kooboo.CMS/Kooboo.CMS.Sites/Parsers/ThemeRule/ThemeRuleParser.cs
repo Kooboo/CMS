@@ -11,8 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Web.Url;
+
 using Kooboo.CMS.Sites.Services;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Sites.Parsers.ThemeRule
 {

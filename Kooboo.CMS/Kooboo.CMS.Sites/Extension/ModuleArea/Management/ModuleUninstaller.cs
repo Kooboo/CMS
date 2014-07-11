@@ -8,6 +8,8 @@
 #endregion
 using Kooboo.CMS.Sites.Extension.Management;
 using Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events;
+using Kooboo.Common;
+using Kooboo.Common.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,7 +19,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleUninstaller))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IModuleUninstaller))]
     public class ModuleUninstaller : IModuleUninstaller
     {
         #region .ctor
@@ -33,10 +35,10 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #region RunEvent
         private void RunEvent(string moduleName, ControllerContext controllerContext)
         {
-            var moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleUninstallingEvents>(moduleName);
+            var moduleEvent = Kooboo.Common.ObjectContainer.EngineContext.Current.TryResolve<IModuleUninstallingEvents>(moduleName);
             if (moduleEvent == null)
             {
-                moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
+                moduleEvent = Kooboo.Common.ObjectContainer.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
             }
             if (moduleEvent != null)
             {
@@ -84,7 +86,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         internal void RemoveModuleArea(string moduleName)
         {
             ModulePath modulePath = new ModulePath(moduleName);
-            Kooboo.IO.IOUtility.DeleteDirectory(modulePath.PhysicalPath, true);
+            IOUtility.DeleteDirectory(modulePath.PhysicalPath, true);
         }
         #endregion
 

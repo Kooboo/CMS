@@ -12,7 +12,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
-using Kooboo.Runtime.Serialization;
+using Kooboo.Common.Misc;
+using Kooboo.Common;
+
 namespace Kooboo.CMS.Content.Persistence.FileServerProvider
 { 
     [DataContract]
@@ -45,7 +47,7 @@ namespace Kooboo.CMS.Content.Persistence.FileServerProvider
         }
         private static string GetSettingFile()
         {
-            return Path.Combine(Kooboo.Settings.BinDirectory, "FileServerProviderSettings.config");
+            return Path.Combine(Settings.BinDirectory, "FileServerProviderSettings.config");
         }
         public static FileServerProviderSettings Instance
         {

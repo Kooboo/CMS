@@ -6,8 +6,8 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common.Runtime;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.ObjectContainer.Dependency;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
-    public class DependencyRegistrar : Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
+    public class DependencyRegistrar : Kooboo.Common.ObjectContainer.Dependency.IDependencyRegistrar
     {
         private class ResolvingObserver : IResolvingObserver
         {

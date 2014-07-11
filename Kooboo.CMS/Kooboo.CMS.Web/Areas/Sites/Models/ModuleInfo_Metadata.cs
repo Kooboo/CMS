@@ -11,12 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System.ComponentModel.DataAnnotations;
 using Kooboo.CMS.Web.Models;
 using Kooboo.CMS.Sites.Extension.ModuleArea;
-using Kooboo.ComponentModel;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Web.Grid.Design;
 using Kooboo.CMS.Web.Grid2;
 using Kooboo.CMS.Web.Areas.Sites.Models.Grid2;
 namespace Kooboo.CMS.Web.Areas.Sites.Models

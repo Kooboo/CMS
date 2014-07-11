@@ -44,7 +44,7 @@ namespace Kooboo.CMS.Content.Persistence.Caching
                 {
                     return o;
                 }
-                dummy.ObjectCache().Add(cacheKey, o, Kooboo.CMS.Caching.ObjectCacheExtensions.DefaultCacheItemPolicy);
+                dummy.ObjectCache().Add(cacheKey, o, Kooboo.Common.Caching.ObjectCacheExtensions.DefaultCacheItemPolicy);
             }
             return o;
         }
@@ -66,7 +66,7 @@ namespace Kooboo.CMS.Content.Persistence.Caching
             }
             finally
             {
-                Kooboo.CMS.Caching.CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
+                Kooboo.Common.Caching.CacheManagerFactory.DefaultCacheManager.ClearGlobalObjectCache();
             }
         }
         #endregion
@@ -82,7 +82,7 @@ namespace Kooboo.CMS.Content.Persistence.Caching
             {
                 var cacheKey = GetCacheKey(@new);
                 @new.ObjectCache().Remove(cacheKey);
-            }            
+            }
         }
         #endregion
 
@@ -96,7 +96,7 @@ namespace Kooboo.CMS.Content.Persistence.Caching
             finally
             {
                 @item.ClearCache();
-            }            
+            }
         }
         #endregion
 

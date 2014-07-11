@@ -15,16 +15,17 @@ using Kooboo.CMS.Content.Models;
 using System.Collections.Specialized;
 using System.IO;
 using Kooboo.CMS.Content.Models.Paths;
-using Kooboo.Web.Url;
-using Kooboo.IO;
+
+
 using Kooboo.CMS.Content.Query;
 using Ionic.Zip;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Content.Services
 {
     /// <summary>
     /// Media内容管理
     /// </summary>
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(MediaContentManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(MediaContentManager))]
     public class MediaContentManager
     {
         private IMediaContentProvider Provider

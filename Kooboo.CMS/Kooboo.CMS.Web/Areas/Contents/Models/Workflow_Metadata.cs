@@ -13,10 +13,10 @@ using System.Web;
 using Kooboo.CMS.Content.Models;
 using System.ComponentModel.DataAnnotations;
 using Kooboo.CMS.Web.Models;
-using Kooboo.Web.Mvc;
+
 using System.Web.Mvc;
-using Kooboo.ComponentModel;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Web.Grid.Design;
 using Kooboo.CMS.Web.Grid2;
 using Kooboo.CMS.Web.Areas.Contents.Models.Grid2;
 using System.ComponentModel;

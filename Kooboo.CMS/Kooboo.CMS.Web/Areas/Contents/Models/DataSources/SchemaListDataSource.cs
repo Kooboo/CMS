@@ -7,8 +7,8 @@
 // 
 #endregion
 using Kooboo.CMS.Content.Models;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Web.SelectList;
 using System;
 using System.Collections.Generic;
 using System.Linq;

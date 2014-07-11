@@ -11,10 +11,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.Common;
+using System.IO;
+
+
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
-using System.IO;
-using Kooboo.IO;
+using Kooboo.Common.IO;
+
 namespace Kooboo.CMS.Content.Persistence
 {
     public interface IDBCommandLogger

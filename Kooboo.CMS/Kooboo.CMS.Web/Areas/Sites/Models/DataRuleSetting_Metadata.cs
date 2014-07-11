@@ -16,7 +16,7 @@ using System.ComponentModel.DataAnnotations;
 using Kooboo.Web.Mvc.Grid;
 using System.Web.Mvc;
 using Kooboo.CMS.Content.Models;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
 
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models

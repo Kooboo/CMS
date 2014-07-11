@@ -1,5 +1,5 @@
 ﻿using Kooboo.CMS.Sites.Extension.ModuleArea.Management;
-using Kooboo.Web.Mvc.Grid2;
+using Kooboo.Common.Web.Grid;
 using System;
 using System.Collections.Generic;
 using System.Linq;

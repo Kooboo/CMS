@@ -11,7 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Data;
 
 namespace Kooboo.CMS.Form
 {

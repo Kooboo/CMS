@@ -12,8 +12,8 @@ using Kooboo.CMS.Content.Models.Binder;
 using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Sites.Extension;
 using Kooboo.CMS.Web.Models;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.Globalization;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -130,7 +130,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         {
             if (string.IsNullOrEmpty(folderName) && string.IsNullOrEmpty(schemaName))
             {
-                throw new KoobooException("The folderName or schemaName is required.".Localize());
+                throw new Exception("The folderName or schemaName is required.".Localize());
             }
             textFolder = null;
             schema = null;

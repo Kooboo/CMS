@@ -9,7 +9,7 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Services;
-using Kooboo.Runtime.Serialization;
+using Kooboo.Common.Misc;
 using System;
 using System.Collections.Generic;
 using System.IO;

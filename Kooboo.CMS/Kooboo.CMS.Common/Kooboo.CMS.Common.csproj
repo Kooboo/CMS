@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Kooboo.CMS.Common</RootNamespace>
     <AssemblyName>Kooboo.CMS.Common</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -37,12 +37,44 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Kooboo.Common, Version=5.0.5305.19796, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Kooboo.Common.5.0.5305.19796\lib\net45\Kooboo.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.Common.Web, Version=5.0.5305.21365, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Kooboo.Common.Web.5.0.5305.21365\lib\net45\Kooboo.Common.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\MVC\4.0\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,49 +86,18 @@
     <Compile Include="..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
-    <Compile Include="AggregateHtmlString.cs" />
-    <Compile Include="AreaRegistrationEx.cs" />
-    <Compile Include="DataType.cs" />
-    <Compile Include="DataViolation\DataViolationException.cs" />
-    <Compile Include="DataViolation\DataViolationItem.cs" />
-    <Compile Include="DataViolation\ModelStateExtension.cs" />
+    <Compile Include="DynamicDictionary.cs" />
+    <Compile Include="ContextVariables.cs" />
+    <Compile Include="JSMin.cs" />
     <Compile Include="Persistence\IChangeTimeline.cs" />
-    <Compile Include="Runtime\Mvc\MvcDependencyAttributeFilterProvider.cs" />
-    <Compile Include="Runtime\Mvc\MvcDependencyResolver.cs" />
     <Compile Include="EntityModelBinder.cs" />
-    <Compile Include="Formula\FormulaParser.cs" />
-    <Compile Include="Formula\IValueProvider.cs" />
-    <Compile Include="Formula\IFormulaParser.cs" />
-    <Compile Include="Formula\MvcValueProvider.cs" />
-    <Compile Include="Formula\NameValueCollectionProvider.cs" />
-    <Compile Include="HttpApplicationHooker.cs" />
     <Compile Include="IBaseDir.cs" />
-    <Compile Include="IHttpApplicationEvents.cs" />
     <Compile Include="IntegrateIdBase.cs" />
-    <Compile Include="ITimeZoneHelper.cs" />
-    <Compile Include="ITypeActivtorStartupTask.cs" />
     <Compile Include="KeyValue.cs" />
     <Compile Include="Persistence\ISaveObservable.cs" />
     <Compile Include="Persistence\Non_Relational\IIdentifiable.cs" />
     <Compile Include="Persistence\Non_Relational\RelationModel.cs" />
     <Compile Include="Persistence\Relational\IEntity.cs" />
-    <Compile Include="Runtime\AppDomainTypeFinder.cs" />
-    <Compile Include="Runtime\Dependency\AttributeInfo.cs" />
-    <Compile Include="Runtime\Dependency\ComponentLifeStyle.cs" />
-    <Compile Include="Runtime\Dependency\DependencyAttribute.cs" />
-    <Compile Include="Runtime\Dependency\IContainerManager.cs" />
-    <Compile Include="Runtime\Dependency\IDependencyRegistrar.cs" />
-    <Compile Include="Runtime\Dependency\InjectAttribute.cs" />
-    <Compile Include="Runtime\Dependency\IResolvingObserver.cs" />
-    <Compile Include="Runtime\EngineContext.cs" />
-    <Compile Include="Runtime\IEngine.cs" />
-    <Compile Include="Runtime\IStartupTask.cs" />
-    <Compile Include="Runtime\ITypeFinder.cs" />
-    <Compile Include="Runtime\Mvc\MvcModule.cs" />
-    <Compile Include="Runtime\Parameter.cs" />
-    <Compile Include="Runtime\Singleton.cs" />
-    <Compile Include="Runtime\WebAppTypeFinder.cs" />
-    <Compile Include="JsonResultData.cs" />
     <Compile Include="Persistence\Non_Relational\IPersistable.cs" />
     <Compile Include="Persistence\Non_Relational\IPersistableExtensions.cs" />
     <Compile Include="Persistence\Non_Relational\IProvider.cs" />
@@ -107,10 +108,8 @@
     <Compile Include="UriHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
-      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
-      <Name>Kooboo</Name>
-    </ProjectReference>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

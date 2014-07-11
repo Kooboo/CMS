@@ -12,9 +12,9 @@ using Kooboo.CMS.Content.Models.Binder;
 using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Content.Persistence;
 using Kooboo.CMS.Content.Query;
-using Kooboo.Globalization;
-using Kooboo.IO;
-using Kooboo.Web.Url;
+using Kooboo.Common.Globalization;
+
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -87,7 +87,7 @@ namespace Kooboo.CMS.Content.Services
 
         public bool SingleChoice { get; set; }
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(TextContentManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(TextContentManager))]
     public class TextContentManager
     {
         #region .ctor

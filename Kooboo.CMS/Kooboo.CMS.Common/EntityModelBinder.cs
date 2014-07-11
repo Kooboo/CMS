@@ -7,14 +7,13 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Relational;
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Kooboo.Reflection;
 namespace Kooboo.CMS.Common
 {
     public class EntityModelBinder : DefaultModelBinder

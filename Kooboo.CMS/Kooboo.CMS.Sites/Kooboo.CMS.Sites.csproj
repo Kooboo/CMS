@@ -11,7 +11,7 @@
     <RootNamespace>Kooboo.CMS.Sites</RootNamespace>
     <AssemblyName>Kooboo.CMS.Sites</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -42,6 +42,25 @@
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\..\Lib\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
+    <Reference Include="Kooboo.Common, Version=5.0.5305.19046, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Kooboo.Common.5.0.5305.19046\lib\net45\Kooboo.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.Common.Data, Version=5.0.5304.27126, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Kooboo.Common.Data.5.0.5304.27126\lib\net45\Kooboo.Common.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.Common.Web, Version=5.0.5305.21365, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Kooboo.Common.Web.5.0.5305.21365\lib\net45\Kooboo.Common.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.Common.Windows">
+      <HintPath>..\packages\Kooboo.Common.Windows.5.0.5302.28753\lib\net45\Kooboo.Common.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -56,18 +75,30 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\MVC\4.0\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\MVC\4.0\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.0\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\MVC\4.0\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -224,6 +255,15 @@
     <Compile Include="Models\Label.cs" />
     <Compile Include="Models\Options\CreateSiteOptions.cs" />
     <Compile Include="Models\Options\DeleteSiteOptions.cs" />
+    <Compile Include="Models\Routing\BoundUrl.cs" />
+    <Compile Include="Models\Routing\ContentPathSegment.cs" />
+    <Compile Include="Models\Routing\LiteralSubsegment.cs" />
+    <Compile Include="Models\Routing\ParameterSubsegment.cs" />
+    <Compile Include="Models\Routing\ParsedRoute.cs" />
+    <Compile Include="Models\Routing\PathSegment.cs" />
+    <Compile Include="Models\Routing\PathSubsegment.cs" />
+    <Compile Include="Models\Routing\RouteParser.cs" />
+    <Compile Include="Models\Routing\SeparatorPathSegment.cs" />
     <Compile Include="Models\SubmissionSetting.cs" />
     <Compile Include="NullMembershipException.cs" />
     <Compile Include="Persistence\Caching\ABPageSettingProvider.cs" />
@@ -573,7 +613,7 @@
     <Compile Include="View\PageRequestContext.cs" />
     <Compile Include="View\Page_Context.cs" />
     <Compile Include="View\FrontViewResult.cs" />
-    <Compile Include="View\RouteValuesHelpers.cs" />
+    <Compile Include="View\RouteValuesHelper.cs" />
     <Compile Include="Globalization\SiteLabel.cs" />
     <Compile Include="View\SubmissionHelper.cs" />
     <Compile Include="View\TemplateEngines.cs" />
@@ -602,10 +642,6 @@
       <Project>{61ed004c-9e20-4680-af2b-0723fe7648bb}</Project>
       <Name>Kooboo.CMS.Account</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
-      <Project>{570cd9d3-75d2-468a-8245-45bdca57432e}</Project>
-      <Name>Kooboo.CMS.Caching</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>
@@ -626,12 +662,11 @@
       <Project>{c7b73e67-d226-41cb-a86d-410276b265a1}</Project>
       <Name>Kooboo.CMS.Search</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
-      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
-      <Name>Kooboo</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

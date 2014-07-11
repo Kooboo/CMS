@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.DataSource;
 using Kooboo.CMS.Sites.Models;
@@ -19,8 +19,8 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IDataSourceSettingProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<DataSourceSetting>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IDataSourceSettingProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<DataSourceSetting>))]
     public class DataSourceSettingProvider : InheritableProviderBase<DataSourceSetting>, IDataSourceSettingProvider
     {
         #region .ctor

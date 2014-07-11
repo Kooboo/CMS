@@ -9,6 +9,7 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
+using Kooboo.Common.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,15 +18,15 @@ using System.Text;
 
 namespace Kooboo.CMS.Content.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISendingSettingProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<SendingSetting>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISendingSettingProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<SendingSetting>))]
     public class SendingSettingProvider : FileSystemProviderBase<SendingSetting>, ISendingSettingProvider
     {
         #region All
         public IEnumerable<Models.SendingSetting> All(Models.Repository repository)
         {
             var path = new SendingSettingPath(repository);
-            return IO.IOUtility
+            return IOUtility
                      .EnumerateFilesExludeHidden(path.PhysicalPath)
                      .Select(it => new SendingSetting
                      {

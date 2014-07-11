@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject.InRequestScope
+namespace Kooboo.Common.ObjectContainer.Dependency.Ninject.InRequestScope
 {
     public sealed class OnePerRequestHttpModule : IHttpModule
     {
@@ -40,9 +40,9 @@ namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject.InRequestScope
 
         private IKernel GetKernel()
         {
-            if (Kooboo.CMS.Common.Runtime.EngineContext.Current is NinjectEngine)
+            if (Kooboo.Common.ObjectContainer.EngineContext.Current is NinjectEngine)
             {
-                return (IKernel)((ContainerManager)((NinjectEngine)Kooboo.CMS.Common.Runtime.EngineContext.Current).ContainerManager).Container;
+                return (IKernel)((ContainerManager)((NinjectEngine)Kooboo.Common.ObjectContainer.EngineContext.Current).ContainerManager).Container;
             }
             return null;
         }

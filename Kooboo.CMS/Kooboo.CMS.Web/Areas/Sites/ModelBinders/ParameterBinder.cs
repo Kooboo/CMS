@@ -12,8 +12,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using System.Web.Helpers;
+using Kooboo.Common.Data;
 namespace Kooboo.CMS.Web.Areas.Sites.ModelBinders
 {
     public class ParameterBinder : DefaultModelBinder

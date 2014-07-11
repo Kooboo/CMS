@@ -12,7 +12,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
-using Kooboo.Web.Url;
+using Kooboo.Common.Web;
+
 
 namespace Kooboo.CMS.Sites.Models
 {

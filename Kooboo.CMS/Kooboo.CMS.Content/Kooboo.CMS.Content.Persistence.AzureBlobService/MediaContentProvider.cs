@@ -20,7 +20,8 @@ using System.Linq.Expressions;
 using Kooboo.CMS.Content.Query;
 using System.IO;
 using Kooboo.CMS.Content.Query.Translator;
-using Kooboo.Web.Url;
+using Kooboo.Common.ObjectContainer;
+
 
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
@@ -258,8 +259,8 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         #endregion
     }
     #endregion
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IMediaContentProvider), Order = 2)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IContentProvider<MediaContent>), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IMediaContentProvider), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IContentProvider<MediaContent>), Order = 2)]
     public class MediaContentProvider : IMediaContentProvider
     {
         #region IMediaContentProvider
@@ -448,7 +449,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 
         private void ImportMediaFolderDataCascading(MediaFolder mediaFolder)
         {
-            Kooboo.CMS.Content.Persistence.Default.MediaContentProvider fileProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Content.Persistence.Default.MediaContentProvider>();
+            Kooboo.CMS.Content.Persistence.Default.MediaContentProvider fileProvider = EngineContext.Current.Resolve<Kooboo.CMS.Content.Persistence.Default.MediaContentProvider>();
 
             //add media folder
             MediaFolderProvider folderProvider = new MediaFolderProvider();

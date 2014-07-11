@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+
 using System;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
@@ -31,8 +32,8 @@ namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity.MvcViewEngine
                     typeof(SelectExtensions),
                     typeof(TextAreaExtensions),
                     typeof(ValidationExtensions),
-                    typeof(HtmlExtensions),
-                    typeof(Kooboo.Web.Mvc.Html.ValidationExtensions)
+                    typeof(System.Web.Mvc.HtmlExtensionMethods),
+                    typeof(System.Web.Mvc.ValidationExtensionMethods)
 				};
 
         public HtmlExtensionDuck(ViewContext viewContext, IViewDataContainer container)

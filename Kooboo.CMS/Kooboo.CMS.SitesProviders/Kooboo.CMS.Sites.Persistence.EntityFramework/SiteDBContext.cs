@@ -6,13 +6,17 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+extern alias EntityFramework;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using EntityFramework::System.Data.Entity;
+using EntityFramework::System.Data.Entity.Infrastructure;
+using Kooboo.Common.ObjectContainer.Dependency;
+
 
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework
 {
@@ -20,16 +24,16 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework
     public class SiteDBContext : DbContext
     {
         #region .ctor
-        static System.Data.Entity.Infrastructure.DbCompiledModel dbCompiledModel;
+        static DbCompiledModel dbCompiledModel;
         static SiteDBContext()
         {
             var builder = new DbModelBuilder();
 
             builder.Configurations.Add(new PageProvider.Mapping.PageEnityMapping());
             builder.Configurations.Add(new PageProvider.Mapping.PageDraftEnityMapping());
-            builder.Configurations.Add(new System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HtmlBlockProvider.HtmlBlockEntity>());
-            builder.Configurations.Add(new System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<LabelProvider.CategoryEntity>());
-            builder.Configurations.Add(new System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<LabelProvider.LabelEntity>());
+            builder.Configurations.Add(new EntityFramework::System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HtmlBlockProvider.HtmlBlockEntity>());
+            builder.Configurations.Add(new EntityFramework::System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<LabelProvider.CategoryEntity>());
+            builder.Configurations.Add(new EntityFramework::System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<LabelProvider.LabelEntity>());
             builder.Configurations.Add(new UserProvider.Mapping.SiteUserMapping());
             builder.Configurations.Add(new SiteProvider.Mapping.SiteSettingMapping());
             builder.Configurations.Add(new UrlRedirectsProvider.Mapping.UrlRedirectMapping());
@@ -38,7 +42,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework
             builder.Configurations.Add(new ABTestProvider.Mapping.ABPageSettingMapping());
             builder.Configurations.Add(new ABTestProvider.Mapping.ABPageTestResultMapping());
             builder.Configurations.Add(new ABTestProvider.Mapping.ABSiteSettingMapping());
-            dbCompiledModel = builder.Build(new System.Data.Entity.Infrastructure.DbProviderInfo(SiteEntitySetting.Instance.ProviderInvariantName, SiteEntitySetting.Instance.ProviderManifestToken)).Compile();
+            dbCompiledModel = builder.Build(new EntityFramework::System.Data.Entity.Infrastructure.DbProviderInfo(SiteEntitySetting.Instance.ProviderInvariantName, SiteEntitySetting.Instance.ProviderManifestToken)).Compile();
         }
         public SiteDBContext()
             : this(SiteEntitySetting.Instance.ConnectionString)

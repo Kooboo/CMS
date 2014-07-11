@@ -15,9 +15,9 @@ using System.Web;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Menu
 {
-    public class ContentFolderMenuItemInitializer : Kooboo.Web.Mvc.Menu.DefaultMenuItemInitializer
+    public class ContentFolderMenuItemInitializer : Kooboo.Common.Web.Menu.DefaultMenuItemInitializer
     {
-        public override Kooboo.Web.Mvc.Menu.MenuItem Initialize(Kooboo.Web.Mvc.Menu.MenuItem menuItem, System.Web.Mvc.ControllerContext controllerContext)
+        public override Kooboo.Common.Web.Menu.MenuItem Initialize(Kooboo.Common.Web.Menu.MenuItem menuItem, System.Web.Mvc.ControllerContext controllerContext)
         {
             var site = Site.Current;
             if (site != null)

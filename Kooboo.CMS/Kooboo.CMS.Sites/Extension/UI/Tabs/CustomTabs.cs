@@ -6,7 +6,8 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Web.Mvc;
+
+using Kooboo.Common.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Kooboo.CMS.Sites.Extension.UI.Tabs
     {
         public static IEnumerable<TabInfo> GetTabs(RequestContext requestContext)
         {
-            var tabProviders = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<ITabProvider>();
+            var tabProviders = Kooboo.Common.ObjectContainer.EngineContext.Current.ResolveAll<ITabProvider>();
 
             var matchedProviders = MatchProviders(tabProviders, requestContext.RouteData);
 

@@ -20,8 +20,8 @@ using Kooboo.CMS.Caching;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 namespace Kooboo.CMS.Sites.Providers.SqlServer.PageProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPageProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Page>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IPageProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Page>), Order = 100)]
     public class PageProvider : IPageProvider
     {
         //#region Version
@@ -517,7 +517,7 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.PageProvider
 
             //remove the GetCachedPageList() folder to clear all old GetCachedPageList().
             var dummy = new Page(site, "Dummy");
-            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
+            Kooboo.Common.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
 
             foreach (var item in QueryBySite(site))
             {

@@ -16,20 +16,21 @@ using System.Diagnostics;
 using System.IO;
 using Kooboo.CMS.Sites.Models;
 using System.Text;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Web.HealthMonitoring
 {
-	public static class TextFileLogger
-	{		
-		private static string WebEventsDir = "WebEvents";
-		private static object lockerHelper = new object();
-		public static void Log(string message)
+    public static class TextFileLogger
+    {
+        private static string WebEventsDir = "WebEvents";
+        private static object lockerHelper = new object();
+        public static void Log(string message)
         {
             lock (lockerHelper)
             {
                 var fileName = GetLogFile();
 
-                IO.IOUtility.EnsureDirectoryExists(Path.GetDirectoryName(fileName));
+                IOUtility.EnsureDirectoryExists(Path.GetDirectoryName(fileName));
 
                 File.AppendAllText(fileName, message.Replace("\n", Environment.NewLine));
                 File.AppendAllText(fileName, "--------------------------------------------------------------------------------------------------------\r\n");
@@ -39,7 +40,7 @@ namespace Kooboo.CMS.Web.HealthMonitoring
         {
             if (Site.Current == null)
             {
-                var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Common.IBaseDir>();
+                var baseDir = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<Kooboo.CMS.Common.IBaseDir>();
                 var filePath = GetLogFile(baseDir.Cms_DataPhysicalPath);
                 return filePath;
             }
@@ -55,13 +56,13 @@ namespace Kooboo.CMS.Web.HealthMonitoring
             var filePath = Path.Combine(webEventsDir, DateTime.UtcNow.ToString("yyyy-MM-dd") + ".log");
             return filePath;
         }
-	}
-	
+    }
+
 #if MONO
 	
-#else		
+#else
     public class TextFileWebEventProvider : WebEventProvider
-    {        
+    {
         // Methods
         public TextFileWebEventProvider()
         {
@@ -78,9 +79,9 @@ namespace Kooboo.CMS.Web.HealthMonitoring
 
         public override void ProcessEvent(WebBaseEvent eventRaised)
         {
-			TextFileLogger.Log (eventRaised.ToString());            
+            TextFileLogger.Log(eventRaised.ToString());
         }
-       
+
         public override void Shutdown()
         {
 

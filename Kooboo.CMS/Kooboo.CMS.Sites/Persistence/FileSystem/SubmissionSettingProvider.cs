@@ -1,5 +1,5 @@
 ﻿using Ionic.Zip;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.ABTest;
@@ -10,11 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISubmissionSettingProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<SubmissionSetting>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISubmissionSettingProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<SubmissionSetting>))]
     public class SubmissionSettingProvider : FileProviderBase<SubmissionSetting>, ISubmissionSettingProvider
     {
 

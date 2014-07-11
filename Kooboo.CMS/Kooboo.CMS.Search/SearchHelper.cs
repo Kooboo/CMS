@@ -11,7 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Models;
-using Kooboo.Web.Mvc.Paging;
+using Kooboo.Common.Data;
+
 
 namespace Kooboo.CMS.Search
 {
@@ -28,7 +29,7 @@ namespace Kooboo.CMS.Search
             return ServiceBuilder.OpenService(repository);
         }
 
-        public static PagedList<Models.ResultObject> Search(this Repository repository, string key, int pageIndex, int pageSize, params string[] folders)
+        public static IPagedList<Models.ResultObject> Search(this Repository repository, string key, int pageIndex, int pageSize, params string[] folders)
         {
             return OpenService(repository).Search(key, pageIndex, pageSize, folders);
         }

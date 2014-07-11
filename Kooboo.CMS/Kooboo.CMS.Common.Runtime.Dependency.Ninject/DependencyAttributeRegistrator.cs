@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ninject;
 using Ninject.Syntax;
-namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
+namespace Kooboo.Common.ObjectContainer.Dependency.Ninject
 {
     /// <summary>
     /// Registers service in the inversion of container upon start.

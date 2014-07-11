@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
@@ -38,7 +39,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         {
             var designer = HttpContext.Request.QueryString["Designer"];
 
-            var designerObject = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IDataSourceDesigner>(designer);
+            var designerObject = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IDataSourceDesigner>(designer);
 
             ViewBag.Designer = designerObject;
 

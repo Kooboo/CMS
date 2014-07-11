@@ -6,8 +6,8 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Caching;
-using Kooboo.CMS.Common;
+using Kooboo.Common.Caching;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Caching;
 using Kooboo.CMS.Sites;
@@ -17,10 +17,9 @@ using Kooboo.CMS.Sites.Models.Options;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Web.Areas.Sites.Models;
 using Kooboo.CMS.Web.Models;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.Web;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Script.Serialization;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +27,8 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     public class CreateSiteAuthroziationAttribute : Kooboo.CMS.Web.Authorizations.RequiredLogOnAttribute
@@ -155,11 +156,11 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 {
                     i++;
                 }
-                return (new { IsNew = false, ErrMsg = string.Format("{0} is not available. Try {1}.", name, name + i) }).ToJSON();
+                return Kooboo.Common.Web.JsonHelper.ToJSON(new { IsNew = false, ErrMsg = string.Format("{0} is not available. Try {1}.", name, name + i) });
             }
             else
             {
-                return (new { IsNew = true }).ToJSON();
+                return Kooboo.Common.Web.JsonHelper.ToJSON(new { IsNew = true });
             }
         }
 
@@ -424,7 +425,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                         }
                         catch (Exception e)
                         {
-                            Kooboo.HealthMonitoring.Log.LogException(e);
+                            Kooboo.Common.Logging.Logger.Error(e.Message, e);
                         }
 
                         resultData.RedirectUrl = @return;

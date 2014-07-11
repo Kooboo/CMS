@@ -10,11 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Content.Models.Paths;
 using System.IO;
-using Kooboo.Web.Url;
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Content.Models
 {
     /// <summary>
@@ -32,7 +33,7 @@ namespace Kooboo.CMS.Content.Models
             var schemaName = folder.AsActual().SchemaName;
             if (string.IsNullOrEmpty(schemaName))
             {
-                throw new KoobooException(string.Format("The folder of '{0}' is not a content folder.".Localize(), folder.FriendlyName));
+                throw new ArgumentNullException("SchemaName", string.Format("The folder of '{0}' is not a content folder.".Localize()));
             }
             return new Schema(folder.Repository, schemaName);
         }

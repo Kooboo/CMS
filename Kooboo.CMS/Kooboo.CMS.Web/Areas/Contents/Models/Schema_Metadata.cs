@@ -12,7 +12,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
-using Kooboo.Web.Mvc;
+
 using Kooboo.CMS.Content.Persistence;
 using Kooboo.CMS.Web.Areas.Contents.Controllers;
 using System.Web.Mvc;
@@ -21,9 +21,10 @@ using Kooboo.CMS.Content.Models;
 using System.ComponentModel;
 using System.Web.Routing;
 using Kooboo.CMS.Web.Models;
-using Kooboo.ComponentModel;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Web.Grid.Design;
 using Kooboo.CMS.Web.Grid2;
+using Kooboo.Common.Misc;
 
 namespace Kooboo.CMS.Web.Areas.Contents.Models
 {

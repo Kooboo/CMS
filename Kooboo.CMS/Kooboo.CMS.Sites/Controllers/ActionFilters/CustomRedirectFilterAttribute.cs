@@ -9,8 +9,8 @@
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.View;
 using Kooboo.CMS.Sites.Web;
-using Kooboo.Globalization;
-using Kooboo.Web.Url;
+using Kooboo.Common.Globalization;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

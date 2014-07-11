@@ -6,7 +6,8 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Web.Mvc;
+
+using Kooboo.Common.Web.SelectList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Models.DataSources
     {
         public IEnumerable<SelectListItem> GetSelectListItems(System.Web.Routing.RequestContext requestContext, string filter = null)
         {
-            return Kooboo.Globalization.ElementRepository.DefaultRepository.EnabledLanguages().Select(it => new SelectListItem()
+            return Kooboo.Common.Globalization.ElementRepository.DefaultRepository.EnabledLanguages().Select(it => new SelectListItem()
             {
                 Text = it.NativeName,
                 Value = it.Name,

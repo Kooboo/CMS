@@ -14,7 +14,7 @@ using System.Web.Routing;
 using Kooboo.CMS.Account.Models;
 using Kooboo.CMS.Sites.Models;
 using System.Security.Principal;
-using Kooboo.Web.Mvc;
+
 namespace Kooboo.CMS.Web.Authorizations
 {
     public static class AuthorizationHelpers

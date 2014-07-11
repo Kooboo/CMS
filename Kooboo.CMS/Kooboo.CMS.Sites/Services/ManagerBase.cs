@@ -9,7 +9,7 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Persistence;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 
 using System;
 using System.Collections.Generic;

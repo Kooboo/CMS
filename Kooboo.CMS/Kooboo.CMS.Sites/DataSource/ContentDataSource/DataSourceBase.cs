@@ -17,7 +17,8 @@ using System.Runtime.Serialization;
 using System.Text;
 
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common.Formula;
+using Kooboo.Common.TokenTemplate;
+
 
 namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
 {
@@ -215,7 +216,7 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
 
         public virtual IEnumerable<string> GetParameters()
         {
-            FormulaParser parser = new FormulaParser();
+            var parser = new TemplateParser();
 
             List<string> parameters = new List<string>();
 
@@ -229,7 +230,7 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
             //}
             if (!string.IsNullOrEmpty(this.Top))
             {
-                var topParameters = parser.GetParameters(this.Top);
+                var topParameters = parser.GetTokens(this.Top);
                 parameters.AddRange(topParameters, StringComparer.OrdinalIgnoreCase);
             }
 
@@ -240,12 +241,12 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
                 {
                     if (!string.IsNullOrEmpty(item.Value1))
                     {
-                        var value1Parameters = parser.GetParameters(item.Value1);
+                        var value1Parameters = parser.GetTokens(item.Value1);
                         parameters.AddRange(value1Parameters, StringComparer.OrdinalIgnoreCase);
                     }
                     if (!string.IsNullOrEmpty(item.Value2))
                     {
-                        var value2Paramters = parser.GetParameters(item.Value2);
+                        var value2Paramters = parser.GetTokens(item.Value2);
                         parameters.AddRange(value2Paramters, StringComparer.OrdinalIgnoreCase);
                     }
                 }

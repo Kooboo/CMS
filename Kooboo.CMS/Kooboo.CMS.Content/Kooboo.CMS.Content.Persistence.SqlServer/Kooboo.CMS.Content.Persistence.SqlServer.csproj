@@ -11,7 +11,7 @@
     <RootNamespace>Kooboo.CMS.Content.Persistence.SqlServer</RootNamespace>
     <AssemblyName>Kooboo.CMS.Content.Persistence.SqlServer</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -36,6 +36,14 @@
   <ItemGroup>
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\..\..\Lib\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.Common, Version=5.0.5305.19046, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Kooboo.Common.5.0.5305.19046\lib\net45\Kooboo.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.Common.Data, Version=5.0.5304.27126, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5304.27126\lib\net45\Kooboo.Common.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -82,14 +90,14 @@
       <Project>{C4F32215-EFAD-45C9-8276-6126681C3589}</Project>
       <Name>Kooboo.CMS.Form</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
-      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
-      <Name>Kooboo</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Content\Kooboo.CMS.Content.csproj">
       <Project>{C5A5186D-6F8E-4BB9-AF0E-74F0993B48DA}</Project>
       <Name>Kooboo.CMS.Content</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

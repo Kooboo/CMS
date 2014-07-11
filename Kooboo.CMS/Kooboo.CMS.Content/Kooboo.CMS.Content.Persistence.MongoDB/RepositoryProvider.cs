@@ -11,13 +11,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Models;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Content.Persistence.MongoDB
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IRepositoryProvider), Order = 2)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(Kooboo.CMS.Common.Persistence.Non_Relational.IProvider<Repository>), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IRepositoryProvider), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(Kooboo.CMS.Common.Persistence.Non_Relational.IProvider<Repository>), Order = 2)]
     public class RepositoryProvider : Default.RepositoryProvider
     {
         public RepositoryProvider(IBaseDir baseDir)

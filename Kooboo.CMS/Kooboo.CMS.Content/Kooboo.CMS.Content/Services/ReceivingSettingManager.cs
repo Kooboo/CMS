@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 namespace Kooboo.CMS.Content.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ReceivingSettingManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ReceivingSettingManager))]
     public class ReceivingSettingManager : ManagerBase<ReceivingSetting, IReceivingSettingProvider>
     {
         #region .ctor

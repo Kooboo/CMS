@@ -16,11 +16,13 @@ using System.Web.Mvc;
 using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Membership.Models;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Sites.Globalization;
-using Kooboo.CMS.Common.DataViolation;
+
 using Kooboo.CMS.Sites.View;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.Web;
+using Kooboo.Common.Data.DataViolation;
+
 namespace Kooboo.CMS.Sites.Membership
 {
     public class ValidateMemberPlugin : IHttpMethodPagePlugin, ISubmissionPlugin
@@ -98,7 +100,7 @@ namespace Kooboo.CMS.Sites.Membership
                 catch (Exception e)
                 {
                     controllerContext.Controller.ViewData.ModelState.AddModelError("", e.Message);
-                    Kooboo.HealthMonitoring.Log.LogException(e);
+                   Kooboo.Common.Logging.Logger.Error(e.Message, e);
                     valid = false;
                 }
             }

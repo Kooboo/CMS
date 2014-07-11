@@ -14,9 +14,8 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Content.Services;
-using Kooboo.Globalization;
-using Kooboo.IO;
-using Kooboo.Web.Url;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Web;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -86,11 +85,11 @@ namespace Kooboo.CMS.Web.Interoperability.MetaWeblog
         {
             if (Repository == null)
             {
-                throw new KoobooException("The repository is null.".Localize());
+                throw new Exception("The repository is null.".Localize());
             }
             if (!CMS.Account.Services.ServiceFactory.UserManager.ValidateUser(userName, password))
             {
-                throw new KoobooException("The user or password is invalid.".Localize());
+                throw new Exception("The user or password is invalid.".Localize());
             }
             bool allow = false;
             if (Kooboo.CMS.Sites.Models.Site.Current != null)
@@ -103,7 +102,7 @@ namespace Kooboo.CMS.Web.Interoperability.MetaWeblog
             }
             if (!allow)
             {
-                throw new KoobooException("The user have no permission to edit content.".Localize());
+                throw new Exception("The user have no permission to edit content.".Localize());
             }
         }
         #endregion
@@ -270,7 +269,7 @@ namespace Kooboo.CMS.Web.Interoperability.MetaWeblog
             var metaweblogPath = new MetaWeblogPath(folder);
             var fileName = Path.GetFileName(file.name);
             var filePath = Path.Combine(metaweblogPath.PhysicalPath, fileName);
-            Kooboo.IO.StreamExtensions.SaveAs(file.bits, filePath, true);
+            StreamExtensions.SaveAs(file.bits, filePath, true);
             Uri absoluteUri = new Uri(new Uri(Context.Request.Url.AbsoluteUri), UrlUtility.ResolveUrl(UrlUtility.Combine(metaweblogPath.VirtualPath, fileName)));
 
             return new UrlData() { url = absoluteUri.ToString() };

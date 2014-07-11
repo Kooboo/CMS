@@ -11,10 +11,11 @@ using System.Linq;
 using System.Collections.Generic;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.View;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Sites.Caching;
 using System.Web;
 using Kooboo.CMS.Sites.Services;
+using Kooboo.Common;
 namespace Kooboo.CMS.Sites.Globalization
 {
     public static class SiteLabel
@@ -27,7 +28,7 @@ namespace Kooboo.CMS.Sites.Globalization
             var repository = site.ObjectCache().Get(cacheKey);
             if (repository == null)
             {
-                repository = new Kooboo.Globalization.Repository.CacheElementRepository(() => Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IElementRepositoryFactory>().CreateRepository(site));
+                repository = new Kooboo.Common.Globalization.Repository.CacheElementRepository(() => Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IElementRepositoryFactory>().CreateRepository(site));
                 site.ObjectCache().Add(cacheKey, repository, new System.Runtime.Caching.CacheItemPolicy()
                 {
                     SlidingExpiration = TimeSpan.Parse("00:30:00")
@@ -79,7 +80,7 @@ namespace Kooboo.CMS.Sites.Globalization
         {
             string value = LabelValue(defaultValue, key, category, site);
 
-            if (Kooboo.Settings.IsWebApplication && Page_Context.Current.Initialized && Page_Context.Current.EnabledInlineEditing(EditingType.Label))
+            if (Settings.IsWebApplication && Page_Context.Current.Initialized && Page_Context.Current.EnabledInlineEditing(EditingType.Label))
             {
                 value = string.Format("<var start=\"true\" editType=\"label\" dataType=\"{0}\" key=\"{1}\" category=\"{2}\" style=\"display:none;\"></var>{3}<var end=\"true\" style=\"display:none;\"></var>"
                     , Kooboo.CMS.Sites.View.FieldDataType.Text.ToString()

@@ -11,7 +11,7 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Form;
-using Kooboo.Web.Url;
+using Kooboo.Common.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,8 +20,8 @@ using System.Text;
 
 namespace Kooboo.CMS.Content.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISchemaProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Schema>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISchemaProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Schema>))]
     public class SchemaProvider : FileSystemProviderBase<Schema>, ISchemaProvider
     {
         #region KnownTypes
@@ -53,7 +53,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
             List<Schema> list = new List<Schema>();
             if (Directory.Exists(baseDir))
             {
-                foreach (var item in IO.IOUtility.EnumerateDirectoriesExludeHidden(baseDir))
+                foreach (var item in IOUtility.EnumerateDirectoriesExludeHidden(baseDir))
                 {
                     list.Add(new Schema(repository, item.Name));
                 }
@@ -138,7 +138,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
             SchemaPath path = new SchemaPath(schema);
             if (path.Exists())
             {
-                throw new KoobooException("The item is already exists.");
+                throw new Exception("The item is already exists.");
             }
             GetLocker().EnterReadLock();
             try
@@ -170,7 +170,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
 
 
 
-            Kooboo.IO.IOUtility.CopyDirectory(sourcePath.PhysicalPath, destPath.PhysicalPath);
+            IOUtility.CopyDirectory(sourcePath.PhysicalPath, destPath.PhysicalPath);
 
 
             Providers.DefaultProviderFactory.GetProvider<ISchemaProvider>().Initialize(destSchema);

@@ -7,8 +7,8 @@
 // 
 #endregion
 
-using Kooboo.CMS.Common.Runtime;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Search.Models;
 using Kooboo.CMS.Search.Persistence;

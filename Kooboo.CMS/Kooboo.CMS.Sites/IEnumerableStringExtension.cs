@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Extensions;
+
 namespace Kooboo.CMS.Sites
 {
     public static class IEnumerableStringExtension

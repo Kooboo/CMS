@@ -20,7 +20,7 @@ namespace Kooboo.CMS.Sites.Services
         public float Width { get; set; }
         public float Height { get; set; }
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(HeaderBackgroundManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(HeaderBackgroundManager))]
     public class HeaderBackgroundManager
     {
         public virtual bool IsEanbled(Theme theme)

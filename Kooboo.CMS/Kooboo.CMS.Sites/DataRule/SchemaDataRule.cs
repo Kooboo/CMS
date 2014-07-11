@@ -29,7 +29,7 @@ namespace Kooboo.CMS.Sites.DataRule
             var repositoryName = site.Repository;
             if (string.IsNullOrEmpty(repositoryName))
             {
-                throw new KoobooException("The repository for site is null.");
+                throw new Exception("The repository for site is null.");
             }
             var repository = new Repository(repositoryName);
             var schema = new Schema(repository, SchemaName);

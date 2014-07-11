@@ -2,6 +2,7 @@
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Content.Query.Expressions;
+using Kooboo.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;

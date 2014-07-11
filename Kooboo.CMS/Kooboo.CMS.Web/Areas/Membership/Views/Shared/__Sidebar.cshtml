@@ -7,5 +7,5 @@
 </div>
 
 <nav class="container block menu">
-	@Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Membership").SetMembership(this.ViewContext))
+	@Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Membership").SetMembership(this.ViewContext))
 </nav>

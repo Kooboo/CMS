@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

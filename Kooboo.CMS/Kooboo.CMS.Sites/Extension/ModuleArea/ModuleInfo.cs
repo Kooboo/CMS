@@ -11,12 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using Kooboo.Runtime.Serialization;
 using Kooboo.CMS.Sites.Models;
 using System.IO;
-using Kooboo.Globalization;
-using Kooboo.Web.Url;
-using Kooboo.CMS.Common;
+using Kooboo.Common.Globalization;
+
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Misc;
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
     [DataContract]

@@ -11,8 +11,8 @@ using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Web;
-using Kooboo.Globalization;
-using Kooboo.Web.Url;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Web;
 //# define Page_Trace
 using System;
 using System.Collections.Generic;
@@ -303,7 +303,7 @@ namespace Kooboo.CMS.Sites.View
                     site = site.AsActual();
 
                     Theme theme = new Theme(site, site.Theme).LastVersion();
-                    themeFileUrl = Kooboo.Web.Url.UrlUtility.Combine(theme.VirtualPath, relativeUrl);
+                    themeFileUrl = Kooboo.Common.Web.UrlUtility.Combine(theme.VirtualPath, relativeUrl);
                     var physicalPath = UrlUtility.MapPath(themeFileUrl);
                     fileExists = File.Exists(physicalPath);
 
@@ -495,7 +495,7 @@ namespace Kooboo.CMS.Sites.View
         }
         public static IHtmlString GeneratePageUrl(UrlHelper urlHelper, Site site, Page page, object values, FrontRequestChannel channel)
         {
-            RouteValueDictionary routeValues = RouteValuesHelpers.GetRouteValues(values);
+            RouteValueDictionary routeValues = RouteValuesHelper.GetRouteValues(values);
 
             page = page.AsActual();
 
@@ -510,7 +510,7 @@ namespace Kooboo.CMS.Sites.View
 
             var pageRoute = page.Route.ToMvcRoute();
 
-            routeValues = RouteValuesHelpers.MergeRouteValues(pageRoute.Defaults, routeValues);
+            routeValues = RouteValuesHelper.MergeRouteValues(pageRoute.Defaults, routeValues);
 
             var routeVirtualPath = pageRoute.GetVirtualPath(urlHelper.RequestContext, routeValues);
             if (routeVirtualPath == null)
@@ -523,7 +523,7 @@ namespace Kooboo.CMS.Sites.View
             string pageUrl = contentUrl;
             if (!string.IsNullOrEmpty(contentUrl) || (string.IsNullOrEmpty(pageUrl) && !page.IsDefault))
             {
-                pageUrl = Kooboo.Web.Url.UrlUtility.Combine(page.VirtualPath, contentUrl);
+                pageUrl = Kooboo.Common.Web.UrlUtility.Combine(page.VirtualPath, contentUrl);
             }
             if (string.IsNullOrEmpty(pageUrl))
             {
@@ -565,7 +565,7 @@ namespace Kooboo.CMS.Sites.View
                 {
                     if (item.Value != null)
                     {
-                        previewUrl = Kooboo.Web.Url.UrlUtility.AddQueryParam(previewUrl, item.Key, item.Value.ToString());
+                        previewUrl = Kooboo.Common.Web.UrlUtility.AddQueryParam(previewUrl, item.Key, item.Value.ToString());
                     }
                 }
             }
@@ -584,7 +584,7 @@ namespace Kooboo.CMS.Sites.View
 
         public virtual IHtmlString ViewUrl(string viewName, object values)
         {
-            RouteValueDictionary routeValues = RouteValuesHelpers.GetRouteValues(values);
+            RouteValueDictionary routeValues = RouteValuesHelper.GetRouteValues(values);
             routeValues["ViewName"] = viewName;
             return this.WrapperUrl(this.Url.Action("ViewEntry", "Page", routeValues));
         }
@@ -600,7 +600,7 @@ namespace Kooboo.CMS.Sites.View
         {
             System.Diagnostics.Contracts.Contract.Requires(!string.IsNullOrEmpty(submissionName));
 
-            var routes = RouteValuesHelpers.GetRouteValues(routeValues);
+            var routes = RouteValuesHelper.GetRouteValues(routeValues);
             routes["SubmissionName"] = submissionName;
             return this.WrapperUrl(this.Url.Action("Submit", "Submission", routes));
         }

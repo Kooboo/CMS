@@ -6,16 +6,16 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Web.Areas.Sites.Models.DataSources;
 using Kooboo.CMS.Web.Models;
-using Kooboo.ComponentModel;
-using Kooboo.Dynamic;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.ComponentModel;
+
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +24,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Kooboo.Common.Web.Metadata;
+using Kooboo.Common.Misc;
+using Kooboo.Common.Web.SelectList;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {

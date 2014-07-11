@@ -16,7 +16,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.DataSource.Http
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IHttpDataRequest))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IHttpDataRequest))]
     public class HttpDataRequest : IHttpDataRequest
     {
         IResponseTextParser[] _parsers;
@@ -56,7 +56,7 @@ namespace Kooboo.CMS.Sites.DataSource.Http
                 {
                     foreach (var key in form.AllKeys)
                     {
-                        url = Kooboo.Web.Url.UrlUtility.AddQueryParam(url, key, form[key]);
+                        url = Kooboo.Common.Web.UrlUtility.AddQueryParam(url, key, form[key]);
                     }
                 }
                 else

@@ -15,11 +15,12 @@ using Kooboo.CMS.Content.Persistence.Default;
 using System.IO;
 using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Search.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISearchSettingProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<SearchSetting>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISearchSettingProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<SearchSetting>))]
     public class SearchSettingProvider : FileSystemProviderBase<SearchSetting>, ISearchSettingProvider
     {
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
@@ -30,7 +31,7 @@ namespace Kooboo.CMS.Search.Persistence.Default
 
             if (Directory.Exists(baseDir))
             {
-                foreach (var file in IO.IOUtility.EnumerateFilesExludeHidden(baseDir, "*" + PathHelper.SettingFileExtension))
+                foreach (var file in IOUtility.EnumerateFilesExludeHidden(baseDir, "*" + PathHelper.SettingFileExtension))
                 {
                     list.Add(new SearchSetting(repository, Path.GetFileNameWithoutExtension(file.Name)));
                 }

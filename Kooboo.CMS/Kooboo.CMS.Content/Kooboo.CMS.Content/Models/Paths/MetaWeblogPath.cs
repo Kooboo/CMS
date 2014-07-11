@@ -11,7 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Kooboo.Web.Url;
+using Kooboo.Common.Web;
+
 
 namespace Kooboo.CMS.Content.Models.Paths
 {

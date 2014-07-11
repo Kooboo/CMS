@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.IO;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Sites.Services
 {
@@ -43,7 +44,7 @@ namespace Kooboo.CMS.Sites.Services
             return relativePaths;
         }
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(FileManager), Key = "themes")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(FileManager), Key = "themes")]
     public class ThemeManager : FileManager
     {
         public override string Type
@@ -117,7 +118,7 @@ namespace Kooboo.CMS.Sites.Services
         private IEnumerable<string> EnumerateCssFiles(string dir)
         {
             List<string> list = new List<string>();
-            foreach (var file in Kooboo.IO.IOUtility.EnumerateFilesByExtensions(dir, GetCssExtensions().ToArray()))
+            foreach (var file in IOUtility.EnumerateFilesByExtensions(dir, GetCssExtensions().ToArray()))
             {
                 list.Add(Path.GetFileName(file));
             }
@@ -128,7 +129,7 @@ namespace Kooboo.CMS.Sites.Services
         {
             List<string> list = new List<string>();
             list.Add(".css");
-            var dynamicClientResource = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource.IDynamicClientResource>().Where(it => it.ResourceType == Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource.ResourceType.Stylesheet);
+            var dynamicClientResource = Kooboo.Common.ObjectContainer.EngineContext.Current.ResolveAll<Kooboo.Common.Web.WebResourceLoader.DynamicClientResource.IDynamicClientResource>().Where(it => it.ResourceType == Kooboo.Common.Web.WebResourceLoader.DynamicClientResource.ResourceType.Stylesheet);
             foreach (var item in dynamicClientResource)
             {
                 list.AddRange(item.SupportedFileExtensions);

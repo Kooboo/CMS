@@ -17,8 +17,8 @@ using Ionic.Zip;
 
 namespace Kooboo.CMS.Content.Persistence.Sqlce
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISchemaProvider), Order = 2)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(Kooboo.CMS.Common.Persistence.Non_Relational.IProvider<Schema>), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISchemaProvider), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(Kooboo.CMS.Common.Persistence.Non_Relational.IProvider<Schema>), Order = 2)]
     public class SchemaProvider : Persistence.Default.SchemaProvider
     {
         #region IProvider<Schema> Members

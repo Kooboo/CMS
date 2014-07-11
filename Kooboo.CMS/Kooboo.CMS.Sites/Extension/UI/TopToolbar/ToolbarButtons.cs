@@ -6,7 +6,8 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Web.Mvc;
+
+using Kooboo.Common.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Kooboo.CMS.Sites.Extension.UI.TopToolbar
     {
         public static IEnumerable<ToolbarGroupButtons> GetToolbarButtons(RequestContext requestContext)
         {
-            var tabProviders = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<IToolbarProvider>();
+            var tabProviders = Kooboo.Common.ObjectContainer.EngineContext.Current.ResolveAll<IToolbarProvider>();
 
             var matchedProviders = MatchProviders(tabProviders, requestContext).ToArray();
 

@@ -9,16 +9,17 @@
 using Kooboo.CMS.Sites.Extension.ModuleArea;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.View.WebProxy;
-using Kooboo.Web.Url;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Kooboo.CMS.Caching;
-using Kooboo.CMS.Sites.Caching;
 using System.Web.Mvc;
+
+using Kooboo.CMS.Sites.Caching;
+using Kooboo.Common.Caching;
 namespace Kooboo.CMS.Sites.View.PositionRender
 {
     public class ProxyRender

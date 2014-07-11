@@ -14,12 +14,12 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.Sites.View.HtmlParsing
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IParsers))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IParsers))]
     public class Parsers : IParsers
     {
         public IParser GetParser(string tag)
         {
-            return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IParser>(tag.ToLower());
+            return Kooboo.Common.ObjectContainer.EngineContext.Current.TryResolve<IParser>(tag.ToLower());
         }
     }
 }

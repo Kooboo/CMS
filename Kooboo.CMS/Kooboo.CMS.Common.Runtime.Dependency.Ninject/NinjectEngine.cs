@@ -11,9 +11,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using Ninject;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
+using Kooboo.CMS.Common.Runtime.Dependency.Ninject;
 
-namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
+namespace Kooboo.Common.ObjectContainer.Dependency.Ninject
 {
     public class NinjectEngine : IEngine
     {

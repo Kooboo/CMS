@@ -9,11 +9,12 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.ABTestProvider
     using Kooboo.CMS.Sites.Models;
     using Kooboo.CMS.Common.Persistence.Non_Relational;
     using Kooboo.CMS.Sites.ABTest;
+    using Kooboo.Common.ObjectContainer;
     using Kooboo.CMS.Common;
 
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABRuleSettingProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABRuleSetting>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "ABRuleSettingsProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IABRuleSettingProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<ABRuleSetting>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "ABRuleSettingsProvider")]
     public class ABRuleSettingsProvider : IABRuleSettingProvider, ISiteImportExportStartup
     {
 

@@ -12,7 +12,7 @@ using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Form;
 using Kooboo.CMS.Form.Html;
 using Kooboo.CMS.Form.Html.Controls;
-using Kooboo.Web.Url;
+using Kooboo.Common.Web;
 using System;
 using System.Collections.Generic;
 using System.IO;

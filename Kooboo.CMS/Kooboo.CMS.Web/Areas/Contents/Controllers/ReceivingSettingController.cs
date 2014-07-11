@@ -12,13 +12,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Web.Areas.Contents.Models;
-using Kooboo.Web.Mvc;
-using Kooboo.CMS.Common;
+
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {

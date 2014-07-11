@@ -13,7 +13,7 @@ using System.Text;
 using System.Data.Entity;
 
 using Kooboo.CMS.Account.Models;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
 namespace Kooboo.CMS.Account.Persistence.EntityFramework
 {
     [Dependency(ComponentLifeStyle.InRequestScope)]

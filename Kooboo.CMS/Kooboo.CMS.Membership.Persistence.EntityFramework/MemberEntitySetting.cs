@@ -6,7 +6,9 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Runtime.Serialization;
+using Kooboo.Common;
+using Kooboo.Common.Misc;
+
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
@@ -48,7 +50,7 @@ namespace Kooboo.CMS.Membership.Persistence.EntityFramework
         }
         private static string GetSettingFile()
         {
-            return Path.Combine(Kooboo.Settings.BinDirectory, "Kooboo.CMS.Membership.Persistence.EntityFramework.config");
+            return Path.Combine(Settings.BinDirectory, "Kooboo.CMS.Membership.Persistence.EntityFramework.config");
         }
         public static MemberEntitySetting Instance
         {

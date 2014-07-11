@@ -45,7 +45,7 @@ namespace Kooboo.CMS.Sites.Membership
     {
         public static ExternalLogin ExternalLogin(this Page_Context page_context)
         {
-            MembershipConnectManager membershipConnectManager = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<MembershipConnectManager>();
+            MembershipConnectManager membershipConnectManager = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<MembershipConnectManager>();
 
             return new ExternalLogin(page_context.PageRequestContext.Site, page_context.Url, membershipConnectManager);
         }

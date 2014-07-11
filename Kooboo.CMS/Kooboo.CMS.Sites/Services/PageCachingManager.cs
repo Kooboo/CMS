@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Sites.Models;
-using Kooboo.IO;
+using Kooboo.Common.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -67,7 +67,7 @@ namespace Kooboo.CMS.Sites.Services
                 }
                 catch (Exception e)
                 {
-                    Kooboo.HealthMonitoring.Log.LogException(e);
+                   Kooboo.Common.Logging.Logger.Error(e.Message, e);
                 }
 
             }

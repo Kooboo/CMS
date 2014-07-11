@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Kooboo.Web.Mvc.Menu;
+using Kooboo.Common.Web.Menu;
 using System.Web.Mvc;
 
-using Kooboo.Web.Mvc;
+
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Services;
 namespace Kooboo.CMS.Web.Areas.Contents.Menu

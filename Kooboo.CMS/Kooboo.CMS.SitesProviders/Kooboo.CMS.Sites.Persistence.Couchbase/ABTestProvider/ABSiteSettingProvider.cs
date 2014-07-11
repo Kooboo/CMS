@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.ABTest;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Membership.Persistence;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Persistence.Couchbase.ABTestProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABSiteSettingProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABSiteSetting>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IABSiteSettingProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<ABSiteSetting>), Order = 100)]
     public class ABSiteSettingProvider : IABSiteSettingProvider
     {
         #region .ctor

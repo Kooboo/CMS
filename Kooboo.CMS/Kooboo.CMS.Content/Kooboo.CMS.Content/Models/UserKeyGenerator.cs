@@ -8,7 +8,7 @@
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Query;
-using Kooboo.Extensions;
+using Kooboo.Common.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +69,7 @@ namespace Kooboo.CMS.Content.Models
                 while (IfUserKeyExists(content, tmpUserKey))
                 {
                     tries++;
-                    tmpUserKey = escapedUserKey + "-" + Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(tries);
+                    tmpUserKey = escapedUserKey + "-" + UniqueIdGenerator.GetInstance().GetBase32UniqueId(tries);
                 }
                 userKey = tmpUserKey;
             }

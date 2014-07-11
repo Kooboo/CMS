@@ -12,7 +12,7 @@ using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Models.Options;
 using Kooboo.CMS.Sites.Persistence;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,7 +22,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(SiteManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(SiteManager))]
     public class SiteManager : PathResourceManagerBase<Site, ISiteProvider>
     {
         #region .ctor
@@ -200,7 +200,7 @@ namespace Kooboo.CMS.Sites.Services
         //    {
         //        if (parent == null)
         //        {
-        //            throw new KoobooException("Parent site is required.".Localize());
+        //            throw new Exception("Parent site is required.".Localize());
         //        }
         //        parent = parent.AsActual();
 
@@ -230,7 +230,7 @@ namespace Kooboo.CMS.Sites.Services
         //        var itemTemplate = ServiceFactory.SiteTemplateManager.GetItemTemplate(template.Category, template.TemplateName);
         //        if (itemTemplate == null)
         //        {
-        //            throw new KoobooException("The template does not exists.");
+        //            throw new Exception("The template does not exists.");
         //        }
         //        Site site = null;
         //        using (FileStream fs = new FileStream(itemTemplate.TemplateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -258,7 +258,7 @@ namespace Kooboo.CMS.Sites.Services
         //    var itemTemplate = ServiceFactory.ImportedSiteManager.GetItemTemplate(template.Category, template.TemplateName);
         //    if (itemTemplate == null)
         //    {
-        //        throw new KoobooException("The imported site does not exists.");
+        //        throw new Exception("The imported site does not exists.");
         //    }
         //    Site site = null;
         //    using (FileStream fs = new FileStream(itemTemplate.TemplateFile, FileMode.Open, FileAccess.Read, FileShare.Read))

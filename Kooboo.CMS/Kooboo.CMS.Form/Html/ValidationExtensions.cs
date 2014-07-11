@@ -13,7 +13,9 @@ using System.Text;
 using System.Web.Mvc;
 using System.Web;
 using System.Globalization;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Data;
+using Kooboo.Common;
 
 
 namespace Kooboo.CMS.Form.Html

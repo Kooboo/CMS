@@ -1,6 +1,6 @@
 ﻿@model Kooboo.CMS.Membership.Models.Membership
 @using Kooboo.CMS.Membership.Services;
-@using Kooboo.CMS.Common.Runtime;
+@using Kooboo.Common.ObjectContainer;
 
 @{
     var routeValues = ViewContext.RequestContext.AllRouteValues().Merge("membershipName", Model.Name);

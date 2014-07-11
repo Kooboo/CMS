@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Runtime.Serialization;
 using Kooboo.CMS.Sites.Models;
 using Microsoft.WindowsAzure.StorageClient;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.Misc;
 
 namespace Kooboo.CMS.Sites.Providers.AzureTable.UserProvider
 {

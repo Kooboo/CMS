@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Routing;
 using System.IO;
-using Kooboo.Web.Mvc.Routing;
+using Kooboo.Common.Web.Routing;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea.Runtime
 {

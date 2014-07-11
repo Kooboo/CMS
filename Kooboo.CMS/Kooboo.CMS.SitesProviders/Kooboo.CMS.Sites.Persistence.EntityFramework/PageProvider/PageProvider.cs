@@ -16,13 +16,13 @@ using Kooboo.CMS.Sites.Models;
 using Ionic.Zip;
 using System.Diagnostics;
 using System.Web;
-using Kooboo.CMS.Caching;
+using Kooboo.Common.Caching;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPageProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Page>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "PageProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IPageProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Page>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "PageProvider")]
     public class PageProvider : IPageProvider
     {
         #region .ctor
@@ -522,7 +522,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider
 
             //remove the GetCachedPageList() folder to clear all old GetCachedPageList().
             var dummy = new Page(site, "Dummy");
-            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
+            Kooboo.Common.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
 
             foreach (var item in QueryBySite(site))
             {

@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Caching;
-using Kooboo.CMS.Caching;
+using Kooboo.Common.Caching;
 namespace Kooboo.CMS.Content.Persistence.Caching
 {
     public class TextFolderProvider : CacheProviderBase<TextFolder>, ITextFolderProvider
@@ -71,22 +71,22 @@ namespace Kooboo.CMS.Content.Persistence.Caching
             finally
             {
                 repository.ClearCache();
-            }          
-        } 
+            }
+        }
         #endregion
 
         #region GetCacheKey
         protected override string GetCacheKey(TextFolder o)
         {
             return "TextFolder:" + o.FullName.ToLower();
-        } 
+        }
         #endregion
 
         #region All
         public IEnumerable<TextFolder> All()
         {
             return inner.All();
-        } 
+        }
         #endregion
     }
 }

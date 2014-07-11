@@ -11,9 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Kooboo.CMS.Web.Models;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
 using Kooboo.CMS.Sites.Versioning;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.Web.Grid.Design;
 using Kooboo.CMS.Web.Grid2;
 using Kooboo.CMS.Web.Areas.Sites.Models.Grid2;
 

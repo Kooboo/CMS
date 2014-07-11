@@ -1,4 +1,4 @@
-﻿using Kooboo.Globalization;
+﻿using Kooboo.Common.Globalization;
 using Kooboo.CMS.Sites.Extension.UI;
 using Kooboo.CMS.Sites.Extension.UI.TopToolbar;
 
@@ -10,7 +10,7 @@ using Kooboo.CMS.Sites.Services;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Views.DataSource
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IToolbarProvider), Key = "Kooboo.CMS.Web.Areas.Sites.Views.DataSource.IndexToolbarProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IToolbarProvider), Key = "Kooboo.CMS.Web.Areas.Sites.Views.DataSource.IndexToolbarProvider")]
     public class IndexToolbarProvider : IToolbarProvider
     {
         public CMS.Sites.Extension.UI.MvcRoute[] ApplyTo

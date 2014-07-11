@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.ABTest
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IVisitRule), Kooboo.CMS.Common.Runtime.Dependency.ComponentLifeStyle.Transient, Key = "LanguageVisitRule")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IVisitRule), Kooboo.Common.ObjectContainer.Dependency.ComponentLifeStyle.Transient, Key = "LanguageVisitRule")]
     [System.Runtime.Serialization.DataContract(Name = "LanguageVisitRule")]
     [System.Runtime.Serialization.KnownType(typeof(LanguageVisitRule))]
     public class LanguageVisitRule : VisitRuleBase, IVisitRule

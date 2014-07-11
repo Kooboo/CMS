@@ -10,8 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Kooboo.Web.Mvc.Menu;
-using Kooboo.Web.Mvc;
+using System.Web.Routing;
+
+using Kooboo.Common.Web.Menu;
+
 namespace Kooboo.CMS.Web.Areas.Sites.Menu
 {
 	public abstract class DataRuleMenuItemInitializer : SiteAuthorizeMenuItemInitializer

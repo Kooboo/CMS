@@ -13,13 +13,14 @@ using System.Text;
 using System.Web;
 using System.Collections.Specialized;
 using System.Web.Script.Serialization;
-using Kooboo.Web.Script.Serialization;
+
 namespace Kooboo.CMS.Sites.View
 {
-    using Kooboo.Extensions;
     using Kooboo.CMS.Sites.Models;
     using Kooboo.CMS.Sites.DataRule;
-    using Kooboo.CMS.Common;
+    using Kooboo.Common.ObjectContainer;
+    using Kooboo.Common.Misc;
+    using Kooboo.Common.Data;
 
     public abstract class PageDesignContent : PageDesignHtml
     {
@@ -127,14 +128,14 @@ namespace Kooboo.CMS.Sites.View
         {
             this.Parameter.Add("ModuleName", PageDesignContent.Code(pos.ModuleName));
             this.Parameter.Add("Exclusive", pos.Exclusive.ToString().ToLower());
-            this.Parameter.Add("SkipError", pos.SkipError.ToString().ToLower());            
+            this.Parameter.Add("SkipError", pos.SkipError.ToString().ToLower());
             if (pos.Entry != null)
             {
                 this.Parameter["LinkToEntryName"] = pos.Entry.LinkToEntryName;
                 this.Parameter["EntryName"] = pos.Entry.Name;
                 this.Parameter.Add("EntryAction", pos.Entry.Action);
                 this.Parameter.Add("EntryController", pos.Entry.Controller);
-                this.Parameter.Add("Values", pos.Entry.Values == null ? "[]" : pos.Entry.Values.ToList().ToJSON());
+                this.Parameter.Add("Values", pos.Entry.Values == null ? "[]" : Kooboo.Common.Web.JsonHelper.ToJSON(pos.Entry.Values.ToList()));
             }
         }
 

@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using Kooboo.CMS.Sites.Models;
 using System.Xml;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Sites.Persistence
 {
@@ -31,7 +32,7 @@ namespace Kooboo.CMS.Sites.Persistence
         {
             DataContractSerializer ser = new DataContractSerializer(typeof(T), knownTypes);
             string folderPath = Path.GetDirectoryName(filePath);
-            Kooboo.IO.IOUtility.EnsureDirectoryExists(folderPath);
+            IOUtility.EnsureDirectoryExists(folderPath);
             var settings = new XmlWriterSettings()
             {
                 CheckCharacters = false,
@@ -63,7 +64,7 @@ namespace Kooboo.CMS.Sites.Persistence
                     }
                     catch (Exception e)
                     {
-                        Kooboo.HealthMonitoring.Log.LogException(e);
+                       Kooboo.Common.Logging.Logger.Error(e.Message, e);
 
                         return null;
                     }

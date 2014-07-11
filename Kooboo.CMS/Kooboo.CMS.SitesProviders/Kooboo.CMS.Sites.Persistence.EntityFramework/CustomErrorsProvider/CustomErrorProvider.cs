@@ -1,4 +1,4 @@
-﻿using Kooboo.CMS.Caching;
+﻿using Kooboo.Common.Caching;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using System;
@@ -8,9 +8,9 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ICustomErrorProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Kooboo.CMS.Sites.Models.CustomError>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "CustomErrorProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ICustomErrorProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Kooboo.CMS.Sites.Models.CustomError>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "CustomErrorProvider")]
     public class CustomErrorProvider : ICustomErrorProvider, ISiteImportExportStartup
     {
         #region .ctor

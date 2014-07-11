@@ -18,7 +18,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Menu
     {
         public override FileManager FileManager
         {
-            get { return Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ThemeManager>(); }
+            get { return Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<ThemeManager>(); }
         }
     }
 }

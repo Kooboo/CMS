@@ -6,7 +6,8 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Web.Mvc;
+
+using Kooboo.Common.Web.SelectList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models.DataSources
             var controls = Kooboo.CMS.Form.Html.ControlHelper.ResolveAll();
             foreach (var c in controls)
             {
-                yield return new Kooboo.Web.Mvc.SelectListItemEx() { Text = c.Name, Value = c.Name, HtmlAttributes = new Dictionary<string, object>() { { "data-datatype", c.DataType } } };
+                yield return new Kooboo.Common.Web.SelectList.SelectListItemEx() { Text = c.Name, Value = c.Name, HtmlAttributes = new Dictionary<string, object>() { { "data-datatype", c.DataType } } };
             }
         }
     }

@@ -18,8 +18,8 @@ using Kooboo.CMS.Content.Query;
 
 namespace Kooboo.CMS.Content.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IMediaFolderProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<MediaFolder>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IMediaFolderProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<MediaFolder>))]
     public class MediaFolderProvider : FolderProvider<MediaFolder>, IMediaFolderProvider
     {
         #region Get

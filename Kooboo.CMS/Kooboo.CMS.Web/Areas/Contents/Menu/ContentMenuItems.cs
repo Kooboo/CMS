@@ -9,8 +9,8 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Services;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Menu;
+
+using Kooboo.Common.Web.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;

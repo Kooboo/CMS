@@ -8,7 +8,7 @@
 #endregion
 using DotNetOpenAuth.AspNet;
 using DotNetOpenAuth.AspNet.Clients;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Membership.Models;
 using System;
 using System.Collections.Generic;

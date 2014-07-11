@@ -12,11 +12,11 @@ using Kooboo.CMS.Web.Areas.Contents.Models.DataSources;
 using Kooboo.CMS.Web.Areas.Contents.Models.Grid2;
 using Kooboo.CMS.Web.Areas.Sites.Models;
 using Kooboo.CMS.Web.Areas.Sites.Models.DataSources;
-using Kooboo.ComponentModel;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Grid2;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Misc;
+using Kooboo.Common.Web.Grid.Design;
+using Kooboo.Common.Web.Metadata;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,7 +28,7 @@ using System.Web.Routing;
 
 namespace Kooboo.CMS.Web.Areas.Contents.Models
 {
-    [Kooboo.ComponentModel.MetadataFor(typeof(TextFolder))]
+    [MetadataFor(typeof(TextFolder))]
     [Grid(Checkable = true, IdProperty = "UUID", GridItemType = typeof(TextFolder_GridItem))]
     public class TextFolder_Metadata
     {

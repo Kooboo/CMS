@@ -13,13 +13,13 @@ using System.Text;
 using System.Collections;
 using Kooboo.CMS.Content.Persistence.Default;
 using Kooboo.CMS.Content.Models;
-using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer.Dependency;
+using Kooboo.Common.ObjectContainer;
 
 namespace Kooboo.CMS.Content.Persistence.Sqlce
 {
 
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProviderFactory), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProviderFactory), Order = 2)]
     public class ProviderFactory : Default.ProviderFactory
     {
         #region IProviderFactory Members

@@ -45,7 +45,7 @@ namespace Kooboo.CMS.Sites.Services
             return relativePaths;
         }
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(FileManager), Key = "customfiles")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(FileManager), Key = "customfiles")]
     public class CustomFileManager : FileManager
     {
         protected override DirectoryResource GetRootDir(Site site)

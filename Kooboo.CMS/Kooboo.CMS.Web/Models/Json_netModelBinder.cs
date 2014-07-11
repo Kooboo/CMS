@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

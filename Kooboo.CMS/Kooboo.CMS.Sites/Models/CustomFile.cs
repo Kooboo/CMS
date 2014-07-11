@@ -12,7 +12,8 @@ using System.Linq;
 using System.Text;
 using Kooboo.Collections;
 using System.IO;
-using Kooboo.Web.Url;
+using Kooboo.Common.Web;
+
 namespace Kooboo.CMS.Sites.Models
 {
     public partial class CustomFile : FileResource

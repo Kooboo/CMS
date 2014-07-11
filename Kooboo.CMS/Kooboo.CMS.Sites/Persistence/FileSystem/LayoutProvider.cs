@@ -13,15 +13,16 @@ using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.ComponentModel.Composition;
 using System.IO;
-using Kooboo.Web.Url;
-using Kooboo.IO;
+
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ILayoutProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Layout>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ILayoutProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Layout>))]
     public class LayoutProvider : TemplateProvider<Layout>, ILayoutProvider
     {
         public class LayoutVersionLogger : TemplateProvider<Layout>.TemplateVersionLogger

@@ -12,7 +12,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
-using Kooboo.Runtime.Serialization;
+using Kooboo.Common.Misc;
+
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
     public class ConnectionSetting
@@ -50,7 +51,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         }
         private static string GetSettingFile()
         {
-            return Path.Combine(Kooboo.Settings.BinDirectory, "AzureBlobSettings.config");
+            return Path.Combine(Kooboo.Common.Settings.BinDirectory, "AzureBlobSettings.config");
         }
         public static AzureBlobServiceSettings Instance
         {

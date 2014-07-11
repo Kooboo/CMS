@@ -6,8 +6,8 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Drawing;
-using Kooboo.Web.Url;
+using Kooboo.Common.Web;
+using Kooboo.Common.Windows.Drawing;
 using System;
 using System.Collections.Generic;
 using System.IO;

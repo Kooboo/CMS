@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using HtmlAgilityPack;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
 using System.Text.RegularExpressions;
 using System.IO;
 using Kooboo.CMS.Sites.Models;
@@ -124,7 +124,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
 
 //            return string.Format(@"<div id='{0}'><link href='{1}' rel='stylesheet' type='text/less'/> <script src='{3}' type='text/javascript'></script>
 //            {2}
-//            </div>", proxyRenderContext.ProxyPosition.PagePositionId, proxyStyleURL, html, Kooboo.Web.Url.UrlUtility.ResolveUrl("~/Scripts/less.js"));
+//            </div>", proxyRenderContext.ProxyPosition.PagePositionId, proxyStyleURL, html, Kooboo.Common.Web.UrlUtility.ResolveUrl("~/Scripts/less.js"));
 //        }
         //#region IsStylesheet
         //private bool IsStylesheet(HtmlNode node)

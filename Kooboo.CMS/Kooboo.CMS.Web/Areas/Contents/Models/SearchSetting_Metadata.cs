@@ -9,14 +9,15 @@
 using Kooboo.CMS.Search.Models;
 using Kooboo.CMS.Web.Models;
 using System.ComponentModel.DataAnnotations;
-using Kooboo.Web.Mvc;
+
 using Kooboo.CMS.Content.Models;
 using System.ComponentModel;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
 using Kooboo.CMS.Web.Areas.Contents.Models.DataSources;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.Web.Grid.Design;
 using Kooboo.CMS.Web.Grid2;
 using System.Collections.Generic;
+using Kooboo.Common.Web.Metadata;
 
 namespace Kooboo.CMS.Web.Areas.Contents.Models
 {

@@ -11,17 +11,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-using Kooboo.Web.Mvc;
+
 using Kooboo.CMS.Sites.Models;
 
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Sites.Extension;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Kooboo.Extensions;
-using Kooboo.ComponentModel;
-using Kooboo.Web.Mvc.Grid2.Design;
+
+using Kooboo.Common.ComponentModel;
 using Kooboo.CMS.Web.Grid2;
+using Kooboo.Common.Web.Grid.Design;
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
     [MetadataFor(typeof(AssemblyFile))]	

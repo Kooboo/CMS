@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Kooboo.CMS.Content.Persistence.Default;
 using Kooboo.CMS.Content.Models;
-using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer.Dependency;
+using Kooboo.Common.ObjectContainer;
 using Couchbase;
 
 namespace Kooboo.CMS.Content.Persistence.Couchbase
 {
-    public class ProviderFactory : Default.ProviderFactory, Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
+    public class ProviderFactory : Default.ProviderFactory, Kooboo.Common.ObjectContainer.Dependency.IDependencyRegistrar
     {
         public override string Name
         {

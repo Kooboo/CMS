@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Web.Mvc.Paging;
+using Kooboo.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;

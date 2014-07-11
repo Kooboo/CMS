@@ -12,7 +12,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
-using Kooboo.Runtime.Serialization;
+using Kooboo.Common.Misc;
+using Kooboo.Common;
+
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework
 {
     [DataContract]
@@ -46,7 +48,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework
         }
         private static string GetSettingFile()
         {
-            return Path.Combine(Kooboo.Settings.BinDirectory, "Kooboo.CMS.Sites.Persistence.EntityFramework.config");
+            return Path.Combine(Settings.BinDirectory, "Kooboo.CMS.Sites.Persistence.EntityFramework.config");
         }
         public static SiteEntitySetting Instance
         {

@@ -11,9 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Content.Persistence;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Content.Models;
 
@@ -120,7 +120,7 @@ namespace Kooboo.CMS.Sites.Services
         }
     }
 
-    public class ServiceFactory : Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
+    public class ServiceFactory : Kooboo.Common.ObjectContainer.Dependency.IDependencyRegistrar
     {
 
         public static LayoutManager LayoutManager

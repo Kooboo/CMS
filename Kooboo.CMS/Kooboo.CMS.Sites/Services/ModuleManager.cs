@@ -13,7 +13,8 @@ using Kooboo.CMS.Sites.Extension.ModuleArea;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Parsers.ThemeRule;
 using Kooboo.CMS.Sites.Persistence;
-using Kooboo.Web.Mvc.Menu;
+using Kooboo.Common.IO;
+using Kooboo.Common.Web.Menu;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +24,7 @@ using System.Web;
 using System.Web.Mvc;
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ModuleManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ModuleManager))]
     public class ModuleManager
     {
         #region Module Script & theme
@@ -82,10 +83,10 @@ namespace Kooboo.CMS.Sites.Services
                     themeFiles.Add(new ModuleItemPath(themePath, file));
                 }
 
-                string themeBaseUrl = Kooboo.Web.Url.UrlUtility.ResolveUrl(themePath.VirtualPath);
+                string themeBaseUrl = Kooboo.Common.Web.UrlUtility.ResolveUrl(themePath.VirtualPath);
 
                 var themeRuleFiles = ThemeRuleParser.Parser.Parse(ThemeRuleBody(moduleName, themeName),
-                    (fileVirtualPath) => Kooboo.Web.Url.UrlUtility.Combine(themeBaseUrl, fileVirtualPath), out themeRuleBody);
+                    (fileVirtualPath) => Kooboo.Common.Web.UrlUtility.Combine(themeBaseUrl, fileVirtualPath), out themeRuleBody);
 
                 return themeFiles.Where(it => !themeRuleFiles.Any(cf => cf.EqualsOrNullEmpty(it.EntryName, StringComparison.CurrentCultureIgnoreCase)));
             }
@@ -112,7 +113,7 @@ namespace Kooboo.CMS.Sites.Services
             var baseDirectory = ModulePath.BaseDirectory;
             if (Directory.Exists(baseDirectory))
             {
-                foreach (var dir in IO.IOUtility.EnumerateDirectoriesExludeHidden(baseDirectory))
+                foreach (var dir in IOUtility.EnumerateDirectoriesExludeHidden(baseDirectory))
                 {
                     var moduleName = dir.Name;
 
@@ -148,10 +149,10 @@ namespace Kooboo.CMS.Sites.Services
         #region ResolveModuleAction
         protected virtual Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents ResolveModuleAction(string moduleName)
         {
-            var moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents>(moduleName);
+            var moduleEvent = Kooboo.Common.ObjectContainer.EngineContext.Current.TryResolve<Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events.IModuleSiteRelationEvents>(moduleName);
             if (moduleEvent == null)
             {
-                moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
+                moduleEvent = Kooboo.Common.ObjectContainer.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
             }
             return moduleEvent;
         }
@@ -171,7 +172,7 @@ namespace Kooboo.CMS.Sites.Services
                 sitesModuleRelationLocker.EnterReadLock();
                 try
                 {
-                    var jsonData = Kooboo.IO.IOUtility.ReadAsString(filePath);
+                    var jsonData = Kooboo.Common.IO.IOUtility.ReadAsString(filePath);
                     var list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(jsonData);
                     return list;
                 }
@@ -187,7 +188,7 @@ namespace Kooboo.CMS.Sites.Services
                 try
                 {
                     var jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(sites, Newtonsoft.Json.Formatting.Indented);
-                    Kooboo.IO.IOUtility.SaveStringToFile(filePath, jsonData);
+                    Kooboo.Common.IO.IOUtility.SaveStringToFile(filePath, jsonData);
                 }
                 finally
                 {
@@ -219,7 +220,7 @@ namespace Kooboo.CMS.Sites.Services
             }
             catch (Exception e)
             {
-                Kooboo.HealthMonitoring.Log.LogException(e);
+               Kooboo.Common.Logging.Logger.Error(e.Message, e);
             }
         }
 
@@ -239,7 +240,7 @@ namespace Kooboo.CMS.Sites.Services
             }
             catch (Exception e)
             {
-                Kooboo.HealthMonitoring.Log.LogException(e);
+               Kooboo.Common.Logging.Logger.Error(e.Message, e);
             }
 
         }

@@ -9,8 +9,8 @@
 using Kooboo.CMS.Sites.ABTest;
 using Kooboo.CMS.Web.Areas.Sites.Models.Grid2;
 using Kooboo.CMS.Web.Grid2;
-using Kooboo.ComponentModel;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Web.Grid.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;

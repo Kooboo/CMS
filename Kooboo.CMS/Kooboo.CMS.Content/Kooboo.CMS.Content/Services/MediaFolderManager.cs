@@ -18,7 +18,7 @@ namespace Kooboo.CMS.Content.Services
     /// <summary>
     /// 
     /// </summary>
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(MediaFolderManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(MediaFolderManager))]
     public class MediaFolderManager : FolderManager<MediaFolder>
     {
         public MediaFolderManager(IMediaFolderProvider provider)

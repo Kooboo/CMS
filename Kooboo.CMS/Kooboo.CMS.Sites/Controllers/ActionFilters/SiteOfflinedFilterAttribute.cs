@@ -8,8 +8,8 @@
 #endregion
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Web;
-using Kooboo.Globalization;
-using Kooboo.Web.Url;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;

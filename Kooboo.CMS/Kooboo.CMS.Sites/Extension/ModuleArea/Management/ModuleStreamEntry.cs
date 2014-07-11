@@ -103,8 +103,8 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
             if (!string.IsNullOrEmpty(_moduleDirName))
             {
                 var subDir = Path.Combine(physicalPath, _moduleDirName);
-                Kooboo.IO.IOUtility.CopyDirectory(subDir, physicalPath);
-                Kooboo.IO.IOUtility.DeleteDirectory(subDir, true);
+                Kooboo.Common.IO.IOUtility.CopyDirectory(subDir, physicalPath);
+                Kooboo.Common.IO.IOUtility.DeleteDirectory(subDir, true);
             }
         }
         #endregion

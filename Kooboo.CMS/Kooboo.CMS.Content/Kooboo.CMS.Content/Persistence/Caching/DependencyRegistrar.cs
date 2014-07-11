@@ -6,14 +6,15 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common.Runtime;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Kooboo.Common.ObjectContainer.Dependency;
 
 namespace Kooboo.CMS.Content.Persistence.Caching
 {

@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+
 using System;
 using System.Collections;
 using System.IO;
@@ -16,6 +17,7 @@ using NVelocity.App;
 using NVelocity.Runtime;
 using System.Web;
 using NVelocity.Runtime.Resource.Loader;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity.MvcViewEngine
 {
@@ -129,7 +131,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity.MvcViewEngine
             {
                 return null;
             }
-            return _engine.GetTemplate(Kooboo.Web.Url.UrlUtility.MapPath(viewPath));
+            return _engine.GetTemplate(UrlUtility.MapPath(viewPath));
         }
         //public void RenderView(ViewContext viewContext)
         //{

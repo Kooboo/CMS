@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Kooboo.Web.Mvc.Paging;
+using Kooboo.Common.Data;
 using Kooboo.CMS.Content.Models;
 
 namespace Kooboo.CMS.Web.Areas.Contents.Models

@@ -6,14 +6,15 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Sites.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.Web;
+
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     public abstract class PathResourceControllerBase<T, Service> : ManageControllerBase<T, Service>

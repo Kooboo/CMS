@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Web.Mvc.Menu;
+using Kooboo.Common.Web.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace Kooboo.CMS.Sites.Extension.UI.GlobalSidebarMenu
     {
         public IEnumerable<MenuItem> GetItems(string areaName, System.Web.Mvc.ControllerContext controllerContext)
         {
-            var globalMenuItemProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<IGlobalSidebarMenuItemProvider>();
+            var globalMenuItemProvider = Kooboo.Common.ObjectContainer.EngineContext.Current.ResolveAll<IGlobalSidebarMenuItemProvider>();
             
             return globalMenuItemProvider.SelectMany(it => it.GetMenuItems(controllerContext));
         }

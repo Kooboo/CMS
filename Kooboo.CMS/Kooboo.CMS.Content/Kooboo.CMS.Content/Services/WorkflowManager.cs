@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 namespace Kooboo.CMS.Content.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(WorkflowManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(WorkflowManager))]
     public class WorkflowManager : ManagerBase<Workflow, IWorkflowProvider>, IManager<Workflow, IWorkflowProvider>
     {
         public WorkflowManager(IWorkflowProvider workflowProvider,

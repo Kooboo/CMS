@@ -18,8 +18,8 @@ using Kooboo.CMS.Common.Persistence.Relational;
 
 namespace Kooboo.CMS.Sites.Providers.SqlServer.HtmlBlockProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IHtmlBlockProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<HtmlBlock>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IHtmlBlockProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<HtmlBlock>), Order = 100)]
     public class HtmlBlockProvider : IHtmlBlockProvider
     {
         //#region version
@@ -225,7 +225,7 @@ namespace Kooboo.CMS.Sites.Providers.SqlServer.HtmlBlockProvider
 
             //remove the pages folder to clear all old pages.
             var dummy = new HtmlBlock(site, "Dummy");
-            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
+            Kooboo.Common.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
 
             foreach (var item in QueryBySite(site))
             {

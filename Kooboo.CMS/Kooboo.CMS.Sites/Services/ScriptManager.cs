@@ -43,7 +43,7 @@ namespace Kooboo.CMS.Sites.Services
             return relativePaths;
         }
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(FileManager), Key = "scripts")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(FileManager), Key = "scripts")]
     public class ScriptManager : FileManager
     {
         protected override Models.DirectoryResource GetRootDir(Site site)

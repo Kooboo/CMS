@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Membership.Services;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.Web.SelectList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
     {
         public IEnumerable<System.Web.Mvc.SelectListItem> GetSelectListItems(System.Web.Routing.RequestContext requestContext, string filter = null)
         {
-            var membershipManager = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<MembershipManager>();
+            var membershipManager = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<MembershipManager>();
 
 
             return membershipManager.All("").Select(it => new SelectListItem() { Text = it.Name, Value = it.Name }).EmptyItem("");

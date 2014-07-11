@@ -11,8 +11,8 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Content.Persistence;
 using Kooboo.CMS.Form;
-using Kooboo.Extensions;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text;
 namespace Kooboo.CMS.Content.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(SchemaManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(SchemaManager))]
     public class SchemaManager : ManagerBase<Schema, ISchemaProvider>, IManager<Schema, ISchemaProvider>
     {
         #region .ctor
@@ -36,7 +36,7 @@ namespace Kooboo.CMS.Content.Services
             var template = ServiceFactory.RepositoryTemplateManager.GetItemTemplate(templateName);
             if (template == null)
             {
-                throw new KoobooException("The template file does not exists.".Localize());
+                throw new ArgumentNullException("The template file does not exists.".Localize());
             }
             using (FileStream fs = new FileStream(template.TemplateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
@@ -173,7 +173,7 @@ namespace Kooboo.CMS.Content.Services
         {
             var formFilePhysicalPath = schema.GetFormFilePhysicalPath(formType);
             string form = schema.GenerateForm(formType);
-            IO.IOUtility.SaveStringToFile(formFilePhysicalPath, form);
+            IOUtility.SaveStringToFile(formFilePhysicalPath, form);
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace Kooboo.CMS.Content.Services
                 }
             }
 
-            return IO.IOUtility.ReadAsString(formFilePhysicalPath);
+            return IOUtility.ReadAsString(formFilePhysicalPath);
         }
         /// <summary>
         /// Saves the form into custom template
@@ -211,7 +211,7 @@ namespace Kooboo.CMS.Content.Services
 
             var formFilePhysicalPath = schema.GetCustomTemplatePhysicalPath(formType);
 
-            IO.IOUtility.SaveStringToFile(formFilePhysicalPath, body);
+            IOUtility.SaveStringToFile(formFilePhysicalPath, body);
         }
         #endregion
 

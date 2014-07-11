@@ -12,7 +12,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {

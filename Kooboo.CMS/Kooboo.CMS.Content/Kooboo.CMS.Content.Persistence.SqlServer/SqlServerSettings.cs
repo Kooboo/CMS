@@ -11,8 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Kooboo.Runtime.Serialization;
+
 using System.Runtime.Serialization;
+using Kooboo.Common.Misc;
+using Kooboo.Common;
 namespace Kooboo.CMS.Content.Persistence.SqlServer
 {
     public class ConnectionSetting
@@ -48,9 +50,9 @@ namespace Kooboo.CMS.Content.Persistence.SqlServer
         }
         private static string GetSettingFile()
         {
-            var filePath = Path.Combine(Kooboo.Settings.BaseDirectory, "SqlServer.config");
+            var filePath = Path.Combine(Settings.BaseDirectory, "SqlServer.config");
             if (!File.Exists(filePath))
-                filePath = Path.Combine(Kooboo.Settings.BinDirectory, "SqlServer.config");
+                filePath = Path.Combine(Settings.BinDirectory, "SqlServer.config");
             return filePath;
         }
         public static SqlServerSettings Instance

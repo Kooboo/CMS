@@ -8,9 +8,9 @@
 #endregion
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Web.Grid2;
-using Kooboo.ComponentModel;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Web.Grid.Design;
+using Kooboo.Common.Web.Metadata;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

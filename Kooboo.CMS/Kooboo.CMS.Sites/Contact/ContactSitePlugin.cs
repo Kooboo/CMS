@@ -1,5 +1,5 @@
-﻿using Kooboo.CMS.Common;
-using Kooboo.CMS.Common.DataViolation;
+﻿using Kooboo.Common.ObjectContainer;
+
 using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites.Models;
 using System;
@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web;
 using Kooboo.CMS.Sites.Extension;
+using Kooboo.Common.Web;
+using Kooboo.Common.Data.DataViolation;
 
 namespace Kooboo.CMS.Sites.Contact {
     public class ContactSitePlugin : IHttpMethodPagePlugin, ISubmissionPlugin {
@@ -63,7 +65,7 @@ namespace Kooboo.CMS.Sites.Contact {
                     valid = false;
                 } catch (Exception e) {
                     controllerContext.Controller.ViewData.ModelState.AddModelError("", e.Message);
-                    Kooboo.HealthMonitoring.Log.LogException(e);
+                   Kooboo.Common.Logging.Logger.Error(e.Message, e);
                     valid = false;
                 }
             }

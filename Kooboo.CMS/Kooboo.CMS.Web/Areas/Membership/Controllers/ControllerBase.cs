@@ -7,14 +7,16 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.Web.Mvc;
+
 using Kooboo.CMS.Membership.Models;
 using Kooboo.CMS.Sites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Globalization;
+using System.Web.Routing;
+
+using Kooboo.Common.Globalization;
 namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 {
     public class ControllerBase : AreaControllerBase

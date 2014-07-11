@@ -18,9 +18,9 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IHtmlBlockProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<HtmlBlock>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "HtmlBlockProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IHtmlBlockProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<HtmlBlock>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "HtmlBlockProvider")]
     public class HtmlBlockProvider : IHtmlBlockProvider
     {
         Func<Site, string, HtmlBlock> createModel = (Site site, string key) =>
@@ -185,7 +185,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.HtmlBlockProvider
 
             //remove the pages folder to clear all old pages.
             var dummy = new HtmlBlock(site, "Dummy");
-            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
+            Kooboo.Common.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
 
             foreach (var item in QueryBySite(site))
             {

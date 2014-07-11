@@ -15,8 +15,9 @@ using System.Web;
 using Kooboo.CMS.Sites.Controllers;
 using Kooboo.CMS.Sites.View;
 using System.Web.Routing;
-using Kooboo.Web;
+
 using Kooboo.CMS.Sites.Models;
+using Kooboo.Common;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea.Runtime
 {

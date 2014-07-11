@@ -7,13 +7,13 @@
 // 
 #endregion
 using Ionic.Zip;
-using Kooboo.CMS.Caching;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Caching;
 using Kooboo.CMS.Sites.Caching;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Models.Options;
-using Kooboo.Globalization;
+using Kooboo.Common.Caching;
+using Kooboo.Common.Globalization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -109,7 +109,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
                 {
                     return site;
                 }
-                dummy.ObjectCache().Add(cacheKey, site, Kooboo.CMS.Caching.ObjectCacheExtensions.DefaultCacheItemPolicy);
+                dummy.ObjectCache().Add(cacheKey, site, Kooboo.Common.Caching.ObjectCacheExtensions.DefaultCacheItemPolicy);
             }
             return site;
         }

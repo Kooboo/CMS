@@ -13,10 +13,10 @@ using System.Text;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Persistence;
 using System.IO;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 namespace Kooboo.CMS.Content.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(RepositoryManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(RepositoryManager))]
     public class RepositoryManager
     {
         #region .ctor
@@ -111,7 +111,7 @@ namespace Kooboo.CMS.Content.Services
                 var template = ServiceFactory.RepositoryTemplateManager.GetItemTemplate(templateName);
                 if (template == null)
                 {
-                    throw new KoobooException("The template file does not exists.".Localize());
+                    throw new ArgumentNullException("The template file does not exists.".Localize());
                 }
                 using (FileStream fs = new FileStream(template.TemplateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {

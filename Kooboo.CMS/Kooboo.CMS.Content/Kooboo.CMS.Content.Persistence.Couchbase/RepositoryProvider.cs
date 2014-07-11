@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Kooboo.CMS.Content.Persistence.Default;
 using Kooboo.CMS.Content.Models;
-using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer.Dependency;
+using Kooboo.Common.ObjectContainer;
 using Enyim.Caching.Memcached;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Couchbase.Management;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Content.Persistence.Couchbase
 {

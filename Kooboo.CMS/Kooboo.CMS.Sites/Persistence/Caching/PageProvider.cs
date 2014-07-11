@@ -35,7 +35,7 @@ namespace Kooboo.CMS.Sites.Persistence.Caching
                 if (childPages == null)
                 {
                     childPages = inner.ChildPages(parentPage).ToArray();
-                    parentPage.Site.ObjectCache().Add(cacheKey, childPages, Kooboo.CMS.Caching.ObjectCacheExtensions.DefaultCacheItemPolicy);
+                    parentPage.Site.ObjectCache().Add(cacheKey, childPages, Kooboo.Common.Caching.ObjectCacheExtensions.DefaultCacheItemPolicy);
                 }
                 return childPages.AsQueryable();
             }

@@ -7,9 +7,9 @@ using Kooboo.CMS.Sites.Models;
 
 namespace Kooboo.CMS.Sites.Persistence.Couchbase.UrlRedirectProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUrlRedirectProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<UrlRedirect>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "UrlRedirectProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IUrlRedirectProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<UrlRedirect>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "UrlRedirectProvider")]
     public class UrlRedirectProvider : ProviderBase<UrlRedirect>, IUrlRedirectProvider
     {
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);

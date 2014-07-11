@@ -7,7 +7,7 @@
 @section Sidebar{
     @Html.Partial("_SidebarTopSearch")
     <nav class="container block menu">
-        @Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))
+        @Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))
     </nav>
 }
 @section Panel{

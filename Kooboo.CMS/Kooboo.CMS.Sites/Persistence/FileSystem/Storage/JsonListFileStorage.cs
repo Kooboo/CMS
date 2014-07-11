@@ -41,7 +41,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
             _locker.EnterReadLock();
             try
             {
-                var json = Kooboo.IO.IOUtility.ReadAsString(_dataFile);
+                var json = Kooboo.Common.IO.IOUtility.ReadAsString(_dataFile);
                 var list = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
                 return list;
             }
@@ -137,7 +137,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
             try
             {
                 var json = JsonConvert.SerializeObject(list, Formatting.Indented);
-                Kooboo.IO.IOUtility.SaveStringToFile(_dataFile, json);
+                Kooboo.Common.IO.IOUtility.SaveStringToFile(_dataFile, json);
             }
             finally
             {

@@ -1,6 +1,7 @@
 ﻿using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.View;
+using Kooboo.Common.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         /// <returns></returns>
         public static string GetModuleName(this ControllerContext controllerContext)
         {
-            return Kooboo.Web.Mvc.AreaHelpers.GetAreaName(controllerContext.RouteData);
+            return AreaHelpers.GetAreaName(controllerContext.RouteData);
         }
         #endregion
 
@@ -37,7 +38,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                 throw new InvalidOperationException("The GetModuleContext only can be invoked from the module frontend controller.");
             }
         }
-        #endregion     
+        #endregion
 
         #region ShareData
         public static void ShareData(this ControllerContext controllerContext, string key, object data)

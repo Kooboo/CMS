@@ -12,11 +12,11 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Models;
 using System.Collections;
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer;
 
 namespace Kooboo.CMS.Content.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProviderFactory))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProviderFactory))]
     public class ProviderFactory : IProviderFactory
     {
         #region Name

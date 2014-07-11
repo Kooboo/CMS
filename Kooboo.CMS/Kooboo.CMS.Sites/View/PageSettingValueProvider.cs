@@ -13,11 +13,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Kooboo.Collections;
-using Kooboo.Reflection;
+using Kooboo.Common.Reflection;
+
 
 namespace Kooboo.CMS.Sites.View
 {
-    public class PageSettingValueProvider : Kooboo.CMS.Common.Formula.IValueProvider
+    public class PageSettingValueProvider : Kooboo.Common.TokenTemplate.IValueProvider
     {
         Page_Context _pageContext;
         public PageSettingValueProvider(Page_Context pageContext)

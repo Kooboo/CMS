@@ -6,8 +6,9 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
-using Kooboo.Web.Url;
+using Kooboo.Common.Data;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,7 +49,7 @@ namespace Kooboo.CMS.Sites.Models
             {
                 if (string.IsNullOrEmpty(fileExtension))
                 {
-                    return Kooboo.CMS.Sites.View.TemplateEngines.GetEngineByName(this.EngineName).GetFileExtensionForView();
+                    return Kooboo.CMS.Sites.View.TemplateEngines.GetEngineByName(this.EngineName).ViewExtension;
                 }
                 return fileExtension;
             }

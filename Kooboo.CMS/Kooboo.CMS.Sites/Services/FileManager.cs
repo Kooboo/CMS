@@ -12,10 +12,12 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.IO;
-using Kooboo.Web.Url;
+
 using Kooboo.CMS.Sites.Persistence.FileSystem;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Ionic.Zip;
+using Kooboo.Common.IO;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Sites.Services
 {
     public static class FileOrderHelper
@@ -69,7 +71,7 @@ namespace Kooboo.CMS.Sites.Services
 
         public static void SaveFilesOrder(string baseDir, IEnumerable<string> filesOrder)
         {
-            Kooboo.IO.IOUtility.EnsureDirectoryExists(baseDir);
+            IOUtility.EnsureDirectoryExists(baseDir);
             var orderFile = Path.Combine(baseDir, FileOrderHelper.OrderFileName);
             if (File.Exists(orderFile))
             {
@@ -221,7 +223,7 @@ namespace Kooboo.CMS.Sites.Services
             {
                 if (RootDir == null)
                 {
-                    throw new KoobooException("The root dir is null.");
+                    throw new Exception("The root dir is null.");
                 }
                 return this.PhysicalPath.Remove(0, RootDir.PhysicalPath.Length + 1);
             }
@@ -232,7 +234,7 @@ namespace Kooboo.CMS.Sites.Services
         {
             get
             {
-                return Kooboo.Drawing.ImageTools.IsImageExtension(this.FileExtension);
+                return Kooboo.Common.Windows.Drawing.ImageTools.IsImageExtension(this.FileExtension);
             }
         }
 
@@ -397,7 +399,7 @@ namespace Kooboo.CMS.Sites.Services
             {
                 if (RootDir == null)
                 {
-                    throw new KoobooException("The root dir is null.");
+                    throw new Exception("The root dir is null.");
                 }
                 return this.physicalPath.Remove(0, RootDir.PhysicalPath.Length + 1);
             }
@@ -429,7 +431,7 @@ namespace Kooboo.CMS.Sites.Services
                 var dir = GetDirectory(site, relativePath);
                 if (dir.Exists())
                 {
-                    foreach (var item in IO.IOUtility.EnumerateDirectoriesExludeHidden(dir.PhysicalPath))
+                    foreach (var item in IOUtility.EnumerateDirectoriesExludeHidden(dir.PhysicalPath))
                     {
                         var dirEntry = new DirectoryEntry(GetRootDir(site), GetRelativePath(relativePath, item.Name)) { LastUpdateDate = item.LastWriteTime };
                         if (!list.Contains(dirEntry, new DirectoryEntry.DirectoryNameEqualityComparer()))
@@ -623,7 +625,7 @@ namespace Kooboo.CMS.Sites.Services
 
                 if (fileEntry != null)
                 {
-                    Kooboo.IO.IOUtility.EnsureDirectoryExists(Path.GetDirectoryName(targetFileEntry.PhysicalPath));
+                    Kooboo.Common.IO.IOUtility.EnsureDirectoryExists(Path.GetDirectoryName(targetFileEntry.PhysicalPath));
                     File.Copy(fileEntry.PhysicalPath, targetFileEntry.PhysicalPath, true);
                 }
             }

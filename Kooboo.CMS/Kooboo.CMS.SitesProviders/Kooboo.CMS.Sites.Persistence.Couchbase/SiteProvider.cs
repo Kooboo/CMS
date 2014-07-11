@@ -1,4 +1,4 @@
-﻿using Kooboo.CMS.Common;
+﻿using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Membership.Persistence;
@@ -9,11 +9,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Persistence.Couchbase
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Site>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Site>), Order = 100)]
     public class SiteProvider : Kooboo.CMS.Sites.Persistence.FileSystem.SiteProvider
     {
         #region .ctor
@@ -42,7 +43,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase
             catch (Exception e)
             {
                 //Maybe unable to save site setting when the data bucket is initializing. Ignore the save exception when site creating.
-                Kooboo.HealthMonitoring.Log.LogException(e);
+               Kooboo.Common.Logging.Logger.Error(e.Message, e);
             }
 
             base.Add(item);

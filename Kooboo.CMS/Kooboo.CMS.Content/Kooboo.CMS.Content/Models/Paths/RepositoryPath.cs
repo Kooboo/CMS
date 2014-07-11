@@ -12,8 +12,11 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Models;
 using System.IO;
-using Kooboo.Web.Url;
+
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
 using Kooboo.CMS.Common;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Content.Models.Paths
 {
@@ -24,7 +27,7 @@ namespace Kooboo.CMS.Content.Models.Paths
         public static string BaseVirtualPath { get; private set; }
         static RepositoryPath()
         {
-            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+            var baseDir = EngineContext.Current.Resolve<IBaseDir>();
             BasePhysicalPath = Path.Combine(baseDir.Cms_DataPhysicalPath, PATH_NAME);
             BaseVirtualPath = UrlUtility.Combine(baseDir.Cms_DataVirtualPath, PATH_NAME);
         }
@@ -72,7 +75,7 @@ namespace Kooboo.CMS.Content.Models.Paths
 
         public void Rename(string newName)
         {
-            IO.IOUtility.RenameDirectory(this.PhysicalPath, @newName);
+            IOUtility.RenameDirectory(this.PhysicalPath, @newName);
         }
 
         #endregion

@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 namespace Kooboo.CMS.Sites.ABTest
@@ -20,7 +20,7 @@ namespace Kooboo.CMS.Sites.ABTest
     /// <summary>
     /// 
     /// </summary>
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IVisitRule), Kooboo.CMS.Common.Runtime.Dependency.ComponentLifeStyle.Transient, Key = "IPVisitRule")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IVisitRule), Kooboo.Common.ObjectContainer.Dependency.ComponentLifeStyle.Transient, Key = "IPVisitRule")]
     [System.Runtime.Serialization.DataContract(Name = "IPVisitRule")]
     [System.Runtime.Serialization.KnownType(typeof(IPVisitRule))]
     public class IPVisitRule : VisitRuleBase, IVisitRule

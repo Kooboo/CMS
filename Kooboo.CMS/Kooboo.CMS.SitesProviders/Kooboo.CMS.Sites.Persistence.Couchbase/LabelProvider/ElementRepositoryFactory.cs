@@ -14,7 +14,7 @@ using Kooboo.CMS.Sites.Globalization;
 
 namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IElementRepositoryFactory), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IElementRepositoryFactory), Order = 100)]
     public class ElementRepositoryFactory : IElementRepositoryFactory
     {
         #region .ctor
@@ -23,7 +23,7 @@ namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
         }
         #endregion
 
-        public Kooboo.Globalization.IElementRepository CreateRepository(Models.Site site)
+        public Kooboo.Common.Globalization.IElementRepository CreateRepository(Models.Site site)
         {
             return new LabelRepository(site);
         }

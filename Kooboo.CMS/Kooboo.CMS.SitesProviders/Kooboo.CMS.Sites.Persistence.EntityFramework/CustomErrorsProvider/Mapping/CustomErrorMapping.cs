@@ -1,11 +1,13 @@
-﻿using System;
+﻿extern alias EntityFramework;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.CustomErrorsProvider.Mapping
 {
-    public class CustomErrorMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<CustomErrorEntity>
+    public class CustomErrorMapping : EntityFramework::System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<CustomErrorEntity>
     {
         public CustomErrorMapping()
         {

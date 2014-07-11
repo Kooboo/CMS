@@ -1,5 +1,4 @@
 ﻿@model object[]
-@using Kooboo.Web.Script.Serialization
 @{
     Layout = ViewBag.Layout ?? "_TR.cshtml";
     //ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
@@ -40,7 +39,7 @@
     <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
 }
 @{
-    var items = ViewData.Model == null ? string.Empty : ViewData.Model.Select(it => new { value = it }).ToJSON();
+    var items = ViewData.Model == null ? string.Empty : Newtonsoft.Json.JsonConvert.SerializeObject(ViewData.Model.Select(it => new { value = it }));
 }
 <script type="text/javascript">
     $(function () {
@@ -54,7 +53,7 @@
                 self.data.push({ value: '' });
             };
 
-            self.removeItem = function () {              
+            self.removeItem = function () {
                 self.data.remove(this);
             };
 

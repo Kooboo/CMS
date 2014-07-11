@@ -16,9 +16,9 @@ using System.Web;
 namespace Kooboo.CMS.Sites.View.WebProxy
 {
 
-    using Kooboo.CMS.Common.Runtime.Dependency;
+    using Kooboo.Common.ObjectContainer.Dependency;
     using Kooboo.CMS.Sites.Web;
-    using Kooboo.IO;
+    
     using System.IO;
     using System.Net;
     using System.Text.RegularExpressions;

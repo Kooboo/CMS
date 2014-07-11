@@ -10,10 +10,10 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Search.Models;
 using Kooboo.CMS.Web.Areas.Contents.Models.Grid2;
 using Kooboo.CMS.Web.Grid2;
-using Kooboo.ComponentModel;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Globalization;
+
+using Kooboo.Common.Web.Grid.Design;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;

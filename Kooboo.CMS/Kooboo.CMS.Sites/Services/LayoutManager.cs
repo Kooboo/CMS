@@ -10,14 +10,14 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Sites.Versioning;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(LayoutManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(LayoutManager))]
     public class LayoutManager : PathResourceManagerBase<Layout, ILayoutProvider>
     {
         #region .ctor
@@ -53,7 +53,7 @@ namespace Kooboo.CMS.Sites.Services
             o.Site = site;
             if (!o.HasParentVersion() && Relations(o).Count() > 0)
             {
-                throw new KoobooException(string.Format("'{0}' is being used.".Localize(), o.Name));
+                throw new Exception(string.Format("'{0}' is being used.".Localize(), o.Name));
             }
             base.Remove(site, o);
         }

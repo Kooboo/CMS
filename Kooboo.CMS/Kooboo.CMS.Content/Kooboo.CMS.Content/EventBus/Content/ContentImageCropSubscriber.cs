@@ -10,14 +10,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
+using System.IO;
 
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Persistence;
-using Kooboo.Extensions;
-using System.Web;
-using Kooboo.Web.Script.Serialization;
 using Kooboo.CMS.Content.Models.Paths;
-using System.IO;
+using Kooboo.Common.Web;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Content.EventBus.Content
 {
@@ -54,13 +54,13 @@ namespace Kooboo.CMS.Content.EventBus.Content
 
                                     var contentPath = new TextContentPath(content);
 
-                                    var vPath = Kooboo.Web.Url.UrlUtility.Combine(contentPath.VirtualPath, "kooboo-crop-" + Path.GetFileName(imgParam.Url));
+                                    var vPath = UrlUtility.Combine(contentPath.VirtualPath, "kooboo-crop-" + Path.GetFileName(imgParam.Url));
 
-                                    Kooboo.IO.IOUtility.EnsureDirectoryExists(contentPath.PhysicalPath);
+                                    IOUtility.EnsureDirectoryExists(contentPath.PhysicalPath);
 
                                     var phyPath = HttpContext.Current.Server.MapPath(vPath);
 
-                                    Kooboo.Drawing.ImageTools.CropImage(sourceFilePath, phyPath, imgParam.X, imgParam.Y, imgParam.Width, imgParam.Height);
+                                    Kooboo.Common.Windows.Drawing.ImageTools.CropImage(sourceFilePath, phyPath, imgParam.X, imgParam.Y, imgParam.Width, imgParam.Height);
                                     content[field] = vPath;
                                 }
                             }

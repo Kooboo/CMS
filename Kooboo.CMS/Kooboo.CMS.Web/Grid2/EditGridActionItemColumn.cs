@@ -7,16 +7,15 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Grid2;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Web.Grid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-
+using System.Web.Routing;
 namespace Kooboo.CMS.Web.Grid2
 {
     public class EditGridActionItemColumn : GridItemColumn
@@ -42,7 +41,7 @@ namespace Kooboo.CMS.Web.Grid2
                     , viewContext.RequestContext.AllRouteValues().Merge("UUID", data.UUID).Merge("return", viewContext.HttpContext.Request.RawUrl));
 
                 return new HtmlString(string.Format("<a href='{0}'><img class='icon {2}' src='{3}'/> {1}</a>", url, linkText,
-                    @class, Kooboo.Web.Url.UrlUtility.ResolveUrl("~/Images/invis.gif")));
+                    @class, Kooboo.Common.Web.UrlUtility.ResolveUrl("~/Images/invis.gif")));
             }
 
             return new HtmlString("");

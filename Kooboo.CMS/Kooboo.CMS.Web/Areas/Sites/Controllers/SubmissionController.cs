@@ -13,10 +13,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Net.Mail;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Collections.Specialized;
+using Kooboo.Common.IO;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [Obsolete("Please use new SubmssionSetting function for security reason.")]
@@ -31,7 +32,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 var smtp = Site.Current.Smtp;
                 if (smtp == null)
                 {
-                    throw new KoobooException("Smtp setting is null".Localize());
+                    throw new Exception("Smtp setting is null".Localize());
                 }
 
 
@@ -59,7 +60,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     {
                         HttpPostedFileBase file = Request.Files[key] as HttpPostedFileBase;
 
-                        message.Attachments.Add(new Attachment(file.InputStream, file.FileName, IO.IOUtility.MimeType(file.FileName)));
+                        message.Attachments.Add(new Attachment(file.InputStream, file.FileName, IOUtility.MimeType(file.FileName)));
                     }
                 }
 

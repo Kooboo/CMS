@@ -13,11 +13,13 @@ using System.Web;
 using Kooboo.Web.Mvc.Grid;
 using Kooboo.CMS.Sites.Models;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc;
+
 using System.ComponentModel.DataAnnotations;
 using System.Web.Routing;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
 using Kooboo.CMS.Web.Areas.Sites.Models.DataSources;
+using Kooboo.Common.Web.Metadata;
+using Kooboo.Common.Web.Grid.Design;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {

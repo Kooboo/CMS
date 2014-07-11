@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Sites.Extension.ModuleArea;
 using Kooboo.CMS.Sites.View.PositionRender;
 using System;
@@ -78,7 +78,7 @@ namespace Kooboo.CMS.Sites.View.WebProxy
                 var pageUrl = urlHelper.FrontUrl(proxyRenderContext.PageRequestContext.Site, proxyRenderContext.PageRequestContext.RequestChannel).PageUrl(proxyRenderContext.PageRequestContext.Page.FullName, routeValues).ToString();
                 if (isForm)
                 {
-                    pageUrl = Kooboo.Web.Url.UrlUtility.AddQueryParam(pageUrl, Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter, proxyRenderContext.ProxyPosition.PagePositionId);
+                    pageUrl = Kooboo.Common.Web.UrlUtility.AddQueryParam(pageUrl, Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter, proxyRenderContext.ProxyPosition.PagePositionId);
                 }
 
                 return pageUrl;

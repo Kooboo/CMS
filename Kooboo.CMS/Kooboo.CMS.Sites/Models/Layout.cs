@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Sites.Models
             {
                 if (string.IsNullOrEmpty(fileExtension))
                 {
-                    return TemplateEngines.GetEngineByName(this.EngineName).GetFileExtensionForLayout();
+                    return TemplateEngines.GetEngineByName(this.EngineName).LayoutExtension;
                 }
                 return fileExtension;
             }

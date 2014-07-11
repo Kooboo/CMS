@@ -1,5 +1,5 @@
 ﻿using Ionic.Zip;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Membership.Models;
 using System;
@@ -7,11 +7,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Kooboo.CMS.Common;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Membership.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IMembershipProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Kooboo.CMS.Membership.Models.Membership>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IMembershipProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Kooboo.CMS.Membership.Models.Membership>))]
     public class MembershipProvider : SettingFileProviderBase<Kooboo.CMS.Membership.Models.Membership>, IMembershipProvider
     {
         #region .ctor
@@ -31,7 +33,7 @@ namespace Kooboo.CMS.Membership.Persistence.Default
             List<Kooboo.CMS.Membership.Models.Membership> list = new List<Kooboo.CMS.Membership.Models.Membership>();
             if (Directory.Exists(baseDir))
             {
-                foreach (var dir in IO.IOUtility.EnumerateDirectoriesExludeHidden(baseDir))
+                foreach (var dir in IOUtility.EnumerateDirectoriesExludeHidden(baseDir))
                 {
                     if (File.Exists(Path.Combine(dir.FullName, _membershipPath.BaseDir.SettingFileName)))
                     {

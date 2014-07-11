@@ -10,11 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Kooboo.Web.Mvc.Menu;
+using Kooboo.Common.Web.Menu;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc;
+using System.Web.Routing;
+
 namespace Kooboo.CMS.Web.Areas.Sites.Menu
 {
     public class LabelMenuItem : MenuItem

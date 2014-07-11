@@ -12,19 +12,20 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.IO;
-using Kooboo.IO;
+
 using System.ComponentModel.Composition;
 using Kooboo.CMS.Sites.DataRule;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Sites.Versioning;
 using Kooboo.CMS.Sites.Caching;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
 using System.Threading;
+using Kooboo.Common.IO;
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPageProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Page>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IPageProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Page>))]
     public class PageProvider : InheritableProviderBase<Page>, IPageProvider, ILocalizableProvider<Page>
     {
         class PageFileStorage : DirectoryObjectFileStorage<Page>
@@ -51,7 +52,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                     IOUtility.EnsureDirectoryExists(versionPath.PhysicalPath);
                     var versionDataFile = Path.Combine(versionPath.PhysicalPath, o.DataFileName);
                     PageProvider provider = new PageProvider();
-                    Kooboo.Runtime.Serialization.DataContractSerializationHelper.Serialize(o, versionDataFile, KnownTypes);
+                    Kooboo.Common.Misc.DataContractSerializationHelper.Serialize(o, versionDataFile, KnownTypes);
                 }
                 finally
                 {
@@ -67,7 +68,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 if (File.Exists(versionDataFile))
                 {
                     PageProvider provider = new PageProvider();
-                    page = (Page)Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize(typeof(Page), KnownTypes, versionDataFile);
+                    page = (Page)Kooboo.Common.Misc.DataContractSerializationHelper.Deserialize(typeof(Page), KnownTypes, versionDataFile);
                     ((IPersistable)page).Init(o);
                 }
                 return page;
@@ -153,7 +154,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                     parentPage = PageHelper.Parse(site, newParent);
                     if (parentPage == page.Parent || parentPage == page)
                     {
-                        throw new KoobooException(string.Format("The page is under '{0}' already".Localize(), newParent));
+                        throw new Exception(string.Format("The page is under '{0}' already".Localize(), newParent));
                     }
                 }
                 Page newPage = null;
@@ -167,7 +168,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 }
                 if (newPage.Exists())
                 {
-                    throw new KoobooException(string.Format("The page '{0}' already exists in '{1}'".Localize(), page.Name, parentPage.FriendlyName));
+                    throw new Exception(string.Format("The page '{0}' already exists in '{1}'".Localize(), page.Name, parentPage.FriendlyName));
                 }
                 Directory.Move(page.PhysicalPath, newPage.PhysicalPath);
             }
@@ -250,7 +251,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             Page draft = null;
             if (File.Exists(draftDataFile))
             {
-                draft = (Page)Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize(typeof(Page), KnownTypes, draftDataFile);
+                draft = (Page)Kooboo.Common.Misc.DataContractSerializationHelper.Deserialize(typeof(Page), KnownTypes, draftDataFile);
                 ((IPersistable)draft).Init(page);
             }
             return draft;
@@ -261,7 +262,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         }
         public void SaveAsDraft(Page page)
         {
-            Kooboo.Runtime.Serialization.DataContractSerializationHelper.Serialize(page, GetDraftDataFile(page), KnownTypes);
+            Kooboo.Common.Misc.DataContractSerializationHelper.Serialize(page, GetDraftDataFile(page), KnownTypes);
         }
 
 

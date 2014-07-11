@@ -12,15 +12,16 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Versioning;
-using Kooboo.IO;
+
 using System.IO;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Persistence.FileSystem.Storage;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IHtmlBlockProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<HtmlBlock>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IHtmlBlockProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<HtmlBlock>))]
     public class HtmlBlockProvider : InheritableProviderBase<HtmlBlock>, IHtmlBlockProvider
     {
         static string BodyFileName = "Body.html";
@@ -37,7 +38,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                     IOUtility.EnsureDirectoryExists(versionPath.PhysicalPath);
                     var versionDataFile = Path.Combine(versionPath.PhysicalPath, "setting.config");
                     HtmlBlockProvider provider = new HtmlBlockProvider();
-                    Kooboo.Runtime.Serialization.DataContractSerializationHelper.Serialize(o, versionDataFile, null);
+                    Kooboo.Common.Misc.DataContractSerializationHelper.Serialize(o, versionDataFile, null);
                 }
                 finally
                 {
@@ -52,7 +53,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 HtmlBlock versionItem = null;
                 if (File.Exists(versionDataFile))
                 {
-                    versionItem = (HtmlBlock)Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize(typeof(HtmlBlock), null, versionDataFile);
+                    versionItem = (HtmlBlock)Kooboo.Common.Misc.DataContractSerializationHelper.Deserialize(typeof(HtmlBlock), null, versionDataFile);
                     ((IPersistable)versionItem).Init(o);
                 }
                 return versionItem;
@@ -78,11 +79,11 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
         //protected override void Serialize(HtmlBlock item, string filePath)
         //{
-        //    IO.IOUtility.SaveStringToFile(filePath, item.Body);
+        //    IOUtility.SaveStringToFile(filePath, item.Body);
         //}
         //protected override HtmlBlock Deserialize(HtmlBlock dummy, string filePath)
         //{
-        //    dummy.Body = IO.IOUtility.ReadAsString(filePath);
+        //    dummy.Body = IOUtility.ReadAsString(filePath);
         //    return dummy;
         //}
 
@@ -91,7 +92,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             var filePath = GetBodyFilePath(dummy);
             if (File.Exists(filePath))
             {
-                dummy.Body = IO.IOUtility.ReadAsString(filePath);
+                dummy.Body = IOUtility.ReadAsString(filePath);
                 ((IPersistable)dummy).Init(dummy);
                 return dummy;
             }
@@ -101,7 +102,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         private static void SaveBody(HtmlBlock item)
         {
             var filePath = GetBodyFilePath(item);
-            IO.IOUtility.SaveStringToFile(filePath, item.Body);
+            IOUtility.SaveStringToFile(filePath, item.Body);
         }
 
         public override HtmlBlock Get(HtmlBlock dummy)

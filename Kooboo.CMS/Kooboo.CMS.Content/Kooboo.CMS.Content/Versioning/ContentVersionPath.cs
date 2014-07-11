@@ -13,7 +13,8 @@ using System.Text;
 using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Content.Models;
 using System.IO;
-using Kooboo.Web.Url;
+using Kooboo.Common.ObjectContainer;
+
 
 namespace Kooboo.CMS.Content.Versioning
 {
@@ -22,7 +23,7 @@ namespace Kooboo.CMS.Content.Versioning
         public ContentVersionPath(TextContent content)
         {
             var contentPath = new TextContentPath(content);
-            var basePath = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Common.IBaseDir>();
+            var basePath = EngineContext.Current.Resolve<Kooboo.CMS.Common.IBaseDir>();
             var versionPath = Path.Combine(basePath.Cms_DataPhysicalPath, VersionPathName);
             this.PhysicalPath = contentPath.PhysicalPath.Replace(basePath.Cms_DataPhysicalPath, versionPath);            
         }

@@ -15,12 +15,12 @@ using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Sites.Versioning;
 using Kooboo.CMS.Sites.Models;
 using System.Data.Entity;
-using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer.Dependency;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Sites.Globalization;
 namespace Kooboo.CMS.Sites.Providers.SqlServer
 {
-    public class AssemblyInitializer : Kooboo.CMS.Common.Runtime.Dependency.IDependencyRegistrar
+    public class AssemblyInitializer : Kooboo.Common.ObjectContainer.Dependency.IDependencyRegistrar
     {
 
         //public static void ResetProviders()

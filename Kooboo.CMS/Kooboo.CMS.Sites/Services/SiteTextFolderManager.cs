@@ -19,7 +19,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(Kooboo.CMS.Content.Services.TextFolderManager), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(Kooboo.CMS.Content.Services.TextFolderManager), Order = 2)]
     public class SiteTextFolderManager : Kooboo.CMS.Content.Services.TextFolderManager
     {
         #region .ctor

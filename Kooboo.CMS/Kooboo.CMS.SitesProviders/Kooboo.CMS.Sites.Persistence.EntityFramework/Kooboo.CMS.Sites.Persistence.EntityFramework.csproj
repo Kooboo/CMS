@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Kooboo.CMS.Sites.Persistence.EntityFramework</RootNamespace>
     <AssemblyName>Kooboo.CMS.Sites.Persistence.EntityFramework</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -36,9 +36,14 @@
   <ItemGroup>
     <Reference Include="EntityFramework">
       <HintPath>..\..\..\Lib\EntityFramework\EntityFramework.dll</HintPath>
+      <Aliases>EntityFramework</Aliases>
     </Reference>
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\..\..\Lib\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.Common, Version=5.0.5305.19046, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Kooboo.Common.5.0.5305.19046\lib\net45\Kooboo.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -115,10 +120,6 @@
     <Compile Include="UserProvider\UserProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
-      <Project>{570CD9D3-75D2-468A-8245-45BDCA57432E}</Project>
-      <Name>Kooboo.CMS.Caching</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>
@@ -135,10 +136,10 @@
       <Project>{FFD8E9F0-61B6-4B0D-A803-5BECCD2A6578}</Project>
       <Name>Kooboo.CMS.Sites</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Kooboo\Kooboo.csproj">
-      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
-      <Name>Kooboo</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

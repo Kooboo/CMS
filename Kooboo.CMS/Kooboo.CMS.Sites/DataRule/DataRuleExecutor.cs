@@ -16,7 +16,7 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Content.Query.Translator.String;
 using System.Runtime.Caching;
-using Kooboo.Extensions;
+
 
 namespace Kooboo.CMS.Sites.DataRule
 {

@@ -72,7 +72,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             else
             {
                 var tempFolder = GetImportExportTempFolder(site);
-                Kooboo.IO.IOUtility.DeleteDirectory(tempFolder, true);
+                Kooboo.Common.IO.IOUtility.DeleteDirectory(tempFolder, true);
 
                 if (labels != null)
                 {
@@ -105,7 +105,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
 
                     zipFile.Save(outputStream);
                 }
-                Kooboo.IO.IOUtility.DeleteDirectory(tempFolder, true);
+                Kooboo.Common.IO.IOUtility.DeleteDirectory(tempFolder, true);
 
             }
         }
@@ -114,7 +114,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         public void Import(Site site, Stream zipStream, bool @override)
         {
             var tempFolder = GetImportExportTempFolder(site);
-            Kooboo.IO.IOUtility.DeleteDirectory(tempFolder, true);
+            Kooboo.Common.IO.IOUtility.DeleteDirectory(tempFolder, true);
 
             using (ZipFile zipFile = ZipFile.Read(zipStream))
             {
@@ -132,7 +132,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                     _rawLabelProvider.Add(label);
                 }
             }
-            Kooboo.IO.IOUtility.DeleteDirectory(tempFolder, true);
+            Kooboo.Common.IO.IOUtility.DeleteDirectory(tempFolder, true);
         }
 
         public void InitializeLabels(Site site)

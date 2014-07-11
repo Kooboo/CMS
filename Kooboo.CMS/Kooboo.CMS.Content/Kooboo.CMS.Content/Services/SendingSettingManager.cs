@@ -20,7 +20,7 @@ namespace Kooboo.CMS.Content.Services
         public Repository Repository { get; set; }
         public IEnumerable<FolderTreeNode<TextFolder>> TextFolders { get; set; }
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(SendingSettingManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(SendingSettingManager))]
     public class SendingSettingManager : ManagerBase<SendingSetting, ISendingSettingProvider>
     {
         public SendingSettingManager(ISendingSettingProvider provider)

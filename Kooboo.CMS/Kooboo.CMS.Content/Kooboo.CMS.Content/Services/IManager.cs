@@ -6,7 +6,6 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Extensions;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Persistence;
 using System;

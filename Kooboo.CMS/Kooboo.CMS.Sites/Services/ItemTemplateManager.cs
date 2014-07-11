@@ -12,9 +12,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Web.Url;
-using Kooboo.IO;
-using Kooboo.Globalization;
+
+
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Sites.Services
 {
     public abstract class ItemTemplateManager
@@ -98,14 +99,14 @@ namespace Kooboo.CMS.Sites.Services
                 throw new Exception("The item already exists.".Localize());
             }
             var physicalPath = GetCategoryPhysicalPath(category);
-            Kooboo.IO.IOUtility.EnsureDirectoryExists(physicalPath);
+            Kooboo.Common.IO.IOUtility.EnsureDirectoryExists(physicalPath);
             var itemFile = Path.Combine(physicalPath, templateName + FileExtension);
             var thumbnail = Path.Combine(physicalPath, templateName + ".png");
             templateStream.SaveAs(itemFile);
             if (thumbnailStream != null && itemFile.Length > 0)
             {
                 MemoryStream ms = new MemoryStream();
-                Kooboo.Drawing.ImageTools.ResizeImage(thumbnailStream, ms, System.Drawing.Imaging.ImageFormat.Png, 100, 100, true, 100);
+                Kooboo.Common.Windows.Drawing.ImageTools.ResizeImage(thumbnailStream, ms, System.Drawing.Imaging.ImageFormat.Png, 100, 100, true, 100);
                 ms.Position = 0;
                 ms.SaveAs(thumbnail);
             }

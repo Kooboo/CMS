@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Sites.DataRule;
@@ -16,9 +16,8 @@ using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Sites.View;
 using Kooboo.CMS.Web.Authorizations;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.WebResourceLoader;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Web.WebResourceLoader;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -26,8 +25,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Kooboo.Web.Script.Serialization;
 using System.Web.Script.Serialization;
+using Kooboo.Common.Data;
+using Kooboo.Common.Web.SelectList;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
@@ -163,13 +163,13 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return (T)Enum.Parse(typeof(T), name);
         }
 
-        private static List<Parameter> ParseViewParameters(string clientJson)
+        private static List<Kooboo.CMS.Sites.Models.Parameter> ParseViewParameters(string clientJson)
         {
-            var parameters = ParseJson<List<Parameter>>(clientJson);
+            var parameters = ParseJson<List<Kooboo.CMS.Sites.Models.Parameter>>(clientJson);
             return ParseViewParameters(parameters);
         }
 
-        private static List<Parameter> ParseViewParameters(List<Parameter> parameters)
+        private static List<Kooboo.CMS.Sites.Models.Parameter> ParseViewParameters(List<Kooboo.CMS.Sites.Models.Parameter> parameters)
         {
             if (parameters != null && parameters.Count > 0)
             {

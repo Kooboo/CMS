@@ -23,7 +23,7 @@ namespace Kooboo.CMS.Sites.Membership
         [Required(ErrorMessage = "Required")]
         public virtual string NewPassword { get; set; }
 
-        [Compare("NewPassword")]
+        [System.Web.Mvc.Compare("NewPassword")]
         [Required(ErrorMessage = "Required")]
         public virtual string ConfirmPassword { get; set; }
 

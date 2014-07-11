@@ -13,14 +13,14 @@ using System.Web;
 using System.Web.Mvc;
 using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Content.Models;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
 using Kooboo.CMS.Web.Areas.Contents.Models;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Web.Models;
 ///using Kooboo.CMS.Web.ErrorHandling;
 using Kooboo.CMS.Content.Versioning;
-using Kooboo.Web.Mvc;
-using Kooboo.Extensions;
+
+
 using Kooboo.CMS.Sites;
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {

@@ -10,16 +10,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Kooboo.Web.Mvc.Menu;
+using Kooboo.Common.Web.Menu;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc;
+using System.Web.Routing;
 
 namespace Kooboo.CMS.Web.Areas.Sites
 {
     public static class MenuExtensions
     {
         #region SetCurrentSite
-        public static Kooboo.Web.Mvc.Menu.Menu SetCurrentSite(this Kooboo.Web.Mvc.Menu.Menu menu, ViewContext viewContext)
+        public static Kooboo.Common.Web.Menu.Menu SetCurrentSite(this Kooboo.Common.Web.Menu.Menu menu, ViewContext viewContext)
         {
             var siteName = viewContext.RequestContext.GetRequestValue("siteName");
             if (siteName != null)
@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Web.Areas.Sites
         #endregion
 
         #region SetCurrentRepository
-        public static Kooboo.Web.Mvc.Menu.Menu SetCurrentRepository(this Kooboo.Web.Mvc.Menu.Menu menu, ViewContext viewContext)
+        public static Kooboo.Common.Web.Menu.Menu SetCurrentRepository(this Kooboo.Common.Web.Menu.Menu menu, ViewContext viewContext)
         {
             var repositoryName = viewContext.RequestContext.GetRequestValue("repositoryName");
             if (repositoryName != null)

@@ -11,16 +11,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.Web.Script.Serialization;
+
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
-    using Kooboo.Globalization;
+    using Kooboo.Common.Globalization;
     using Kooboo.CMS.Sites;
     using Kooboo.CMS.Sites.Services;
     using Kooboo.CMS.Web.Authorizations;
     using Kooboo.CMS.Content.Models;
     using Kooboo.CMS.Sites.Models;
-    using Kooboo.CMS.Common;
+    using Kooboo.Common.ObjectContainer;
+    using Kooboo.Common.Web;
 
     [Authorization(AreaName = "Sites", Group = "Page", Name = "Style editing", Order = 1)]
     public class StyleEditingController : Kooboo.CMS.Sites.AreaControllerBase

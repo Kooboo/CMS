@@ -8,6 +8,7 @@
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
+using Kooboo.Common.Web;
 using System.Collections.Generic;
 namespace Kooboo.CMS.Content.Persistence.Default
 {
@@ -28,7 +29,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
                     {
                         if (file.Stream.Length > 0 && !string.IsNullOrEmpty(file.FileName))
                         {
-                            var fileVirtualPath = Kooboo.Web.Url.UrlUtility.ResolveUrl(textContentFileProvider.Save(content, file));
+                            var fileVirtualPath = UrlUtility.ResolveUrl(textContentFileProvider.Save(content, file));
                             var value = content[file.Name] == null ? "" : content[file.Name].ToString();
                             if (fileFields.ContainsKey(file.Name))
                             {

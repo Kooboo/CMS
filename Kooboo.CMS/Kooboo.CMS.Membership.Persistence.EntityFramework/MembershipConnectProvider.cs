@@ -8,7 +8,7 @@
 #endregion
 
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Membership.Models;
 using System;
 using System.Collections.Generic;

@@ -45,7 +45,7 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
             }//ignore the index creating exception
             catch (Exception e)
             {
-                Kooboo.HealthMonitoring.Log.LogException(e);
+                Kooboo.Common.Logging.Logger.Error(e.Message, e);
             }
 
         }
@@ -68,7 +68,7 @@ namespace Kooboo.CMS.Content.Persistence.MongoDB
             }//ignore the index creating exception
             catch (Exception e)
             {
-                Kooboo.HealthMonitoring.Log.LogException(e);
+                Kooboo.Common.Logging.Logger.Error(e.Message, e);
             }
         }
         public static void DropCollection(this Schema schema)

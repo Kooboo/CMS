@@ -1,6 +1,6 @@
 ﻿@model Kooboo.CMS.Content.Models.Repository
 @using Kooboo.CMS.Content.Services;
-@using Kooboo.CMS.Common.Runtime;
+@using Kooboo.Common.ObjectContainer;
 @{
     var routeValues = ViewContext.RequestContext.AllRouteValues().Merge("repositoryName", Model.Name);
 

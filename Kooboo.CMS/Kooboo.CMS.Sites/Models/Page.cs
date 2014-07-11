@@ -14,14 +14,14 @@ using System.Web.Routing;
 using Kooboo.CMS.Sites.Models;
 using System.Runtime.Serialization;
 using Kooboo.Collections;
-using Kooboo.Web.Url;
+
 using System.IO;
 using Kooboo.CMS.Sites.View;
 using System.Collections.Specialized;
 using System.Collections;
-using Kooboo.Dynamic;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using System.Security.Principal;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Sites.Models
 {
     public enum PageType
@@ -102,7 +102,7 @@ namespace Kooboo.CMS.Sites.Models
             if (mvcRoute == null)
             {
                 var routePath = GetRouteUrl();
-                mvcRoute = new Route(routePath, RouteValuesHelpers.GetRouteValues(Defaults), null);
+                mvcRoute = new Route(routePath, Kooboo.CMS.Sites.View.RouteValuesHelper.GetRouteValues(Defaults), null);
             }
             return mvcRoute;
 

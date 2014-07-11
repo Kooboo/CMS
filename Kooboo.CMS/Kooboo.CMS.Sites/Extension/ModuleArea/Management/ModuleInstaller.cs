@@ -1,6 +1,7 @@
 ﻿using Kooboo.CMS.Sites.Extension.Management;
 using Kooboo.CMS.Sites.Extension.ModuleArea.Management.Events;
-using Kooboo.Globalization;
+using Kooboo.Common;
+using Kooboo.Common.Globalization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,7 +18,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
     /// 2. Copy assemblies
     /// 3. Run module installing event
     /// </summary>
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IModuleInstaller))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IModuleInstaller))]
     public class ModuleInstaller : IModuleInstaller
     {
         #region .ctor
@@ -165,7 +166,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
                 throw new Exception("The temporary installation directory has been deleted.".Localize());
             }
             ModulePath modulePath = new ModulePath(moduleName);
-            Kooboo.IO.IOUtility.CopyDirectory(tempInstallationPath.PhysicalPath, modulePath.PhysicalPath);
+            Kooboo.Common.IO.IOUtility.CopyDirectory(tempInstallationPath.PhysicalPath, modulePath.PhysicalPath);
             var assemblyFiles = Directory.EnumerateFiles(modulePath.GetModuleInstallationFilePath("Bin").PhysicalPath);
             var binPath = Settings.BinDirectory;
             foreach (var item in assemblyFiles)
@@ -188,10 +189,10 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
         #region RunEvent
         private void RunEvent(string moduleName, ControllerContext controllerContext)
         {
-            var moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleInstallingEvents>(moduleName);
+            var moduleEvent = Kooboo.Common.ObjectContainer.EngineContext.Current.TryResolve<IModuleInstallingEvents>(moduleName);
             if (moduleEvent == null)
             {
-                moduleEvent = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
+                moduleEvent = Kooboo.Common.ObjectContainer.EngineContext.Current.TryResolve<IModuleEvents>(moduleName);
             }
             if (moduleEvent != null)
             {

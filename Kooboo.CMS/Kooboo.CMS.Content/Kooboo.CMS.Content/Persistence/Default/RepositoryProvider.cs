@@ -7,23 +7,25 @@
 // 
 #endregion
 using Ionic.Zip;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Content.Query;
-using Kooboo.Globalization;
-using Kooboo.IO;
+using Kooboo.Common.Globalization;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Kooboo.CMS.Common;
+using Kooboo.Common.IO;
 namespace Kooboo.CMS.Content.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IRepositoryProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Repository>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IRepositoryProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Repository>))]
     public class RepositoryProvider : FileSystemProviderBase<Repository>, IRepositoryProvider
     {
         #region Static fields
@@ -50,7 +52,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
             var baseDir = RepositoryPath.BasePhysicalPath;
             if (Directory.Exists(baseDir))
             {
-                foreach (var dir in IO.IOUtility.EnumerateDirectoriesExludeHidden(baseDir))
+                foreach (var dir in IOUtility.EnumerateDirectoriesExludeHidden(baseDir))
                 {
                     if (File.Exists(Path.Combine(dir.FullName, PathHelper.SettingFileName)))
                     {
@@ -96,7 +98,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
             RepositoryPath path = new RepositoryPath(repository);
             if (path.Exists())
             {
-                throw new KoobooException("The item is already exists.");
+                throw new Exception("The item is already exists.");
             }
             using (ZipFile zipFile = ZipFile.Read(packageStream))
             {

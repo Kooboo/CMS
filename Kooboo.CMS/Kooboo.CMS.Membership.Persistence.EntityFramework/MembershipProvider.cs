@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.CMS.Membership.Persistence;
 using System;
@@ -33,10 +33,10 @@ namespace Kooboo.CMS.Membership.Persistence.EntityFramework
         #region Import
         public Kooboo.CMS.Membership.Models.Membership Import(string membershipName, System.IO.Stream stream)
         {
-            var fileSystemProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Membership.Persistence.Default.MembershipProvider>();
+            var fileSystemProvider = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<Kooboo.CMS.Membership.Persistence.Default.MembershipProvider>();
             var membership = fileSystemProvider.Import(membershipName, stream);
 
-            var efProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<MembershipProvider>();
+            var efProvider = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<MembershipProvider>();
             efProvider.Add(membership);
 
             //Transfer groups
@@ -55,7 +55,7 @@ namespace Kooboo.CMS.Membership.Persistence.EntityFramework
         #region Export
         public void Export(Models.Membership membership, System.IO.Stream outputStream)
         {
-            var fileSystemProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Membership.Persistence.Default.MembershipProvider>();
+            var fileSystemProvider = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<Kooboo.CMS.Membership.Persistence.Default.MembershipProvider>();
             fileSystemProvider.Add(membership);
 
             //Transfer groups
@@ -75,8 +75,8 @@ namespace Kooboo.CMS.Membership.Persistence.EntityFramework
             where TSource : class,IMemberElementProvider<T>
             where TTarget : class,IMemberElementProvider<T>
         {
-            var efProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<TSource>();
-            var fileSystemProvider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<TTarget>();
+            var efProvider = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<TSource>();
+            var fileSystemProvider = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<TTarget>();
             foreach (var item in efProvider.All(membership))
             {
                 item.Membership = membership;

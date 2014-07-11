@@ -57,8 +57,8 @@ namespace Kooboo.CMS.Search.Persistence.Default
 
         #endregion
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ILastActionProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<LastAction>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ILastActionProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<LastAction>))]
     public class LastActionProvider : ILastActionProvider
     {
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();

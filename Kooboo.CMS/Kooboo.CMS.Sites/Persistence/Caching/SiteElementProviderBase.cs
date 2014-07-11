@@ -10,7 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.CMS.Caching;
+
+using Kooboo.Common.Caching;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Caching;
 using Kooboo.CMS.Common.Persistence.Non_Relational;

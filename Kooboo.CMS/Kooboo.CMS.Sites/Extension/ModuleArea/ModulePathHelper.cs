@@ -1,13 +1,15 @@
-﻿using Kooboo.CMS.Common;
+﻿using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Web.Url;
-using Kooboo.Globalization;
+
+using Kooboo.Common.Globalization;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Kooboo.CMS.Common;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
@@ -60,7 +62,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         ///// <returns></returns>
         //public IPath GetModuleSharedFilePath(params string[] extraPaths)
         //{
-        //    var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+        //    var baseDir = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IBaseDir>();
         //    var physicalPaths = new[] { baseDir.Cms_DataPhysicalPath, "Modules", _moduleName };
         //    var virtualPaths = new[] { baseDir.Cms_DataVirtualPath, "Modules", _moduleName };
         //    if (extraPaths != null && extraPaths.Length > 0)
@@ -154,7 +156,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         /// <returns></returns>
         public static IPath GetModuleSharedFilePath(this ModulePath modulePath, params string[] extraPaths)
         {
-            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+            var baseDir = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IBaseDir>();
             var physicalPaths = new[] { baseDir.Cms_DataPhysicalPath, ModuleDataFolderName, modulePath.ModuleName };
             var virtualPaths = new[] { baseDir.Cms_DataVirtualPath, ModuleDataFolderName, modulePath.ModuleName };
             if (extraPaths != null && extraPaths.Length > 0)

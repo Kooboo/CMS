@@ -1,11 +1,13 @@
-﻿using System;
+﻿extern alias EntityFramework;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.SiteProvider.Mapping
 {
-    public class SiteSettingMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<SiteEntity>
+    public class SiteSettingMapping : EntityFramework::System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<SiteEntity>
     {
         public SiteSettingMapping()
         {

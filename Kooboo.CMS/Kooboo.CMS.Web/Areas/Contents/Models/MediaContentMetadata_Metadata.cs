@@ -8,7 +8,7 @@
 #endregion
 
 using Kooboo.CMS.Content.Models;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

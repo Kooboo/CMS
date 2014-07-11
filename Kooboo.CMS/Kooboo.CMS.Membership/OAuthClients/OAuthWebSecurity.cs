@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using DotNetOpenAuth.AspNet;
+using Kooboo.Common.ObjectContainer;
 
 namespace Kooboo.CMS.Membership.OAuthClients
 {
@@ -67,7 +68,7 @@ namespace Kooboo.CMS.Membership.OAuthClients
                 throw new ArgumentException("Invalid membership connect.");
             }
 
-            var authClient = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IAuthClient>(membershipConnect.Name.ToLower());
+            var authClient = EngineContext.Current.Resolve<IAuthClient>(membershipConnect.Name.ToLower());
             authClient.MembershipConnect = membershipConnect;
 
             return authClient;

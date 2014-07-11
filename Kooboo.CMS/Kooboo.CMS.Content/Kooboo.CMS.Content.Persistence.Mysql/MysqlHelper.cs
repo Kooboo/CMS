@@ -14,8 +14,9 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using Kooboo.CMS.Content.Models;
 using System.Data.Common;
-using Kooboo.CMS.Common.Runtime;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common;
 
 namespace Kooboo.CMS.Content.Persistence.Mysql
 {
@@ -46,7 +47,7 @@ namespace Kooboo.CMS.Content.Persistence.Mysql
                     }
                     catch (Exception e)
                     {
-                        throw new KoobooException(e.Message + "SQL:" + command.CommandText, e);
+                        throw new Exception(e.Message + "SQL:" + command.CommandText, e);
                     }
 
                 }
@@ -74,7 +75,7 @@ namespace Kooboo.CMS.Content.Persistence.Mysql
                         }
                         catch (Exception e)
                         {
-                            throw new KoobooException(e.Message + "SQL:" + command.CommandText, e);
+                            throw new Exception(e.Message + "SQL:" + command.CommandText, e);
                         }
                     }
 

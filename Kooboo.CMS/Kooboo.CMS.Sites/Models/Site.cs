@@ -13,17 +13,20 @@ using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.Runtime.Serialization;
 using System.IO;
-using Kooboo.Web.Url;
-using Kooboo.Web.Mvc.Grid;
+
+
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Kooboo.Dynamic;
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using System.Text.RegularExpressions;
 using System.Net.Mail;
 using System.Net;
 using System.Web;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common;
+using Kooboo.Common.Misc;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Sites.Models
 {
@@ -94,11 +97,11 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                return CallContext.Current.GetObject<Site>("Current_Site");
+                return ContextVariables.Current.GetObject<Site>("Current_Site");
             }
             set
             {
-                CallContext.Current.RegisterObject("Current_Site", value);
+                ContextVariables.Current.SetObject("Current_Site", value);
             }
         }
         #endregion
@@ -208,7 +211,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                return Kooboo.Web.Url.UrlUtility.Combine(BaseVirtualPath, this.Name);
+                return Kooboo.Common.Web.UrlUtility.Combine(BaseVirtualPath, this.Name);
             }
         }
 
@@ -234,7 +237,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+                var baseDir = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IBaseDir>();
                 return Path.Combine(baseDir.Cms_DataPhysicalPath, PATH_NAME);
             }
         }
@@ -260,7 +263,7 @@ namespace Kooboo.CMS.Sites.Models
             {
                 if (Parent == null)
                 {
-                    return Kooboo.Web.Url.UrlUtility.Combine("~/", PathEx.BasePath, PATH_NAME);
+                    return Kooboo.Common.Web.UrlUtility.Combine("~/", PathEx.BasePath, PATH_NAME);
                 }
                 else
                 {
@@ -472,7 +475,7 @@ namespace Kooboo.CMS.Sites.Models
     {
         public Security()
         {
-            this.EncryptKey = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(8);
+            this.EncryptKey = UniqueIdGenerator.GetInstance().GetBase32UniqueId(8);
         }
         public bool TurnOnSubmissionAPI { get; set; }
         public string EncryptKey { get; set; }

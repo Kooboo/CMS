@@ -69,7 +69,7 @@ namespace Kooboo.CMS.Sites.DataRule.Http
         }
     }
 
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IResponseTextParser), Key = "XmlTextParser")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IResponseTextParser), Key = "XmlTextParser")]
     public class XmlTextParser : IResponseTextParser
     {
         public bool Accept(string responseText, string contentType)

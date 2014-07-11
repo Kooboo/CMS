@@ -9,7 +9,7 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
-using Kooboo.Web.Url;
+using Kooboo.Common.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,7 +48,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
             List<T> list = new List<T>();
             if (Directory.Exists(baseDir))
             {
-                foreach (var item in IO.IOUtility.EnumerateDirectoriesExludeHidden(baseDir))
+                foreach (var item in IOUtility.EnumerateDirectoriesExludeHidden(baseDir))
                 {
                     var folderName = item.Name;
                     // Compatible with the ContentFolderName has been change (_contents=>.contents)

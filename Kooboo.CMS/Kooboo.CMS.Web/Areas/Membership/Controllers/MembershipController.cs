@@ -6,13 +6,13 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Web.Authorizations;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.Web;
 using System;
 using System.Collections.Generic;
@@ -21,6 +21,7 @@ using System.Web;
 using System.Web.Mvc;
 using Kooboo.CMS.Membership.Persistence;
 using Kooboo.CMS.Web.Areas.Membership.Models;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 {

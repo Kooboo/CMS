@@ -6,16 +6,16 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Controllers.ActionFilters;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Parsers.ThemeRule;
 using Kooboo.CMS.Sites.Services;
-using Kooboo.Drawing;
-using Kooboo.IO;
-using Kooboo.Web.Mvc.WebResourceLoader;
-using Kooboo.Web.Mvc.WebResourceLoader.DynamicClientResource;
+using Kooboo.Common.Windows.Drawing;
+
+using Kooboo.Common.Web.WebResourceLoader;
+using Kooboo.Common.Web.WebResourceLoader.DynamicClientResource;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,12 +25,13 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Kooboo.CMS.Content.Models;
+using Kooboo.Common.IO;
+using Kooboo.CMS.Common;
 namespace Kooboo.CMS.Sites.Controllers
 {
     /// <summary>
     /// 
     /// </summary>
-
     public class ResourceController : FrontControllerBase
     {
         #region Scripts
@@ -277,7 +278,7 @@ namespace Kooboo.CMS.Sites.Controllers
         private string GetCachingFilePath(string imagePath, int width, int height, bool preserverAspectRatio, int quality)
         {
             var lastModeifyDate = System.IO.File.GetLastWriteTimeUtc(imagePath);
-            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+            var baseDir = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IBaseDir>();
             string cms_dataPath = baseDir.Cms_DataPhysicalPath;
             string fileName = Path.GetFileNameWithoutExtension(imagePath);
             string newFileName = fileName + "-" + width.ToString() + "-" + height.ToString() + "-" + preserverAspectRatio.ToString() + "-" + quality.ToString() + "-" + lastModeifyDate.Ticks;

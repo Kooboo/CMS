@@ -16,6 +16,7 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Persistence.Default;
 using System.Diagnostics;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Content.Persistence.SqlServer
 {
@@ -25,11 +26,11 @@ namespace Kooboo.CMS.Content.Persistence.SqlServer
         {
             get
             {
-                return CallContext.Current.GetObject<SQLServerTransactionUnit>("TextContent-SQLServerTransactionUnit");
+                return ContextVariables.Current.GetObject<SQLServerTransactionUnit>("TextContent-SQLServerTransactionUnit");
             }
             set
             {
-                CallContext.Current.RegisterObject("TextContent-SQLServerTransactionUnit", value);
+                ContextVariables.Current.SetObject("TextContent-SQLServerTransactionUnit", value);
             }
         }
 
@@ -74,7 +75,7 @@ namespace Kooboo.CMS.Content.Persistence.SqlServer
                         }
                         catch (Exception e)
                         {
-                            throw new KoobooException(e.Message + "SQL:" + command.CommandText, e);
+                            throw new Exception(e.Message + "SQL:" + command.CommandText, e);
                         }
                     }
 
@@ -100,8 +101,8 @@ namespace Kooboo.CMS.Content.Persistence.SqlServer
             Current = null;
         }
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentProvider), Order = 2)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IContentProvider<TextContent>), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ITextContentProvider), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IContentProvider<TextContent>), Order = 2)]
     public class TextContentProvider : ITextContentProvider
     {
         TextContentDbCommands dbCommands = new TextContentDbCommands();

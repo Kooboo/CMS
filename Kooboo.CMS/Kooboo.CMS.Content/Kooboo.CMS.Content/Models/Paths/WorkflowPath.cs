@@ -11,9 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Kooboo.Web.Url;
 
 using Kooboo.CMS.Content.Query;
+using Kooboo.Common.Web;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Content.Models.Paths
 {
@@ -34,7 +35,7 @@ namespace Kooboo.CMS.Content.Models.Paths
 
             VirtualPath = UrlUtility.Combine(repositoryPath.VirtualPath, PATH_NAME);
 
-            IO.IOUtility.EnsureDirectoryExists(PhysicalPath);
+            IOUtility.EnsureDirectoryExists(PhysicalPath);
         }
 
         public WorkflowPath(Workflow workflow)
@@ -90,7 +91,7 @@ namespace Kooboo.CMS.Content.Models.Paths
 
             VirtualPath = UrlUtility.Combine(repositoryPath.VirtualPath, PATH_NAME, roleName);
 
-            IO.IOUtility.EnsureDirectoryExists(PhysicalPath);
+            IOUtility.EnsureDirectoryExists(PhysicalPath);
         }
 
         public PendingWorkflowItemPath(PendingWorkflowItem pendingWorkflowItem)

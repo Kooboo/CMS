@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.Web.Grid.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;

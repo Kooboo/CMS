@@ -11,7 +11,7 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Sites.View;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +59,7 @@ namespace Kooboo.CMS.Sites.DataRule
             var folder = FolderHelper.Parse<TextFolder>(repository, FolderName).AsActual();
             if (folder == null)
             {
-                throw new KoobooException(string.Format("The folder does not exists.\"{0}\"".Localize(), FolderName));
+                throw new Exception(string.Format("The folder does not exists.\"{0}\"".Localize(), FolderName));
             }
             Content.Query.IContentQuery<Content.Models.TextContent> contentQuery = null;
             if (folder is TextFolder)

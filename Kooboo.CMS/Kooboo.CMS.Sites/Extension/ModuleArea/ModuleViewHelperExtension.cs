@@ -16,9 +16,10 @@ using System.Web;
 using System.IO;
 using System.Globalization;
 using System.Web.Mvc.Html;
-using Kooboo.Web.Mvc;
+
 using System.Collections;
 using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
+using Kooboo.Common;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
 {
@@ -313,7 +314,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         private string TagPostModule(string rawUrl)
         {
             var moduleContext = ((ModuleRequestContext)this.ViewContext.RequestContext).ModuleContext;
-            return Kooboo.Web.Url.UrlUtility.AddQueryParam(rawUrl, Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter, moduleContext.FrontEndContext.ModulePosition.PagePositionId);
+            return Kooboo.Common.Web.UrlUtility.AddQueryParam(rawUrl, Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter, moduleContext.FrontEndContext.ModulePosition.PagePositionId);
 
         }
 
@@ -485,7 +486,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
         private string TagPostModule(string rawUrl)
         {
             var moduleContext = ((ModuleRequestContext)this.ViewContext.RequestContext).ModuleContext;
-            return Kooboo.Web.Url.UrlUtility.AddQueryParam(rawUrl, Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter, moduleContext.FrontEndContext.ModulePosition.PagePositionId);
+            return Kooboo.Common.Web.UrlUtility.AddQueryParam(rawUrl, Kooboo.CMS.Sites.View.ModuleUrlContext.PostModuleParameter, moduleContext.FrontEndContext.ModulePosition.PagePositionId);
 
         }
 

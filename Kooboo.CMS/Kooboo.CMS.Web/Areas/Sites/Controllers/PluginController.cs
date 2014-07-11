@@ -16,7 +16,8 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Web.Models;
 using Kooboo.CMS.Web.Areas.Sites.Models;
 using Kooboo.CMS.Sites;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {

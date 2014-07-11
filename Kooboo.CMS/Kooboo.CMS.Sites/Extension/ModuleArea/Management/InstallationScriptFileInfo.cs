@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 
 namespace Kooboo.CMS.Sites.Extension.ModuleArea.Management
 {

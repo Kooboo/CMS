@@ -14,8 +14,8 @@ using System.Linq;
 using System.Text;
 namespace Kooboo.CMS.Content.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextFolderProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<TextFolder>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ITextFolderProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<TextFolder>))]
     public class TextFolderProvider : FolderProvider<TextFolder>, ITextFolderProvider
     {
         #region IFolderProvider Members

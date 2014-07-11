@@ -12,7 +12,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
 using Kooboo.CMS.Account.Models;
 
 namespace Kooboo.CMS.Web.Areas.Account.Models

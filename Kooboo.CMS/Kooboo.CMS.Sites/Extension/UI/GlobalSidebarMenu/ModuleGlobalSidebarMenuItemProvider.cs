@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Sites.Services;
-using Kooboo.Web.Mvc.Menu;
+using Kooboo.Common.Web.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +16,14 @@ using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.Extension.UI.GlobalSidebarMenu
 {
-   [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IGlobalSidebarMenuItemProvider), Key = "ModuleGlobalSidebarMenuItemProvider")]
+   [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IGlobalSidebarMenuItemProvider), Key = "ModuleGlobalSidebarMenuItemProvider")]
     public class ModuleGlobalSidebarMenuItemProvider : IGlobalSidebarMenuItemProvider
     {
         public static string GetGlobalSidebarMenuTemplateName(string moduleName)
         {
             return moduleName + "||GlobalMenu";
         }
-        public IEnumerable<Kooboo.Web.Mvc.Menu.MenuItem> GetMenuItems(System.Web.Mvc.ControllerContext controllerContext)
+        public IEnumerable<MenuItem> GetMenuItems(System.Web.Mvc.ControllerContext controllerContext)
         {
             return GetItems(controllerContext);
         }

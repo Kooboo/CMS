@@ -12,9 +12,9 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Caching;
-using Kooboo.CMS.Caching;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using System.Runtime.Caching;
+using Kooboo.Common.Caching;
 
 namespace Kooboo.CMS.Sites.Persistence.Caching
 {

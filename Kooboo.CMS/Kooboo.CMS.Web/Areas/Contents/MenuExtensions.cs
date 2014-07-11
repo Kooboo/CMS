@@ -10,15 +10,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Kooboo.Web.Mvc.Menu;
+using Kooboo.Common.Web.Menu;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc;
+using System.Web.Routing;
 
 namespace Kooboo.CMS.Web.Areas.Contents
 {
     public static class MenuExtensions
     {
-        public static Kooboo.Web.Mvc.Menu.Menu SetCurrentRepository(this Kooboo.Web.Mvc.Menu.Menu menu, ViewContext viewContext)
+        public static Kooboo.Common.Web.Menu.Menu SetCurrentRepository(this Kooboo.Common.Web.Menu.Menu menu, ViewContext viewContext)
         {
             var repository = viewContext.RequestContext.GetRequestValue("repositoryName");
             if (repository != null)

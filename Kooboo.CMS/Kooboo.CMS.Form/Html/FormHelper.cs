@@ -14,8 +14,10 @@ using Kooboo.CMS.Form.Html.Controls;
 using System.IO;
 using System.CodeDom.Compiler;
 using System.Web;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using System.Web.Mvc;
+using Kooboo.CMS.Common;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Form.Html
 {
@@ -29,9 +31,9 @@ namespace Kooboo.CMS.Form.Html
 
         static FormHelper()
         {
-            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+            var baseDir = EngineContext.Current.Resolve<IBaseDir>();
             TemplateDir = Path.Combine(baseDir.Cms_DataPhysicalPath, "ContentType_Templates", "Forms");
-            TemplateVirtualPath = Kooboo.Web.Url.UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "ContentType_Templates", "Forms");
+            TemplateVirtualPath = UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "ContentType_Templates", "Forms");
 
             forms.Add("Grid", new GridForm());
             forms.Add("Create", new CreateForm());
@@ -84,7 +86,7 @@ namespace Kooboo.CMS.Form.Html
             }
 
             return html;
-        } 
+        }
         #endregion
 
         #region Razor view
@@ -94,7 +96,7 @@ namespace Kooboo.CMS.Form.Html
         }
         private static string GetFormViewVirtualPath(string form)
         {
-            return Kooboo.Web.Url.UrlUtility.Combine(TemplateVirtualPath, form + ".cshtml");
+            return UrlUtility.Combine(TemplateVirtualPath, form + ".cshtml");
         }
         public static string ProcessRazorView(ISchema schema, string form, out bool rendered)
         {

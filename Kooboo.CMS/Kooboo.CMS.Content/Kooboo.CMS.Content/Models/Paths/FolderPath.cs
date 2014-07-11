@@ -10,8 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Web.Url;
+
 using System.IO;
+using Kooboo.Common.Web;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Content.Models.Paths
 {
@@ -88,7 +90,7 @@ namespace Kooboo.CMS.Content.Models.Paths
 
         public void Rename(string newName)
         {
-            IO.IOUtility.RenameDirectory(this.PhysicalPath, @newName);
+            IOUtility.RenameDirectory(this.PhysicalPath, @newName);
         }
 
         #endregion

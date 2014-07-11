@@ -15,8 +15,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Kooboo.CMS.Common.DataViolation;
+
 using Kooboo.CMS.Membership.OAuthClients;
+using Kooboo.Common.Data.DataViolation;
+using Kooboo.Common.Misc;
 
 
 namespace Kooboo.CMS.Membership.Services

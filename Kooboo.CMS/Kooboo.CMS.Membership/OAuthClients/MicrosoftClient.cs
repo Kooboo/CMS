@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Membership.OAuthClients
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IAuthClient), Key = "microsoft")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IAuthClient), Key = "microsoft")]
     public class MicrosoftClient : OpenAuthClient, IAuthClient
     {
         public override DotNetOpenAuth.AspNet.IAuthenticationClient GetOpenAuthClient()

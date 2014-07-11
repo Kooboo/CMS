@@ -8,8 +8,8 @@
 #endregion
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Web.Areas.Sites.Models.DataSources;
-using Kooboo.ComponentModel;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Web.Metadata;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

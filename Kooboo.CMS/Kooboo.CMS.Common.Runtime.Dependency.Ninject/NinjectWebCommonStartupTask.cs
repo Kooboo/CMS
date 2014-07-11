@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common.Runtime.Dependency.Ninject.InRequestScope;
+using Kooboo.Common.ObjectContainer.Dependency.Ninject.InRequestScope;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using System;
@@ -15,8 +15,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-[assembly: System.Web.PreApplicationStartMethod(typeof(Kooboo.CMS.Common.Runtime.Dependency.Ninject.NinjectWebCommonStartupTask), "Start")]
-namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
+[assembly: System.Web.PreApplicationStartMethod(typeof(Kooboo.Common.ObjectContainer.Dependency.Ninject.NinjectWebCommonStartupTask), "Start")]
+namespace Kooboo.Common.ObjectContainer.Dependency.Ninject
 {
     public class NinjectWebCommonStartupTask
     {

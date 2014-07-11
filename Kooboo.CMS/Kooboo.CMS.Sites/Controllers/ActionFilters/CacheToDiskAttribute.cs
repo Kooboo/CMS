@@ -7,15 +7,15 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Sites.Caching;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Sites.View;
 using Kooboo.CMS.Sites.Web;
-using Kooboo.Globalization;
-using Kooboo.IO;
-using Kooboo.Web.Url;
+using Kooboo.Common.Globalization;
+
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,7 +33,7 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
         public PageCachingManager PageCachingManager { get; set; }
         public CacheToDiskAttribute()
         {
-            PageCachingManager = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<PageCachingManager>();
+            PageCachingManager = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<PageCachingManager>();
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -72,7 +72,7 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
                         }
                         catch (Exception e)
                         {
-                            Kooboo.HealthMonitoring.Log.LogException(e);
+                           Kooboo.Common.Logging.Logger.Error(e.Message, e);
                         }
                     }
                 }

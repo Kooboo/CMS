@@ -7,9 +7,7 @@
 // 
 #endregion
 using Kooboo.Collections;
-using Kooboo.CMS.Common.Formula;
-using Kooboo.Collections.Generic;
-
+using Kooboo.Common.TokenTemplate;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -32,9 +30,9 @@ namespace Kooboo.CMS.Sites.DataSource.Http
         private string _httpMethod = "GET";
         [DataMember]
         public string HttpMethod { get { return _httpMethod; } set { _httpMethod = value; } }
-        private List<CKeyValuePair<string, string>> _formData = new List<CKeyValuePair<string, string>>();
+        private Dictionary<string, string> _formData = new Dictionary<string, string>();
         [DataMember]
-        public List<CKeyValuePair<string, string>> FormData
+        public Dictionary<string, string> FormData
         {
             get
             {
@@ -45,9 +43,9 @@ namespace Kooboo.CMS.Sites.DataSource.Http
                 _formData = value;
             }
         }
-        private List<CKeyValuePair<string, string>> _headers = new List<CKeyValuePair<string, string>>();
+        private Dictionary<string, string> _headers = new Dictionary<string, string>();
         [DataMember]
-        public List<CKeyValuePair<string, string>> Headers
+        public Dictionary<string, string> Headers
         {
             get
             {
@@ -70,25 +68,18 @@ namespace Kooboo.CMS.Sites.DataSource.Http
             NameValueCollection form = KeyValuesToNameValueCollection(dataSourceContext, this.FormData);
             NameValueCollection headers = KeyValuesToNameValueCollection(dataSourceContext, this.Headers);
 
-            var httpDataRequest = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IHttpDataRequest>();
+            var httpDataRequest = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IHttpDataRequest>();
             return httpDataRequest.GetData(url, this.HttpMethod, ContentType, form, headers);
         }
         #endregion
 
         #region KeyValuesToNameValueCollection
-        private static NameValueCollection KeyValuesToNameValueCollection(DataSourceContext dataSourceContext, IEnumerable<CKeyValuePair<string, string>> keyValuePairs)
+        private static NameValueCollection KeyValuesToNameValueCollection(DataSourceContext dataSourceContext, Dictionary<string, string> keyValuePairs)
         {
             NameValueCollection values = new NameValueCollection();
-            if (keyValuePairs != null && keyValuePairs.Count() > 0)
+            if (keyValuePairs != null)
             {
-                foreach (var item in keyValuePairs)
-                {
-                    if (!string.IsNullOrEmpty(item.Key))
-                    {
-                        var value = EvaluateStringFormulas(item.Value, dataSourceContext);
-                        values[item.Key] = value;
-                    }
-                }
+                return keyValuePairs.ToNameValueCollection();
             }
 
             return values;
@@ -96,7 +87,7 @@ namespace Kooboo.CMS.Sites.DataSource.Http
         #endregion
 
         #region EvaluateStringFormulas
-        private class ValueProviderBridge : Kooboo.CMS.Common.Formula.IValueProvider
+        private class ValueProviderBridge : Kooboo.Common.TokenTemplate.IValueProvider
         {
             System.Web.Mvc.IValueProvider _valueProvider;
             public ValueProviderBridge(System.Web.Mvc.IValueProvider valueProvider)
@@ -114,10 +105,10 @@ namespace Kooboo.CMS.Sites.DataSource.Http
                 return null;
             }
         }
-        private static string EvaluateStringFormulas(string formula, DataSourceContext dataSourceContext)
+        private static string EvaluateStringFormulas(string templateString, DataSourceContext dataSourceContext)
         {
-            var formulaParser = new FormulaParser();
-            return formulaParser.Populate(formula, new ValueProviderBridge(dataSourceContext.ValueProvider));
+            var templateParser = new TemplateParser();
+            return templateParser.Merge(templateString, new ValueProviderBridge(dataSourceContext.ValueProvider));
         }
         #endregion
 
@@ -125,13 +116,13 @@ namespace Kooboo.CMS.Sites.DataSource.Http
         #region GetParameters
         public IEnumerable<string> GetParameters()
         {
-            FormulaParser parser = new FormulaParser();
+            ITemplateParser templateParser = new TemplateParser();
 
             List<string> parameters = new List<string>();
 
             if (!string.IsNullOrEmpty(URL))
             {
-                var urlParameters = parser.GetParameters(URL);
+                var urlParameters = templateParser.GetTokens(URL);
                 parameters.AddRange(urlParameters, StringComparer.OrdinalIgnoreCase);
             }
             ParseKeyValueList(FormData, ref parameters);
@@ -139,16 +130,16 @@ namespace Kooboo.CMS.Sites.DataSource.Http
 
             return parameters;
         }
-        private void ParseKeyValueList(IEnumerable<CKeyValuePair<string, string>> keyValues, ref List<string> parameters)
+        private void ParseKeyValueList(Dictionary<string, string> keyValues, ref List<string> parameters)
         {
-            FormulaParser parser = new FormulaParser();
+            ITemplateParser templateParser = new TemplateParser();
             if (keyValues != null)
             {
                 foreach (var item in keyValues)
                 {
                     if (!string.IsNullOrEmpty(item.Key))
                     {
-                        var valueParameters = parser.GetParameters(item.Value);
+                        var valueParameters = templateParser.GetTokens(item.Value);
                         parameters.AddRange(valueParameters, StringComparer.OrdinalIgnoreCase);
                     }
                 }

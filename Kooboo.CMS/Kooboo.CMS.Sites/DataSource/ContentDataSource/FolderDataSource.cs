@@ -9,15 +9,15 @@
 using Kooboo.Collections;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common.Formula;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using Kooboo.Common.TokenTemplate;
 
 
 
@@ -50,7 +50,7 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
             var folder = new TextFolder(repository, FolderName).AsActual();
             if (folder == null)
             {
-                throw new KoobooException(string.Format("The folder does not exists.\"{0}\"".Localize(), FolderName));
+                throw new ArgumentNullException("FolderName", string.Format("The folder does not exists.\"{0}\"".Localize(), FolderName));
             }
             Content.Query.IContentQuery<Content.Models.TextContent> contentQuery = null;
             if (folder is TextFolder)
@@ -100,7 +100,7 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
 
         public override IEnumerable<string> GetParameters()
         {
-            FormulaParser parser = new FormulaParser();
+            var parser = new TemplateParser();
             var parameters = base.GetParameters().ToList();
             if (CategoryClauses != null)
             {
@@ -108,12 +108,12 @@ namespace Kooboo.CMS.Sites.DataSource.ContentDataSource
                 {
                     if (!string.IsNullOrEmpty(item.Value1))
                     {
-                        var value1Parameters = parser.GetParameters(item.Value1);
+                        var value1Parameters = parser.GetTokens(item.Value1);
                         parameters.AddRange(value1Parameters, StringComparer.OrdinalIgnoreCase);
                     }
                     if (!string.IsNullOrEmpty(item.Value2))
                     {
-                        var value2Paramters = parser.GetParameters(item.Value2);
+                        var value2Paramters = parser.GetTokens(item.Value2);
                         parameters.AddRange(value2Paramters, StringComparer.OrdinalIgnoreCase);
                     }
                 }

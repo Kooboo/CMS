@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject.InRequestScope
+namespace Kooboo.Common.ObjectContainer.Dependency.Ninject.InRequestScope
 {
     public static class RequestScopeExtensionMethod
     {

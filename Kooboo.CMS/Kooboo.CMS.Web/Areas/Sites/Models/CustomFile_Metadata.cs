@@ -26,9 +26,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
             string path = value.ToString();
             if (path.EndsWith(".jpg") || path.EndsWith(".png") || path.EndsWith(".gif"))
             {
-                return new HtmlString(string.Format(@"<a href='{0}' alt='preview' rel='{0}' >preview</a>", Kooboo.Web.Url.UrlUtility.ResolveUrl(value.ToString())));
+                return new HtmlString(string.Format(@"<a href='{0}' alt='preview' rel='{0}' >preview</a>", Kooboo.Common.Web.UrlUtility.ResolveUrl(value.ToString())));
             }
-            return new HtmlString(string.Format(@"<a href='{0}' alt='open' rel='{0}' >open</a><input type=""hidden"" rel='paths' value=""{1}""/>", Kooboo.Web.Url.UrlUtility.ResolveUrl(value.ToString()), CustomDirectoryHelper.VirtualPathToFullName(value.ToString())));
+            return new HtmlString(string.Format(@"<a href='{0}' alt='open' rel='{0}' >open</a><input type=""hidden"" rel='paths' value=""{1}""/>", Kooboo.Common.Web.UrlUtility.ResolveUrl(value.ToString()), CustomDirectoryHelper.VirtualPathToFullName(value.ToString())));
 
 
         }

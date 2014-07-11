@@ -6,14 +6,14 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Web.Areas.Sites.Models;
 using Kooboo.CMS.Web.Models;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.Web;
 using System;
 using System.Collections.Generic;

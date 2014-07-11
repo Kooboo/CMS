@@ -14,6 +14,7 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
 using System.IO;
 using System.Data.SqlServerCe;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Content.Persistence.Sqlce
 {
@@ -22,7 +23,7 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce
         public static void CreateDatabase(string dataFile, string connectionString)
         {
             var dir = Path.GetDirectoryName(dataFile);
-            IO.IOUtility.EnsureDirectoryExists(dir);
+            IOUtility.EnsureDirectoryExists(dir);
             SqlCeEngine engine = new SqlCeEngine(connectionString);
             engine.CreateDatabase();
         }

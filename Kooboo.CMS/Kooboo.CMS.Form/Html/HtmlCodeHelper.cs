@@ -12,9 +12,9 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.IO;
-using Kooboo.Web.Url;
-using Kooboo.Globalization;
-using Kooboo.CMS.Common;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Form.Html
 {
     public static class HtmlCodeHelper
@@ -76,7 +76,7 @@ namespace Kooboo.CMS.Form.Html
 
                     return new AggregateHtmlString(htmlStrings);
                 }
-                return new HtmlString(Kooboo.StringExtensions.StripAllTags(s.Trim()));
+                return new HtmlString(s.Trim().StripAllTags());
 
             }
             else

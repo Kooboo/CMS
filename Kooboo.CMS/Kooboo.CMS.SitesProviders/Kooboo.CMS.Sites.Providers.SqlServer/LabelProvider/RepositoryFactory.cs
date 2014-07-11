@@ -14,7 +14,7 @@ using Kooboo.CMS.Sites.Globalization;
 
 namespace Kooboo.CMS.Sites.Providers.SqlServer.LabelProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IElementRepositoryFactory), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IElementRepositoryFactory), Order = 100)]
     public class RepositoryFactory : IElementRepositoryFactory
     {
         public Kooboo.Globalization.IElementRepository CreateRepository(Models.Site site)

@@ -15,9 +15,10 @@ using Kooboo.CMS.Account.Services;
 using Kooboo.CMS.Account.Models;
 using Kooboo.CMS.Web.Areas.Account.Models;
 using Kooboo.CMS.Web.Models;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Sites;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Web.Areas.Account.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.RequiredLogOnAttribute(RequiredAdministrator = true, Order = 1)]

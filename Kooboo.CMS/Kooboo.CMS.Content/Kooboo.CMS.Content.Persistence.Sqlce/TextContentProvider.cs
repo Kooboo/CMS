@@ -26,11 +26,11 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce
         {
             get
             {
-                return CallContext.Current.GetObject<SQLCeTransactionUnit>("TextContent-SQLCeTransactionUnit");
+                return Kooboo.CMS.Common.ContextVariables.Current.GetObject<SQLCeTransactionUnit>("TextContent-SQLCeTransactionUnit");
             }
             set
             {
-                CallContext.Current.RegisterObject("TextContent-SQLCeTransactionUnit", value);
+                Kooboo.CMS.Common.ContextVariables.Current.SetObject("TextContent-SQLCeTransactionUnit", value);
             }
         }
 
@@ -74,7 +74,7 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce
                         }
                         catch (Exception e)
                         {
-                            throw new KoobooException(e.Message + "SQL:" + command.CommandText, e);
+                            throw new Exception(e.Message + "SQL:" + command.CommandText, e);
                         }
                     }
 
@@ -100,8 +100,8 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce
             Current = null;
         }
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentProvider), Order = 2)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IContentProvider<TextContent>), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ITextContentProvider), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IContentProvider<TextContent>), Order = 2)]
     public class TextContentProvider : ITextContentProvider
     {
         TextContentDbCommands dbCommands = new TextContentDbCommands();
@@ -331,7 +331,7 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce
             SQLCeTransactionUnit.Current = unit;
 
             return unit;
-        } 
+        }
         #endregion
 
         #region QueryCategories
@@ -363,7 +363,7 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce
                 }
             }
             return list;
-        } 
+        }
         #endregion
     }
 }

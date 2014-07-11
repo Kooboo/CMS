@@ -13,8 +13,9 @@ using System.Text;
 using System.Data.SqlServerCe;
 using System.Data;
 using Kooboo.CMS.Content.Models;
-using Kooboo.CMS.Common;
-using Kooboo.CMS.Common.Runtime;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common;
 
 namespace Kooboo.CMS.Content.Persistence.Sqlce
 {
@@ -35,7 +36,7 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce
                     }
                     catch (Exception e)
                     {
-                        throw new KoobooException(e.Message + " SQL:" + command.CommandText, e);
+                        throw new Exception(e.Message + " SQL:" + command.CommandText, e);
                     }
                 }
             }
@@ -59,7 +60,7 @@ namespace Kooboo.CMS.Content.Persistence.Sqlce
                         }
                         catch (Exception e)
                         {
-                            throw new KoobooException(e.Message + " SQL:" + command.CommandText, e);
+                            throw new Exception(e.Message + " SQL:" + command.CommandText, e);
                         }
 
                     }

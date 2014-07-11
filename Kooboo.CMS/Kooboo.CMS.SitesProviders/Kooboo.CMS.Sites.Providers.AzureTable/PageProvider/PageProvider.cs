@@ -19,9 +19,9 @@ using System.Linq.Expressions;
 using System.Text;
 namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPageProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Page>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IPageProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Page>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100)]
     public class PageProvider : IPageProvider
     {
         //#region version
@@ -477,7 +477,7 @@ namespace Kooboo.CMS.Sites.Providers.AzureTable.PageProvider
 
             //remove the pages folder to clear all old pages.
             var dummy = new Page(site, "Dummy");
-            Kooboo.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
+            Kooboo.Common.IO.IOUtility.DeleteDirectory(dummy.BasePhysicalPath, true);
 
             foreach (var item in QueryBySite(site))
             {

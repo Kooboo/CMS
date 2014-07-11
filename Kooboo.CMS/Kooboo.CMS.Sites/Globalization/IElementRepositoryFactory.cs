@@ -10,9 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Globalization.Repository;
 
 namespace Kooboo.CMS.Sites.Globalization
 {
@@ -20,7 +19,7 @@ namespace Kooboo.CMS.Sites.Globalization
     {
         IElementRepository CreateRepository(Site site);
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IElementRepositoryFactory))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IElementRepositoryFactory))]
     public class DefaultElementRepositoryFactory : IElementRepositoryFactory
     {
         public IElementRepository CreateRepository(Site site)

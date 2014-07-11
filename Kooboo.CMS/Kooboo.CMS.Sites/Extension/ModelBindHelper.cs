@@ -14,7 +14,8 @@ using System.Web.Mvc;
 using Kooboo.CMS.Sites.View;
 using Kooboo.CMS.Sites.Models;
 using System.Collections.Specialized;
-using Kooboo.CMS.Common.Formula;
+using Kooboo.Common.TokenTemplate;
+
 
 namespace Kooboo.CMS.Sites.Extension
 {

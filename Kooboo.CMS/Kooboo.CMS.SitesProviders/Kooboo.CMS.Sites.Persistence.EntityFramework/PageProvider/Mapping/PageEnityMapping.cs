@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+extern alias EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider.Mapping
 {
-    public class PageEnityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<PageEntity>
+    public class PageEnityMapping : EntityFramework::System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<PageEntity>
     {
         public PageEnityMapping()
         {
@@ -23,7 +24,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider.Mapping
             this.ToTable("Kooboo_CMS_Sites_Pages");
         }
     }
-    public class PageDraftEnityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<PageDraftEntity>
+    public class PageDraftEnityMapping : EntityFramework::System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<PageDraftEntity>
     {
         public PageDraftEnityMapping()
         {

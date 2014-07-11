@@ -38,7 +38,7 @@ namespace Kooboo.CMS.Sites
     {
         static PathEx()
         {
-            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Common.IBaseDir>();
+            var baseDir = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<Kooboo.CMS.Common.IBaseDir>();
             BasePath = baseDir.Cms_DataPathName;
         }
         public static string BasePath;

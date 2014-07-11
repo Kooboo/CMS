@@ -1,4 +1,5 @@
 ﻿
+using Kooboo.Common.Misc;
 using System.ComponentModel.DataAnnotations;
 
 namespace Kooboo.CMS.Sites.Contact {

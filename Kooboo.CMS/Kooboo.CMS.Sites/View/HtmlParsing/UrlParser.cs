@@ -15,7 +15,7 @@ using System.Web.Routing;
 
 namespace Kooboo.CMS.Sites.View.HtmlParsing
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IParser), Key = "url")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IParser), Key = "url")]
     public class UrlParser : IParser
     {
         IPageUrlGenerator _pageUrlGenerator;

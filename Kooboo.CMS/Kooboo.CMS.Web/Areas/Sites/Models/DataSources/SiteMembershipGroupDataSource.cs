@@ -9,7 +9,7 @@
 using Kooboo.CMS.Membership.Models;
 using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.Web.SelectList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
         {
             if (Site.Current != null)
             {
-                var membershipGroupManager = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<MembershipGroupManager>();
+                var membershipGroupManager = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<MembershipGroupManager>();
                 var membership = Site.Current.GetMembership();
                 if (membership != null)
                 {

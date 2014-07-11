@@ -11,12 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
-using Kooboo.Globalization;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.ObjectContainer.Dependency;
 namespace Kooboo.CMS.Web
 {
-    [Dependency(typeof(Kooboo.CMS.Common.IHttpApplicationEvents), Key = "ReferrerCheckingModule")]
-    public class ReferrerCheckingModule : Kooboo.CMS.Common.HttpApplicationEvents
+    [Dependency(typeof(Kooboo.Common.Web.IHttpApplicationEvents), Key = "ReferrerCheckingModule")]
+    public class ReferrerCheckingModule : Kooboo.Common.Web.HttpApplicationEvents
     {
         public override void Application_BeginRequest(object sender, EventArgs e)
         {

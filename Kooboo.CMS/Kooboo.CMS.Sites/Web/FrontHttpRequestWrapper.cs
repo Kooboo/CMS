@@ -14,13 +14,15 @@ using System.Text;
 using System.Web;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.View;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System.Threading;
 using System.Web.Mvc;
 using System.Globalization;
-using Kooboo.Web.Url;
+
 using Kooboo.CMS.Sites.ABTest;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.Web;
+using Kooboo.Common.Misc;
 
 namespace Kooboo.CMS.Sites.Web
 {
@@ -203,7 +205,7 @@ namespace Kooboo.CMS.Sites.Web
                     RequestChannel = FrontRequestChannel.Debug;
                 }
 
-                RequestUrl = Kooboo.Web.Url.UrlUtility.Combine(new[] { "/" }.Concat(path.Skip(1)).ToArray());
+                RequestUrl = Kooboo.Common.Web.UrlUtility.Combine(new[] { "/" }.Concat(path.Skip(1)).ToArray());
                 if (this.Path.EndsWith("/") && !this.RequestUrl.EndsWith("/"))
                 {
                     RequestUrl = RequestUrl + "/";
@@ -257,7 +259,7 @@ namespace Kooboo.CMS.Sites.Web
         {
             ABSiteSetting abSiteSetting = null;
             var httpContext = new HttpContextWrapper(HttpContext.Current);
-            var matchedSite = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Kooboo.CMS.Sites.Services.ABSiteSettingManager>().MatchRule(site, httpContext, out abSiteSetting);
+            var matchedSite = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<Kooboo.CMS.Sites.Services.ABSiteSettingManager>().MatchRule(site, httpContext, out abSiteSetting);
             if (matchedSite != site && abSiteSetting != null && abSiteSetting.RedirectType != null && abSiteSetting.RedirectType.Value != RedirectType.Transfer)
             {
                 string url = null;

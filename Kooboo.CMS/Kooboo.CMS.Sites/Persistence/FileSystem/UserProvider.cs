@@ -17,8 +17,8 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUserProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<User>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IUserProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<User>))]
     public class UserProvider : FileProviderBase<User>, IUserProvider
     {
         #region Locker

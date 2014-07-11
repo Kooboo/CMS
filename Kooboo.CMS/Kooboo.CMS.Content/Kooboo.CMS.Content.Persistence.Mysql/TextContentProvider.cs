@@ -25,11 +25,11 @@ namespace Kooboo.CMS.Content.Persistence.Mysql
         {
             get
             {
-                return CallContext.Current.GetObject<MySQLTransactionUnit>("TextContent-MySQLTransactionUnit");
+                return Kooboo.CMS.Common.ContextVariables.Current.GetObject<MySQLTransactionUnit>("TextContent-MySQLTransactionUnit");
             }
             set
             {
-                CallContext.Current.RegisterObject("TextContent-MySQLTransactionUnit", value);
+                Kooboo.CMS.Common.ContextVariables.Current.SetObject("TextContent-MySQLTransactionUnit", value);
             }
         }
 
@@ -74,7 +74,7 @@ namespace Kooboo.CMS.Content.Persistence.Mysql
                         }
                         catch (Exception e)
                         {
-                            throw new KoobooException(e.Message + "SQL:" + command.CommandText, e);
+                            throw new Exception(e.Message + "SQL:" + command.CommandText, e);
                         }
                     }
 
@@ -100,8 +100,8 @@ namespace Kooboo.CMS.Content.Persistence.Mysql
             Current = null;
         }
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentProvider), Order = 2)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IContentProvider<TextContent>), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ITextContentProvider), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IContentProvider<TextContent>), Order = 2)]
     public class TextContentProvider : ITextContentProvider
     {
         TextContentDbCommands dbCommands = new TextContentDbCommands();
@@ -312,7 +312,7 @@ namespace Kooboo.CMS.Content.Persistence.Mysql
             var unit = new MySQLTransactionUnit(repository);
             MySQLTransactionUnit.Current = unit;
             return unit;
-        } 
+        }
         #endregion
 
         #region QueryCategories
@@ -344,7 +344,7 @@ namespace Kooboo.CMS.Content.Persistence.Mysql
                 }
             }
             return list;
-        } 
+        }
         #endregion
     }
 }

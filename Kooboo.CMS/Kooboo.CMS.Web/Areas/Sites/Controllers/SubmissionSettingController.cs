@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Sites.Services;
@@ -18,11 +18,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Kooboo.Globalization;
+using System.Web;
+
+using Kooboo.Common.Globalization;
 using Kooboo.Web;
-using Kooboo.Web.Mvc;
+
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Extension;
+using Kooboo.Common.Web;
+using Kooboo.Common;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
@@ -105,7 +109,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 var t = Type.GetType(type);
                 if (t != null)
                 {
-                    var o = (ISubmissionPlugin)Kooboo.TypeActivator.CreateInstance(t);
+                    var o = (ISubmissionPlugin)TypeActivator.CreateInstance(t);
                     if (o.Parameters != null)
                     {
                         resultData.Model = o.Parameters.ToList();

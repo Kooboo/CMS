@@ -7,7 +7,7 @@
 // 
 #endregion
 using Ionic.Zip;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Services;
@@ -16,9 +16,9 @@ using Kooboo.CMS.Membership.Persistence;
 using Kooboo.CMS.Sites.Globalization;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Models.Options;
-using Kooboo.Globalization;
-using Kooboo.IO;
-using Kooboo.Web.Url;
+using Kooboo.Common.Globalization;
+
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -26,11 +26,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Kooboo.CMS.Common;
+using Kooboo.Common.Web;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Site>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Site>))]
     public class SiteProvider : ISiteProvider
     {
         #region Static
@@ -251,7 +254,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
             if (Directory.Exists(baseDir))
             {
-                foreach (var dir in IO.IOUtility.EnumerateDirectoriesExludeHidden(baseDir))
+                foreach (var dir in IOUtility.EnumerateDirectoriesExludeHidden(baseDir))
                 {
                     if (File.Exists(Path.Combine(dir.FullName, PathResource.SettingFileName)))
                     {
@@ -328,9 +331,9 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             }
             catch (Exception ex)
             {
-                Kooboo.HealthMonitoring.Log.LogException(ex);
+                Kooboo.Common.Logging.Logger.Error(ex.Message, ex);
 
-                Kooboo.IO.IOUtility.DeleteDirectory(site.PhysicalPath, true);
+                Kooboo.Common.IO.IOUtility.DeleteDirectory(site.PhysicalPath, true);
 
                 throw;
             }
@@ -399,11 +402,11 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                 }
             }
 
-          
+
 
             Initialize(site);
             Online(site);
-            
+
             if (!string.IsNullOrEmpty(options.Culture))
             {
                 site.Culture = options.Culture;
@@ -421,7 +424,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             string siteFilePathPattern = sitesBaseVirtualPath + "/[^/]+/";
             string siteFileReplacement = sitesBaseVirtualPath + "/" + (site.Name ?? "") + "/";
 
-            foreach (var file in Kooboo.IO.IOUtility.EnumerateFiles(site.PhysicalPath, new[] { "*.cshtml", "*.html", "*.xml" }, SearchOption.AllDirectories))
+            foreach (var file in Kooboo.Common.IO.IOUtility.EnumerateFiles(site.PhysicalPath, new[] { "*.cshtml", "*.html", "*.xml" }, SearchOption.AllDirectories))
             {
                 ReplaceFile(file, siteFilePathPattern, siteFileReplacement);
             }
@@ -467,7 +470,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                         }
                         catch (Exception e)
                         {
-                            Kooboo.HealthMonitoring.Log.LogException(e);
+                            Kooboo.Common.Logging.Logger.Error(e.Message, e);
                         }
                         site.Repository = repositoryName;
                     }
@@ -521,7 +524,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
                         }
                         catch (Exception e)
                         {
-                            Kooboo.HealthMonitoring.Log.LogException(e);
+                            Kooboo.Common.Logging.Logger.Error(e.Message, e);
                         }
                     }
                     else if (site.Parent != null && !string.IsNullOrEmpty(site.Membership))

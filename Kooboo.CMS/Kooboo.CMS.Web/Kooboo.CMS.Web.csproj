@@ -8,14 +8,14 @@
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C5803C24-EEEE-4A7E-8F2F-B0FB66287845}</ProjectGuid>
-    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Kooboo.CMS.Web</RootNamespace>
     <AssemblyName>Kooboo.CMS.Web</AssemblyName>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
@@ -61,7 +61,27 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\dotLess\dotless.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Kooboo.Common">
+      <HintPath>..\packages\Kooboo.Common.5.0.5305.19046\lib\net45\Kooboo.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Kooboo.Common.Data, Version=5.0.5304.27126, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Kooboo.Common.Data.5.0.5304.27126\lib\net45\Kooboo.Common.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.Common.Web, Version=5.0.5305.21365, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Kooboo.Common.Web.5.0.5305.21365\lib\net45\Kooboo.Common.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.Common.Windows, Version=5.0.5302.32861, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Kooboo.Common.Windows.5.0.5302.32861\lib\net45\Kooboo.Common.Windows.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -80,14 +100,30 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\MVC\4.0\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.0\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\MVC\4.0\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -177,9 +213,6 @@
     <Compile Include="Areas\Contents\Models\MoveMediaContent.cs" />
     <Compile Include="Areas\Contents\Models\SearchSetting_Metadata.cs" />
     <Compile Include="Areas\Contents\Models\FormModel.cs" />
-    <Compile Include="Areas\Contents\Models\MediaContent_Metadata.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Areas\Contents\Models\Column_Metadata.cs" />
     <Compile Include="Areas\Contents\Models\MediaContentGrid.cs" />
     <Compile Include="Areas\Contents\Models\ReceivingSetting_Metadata.cs" />
@@ -187,7 +220,6 @@
     <Compile Include="Areas\Contents\Models\Schema_Metadata.cs" />
     <Compile Include="Areas\Contents\Models\SelectableViewModel.cs" />
     <Compile Include="Areas\Contents\Models\SendingSetting_Metadata.cs" />
-    <Compile Include="Areas\Contents\Models\TextContentImportModel.cs" />
     <Compile Include="Areas\Contents\Models\TextContentDiffModel.cs" />
     <Compile Include="Areas\Contents\Models\TextContentGrid.cs" />
     <Compile Include="Areas\Contents\Models\TextFolder_Metadata.cs" />
@@ -372,8 +404,6 @@
     <Compile Include="Areas\Sites\Models\AssemblyFile_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\CopyPageModel.cs" />
     <Compile Include="Areas\Sites\Models\CustomError_Metadata.cs" />
-    <Compile Include="Areas\Sites\Models\CustomFile_Metadata.cs" />
-    <Compile Include="Areas\Sites\Models\DataRuleSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\AutoCompletePageListDataSouce.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\CopyPageDataSource.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\FileExtensionsDataSource.cs" />
@@ -411,17 +441,14 @@
     <Compile Include="Areas\Sites\Models\MovePageModel.cs" />
     <Compile Include="Grid2\ArrayGridItemColumn.cs" />
     <Compile Include="Areas\Sites\Models\HtmlBlock_Metadata.cs" />
-    <Compile Include="Areas\Sites\Models\InheritableCheckVisible.cs" />
     <Compile Include="Areas\Sites\Models\ModuleInfo_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\PagePublishViewModel.cs" />
     <Compile Include="Areas\Sites\Models\PagePublishingQueue_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ResourceGridModel.cs" />
     <Compile Include="Areas\Sites\Models\FileResource_Metadata.cs" />
-    <Compile Include="Areas\Sites\Models\InheritableGridActionVisibleArbiter.cs" />
     <Compile Include="Areas\Sites\Models\Layout_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\LogOnModel.cs" />
     <Compile Include="Areas\Sites\Models\Msg.cs" />
-    <Compile Include="Areas\Sites\Models\PagePosition_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\Page_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\PathResource_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\ScriptFile_Metadata.cs" />
@@ -430,8 +457,6 @@
     <Compile Include="Areas\Sites\Models\Smtp_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\Style_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\Template_Metadata.cs" />
-    <Compile Include="Areas\Sites\Models\ThemeImageFile_Metadata.cs" />
-    <Compile Include="Areas\Sites\Models\Theme_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\PluginType_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\UrlKeyMap_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\UrlRedirect_Metadata.cs" />
@@ -1985,7 +2010,9 @@
     <Content Include="Areas\Contents\Views\MediaContent\Html5Uploader.cshtml" />
     <Content Include="Areas\Contents\Views\MediaContent\Edit.cshtml" />
     <Content Include="Areas\Contents\Views\TextContent\_Grid.Scripts.cshtml" />
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\String.cshtml" />
@@ -2443,10 +2470,6 @@
       <Project>{61ed004c-9e20-4680-af2b-0723fe7648bb}</Project>
       <Name>Kooboo.CMS.Account</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
-      <Project>{570cd9d3-75d2-468a-8245-45bdca57432e}</Project>
-      <Name>Kooboo.CMS.Caching</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>
@@ -2470,10 +2493,6 @@
     <ProjectReference Include="..\Kooboo.CMS.Sites\Kooboo.CMS.Sites.csproj">
       <Project>{ffd8e9f0-61b6-4b0d-a803-5beccd2a6578}</Project>
       <Name>Kooboo.CMS.Sites</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kooboo\Kooboo.csproj">
-      <Project>{347e47e5-3132-4bad-b935-8282a2b16cf5}</Project>
-      <Name>Kooboo</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -2584,6 +2603,9 @@
   <ItemGroup>
     <Content Include="Areas\Sites\Views\DataSource\Embedded.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -2625,7 +2647,7 @@
     </MonoDevelop>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>copy "..\..\..\Lib\MVC\4.0\*.dll"  "$(TargetDir)";
+    <PostBuildEvent>echo copy "..\..\..\Lib\MVC\4.0\*.dll"  "$(TargetDir)";
 @echo copy "..\..\..\Lib\SQLCe\*.*" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

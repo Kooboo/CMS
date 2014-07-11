@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common;
-using Kooboo.Web.Url;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace Kooboo.CMS.Sites.ABTest
         {
             get
             {
-                var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+                var baseDir = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IBaseDir>();
                 return UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "Views", "ABRuleTemplates", RuleType + ".cshtml");
             }
             set { }

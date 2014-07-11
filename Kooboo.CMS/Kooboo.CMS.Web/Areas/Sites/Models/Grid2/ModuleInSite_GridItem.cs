@@ -6,7 +6,8 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Web.Mvc.Grid2;
+using Kooboo.Common.Web.Grid;
+using Kooboo.Common.Web.Grid;
 using System;
 using System.Collections.Generic;
 using System.Linq;

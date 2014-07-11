@@ -7,16 +7,16 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Sites.Extension.ModuleArea;
-using Kooboo.Dynamic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Web.Routing;
+using Kooboo.Common.Misc;
 namespace Kooboo.CMS.Sites.Models
 {
     [DataContract(Name = "PagePosition")]

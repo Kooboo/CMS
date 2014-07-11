@@ -68,7 +68,7 @@ namespace Kooboo.CMS.Content.Persistence.SqlServer
         //{
         //    var dataFile = GetDatabaseFile(repository);
         //    var dir = Path.GetDirectoryName(dataFile);
-        //    IO.IOUtility.EnsureDirectoryExists(dir);
+        //    IOUtility.EnsureDirectoryExists(dir);
         //    //do not specify the file path.
         //    string sql = string.Format(@"CREATE DATABASE [{0}]"
         //        , repository.Name

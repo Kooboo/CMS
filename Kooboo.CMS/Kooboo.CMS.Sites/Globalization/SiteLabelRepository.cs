@@ -11,13 +11,14 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Globalization;
-using Kooboo.Globalization.Repository;
-using Kooboo.CMS.Sites.Models;
-
-using Kooboo.CMS.Sites.Caching;
 using System.Threading;
 using System.Collections;
+
+using Kooboo.Common.Globalization;
+using Kooboo.CMS.Sites.Models;
+using Kooboo.CMS.Sites.Caching;
+using Kooboo.Common.Globalization.Repository;
+
 namespace Kooboo.CMS.Sites.Globalization
 {
     public class SiteLabelRepository : IElementRepository

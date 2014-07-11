@@ -12,7 +12,8 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Models.Paths;
 using System.IO;
-using Kooboo.Web.Url;
+using Kooboo.Common.Web;
+
 namespace Kooboo.CMS.Content.Services
 {
     /// <summary>

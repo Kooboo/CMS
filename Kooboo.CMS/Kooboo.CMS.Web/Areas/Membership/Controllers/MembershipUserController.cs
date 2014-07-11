@@ -1,17 +1,19 @@
-﻿using Kooboo.CMS.Common;
+﻿using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Membership.Models;
 using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Web.Areas.Membership.Models;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kooboo.CMS.Membership.Persistence;
-using Kooboo.CMS.Common.DataViolation;
+using Kooboo.Common.Web;
+using Kooboo.Common.Data.DataViolation;
+
 
 namespace Kooboo.CMS.Web.Areas.Membership.Controllers
 {

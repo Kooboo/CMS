@@ -12,11 +12,11 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Persistence;
-using Kooboo.Extensions;
+
 
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(UrlRedirectManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(UrlRedirectManager))]
     public class UrlRedirectManager : ManagerBase<UrlRedirect, IUrlRedirectProvider>
     {
         public UrlRedirectManager(IUrlRedirectProvider provider) : base(provider) { }

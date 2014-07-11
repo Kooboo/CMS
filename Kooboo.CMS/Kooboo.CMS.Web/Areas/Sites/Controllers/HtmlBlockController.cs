@@ -6,20 +6,21 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Sites.Versioning;
 using Kooboo.CMS.Web.Models;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
@@ -61,7 +62,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                 string cssHackBody;
                 var themefiles = Kooboo.CMS.Sites.Parsers.ThemeRule.ThemeRuleParser.Parse(new Theme(Site, Site.Theme).LastVersion(), out cssHackBody);
                 var files = themefiles.Where(o => o.PhysicalPath.EndsWith(".css", StringComparison.CurrentCultureIgnoreCase))
-                                      .Select(o => Kooboo.Web.Url.UrlUtility.ResolveUrl(o.VirtualPath)).ToList();
+                                      .Select(o => Kooboo.Common.Web.UrlUtility.ResolveUrl(o.VirtualPath)).ToList();
                 return string.Join(",", files);
             }
             else

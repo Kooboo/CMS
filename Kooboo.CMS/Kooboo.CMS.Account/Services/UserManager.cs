@@ -11,13 +11,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Account.Models;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System.Net.Mail;
-using Kooboo.Extensions;
 using Kooboo;
 using Kooboo.CMS.Account.Persistence;
-using Kooboo.Collections;
-using Kooboo.CMS.Common.DataViolation;
+
+using Kooboo.Common.Misc;
+using Kooboo.Common.Data.DataViolation;
+
 namespace Kooboo.CMS.Account.Services
 {
     public class UserManager
@@ -211,7 +212,7 @@ namespace Kooboo.CMS.Account.Services
             {
                 throw new Exception("The user does not exists.".Localize());
             }
-            string randomValue = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(16);
+            string randomValue = UniqueIdGenerator.GetInstance().GetBase32UniqueId(16);
 
             user.ActivateCode = randomValue;
 

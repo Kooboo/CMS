@@ -18,7 +18,7 @@ using Kooboo.CMS.Sites.View;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Search;
 using Kooboo.CMS.Search.Models;
-using Kooboo.Web.Mvc.Paging;
+using Kooboo.Common.Data;
 
 namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity.MvcViewEngine
 {
@@ -35,7 +35,7 @@ namespace Kooboo.CMS.Sites.TemplateEngines.NVelocity.MvcViewEngine
             return ServiceBuilder.OpenService(repository);
         }
 
-        public static PagedList<ResultObject> Search(Repository repository, string key, int pageIndex, int pageSize)
+        public static IPagedList<ResultObject> Search(Repository repository, string key, int pageIndex, int pageSize)
         {
             return OpenService(repository).Search(key, pageIndex, pageSize);
         }

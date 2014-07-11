@@ -61,7 +61,7 @@ namespace Kooboo.CMS.Sites.Web
                     }
                     catch (Exception e)
                     {
-                        HealthMonitoring.Log.LogException(e);
+                        Kooboo.Common.Logging.Logger.Error(e.Message, e);
                     }
 
                 }

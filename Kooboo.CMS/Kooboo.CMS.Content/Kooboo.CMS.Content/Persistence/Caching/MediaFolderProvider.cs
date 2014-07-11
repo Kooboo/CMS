@@ -12,7 +12,8 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Caching;
-using Kooboo.CMS.Caching;
+using Kooboo.Common.Caching;
+
 namespace Kooboo.CMS.Content.Persistence.Caching
 {
     public class MediaFolderProvider : CacheProviderBase<MediaFolder>, IMediaFolderProvider
@@ -23,7 +24,7 @@ namespace Kooboo.CMS.Content.Persistence.Caching
             : base(innerProvider)
         {
             inner = innerProvider;
-        } 
+        }
         #endregion
 
         #region ChildFolders
@@ -33,7 +34,7 @@ namespace Kooboo.CMS.Content.Persistence.Caching
             {
                 return inner.ChildFolders(parent).ToArray();
             }).AsQueryable();
-        } 
+        }
         #endregion
 
         #region All
@@ -43,14 +44,14 @@ namespace Kooboo.CMS.Content.Persistence.Caching
             {
                 return inner.All(repository).ToArray();
             }).AsQueryable();
-        } 
+        }
         #endregion
 
         #region Export
         public void Export(Repository repository, IEnumerable<MediaFolder> models, System.IO.Stream outputStream)
         {
             inner.Export(repository, models, outputStream);
-        } 
+        }
         #endregion
 
         #region Import
@@ -63,22 +64,22 @@ namespace Kooboo.CMS.Content.Persistence.Caching
             finally
             {
                 repository.ClearCache();
-            }            
-        } 
+            }
+        }
         #endregion
 
         #region GetCacheKey
         protected override string GetCacheKey(MediaFolder o)
         {
             return "MediaFolder:" + o.FullName.ToLower();
-        } 
+        }
         #endregion
 
         #region All
         public IEnumerable<MediaFolder> All()
         {
             return inner.All();
-        } 
+        }
         #endregion
 
         #region Rename
@@ -92,14 +93,14 @@ namespace Kooboo.CMS.Content.Persistence.Caching
             {
                 @new.Repository.ClearCache();
             }
-        } 
+        }
         #endregion
 
         #region Export
         public void Export(Repository repository, string baseFolder, string[] folders, string[] docs, System.IO.Stream outputStream)
         {
             inner.Export(repository, baseFolder, folders, docs, outputStream);
-        } 
+        }
         #endregion
     }
 }

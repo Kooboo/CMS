@@ -9,7 +9,7 @@
 using Kooboo;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Web.Mvc;
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 using System;
@@ -17,6 +17,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Web.Routing;
+
+using Kooboo.Common.Misc;
 
 namespace Kooboo.CMS.Sites
 {

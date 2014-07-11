@@ -173,7 +173,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
                 }
                 catch (Exception e)
                 {
-                    Kooboo.HealthMonitoring.Log.LogException(e);
+                   Kooboo.Common.Logging.Logger.Error(e.Message, e);
                 }
             }
             else

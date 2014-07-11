@@ -7,16 +7,17 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
-using Kooboo.Web.Mvc;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Kooboo.Common.Web.SelectList;
 namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
 {
     public class ABRuleSettingDataSource : ISelectListDataSource
@@ -27,7 +28,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
 
         public IEnumerable<System.Web.Mvc.SelectListItem> GetSelectListItems(System.Web.Routing.RequestContext requestContext, string filter = null)
         {
-            var list = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ABRuleSettingManager>().All(Site.Current, "");
+            var list = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<ABRuleSettingManager>().All(Site.Current, "");
             return list.Select(it => new SelectListItem() { Text = it.Name, Value = it.Name });
         }
         #endregion

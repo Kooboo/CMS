@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Caching;
-using Kooboo.CMS.Caching;
+using Kooboo.Common.Caching;
 namespace Kooboo.CMS.Content.Persistence.Caching
 {
     public abstract class CacheProviderBase<T>

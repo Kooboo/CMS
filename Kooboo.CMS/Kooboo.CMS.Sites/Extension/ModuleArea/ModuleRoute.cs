@@ -13,7 +13,7 @@ using System.Text;
 using System.Web.Routing;
 using Kooboo.CMS.Sites.View;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc;
+
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
 namespace Kooboo.CMS.Sites.Extension.ModuleArea
@@ -39,7 +39,7 @@ namespace Kooboo.CMS.Sites.Extension.ModuleArea
                 ModuleHttpContext httpContext = (ModuleHttpContext)(requestContext.HttpContext);
                 var moduleContext = httpContext.ModuleContext;
 
-                var mergedValues = Kooboo.Web.Mvc.RouteValuesHelpers.MergeRouteValues(null, null, this.Defaults, values, true);
+                var mergedValues = System.Web.Routing.RouteValueExtensionMethods.MergeRouteValues(null, null, this.Defaults, values, true);
                 if (Page_Context.Current.Initialized)
                 {
                     Page page = null;

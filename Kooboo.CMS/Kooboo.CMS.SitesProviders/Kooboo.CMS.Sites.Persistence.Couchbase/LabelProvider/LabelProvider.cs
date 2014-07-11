@@ -15,9 +15,9 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.Couchbase.LabelProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ILabelProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Label>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "LabelProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ILabelProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Label>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "LabelProvider")]
     public class LabelProvider : ILabelProvider
     {
         Func<Site, string, Label> createModel = (Site site, string key) =>

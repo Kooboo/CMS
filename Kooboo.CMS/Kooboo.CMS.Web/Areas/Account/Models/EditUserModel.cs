@@ -8,7 +8,9 @@
 #endregion
 using Kooboo.CMS.Account.Models;
 using Kooboo.CMS.Web.Areas.Account.Models.DataSources;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.Misc;
+using Kooboo.Common.Web.Metadata;
+using Kooboo.Common.Web.SelectList;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -71,6 +73,10 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
             if (this.GlobalRoles != null)
             {
                 userToUpdate.GlobalRoles = string.Join(",", this.GlobalRoles);
+            }
+            else
+            {
+                userToUpdate.GlobalRoles = null;
             }
 
             return userToUpdate;

@@ -17,7 +17,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Menu
 {
     public class StartMenuItemInitializer : AuthorizeMenuItemInitializer
     {
-        protected override bool GetIsVisible(Kooboo.Web.Mvc.Menu.MenuItem menuItem, System.Web.Mvc.ControllerContext controllerContext)
+        protected override bool GetIsVisible(Kooboo.Common.Web.Menu.MenuItem menuItem, System.Web.Mvc.ControllerContext controllerContext)
         {
             if (Site.Current != null)
             {

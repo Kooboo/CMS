@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
@@ -17,10 +17,10 @@ using Kooboo.CMS.Sites;
 using Kooboo.CMS.Web.Areas.Contents.Models;
 using Kooboo.CMS.Web.Authorizations;
 using Kooboo.CMS.Web.Models;
-using Kooboo.Drawing;
-using Kooboo.Globalization;
-using Kooboo.IO;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.Globalization;
+
+
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -29,8 +29,13 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+
 using Kooboo.Web;
 using Kooboo.CMS.Content.Persistence;
+using Kooboo.Common.Web;
+using Kooboo.Common.IO;
+using Kooboo.Common.Windows.Drawing;
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {
     [LargeFileAuthorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
@@ -523,7 +528,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
             var contentPath = new MediaContentPath(content);
 
-            string body = Kooboo.IO.IOUtility.ReadAsString(contentPath.PhysicalPath);
+            string body = Kooboo.Common.IO.IOUtility.ReadAsString(contentPath.PhysicalPath);
 
             return View(new TextFileModel
             {
@@ -544,7 +549,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 
                 var contentPath = new MediaContentPath(content);
 
-                Kooboo.IO.IOUtility.SaveStringToFile(contentPath.PhysicalPath, body);
+                Kooboo.Common.IO.IOUtility.SaveStringToFile(contentPath.PhysicalPath, body);
             });
 
             return Json(data);

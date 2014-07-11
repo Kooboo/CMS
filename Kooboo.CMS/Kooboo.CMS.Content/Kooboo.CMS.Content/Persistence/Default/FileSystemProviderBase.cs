@@ -14,6 +14,7 @@ using System.IO;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Content.Persistence.Default
 {
@@ -64,7 +65,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
         {
             var path = PathFactory.GetPath(item);
             item.OnSaving();
-            IO.IOUtility.EnsureDirectoryExists(Path.GetDirectoryName(path.SettingFile));
+            IOUtility.EnsureDirectoryExists(Path.GetDirectoryName(path.SettingFile));
             GetLocker().EnterWriteLock();
             try
             {

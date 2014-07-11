@@ -12,7 +12,7 @@ using System.Linq;
 using System.Web;
 using System.Reflection;
 using Kooboo.CMS.Sites.Extension;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.Web.Grid.Design;
 using System.ComponentModel;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models

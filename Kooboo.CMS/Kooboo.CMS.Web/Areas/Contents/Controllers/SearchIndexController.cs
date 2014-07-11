@@ -15,9 +15,10 @@ using Kooboo.CMS.Search;
 using Kooboo.CMS.Web.Areas.Contents.Models;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Content.Models;
-using Kooboo.Web.Mvc;
-using Kooboo.CMS.Common;
+
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Search.Models;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {

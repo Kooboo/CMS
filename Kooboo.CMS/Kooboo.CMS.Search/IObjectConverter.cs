@@ -13,8 +13,8 @@ using System.Text;
 using System.Collections.Specialized;
 using Kooboo.CMS.Search.Models;
 using Kooboo.CMS.Content.Models;
-using Kooboo.CMS.Common.Runtime;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.ObjectContainer.Dependency;
 
 namespace Kooboo.CMS.Search
 {

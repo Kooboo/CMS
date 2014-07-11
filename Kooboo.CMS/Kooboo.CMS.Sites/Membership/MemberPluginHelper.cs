@@ -9,13 +9,14 @@
 using Kooboo.CMS.Membership.Models;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.View;
-using Kooboo.Web.Mvc;
+
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Kooboo.CMS.Sites.Membership
 {
@@ -50,6 +51,6 @@ namespace Kooboo.CMS.Sites.Membership
             url = UrlHelper.GenerateContentUrl(url, controllerContext.HttpContext);
             return controllerContext.RequestContext.UrlHelper().FrontUrl().WrapperUrl(url).ToString();
         }
-      
+
     }
 }

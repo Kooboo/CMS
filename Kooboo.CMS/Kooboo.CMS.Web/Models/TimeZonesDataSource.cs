@@ -6,8 +6,9 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
-using Kooboo.Web.Mvc;
+using Kooboo.Common;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web.SelectList;
 using System;
 using System.Collections.Generic;
 using System.Linq;

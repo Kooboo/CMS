@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(HtmlBlockManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(HtmlBlockManager))]
     public class HtmlBlockManager : PathResourceManagerBase<HtmlBlock, IHtmlBlockProvider>
     {
         #region .ctor

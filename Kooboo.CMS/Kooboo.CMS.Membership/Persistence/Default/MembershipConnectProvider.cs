@@ -16,8 +16,8 @@ using System.Text;
 
 namespace Kooboo.CMS.Membership.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IMembershipConnectProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<MembershipConnect>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IMembershipConnectProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<MembershipConnect>))]
     public class MembershipConnectProvider : ListProviderBase<MembershipConnect>, IMembershipConnectProvider
     {
         #region .ctor

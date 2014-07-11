@@ -9,16 +9,16 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Web.Grid2;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Grid2;
+using Kooboo.Common.Globalization;
+
+using Kooboo.Common.Web.Grid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-
+using System.Web.Routing;
 namespace Kooboo.CMS.Web.Areas.Sites.Models.Grid2
 {
     public class HitReport_GridItemColumn : GridItemColumn
@@ -43,7 +43,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.Grid2
                     , viewContext.RequestContext.AllRouteValues().Merge("UUID", data.UUID).Merge("return", viewContext.HttpContext.Request.RawUrl));
 
                 return new HtmlString(string.Format("<a href='{0}'><img class='icon {2}' src='{3}'/> {1}</a>", url, linkText,
-                    "", Kooboo.Web.Url.UrlUtility.ResolveUrl("~/Images/invis.gif")));
+                    "", Kooboo.Common.Web.UrlUtility.ResolveUrl("~/Images/invis.gif")));
             }
 
             return new HtmlString("");

@@ -11,16 +11,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.Globalization;
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
 using Kooboo.CMS.Account.Models;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.Web.Grid.Design;
 using Kooboo.CMS.Web.Grid2;
 using System.Web.Mvc;
 using Kooboo.CMS.Web.Areas.Account.Models.DataSources;
+using Kooboo.Common.Web.Metadata;
+using Kooboo.Common.Web.SelectList;
 namespace Kooboo.CMS.Web.Areas.Account.Models
 {
 
@@ -48,7 +50,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
         [Description("The culture represents the current culture used by the Resource Manager to look up culture-specific resources at run time.")]
         public string UICulture { get; set; }
 
-        [GridColumn(HeaderText = "Global roles", Order = 6)]     
+        [GridColumn(HeaderText = "Global roles", Order = 6)]
         public string GlobalRoles { get; set; }
     }
 
@@ -63,7 +65,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
         [DataType(DataType.Password)]
         [Display(Name = "Re-enter password")]
         [Required(ErrorMessage = "Required")]
-        [Compare("NewPassword")]
+        [System.Web.Mvc.Compare("NewPassword")]
         public string NewPassword1 { get; set; }
     }
 

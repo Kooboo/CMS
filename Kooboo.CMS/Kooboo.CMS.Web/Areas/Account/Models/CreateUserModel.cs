@@ -12,10 +12,13 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using Kooboo.CMS.Account.Models;
-using Kooboo.Web.Mvc;
+
 using System.ComponentModel;
 using System.Web.Mvc;
 using Kooboo.CMS.Web.Areas.Account.Models.DataSources;
+using Kooboo.Common.Misc;
+using Kooboo.Common.Web.Metadata;
+using Kooboo.Common.Web.SelectList;
 
 namespace Kooboo.CMS.Web.Areas.Account.Models
 {
@@ -39,7 +42,7 @@ namespace Kooboo.CMS.Web.Areas.Account.Models
 
         [Display(Name = "Confirm password")]
         [DataType(DataType.Password)]
-        [Compare("Password")]
+        [System.Web.Mvc.Compare("Password")]
         public string ConfirmPassword { get; set; }
         [Display(Name = "Is administrator")]
         public bool IsAdministrator { get; set; }

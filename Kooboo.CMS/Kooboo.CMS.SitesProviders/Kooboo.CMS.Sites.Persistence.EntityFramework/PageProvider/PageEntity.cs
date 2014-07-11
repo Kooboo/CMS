@@ -11,12 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Runtime.Serialization;
 using Kooboo.CMS.Sites.DataRule;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using System.ComponentModel.DataAnnotations.Schema;
+using Kooboo.Common.Misc;
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.PageProvider
 {
     public interface IPageEntity

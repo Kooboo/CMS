@@ -17,9 +17,11 @@ using System.IO;
 //using Kooboo.CMS.Form.Html.T4;
 using System.CodeDom.Compiler;
 using System.Web;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using System.Web.Razor;
 using System.Web.Mvc;
+using Kooboo.CMS.Common;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Form.Html
 {
@@ -32,9 +34,9 @@ namespace Kooboo.CMS.Form.Html
 
         static ControlHelper()
         {
-            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
-            TemplateDirs = new[] { new KeyValuePair<string,string>(Path.Combine(baseDir.Cms_DataPhysicalPath, "Views", "ControlTypes"),Kooboo.Web.Url.UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "Views", "ControlTypes")),
-                new KeyValuePair<string,string>(Path.Combine(baseDir.Cms_DataPhysicalPath, "ContentType_Templates", "Controls"),Kooboo.Web.Url.UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "ContentType_Templates", "Controls")) };
+            var baseDir = EngineContext.Current.Resolve<IBaseDir>();
+            TemplateDirs = new[] { new KeyValuePair<string,string>(Path.Combine(baseDir.Cms_DataPhysicalPath, "Views", "ControlTypes"),UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "Views", "ControlTypes")),
+                new KeyValuePair<string,string>(Path.Combine(baseDir.Cms_DataPhysicalPath, "ContentType_Templates", "Controls"),UrlUtility.Combine(baseDir.Cms_DataVirtualPath, "ContentType_Templates", "Controls")) };
 
             RegisterControl(new TextBox());
             RegisterControl(new InputInt32());
@@ -178,7 +180,7 @@ namespace Kooboo.CMS.Form.Html
                 var path = Path.Combine(dir.Key, controlType + ".cshtml");
                 if (System.IO.File.Exists(path))
                 {
-                    return Kooboo.Web.Url.UrlUtility.Combine(dir.Value, controlType + ".cshtml");
+                    return UrlUtility.Combine(dir.Value, controlType + ".cshtml");
                 }
             }
             return null;

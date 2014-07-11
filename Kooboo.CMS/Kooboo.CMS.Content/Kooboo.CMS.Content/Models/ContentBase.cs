@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.Collections;
+using Kooboo.Common.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;

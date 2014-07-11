@@ -12,10 +12,11 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Globalization;
-using Kooboo.Globalization;
-using Kooboo.Extensions;
+using Kooboo.Common.Globalization;
+
 using Ionic.Zip;
 using Kooboo.CMS.Sites.Persistence;
+using Kooboo.Common.Misc;
 
 namespace Kooboo.CMS.Sites.Services
 {
@@ -55,7 +56,7 @@ namespace Kooboo.CMS.Sites.Services
         {
             if (string.IsNullOrEmpty(label.UUID))
             {
-                label.UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
+                label.UUID = UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
             }
             this._labelProvider.Add(label);
         }
@@ -71,7 +72,7 @@ namespace Kooboo.CMS.Sites.Services
             //renew the UUID when UUID is null
             if (string.IsNullOrEmpty(@new.UUID))
             {
-                @new.UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
+                @new.UUID = UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
             }
             this._labelProvider.Update(@new, old);
         }

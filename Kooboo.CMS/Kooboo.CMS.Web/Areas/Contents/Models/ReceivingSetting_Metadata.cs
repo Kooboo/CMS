@@ -14,17 +14,18 @@ using Kooboo.CMS.Content.Models;
 using System.Collections.Specialized;
 
 using System.ComponentModel.DataAnnotations;
-using Kooboo.Web.Mvc;
+
 using System.Text;
 using Kooboo.CMS.Web.Models;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Web.Grid.Design;
 using Kooboo.CMS.Web.Grid2;
 using Kooboo.CMS.Web.Areas.Sites.Models.DataSources;
+using Kooboo.Common.ComponentModel;
 
 namespace Kooboo.CMS.Web.Areas.Contents.Models
 {
-    [Kooboo.ComponentModel.MetadataFor(typeof(ReceivingSetting))]
+    [MetadataFor(typeof(ReceivingSetting))]
     [Grid(Checkable = true, IdProperty = "UUID")]
     public class ReceivingSetting_Metadata
     {

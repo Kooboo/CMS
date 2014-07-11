@@ -4,25 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc;
-using Kooboo.CMS.Common;
+using System.Web.Routing;
+
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Content.Models.Binder;
 using System.Collections.Specialized;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.CMS.Common.Formula;
+using Kooboo.Common.Web;
+
 namespace Kooboo.CMS.Sites.Extension
 {
     public static class PluginHelper
     {
-        public static NameValueCollection ApplySubmissionSettings(SubmissionSetting submissionSetting, NameValueCollection defaultValues, Kooboo.CMS.Common.Formula.IValueProvider valueProvider)
+        public static NameValueCollection ApplySubmissionSettings(SubmissionSetting submissionSetting, NameValueCollection defaultValues, Kooboo.Common.TokenTemplate.IValueProvider valueProvider)
         {
-            IFormulaParser formulaParser = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IFormulaParser>();
-          
+            Kooboo.Common.TokenTemplate.ITemplateParser templateParser = new Kooboo.Common.TokenTemplate.TemplateParser();
+
             if (submissionSetting.Settings != null)
             {
                 foreach (var item in submissionSetting.Settings)
                 {
-                    defaultValues[item.Key] = formulaParser.Populate(item.Value, valueProvider);
+                    defaultValues[item.Key] = templateParser.Merge(item.Value, valueProvider);
                 }
             }
             return defaultValues;

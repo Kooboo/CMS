@@ -11,8 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Kooboo.CMS.Account.Models;
-using Kooboo.CMS.Caching;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.Caching;
 namespace Kooboo.CMS.Account.Persistence.Caching
 {
     public abstract class CacheObjectProviderBase<T>

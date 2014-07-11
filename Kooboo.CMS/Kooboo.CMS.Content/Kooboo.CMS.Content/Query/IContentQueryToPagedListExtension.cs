@@ -10,9 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Web.Mvc.Paging;
+
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query.Expressions;
+using Kooboo.Common.Web.Paging;
+using Kooboo.Common.Data;
 
 namespace Kooboo.CMS.Content.Query
 {

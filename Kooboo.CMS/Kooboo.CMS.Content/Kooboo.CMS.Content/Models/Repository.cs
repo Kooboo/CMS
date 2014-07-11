@@ -11,11 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Kooboo.Web.Url;
+
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Kooboo.CMS.Content.Persistence;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Content.Models
 {
@@ -33,11 +34,11 @@ namespace Kooboo.CMS.Content.Models
         {
             get
             {
-                return CallContext.Current.GetObject<Repository>("Current_Repository");
+                return ContextVariables.Current.GetObject<Repository>("Current_Repository");
             }
             set
             {
-                CallContext.Current.RegisterObject("Current_Repository", value);
+                ContextVariables.Current.SetObject("Current_Repository", value);
             }
         }
         /// <summary>

@@ -1,11 +1,11 @@
 ﻿@model Kooboo.CMS.Content.Services.CategoryContents
-@using Kooboo.Web.Script.Serialization
+
 @using Kooboo.CMS.Content.Models
-@{ 
+@{
     var categoryFolder = (Model.CategoryFolder).AsActual();
     var categories = Model.Contents.Select(it => new { Text = it.GetSummary(), UUID = it.UUID });
     var categoriesJson = categories.ToJSON();
-    var categoryTemplateId = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
+    var categoryTemplateId = Kooboo.Common.Misc.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
 }
 <tr>
     <th>
@@ -22,7 +22,7 @@
                 </li>
             </ul>
             <input type="hidden" name="@("cat_" + Model.CategoryFolder.FullName + "_value")" data-bind="{value:postValue}" />
-            <input type="hidden" name="@("cat_" + Model.CategoryFolder.FullName + "_value_old")" value="@string.Join(",", categories.Select(it => it.UUID).ToArray())"/>
+            <input type="hidden" name="@("cat_" + Model.CategoryFolder.FullName + "_value_old")" value="@string.Join(",", categories.Select(it => it.UUID).ToArray())" />
             <a href="@Html.Raw(Url.Action("SelectCategories", new { siteName = ViewContext.RequestContext.GetRequestValue("siteName"), repositoryName = ViewContext.RequestContext.GetRequestValue("RepositoryName"), folderName = Model.CategoryFolder.FullName, singleChoice = Model.SingleChoice }))" class="action categoryButton">@Html.IconImage("plus small")</a>
 
             <script>
@@ -32,11 +32,11 @@
                         self.data = ko.observableArray(@Html.Raw(categoriesJson));
                         self.removeItem = function () {
                             window.leaveConfirm.stop();
-                            self.data.remove(this);                       
+                            self.data.remove(this);
                         };
                         self.addItem = function (uuid, text) {
                             window.leaveConfirm.stop();
-                            self.data.push({ UUID: uuid, Text: text });                            
+                            self.data.push({ UUID: uuid, Text: text });
                         };
                         self.postValue = ko.computed(function () {
                             var uuid = [];
@@ -94,7 +94,7 @@
                                                 uuid = $tr.attr('id');
                                             categoryViewModel.addItem(uuid, text);
                                         });
-                                        pop.close();                                       
+                                        pop.close();
                                     });
 
                                 })();

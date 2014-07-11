@@ -13,7 +13,8 @@ using System.Text;
 using Kooboo.CMS.Content.Models.Paths;
 using Microsoft.WindowsAzure.StorageClient;
 using Kooboo.CMS.Content.Models;
-using Kooboo.Web.Url;
+using Kooboo.Common.Web;
+
 
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
@@ -97,7 +98,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                 
             }
 
-            blob.Properties.ContentType = Kooboo.IO.IOUtility.MimeType(mediaContent.FileName);
+            blob.Properties.ContentType = Kooboo.Common.IO.IOUtility.MimeType(mediaContent.FileName);
             return blob;
         } 
         #endregion

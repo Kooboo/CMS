@@ -1,7 +1,7 @@
-﻿@model Kooboo.Web.Mvc.Menu.MenuItem
+﻿@model Kooboo.Common.Web.Menu.MenuItem
 @if (Model.Visible)
 {
-    var menuItem = Model as Kooboo.Web.Mvc.Menu.MenuItem;
+    var menuItem = Model as Kooboo.Common.Web.Menu.MenuItem;
     if (menuItem != null)
     {
         var controller = menuItem.Controller ?? ViewContext.RequestContext.GetRequestValue("controller");

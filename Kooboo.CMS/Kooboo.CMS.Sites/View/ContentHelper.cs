@@ -12,10 +12,11 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Content.Models;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Web.Url;
+using Kooboo.Common.Web;
+
 namespace Kooboo.CMS.Sites.View
 {
     /// <summary>
@@ -59,7 +60,7 @@ namespace Kooboo.CMS.Sites.View
             {
                 return new string[0];
             }
-            return files.Split('|').Select(it => Kooboo.Web.Url.UrlUtility.ResolveUrl(it)).ToArray();
+            return files.Split('|').Select(it => Kooboo.Common.Web.UrlUtility.ResolveUrl(it)).ToArray();
         }
 
         public static MediaContent ParseMediaContent(string virtualPath)

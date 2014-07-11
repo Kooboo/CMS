@@ -13,7 +13,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.ModelBinders
         {
             string designerName = controllerContext.Controller.ValueProvider.GetValue("Designer").AttemptedValue;
 
-            var designer = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IDataSourceDesigner>(designerName);
+            var designer = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IDataSourceDesigner>(designerName);
 
             var dataSource = designer.CreateDataSource();
 

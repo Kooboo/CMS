@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Sites.ABTest;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.Web.SelectList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.DataSources
     {
         public IEnumerable<SelectListItem> GetSelectListItems(RequestContext requestContext, string filter = null)
         {
-            return  Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<IVisitRule>()
+            return  Kooboo.Common.ObjectContainer.EngineContext.Current.ResolveAll<IVisitRule>()
                 .Select(o => new SelectListItem
                 {
                     Text = o.RuleTypeDisplayName,

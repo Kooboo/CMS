@@ -20,9 +20,10 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Web.Areas.Contents.Models;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common;
-using Kooboo.Globalization;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "SearchSetting")]

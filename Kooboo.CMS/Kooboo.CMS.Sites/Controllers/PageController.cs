@@ -13,9 +13,8 @@ using Kooboo.CMS.Sites.Extension.ModuleArea;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.View;
 using Kooboo.CMS.Sites.Web;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Url;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Misc;
 //# define Page_Trace
 using System;
 using System.Collections.Generic;
@@ -44,7 +43,7 @@ namespace Kooboo.CMS.Sites.Controllers
         #region Page Entry
         [CustomRedirectFilter(Order = 5)]
         [PageExecutionFilter(Order = 10)]
-        [MemberAuthorize(Order=15)]
+        [MemberAuthorize(Order = 15)]
         [CheckRequireHttps(Order = 20)]
         [CustomOutputTextWriterFilter(Order = 25)]
         [OutputCacheFilter(Order = 30)]
@@ -100,7 +99,7 @@ namespace Kooboo.CMS.Sites.Controllers
 
             if (layout == null)
             {
-                throw new KoobooException(string.Format("The layout does not exists. Layout name:{0}".Localize(), PageContext.PageLayout));
+                throw new Exception(string.Format("The layout does not exists. Layout name:{0}".Localize(), PageContext.PageLayout));
             }
             ViewResult viewResult = new FrontViewResult(ControllerContext, layout.FileExtension.ToLower(), layout.TemplateFileVirutalPath);
 
@@ -135,9 +134,9 @@ namespace Kooboo.CMS.Sites.Controllers
             viewName = Server.UrlDecode(viewName);
             var viewPosition = new ViewPosition()
             {
-                LayoutPositionId = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(5),
+                LayoutPositionId = UniqueIdGenerator.GetInstance().GetBase32UniqueId(5),
                 ViewName = viewName,
-                PagePositionId = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(5)
+                PagePositionId = UniqueIdGenerator.GetInstance().GetBase32UniqueId(5)
             };
             //pageUrl: product/detail/product1
             var rawPage = new Page(Site, "____VisitViewPage_____") { IsDummy = false };
@@ -166,6 +165,6 @@ namespace Kooboo.CMS.Sites.Controllers
             return Content(html.FrontHtml().RenderView(viewPosition).ToString());
         }
         #endregion
-        
+
     }
 }

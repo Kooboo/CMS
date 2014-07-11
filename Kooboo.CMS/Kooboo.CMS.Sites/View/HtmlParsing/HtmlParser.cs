@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.Sites.View.HtmlParsing
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IHtmlParser))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IHtmlParser))]
     public class HtmlParser : IHtmlParser
     {
         public IParsers Parsers { get; set; }

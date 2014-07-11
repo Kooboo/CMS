@@ -12,9 +12,8 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Account.Models;
 using System.IO;
-using Kooboo.Runtime.Serialization;
-using Kooboo.CMS.Common;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 namespace Kooboo.CMS.Account.Persistence.FileSystem
 {

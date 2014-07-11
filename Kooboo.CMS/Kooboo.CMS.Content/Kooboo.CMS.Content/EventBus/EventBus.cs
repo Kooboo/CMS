@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.Common.ObjectContainer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace Kooboo.CMS.Content.EventBus
                 {
                     if (eventResult.Exception != null)
                     {
-                        Kooboo.HealthMonitoring.Log.LogException(eventResult.Exception);
+                        Kooboo.Common.Logging.Logger.LoggerInstance.Error(eventResult.Exception.Message, eventResult.Exception);
                     }
                     if (eventResult.IsCancelled == true)
                     {
@@ -42,7 +43,7 @@ namespace Kooboo.CMS.Content.EventBus
         }
         private static IEnumerable<ISubscriber> ResolveAllSubscribers()
         {
-            return Subscribers.Concat(Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<ISubscriber>());
+            return Subscribers.Concat(EngineContext.Current.ResolveAll<ISubscriber>());
         }
     }
 }

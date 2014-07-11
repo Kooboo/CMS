@@ -9,7 +9,7 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Persistence;
-using Kooboo.Extensions;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +59,7 @@ namespace Kooboo.CMS.Content.EventBus.Content
                     }
                     catch (Exception e)
                     {
-                        Kooboo.HealthMonitoring.Log.LogException(e);
+                        Kooboo.Common.Logging.Logger.Error(e.Message, e);
                     }
                     //});
 

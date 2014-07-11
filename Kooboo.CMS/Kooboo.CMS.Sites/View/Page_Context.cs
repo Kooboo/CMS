@@ -6,9 +6,8 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common.Formula;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Sites.DataSource;
 using Kooboo.CMS.Sites.Extension;
@@ -17,8 +16,8 @@ using Kooboo.CMS.Sites.Extension.ModuleArea.Runtime;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.Collections;
-using Kooboo.Reflection;
-using Kooboo.Web.Mvc;
+
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -27,6 +26,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using Kooboo.Common.TokenTemplate;
+using Kooboo.Common;
 namespace Kooboo.CMS.Sites.View
 {
     /// <summary>
@@ -43,16 +44,16 @@ namespace Kooboo.CMS.Sites.View
         {
             get
             {
-                return Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<Page_Context>();
+                return Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<Page_Context>();
             }
         }
         #endregion
 
         #region .ctor
-        IFormulaParser _formulaParser;
-        public Page_Context(IFormulaParser formulaParser)
+        ITemplateParser _templateParser;
+        public Page_Context(ITemplateParser templateParser)
         {
-            this._formulaParser = formulaParser;
+            this._templateParser = templateParser;
             Styles = new List<IHtmlString>();
             Scripts = new List<IHtmlString>();
         }
@@ -309,7 +310,7 @@ namespace Kooboo.CMS.Sites.View
                 return null;
             }
             ActionResult result = null;
-            var plugin = (ICommonPagePlugin)Kooboo.TypeActivator.CreateInstance(type);
+            var plugin = (ICommonPagePlugin)TypeActivator.CreateInstance(type);
             var httpMethodPlugin = plugin as IHttpMethodPagePlugin;
             var pagePlugin = plugin as IPagePlugin;
             switch (httpMethod)
@@ -374,7 +375,7 @@ namespace Kooboo.CMS.Sites.View
                 var view = new Models.View(site, viewPosition.ViewName).LastVersion();
                 if (!view.Exists())
                 {
-                    throw new KoobooException(string.Format("The view '{0}' does not exists.Name.", view.Name));
+                    throw new Exception(string.Format("The view '{0}' does not exists.Name.", view.Name));
                 }
                 yield return view;
             }
@@ -415,7 +416,7 @@ namespace Kooboo.CMS.Sites.View
                     if (view.DataSources != null)
                     {
                         var dataSources = view.DataSources.Select(it => new DataSourceSetting(site, it).LastVersion().AsActual()).Where(it => it != null);
-                        
+
                         DataSourceExecutor.Execute(positionViewData, new DataSourceContext(site, page) { ValueProvider = valueProviders }, dataSources);
                     }
                     if (positionViewData.Model == null)
@@ -481,7 +482,7 @@ namespace Kooboo.CMS.Sites.View
         protected virtual string EvaluateStringFormulas(string formula)
         {
             var valueProvider = new PageSettingValueProvider(this);
-            return this._formulaParser.Populate(formula, valueProvider);
+            return this._templateParser.Merge(formula, valueProvider);
         }
         #endregion
 

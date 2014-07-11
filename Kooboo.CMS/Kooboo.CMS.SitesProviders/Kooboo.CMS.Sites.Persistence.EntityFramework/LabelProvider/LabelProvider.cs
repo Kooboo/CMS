@@ -6,19 +6,22 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+extern alias EntityFramework;
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using EntityFramework::System.Data.Entity;
 using System.Linq;
 using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.LabelProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ILabelProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Label>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "LabelProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ILabelProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Label>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "LabelProvider")]
     public class LabelProvider : ILabelProvider
     {
         #region _dbContext

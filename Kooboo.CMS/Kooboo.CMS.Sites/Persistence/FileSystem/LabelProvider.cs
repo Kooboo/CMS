@@ -19,8 +19,8 @@ using System.Threading;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ILabelProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Label>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ILabelProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Label>))]
     public class LabelProvider : ILabelProvider
     {
         #region Static fields
@@ -233,7 +233,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         {
             var labelPath = new LabelPath(site);
 
-            Kooboo.IO.IOUtility.DeleteDirectory(labelPath.PhysicalPath, true);
+            Kooboo.Common.IO.IOUtility.DeleteDirectory(labelPath.PhysicalPath, true);
         }
         #endregion
 

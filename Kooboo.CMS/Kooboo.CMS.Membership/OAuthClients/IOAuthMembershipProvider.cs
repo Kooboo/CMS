@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Membership.Models;
+using Kooboo.Common.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Kooboo.CMS.Membership.OAuthClients
         string GetUserName(AuthResult authResult, MembershipConnect membershipConnect);
         string GetEmail(AuthResult authResult, MembershipConnect membershipConnect);
     }
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IOAuthMembershipProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IOAuthMembershipProvider))]
     public class OAuthMembershipProvider : IOAuthMembershipProvider
     {
         public string GetUserName(AuthResult authResult, MembershipConnect membershipConnect)

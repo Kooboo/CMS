@@ -13,11 +13,12 @@ using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.IO;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPagePublishingQueueProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<PagePublishingQueueItem>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IPagePublishingQueueProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<PagePublishingQueueItem>))]
     public class PagePublishingQueueProvider : SettingFileProviderBase<PagePublishingQueueItem>, IPagePublishingQueueProvider
     {
         #region GetLocker
@@ -40,7 +41,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             string baseDir = PagePublishingQueueItem.GetBasePath(site);
             if (Directory.Exists(baseDir))
             {
-                foreach (var file in IO.IOUtility.EnumerateFilesExludeHidden(baseDir))
+                foreach (var file in IOUtility.EnumerateFilesExludeHidden(baseDir))
                 {
                     list.Add(new PagePublishingQueueItem(site, Path.GetFileNameWithoutExtension(file.Name)));
                 }

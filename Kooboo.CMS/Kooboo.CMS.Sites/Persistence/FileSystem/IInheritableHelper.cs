@@ -14,6 +14,7 @@ using Kooboo.CMS.Sites.Models;
 
 using System.IO;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
@@ -52,7 +53,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
             string baseDir = ModelActivatorFactory<T>.GetActivator().CreateDummy(site).BasePhysicalPath;
             if (Directory.Exists(baseDir))
             {
-                foreach (var dir in IO.IOUtility.EnumerateDirectoriesExludeHidden(baseDir).Where(it => !it.Name.EqualsOrNullEmpty("~versions", StringComparison.OrdinalIgnoreCase)))
+                foreach (var dir in IOUtility.EnumerateDirectoriesExludeHidden(baseDir).Where(it => !it.Name.EqualsOrNullEmpty("~versions", StringComparison.OrdinalIgnoreCase)))
                 {
                     var o = ModelActivatorFactory<T>.GetActivator().Create(dir.FullName);
                     if (o is IFilePersistable)

@@ -1,5 +1,5 @@
 ﻿using Ionic.Zip;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.ABTest;
 using Kooboo.CMS.Sites.Models;
@@ -10,11 +10,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IABRuleSettingProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<ABRuleSetting>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IABRuleSettingProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<ABRuleSetting>))]
     public class ABRuleSettingProvider : FileProviderBase<ABRuleSetting>, IABRuleSettingProvider
     {
         #region KnownTypes
@@ -22,7 +23,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         {
             get
             {
-                return Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<IVisitRule>().Select(it => it.GetType());
+                return Kooboo.Common.ObjectContainer.EngineContext.Current.ResolveAll<IVisitRule>().Select(it => it.GetType());
             }
         }
         #endregion

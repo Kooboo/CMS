@@ -15,15 +15,15 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Content.Query.Expressions;
-using Kooboo.Extensions;
-using Kooboo.IO;
-using Kooboo.Linq;
-using Kooboo.Web.Url;
+
 using System.Linq.Dynamic;
+using Kooboo.Common.IO;
+using Kooboo.Common.Web;
+using Kooboo.Common.Misc;
 namespace Kooboo.CMS.Content.Persistence.Default
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IMediaContentProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IContentProvider<MediaContent>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IMediaContentProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IContentProvider<MediaContent>))]
     public class MediaContentProvider : IMediaContentProvider
     {
         #region .ctor
@@ -477,7 +477,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
 
             if (!@new.FileName.EqualsOrNullEmpty(old.FileName, StringComparison.OrdinalIgnoreCase))
             {
-                Kooboo.IO.IOUtility.RenameFile(old.PhysicalPath, @new.FileName);
+                IOUtility.RenameFile(old.PhysicalPath, @new.FileName);
             }
             if (@new.ContentFile != null)
             {
@@ -660,7 +660,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
             if (mediaContent.Metadata != null)
             {
                 string metadataFile = GetMetadataFilePath(mediaContent);
-                Kooboo.Runtime.Serialization.DataContractSerializationHelper.Serialize(mediaContent.Metadata, metadataFile);
+                DataContractSerializationHelper.Serialize(mediaContent.Metadata, metadataFile);
             }
         }
         #endregion
@@ -671,7 +671,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
             string metadataFile = GetMetadataFilePath(mediaContent);
             if (File.Exists(metadataFile))
             {
-                var metadata = Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize<MediaContentMetadata>(metadataFile);
+                var metadata = DataContractSerializationHelper.Deserialize<MediaContentMetadata>(metadataFile);
                 mediaContent.Metadata = metadata;
 
                 mediaContent["Metadata.Title"] = metadata.Title;

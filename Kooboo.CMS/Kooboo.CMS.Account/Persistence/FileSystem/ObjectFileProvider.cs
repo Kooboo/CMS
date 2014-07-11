@@ -13,6 +13,7 @@ using System.Text;
 using System.IO;
 using Kooboo.CMS.Account.Models;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.Misc;
 
 namespace Kooboo.CMS.Account.Persistence.FileSystem
 {
@@ -55,7 +56,7 @@ namespace Kooboo.CMS.Account.Persistence.FileSystem
                 GetLocker().EnterWriteLock();
                 try
                 {
-                    var item = Kooboo.Runtime.Serialization.DataContractSerializationHelper.Deserialize<T>(filePath);
+                    var item = DataContractSerializationHelper.Deserialize<T>(filePath);
                     item.Init(dummy);
                     return item;
                 }
@@ -72,7 +73,7 @@ namespace Kooboo.CMS.Account.Persistence.FileSystem
             string filePath = GetFilePath(item);
             if (File.Exists(filePath))
             {
-                throw new KoobooException("The item is already exists.");
+                throw new Exception("The item is already exists.");
             }
             Save(item, filePath);
         }
@@ -83,7 +84,7 @@ namespace Kooboo.CMS.Account.Persistence.FileSystem
             try
             {
                 item.OnSaving();
-                Kooboo.Runtime.Serialization.DataContractSerializationHelper.Serialize<T>(item, filePath);
+                DataContractSerializationHelper.Serialize<T>(item, filePath);
                 item.OnSaved();
             }
             finally
@@ -98,7 +99,7 @@ namespace Kooboo.CMS.Account.Persistence.FileSystem
             string filePath = GetFilePath(@old);
             if (!File.Exists(filePath))
             {
-                throw new KoobooException("The item is not exists.");
+                throw new Exception("The item is not exists.");
             }
             Save(@new, filePath);
         }

@@ -6,23 +6,24 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Form;
 using Kooboo.CMS.Form.Html.Controls;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Kooboo.CMS.Content.Query;
+using Kooboo.Common.Data;
 namespace Kooboo.CMS.Content.Models.Binder
 {
     /// <summary>
     /// 
     /// </summary>
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentBinder))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ITextContentBinder))]
     public class TextContentBinder : ITextContentBinder
     {
         public TextContentBinder()

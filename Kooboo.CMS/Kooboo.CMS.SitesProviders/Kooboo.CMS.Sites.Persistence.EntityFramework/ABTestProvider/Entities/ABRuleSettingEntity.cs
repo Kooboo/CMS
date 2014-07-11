@@ -1,7 +1,7 @@
 ﻿using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.ABTest;
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Runtime.Serialization;
+using Kooboo.Common.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;

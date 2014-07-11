@@ -17,8 +17,8 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ICustomErrorProvider))]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<CustomError>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ICustomErrorProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<CustomError>))]
     public class CustomErrorProvider : FileProviderBase<CustomError>, ICustomErrorProvider
     {
         #region GetLocker

@@ -11,7 +11,7 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Sites.View;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,14 +28,14 @@ namespace Kooboo.CMS.Sites.DataRule
             var contentQuery = base.GetContentQuery(dataRuleContext);
             if (contentQuery is MediaContentQuery)
             {
-                throw new KoobooException(string.Format("The binary folder '{0}' does not support '{1}'.", FolderName, "CategoryDataRule"));
+                throw new Exception(string.Format("The binary folder '{0}' does not support '{1}'.", FolderName, "CategoryDataRule"));
             }
             var site = dataRuleContext.Site;
             var repository = Sites.Models.ModelExtensions.GetRepository(site);
             var categoryFolder = (TextFolder)(new TextFolder(repository, CategoryFolderName).AsActual());
             if (categoryFolder == null)
             {
-                throw new KoobooException(string.Format("The folder does not exists.\"{0}\"".Localize(), CategoryFolderName));
+                throw new Exception(string.Format("The folder does not exists.\"{0}\"".Localize(), CategoryFolderName));
             }
             contentQuery = ((TextContentQuery)contentQuery).Categories(categoryFolder);
             if (CategoryClauses != null)

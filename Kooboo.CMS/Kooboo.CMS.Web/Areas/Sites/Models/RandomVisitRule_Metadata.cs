@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Sites.ABTest;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

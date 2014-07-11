@@ -7,14 +7,16 @@
 // 
 #endregion
 using Kooboo.CMS.Content.Models;
-using Kooboo.Web.Mvc.Grid2;
+using Kooboo.Common.Web.Grid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc;
+using System.Web.Routing;
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+
 namespace Kooboo.CMS.Web.Areas.Contents.Models.Grid2
 {
     public class TextFolder_Name_GridItemColumn : GridItemColumn
@@ -32,7 +34,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models.Grid2
                 , url.Action("Index", "TextContent", viewContext.RequestContext.AllRouteValues().Merge("FolderName", data.FullName).Merge("Folder", data.FullName).Merge("FullName", data.FullName))
                 , data.FriendlyText
                 , "folder"
-                , Kooboo.Web.Url.UrlUtility.ResolveUrl("~/Images/invis.gif")));
+                , Kooboo.Common.Web.UrlUtility.ResolveUrl("~/Images/invis.gif")));
             }
             else
             {
@@ -40,7 +42,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Models.Grid2
                 , url.Action("Index", "TextFolder", viewContext.RequestContext.AllRouteValues().Merge("FolderName", data.FullName).Merge("Folder", data.FullName).Merge("FullName", data.FullName))
                 , data.FriendlyText
                 , "folder"
-                , Kooboo.Web.Url.UrlUtility.ResolveUrl("~/Images/invis.gif")));
+                , Kooboo.Common.Web.UrlUtility.ResolveUrl("~/Images/invis.gif")));
             }
         }
     }

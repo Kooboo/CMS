@@ -10,13 +10,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Routing;
 using Kooboo.CMS.Web.Authorizations;
-using Kooboo.Web.Mvc;
+
 namespace Kooboo.CMS.Web.Areas.Sites.Menu
 {
     public class SiteAuthorizeMenuItemInitializer : AuthorizeMenuItemInitializer
     {
-        protected override bool GetIsVisible(Kooboo.Web.Mvc.Menu.MenuItem menuItem, System.Web.Mvc.ControllerContext controllerContext)
+        protected override bool GetIsVisible(Kooboo.Common.Web.Menu.MenuItem menuItem, System.Web.Mvc.ControllerContext controllerContext)
         {
             if (string.IsNullOrEmpty(controllerContext.RequestContext.GetRequestValue("siteName")))
             {

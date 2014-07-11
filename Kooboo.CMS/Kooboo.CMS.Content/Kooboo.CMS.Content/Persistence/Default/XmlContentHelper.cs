@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
 using System;
@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Content.Persistence.Default
 {
@@ -97,7 +98,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
         {
             var ser = GetContentSerializer();
             string folderPath = Path.GetDirectoryName(dataFile);
-            Kooboo.IO.IOUtility.EnsureDirectoryExists(folderPath);
+            IOUtility.EnsureDirectoryExists(folderPath);
             using (FileStream stream = new FileStream(dataFile, FileMode.Create))
             {
                 ser.WriteObject(stream, data.ToList());

@@ -17,6 +17,7 @@ using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Query.Expressions;
 using QueryBuilder = MongoDB.Driver.Builders;
 using MongoDB.Driver.Builders;
+using Kooboo.Common;
 namespace Kooboo.CMS.Content.Persistence.MongoDB.Query
 {
     public abstract class MongoDBQuery

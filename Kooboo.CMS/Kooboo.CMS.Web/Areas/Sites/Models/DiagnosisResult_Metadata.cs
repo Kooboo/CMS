@@ -14,7 +14,7 @@ using System.Web.Mvc;
 using System.Web.Management;
 using Kooboo.CMS.Sites.Services;
 using System.ComponentModel.DataAnnotations;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {

@@ -6,7 +6,8 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common;
+using Kooboo.Common.ObjectContainer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Kooboo.CMS.Content.Models
     {
         public static TextContent ConvertToUTCTime(this TextContent textContent)
         {
-            ITimeZoneHelper timeZoneHelper = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ITimeZoneHelper>();
+            ITimeZoneHelper timeZoneHelper = EngineContext.Current.Resolve<ITimeZoneHelper>();
             TextContent newTextContent = new TextContent(textContent);
 
             foreach (var key in newTextContent.Keys.ToArray())
@@ -39,7 +40,7 @@ namespace Kooboo.CMS.Content.Models
 
         public static TextContent ConvertToLocalTime(this TextContent textContent)
         {
-            ITimeZoneHelper timeZoneHelper = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ITimeZoneHelper>();
+            ITimeZoneHelper timeZoneHelper = EngineContext.Current.Resolve<ITimeZoneHelper>();
             TextContent newTextContent = new TextContent(textContent);
 
             foreach (var key in newTextContent.Keys.ToArray())

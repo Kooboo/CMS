@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Sites.Extension.ModuleArea.Management;
-using Kooboo.Web.Mvc.Grid2;
+using Kooboo.Common.Web.Grid;
+using Kooboo.Common.Web.Grid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models.Grid2
             get
             {
                 var installationContext = (InstallationContext)this.DataItem;
-                IInstallationFileManager moduleVersioning = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IInstallationFileManager>();
+                IInstallationFileManager moduleVersioning = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IInstallationFileManager>();
                 return moduleVersioning.IsInstallationFileExists(installationContext);
             }
         }

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Kooboo.CMS.Sites.Models;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Sites.Persistence.FileSystem
 {
@@ -34,7 +35,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem
         {
             if (Directory.Exists(varFromDirectory))
             {
-                IO.IOUtility.CopyDirectory(varFromDirectory, varToDirectory, false);
+                IOUtility.CopyDirectory(varFromDirectory, varToDirectory, false);
             }
         }
     }

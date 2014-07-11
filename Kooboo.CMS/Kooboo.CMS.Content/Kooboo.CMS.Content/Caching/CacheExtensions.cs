@@ -12,7 +12,8 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Content.Models;
 using System.Runtime.Caching;
-using Kooboo.CMS.Caching;
+using Kooboo.Common.Caching;
+
 
 namespace Kooboo.CMS.Content.Caching
 {

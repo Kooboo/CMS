@@ -14,8 +14,9 @@ using Kooboo.CMS.Content.Models;
 using System.Runtime.Serialization;
 using Kooboo.CMS.Content.Models.Paths;
 using System.IO;
-using Kooboo.Web.Url;
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Search.Models
 {
@@ -75,7 +76,7 @@ namespace Kooboo.CMS.Search.Models
 
             public void Rename(string newName)
             {
-                IO.IOUtility.RenameDirectory(this.PhysicalPath, @newName);
+                IOUtility.RenameDirectory(this.PhysicalPath, @newName);
             }
 
             #endregion

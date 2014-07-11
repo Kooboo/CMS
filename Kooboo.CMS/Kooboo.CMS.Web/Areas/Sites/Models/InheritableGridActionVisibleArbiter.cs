@@ -13,7 +13,7 @@ using System.Web;
 using Kooboo.Web.Mvc.Grid;
 using Kooboo.CMS.Sites.Models;
 using System.Web.Mvc;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {

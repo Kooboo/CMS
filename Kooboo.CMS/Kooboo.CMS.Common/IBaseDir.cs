@@ -6,9 +6,9 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common.Runtime.Dependency;
-using Kooboo.IO;
-using Kooboo.Web.Url;
+using Kooboo.Common.IO;
+using Kooboo.Common.ObjectContainer.Dependency;
+using Kooboo.Common.Web;
 using System;
 using System.Collections.Generic;
 using System.IO;

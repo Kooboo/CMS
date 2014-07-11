@@ -6,7 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Caching;
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Search;
 using Kooboo.CMS.Search.Models;
@@ -15,8 +15,8 @@ using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Sites.Versioning;
 using Kooboo.CMS.Sites.View;
-using Kooboo.Extensions;
-using Kooboo.Globalization;
+
+using Kooboo.Common.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -25,7 +25,7 @@ using System.Linq;
 using System.Text;
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(PageManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(PageManager))]
     public class PageManager : PathResourceManagerBase<Page, IPageProvider>
     {
         public PageManager(IPageProvider provider)
@@ -199,7 +199,7 @@ namespace Kooboo.CMS.Sites.Services
             var destPage = PageHelper.Parse(site, destPageFullName);
             if (destPage.Exists())
             {
-                throw new KoobooException("The page already exists.".Localize());
+                throw new Exception("The page already exists.".Localize());
             }
             var page = this.Provider.Copy(site, sourcePageFullName, destPageFullName);
 
@@ -282,7 +282,7 @@ namespace Kooboo.CMS.Sites.Services
                 }
                 catch (Exception e)
                 {
-                    Kooboo.HealthMonitoring.Log.LogException(e);
+                    Kooboo.Common.Logging.Logger.Error(e.Message, e);
                 }
             }
         }
@@ -377,7 +377,7 @@ namespace Kooboo.CMS.Sites.Services
             {
                 if (page.Parent == null)
                 {
-                    throw new KoobooException("The page is a root page already.".Localize());
+                    throw new Exception("The page is a root page already.".Localize());
                 }
             }
             //backup the source page.
@@ -611,7 +611,7 @@ namespace Kooboo.CMS.Sites.Services
         }
         private Page GetPageByPathsNoRecursion(Site site, string[] pagePaths)
         {
-            string urlPath = Kooboo.Web.Url.UrlUtility.UrlSeparatorChar + Kooboo.Web.Url.UrlUtility.Combine(pagePaths);
+            string urlPath = "/" + Kooboo.Common.Web.UrlUtility.Combine(pagePaths);
 
             string cachedKey = "GetPageByPathsNoRecursion:" + urlPath.ToLower();
 

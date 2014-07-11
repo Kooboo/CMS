@@ -15,7 +15,7 @@ using System.Web;
 using System.Security.Principal;
 using Kooboo.CMS.Sites.Models;
 using System.Web.Routing;
-using Kooboo.Web.Mvc;
+
 namespace Kooboo.CMS.Web.Authorizations
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = true)]

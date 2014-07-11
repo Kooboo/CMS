@@ -16,7 +16,8 @@ using System.Web.Mvc;
 using System.Security.Principal;
 using Kooboo.CMS.Sites.Membership;
 using Kooboo.CMS.Sites.View;
-using Kooboo.Web.Url;
+using Kooboo.Common.Web;
+
 namespace Kooboo.CMS.Sites.Controllers.ActionFilters
 {
     public class MemberAuthorizeAttribute : ActionFilterAttribute

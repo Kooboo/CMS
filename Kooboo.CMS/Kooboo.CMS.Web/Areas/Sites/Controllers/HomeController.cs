@@ -10,15 +10,15 @@ using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Services;
 using Kooboo.CMS.Web.Authorizations;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Paging;
+
+using Kooboo.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using System.Web.Routing;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [RequiredLogOn]

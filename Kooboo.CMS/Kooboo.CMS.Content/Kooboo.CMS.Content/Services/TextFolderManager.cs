@@ -13,10 +13,10 @@ using System.Text;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Persistence;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 namespace Kooboo.CMS.Content.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(TextFolderManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(TextFolderManager))]
     public class TextFolderManager : FolderManager<TextFolder>
     {
         public TextFolderManager(ITextFolderProvider provider) : base(provider) { }

@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using System.Collections;
 using Kooboo.CMS.Sites.Models;
 
@@ -45,7 +45,7 @@ namespace Kooboo.CMS.Sites.Versioning
             }
             if (logger == null)
             {
-                throw new KoobooException(string.Format("There has not version logger for '{0}'".Localize(), type));
+                throw new Exception(string.Format("There has not version logger for '{0}'".Localize(), type));
             }
             return logger;
         }

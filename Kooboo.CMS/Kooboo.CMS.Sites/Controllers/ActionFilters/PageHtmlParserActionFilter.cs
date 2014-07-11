@@ -41,7 +41,7 @@ namespace Kooboo.CMS.Sites.Controllers.ActionFilters
                     && filterContext.HttpContext.Response.ContentType.ToLower().Contains("text/html"))
                 {
                     var html = outputTextWriterWrapper.ToString();
-                    var htmlParser = Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve<IHtmlParser>();
+                    var htmlParser = Kooboo.Common.ObjectContainer.EngineContext.Current.TryResolve<IHtmlParser>();
                     if (htmlParser != null)
                     {
                         html = htmlParser.Parse(html);

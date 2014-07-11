@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Sites.Models;
-using Kooboo.Web.Mvc;
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 using System;
@@ -15,13 +15,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Routing;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using System.IO;
 using Kooboo.CMS.Sites.Services;
+using Kooboo.Common;
+using Kooboo.CMS.Common;
 
 namespace Kooboo.CMS.Sites.Extension.UI.Tabs
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITabProvider), Key = "PageCustomTabProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ITabProvider), Key = "PageCustomTabProvider")]
     public class PageCustomTabProvider : ITabProvider
     {
         public MvcRoute[] ApplyTo
@@ -93,7 +95,7 @@ namespace Kooboo.CMS.Sites.Extension.UI.Tabs
                     var name = Path.GetFileNameWithoutExtension(file);
                     tabInfo.Name = name;
                     tabInfo.DisplayText = name;
-                    tabInfo.VirtualPath = file.Replace(Kooboo.Settings.BaseDirectory, "~/");
+                    tabInfo.VirtualPath = file.Replace(Settings.BaseDirectory, "~/");
                     yield return tabInfo;
                 }
             }
@@ -107,7 +109,7 @@ namespace Kooboo.CMS.Sites.Extension.UI.Tabs
         #region SystemTabs
         public static IEnumerable<TabInfo> SystemTabs()
         {
-            var baseDir = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IBaseDir>();
+            var baseDir = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<IBaseDir>();
             string tabPath = Path.Combine(baseDir.Cms_DataPhysicalPath, PageTabsDir);
             return GetTabs(tabPath);
 
@@ -154,7 +156,7 @@ namespace Kooboo.CMS.Sites.Extension.UI.Tabs
             foreach (var moduleName in modules)
             {
 
-                string tabPath = Path.Combine(Kooboo.Settings.BaseDirectory, "Areas", moduleName, PageTabsDir);
+                string tabPath = Path.Combine(Settings.BaseDirectory, "Areas", moduleName, PageTabsDir);
 
                 tabs = GetTabs(tabPath).Concat(tabs);
 

@@ -15,8 +15,8 @@ using Kooboo.CMS.Content.Models;
 
 namespace Kooboo.CMS.Content.Persistence.MongoDB
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISchemaProvider), Order = 2)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(Kooboo.CMS.Common.Persistence.Non_Relational.IProvider<Schema>), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISchemaProvider), Order = 2)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(Kooboo.CMS.Common.Persistence.Non_Relational.IProvider<Schema>), Order = 2)]
     public class SchemaProvider : Kooboo.CMS.Content.Persistence.Default.SchemaProvider
     {
         public override void Initialize(Kooboo.CMS.Content.Models.Schema schema)

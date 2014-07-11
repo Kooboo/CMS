@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.IO;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Sites.Models
 {
@@ -43,7 +44,7 @@ namespace Kooboo.CMS.Sites.Models
         public override void Rename(string @newName)
         {
             var newPath = Path.Combine(this.BasePhysicalPath, @newName);
-            IO.IOUtility.RenameDirectory(this.PhysicalPath, newPath);
+            IOUtility.RenameDirectory(this.PhysicalPath, newPath);
             this.Name = @newName;
         }
     }

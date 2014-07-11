@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.Common.Misc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,7 +28,7 @@ namespace Kooboo.CMS.Sites.Membership
         [Required(ErrorMessage = "Required")]
         public virtual string Password { get; set; }
 
-        [Compare("Password")]
+        [System.Web.Mvc.Compare("Password")]
         [Required(ErrorMessage = "Required")]
         public virtual string ConfirmPassword { get; set; }
 

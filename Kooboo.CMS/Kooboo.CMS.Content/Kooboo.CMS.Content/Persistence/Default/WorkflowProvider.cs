@@ -9,6 +9,7 @@
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Paths;
+using Kooboo.Common.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,8 +19,8 @@ using System.Text;
 namespace Kooboo.CMS.Content.Persistence.Default
 {
     #region WorkflowProvider
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IWorkflowProvider))]
-    //[Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<Workflow>))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IWorkflowProvider))]
+    //[Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<Workflow>))]
     public class WorkflowProvider : FileSystemProviderBase<Workflow>, IWorkflowProvider
     {
         #region IProvider Members CRUD
@@ -27,7 +28,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
         public IEnumerable<Models.Workflow> All(Models.Repository repository)
         {
             var path = new WorkflowPath(repository);
-            return IO.IOUtility
+            return IOUtility
                      .EnumerateFilesExludeHidden(path.PhysicalPath)
                      .Select(it => new Workflow
                      {
@@ -49,14 +50,14 @@ namespace Kooboo.CMS.Content.Persistence.Default
     #endregion
 
     #region PendingWorkflowItemProvider
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPendingWorkflowItemProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IPendingWorkflowItemProvider))]
     public class PendingWorkflowItemProvider : FileSystemProviderBase<PendingWorkflowItem>, IPendingWorkflowItemProvider
     {
         #region All
         public IEnumerable<PendingWorkflowItem> All(Repository repository, string roleName)
         {
             var path = new PendingWorkflowItemPath(repository, roleName);
-            return IO.IOUtility
+            return IOUtility
                      .EnumerateFilesExludeHidden(path.PhysicalPath)
                      .Select(o => Get(new PendingWorkflowItem
                      {
@@ -78,7 +79,7 @@ namespace Kooboo.CMS.Content.Persistence.Default
     #endregion
 
     #region WorkflowHistoryProvider
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IWorkflowHistoryProvider))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IWorkflowHistoryProvider))]
     public class WorkflowHistoryProvider : FileSystemProviderBase<WorkflowHistory>, IWorkflowHistoryProvider
     {
         #region GetPath
@@ -92,8 +93,8 @@ namespace Kooboo.CMS.Content.Persistence.Default
         public IEnumerable<WorkflowHistory> All(TextContent content)
         {
             var path = GetPath(content);
-            Kooboo.IO.IOUtility.EnsureDirectoryExists(path);
-            return Kooboo.IO.IOUtility
+            IOUtility.EnsureDirectoryExists(path);
+            return IOUtility
                 .EnumerateFilesExludeHidden(path)
                 .Select(o =>
                 {

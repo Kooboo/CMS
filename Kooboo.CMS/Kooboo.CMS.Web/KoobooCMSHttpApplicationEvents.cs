@@ -6,11 +6,11 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common.Runtime;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Web.Models;
 using Kooboo.Collections;
-using Kooboo.Web.Mvc;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,11 +19,13 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Kooboo.Common.Web.Metadata;
+using Kooboo.Common;
 
 namespace Kooboo.CMS.Web
 {
-    [Dependency(typeof(Kooboo.CMS.Common.IHttpApplicationEvents), Key = "KooboCMSHttpApplicationEvents")]
-    public class KoobooCMSHttpApplicationEvents : Kooboo.CMS.Common.Runtime.Mvc.MvcModule
+    [Dependency(typeof(Kooboo.Common.Web.IHttpApplicationEvents), Key = "KooboCMSHttpApplicationEvents")]
+    public class KoobooCMSHttpApplicationEvents : Kooboo.Common.Web.ObjectContainer.Mvc.MvcModule
     {
         #region CustomRazorViewEngine
         /// <summary>
@@ -51,7 +53,7 @@ namespace Kooboo.CMS.Web
             routes.Add(new Route("api/metaweblog", new RouteValueDictionary(new { controller = "nonexistingcontroller" }), new RouteValueDictionary(new { controller = "nonexistingcontroller" }),
      new Kooboo.CMS.Web.Interoperability.MetaWeblog.MetaWeblogRouteHandler()));
 
-            Kooboo.Web.Mvc.Routing.RouteTableRegister.RegisterRoutes(routes);
+            Kooboo.Common.Web.Routing.RouteTableRegister.RegisterRoutes(routes);
 
 
             ModelMetadataProviders.Current = new KoobooDataAnnotationsModelMetadataProvider();
@@ -69,7 +71,7 @@ namespace Kooboo.CMS.Web
             base.Application_Start(sender, e);
 
             //execute the initializer method.
-            ApplicationInitialization.Execute();
+            //ApplicationInitialization.Execute();
 
             #region mono
 #if MONO
@@ -115,7 +117,7 @@ Thread information:
             #endregion
 
             //
-            ControllerBuilder.Current.SetControllerFactory(new Kooboo.CMS.Sites.CMSControllerFactory());
+            //ControllerBuilder.Current.SetControllerFactory(new Kooboo.CMS.Sites.CMSControllerFactory());
 
             //ViewEngine for module.            
             ViewEngines.Engines.Insert(0, new Kooboo.CMS.Sites.Extension.ModuleArea.Runtime.ModuleRazorViewEngine());
@@ -141,7 +143,7 @@ Thread information:
             RegisterRoutes(RouteTable.Routes);
 
 
-            Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu("AreasMenu", Path.Combine(Settings.BaseDirectory, "Menu.config"));
+            Kooboo.Common.Web.Menu.MenuFactory.RegisterAreaMenu("AreasMenu", Path.Combine(Settings.BaseDirectory, "Menu.config"));
 
             Kooboo.CMS.Content.Persistence.Providers.RepositoryProvider.TestDbConnection();
         }

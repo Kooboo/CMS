@@ -6,17 +6,18 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kooboo.Common;
 
 namespace Kooboo.CMS.Sites
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITimeZoneHelper))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ITimeZoneHelper))]
     public class TimeZoneHelper : ITimeZoneHelper
     {
         public virtual TimeZoneInfo GetCurrentTimeZone()

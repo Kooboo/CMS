@@ -9,8 +9,10 @@
 
 using System.Web.Mvc;
 using System.IO;
-using Kooboo.Web.Mvc;
-using Kooboo.CMS.Common;
+
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
+using Kooboo.Common;
 
 namespace Kooboo.CMS.Web.Areas.Account
 {
@@ -31,11 +33,11 @@ namespace Kooboo.CMS.Web.Areas.Account
                 "Account/{controller}/{action}/{id}",
                 new { controller = "LogOn", action = "Index", id = UrlParameter.Optional }
                 , null
-                , new[] { "Kooboo.CMS.Web.Areas.Account.Controllers", "Kooboo.Web.Mvc", "Kooboo.Web.Mvc.WebResourceLoader" }
+                , new[] { "Kooboo.CMS.Web.Areas.Account.Controllers", "Kooboo.Web.Mvc", "Kooboo.Common.Web.WebResourceLoader" }
             );
 
-            Kooboo.Web.Mvc.Menu.MenuFactory.RegisterAreaMenu(AreaName, AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "Menu.config"));
-            Kooboo.Web.Mvc.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, Path.Combine(Settings.BaseDirectory, "Areas", AreaName, "WebResources.config"));
+            Kooboo.Common.Web.Menu.MenuFactory.RegisterAreaMenu(AreaName, AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "Menu.config"));
+            Kooboo.Common.Web.WebResourceLoader.ConfigurationManager.RegisterSection(AreaName, Path.Combine(Settings.BaseDirectory, "Areas", AreaName, "WebResources.config"));
 
 
             base.RegisterArea(context);

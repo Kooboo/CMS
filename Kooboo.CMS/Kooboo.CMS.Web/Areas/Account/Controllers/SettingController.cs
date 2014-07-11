@@ -14,8 +14,9 @@ using System.Web.Mvc;
 using Kooboo.CMS.Account.Models;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Account.Persistence;
-using Kooboo.CMS.Common;
-using Kooboo.Globalization;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Web.Areas.Account.Controllers
 {

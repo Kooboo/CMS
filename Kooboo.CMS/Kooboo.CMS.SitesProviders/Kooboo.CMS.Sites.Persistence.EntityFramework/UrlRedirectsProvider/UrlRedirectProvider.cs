@@ -1,8 +1,8 @@
-﻿using Kooboo.CMS.Caching;
+﻿using Kooboo.Common.Caching;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.Persistence.FileSystem;
-using Kooboo.Runtime.Serialization;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +10,9 @@ using System.Text;
 
 namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IUrlRedirectProvider), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<UrlRedirect>), Order = 100)]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "UrlRedirectProvider")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IUrlRedirectProvider), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IProvider<UrlRedirect>), Order = 100)]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ISiteExportableProvider), Order = 100, Key = "UrlRedirectProvider")]
     public class UrlRedirectProvider : IUrlRedirectProvider, ISiteImportExportStartup
     {
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim(System.Threading.LockRecursionPolicy.SupportsRecursion);
@@ -53,7 +53,7 @@ namespace Kooboo.CMS.Sites.Persistence.EntityFramework.UrlRedirectsProvider
             {
                 if (resetKey)
                 {
-                    item.UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(8);
+                    item.UUID = Kooboo.Common.Misc.UniqueIdGenerator.GetInstance().GetBase32UniqueId(8);
                 }
                 UpdateOrAdd(item, item);
             }

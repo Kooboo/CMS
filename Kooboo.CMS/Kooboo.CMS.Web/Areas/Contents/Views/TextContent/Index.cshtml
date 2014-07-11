@@ -30,7 +30,7 @@
     ViewBag.FolderPermission = folderPermission;
     ViewBag.PagedList = pagedList;
 
-    //var formatters = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<Kooboo.CMS.Content.Formatter.ITextContentFormater>();
+    //var formatters = Kooboo.Common.ObjectContainer.EngineContext.Current.ResolveAll<Kooboo.CMS.Content.Formatter.ITextContentFormater>();
 }
 @section Panel{
     @if (!string.IsNullOrEmpty(ViewBag.Menu))

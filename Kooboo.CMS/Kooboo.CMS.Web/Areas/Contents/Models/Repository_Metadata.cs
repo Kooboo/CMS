@@ -11,13 +11,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-using Kooboo.Web.Mvc;
+
 using Kooboo.CMS.Content.Persistence;
 using System.Web.Mvc;
 using System.ComponentModel;
 using Kooboo.CMS.Content.Services;
 using Kooboo.CMS.Content.Models;
-using Kooboo.ComponentModel;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Misc;
 namespace Kooboo.CMS.Web.Areas.Contents.Models
 {
     [MetadataFor(typeof(Repository))]

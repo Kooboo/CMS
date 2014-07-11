@@ -9,8 +9,9 @@
 using Kooboo.CMS.Membership.Models;
 using Kooboo.CMS.Web.Areas.Membership.Models.DataSources;
 using Kooboo.CMS.Web.Models;
-using Kooboo.ComponentModel;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Misc;
+using Kooboo.Common.Web.Metadata;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

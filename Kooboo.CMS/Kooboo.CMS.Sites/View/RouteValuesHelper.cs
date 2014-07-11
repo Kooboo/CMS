@@ -15,7 +15,7 @@ using System.Collections;
 
 namespace Kooboo.CMS.Sites.View
 {
-    internal static class RouteValuesHelpers
+    internal static class RouteValuesHelper
     {
         public static RouteValueDictionary GetRouteValues(object routeValues)
         {

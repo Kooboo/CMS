@@ -7,14 +7,13 @@ using System.Xml;
 using System.Xml.Linq;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Query;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Content.Services;
-using Kooboo.Collections;
 using Kooboo.CMS.Content.Persistence;
 namespace Kooboo.CMS.Content.Formatter
 {
     [Obsolete]
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(ITextContentFormater), Key = "xliff")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(ITextContentFormater), Key = "xliff")]
     public class TextContentToXLIFF : ITextContentFormater
     {
         #region .ctor

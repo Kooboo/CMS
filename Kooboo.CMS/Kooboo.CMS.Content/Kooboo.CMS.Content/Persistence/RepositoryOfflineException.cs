@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Content.Persistence
 {
-    public class RepositoryOfflineException : KoobooException
+    public class RepositoryOfflineException : Exception
     {
         public RepositoryOfflineException()
             : base("The repository is offline.")

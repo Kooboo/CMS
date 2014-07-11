@@ -15,7 +15,7 @@ using System.Web.Mvc;
 
 namespace Kooboo.CMS.Sites.View
 {
-    using Kooboo.CMS.Common.Runtime;
+    using Kooboo.Common.ObjectContainer;
     public static class HtmlExtensions
     {
         public static FrontHtmlHelper FrontHtml(this HtmlHelper html)

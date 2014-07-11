@@ -6,15 +6,15 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.Web.Mvc.Grid2;
-using Kooboo.Web.Mvc.Grid2.Design;
+using Kooboo.Common.Web.Grid.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.Web.Mvc;
+
 using System.Web.Routing;
+using Kooboo.Common.Web.Grid;
 namespace Kooboo.CMS.Web.Grid2
 {
     public class SortableGridColumn : GridColumn

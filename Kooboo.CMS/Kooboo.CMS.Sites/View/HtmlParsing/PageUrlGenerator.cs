@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.Sites.View.HtmlParsing
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IPageUrlGenerator))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IPageUrlGenerator))]
     public class PageUrlGenerator : IPageUrlGenerator
     {
         public string PageUrl(string pageName, System.Web.Routing.RouteValueDictionary routeValues)

@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Account.Persistence;
 using Kooboo.CMS.Account.Models;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer.Dependency;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 
 namespace Kooboo.CMS.Account.Persistence.EntityFramework

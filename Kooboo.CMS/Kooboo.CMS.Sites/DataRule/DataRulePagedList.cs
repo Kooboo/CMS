@@ -6,11 +6,11 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Kooboo.Web.Mvc.Paging;
 
 namespace Kooboo.CMS.Sites.DataRule
 {

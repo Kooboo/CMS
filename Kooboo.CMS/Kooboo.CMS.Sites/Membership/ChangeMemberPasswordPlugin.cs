@@ -16,9 +16,10 @@ using System.Web.Mvc;
 using Kooboo.CMS.Membership.Services;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Membership.Models;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Sites.Globalization;
 using System.Web;
+using Kooboo.Common.Web;
 
 namespace Kooboo.CMS.Sites.Membership
 {

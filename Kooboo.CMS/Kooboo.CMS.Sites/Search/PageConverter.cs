@@ -11,7 +11,7 @@ using Kooboo.CMS.Search;
 using Kooboo.CMS.Search.Models;
 using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Sites.View;
-using Kooboo.Extensions;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -20,7 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Kooboo.CMS.Sites.Search
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IObjectConverter), Key = "Kooboo.CMS.Sites.Models.Page")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IObjectConverter), Key = "Kooboo.CMS.Sites.Models.Page")]
     public class PageConverter : IObjectConverter
     {
         public KeyValuePair<string, string> GetKeyField(object o)
@@ -64,13 +64,13 @@ namespace Kooboo.CMS.Sites.Search
                         var htmlBlock = new HtmlBlock(page.Site, htmlBlockPosition.BlockName).LastVersion().AsActual();
                         if (htmlBlock != null)
                         {
-                            body.Append(" " + Kooboo.StringExtensions.StripAllTags(htmlBlock.Body));
+                            body.Append(" " + htmlBlock.Body.StripAllTags());
                         }
                     }
                     else
                     {
                         HtmlPosition htmlPosition = (HtmlPosition)item;
-                        body.Append(" " + Kooboo.StringExtensions.StripAllTags(htmlPosition.Html));
+                        body.Append(" " + htmlPosition.Html.StripAllTags());
                     }
                 }
             }

@@ -7,7 +7,8 @@
 // 
 #endregion
 using Kooboo.CMS.Common;
-using Kooboo.CMS.Common.Runtime.Dependency;
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.ObjectContainer.Dependency;
 using System;
 using System.Collections.Generic;
 using System.IO;

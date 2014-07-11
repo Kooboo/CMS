@@ -12,7 +12,7 @@ namespace Kooboo.CMS.Sites.Extension
     {
         private static void ExecuteModules(Action<IPageRequestModule> action)
         {
-            var modules = Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll<IPageRequestModule>();
+            var modules = Kooboo.Common.ObjectContainer.EngineContext.Current.ResolveAll<IPageRequestModule>();
             foreach (var item in modules)
             {
                 action(item);

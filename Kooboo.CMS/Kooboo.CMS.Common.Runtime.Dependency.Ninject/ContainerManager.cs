@@ -13,8 +13,8 @@ using System.Web;
 using Ninject;
 using Ninject.Syntax;
 using NinjectParameters = Ninject.Parameters;
-using Kooboo.CMS.Common.Runtime.Dependency.Ninject.InRequestScope;
-namespace Kooboo.CMS.Common.Runtime.Dependency.Ninject
+using Kooboo.Common.ObjectContainer.Dependency.Ninject.InRequestScope;
+namespace Kooboo.Common.ObjectContainer.Dependency.Ninject
 {
     /// <summary>
     /// 加入Container Manager是为了减少其它程序在做注入的时候减少对Ninject的依赖

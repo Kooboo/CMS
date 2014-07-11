@@ -7,7 +7,9 @@
 // 
 #endregion
 using Kooboo.CMS.Sites.ABTest;
-using Kooboo.Web.Mvc;
+using Kooboo.Common.ComponentModel;
+using Kooboo.Common.Web.Metadata;
+using Kooboo.Common.Web.SelectList;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,7 +18,7 @@ using System.Text;
 
 namespace Kooboo.CMS.Web.Areas.Sites.Models
 {
-    [Kooboo.ComponentModel.MetadataFor(typeof(LanguageVisitRule))]
+    [MetadataFor(typeof(LanguageVisitRule))]
     public class LanguageVisitRule_Metadata
     {
         [Required(ErrorMessage = "Required")]

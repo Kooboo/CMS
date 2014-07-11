@@ -12,17 +12,19 @@ using System.Linq;
 using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.IO;
+using Kooboo.Common.Web;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Sites.Services
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(CodeSnippetManager))]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(CodeSnippetManager))]
     public class CodeSnippetManager
     {
         protected string BasePath
         {
             get
             {
-                return Kooboo.Web.Mvc.AreaHelpers.CombineAreaFilePhysicalPath("Sites", "CodeSnippets");
+                return AreaHelpers.CombineAreaFilePhysicalPath("Sites", "CodeSnippets");
             }
         }
         protected virtual string FileExtension
@@ -72,7 +74,7 @@ namespace Kooboo.CMS.Sites.Services
                     Group = group,
                     ViewEngine = group.ViewEngine,
                     Name = Path.GetFileNameWithoutExtension(it),
-                    Code = IO.IOUtility.ReadAsString(it)
+                    Code = IOUtility.ReadAsString(it)
                 });
         }       
     }

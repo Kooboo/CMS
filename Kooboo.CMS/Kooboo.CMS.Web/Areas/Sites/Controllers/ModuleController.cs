@@ -15,13 +15,14 @@ using Kooboo.CMS.Sites.Services;
 using System.IO;
 using Kooboo.Web;
 
-using Kooboo.Globalization;
+using Kooboo.Common.Globalization;
 using Kooboo.CMS.Sites.Persistence;
 using Kooboo.CMS.Web.Areas.Sites.Models;
 using Kooboo.CMS.Sites.Extension.ModuleArea;
 using Kooboo.CMS.Sites;
-using Kooboo.Web.Mvc;
-using Kooboo.CMS.Common;
+
+using Kooboo.Common.ObjectContainer;
+using Kooboo.Common.Web;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Sites", Group = "Extensions", Name = "Module", Order = 1)]

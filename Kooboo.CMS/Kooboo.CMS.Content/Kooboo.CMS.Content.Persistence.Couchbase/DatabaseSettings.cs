@@ -1,5 +1,6 @@
 ﻿using Couchbase.Management;
-using Kooboo.Runtime.Serialization;
+using Kooboo.Common;
+using Kooboo.Common.Misc;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,7 +42,7 @@ namespace Kooboo.CMS.Content.Persistence.Couchbase
         }
         private static string GetSettingFile()
         {
-            return Path.Combine(Kooboo.Settings.BinDirectory, "Kooboo.CMS.Content.Persistence.Couchbase.config");
+            return Path.Combine(Settings.BinDirectory, "Kooboo.CMS.Content.Persistence.Couchbase.config");
         }
         [DataMember]
         public int ReplicaNumber { get; set; }

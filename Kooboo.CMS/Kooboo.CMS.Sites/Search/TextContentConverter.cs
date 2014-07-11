@@ -14,7 +14,7 @@ using Kooboo.CMS.Search;
 using Kooboo.CMS.Search.Models;
 using Kooboo.CMS.Search.Persistence;
 using Kooboo.CMS.Sites.View;
-using Kooboo.Extensions;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 using System.Web.Routing;
 namespace Kooboo.CMS.Sites.Search
 {
-    [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IObjectConverter), Key = "Kooboo.CMS.Content.Models.TextContent")]
+    [Kooboo.Common.ObjectContainer.Dependency.Dependency(typeof(IObjectConverter), Key = "Kooboo.CMS.Content.Models.TextContent")]
     public class TextContentConverter : IObjectConverter
     {
         ITextContentBinder Binder { get; set; }
@@ -78,7 +78,7 @@ namespace Kooboo.CMS.Sites.Search
                     }
                     if (index && !column.Summarize)
                     {
-                        bodyBuilder.AppendFormat(" {0} ", Kooboo.StringExtensions.StripAllTags(indexValue.ToString()));
+                        bodyBuilder.AppendFormat(" {0} ", indexValue.ToString().StripAllTags());
                     }
 
                     if (isSystemField)

@@ -12,7 +12,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
-using Kooboo.IO;
+using Kooboo.Common.IO;
+
 namespace Kooboo.CMS.Sites.Models
 {
     [DataContract]
@@ -127,7 +128,7 @@ namespace Kooboo.CMS.Sites.Models
 
         public void Save(string content)
         {
-            Kooboo.IO.IOUtility.EnsureDirectoryExists(Path.GetDirectoryName(this.PhysicalPath));
+            Kooboo.Common.IO.IOUtility.EnsureDirectoryExists(Path.GetDirectoryName(this.PhysicalPath));
             using (FileStream fs = new FileStream(this.PhysicalPath, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
                 fs.WriteString(content);

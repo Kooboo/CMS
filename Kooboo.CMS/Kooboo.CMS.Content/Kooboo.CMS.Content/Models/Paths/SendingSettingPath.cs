@@ -11,7 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Kooboo.Web.Url;
+using Kooboo.Common.IO;
+
 
 namespace Kooboo.CMS.Content.Models.Paths
 {
@@ -21,7 +22,7 @@ namespace Kooboo.CMS.Content.Models.Paths
         public SendingSettingPath(Repository repository)
         {
             this.PhysicalPath = Path.Combine(new BroadcastingPath(repository).PhysicalPath, DIR);
-            IO.IOUtility.EnsureDirectoryExists(PhysicalPath);
+            IOUtility.EnsureDirectoryExists(PhysicalPath);
         }
         public SendingSettingPath(SendingSetting sendingSetting)
         {

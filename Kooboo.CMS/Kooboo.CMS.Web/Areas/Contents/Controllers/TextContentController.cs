@@ -8,7 +8,7 @@
 #endregion
 using DiffPlex;
 using DiffPlex.DiffBuilder;
-using Kooboo.CMS.Common;
+using Kooboo.Common.ObjectContainer;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Models;
 using Kooboo.CMS.Content.Models.Binder;
@@ -22,13 +22,11 @@ using Kooboo.CMS.Sites;
 using Kooboo.CMS.Sites.DataRule;
 using Kooboo.CMS.Web.Areas.Contents.Models;
 using Kooboo.CMS.Web.Models;
-using Kooboo.Extensions;
-using Kooboo.Globalization;
-using Kooboo.Web.Mvc;
-using Kooboo.Web.Mvc.Paging;
-using Kooboo.Web.Script.Serialization;
-using Kooboo.Web.Url;
+
+using Kooboo.Common.Globalization;
+using Kooboo.Common.Data;
 using Kooboo.Web;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -38,7 +36,11 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Kooboo.CMS.Content.Formatter;
+using System.Web.Routing;
+
+using Kooboo.Common.Web;
+using Kooboo.Common.Misc;
+
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {
     [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
@@ -767,10 +769,10 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                 {
                     var postFile = Request.Files[0];
                     var repositoryPath = new RepositoryPath(Repository);
-                    var tempPath = Kooboo.Web.Url.UrlUtility.Combine(repositoryPath.VirtualPath, "Temp");
-                    Kooboo.IO.IOUtility.EnsureDirectoryExists(Server.MapPath(tempPath));
+                    var tempPath = Kooboo.Common.Web.UrlUtility.Combine(repositoryPath.VirtualPath, "Temp");
+                    Kooboo.Common.IO.IOUtility.EnsureDirectoryExists(Server.MapPath(tempPath));
 
-                    var fileUrl = Kooboo.Web.Url.UrlUtility.Combine(tempPath, UniqueIdGenerator.GetInstance().GetBase32UniqueId(24) + Path.GetExtension(postFile.FileName));
+                    var fileUrl = Kooboo.Common.Web.UrlUtility.Combine(tempPath, UniqueIdGenerator.GetInstance().GetBase32UniqueId(24) + Path.GetExtension(postFile.FileName));
 
                     postFile.SaveAs(Server.MapPath(fileUrl));
                     resultData.Model = new { ImageUrl = Url.Content(fileUrl), PreviewUrl = this.Url.Action("ResizeImage", "Resource", new { siteName = Site.FullName, url = fileUrl, area = "", width = 600, height = 400, preserverAspectRatio = true, quality = 80 }) };
@@ -997,41 +999,41 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         }
         #endregion
 
-        #region Import
-        public virtual ActionResult Import(TextContentImportModel model)
-        {
-            ModelState.Clear();
-            return View(model);
-        }
-        [HttpPost]
-        public virtual ActionResult Import(TextContentImportModel model, string @return)
-        {
-            var data = new JsonResultData(ModelState);
-            data.RunWithTry((resultData) =>
-            {
-                model.TextContentExporter.Import(new TextFolder(Repository, model.FolderName), model.File.InputStream);
-                data.RedirectUrl = @return;
-            });
-            return Json(data);
-        }
-        #endregion
+        //#region Import
+        //public virtual ActionResult Import(TextContentImportModel model)
+        //{
+        //    ModelState.Clear();
+        //    return View(model);
+        //}
+        //[HttpPost]
+        //public virtual ActionResult Import(TextContentImportModel model, string @return)
+        //{
+        //    var data = new JsonResultData(ModelState);
+        //    data.RunWithTry((resultData) =>
+        //    {
+        //        model.TextContentExporter.Import(new TextFolder(Repository, model.FolderName), model.File.InputStream);
+        //        data.RedirectUrl = @return;
+        //    });
+        //    return Json(data);
+        //}
+        //#endregion
 
-        #region Export
-        public virtual void Export(string formatter, string folderName, string[] docs)
-        {
-            var exporter = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<ITextContentFormater>(formatter.ToLower());
-            var fileName = folderName + exporter.FileExtension;
-            Response.AttachmentHeader(fileName);
+        //#region Export
+        //public virtual void Export(string formatter, string folderName, string[] docs)
+        //{
+        //    var exporter = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<ITextContentFormater>(formatter.ToLower());
+        //    var fileName = folderName + exporter.FileExtension;
+        //    Response.AttachmentHeader(fileName);
 
-            var textFolder = new TextFolder(Repository, folderName);
+        //    var textFolder = new TextFolder(Repository, folderName);
 
-            var contentQuery = textFolder.CreateQuery();
-            foreach (var item in docs)
-            {
-                contentQuery = contentQuery.Or(new WhereEqualsExpression(null, "UUID", item));
-            }
-            exporter.Export(contentQuery, Response.OutputStream);
-        }
-        #endregion
+        //    var contentQuery = textFolder.CreateQuery();
+        //    foreach (var item in docs)
+        //    {
+        //        contentQuery = contentQuery.Or(new WhereEqualsExpression(null, "UUID", item));
+        //    }
+        //    exporter.Export(contentQuery, Response.OutputStream);
+        //}
+        //#endregion
     }
 }

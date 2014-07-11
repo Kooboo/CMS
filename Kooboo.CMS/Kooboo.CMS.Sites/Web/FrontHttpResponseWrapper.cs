@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.IO;
-using Kooboo.Web.Url;
+
 
 namespace Kooboo.CMS.Sites.Web
 {

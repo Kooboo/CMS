@@ -13,8 +13,9 @@ using System.Text;
 using Kooboo.CMS.Sites.Models;
 using System.IO;
 using System.Runtime.Serialization;
-using Kooboo.IO;
+
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.Common.IO;
 
 namespace Kooboo.CMS.Sites.Models
 {
@@ -88,7 +89,7 @@ namespace Kooboo.CMS.Sites.Models
         {
             get
             {
-                return System.Web.HttpUtility.UrlDecode(Kooboo.Web.Url.UrlUtility.Combine(base.VirtualPath, TemplateFileName));
+                return System.Web.HttpUtility.UrlDecode(Kooboo.Common.Web.UrlUtility.Combine(base.VirtualPath, TemplateFileName));
             }
         }
         #endregion

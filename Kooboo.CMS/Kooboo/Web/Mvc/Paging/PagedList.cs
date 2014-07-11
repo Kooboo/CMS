@@ -12,12 +12,13 @@
  Source code released under Ms-PL license
  */
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Kooboo.Web.Mvc.Paging
 {
-    public interface IPagedList
+    public interface IPagedList : IEnumerable
     {
         int CurrentPageIndex { get; set; }
         int PageSize { get; set; }

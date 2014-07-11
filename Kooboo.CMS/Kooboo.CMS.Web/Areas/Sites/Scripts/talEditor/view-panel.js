@@ -433,6 +433,14 @@ var PanelModel = function () {
         }
     };
 
+    self.initCallout = function () {
+        _.each(self.boundTags(), function (obj) {
+            obj.tag.highlight().highlightCopy();
+            __ctx__.highlighterCopy.hide();
+            self.displayCallout(true, obj.tag, obj.type);
+        });
+    };
+
     //tag click events
     self.elementClick = function (tag) {
         var $tag = $(tag);
@@ -474,6 +482,7 @@ var PanelModel = function () {
         $("#tab-data-binding").click();
         $("#div-repeat-item-setting").show();
         self.resetBoundTags();
+        self.initCallout();
     };
 
     self.initBoundList = function () {
@@ -485,7 +494,7 @@ var PanelModel = function () {
         __ctx__.editorWrapper[0].click();
     };
 
-    self.displayCallout = function (show,$tag) {
+    self.displayCallout = function (show, $tag, dataType) {
         $tag=$tag||self.tag();
         var id = __utils__.getRandomId('callout-');
         for (var _id in __ctx__.calloutTags) {
@@ -497,7 +506,7 @@ var PanelModel = function () {
         }
         var callout = __ctx__.iframeBody.find('#' + id);
         if (show) {
-            var text = calloutEnum[self.dataItem.dataType()];
+            var text = calloutEnum[dataType||self.dataItem.dataType()];
 
             if (callout.length == 0) {
                 callout = __ctx__.highlighterCopy.clone().addClass('mark').attr('id', id)

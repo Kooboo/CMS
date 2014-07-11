@@ -132,8 +132,8 @@
                 $("div.layout-selector").hide();
             }
         });
-        var action='@ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower()';
-        if (action == "create"){
+        __ctx__.action='@ViewContext.RequestContext.RouteData.Values["action"].ToString().ToLower()';
+        if (__ctx__.action == "create"){
             _.delay(function(){
                 $('.tabs').koobooTab().data("koobooTab").showTab(1);
             },200);

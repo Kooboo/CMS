@@ -78,7 +78,8 @@ var __ctx__ = {
     calloutTags: {},
     showStaticImgsHandler: function () { },
     siteStatics: [],
-    siteEnablejQuery: true
+    siteEnablejQuery: true,
+    action:'create'
 };
 
 
@@ -164,8 +165,9 @@ var __utils__ = {
             var div = $obj.find('.' + pos[i]);
             div.css(highlightPos[pos[i]]);
         }
+        $obj.find('span').css(highlightPos.span);
     };
-    var elementHighlight = function (target) {
+    var elementHighlight = function (target, highlighter) {
         var borderWidth = __ctx__.highlighter.find('.left').width();
         highlightPos.left = {
             left: target.offset().left - borderWidth,
@@ -187,11 +189,25 @@ var __utils__ = {
             top: target.offset().top + target.outerHeight(),
             width: target.outerWidth() + borderWidth * 2
         };
-        setHighlighterPos(__ctx__.highlighter);
+        var span = $('#kooboo-highlight span');
+        var left = target.offset().left + target.outerWidth() + borderWidth;
+        if (target.outerWidth() > 300) {
+            left = left - 10;
+        }
+        highlightPos.span = {
+            left: left,
+            top: target.offset().top - borderWidth
+        };
+        setHighlighterPos(highlighter);
     };
     $.fn.highlight = function () {
-        elementHighlight(this);
-        return $(this);
+        elementHighlight(this, __ctx__.highlighter);
+        return this;
+    };
+    $.fn.highlightCopy = function () {
+        elementHighlight(this, __ctx__.highlighterCopy);
+        __ctx__.highlighter.hide();
+        return this;
     };
 })(jQuery);
 

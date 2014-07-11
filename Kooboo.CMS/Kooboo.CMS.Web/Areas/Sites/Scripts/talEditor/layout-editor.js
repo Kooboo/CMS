@@ -4,9 +4,6 @@
             window.parent.loading.hide();
             (function (__parent__, __ctx__, __conf__) { //editor
                 (function ($) {
-                    var defaults = {
-                        activeEvent: 'mouseover'
-                    };
                     var highlightPos = {};
                     var setHighlighterPos = function (selector) {
                         $(selector).show();
@@ -16,7 +13,7 @@
                         }
                         $(selector + ' span').css(highlightPos.span);
                     };
-                    var ElementHighlight = function (target) {
+                    var elementHighlight = function (target, highlighterId) {
                         var borderWidth = $('#kooboo-highlight .left').width();
                         highlightPos.left = {
                             left: target.offset().left - borderWidth,
@@ -47,13 +44,23 @@
                             left: left,
                             top: target.offset().top - borderWidth
                         };
-                        setHighlighterPos('#kooboo-highlight');
+                        setHighlighterPos('#' + highlighterId);
                     };
-                    var fixHighlighterCopy = function () {
-                        setHighlighterPos('#kooboo-highlight-copy');
+                    $.fn.highlight = function () {
+                        elementHighlight(this, 'kooboo-highlight');
+                        return this;
+                    };
+                    $.fn.highlightCopy = function () {
+                        elementHighlight(this, 'kooboo-highlight-copy');
                         $("#kooboo-highlight").hide();
+                        return this;
                     };
+                })(jQuery);
 
+                (function ($) {
+                    var defaults = {
+                        activeEvent: 'mouseover'
+                    };
                     var codeDomTagMouseover = function ($this) {
                         for (var id in __ctx__.codeDomTags) {
                             var tag = __ctx__.codeDomTags[id];
@@ -108,8 +115,7 @@
                                         return;
                                     }
                                 }
-                                $target.trigger('mouseover');
-                                fixHighlighterCopy();
+                                $target.trigger('mouseover').highlightCopy();
                                 var panelModel = new __parent__.PanelModel();
                                 panelModel.elementClick(e.target);
                                 e.preventDefault();
@@ -123,7 +129,8 @@
                                             return;
                                         }
                                     }
-                                    ElementHighlight($target);
+                                    $target.highlight();
+                                    //ElementHighlight($target);
                                     e.preventDefault();
                                     e.stopPropagation();
                                     codeDomTagMouseover($target);
@@ -133,7 +140,7 @@
                                 });
                             } else {
                                 $(this).find('[data-kooboo="repeat-item"] *').bind(options.activeEvent, function (e) {
-                                    ElementHighlight($(e.target));
+                                    $(e.target).highlight();//ElementHighlight($(e.target));
                                 });
                             }
                         });

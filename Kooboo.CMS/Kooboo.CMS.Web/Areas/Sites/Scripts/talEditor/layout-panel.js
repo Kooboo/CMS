@@ -168,6 +168,16 @@ var PanelModel = function () {
         }
     };
 
+    self.initCallout = function () {
+        _.each(self.boundTags(), function (obj) {
+            if (obj.type == dataTypeEnum.position) {
+                obj.tag.highlight().highlightCopy();
+                __ctx__.highlighterCopy.hide();
+                self.displayCallout(true, obj.tag, obj.type);
+            }
+        });
+    };
+
     //tag click events
     self.elementClick = function (tag) {
         var $tag = $(tag);
@@ -202,18 +212,19 @@ var PanelModel = function () {
         self.hasClickedTag(false);
         //data binding overview
         self.resetBoundTags();
+        self.initCallout();
     };
 
     self.initBoundList = function () {
         $("#span-clear-clicked").trigger('click');
-    }
+    };
 
     //edit events
     self.cancelEdit = function (data, event) {
         __ctx__.iframeObj.document.documentElement.click();
     };
 
-    self.displayCallout = function (show, $tag) {
+    self.displayCallout = function (show, $tag,dataType) {
         $tag = $tag || self.tag();
         var id = __utils__.getRandomId('callout-');
         for (var _id in __ctx__.calloutTags) {
@@ -225,8 +236,7 @@ var PanelModel = function () {
         }
         var callout = __ctx__.iframeObj.$('#' + id);
         if (show) {
-            var text = calloutEnum[self.dataItem.dataType()];
-
+            var text = calloutEnum[dataType||self.dataItem.dataType()];
             if (callout.length == 0) {
                 callout = __ctx__.highlighterCopy.clone().addClass('mark').attr('id', id)
             }
@@ -288,7 +298,10 @@ var __iframe__ = {
         }
         $(selector).load(function () {
             var defs = __utils__.getCookie("docdef");
-            if(defs){
+            if (defs) {
+                if (__conf__.lang.for == langEnum.py) {
+                    defs = __lang__.unquot(defs);
+                }
                 __iframe__.defs=defs+"\n";
                 __utils__.delCookie("docdef");
             }

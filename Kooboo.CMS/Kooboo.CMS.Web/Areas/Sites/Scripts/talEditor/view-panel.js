@@ -1,6 +1,7 @@
 
 __ctx__.clickedTag = __ctx__.editorWrapper;
 __pages__ = typeof(__pages__)=='undefined'?[]:__pages__;
+__submissions__  = typeof(__submissions__)=='undefined'?[]:__submissions__;
 externalLink = typeof(externalLink )=='undefined'?"External Link ":externalLink;
 var PanelModel = function () {
     //base
@@ -30,6 +31,7 @@ var PanelModel = function () {
     self.wrappedRepeater = ko.observable(null);
     self.isLinkTag = ko.observable(false);
     self.isImgTag = ko.observable(false);
+    self.isFormTag = ko.observable(false);
     self.hasChildren = ko.observable(false);
     self._hasChildren = function ($tag) {
         $tag = $tag || self.tag();
@@ -174,6 +176,8 @@ var PanelModel = function () {
                     break;
                 case dataTypeEnum.dynamicImg:
                     self.image.init();
+                    break;
+                case dataTypeEnum.form:
                     break;
                 case dataTypeEnum.partial:
                     break;
@@ -433,6 +437,53 @@ var PanelModel = function () {
         }
     };
 
+    self.form = {
+        formType:ko.observable("Normal"),
+        submissions:_.union(
+            [
+                {
+                    name: __conf__.defaultOption.name,
+                    settings: []
+                }
+            ],
+            __submissions__
+        ),
+        chosenSubmission:ko.observable(),
+        submissionSettings:ko.observableArray([
+            {
+                key: __conf__.defaultOption.name,
+                value:""
+            }
+        ]),
+        submmsionChange:function(data,event){
+            var name = $(event.target).val();
+            self.form.chosenSubmission(name);
+            $("#SubmitTo").val(name);
+            var temp = _.find(self.form.submissions,function(s){
+                return s.name == name;
+            });
+            var settings=[
+                {
+                    key: __conf__.defaultOption.name,
+                    value:""
+                }
+            ];
+            if(temp){
+                settings= _.union(
+                    settings,
+                    temp.settings
+                );
+            }
+            self.form.submissionSettings(settings);
+        },
+        settingChange:function(data,event){
+            console.log(data);
+        },
+        redirectToChange:function(data,event){
+            $("#RedirectTo").val($(event.target).val());
+        }
+    };
+
     self.initCallout = function () {
         _.each(self.boundTags(), function (obj) {
             obj.tag.highlight().highlightCopy();
@@ -457,6 +508,7 @@ var PanelModel = function () {
         //view editor
         self.wrappedRepeater(self.dataSource.getWrappedRepeater());
         self.isImgTag(tag && tag[0].tagName.toLowerCase() == 'img');
+        self.isFormTag(tag && tag[0].tagName.toLowerCase() == 'form');
         self.hasChildren(self._hasChildren());
         var islink = (tag[0].tagName.toLowerCase() === 'a');
         self.isLinkTag(islink);
@@ -581,6 +633,8 @@ var PanelModel = function () {
                 }
                 self.displayCallout(showCallout);
                 __ctx__.editorWrapper[0].click();
+                break;
+            case dataTypeEnum.form:
                 break;
             case dataTypeEnum.partial:
                 break;

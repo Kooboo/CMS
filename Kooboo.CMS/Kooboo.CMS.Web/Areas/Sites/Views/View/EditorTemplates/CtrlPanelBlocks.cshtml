@@ -5,7 +5,7 @@
 }
 
 <script type="text/html" id="tmpl-binding-convert">
-    <div class="item convert" data-bind="visible:!isImgTag()">
+    <div class="item convert" data-bind="visible:!isImgTag()&&!isFormTag()">
         <p>@("Convert this element into".Localize()):</p>
         <ul class="radio-list" id="data-type-panel">
             <li data-bind="">
@@ -160,6 +160,59 @@
                 <option data-bind="value:ds,html:ds"></option>
                 <!-- /ko -->
             </select>
+        </div>
+    </div>
+    <div class="item form-editor" data-bind="visible:isFormTag()">
+        <div class="form-row">
+            <div class="span4">
+                <label>Submit to:</label>
+            </div>
+            <div class="span8">
+                <select data-bind="foreach:{data:form.submissions,as:'submit'},value:form.chosenSubmission(),event:{change:form.submmsionChange}">
+                    <option data-bind="value:submit.name,text:submit.name"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="span4">
+                <label>Form type:</label>
+            </div>
+            <div class="span8">
+                <ul class="form-list vertical">
+                    <li>
+                        <input type="radio" name="ImageType" id="FormTypeNormal" value="Normal" checked="checked">
+                        <label class="inline" for="FormTypeNormal">Normal</label>
+                    </li>
+                    <li style="display:none">
+                        <input type="radio" name="ImageType" id="FormTypeAJAX" value="AJAX">
+                        <label class="inline" for="FormTypeAJAX">AJAX</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="span4">
+                <label>Redirect to:</label>
+            </div>
+            <div class="span8">
+                <select data-bind="foreach:{data:linkTo.pages,as:'page'},value:linkTo.chosenPage,event:{change:form.redirectToChange}">
+                    <option data-bind="value:page.name,text:page.name"></option>
+                </select>
+            </div>
+        </div>
+        <p>Please select and bind the fields you want to submit.</p>
+        <div class="form-row">
+            <div class="span4">
+                <label>Field 1</label>
+            </div>
+            <div class="span7">
+                <select data-bind="foreach:{data:form.submissionSettings(),as:'set'},value:'',event:{change:form.settingChange}">
+                    <option data-bind="value:set.key,text:set.key"></option>
+                </select>
+            </div>
+            <div class="span1">
+                <a class="action" href="#" title="Remove"><img src="images/invis.gif" class="icon minus-small" alt="Remove"></a>
+            </div>
         </div>
     </div>
     <p class="buttons" data-bind="visible:dataItem.dataType()!=dataTypeEnum.nothing">

@@ -12,6 +12,7 @@ var dataTypeEnum = {
     dynamicImg: 'DynamicImg',
     partial: 'Partial',
     position: 'Position',
+    form:'Form',
     nothing: 'Nothing'
 };
 var calloutEnum = {
@@ -20,7 +21,8 @@ var calloutEnum = {
     RepeatedItem: 'R',
     Position: 'P',
     DynamicImg:'I',
-    StaticImg:"I"
+    StaticImg:"I",
+    Form:"Form"
 };
 
 //conf

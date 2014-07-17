@@ -13,19 +13,19 @@
     ctx.extend(editorPlain, ctx.editor, {
 
         richText: false, _plainBlur: null, _plainPaste: null, _plainKeydown: null, _timeoutId: null,
-        
+
         initialize: function () {
             var self = this;
             editorPlain.superclass.initialize.call(this);
             this.el.addClass("kb-editor-hl");
             //this.Sniffer.destroy();
             //// events
-            this.el.blur(this._plainBlur = function () { self.stripHtml(false); });
+            /*this.el.blur(this._plainBlur = function () { self.stripHtml(false); });
             if (this.el.get(0).onpaste === null) { // test if support paste event
                 this.el.bind('paste', self._plainPaste = function () {
                     self.stripHtml();
                 });
-            }
+            }*/
             this.el.keydown(self._plainKeydown = function (ev) {
                 var keyCode = ev.keyCode;
                 if (ev.ctrlKey) {
@@ -36,9 +36,9 @@
                         keyCode === 90) { // ctrl+z
                         // do default
                     } else if (keyCode === 86) { // ctrl+v
-                        if (self._plainPaste === null) {
+                        /*if (self._plainPaste === null) {
                             self.stripHtml();
-                        }
+                        }*/
                     } else {
                         // prevent some browser default comments.
                         // for example: prevent ctrl+b to set bold style to text.
@@ -47,9 +47,9 @@
                 }
                 if (ev.shiftKey) {
                     if (keyCode === 45) { // shift+insert
-                        if (self._plainPaste === null) {
+                        /*if (self._plainPaste === null) {
                             self.stripHtml();
-                        }
+                        }*/
                     }
                 }
             });
@@ -68,12 +68,8 @@
                 menubar: false,
                 force_p_newlines: false,
                 forced_root_block: false,
-		verify_html: false,
                 toolbar_items_size: 'small',
                 toolbar: "save exit | undo redo |",
-		setup:function(ed){
-		     tinymce.ui.FloatPanel.zIndex=0x7FFFFFFF;			
-		},
                 init_instance_callback: function (ed) {
                     self.editorInstance = ed;
                     setTimeout(function () {
@@ -82,14 +78,14 @@
                     }, 500);
                 },
                 exit_onsavecallback: function (ed) {
-		    self.onSave && self.onSave();
-        	    self.stripHtml(false);
+                    self.onSave && self.onSave();
+                    //self.stripHtml(false);
                 },
                 exit_onbeforeexit: function (ed) {
-		    setTimeout(function(){
-                       self.onCancel && self.onCancel();
-                       self._onBeforeExit();
-		    },100);
+                    setTimeout(function () {
+                        self.onCancel && self.onCancel();
+                        self._onBeforeExit();
+                    }, 100);
                 }
             });
         },
@@ -123,11 +119,11 @@
         //},
 
         getHtml: function () {
-            return this.el.text();
+            return this.el.html();//text();
         },
 
         setHtml: function (str) {
-            this.el.text(str);
+            this.el.html(str);//text(str);
         },
 
         remove: function () {

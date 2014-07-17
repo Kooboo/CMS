@@ -73,6 +73,78 @@ input, button, select, textarea {
 	}
 }
 
+/* Customer select
+----------------------------------------------------------*/
+.custom-select {
+	background: #FFF;
+	border: 1px solid #BABABA;
+	height: 26px;
+	padding: 3px 38px 3px 3px;
+	position: relative;
+	.box-sizing(border-box);
+
+	&:hover {
+		.icon.sprite {
+			background-position: -17px -105px;
+		}
+	}
+
+	&.active {
+		.action,
+		ul {
+			display: block;
+		}
+	}
+
+	.icon.sprite {
+		background-position: 0 -105px;
+		height: 18px;
+		position: absolute;
+		right: 3px;
+		top: 3px;
+		width: 17px;
+	}
+
+	.text {
+		cursor: default;
+		display: block;
+		line-height: 18px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.action {
+		display: none;
+		padding: 2px;
+		position: absolute;
+		right: 23px;
+		top: 6px;
+	}
+
+	ul {
+		background: #FFF;
+		border: 1px solid #BABABA;
+		display: none;
+		left: -1px;
+		min-width: 100%;
+		position: absolute;
+		top: 100%;
+
+		a {
+			color: #000;
+			display: block;
+			padding: 0 3px;
+			white-space: nowrap;
+
+			&:hover {
+				background: #39F;
+				color: #FFF;
+			}
+		}
+	}
+}
+
 /* Key value
 ----------------------------------------------------------*/
 .key-value {

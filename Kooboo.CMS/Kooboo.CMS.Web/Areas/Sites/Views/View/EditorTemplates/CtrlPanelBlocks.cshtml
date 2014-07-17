@@ -19,7 +19,7 @@
             <li>
                 <input name="ConvertedType" id="data-type-rpt" flag="data-type" value="RepeatedItem" type="radio">
                 <label class="inline" data-bind="click:dataItem.dataTypeChange" value="RepeatedItem" for="data-type-rpt">
-                   @("Repeated item".Localize())
+                    @("Repeated item".Localize())
                 </label>
             </li>
             <li data-bind="visible:false">
@@ -76,7 +76,7 @@
                 </ul>
                 <span style="display:none" id="save-static-img-temp" data-bind="click:image._saveTempStaticImg"></span>
                 <a href="#" class="action" data-bind="click:image.showStaticImgs,visible:image.boundStaticImg()==''">
-                   @Html.IconImage("plus small")
+                    @Html.IconImage("plus small")
                 </a>
             </div>
         </div>
@@ -86,7 +86,7 @@
             <label>@("File source".Localize()):</label>
         </div>
         <div class="span8">
-           <select class="data-simple" flag="datafield" data-bind="event:{change:dataItem.dataFieldChange},template:{data:$root,name:'tmpl-data-fields'}"></select>
+            <select class="data-simple" flag="datafield" data-bind="event:{change:dataItem.dataFieldChange},template:{data:$root,name:'tmpl-data-fields'}"></select>
         </div>
     </div>
     <div class="item label-editor" data-bind="visible:dataItem.dataType()==dataTypeEnum.label">
@@ -207,45 +207,63 @@
             </div>
         </div>
         <!--ko if: form.chosenSubmission()!=__conf__.defaultOption.name -->
-            <p>Please select and bind the fields you want to submit.</p>
+        <div class="fields">
+            <p class="info">Please select and bind the fields you want to submit:</p>
             <!--ko foreach:{data:form.submissionSettings(),as:'set'} -->
-                    <div class="form-row" type="submission-settings">
-                        <div class="span4">
-                            <label type="param-name" data-bind="html:set.key"></label>
+            <div class="field">
+                <div class="form-row" type="submission-settings">
+                    <div class="span4">
+                        <label type="param-name" data-bind="html:set.key"></label>
+                    </div>
+                    <div class="span8">
+                        <div class="dropdown-button">
+                            <span class="text" id="formFieldSelector">Please select</span>
+                            @Html.IconImage("arrow")
+                            <ul style="display: none;">
+                                <!--ko foreach:{data:$root.form.texts(),as:'text'} -->
+                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="html:text.displayName,click:$root.form.itemClick,event:{mouseover:$root.form.itemMouseOver,mouseout:$root.form.itemMouseOut}">Field 1</a></li>
+                                <!-- /ko -->
+                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="click:$root.form.itemClick" type="set-default">@("Set Default Value".Localize())</a></li>
+                            </ul>
                         </div>
-                        <div class="span7">
-                            <div class="dropdown-button">
-                                <span class="text" id="formFieldSelector">Please select</span>
-                                @Html.IconImage("arrow")
-                                <ul style="display: none;">
-                                    <li data-bind="attr:{param:set.key}"><a href="#" data-bind="click:$root.form.itemClick" type="set-default">@("Set Default Value".Localize())</a></li>
-                                    <!--ko foreach:{data:$root.form.texts(),as:'text'} -->
-                                        <li data-bind="attr:{param:set.key}"><a href="#" data-bind="html:text.displayName,click:$root.form.itemClick,event:{mouseover:$root.form.itemMouseOver,mouseout:$root.form.itemMouseOut}">Field 1</a></li>
-                                    <!-- /ko -->
-                                </ul>
-                            </div>
-                            <input name="const-value" style="display:none"  value="" placeholder="@("Default Value".Localize())"/>
-                        </div>
-                        <div type="input-valid">
-                            <div class="span4">
-                                <input type="checkbox" name="check-required" rules="required" /><label>required</label>
-                            </div>
-                            <div class="span7">
-                                <input type="text" name="data-val-required" placeholder="@("Error Message".Localize())" />
-                            </div>
-                            <div class="span4">
-                                <input type="checkbox" name="check-regex" rules="regex,regex-pattern" /><label>regex</label>
-                            </div>
-                            <div class="span7">
-                                <input type="text" name="data-val-regex-pattern" value="" placeholder="@("regex".Localize())" />
-                                <input type="text" name="data-val-regex" value="" placeholder="@("Error Message".Localize())" />
-                            </div>
-                        </div>
-                        <div class="span1">
-                            <a class="action" href="#" title="Remove">@Html.IconImage("minus small")</a>
+                        <div class="custom-select">
+                            @Html.IconImage("sprite")
+                            <span class="text">Please select</span>
+                            <a class="action" href="#" title="Clear">@Html.IconImage("cross-mini")</a>
+                            <ul>
+                                <!--ko foreach:{data:$root.form.texts(),as:'text'} -->
+                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="html:text.displayName,click:$root.form.itemClick,event:{mouseover:$root.form.itemMouseOver,mouseout:$root.form.itemMouseOut}">Field 1</a></li>
+                                <!-- /ko -->
+                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="click:$root.form.itemClick" type="set-default">@("Set Default Value".Localize())</a></li>
+                            </ul>
                         </div>
                     </div>
+                </div>
+                <div class="form-row">
+                    <input type="text" name="const-value" placeholder="@("Default Value".Localize())" />
+                </div>
+                <div class="validation" type="input-valid">
+                    <div class="form-row">
+                        <div class="span4">
+                            <label><input type="checkbox" name="check-required" rules="required" />Required</label>
+                        </div>
+                        <div class="span8">
+                            <input type="text" name="data-val-required" placeholder="@("Error Message".Localize())" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="span4">
+                            <label><input type="checkbox" name="check-regex" rules="regex,regex-pattern" />Regex</label>
+                        </div>
+                        <div class="span8">
+                            <input type="text" name="data-val-regex-pattern" placeholder="@("regex".Localize())" />
+                            <input class="top-margin" type="text" name="data-val-regex" placeholder="@("Error Message".Localize())" />
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--/ko-->
+        </div>
         <!--/ko-->
     </div>
     <p class="buttons" data-bind="visible:dataItem.dataType()!=dataTypeEnum.nothing">
@@ -305,12 +323,12 @@
                 <!-- ko if:$data.type==dataTypeEnum.staticImg||$data.type==dataTypeEnum.dynamicImg-->
                 <li>
                     <a href="#" title="@("Click to edit".Localize())" data-bind="click:$root.editListItem">
-                         <!-- ko if:$data.type==dataTypeEnum.dynamicImg-->
-                            <img src="/Areas/Sites/Scripts/talEditor/images/thumbnail.png" alt="Image">
-                         <!-- /ko -->
-                          <!-- ko if:$data.type==dataTypeEnum.staticImg-->
-                            <img data-bind="attr:{src:$root.image.getThumbnailSrc(__parser__.analyseImage($data.tag).src)}"alt="Image">
-                         <!-- /ko -->
+                        <!-- ko if:$data.type==dataTypeEnum.dynamicImg-->
+                        <img src="/Areas/Sites/Scripts/talEditor/images/thumbnail.png" alt="Image">
+                        <!-- /ko -->
+                        <!-- ko if:$data.type==dataTypeEnum.staticImg-->
+                        <img data-bind="attr:{src:$root.image.getThumbnailSrc(__parser__.analyseImage($data.tag).src)}" alt="Image">
+                        <!-- /ko -->
                     </a>
                     <a class="action" href="#" title="@("Click to remove this image".Localize())" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">
                         @Html.IconImage("minus small")

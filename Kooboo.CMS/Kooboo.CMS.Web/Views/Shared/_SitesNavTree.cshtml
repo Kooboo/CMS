@@ -8,6 +8,7 @@
         parents.Push(parent);
         parent = parent.Parent.AsActual();
     }
+    var rootSite = parents.Count > 0 ? parents.Peek() : Model;
     var childSites = ServiceFactory.SiteManager.ChildSites(Model);
 
     var hasTree = parents.Count > 0 || childSites.Count() > 0;
@@ -55,6 +56,19 @@
         </ul>
     </li>
 }
+@helper RenderSiteTree(Site site, Site current)
+{
+    <li @(site == current ? "class=active" : "")>
+        @Html.ActionLink(string.IsNullOrEmpty(site.DisplayName) ? site.Name : site.DisplayName, "SiteMap", new { Area = "Sites", controller = "Home", siteName = site.FullName, repositoryName = site.AsActual().Repository })
+
+        <ul>
+            @foreach (var child in ServiceFactory.SiteManager.ChildSites(site))
+            {
+                @RenderSiteTree(child.AsActual(), current)
+            }
+        </ul>
+    </li>
+}
 
 <div class="switcher @(hasTree ? "active" : "")">
     <span class="current">
@@ -62,14 +76,15 @@
         @Html.IconImage("arrow switch")
     </span>
     <ul class="list">
-        @if (parents.Count > 0)
-        {
-            @RenderParent(parents)
-        }
-        else
-        {
-            @RenderCurrent(Model)
-        }
+        @*@if (parents.Count > 0)
+            {
+                @RenderParent(parents)
+            }
+            else
+            {
+                @RenderCurrent(Model)
+            }*@
+        @RenderSiteTree(rootSite, Model)
     </ul>
 
 </div>

@@ -117,6 +117,10 @@ namespace Kooboo.CMS.Sites.Models
                 dataSources = value;
             }
         }
+
+        [DataMember(Order = 31)]
+        public FormSetting[] FormSettings { get; set; }
+
         public static string ParameterTemplateFileName = "ParameterTemplate.cshtml";
         public string ParameterTemplate
         {

@@ -36,6 +36,11 @@ else
             @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
             @Html.Hidden("old_Key", Model.Name)
             @Html.Partial("_TALBody", Model)
+            <div id="submissonFormParams">
+                @Html.Hidden("FormType", "Normal")
+                @Html.Hidden("SubmitTo", "")
+                @Html.Hidden("RedirectTo", "")
+            </div>
         }
     </div>
 }

@@ -23,14 +23,23 @@
     
     var route = ViewContext.RequestContext.AllRouteValues().Merge("search", null);
     var mediaLibraryUrl = Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType", "grid").Merge("SingleChoice", "true"));
-    
+
+    // Submission Form
+    var submissions = ServiceFactory.GetService<SubmissionSettingManager>().All(Site.Current, "")
+    .Select(it => new
+    {
+        Name = it.Name,
+        Settings = ServiceFactory.GetService<SubmissionSettingManager>().Get(Site.Current,it.Name).Settings
+    });
+    var submissionsJson = Newtonsoft.Json.JsonConvert.SerializeObject(submissions);
 }
 <script>
     window.keepLoading = true;
     var mediaLibraryUrl = '@Html.Raw(mediaLibraryUrl)';
     var meta = {
             dataSourceMeta : @Html.Raw(dataSourceJson),
-            pages: @Html.Raw(pagesJosn)
+            pages: @Html.Raw(pagesJosn),
+            submissions:@Html.Raw(submissionsJson)
         };
     var __isLayout__ = false;
     var __datasrc__ = [];
@@ -47,6 +56,13 @@
             name:page.FullName,
             external: false,
             params:params
+        });
+    });
+    var __submissions__=[];
+    _.each(meta.submissions,function(submit){
+        __submissions__.push({
+            name:submit.Name,
+            settings:_.map(submit.Settings,function(v,k){return {key:k,value:v}})
         });
     });
    

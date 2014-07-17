@@ -165,12 +165,12 @@ $(function () {
     };
     $.fn.dropdownButton = function () {
         var dom = $(this);
-        var dropdown = dom.find('.dropdown-button');
         $(document).click(function () {
+            var dropdown = dom.find('.dropdown-button');
             dropdown.removeClass('active');
             dropdown.children('ul').slideUp('fast');
         });
-        return dropdown.bind('click', function (e) {
+        return dom.find('.dropdown-button').live('click', function (e) {
             e.stopPropagation();
             var o = $(this);
             var menu = o.children('ul');

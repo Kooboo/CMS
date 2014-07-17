@@ -178,6 +178,7 @@ var PanelModel = function () {
                     self.image.init();
                     break;
                 case dataTypeEnum.form:
+                    //self.form.init();
                     break;
                 case dataTypeEnum.partial:
                     break;
@@ -438,6 +439,58 @@ var PanelModel = function () {
     };
 
     self.form = {
+        prepareTexts:function(){
+            var form = self.clickedTag();
+            var texts=[];
+            form.find("input[type=text],textarea").each(function(i,o){
+                var text = $(this);
+                var name = text.attr('name');
+                name = name?name:(i+1);
+                texts.push({
+                    'displayName':text[0].tagName.toLowerCase()+"["+name+"]",
+                    tag:text
+                });
+            });
+            self.form.texts(texts);
+        },
+        itemMouseOver:function(data,event){
+             data.tag.highlight();
+        },
+        itemMouseOut:function(data,event){
+             __ctx__.highlighter.hide();
+        },
+        itemClick:function(data,event){
+            var target = $(event.target);
+            var formRow=target.closest("div.form-row");
+            var defaultText=formRow.find("input[name='const-value']");
+            var validDiv=formRow.find("div[type=input-valid]");
+            if(target.attr("type")=="set-default"){
+                defaultText.show();
+                var param=target.parent().attr("param");
+                var form = self.clickedTag();
+                form.find("[name="+param+"]").attr("name","");
+                validDiv.hide();
+                validDiv.find("check").prop("checked",false);
+                validDiv.find(":text").each(function(){
+                    var o = $(this);
+                    o.val("");
+                    /*var attrs = o[0].attributes.slice(0);
+                    console.log(attrs);
+                    for (var i = 0; i < attrs.length; i++) {
+                        var name = attrs[i].name;
+                        if(name.startsWith("data-val")){
+                            o.removeAttr(name);
+                        }
+                    }*/
+                });
+            }else {
+                data.tag.attr("name", target.parent().attr("param")).val("");
+                defaultText.val("").hide();
+                validDiv.show();
+            }
+            self.form.prepareTexts();
+        },
+        texts:ko.observableArray(),
         formType:ko.observable("Normal"),
         submissions:_.union(
             [
@@ -448,13 +501,8 @@ var PanelModel = function () {
             ],
             __submissions__
         ),
-        chosenSubmission:ko.observable(),
-        submissionSettings:ko.observableArray([
-            {
-                key: __conf__.defaultOption.name,
-                value:""
-            }
-        ]),
+        chosenSubmission:ko.observable(__conf__.defaultOption.name),
+        submissionSettings:ko.observableArray([]),
         submmsionChange:function(data,event){
             var name = $(event.target).val();
             self.form.chosenSubmission(name);
@@ -462,17 +510,9 @@ var PanelModel = function () {
             var temp = _.find(self.form.submissions,function(s){
                 return s.name == name;
             });
-            var settings=[
-                {
-                    key: __conf__.defaultOption.name,
-                    value:""
-                }
-            ];
+            var settings=[];
             if(temp){
-                settings= _.union(
-                    settings,
-                    temp.settings
-                );
+                settings= temp.settings;
             }
             self.form.submissionSettings(settings);
         },
@@ -481,6 +521,48 @@ var PanelModel = function () {
         },
         redirectToChange:function(data,event){
             $("#RedirectTo").val($(event.target).val());
+        },
+        save:function(){
+            var settingContainers=$("div[type=submission-settings]");
+            var paramsContainer=$("#submissonFormParams");
+            var constIndex=0;
+            _.each(settingContainers,function(c){
+                c=$(c);
+                var paramName= c.find("label[type=param-name]").html();
+                var constObj = c.find("input[name=const-value]");
+                if(constObj.is(":visible")){
+                    //default value
+                    var defaultValue=c.find("input[name=const-value]").val();
+                    var settingKeyName="Settings["+constIndex+"].Key";
+                    var settingValueName="Settings["+constIndex+"].Value";
+                    paramsContainer.find("input[param="+paramName+"]").remove();
+                    var key=$('<input param="'+paramName+'"name="'+settingKeyName+'" type="hidden" value="'+paramName+'">');
+                    var value=$('<input param="'+paramName+'"name="'+settingValueName+'" type="hidden" value="'+defaultValue+'">');
+                    paramsContainer.append(key).append(value);
+                    constIndex+=1;
+                }else{
+                    //dynamic value
+                    var form=self.clickedTag();
+                    var text= form.find("[name="+paramName+"]");
+                    if(text.length>0){
+                        var checks= c.find(":checkbox");
+                        _.each(checks,function(chk){
+                            chk=$(chk);
+                            if(chk.prop("checked")){
+                                text.attr("data-val","true");
+                            }
+                            var rules = String(chk.attr("rules")).split(',');
+                            _.each(rules,function(r){
+                               if(r){
+                                   var key="data-val-"+r;
+                                   text.attr(key, c.find("input[name="+key+"]").val());
+                               }
+                            });
+                        });
+                    }
+                }
+            });
+
         }
     };
 
@@ -524,6 +606,11 @@ var PanelModel = function () {
         self.linkTo.init();
         //render list
         self.resetBoundTags();
+        //form texts
+        if(self.isFormTag()){
+            self.form.prepareTexts();
+            $("label[for=data-type-form]").click();
+        }
     };
 
     self.clearProcess = function (data, event) {
@@ -635,6 +722,7 @@ var PanelModel = function () {
                 __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.form:
+                self.form.save();
                 break;
             case dataTypeEnum.partial:
                 break;

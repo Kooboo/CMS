@@ -22,7 +22,7 @@ var calloutEnum = {
     Position: 'P',
     DynamicImg:'I',
     StaticImg:"I",
-    Form:"Form"
+    Form:"F"
 };
 
 //conf
@@ -452,14 +452,20 @@ var TalParser = function () {
     };
     self.analyseDataType = function ($tag) {
         $tag = $tag || self.tag();
+        var tagName=$tag[0].tagName.toLowerCase();
         var type = dataTypeEnum.nothing;
+        if(tagName=='form'){
+            if($tag.attr("form-type")) {
+                type = dataTypeEnum.form;
+            }
+        }
         var attr = $tag.attr(__conf__.tal.content);
         if (attr) {
             if (self.isLabel($tag)) {//re
                 type = dataTypeEnum.label;
             } else if (self.isPosition($tag)) {
                 type = dataTypeEnum.position;
-            } else if($tag[0].tagName.toLowerCase()=='img'){
+            } else if(tagName=='img'){
                 type=dataTypeEnum.dynamicImg;
             } else{
                 type = dataTypeEnum.data;

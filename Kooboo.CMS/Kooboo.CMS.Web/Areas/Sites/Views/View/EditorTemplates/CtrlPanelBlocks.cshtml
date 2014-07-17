@@ -23,6 +23,12 @@
                 </label>
             </li>
             <li data-bind="visible:false">
+                <input name="ConvertedType" id="data-type-form" flag="data-type" value="Form" type="radio">
+                <label class="inline" data-bind="click:dataItem.dataTypeChange" value="Form" for="data-type-form">
+                    @("Submission form".Localize())
+                </label>
+            </li>
+            <li data-bind="visible:false">
                 <input name="ConvertedType" checked id="data-type-nothing" flag="data-type" value="Nothing"
                        type="radio">
                 <label class="inline" data-bind="click:dataItem.dataTypeChange" value="Nothing"
@@ -200,20 +206,47 @@
                 </select>
             </div>
         </div>
-        <p>Please select and bind the fields you want to submit.</p>
-        <div class="form-row">
-            <div class="span4">
-                <label>Field 1</label>
-            </div>
-            <div class="span7">
-                <select data-bind="foreach:{data:form.submissionSettings(),as:'set'},value:'',event:{change:form.settingChange}">
-                    <option data-bind="value:set.key,text:set.key"></option>
-                </select>
-            </div>
-            <div class="span1">
-                <a class="action" href="#" title="Remove"><img src="images/invis.gif" class="icon minus-small" alt="Remove"></a>
-            </div>
-        </div>
+        <!--ko if: form.chosenSubmission()!=__conf__.defaultOption.name -->
+            <p>Please select and bind the fields you want to submit.</p>
+            <!--ko foreach:{data:form.submissionSettings(),as:'set'} -->
+                    <div class="form-row" type="submission-settings">
+                        <div class="span4">
+                            <label type="param-name" data-bind="html:set.key"></label>
+                        </div>
+                        <div class="span7">
+                            <div class="dropdown-button">
+                                <span class="text" id="formFieldSelector">Please select</span>
+                                @Html.IconImage("arrow")
+                                <ul style="display: none;">
+                                    <li data-bind="attr:{param:set.key}"><a href="#" data-bind="click:$root.form.itemClick" type="set-default">@("Set Default Value".Localize())</a></li>
+                                    <!--ko foreach:{data:$root.form.texts(),as:'text'} -->
+                                        <li data-bind="attr:{param:set.key}"><a href="#" data-bind="html:text.displayName,click:$root.form.itemClick,event:{mouseover:$root.form.itemMouseOver,mouseout:$root.form.itemMouseOut}">Field 1</a></li>
+                                    <!-- /ko -->
+                                </ul>
+                            </div>
+                            <input name="const-value" style="display:none"  value="" placeholder="@("Default Value".Localize())"/>
+                        </div>
+                        <div type="input-valid">
+                            <div class="span4">
+                                <input type="checkbox" name="check-required" rules="required" /><label>required</label>
+                            </div>
+                            <div class="span7">
+                                <input type="text" name="data-val-required" placeholder="@("Error Message".Localize())" />
+                            </div>
+                            <div class="span4">
+                                <input type="checkbox" name="check-regex" rules="regex,regex-pattern" /><label>regex</label>
+                            </div>
+                            <div class="span7">
+                                <input type="text" name="data-val-regex-pattern" value="" placeholder="@("regex".Localize())" />
+                                <input type="text" name="data-val-regex" value="" placeholder="@("Error Message".Localize())" />
+                            </div>
+                        </div>
+                        <div class="span1">
+                            <a class="action" href="#" title="Remove">@Html.IconImage("minus small")</a>
+                        </div>
+                    </div>
+            <!--/ko-->
+        <!--/ko-->
     </div>
     <p class="buttons" data-bind="visible:dataItem.dataType()!=dataTypeEnum.nothing">
         <a class="button" href="#" data-bind="click:saveBindings">@("Save".Localize())</a>

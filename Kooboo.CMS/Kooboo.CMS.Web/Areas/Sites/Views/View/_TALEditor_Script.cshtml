@@ -118,6 +118,15 @@
         $('div.block').on('click','.title', function () {
             $(this).parent('.block').toggleClass('active');
         });
+        //}).on('click','#formFieldSelector',function(){
+        //    $(this).parent().toggleClass('active');
+        //    var ul = $(this).parent().find("ul");
+        //    if(ul.is(':visible')){
+        //        ul.hide('fast');
+        //    }else{
+        //        ul.show('fast');
+        //    }
+        //});
         $("input[name=ConvertedType]").on('click', function () {
             $('label[for='+$(this).attr('id')+']').click();
         });

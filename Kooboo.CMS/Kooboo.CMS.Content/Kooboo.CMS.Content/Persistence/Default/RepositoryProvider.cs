@@ -240,7 +240,8 @@ namespace Kooboo.CMS.Content.Persistence.Default
             {
                 BackupContentAsXML(sourceRepository);
                 IOUtility.CopyDirectory(sourcePath.PhysicalPath, destPath.PhysicalPath);
-                CopyData(sourceRepository, destRepository);
+                Initialize(destRepository);
+                //CopyData(sourceRepository, destRepository);
             }
             finally
             {
@@ -248,26 +249,29 @@ namespace Kooboo.CMS.Content.Persistence.Default
             }
             return destRepository;
         }
-        private void CopyData(Repository sourceRepository, Repository destRepository)
-        {
-            ITextContentProvider textContentProvider = Providers.DefaultProviderFactory.GetProvider<ITextContentProvider>();
-            ISchemaProvider schemaProvider = Providers.DefaultProviderFactory.GetProvider<ISchemaProvider>();
-            foreach (var schema in schemaProvider.All(sourceRepository))
-            {
-                var items = textContentProvider.ExportSchemaData(schema).ToArray();
-                foreach (var item in items)
-                {
-                    item["OriginalUUID"] = item["UUID"];
-                    item["OriginalRepository"] = sourceRepository.Name;
-                    item["OriginalFolder"] = item["FolderName"];
-                    item["IsLocalized"] = false;
-                }
-                //switch to dest repository to import the data;
-                schema.Repository = destRepository;
-                textContentProvider.ImportSchemaData(schema, items);
-            }
-            textContentProvider.ImportCategoryData(destRepository, textContentProvider.ExportCategoryData(sourceRepository));
-        }
+        //private void CopyData(Repository sourceRepository, Repository destRepository)
+        //{
+        //    //Initialize the database schemas
+        //    Initialize(destRepository);
+
+        //    ITextContentProvider textContentProvider = Providers.DefaultProviderFactory.GetProvider<ITextContentProvider>();
+        //    ISchemaProvider schemaProvider = Providers.DefaultProviderFactory.GetProvider<ISchemaProvider>();
+        //    foreach (var schema in schemaProvider.All(sourceRepository))
+        //    {
+        //        var items = textContentProvider.ExportSchemaData(schema).ToArray();
+        //        foreach (var item in items)
+        //        {
+        //            item["OriginalUUID"] = item["UUID"];
+        //            item["OriginalRepository"] = sourceRepository.Name;
+        //            item["OriginalFolder"] = item["FolderName"];
+        //            item["IsLocalized"] = false;
+        //        }
+        //        //switch to dest repository to import the data;
+        //        schema.Repository = destRepository;
+        //        textContentProvider.ImportSchemaData(schema, items);
+        //    }
+        //    textContentProvider.ImportCategoryData(destRepository, textContentProvider.ExportCategoryData(sourceRepository));
+        //}
         #endregion
 
         #region TestDbConnection

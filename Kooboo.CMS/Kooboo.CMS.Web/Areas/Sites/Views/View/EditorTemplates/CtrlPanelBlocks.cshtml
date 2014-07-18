@@ -174,7 +174,7 @@
                 <label>Submit to:</label>
             </div>
             <div class="span8">
-                <select data-bind="foreach:{data:form.submissions,as:'submit'},value:form.chosenSubmission(),event:{change:form.submmsionChange}">
+                <select id="select-plugin-type" data-bind="foreach:{data:form.submissions,as:'submit'},value:form.chosenSubmission(),event:{change:form.submmsionChange}">
                     <option data-bind="value:submit.name,text:submit.name"></option>
                 </select>
             </div>
@@ -201,7 +201,7 @@
                 <label>Redirect to:</label>
             </div>
             <div class="span8">
-                <select data-bind="foreach:{data:linkTo.pages,as:'page'},value:linkTo.chosenPage,event:{change:form.redirectToChange}">
+                <select id="select-redirect-to" data-bind="foreach:{data:linkTo.pages,as:'page'},value:linkTo.chosenPage,event:{change:form.redirectToChange}">
                     <option data-bind="value:page.name,text:page.name"></option>
                 </select>
             </div>
@@ -210,26 +210,16 @@
         <div class="fields">
             <p class="info">Please select and bind the fields you want to submit:</p>
             <!--ko foreach:{data:form.submissionSettings(),as:'set'} -->
-            <div class="field">
+            <div class="field" data-bind="attr:{'param-name':set.key}">
                 <div class="form-row" type="submission-settings">
                     <div class="span4">
                         <label type="param-name" data-bind="html:set.key"></label>
                     </div>
                     <div class="span8">
-                        <div class="dropdown-button">
-                            <span class="text" id="formFieldSelector">Please select</span>
-                            @Html.IconImage("arrow")
-                            <ul style="display: none;">
-                                <!--ko foreach:{data:$root.form.texts(),as:'text'} -->
-                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="html:text.displayName,click:$root.form.itemClick,event:{mouseover:$root.form.itemMouseOver,mouseout:$root.form.itemMouseOut}">Field 1</a></li>
-                                <!-- /ko -->
-                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="click:$root.form.itemClick" type="set-default">@("Set Default Value".Localize())</a></li>
-                            </ul>
-                        </div>
                         <div class="custom-select">
                             @Html.IconImage("sprite")
-                            <span class="text">Please select</span>
-                            <a class="action" href="#" title="Clear">@Html.IconImage("cross-mini")</a>
+                            <span class="text" data-bind="html:__conf__.defaultOption.name">Please select</span>
+                            <a class="action" href="#" id="clear" style="display:none;" title="Clear" data-bind="click:$root.form.clearSelectedValue">@Html.IconImage("cross-mini")</a>
                             <ul>
                                 <!--ko foreach:{data:$root.form.texts(),as:'text'} -->
                                 <li data-bind="attr:{param:set.key}"><a href="#" data-bind="html:text.displayName,click:$root.form.itemClick,event:{mouseover:$root.form.itemMouseOver,mouseout:$root.form.itemMouseOut}">Field 1</a></li>
@@ -239,10 +229,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row" type="const-value" style="display:none;">
                     <input type="text" name="const-value" placeholder="@("Default Value".Localize())" />
                 </div>
-                <div class="validation" type="input-valid">
+                <div class="validation" type="input-valid" style="display:none;">
                     <div class="form-row">
                         <div class="span4">
                             <label><input type="checkbox" name="check-required" rules="required" />Required</label>

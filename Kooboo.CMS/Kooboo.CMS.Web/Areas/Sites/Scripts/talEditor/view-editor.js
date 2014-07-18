@@ -125,8 +125,10 @@
                             var tag = __ctx__.codeDomTags[id];
                             var cls = 'hover';
                             if (tag && tag.is($this)) {
-                                __parent__.$('div.code-viewer span.' + cls).removeClass(cls);
-                                __parent__.$('span[name=' + id + ']').addClass(cls);
+                                try {
+                                    __parent__.$('div.code-viewer span.' + cls).removeClass(cls);
+                                    __parent__.$('span[name=' + id + ']').addClass(cls);
+                                }catch(e){}
                                 if (tag.is(__ctx__.clickedTag)) {
                                     var clickedNode = __parent__.$("#div-node-path a:last");
                                     clickedNode.addClass(cls);

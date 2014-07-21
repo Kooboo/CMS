@@ -470,14 +470,11 @@ var PanelModel = function () {
         setFormBaseParam:function(){
             var formName=self.clickedTag().attr("name");
             var paramsWrapper=$("#submisson-form-params").find("div[form="+formName+"]");
-            plugTypeName="FormSettings[{0}].PluginType".replace("{0}",formName);
-            var plugType=paramsWrapper.find("input[name='"+plugTypeName+"']").val();
-            var selSubmitTo=$("#select-plugin-type");
-            selSubmitTo.val(plugType);
-            self.form.chosenSubmission(plugType);
-            selSubmitTo.change();
-            //selSubmitTo.val(plugType);
-            var redirectToName=plugTypeName.replace("PluginType","RedirectTo");
+            pluginTypeName="FormSettings[{0}].PluginType".replace("{0}",formName);
+            var pluginType=paramsWrapper.find("input[name='"+pluginTypeName+"']").val();
+            $("#select-plugin-type").val(pluginType).change();
+            self.form.chosenSubmission(pluginType);
+            var redirectToName=pluginTypeName.replace("PluginType","RedirectTo");
             var redirectTo=paramsWrapper.find("input[name='"+redirectToName+"']");
             $("#select-redirect-to").val(redirectTo.val());
         },
@@ -531,7 +528,7 @@ var PanelModel = function () {
             tags.each(function(){
                 var o = $(this);
                 if(self.form.isFormField(o)) {
-                    o.attr("name", "");
+                    o.removeAttr("name");
                     var attrs = _.clone(o[0].attributes);
                     console.log(attrs);
                     for (var i = 0; i < attrs.length; i++) {
@@ -560,7 +557,6 @@ var PanelModel = function () {
                 paramsWrapper.find("input[param='"+param+"']").remove();
             }else{
                 var texts=self.clickedTag().find("[name='"+param+"']");
-                //texts.attr("name","");
                 self.form.clearValidAttr(texts);
                 fieldContainer.find("input.valid").val("");
                 fieldContainer.find(":checkbox").prop("checked",false);
@@ -577,9 +573,9 @@ var PanelModel = function () {
             var paramsContainer=$("#submisson-form-params");
             var formTag=self.clickedTag();
             var formName=formTag.attr("name");
-            formTag.attr("name","");
+            formTag.removeAttr("name");
             paramsContainer.find("div[form="+formName+"]").remove();
-            var fields=formTag.find("input[name]");
+            var fields=formTag.find("[name]");
             self.form.clearValidAttr(fields);
         },
         prepareTexts:function(){
@@ -617,16 +613,15 @@ var PanelModel = function () {
             if(target.attr("type")=="set-default"){
                 selectorSpan.html(target.html());
                 defaultText.show();
-                form.find("[name='"+param+"']").attr("name","");
-                validDiv.hide();
-                validDiv.find("check").prop("checked",false);
-                self.form.clearValidAttr(validDiv.find(":text"));
+                validDiv.hide().find(":text").val("");
+                validDiv.find(":checkbox").prop("checked",false);
+                self.form.clearValidAttr(form.find("[name='"+param+"']"));
                 fieldContainer.find("div[type=const-value]").show();
                 fieldContainer.find("div[type=input-valid]").hide();
             }else {
                 var displayName=data.tag[0].tagName.toLowerCase()+"["+param+"]";
                 selectorSpan.html(displayName);
-                form.find("[name='"+param+"']").attr("name","");
+                form.find("[name='"+param+"']").removeAttr("name");
                 data.tag.attr("name", param).val("");
                 defaultText.val("").hide();
                 validDiv.show();
@@ -675,13 +670,17 @@ var PanelModel = function () {
             if(block.length>0){
                 block.remove();
             }
+            var redirectTo="";
+            if(self.form.chosenRedirectTo()!=__conf__.defaultOption.name){
+                redirectTo=self.form.chosenRedirectTo();
+            }
             var arr=[];
             arr.push("<div form='"+formName+"' plugin='"+self.form.chosenSubmission()+"'>");
             arr.push('<input type="hidden" value="'+formName+'" name="FormSettings.Index">');
             arr.push('<input type="hidden" value="'+formName+'" name="'+obj+'.Name">');
             arr.push('<input type="hidden" value="Normal" name="'+obj+'.SubmitType">');
             arr.push('<input type="hidden" value="'+self.form.chosenSubmission()+'" name="'+obj+'.PluginType">');
-            arr.push('<input type="hidden" value="'+self.form.chosenRedirectTo()+'" name="'+obj+'.RedirectTo">');
+            arr.push('<input type="hidden" value="'+redirectTo+'" name="'+obj+'.RedirectTo">');
             arr.push("</div>");
             Div.append(arr.join(''));
         },
@@ -704,7 +703,7 @@ var PanelModel = function () {
                     paramObjs.next().remove();
                     paramObjs.remove();
                     var key = '<input param="' + paramName + '"name="' + obj + '.Key" type="hidden" value="' + paramName + '">';
-                    var value = '<input param="' + paramName + '"name="' + obj + '.Value" type="hidden" value="' + defaultValue + '">';
+                    var value = '<input name="' + obj + '.Value" type="hidden" value="' + defaultValue + '">';
                     block.append(key).append(value);
                     constIndex += 1;
                 }else{
@@ -782,7 +781,6 @@ var PanelModel = function () {
         //form texts
         if(self.isFormTag()){
             self.form.init();
-            $("label[for=data-type-form]").click();
         }
     };
 
@@ -902,7 +900,14 @@ var PanelModel = function () {
     //list events
     self.removeDataBinding = function (data, event) {
         if (confirm(__msgs__.remove_data_binding_confrim)) {
-            __binder__.unbindAll(data.tag);
+            if(data.tag[0].tagName.toLowerCase()=='form'){
+                $("#select-plugin-type").val("");
+                $("#select-redirect-to").val("");
+                self.form.chosenSubmission("");
+                self.form.clearAllValues();
+            }else{
+                __binder__.unbindAll(data.tag);
+            }
             if (data.tag.is(__ctx__.clickedTag)) {
                 __ctx__.clickedTag[0].click();
             }

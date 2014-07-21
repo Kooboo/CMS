@@ -174,7 +174,7 @@
                 <label>Submit to:</label>
             </div>
             <div class="span8">
-                <select id="select-plugin-type" data-bind="value:form.chosenSubmission(),event:{change:form.submmsionChange}">
+                <select id="select-plugin-type" data-bind="event:{change:form.submmsionChange}">
                     <option value="" data-bind="text: __conf__.defaultOption.name"></option>
                     <!--ko foreach:{data:form.submissions,as:'submit'}-->
                         <option data-bind="value:submit.name,text:submit.name"></option>
@@ -326,6 +326,20 @@
                     <a class="action" href="#" title="@("Click to remove this image".Localize())" data-bind="attr:{'type':$data.type},click:$root.removeDataBinding">
                         @Html.IconImage("minus small")
                     </a>
+                </li>
+                <!-- /ko -->
+            </ul>
+        </div>
+    </div>
+    <div class="block list active" data-bind="visible:_.find(boundTags(),function(t){return t.type==dataTypeEnum.form;})">
+        <h6 class="title">@Html.IconImage("arrow")@("Form".Localize())</h6>
+
+        <div class="container">
+            <ul data-bind="foreach:boundTags()">
+                <!-- ko if:$data.type==dataTypeEnum.form-->
+                <li>
+                    @listButtons()
+                    <span data-bind="text:__parser__.analyseForm($data.tag)"></span>
                 </li>
                 <!-- /ko -->
             </ul>

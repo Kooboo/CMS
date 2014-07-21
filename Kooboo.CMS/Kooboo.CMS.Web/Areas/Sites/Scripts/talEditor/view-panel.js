@@ -439,57 +439,6 @@ var PanelModel = function () {
     };
 
     self.form = {
-        prepareTexts:function(){
-            var form = self.clickedTag();
-            var texts=[];
-            form.find("input[type=text],textarea").each(function(i,o){
-                var text = $(this);
-                var name = text.attr('name');
-                name = name?name:(i+1);
-                texts.push({
-                    'displayName':text[0].tagName.toLowerCase()+"["+name+"]",
-                    tag:text
-                });
-            });
-            self.form.texts(texts);
-        },
-        itemMouseOver:function(data,event){
-             data.tag.highlight();
-        },
-        itemMouseOut:function(data,event){
-             __ctx__.highlighter.hide();
-        },
-        itemClick:function(data,event){
-            var target = $(event.target);
-            var formRow=target.closest("div.form-row");
-            var defaultText=formRow.find("input[name='const-value']");
-            var validDiv=formRow.find("div[type=input-valid]");
-            if(target.attr("type")=="set-default"){
-                defaultText.show();
-                var param=target.parent().attr("param");
-                var form = self.clickedTag();
-                form.find("[name="+param+"]").attr("name","");
-                validDiv.hide();
-                validDiv.find("check").prop("checked",false);
-                validDiv.find(":text").each(function(){
-                    var o = $(this);
-                    o.val("");
-                    /*var attrs = o[0].attributes.slice(0);
-                    console.log(attrs);
-                    for (var i = 0; i < attrs.length; i++) {
-                        var name = attrs[i].name;
-                        if(name.startsWith("data-val")){
-                            o.removeAttr(name);
-                        }
-                    }*/
-                });
-            }else {
-                data.tag.attr("name", target.parent().attr("param")).val("");
-                defaultText.val("").hide();
-                validDiv.show();
-            }
-            self.form.prepareTexts();
-        },
         texts:ko.observableArray(),
         formType:ko.observable("Normal"),
         submissions:_.union(
@@ -503,10 +452,188 @@ var PanelModel = function () {
         ),
         chosenSubmission:ko.observable(__conf__.defaultOption.name),
         submissionSettings:ko.observableArray([]),
+        chosenRedirectTo:ko.observable(""),
+        displayFields:ko.computed(function(){
+           //return self.form.chosenSubmission()!= __conf__.defaultOption.name;
+        }),
+        init:function(){
+            self.form.prepareTexts();
+            self.form.chosenRedirectTo("");
+            self.form.chosenSubmission("");
+            self.form.setFormBaseParam();
+            self.form.setConstField();
+            self.form.setDynamicField();
+        },
+        setFormBaseParam:function(){
+            var formName=self.clickedTag().attr("name");
+            var paramsWrapper=$("#submisson-form-params").find("div[form="+formName+"]");
+            plugTypeName="FormSettings[{0}].PluginType".replace("{0}",formName);
+            var plugType=paramsWrapper.find("input[name='"+plugTypeName+"']");
+            $("#select-plugin-type").val(plugType.val());
+            self.form.chosenSubmission(formName);
+            var redirectToName=plugTypeName.replace("PluginType","RedirectTo");
+            var redirectTo=paramsWrapper.find("input[name='"+redirectToName+"']");
+            $("#select-redirect-to").val(redirectTo.val());
+        },
+        setConstField:function(){
+            var formName=self.clickedTag().attr("name");
+            var paramsWrapper=$("#submisson-form-params").find("div[form="+formName+"]");
+            paramsWrapper.find("input[param]").each(function(i,o){
+                var text = $(o);
+                var paramName=text.attr("param");
+                var  divField=$("div.fields").find("div[param-name='"+paramName+"']");
+                divField.find("input[name=const-value]").val(text.val());
+                divField.find("#clear").show();
+                divField.find("div[type=const-value]").show();
+                var selectorSpan=divField.find("span.text");
+                selectorSpan.html(divField.find("a[type=set-default]").html());
+            });
+
+        },
+        setDynamicField:function(){
+            self.clickedTag().find("input[name]").each(function(i,o){
+                var text=$(o);
+                if(self.form.isFormField(text)){
+                    var paramName=text.attr("name");
+                    var  divField=$("div.fields").find("div[param-name='"+paramName+"']");
+                    divField.find("#clear").show();
+                    var selectorSpan=divField.find("span.text");
+                    var displayName=text[0].tagName.toLowerCase()+"["+paramName+"]";
+                    selectorSpan.html(displayName);
+                    divField.find("div[type=input-valid]").show();
+                    self.from.setDataValid(divField,text);
+                }
+            });
+        },
+        setDataValid:function(divField,text){
+            var requiredMsg=text.attr("data-val-required");
+            var dataVal=text.attr("data-val");
+            if(required){
+                divField.find("input[name=data-val-required]").val(required);
+                divField.find("input[name=check-required]").prop("check",true);
+            }
+            var regexExpr=text.attr("data-val-regex-pattern");
+            if(regexExpr){
+                divField.find("input[name=data-val-regex-pattern]").val(regexExpr);
+            }
+            var regexMsg=text.attr("data-val-regex");
+            if(regexMsg){
+                divField.find("input[name=data-val-regex]").val(regexMsg);
+                divField.find("input[name=check-regex]").prop("check",true);
+            }
+        },
+        clearValidAttr:function(tags){
+            tags.each(function(){
+                var o = $(this);
+                var attrs = _.clone(o[0].attributes);
+                 console.log(attrs);
+                 for (var i = 0; i < attrs.length; i++) {
+                     var name = attrs[i].name;
+                     if(name.startsWith("data-val")){
+                        o.removeAttr(name);
+                     }
+                 }
+            });
+        },
+        clearSelectedValue:function(data,event){
+            event.stopPropagation();
+            var target = $(event.target);
+            var paramNameLabel=target.closest("div.form-row").find("label[type=param-name]");
+            var param=paramNameLabel.html();
+            var fieldContainer=target.closest("div.field");
+            var constDiv=fieldContainer.find("div[type=const-value]");
+            var validDiv=fieldContainer.find("div[type=input-valid]");
+            var selectorSpan=fieldContainer.find("span.text");
+            if(constDiv.is(":visible")){
+                fieldContainer.find("input[name='const-value']").val("");
+                constDiv.hide();
+                var formName=self.clickedTag().attr("name");
+                var paramsWrapper=$("#submisson-form-params").find("div[form="+formName+"]");
+                paramsWrapper.find("input[param='"+param+"']").remove();
+            }else{
+                var texts=self.clickedTag().find("[name='"+param+"']");
+                texts.attr("name","");
+                self.form.clearValidAttr(texts);
+                fieldContainer.find("input.valid").val("");
+                fieldContainer.find(":checkbox").prop("checked",false);
+                validDiv.hide();
+            }
+            selectorSpan.html(__conf__.defaultOption.name);
+            target.parent().hide();
+            _.delay(function(){
+                paramNameLabel.click();
+            },200);
+            self.form.prepareTexts();
+        },
+        isFormField:function(textObj){
+            var name= textObj.attr("name");
+            if(name){
+                var item= _.find(self.form.submissionSettings(),function(s){
+                    return s.key==name;
+                });
+                if(item){
+                    return true;
+                }
+            }
+            return false;
+        },
+        prepareTexts:function(){
+            var form = self.clickedTag();
+            var texts=[];
+            form.find("input[type=text],textarea").each(function(i,o){
+                var text = $(this);
+                if(!self.form.isFormField(text)) {
+                    var name = text.attr('name');
+                    name = name ? name : (i + 1);
+                    texts.push({
+                        'displayName': text[0].tagName.toLowerCase() + "[" + name + "]",
+                        tag: text
+                    });
+                }
+            });
+            self.form.texts(texts);
+        },
+        itemMouseOver:function(data,event){
+             data.tag.highlight();
+        },
+        itemMouseOut:function(data,event){
+             __ctx__.highlighter.hide();
+        },
+        itemClick:function(data,event){
+            var target = $(event.target);
+            var fieldContainer=target.closest("div.field");
+            var defaultText=fieldContainer.find("input[name='const-value']");
+            var validDiv=fieldContainer.find("div[type=input-valid]");
+            var param=target.parent().attr("param");
+            var form = self.clickedTag();
+            var customSelect=target.closest(".custom-select");
+            var selectorSpan=customSelect.find("span.text");
+            customSelect.find("#clear").show();
+            if(target.attr("type")=="set-default"){
+                selectorSpan.html(target.html());
+                defaultText.show();
+                form.find("[name='"+param+"']").attr("name","");
+                validDiv.hide();
+                validDiv.find("check").prop("checked",false);
+                self.form.clearValidAttr(validDiv.find(":text"));
+                fieldContainer.find("div[type=const-value]").show();
+                fieldContainer.find("div[type=input-valid]").hide();
+            }else {
+                var displayName=data.tag[0].tagName.toLowerCase()+"["+param+"]";
+                selectorSpan.html(displayName);
+                form.find("[name='"+param+"']").attr("name","");
+                data.tag.attr("name", param).val("");
+                defaultText.val("").hide();
+                validDiv.show();
+                fieldContainer.find("div[type=input-valid]").show();
+                fieldContainer.find("div[type=const-value]").hide();
+            }
+            self.form.prepareTexts();
+        },
         submmsionChange:function(data,event){
             var name = $(event.target).val();
             self.form.chosenSubmission(name);
-            $("#SubmitTo").val(name);
+            //$("#SubmitTo").val(name);
             var temp = _.find(self.form.submissions,function(s){
                 return s.name == name;
             });
@@ -520,30 +647,57 @@ var PanelModel = function () {
             console.log(data);
         },
         redirectToChange:function(data,event){
-            $("#RedirectTo").val($(event.target).val());
+            //$("#RedirectTo").val($(event.target).val());
+            self.form.chosenRedirectTo($(event.target).val());
         },
-        save:function(){
+        saveFrom:function(){
+            var Div=$("#submisson-form-params");
+            var formTag=self.clickedTag();
+            var formName;
+            if(formTag.attr("name")){
+                formName=formTag.attr("name");
+            }else{
+                formName=__utils__.getRandomId("").substring(0,8);
+                formTag.attr("name",formName);
+            }
+            var block=Div.find("div[form="+formName+"]");
+            var obj="FormSettings["+formName+"]";
+            if(block.length>0){
+                block.remove();
+            }
+            var arr=[];
+            arr.push("<div form='"+formName+"'>");
+            arr.push('<input type="hidden" value="'+formName+'" name="FormSettings.Index">');
+            arr.push('<input type="hidden" value="'+formName+'" name="'+obj+'.Name">');
+            arr.push('<input type="hidden" value="Normal" name="'+obj+'.SubmitType">');
+            arr.push('<input type="hidden" value="'+self.form.chosenSubmission()+'" name="'+obj+'.PluginType">');
+            arr.push('<input type="hidden" value="'+self.form.chosenRedirectTo()+'" name="'+obj+'.RedirectTo">');
+            arr.push("</div>");
+            Div.append(arr.join(''));
+        },
+        saveSubmissionSettings:function(){
             var settingContainers=$("div[type=submission-settings]");
-            var paramsContainer=$("#submissonFormParams");
+            var paramsContainer=$("#submisson-form-params");
+            var formTag=self.clickedTag();
+            var formName=formTag.attr("name");
+            var block=paramsContainer.find("div[form="+formName+"]");
             var constIndex=0;
             _.each(settingContainers,function(c){
-                c=$(c);
+                c=$(c).closest("div.field");
+                var obj="FormSettings["+formName+"].Settings["+constIndex+"]";
                 var paramName= c.find("label[type=param-name]").html();
                 var constObj = c.find("input[name=const-value]");
                 if(constObj.is(":visible")){
                     //default value
                     var defaultValue=c.find("input[name=const-value]").val();
-                    var settingKeyName="Settings["+constIndex+"].Key";
-                    var settingValueName="Settings["+constIndex+"].Value";
-                    paramsContainer.find("input[param="+paramName+"]").remove();
-                    var key=$('<input param="'+paramName+'"name="'+settingKeyName+'" type="hidden" value="'+paramName+'">');
-                    var value=$('<input param="'+paramName+'"name="'+settingValueName+'" type="hidden" value="'+defaultValue+'">');
-                    paramsContainer.append(key).append(value);
+                    paramsContainer.find("input[param='"+paramName+"']").remove();
+                    var key='<input param="'+paramName+'"name="'+obj+'.Key" type="hidden" value="'+paramName+'">';
+                    var value='<input param="'+paramName+'"name="'+obj+'.Value" type="hidden" value="'+defaultValue+'">';
+                    block.append(key).append(value);
                     constIndex+=1;
                 }else{
                     //dynamic value
-                    var form=self.clickedTag();
-                    var text= form.find("[name="+paramName+"]");
+                    var text= formTag.find("[name='"+paramName+"']");
                     if(text.length>0){
                         var checks= c.find(":checkbox");
                         _.each(checks,function(chk){
@@ -553,16 +707,19 @@ var PanelModel = function () {
                             }
                             var rules = String(chk.attr("rules")).split(',');
                             _.each(rules,function(r){
-                               if(r){
-                                   var key="data-val-"+r;
-                                   text.attr(key, c.find("input[name="+key+"]").val());
-                               }
+                                if(r){
+                                    var key="data-val-"+r;
+                                    text.attr(key, c.find("input[name='"+key+"']").val());
+                                }
                             });
                         });
                     }
                 }
             });
-
+        },
+        save:function(){
+            self.form.saveFrom();
+            self.form.saveSubmissionSettings();
         }
     };
 
@@ -608,7 +765,7 @@ var PanelModel = function () {
         self.resetBoundTags();
         //form texts
         if(self.isFormTag()){
-            self.form.prepareTexts();
+            self.form.init();
             $("label[for=data-type-form]").click();
         }
     };

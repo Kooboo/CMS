@@ -455,7 +455,7 @@ var TalParser = function () {
         var tagName=$tag[0].tagName.toLowerCase();
         var type = dataTypeEnum.nothing;
         if(tagName=='form'){
-            if($tag.attr("form-type")) {
+            if($tag.attr("name")) {
                 type = dataTypeEnum.form;
             }
         }

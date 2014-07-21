@@ -1,0 +1,100 @@
+/* Kooboo mask
+-----------------------------------------------------------*/
+var {
+	display: block;
+}
+
+.kooboo-mask {
+	div {
+		background: rgba(0,0,0,.2);
+		cursor: not-allowed;
+		position: absolute;
+		z-index: 10001;
+	}
+
+	.left {
+		bottom: 0;
+		left: 0;
+		top: 0;
+	}
+
+	.right {
+		bottom: 0;
+		right: 0;
+		top: 0;
+	}
+
+	.top {
+		top: 0;
+	}
+
+	.bottom {
+		bottom: 0;
+	}
+}
+/* Kooboo highlight
+-----------------------------------------------------------*/
+.kooboo-highlight {
+	display: none;
+
+	div {
+		background: #F00;
+		position: absolute;
+		z-index: 10002;
+	}
+
+	.left,
+	.right {
+		width: 2px;
+	}
+
+	.top,
+	.bottom {
+		height: 2px;
+	}
+
+	&.hover div {
+		background: #51A8FF;
+	}
+
+	&.mark {
+		div {
+			background: none;
+		}
+
+		.left,
+		.right {
+			border-left: 1px dashed #EEE;
+			width: 0;
+		}
+
+		.top,
+		.bottom {
+			border-bottom: 1px dashed #EEE;
+			height: 0;
+		}
+	}
+}
+/* Kooboo copy mask
+-----------------------------------------------------------*/
+.kooboo-copy-mask {
+	background: rgba(0,0,0,.05);
+	cursor: not-allowed;
+	position: absolute;
+	z-index: 10001;
+}
+/* Kooboo label
+-----------------------------------------------------------*/
+.kooboo-label {
+	background: #F1F1C8;
+	border: 1px solid #D1D165;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	display: inline-block;
+	font-size: 10px;
+	padding: 0 3px;
+	position: absolute;
+	text-transform: uppercase;
+	z-index: 10003;
+}

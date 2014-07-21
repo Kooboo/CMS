@@ -174,8 +174,11 @@
                 <label>Submit to:</label>
             </div>
             <div class="span8">
-                <select id="select-plugin-type" data-bind="foreach:{data:form.submissions,as:'submit'},value:form.chosenSubmission(),event:{change:form.submmsionChange}">
-                    <option data-bind="value:submit.name,text:submit.name"></option>
+                <select id="select-plugin-type" data-bind="value:form.chosenSubmission(),event:{change:form.submmsionChange}">
+                    <option value="" data-bind="text: __conf__.defaultOption.name"></option>
+                    <!--ko foreach:{data:form.submissions,as:'submit'}-->
+                        <option data-bind="value:submit.name,text:submit.name"></option>
+                    <!--/ko-->
                 </select>
             </div>
         </div>
@@ -206,7 +209,7 @@
                 </select>
             </div>
         </div>
-        <!--ko if: form.chosenSubmission()!=__conf__.defaultOption.name -->
+        <!--ko if: form.chosenSubmission()!="" -->
         <div class="fields">
             <p class="info">Please select and bind the fields you want to submit:</p>
             <!--ko foreach:{data:form.submissionSettings(),as:'set'} -->

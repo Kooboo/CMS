@@ -441,21 +441,24 @@ var PanelModel = function () {
     self.form = {
         texts:ko.observableArray(),
         formType:ko.observable("Normal"),
-        submissions:_.union(
-            [
-                {
-                    name: __conf__.defaultOption.name,
-                    settings: []
-                }
-            ],
-            __submissions__
-        ),
-        chosenSubmission:ko.observable(__conf__.defaultOption.name),
+        submissions:__submissions__,
+        chosenSubmission:ko.observable(""),
         submissionSettings:ko.observableArray([]),
         chosenRedirectTo:ko.observable(""),
-        displayFields:ko.computed(function(){
-           //return self.form.chosenSubmission()!= __conf__.defaultOption.name;
-        }),
+        isFormField:function(textObj){
+            var name= textObj.attr("name");
+            if(name){
+                //切换select,当chosenSubmission==""时判断不出原先的绑定
+                /*var item= _.find(self.form.submissionSettings(),function(s){
+                    return s.key==name;
+                });
+                if(item){
+                    return true;
+                }*/
+                return true;
+            }
+            return false;
+        },
         init:function(){
             self.form.prepareTexts();
             self.form.chosenRedirectTo("");
@@ -468,9 +471,12 @@ var PanelModel = function () {
             var formName=self.clickedTag().attr("name");
             var paramsWrapper=$("#submisson-form-params").find("div[form="+formName+"]");
             plugTypeName="FormSettings[{0}].PluginType".replace("{0}",formName);
-            var plugType=paramsWrapper.find("input[name='"+plugTypeName+"']");
-            $("#select-plugin-type").val(plugType.val());
-            self.form.chosenSubmission(formName);
+            var plugType=paramsWrapper.find("input[name='"+plugTypeName+"']").val();
+            var selSubmitTo=$("#select-plugin-type");
+            selSubmitTo.val(plugType);
+            self.form.chosenSubmission(plugType);
+            selSubmitTo.change();
+            //selSubmitTo.val(plugType);
             var redirectToName=plugTypeName.replace("PluginType","RedirectTo");
             var redirectTo=paramsWrapper.find("input[name='"+redirectToName+"']");
             $("#select-redirect-to").val(redirectTo.val());
@@ -482,13 +488,12 @@ var PanelModel = function () {
                 var text = $(o);
                 var paramName=text.attr("param");
                 var  divField=$("div.fields").find("div[param-name='"+paramName+"']");
-                divField.find("input[name=const-value]").val(text.val());
+                divField.find("input[name=const-value]").val(text.next().val());
                 divField.find("#clear").show();
                 divField.find("div[type=const-value]").show();
                 var selectorSpan=divField.find("span.text");
                 selectorSpan.html(divField.find("a[type=set-default]").html());
             });
-
         },
         setDynamicField:function(){
             self.clickedTag().find("input[name]").each(function(i,o){
@@ -501,16 +506,16 @@ var PanelModel = function () {
                     var displayName=text[0].tagName.toLowerCase()+"["+paramName+"]";
                     selectorSpan.html(displayName);
                     divField.find("div[type=input-valid]").show();
-                    self.from.setDataValid(divField,text);
+                    self.form.setDataValid(divField,text);
                 }
             });
         },
         setDataValid:function(divField,text){
             var requiredMsg=text.attr("data-val-required");
-            var dataVal=text.attr("data-val");
-            if(required){
-                divField.find("input[name=data-val-required]").val(required);
-                divField.find("input[name=check-required]").prop("check",true);
+            //var dataVal=text.attr("data-val");
+            if(requiredMsg){
+                divField.find("input[name=data-val-required]").val(requiredMsg);
+                divField.find("input[name=check-required]").prop("checked",true);
             }
             var regexExpr=text.attr("data-val-regex-pattern");
             if(regexExpr){
@@ -519,20 +524,23 @@ var PanelModel = function () {
             var regexMsg=text.attr("data-val-regex");
             if(regexMsg){
                 divField.find("input[name=data-val-regex]").val(regexMsg);
-                divField.find("input[name=check-regex]").prop("check",true);
+                divField.find("input[name=check-regex]").prop("checked",true);
             }
         },
         clearValidAttr:function(tags){
             tags.each(function(){
                 var o = $(this);
-                var attrs = _.clone(o[0].attributes);
-                 console.log(attrs);
-                 for (var i = 0; i < attrs.length; i++) {
-                     var name = attrs[i].name;
-                     if(name.startsWith("data-val")){
-                        o.removeAttr(name);
-                     }
-                 }
+                if(self.form.isFormField(o)) {
+                    o.attr("name", "");
+                    var attrs = _.clone(o[0].attributes);
+                    console.log(attrs);
+                    for (var i = 0; i < attrs.length; i++) {
+                        var name = attrs[i].name;
+                        if (name.startsWith("data-val")) {
+                            o.removeAttr(name);
+                        }
+                    }
+                }
             });
         },
         clearSelectedValue:function(data,event){
@@ -552,7 +560,7 @@ var PanelModel = function () {
                 paramsWrapper.find("input[param='"+param+"']").remove();
             }else{
                 var texts=self.clickedTag().find("[name='"+param+"']");
-                texts.attr("name","");
+                //texts.attr("name","");
                 self.form.clearValidAttr(texts);
                 fieldContainer.find("input.valid").val("");
                 fieldContainer.find(":checkbox").prop("checked",false);
@@ -565,17 +573,14 @@ var PanelModel = function () {
             },200);
             self.form.prepareTexts();
         },
-        isFormField:function(textObj){
-            var name= textObj.attr("name");
-            if(name){
-                var item= _.find(self.form.submissionSettings(),function(s){
-                    return s.key==name;
-                });
-                if(item){
-                    return true;
-                }
-            }
-            return false;
+        clearAllValues:function(){
+            var paramsContainer=$("#submisson-form-params");
+            var formTag=self.clickedTag();
+            var formName=formTag.attr("name");
+            formTag.attr("name","");
+            paramsContainer.find("div[form="+formName+"]").remove();
+            var fields=formTag.find("input[name]");
+            self.form.clearValidAttr(fields);
         },
         prepareTexts:function(){
             var form = self.clickedTag();
@@ -633,7 +638,6 @@ var PanelModel = function () {
         submmsionChange:function(data,event){
             var name = $(event.target).val();
             self.form.chosenSubmission(name);
-            //$("#SubmitTo").val(name);
             var temp = _.find(self.form.submissions,function(s){
                 return s.name == name;
             });
@@ -642,12 +646,18 @@ var PanelModel = function () {
                 settings= temp.settings;
             }
             self.form.submissionSettings(settings);
+            //bind value
+            var formName=self.clickedTag().attr("name");
+            var div=$("#submisson-form-params").find("div[form="+formName+"]");
+            if(name!=""&&self.form.chosenSubmission()==div.attr("plugin")){
+                self.form.setConstField();
+                self.form.setDynamicField();
+            }
         },
         settingChange:function(data,event){
             console.log(data);
         },
         redirectToChange:function(data,event){
-            //$("#RedirectTo").val($(event.target).val());
             self.form.chosenRedirectTo($(event.target).val());
         },
         saveFrom:function(){
@@ -666,7 +676,7 @@ var PanelModel = function () {
                 block.remove();
             }
             var arr=[];
-            arr.push("<div form='"+formName+"'>");
+            arr.push("<div form='"+formName+"' plugin='"+self.form.chosenSubmission()+"'>");
             arr.push('<input type="hidden" value="'+formName+'" name="FormSettings.Index">');
             arr.push('<input type="hidden" value="'+formName+'" name="'+obj+'.Name">');
             arr.push('<input type="hidden" value="Normal" name="'+obj+'.SubmitType">');
@@ -690,11 +700,13 @@ var PanelModel = function () {
                 if(constObj.is(":visible")){
                     //default value
                     var defaultValue=c.find("input[name=const-value]").val();
-                    paramsContainer.find("input[param='"+paramName+"']").remove();
-                    var key='<input param="'+paramName+'"name="'+obj+'.Key" type="hidden" value="'+paramName+'">';
-                    var value='<input param="'+paramName+'"name="'+obj+'.Value" type="hidden" value="'+defaultValue+'">';
+                    var paramObjs=paramsContainer.find("input[param='"+paramName+"']");
+                    paramObjs.next().remove();
+                    paramObjs.remove();
+                    var key = '<input param="' + paramName + '"name="' + obj + '.Key" type="hidden" value="' + paramName + '">';
+                    var value = '<input param="' + paramName + '"name="' + obj + '.Value" type="hidden" value="' + defaultValue + '">';
                     block.append(key).append(value);
-                    constIndex+=1;
+                    constIndex += 1;
                 }else{
                     //dynamic value
                     var text= formTag.find("[name='"+paramName+"']");
@@ -718,8 +730,12 @@ var PanelModel = function () {
             });
         },
         save:function(){
-            self.form.saveFrom();
-            self.form.saveSubmissionSettings();
+            if(self.form.chosenSubmission()!="") {
+                self.form.saveFrom();
+                self.form.saveSubmissionSettings();
+            }else{
+                self.form.clearAllValues();
+            }
         }
     };
 
@@ -817,6 +833,7 @@ var PanelModel = function () {
     };
 
     self.saveBindings = function () {
+        var showCallout = true;
         switch (self.dataItem.dataType()) {
             case dataTypeEnum.label:
                 if (!self.linkTo.bindLink()) {
@@ -825,12 +842,9 @@ var PanelModel = function () {
                 __binder__.unbindRepeater();
                 __binder__.setLabel(self.dataItem.dataContent());
                 __utils__.messageFlash(__msgs__.save_binding_success, true);
-                var showCallout = true;
                 if (!self.dataItem.dataContent()) {
                     showCallout = false;
                 }
-                self.displayCallout(showCallout);
-                __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.data:
                 if (!self.linkTo.bindLink()) {
@@ -839,24 +853,18 @@ var PanelModel = function () {
                 __binder__.unbindRepeater();
                 __binder__.bindData(self.dataItem.chosenField());
                 __utils__.messageFlash(__msgs__.save_binding_success, true);
-                var showCallout = true;
                 if (self.dataItem.chosenField() == __conf__.defaultOption.value &&
                     self.linkTo.chosenPage() == __conf__.defaultOption.name) {
                     showCallout = false;
                 }
-                self.displayCallout(showCallout);
-                __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.repeater:
                 __binder__.unbindContent();
                 __binder__.bindRepeater(self.dataSource.chosenDataSource());
                 __utils__.messageFlash(__msgs__.save_binding_success, true);
-                var showCallout = true;
                 if (self.dataSource.chosenDataSource() == __conf__.defaultOption.name) {
                     showCallout = false;
                 }
-                self.displayCallout(showCallout);
-                __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.staticImg:
                 __binder__.bindStaticImg(self.image.boundStaticImg());
@@ -865,8 +873,6 @@ var PanelModel = function () {
                 if (self.image.boundStaticImg()=="") {
                     showCallout = false;
                 }
-                self.displayCallout(showCallout);
-                __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.dynamicImg:
                 __binder__.bindDynamicImg(self.dataItem.chosenField());
@@ -875,17 +881,21 @@ var PanelModel = function () {
                 if (self.dataItem.chosenField() == __conf__.defaultOption.value) {
                     showCallout = false;
                 }
-                self.displayCallout(showCallout);
-                __ctx__.editorWrapper[0].click();
                 break;
             case dataTypeEnum.form:
                 self.form.save();
+                if(self.form.chosenSubmission()==""){
+                    showCallout=false;
+                }
+                self.displayCallout(showCallout);
                 break;
             case dataTypeEnum.partial:
                 break;
             case dataTypeEnum.nothing:
                 break;
         }
+        self.displayCallout(showCallout);
+        __ctx__.editorWrapper[0].click();
 
     };
 

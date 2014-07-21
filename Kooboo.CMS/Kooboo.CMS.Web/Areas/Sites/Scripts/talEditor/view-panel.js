@@ -569,9 +569,9 @@ var PanelModel = function () {
             },200);
             self.form.prepareTexts();
         },
-        clearAllValues:function(){
+        clearAllValues:function(formTag){
             var paramsContainer=$("#submisson-form-params");
-            var formTag=self.clickedTag();
+            formTag=formTag||self.clickedTag();
             var formName=formTag.attr("name");
             formTag.removeAttr("name");
             paramsContainer.find("div[form="+formName+"]").remove();
@@ -621,10 +621,13 @@ var PanelModel = function () {
             }else {
                 var displayName=data.tag[0].tagName.toLowerCase()+"["+param+"]";
                 selectorSpan.html(displayName);
-                form.find("[name='"+param+"']").removeAttr("name");
                 data.tag.attr("name", param).val("");
                 defaultText.val("").hide();
-                validDiv.show();
+                validDiv.show().find(":text").val("");
+                validDiv.find(":checkbox").prop("checked",false);
+                var texts=form.find("[name='"+param+"']");
+                self.form.clearValidAttr(texts);
+                texts.removeAttr("name");
                 fieldContainer.find("div[type=input-valid]").show();
                 fieldContainer.find("div[type=const-value]").hide();
             }
@@ -709,6 +712,7 @@ var PanelModel = function () {
                 }else{
                     //dynamic value
                     var text= formTag.find("[name='"+paramName+"']");
+                    //text.attr("name")
                     if(text.length>0){
                         var checks= c.find(":checkbox");
                         _.each(checks,function(chk){
@@ -780,6 +784,7 @@ var PanelModel = function () {
         self.resetBoundTags();
         //form texts
         if(self.isFormTag()){
+            self.dataItem.dataType(dataTypeEnum.form);
             self.form.init();
         }
     };
@@ -904,12 +909,13 @@ var PanelModel = function () {
                 $("#select-plugin-type").val("");
                 $("#select-redirect-to").val("");
                 self.form.chosenSubmission("");
-                self.form.clearAllValues();
+                self.form.clearAllValues(data.tag);
+                __ctx__.editorWrapper[0].click();
             }else{
                 __binder__.unbindAll(data.tag);
-            }
-            if (data.tag.is(__ctx__.clickedTag)) {
-                __ctx__.clickedTag[0].click();
+                if (data.tag.is(__ctx__.clickedTag)) {
+                    __ctx__.clickedTag[0].click();
+                }
             }
             self.displayCallout(false,data.tag);
             self.resetBoundTags();

@@ -135,7 +135,7 @@ namespace Kooboo.Web.Mvc.Menu
         }
         public static Menu BuildMenu(ControllerContext controllerContext, string templateName, string areaName, bool initialize)
         {
-            Menu menu = new Menu();
+            Menu menu = new Menu(templateName);
 
             MenuTemplate menuTemplate = new MenuTemplate();
             if (!string.IsNullOrEmpty(templateName) && menuTemplates.ContainsKey(templateName))
@@ -149,6 +149,7 @@ namespace Kooboo.Web.Mvc.Menu
 
             menu.Items = GetItems(areaName, menuTemplate.ItemContainers, controllerContext);
 
+            InjectMenu(menu, controllerContext);
             if (initialize)
             {
                 menu.Initialize(controllerContext);
@@ -156,7 +157,14 @@ namespace Kooboo.Web.Mvc.Menu
 
             return menu;
         }
-
+        private static void InjectMenu(Menu menu, ControllerContext controllerContext)
+        {
+            var injections = TypeActivator.CreateInstancesMethod(typeof(IMenuInjection)).OfType<IMenuInjection>().Where(it => it != null).ToArray();
+            foreach (var injection in injections)
+            {
+                injection.Inject(menu, controllerContext);
+            }
+        }
         #region IMenuItemContainer Members
 
         private static IList<MenuItem> GetItems(string areaName, IEnumerable<IMenuItemContainer> itemContainers, ControllerContext controllerContext)
@@ -179,8 +187,15 @@ namespace Kooboo.Web.Mvc.Menu
     }
     public class Menu
     {
+        public string Name { get; set; }
         public Menu()
+            : this("")
         {
+
+        }
+        public Menu(string name)
+        {
+            this.Name = name;
             Items = new List<MenuItem>();
         }
         public IList<MenuItem> Items { get; set; }

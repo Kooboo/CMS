@@ -232,6 +232,7 @@
     <Compile Include="Web\Mvc\JsonTextResult.cs" />
     <Compile Include="Web\Mvc\KoobooDataAnnotationsModelMetadataProvider.cs" />
     <Compile Include="Web\Mvc\ISelectListDataSource.cs" />
+    <Compile Include="Web\Mvc\Menu\IMenuInjection.cs" />
     <Compile Include="Web\Mvc\Menu\IMenuItemInitializer.cs" />
     <Compile Include="Web\Mvc\Menu\MenuItemTemplate.cs" />
     <Compile Include="Web\Mvc\ModelClientMetadataBuilder.cs" />

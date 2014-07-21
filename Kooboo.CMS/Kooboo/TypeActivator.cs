@@ -20,9 +20,20 @@ namespace Kooboo
         {
             return Activator.CreateInstance(type);
         };
+
+        public static Func<Type, IEnumerable<object>> CreateInstancesMethod = (type) =>
+        {
+            return new object[0];
+        };
+
         public static object CreateInstance(Type type)
         {
             return CreateInstanceMethod(type);
+        }
+
+        public static IEnumerable<object> CreateAllInstances(Type type)
+        {
+            return CreateInstancesMethod(type);
         }
     }
 }

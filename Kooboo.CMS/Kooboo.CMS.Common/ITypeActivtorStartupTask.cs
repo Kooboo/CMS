@@ -23,6 +23,10 @@ namespace Kooboo.CMS.Common
             {
                 return Kooboo.CMS.Common.Runtime.EngineContext.Current.TryResolve(type);
             };
+            TypeActivator.CreateInstancesMethod = (type) =>
+            {
+                return Kooboo.CMS.Common.Runtime.EngineContext.Current.ResolveAll(type);
+            };
         }
 
         public int Order

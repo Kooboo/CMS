@@ -103,7 +103,11 @@
         window.ajaxFormParam = {
             beforeSerialize: function ($form, options) {
                 if(__ctx__.isPreview){
-                    textArea.val(__ctx__.editorWrapper.html());
+                    console.log(__ctx__.editorWrapper.html());
+                    console.log(textArea.val());
+                    codeMirrorAPI.setValue(__ctx__.editorWrapper.html());
+                    textArea.val(codeMirrorAPI.getValue());
+                    console.log(textArea.val());
                 }else{
                     textArea.val(codeMirrorAPI.getValue());
                 }
@@ -128,12 +132,7 @@
         $("#design-view-tags").on('click', 'a', function () {
             var wrapper = __ctx__.editorWrapper;
             if ($(this).attr('type') == 'preview') {
-                console.log("getvalue:");
-                console.log(codeMirrorAPI.getValue());
                 wrapper.html(codeMirrorAPI.getValue());
-                console.log("wrapper.html:");
-                console.log( wrapper.html());
-
                 __ctx__.initEditorHandler();
                 __ctx__.isPreview = true;
                 __ctx__.highlighter.hide();
@@ -144,11 +143,7 @@
                 $("div.layout-selector").show();
             } else {
                 if(wrapper){
-                    console.log("wrapper.html:")
-                    console.log(wrapper.html())
                     codeMirrorAPI.setValue(wrapper.html());
-                    console.log("getValue:")
-                    console.log(codeMirrorAPI.getValue());
                 }
                 __ctx__.isPreview = false;
                 $("#tab-data-binding").click();

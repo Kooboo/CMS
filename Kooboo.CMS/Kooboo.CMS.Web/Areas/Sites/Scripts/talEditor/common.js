@@ -13,6 +13,7 @@ var dataTypeEnum = {
     partial: 'Partial',
     position: 'Position',
     form:'Form',
+    field:'Field',
     nothing: 'Nothing'
 };
 var calloutEnum = {
@@ -23,7 +24,7 @@ var calloutEnum = {
     DynamicImg:'I',
     StaticImg:"I",
     Form:"F",
-    Field:'P'
+    Field:'f'
 };
 
 //conf

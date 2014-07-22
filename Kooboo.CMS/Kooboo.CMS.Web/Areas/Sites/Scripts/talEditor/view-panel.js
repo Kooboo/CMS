@@ -446,7 +446,7 @@ var PanelModel = function () {
         submissionSettings:ko.observableArray([]),
         chosenRedirectTo:ko.observable(""),
         isFormField:function(textObj){
-            var name= textObj.attr("name");
+            var name= $.trim(textObj.attr("name"));
             if(name){
                 //切换select,当chosenSubmission==""时判断不出原先的绑定
                 /*var item= _.find(self.form.submissionSettings(),function(s){
@@ -542,7 +542,7 @@ var PanelModel = function () {
         },
         clearSelectedValue:function(data,event){
             event.stopPropagation();
-            var target = $(event.target);
+            var target = $(event.currentTarget);
             var paramNameLabel=target.closest("div.form-row").find("label[type=param-name]");
             var param=paramNameLabel.html();
             var fieldContainer=target.closest("div.field");
@@ -563,7 +563,7 @@ var PanelModel = function () {
                 validDiv.hide();
             }
             selectorSpan.html(__conf__.defaultOption.name);
-            target.parent().hide();
+            target.hide();
             _.delay(function(){
                 paramNameLabel.click();
             },200);
@@ -583,14 +583,14 @@ var PanelModel = function () {
             var texts=[];
             form.find("input[type=text],textarea").each(function(i,o){
                 var text = $(this);
-                if(!self.form.isFormField(text)) {
+                //if(!self.form.isFormField(text)) {
                     var name = text.attr('name');
                     name = name ? name : (i + 1);
                     texts.push({
                         'displayName': text[0].tagName.toLowerCase() + "[" + name + "]",
                         tag: text
                     });
-                }
+                //}
             });
             self.form.texts(texts);
         },
@@ -618,18 +618,20 @@ var PanelModel = function () {
                 self.form.clearValidAttr(form.find("[name='"+param+"']"));
                 fieldContainer.find("div[type=const-value]").show();
                 fieldContainer.find("div[type=input-valid]").hide();
+                self.callout.displayFormField(false,data.tag,dataTypeEnum.field,param);
             }else {
                 var displayName=data.tag[0].tagName.toLowerCase()+"["+param+"]";
                 selectorSpan.html(displayName);
-                data.tag.attr("name", param).val("");
                 defaultText.val("").hide();
                 validDiv.show().find(":text").val("");
                 validDiv.find(":checkbox").prop("checked",false);
                 var texts=form.find("[name='"+param+"']");
                 self.form.clearValidAttr(texts);
                 texts.removeAttr("name");
+                data.tag.attr("name", param).val("");
                 fieldContainer.find("div[type=input-valid]").show();
                 fieldContainer.find("div[type=const-value]").hide();
+                self.callout.displayFormField(true,data.tag,dataTypeEnum.field,param);
             }
             self.form.prepareTexts();
         },
@@ -742,12 +744,66 @@ var PanelModel = function () {
         }
     };
 
-    self.initCallout = function () {
-        _.each(self.boundTags(), function (obj) {
+    self.callout={
+        init:function () {
+            _.each(self.boundTags(), function (obj) {
+                self.callout.show(obj);
+                if(obj.tag[0].tagName.toLowerCase()=='form'){
+                    self.callout.displayFormFieldMany(obj.tag,true);
+                }
+            });
+        },
+        show:function(obj,fieldName){
             obj.tag.highlight().highlightCopy();
             __ctx__.highlighterCopy.hide();
-            self.displayCallout(true, obj.tag, obj.type);
-        });
+            self.callout.display(true, obj.tag, obj.type,fieldName);
+        },
+        display:function (show, $tag, dataType,suffix) {
+            $tag=$tag||self.tag();
+            var id = __utils__.getRandomId('callout-');
+            if(suffix){
+                id='callout-'+suffix;
+            }
+            for (var _id in __ctx__.calloutTags) {
+                var temp = __ctx__.calloutTags[_id];
+                if (temp.is($tag)) {
+                    id = _id;
+                    break;
+                }
+            }
+            var callout = __ctx__.iframeBody.find('#' + id);
+            if (show) {
+                var text = calloutEnum[dataType||self.dataItem.dataType()];
+
+                if (callout.length == 0) {
+                    callout = __ctx__.highlighterCopy.clone().addClass('mark').attr('id', id)
+                }
+                callout.find('span').show().text(text);
+                callout.show().appendTo(__ctx__.koobooStuffContainer);
+                __ctx__.calloutTags[id] = $tag;
+            } else {
+                callout.remove();
+                delete __ctx__.calloutTags[id];
+            }
+        },
+        displayFormFieldMany:function(formTag,isShow){
+            formTag.find("[name]").each(function(){
+                var o=$(this);
+                var name= $.trim(o.attr("name"));
+                if(self.form.isFormField(o)){
+                    self.callout.displayFormField(isShow,o,dataTypeEnum.field,name);
+                }
+            });
+        },
+        displayFormField:function(isShow,tag,type,fieldName){
+            var koobooDiv=__ctx__.iframeObj.$("#kooboo-stuff-container");
+            koobooDiv.find('#callout-'+fieldName).remove();
+            if(isShow) {
+                self.callout.show({tag:tag,type:type},fieldName);
+            }else{
+                self.callout.display(false,tag,type,fieldName);
+            }
+        }
     };
 
     //tag click events
@@ -780,13 +836,13 @@ var PanelModel = function () {
         self.dataItem.setDataType(dataType, true);
         //link to
         self.linkTo.init();
-        //render list
-        self.resetBoundTags();
-        //form texts
+        //form
         if(self.isFormTag()){
             self.dataItem.dataType(dataTypeEnum.form);
             self.form.init();
         }
+        //render list
+        self.resetBoundTags();
     };
 
     self.clearProcess = function (data, event) {
@@ -797,7 +853,7 @@ var PanelModel = function () {
         $("#tab-data-binding").click();
         $("#div-repeat-item-setting").show();
         self.resetBoundTags();
-        self.initCallout();
+        self.callout.init();
     };
 
     self.initBoundList = function () {
@@ -807,32 +863,6 @@ var PanelModel = function () {
     //edit events
     self.cancelEdit = function (data, event) {
         __ctx__.editorWrapper[0].click();
-    };
-
-    self.displayCallout = function (show, $tag, dataType) {
-        $tag=$tag||self.tag();
-        var id = __utils__.getRandomId('callout-');
-        for (var _id in __ctx__.calloutTags) {
-            var temp = __ctx__.calloutTags[_id];
-            if (temp.is($tag)) {
-                id = _id;
-                break;
-            }
-        }
-        var callout = __ctx__.iframeBody.find('#' + id);
-        if (show) {
-            var text = calloutEnum[dataType||self.dataItem.dataType()];
-
-            if (callout.length == 0) {
-                callout = __ctx__.highlighterCopy.clone().addClass('mark').attr('id', id)
-            }
-            callout.find('span').show().text(text);
-            callout.show().appendTo(__ctx__.koobooStuffContainer);
-            __ctx__.calloutTags[id] = $tag;
-        } else {
-            callout.remove();
-            delete __ctx__.calloutTags[id];
-        }
     };
 
     self.saveBindings = function () {
@@ -890,14 +920,13 @@ var PanelModel = function () {
                 if(self.form.chosenSubmission()==""){
                     showCallout=false;
                 }
-                self.displayCallout(showCallout);
                 break;
             case dataTypeEnum.partial:
                 break;
             case dataTypeEnum.nothing:
                 break;
         }
-        self.displayCallout(showCallout);
+        self.callout.display(showCallout);
         __ctx__.editorWrapper[0].click();
 
     };
@@ -905,10 +934,13 @@ var PanelModel = function () {
     //list events
     self.removeDataBinding = function (data, event) {
         if (confirm(__msgs__.remove_data_binding_confrim)) {
-            if(data.tag[0].tagName.toLowerCase()=='form'){
+            var isForm=data.tag[0].tagName.toLowerCase()=='form';
+            self.callout.display(false,data.tag);
+            if(isForm){
                 $("#select-plugin-type").val("");
                 $("#select-redirect-to").val("");
                 self.form.chosenSubmission("");
+                self.callout.displayFormFieldMany(data.tag,false);
                 self.form.clearAllValues(data.tag);
                 __ctx__.editorWrapper[0].click();
             }else{
@@ -917,7 +949,6 @@ var PanelModel = function () {
                     __ctx__.clickedTag[0].click();
                 }
             }
-            self.displayCallout(false,data.tag);
             self.resetBoundTags();
         }
     };

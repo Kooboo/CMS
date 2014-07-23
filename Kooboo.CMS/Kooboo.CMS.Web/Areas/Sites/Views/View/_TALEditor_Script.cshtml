@@ -103,11 +103,7 @@
         window.ajaxFormParam = {
             beforeSerialize: function ($form, options) {
                 if(__ctx__.isPreview){
-                    console.log(__ctx__.editorWrapper.html());
-                    console.log(textArea.val());
-                    codeMirrorAPI.setValue(__ctx__.editorWrapper.html());
-                    textArea.val(codeMirrorAPI.getValue());
-                    console.log(textArea.val());
+                    textArea.val(__ctx__.editorWrapper.html());
                 }else{
                     textArea.val(codeMirrorAPI.getValue());
                 }

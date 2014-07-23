@@ -291,7 +291,7 @@
                     $("a").click(function () {
                         return false;
                     });
-                    $(":text,textarea,input[type=search]").attr('readonly', 'readonly');
+                    //$(":text,textarea,input[type=search]").attr('readonly', 'readonly');
                     if (__ctx__.action != 'create') {
                         $editorWrapper.click();
                     }

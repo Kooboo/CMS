@@ -851,7 +851,6 @@ var PanelModel = function () {
         self.hasClickedTag(false);
         //data binding overview
         $("#tab-data-binding").click();
-        $("#div-repeat-item-setting").show();
         self.resetBoundTags();
         self.callout.init();
     };
@@ -862,7 +861,7 @@ var PanelModel = function () {
 
     //edit events
     self.cancelEdit = function (data, event) {
-        __ctx__.editorWrapper[0].click();
+        self.initBoundList();
     };
 
     self.saveBindings = function () {
@@ -927,7 +926,7 @@ var PanelModel = function () {
                 break;
         }
         self.callout.display(showCallout);
-        __ctx__.editorWrapper[0].click();
+        self.initBoundList();
 
     };
 
@@ -942,7 +941,7 @@ var PanelModel = function () {
                 self.form.chosenSubmission("");
                 self.callout.displayFormFieldMany(data.tag,false);
                 self.form.clearAllValues(data.tag);
-                __ctx__.editorWrapper[0].click();
+                self.initBoundList();
             }else{
                 __binder__.unbindAll(data.tag);
                 if (data.tag.is(__ctx__.clickedTag)) {

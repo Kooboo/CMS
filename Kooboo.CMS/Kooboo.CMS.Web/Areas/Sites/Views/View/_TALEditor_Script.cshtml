@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model dynamic       
 @{
     var dataSourceContext = new Kooboo.CMS.Sites.DataSource.DataSourceContext(Site.Current, null);
     var dataSources = ServiceFactory.GetService<DataSourceSettingManager>().All(Site.Current, "")
@@ -25,13 +25,18 @@
     var mediaLibraryUrl = Url.Action("Selection", "MediaContent", route.Merge("Area", "Contents").Merge("FolderName", "").Merge("listType", "grid").Merge("SingleChoice", "true"));
 
     // Submission Form
-    var submissions = ServiceFactory.GetService<SubmissionSettingManager>().All(Site.Current, "")
-    .Select(it => new
+    var submissionPlugins = ServiceFactory.GetService<AssemblyManager>().GetTypes(Site.Current, typeof(Kooboo.CMS.Sites.Extension.ISubmissionPlugin));
+    var submissionList=new List<object>();
+    foreach (var plugin in submissionPlugins)
     {
-        Name = it.Name,
-        Settings = ServiceFactory.GetService<SubmissionSettingManager>().Get(Site.Current,it.Name).Settings
-    });
-    var submissionsJson = Newtonsoft.Json.JsonConvert.SerializeObject(submissions);
+        object pluginParams = null;
+        var o = ((Kooboo.CMS.Sites.Extension.ISubmissionPlugin)Kooboo.TypeActivator.CreateInstance(plugin));
+        if (o.Parameters != null) {
+            pluginParams = o.Parameters.ToList();
+        }
+        submissionList.Add(new { Name = plugin.Name, Settings = pluginParams });
+    }
+    var submissionsJson = Newtonsoft.Json.JsonConvert.SerializeObject(submissionList);    
 }
 <script>
     window.keepLoading = true;
@@ -62,7 +67,7 @@
     _.each(meta.submissions,function(submit){
         __submissions__.push({
             name:submit.Name,
-            settings:_.map(submit.Settings,function(v,k){return {key:k,value:v}})
+            settings:submit.Settings?submit.Settings:[]//_.map(submit.Settings,function(v,k){return {key:k,value:v}})
         });
     });
    

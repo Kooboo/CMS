@@ -213,10 +213,10 @@
         <div class="fields">
             <p class="info">Please select and bind the fields you want to submit:</p>
             <!--ko foreach:{data:form.submissionSettings(),as:'set'} -->
-            <div class="field" data-bind="attr:{'param-name':set.key}">
+            <div class="field" data-bind="attr:{'param-name':set.Key}">
                 <div class="form-row" type="submission-settings">
                     <div class="span4">
-                        <label type="param-name" data-bind="html:set.key"></label>
+                        <label type="param-name" data-bind="html:set.Key"></label>
                     </div>
                     <div class="span8">
                         <div class="custom-select">
@@ -225,9 +225,9 @@
                             <a class="action" href="#" id="clear" style="display:none;" title="Clear" data-bind="click:$root.form.clearSelectedValue">@Html.IconImage("cross-mini")</a>
                             <ul>
                                 <!--ko foreach:{data:$root.form.texts(),as:'text'} -->
-                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="html:text.displayName,click:$root.form.itemClick,event:{mouseover:$root.form.itemMouseOver,mouseout:$root.form.itemMouseOut}">Field 1</a></li>
+                                <li data-bind="attr:{param:set.Key}"><a href="#" data-bind="html:text.displayName,click:$root.form.itemClick,event:{mouseover:$root.form.itemMouseOver,mouseout:$root.form.itemMouseOut}">Field 1</a></li>
                                 <!-- /ko -->
-                                <li data-bind="attr:{param:set.key}"><a href="#" data-bind="click:$root.form.itemClick" type="set-default">@("Set Default Value".Localize())</a></li>
+                                <li data-bind="attr:{param:set.Key}"><a href="#" data-bind="click:$root.form.itemClick" type="set-default">@("Set Default Value".Localize())</a></li>
                             </ul>
                         </div>
                     </div>

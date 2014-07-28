@@ -22,22 +22,22 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
     public class PageRequestFlowAdapter
     {
         #region .ctor
-        IPageRequestFlow _pageRequestFlow;
-        IPageRequestFlowEvents[] _events;
-        public PageRequestFlowAdapter(IPageRequestFlow siteRequestFlow, IPageRequestFlowEvents[] events)
+        PageRequestFlow _pageRequestFlow;
+        PageRequestFlowEvents[] _events;
+        public PageRequestFlowAdapter(PageRequestFlow siteRequestFlow, PageRequestFlowEvents[] events)
         {
             Contract.Requires(siteRequestFlow != null);
             _pageRequestFlow = siteRequestFlow;
-            _events = events ?? new IPageRequestFlowEvents[0];
+            _events = events ?? new PageRequestFlowEvents[0];
         }
         #endregion
 
         #region Properties
-        public IPageRequestFlow SiteRequestFlow
+        public PageRequestFlow SiteRequestFlow
         {
             get { return _pageRequestFlow; }
         }
-        public IPageRequestFlowEvents[] EventHandlers
+        public PageRequestFlowEvents[] EventHandlers
         {
             get { return _events; }
         }

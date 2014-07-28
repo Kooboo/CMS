@@ -21,7 +21,7 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
     /// 默认实现的执行顺序可以根据不同的需要，通过重写ExecutePage达到修改的目的。
     /// 也可以根据需要加入自己需要执行的动作。
     /// </summary>
-    public interface IPageRequestFlow
+    public interface PageRequestFlow
     {
         /// <summary>
         /// 查找页面

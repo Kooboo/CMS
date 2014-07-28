@@ -23,8 +23,8 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
     public class PageRequestHandler : IRequestHandler
     {
         //#region .ctor
-        //IPageExecutor _pageExecutor;
-        //public PageRequestHandler(IPageExecutor pageExecutor)
+        //PageExecutor _pageExecutor;
+        //public PageRequestHandler(PageExecutor pageExecutor)
         //{
         //    Contract.Requires(pageExecutor != null);
 
@@ -33,7 +33,7 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
         //#endregion
 
         //#region Properties
-        //public IPageExecutor PageExecutor
+        //public PageExecutor PageExecutor
         //{
         //    get { return _pageExecutor; }
         //}

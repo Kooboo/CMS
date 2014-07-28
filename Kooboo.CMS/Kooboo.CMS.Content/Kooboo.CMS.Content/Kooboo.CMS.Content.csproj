@@ -40,17 +40,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common">
-      <HintPath>..\..\packages\Kooboo.Common.5.0.5305.19046\lib\net45\Kooboo.Common.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Kooboo.Common, Version=5.0.5318.25815, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Kooboo.Common.5.0.5318.25815\lib\net45\Kooboo.Common.dll</HintPath>
     </Reference>
     <Reference Include="Kooboo.Common.Data, Version=5.0.5304.27126, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5304.27126\lib\net45\Kooboo.Common.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Web, Version=5.0.5305.21365, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Web, Version=5.0.5317.25227, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5305.21365\lib\net45\Kooboo.Common.Web.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5317.25227\lib\net45\Kooboo.Common.Web.dll</HintPath>
     </Reference>
     <Reference Include="Kooboo.Common.Windows">
       <HintPath>..\..\packages\Kooboo.Common.Windows.5.0.5301.29067\lib\net45\Kooboo.Common.Windows.dll</HintPath>

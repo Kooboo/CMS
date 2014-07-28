@@ -17,7 +17,7 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
     /// <summary>
     /// 页面处理流程事件
     /// </summary>
-    public interface IPageRequestFlowEvents
+    public interface PageRequestFlowEvents
     {
         /// <summary>
         /// 查找页面之前触发

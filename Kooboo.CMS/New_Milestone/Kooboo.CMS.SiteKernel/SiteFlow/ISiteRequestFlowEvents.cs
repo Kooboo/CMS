@@ -40,7 +40,7 @@ namespace Kooboo.CMS.SiteKernel.SiteFlow
 
         /// <summary>
         /// 查找Handler之前触发
-        /// 适用场景：Url Redirect
+        /// 适用场景：Url Redirect, Robots.txt
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The <see cref="PreMapRequestHandlerEventArgs"/> instance containing the event data.</param>

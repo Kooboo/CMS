@@ -91,6 +91,7 @@
     <Compile Include="Controllers\ActionFilters\CacheToDiskAttribute.cs" />
     <Compile Include="Controllers\ActionFilters\CustomOutputTextWriterFilter.cs" />
     <Compile Include="Controllers\ActionFilters\CustomRedirectFilterAttribute.cs" />
+    <Compile Include="Controllers\ActionFilters\FormSubmitionFilterAttribute.cs" />
     <Compile Include="Controllers\ActionFilters\MemberAuthorizeAttribute.cs" />
     <Compile Include="Controllers\ActionFilters\OutputCacheFilterAttribute.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />

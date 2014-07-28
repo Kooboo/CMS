@@ -44,8 +44,9 @@ namespace Kooboo.CMS.Sites.Controllers
         #region Page Entry
         [CustomRedirectFilter(Order = 5)]
         [PageExecutionFilter(Order = 10)]
-        [MemberAuthorize(Order=15)]
+        [MemberAuthorize(Order = 15)]
         [CheckRequireHttps(Order = 20)]
+        [FormSubmitionFilterAttribute(Order = 22)]
         [CustomOutputTextWriterFilter(Order = 25)]
         [OutputCacheFilter(Order = 30)]
         [CacheToDisk(Order = 35)]
@@ -110,7 +111,6 @@ namespace Kooboo.CMS.Sites.Controllers
                 viewResult.TempData = this.TempData;
             }
 
-
             return viewResult;
         }
 
@@ -166,6 +166,6 @@ namespace Kooboo.CMS.Sites.Controllers
             return Content(html.FrontHtml().RenderView(viewPosition).ToString());
         }
         #endregion
-        
+
     }
 }

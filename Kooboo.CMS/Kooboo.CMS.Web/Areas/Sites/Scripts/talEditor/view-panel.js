@@ -671,6 +671,7 @@ var PanelModel = function () {
                 formTag.attr("name",formName);
                 formTag.append("<input type='hidden' name='__FormName__' value='"+formName+"' >");
             }
+            formTag.attr("method","post");
             var block=Div.find("div[form="+formName+"]");
             var obj="FormSettings["+formName+"]";
             if(block.length>0){

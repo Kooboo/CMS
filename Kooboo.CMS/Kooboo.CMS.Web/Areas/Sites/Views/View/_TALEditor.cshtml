@@ -51,21 +51,23 @@ else
                @if (Model.FormSettings != null) { 
                    foreach (var form in Model.FormSettings) {
                         var obj = string.Format("FormSettings[{0}]", form.Name);
-                        List<string> keys = new List<string>(form.Settings.Keys);
-                        <div form="@form.Name" plugin="@form.PluginType">
-                            @HiddenTag("FormSettings.Index",form.Name)
-                            @HiddenTag(string.Format("{0}.Name", obj), form.Name)
-                            @HiddenTag(string.Format("{0}.SubmitType", obj), form.SubmitType.ToString())
-                            @HiddenTag(string.Format("{0}.PluginType", obj), form.PluginType)
-                            @HiddenTag(string.Format("{0}.RedirectTo", obj), form.RedirectTo)
-                            @for (int i = 0; i < keys.Count; i++)
-                            {
-                                var settingObj=string.Format("{0}.Settings[{1}]", obj,i);
-                                var key = keys[i];
-                                @HiddenTag(string.Format("{0}.Key", settingObj),key,key)
-                                @HiddenTag(string.Format("{0}.Value", settingObj), form.Settings[key])
-                            }
-                        </div>
+                        if (form.Settings != null) { 
+                            List<string> keys = new List<string>(form.Settings.Keys);
+                            <div form="@form.Name" plugin="@form.PluginType">
+                                @HiddenTag("FormSettings.Index",form.Name)
+                                @HiddenTag(string.Format("{0}.Name", obj), form.Name)
+                                @HiddenTag(string.Format("{0}.SubmitType", obj), form.SubmitType.ToString())
+                                @HiddenTag(string.Format("{0}.PluginType", obj), form.PluginType)
+                                @HiddenTag(string.Format("{0}.RedirectTo", obj), form.RedirectTo)
+                                @for (int i = 0; i < keys.Count; i++)
+                                {
+                                    var settingObj=string.Format("{0}.Settings[{1}]", obj,i);
+                                    var key = keys[i];
+                                    @HiddenTag(string.Format("{0}.Key", settingObj),key,key)
+                                    @HiddenTag(string.Format("{0}.Value", settingObj), form.Settings[key])
+                                }
+                            </div>
+                        }
                    }
                }
             </div>

@@ -669,7 +669,7 @@ var PanelModel = function () {
             }else{
                 formName=__utils__.getRandomId("").substring(0,8);
                 formTag.attr("name",formName);
-                formTag.append("<input type='hidden' name='FormName' value='"+formName+"'/>");
+                formTag.append("<input type='hidden' name='__FormName__' value='"+formName+"' >");
             }
             var block=Div.find("div[form="+formName+"]");
             var obj="FormSettings["+formName+"]";

@@ -177,7 +177,7 @@
                 <select id="select-plugin-type" data-bind="event:{change:form.submmsionChange}">
                     <option value="" data-bind="text: __conf__.defaultOption.name"></option>
                     <!--ko foreach:{data:form.submissions,as:'submit'}-->
-                        <option data-bind="value:submit.name,text:submit.name"></option>
+                    <option data-bind="value:submit.qualifiedName,text:submit.name"></option>
                     <!--/ko-->
                 </select>
             </div>

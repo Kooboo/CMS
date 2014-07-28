@@ -639,7 +639,7 @@ var PanelModel = function () {
             var name = $(event.target).val();
             self.form.chosenSubmission(name);
             var temp = _.find(self.form.submissions,function(s){
-                return s.name == name;
+                return s.qualifiedName == name;
             });
             var settings=[];
             if(temp){

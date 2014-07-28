@@ -34,7 +34,8 @@
         if (o.Parameters != null) {
             pluginParams = o.Parameters.ToList();
         }
-        submissionList.Add(new { Name = plugin.Name, Settings = pluginParams });
+        var qualifiedName = plugin.AssemblyQualifiedNameWithoutVersion().Split(new char[] { ',' })[0];
+        submissionList.Add(new { Name = plugin.Name, QualifiedName = qualifiedName, Settings = pluginParams });
     }
     var submissionsJson = Newtonsoft.Json.JsonConvert.SerializeObject(submissionList);    
 }
@@ -67,6 +68,7 @@
     _.each(meta.submissions,function(submit){
         __submissions__.push({
             name:submit.Name,
+            qualifiedName:submit.QualifiedName,
             settings:submit.Settings?submit.Settings:[]//_.map(submit.Settings,function(v,k){return {key:k,value:v}})
         });
     });

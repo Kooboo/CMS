@@ -528,7 +528,9 @@ var PanelModel = function () {
             tags.each(function(){
                 var o = $(this);
                 if(self.form.isFormField(o)) {
+                    var name= o.attr("name");
                     o.removeAttr("name");
+                    o.next("span[data-valmsg-for='"+name+"']").remove();
                     var attrs = _.clone(o[0].attributes);
                     console.log(attrs);
                     for (var i = 0; i < attrs.length; i++) {
@@ -671,7 +673,7 @@ var PanelModel = function () {
                 formTag.attr("name",formName);
                 formTag.append("<input type='hidden' name='__FormName__' value='"+formName+"' >");
             }
-            formTag.attr("method","post");
+            formTag.attr("method","post").removeAttr("action");
             var block=Div.find("div[form="+formName+"]");
             var obj="FormSettings["+formName+"]";
             if(block.length>0){
@@ -732,6 +734,10 @@ var PanelModel = function () {
                                 }
                             });
                         });
+                        if(formTag.find("span[data-valmsg-for='"+paramName+"']").length==0&&text.attr("data-val")=="true") {
+                            var msgLabel = '<span class="field-validation-error" data-valmsg-for="' + paramName + '" data-valmsg-replace="true"></span>';
+                            $(msgLabel).insertAfter(text);
+                        }
                     }
                 }
             });

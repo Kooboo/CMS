@@ -258,6 +258,14 @@ namespace Kooboo.Common.ObjectContainer.Dependency.Ninject
             this._container.Inject(instance);
         }
         #endregion
+
+
+        #region ResolveGeneric
+        public object ResolveGeneric(Type genericType, params Type[] genericTypeParameters)
+        {
+            throw new NotImplementedException();
+        } 
+        #endregion
     }
 
 }

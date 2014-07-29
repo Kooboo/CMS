@@ -155,7 +155,11 @@ namespace Kooboo.Common.ObjectContainer.Dependency.Ninject
         public ITypeFinder TypeFinder { get; private set; }
         #endregion
 
-
-
+        #region ResolveGeneric
+        public object ResolveGeneric(Type genericType, params Type[] genericTypeParameters)
+        {
+            throw new NotImplementedException();
+        } 
+        #endregion
     }
 }

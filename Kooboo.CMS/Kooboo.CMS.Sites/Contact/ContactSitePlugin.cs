@@ -53,7 +53,7 @@ namespace Kooboo.CMS.Sites.Contact {
 
             var ContactSiteModel = new ContactSiteModel();
 
-            bool valid = ModelBindHelper.BindModel(ContactSiteModel, "", controllerContext, submissionSetting);
+            bool valid = Kooboo.CMS.Sites.Extension.ModelBindHelper.BindModel(ContactSiteModel, "", controllerContext, submissionSetting);
 
             if (valid) {
                 try {

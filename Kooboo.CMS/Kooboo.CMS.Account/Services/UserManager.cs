@@ -99,6 +99,18 @@ namespace Kooboo.CMS.Account.Services
         }
         #endregion
 
+        #region IsAdministrator
+        public virtual bool IsAdministrator(string userName)
+        {
+            var accountUser = this.Get(userName);
+            if (accountUser == null)
+            {
+                return false;
+            }
+            return accountUser.IsAdministrator;
+        }
+        #endregion
+
         #region ChangePassword
         public virtual bool ChangePassword(string userName, string oldPassword, string newPassword)
         {

@@ -1,0 +1,5 @@
+﻿@using Kooboo.CMS.Web2.Areas.Contents
+<nav class="block menu">
+    @Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext).SetCurrentRepository(this.ViewContext))
+</nav>
+

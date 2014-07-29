@@ -1,0 +1,48 @@
+﻿@model Kooboo.CMS.Web2.Areas.Contents.Models.IndexSummaryModel
+@{
+    ViewBag.Title = "Index dashboard".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+}
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a href="@Url.Action("Rebuild", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))"  data-show-on-check="Single" data-command-type="AjaxPost">
+                @Html.IconImage("reset") @("Rebuild".Localize())</a>
+        </li>
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
+    </ul>
+}
+
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title</h1>
+</div>
+@Html.GridForModel2(it => it.FolderIndexInfoes)
+<div class="block simple-table">
+    <h3 class="title">
+        @("Last actions".Localize())</h3>
+    <table>
+        <tbody>
+            @foreach (var item in Model.LastActions)
+            {
+                <tr>
+                    <td>
+                        @if (item.Action != Kooboo.CMS.Content.Models.ContentAction.Delete)
+                        {
+                            string.Format("Indexed folder '{0}' - content title '{1}'.".Localize(), item.FolderName, item.ContentSummary);
+                            <span>@item.UtcActionDate.ToLocalTime()</span>
+                        }
+                        else
+                        {
+                            string.Format("Delete indexed content title '{1}' from folder '{0}'.".Localize(), item.FolderName, item.ContentSummary);
+                            <span>@item.UtcActionDate.ToLocalTime()</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -81,7 +81,11 @@
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)Ninject.dll" "..\..\..\Kooboo.CMS.Web\Bin\*.*"
 copy "$(TargetDir)$(TargetFileName)" "..\..\..\Kooboo.CMS.Web\Bin\*.*"
-copy "$(TargetDir)$(TargetName).pdb" "..\..\..\Kooboo.CMS.Web\Bin\*.*"</PostBuildEvent>
+copy "$(TargetDir)$(TargetName).pdb" "..\..\..\Kooboo.CMS.Web\Bin\*.*"
+
+copy "$(TargetDir)Ninject.dll" "..\..\..\vNext\Kooboo.CMS.Web2\Bin\*.*"
+copy "$(TargetDir)$(TargetFileName)" "..\..\..\vNext\Kooboo.CMS.Web2\Bin\*.*"
+copy "$(TargetDir)$(TargetName).pdb" "..\..\..\vNext\Kooboo.CMS.Web2\Bin\*.*"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

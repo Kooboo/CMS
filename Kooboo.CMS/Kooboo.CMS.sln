@@ -67,11 +67,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Sites.Persistenc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoobooModule", "KoobooModule\KoobooModule.csproj", "{A05E920B-ADA9-4FCA-B43D-750267C96075}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protocol", "Protocol", "{5185ED33-09D0-48D0-BD3D-CD6D143D8F86}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vNext", "vNext", "{5185ED33-09D0-48D0-BD3D-CD6D143D8F86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.SiteKernel", "New_Milestone\Kooboo.CMS.SiteKernel\Kooboo.CMS.SiteKernel.csproj", "{1CAE42CB-B7A7-4325-976C-59A9DE307293}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.SiteKernel", "vNext\Kooboo.CMS.SiteKernel\Kooboo.CMS.SiteKernel.csproj", "{1CAE42CB-B7A7-4325-976C-59A9DE307293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.SiteKernel.Tests", "New_Milestone\Kooboo.CMS.SiteKernel.Tests\Kooboo.CMS.SiteKernel.Tests.csproj", "{0B4877F3-B1C9-4292-92BE-499B427ADE28}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.SiteKernel.Tests", "vNext\Kooboo.CMS.SiteKernel.Tests\Kooboo.CMS.SiteKernel.Tests.csproj", "{0B4877F3-B1C9-4292-92BE-499B427ADE28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Web2", "vNext\Kooboo.CMS.Web2\Kooboo.CMS.Web2.csproj", "{2E9B3A1F-8340-45E9-845A-968810B7C747}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -305,6 +307,14 @@ Global
 		{0B4877F3-B1C9-4292-92BE-499B427ADE28}.Publish|Any CPU.Build.0 = Release|Any CPU
 		{0B4877F3-B1C9-4292-92BE-499B427ADE28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B4877F3-B1C9-4292-92BE-499B427ADE28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E9B3A1F-8340-45E9-845A-968810B7C747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E9B3A1F-8340-45E9-845A-968810B7C747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E9B3A1F-8340-45E9-845A-968810B7C747}.EmailValidator|Any CPU.ActiveCfg = Release|Any CPU
+		{2E9B3A1F-8340-45E9-845A-968810B7C747}.EmailValidator|Any CPU.Build.0 = Release|Any CPU
+		{2E9B3A1F-8340-45E9-845A-968810B7C747}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{2E9B3A1F-8340-45E9-845A-968810B7C747}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{2E9B3A1F-8340-45E9-845A-968810B7C747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E9B3A1F-8340-45E9-845A-968810B7C747}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -341,5 +351,6 @@ Global
 		{A05E920B-ADA9-4FCA-B43D-750267C96075} = {B5B39C73-2913-4748-B40A-069343B73788}
 		{1CAE42CB-B7A7-4325-976C-59A9DE307293} = {5185ED33-09D0-48D0-BD3D-CD6D143D8F86}
 		{0B4877F3-B1C9-4292-92BE-499B427ADE28} = {5185ED33-09D0-48D0-BD3D-CD6D143D8F86}
+		{2E9B3A1F-8340-45E9-845A-968810B7C747} = {5185ED33-09D0-48D0-BD3D-CD6D143D8F86}
 	EndGlobalSection
 EndGlobal

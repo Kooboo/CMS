@@ -1,0 +1,7 @@
+﻿@model Kooboo.Common.Web.Menu.Menu
+<ul>
+    @foreach (var item in Model.Items)
+    {
+        @Html.Partial("MenuItem", item)
+    } 
+</ul>

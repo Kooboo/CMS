@@ -79,7 +79,7 @@ namespace Kooboo.CMS.Sites.Membership
 
             var forgotPasswordModel = new ForgotPasswordModel();
 
-            bool valid = ModelBindHelper.BindModel(forgotPasswordModel, "", controllerContext, submissionSetting);
+            bool valid = Kooboo.CMS.Sites.Extension.ModelBindHelper.BindModel(forgotPasswordModel, "", controllerContext, submissionSetting);
 
             if (valid)
             {

@@ -1,0 +1,40 @@
+﻿@model object
+@{
+    Layout = ViewBag.Layout ?? "_TR.cshtml";
+    ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
+    var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString();
+    
+    var editorHtmlAttributes = Html.GetUnobtrusiveValidationAttributes(propertyName, ViewData.ModelMetadata).Merge("multiple", "multiple").Merge(ViewData.ModelMetadata.AdditionalValues, true);
+    var htmlAttributes = ViewBag.HtmlAttributes;
+    if (htmlAttributes != null)
+    {
+        if (htmlAttributes is IDictionary<string, object>)
+        {
+            editorHtmlAttributes.Merge((IDictionary<string, object>)htmlAttributes);
+        }
+        else
+        {
+            editorHtmlAttributes.Merge(new RouteValueDictionary(htmlAttributes));
+        }
+    }
+}
+
+@Html.DropDownList(propertyName, ViewData.ModelMetadata.GetDataSource()
+                    .GetSelectListItems(ViewContext.RequestContext, "").SetActiveItem(Model), editorHtmlAttributes)
+@Html.ValidationMessage(ViewData.ModelMetadata, new { name = ViewData["name"] })
+@if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+{
+    <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
+}
+<script>
+    //当应用了select2时，默认的select标签会被隐藏
+    //而jquery.validate默认情况下会忽略并不验证":hidden"的元素
+    //jquery.unobtrusive.validation实际上只是对jquery.validate的一个包装，它会在document.ready时对表单执行验证配置，
+    //所以，必须在document.ready之前先设置jquery.validate的忽略选项为空，让它对所有元素进行验证
+    if (jQuery&&jQuery.validator) {
+        jQuery.validator.defaults.ignore = "";
+    }
+    jQuery(function ($) {
+        $("#@ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName)").select2();
+    });
+</script>

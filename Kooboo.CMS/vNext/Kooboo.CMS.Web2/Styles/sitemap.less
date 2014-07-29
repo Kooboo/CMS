@@ -1,0 +1,307 @@
+/* Sitemap description
+----------------------------------------------------------*/
+.sitemap-description li {
+	float: left;
+	line-height: 25px;
+	margin-left: 20px;
+
+	span {
+		background: #3CA8DB;
+		color: #FFF;
+		cursor: default;
+		display: block;
+		float: left;
+		height: 25px;
+		margin-right: 5px;
+		text-align: center;
+		width: 25px;
+
+		.icon.status {
+			background-position: -190px -80px;
+			height: 17px;
+			margin: 4px;
+			width: 17px;
+		}
+
+		&.dynamic {
+			background: #1076A6;
+		}
+
+		&.inherited {
+			.icon.status {
+				background-position: -207px -80px;
+			}
+		}
+
+		&.show-in-menu {
+			color: #000;
+			font-weight: bold;
+		}
+
+		&.unsynchronized {
+			background-color: #DDD;
+
+			.icon.status {
+				background-position: -241px -80px;
+			}
+		}
+
+		&.unpublished {
+			background: #C1C1C1;
+		}
+
+		&.available {
+			background: #1f9284;
+		}
+
+		&.completed {
+			background: #EEE;
+			color: #333;
+		}
+
+		&.disabled {
+			background: #CCC;
+			color: #666;
+		}
+
+		&.ab-testing {
+			.icon.status {
+				background-position: -224px -80px;
+			}
+		}
+	}
+}
+
+/* Sitemap panel
+----------------------------------------------------------*/
+.sitemap-panel .blank {
+	margin-top: 15%;
+	text-align: center;
+
+	.dropdown-button {
+		margin-top: 30px;
+	}
+
+	.button {
+		margin-top: 30px;
+	}
+}
+
+/* Site tree
+----------------------------------------------------------*/
+.site-tree {
+	float: left;
+	margin: 0 33px 33px 0;
+
+	.tree-node {
+		.clearfix;
+		position: relative;
+	}
+
+	> .tree-node {
+		margin-bottom: 33px;
+	}
+
+	.tree-icon {
+		background-position: 0 -94px;
+		cursor: pointer;
+		left: 154px;
+		position: absolute;
+		top: 33px;
+		z-index: 99;
+	}
+
+	.active > .tree-icon {
+		background-position: -11px -94px;
+	}
+
+	.children {
+		background: url(images/line-y.png) repeat-y 16px 0;
+		float: left;
+		margin-top: 19px;
+
+		> ul {
+			background: url(images/line-x.png) no-repeat 0 19px;
+			margin: -19px 0 0;
+		}
+
+		.tree-node {
+			background: url(images/line-x.png) no-repeat 16px 19px;
+			padding: 0 0 8px 33px;
+
+			&:last-child {
+				background: #FFF url(images/line-end.png) no-repeat 16px 0;
+				padding-bottom: 0;
+
+				&:first-child {
+					background: #FFF url(images/line-x.png) repeat-x 0 19px;
+				}
+			}
+		}
+
+		.tree-icon {
+			left: 187px;
+		}
+	}
+}
+
+ul.site-tree {
+	padding: 0;
+	clear: both;
+	float: none;
+}
+
+/* Map item
+----------------------------------------------------------*/
+.map-item {
+	background-color: #3CA8DB;
+	float: left;
+	height: 39px;
+	position: relative;
+	width: 160px;
+
+	&.static {
+		background-color: #3CA8DB;
+	}
+
+	&.dynamic {
+		background-color: #1076A6;
+	}
+
+	&.unpublished {
+		background-color: #C1C1C1;
+	}
+
+	&.inherited {
+		.icon.status {
+			background-position: -207px -80px;
+		}
+	}
+
+	&.unsynchronized {
+		background-color: #DDD;
+
+		.icon.status {
+			background-position: -241px -80px;
+		}
+	}
+
+	&.show-in-menu .text {
+		color: #000;
+		font-weight: bold;
+	}
+
+	&.ab-testing {
+		.icon.status {
+			background-position: -224px -80px;
+		}
+	}
+	/* Status */
+	span.status {
+		border-right: 1px solid #FFF;
+		float: left;
+		padding: 11px 8px;
+		.opacity(50);
+
+		.icon {
+			background-position: -190px -80px;
+			height: 17px;
+			width: 17px;
+		}
+	}
+	/* Text */
+	.text {
+		color: #FFF;
+		float: left;
+		line-height: 39px;
+		padding: 0 10px;
+		position: relative;
+		width: 106px;
+
+		span {
+			display: block;
+			margin-right: 5px;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.icon {
+			position: absolute;
+			right: 5px;
+			top: 15px;
+		}
+	}
+
+	> a {
+		color: #FFF;
+		display: block;
+		float: left;
+		height: 39px;
+		line-height: 39px;
+		padding: 0 10px;
+		text-align: center;
+		width: 107px;
+
+		span {
+			overflow: hidden;
+			white-space: nowrap;
+		}
+	}
+
+	> .arrow {
+		border-left: 1px solid #FFF;
+		display: block;
+		float: right;
+		height: 16px;
+		padding: 11px 8px 12px 8px;
+		text-indent: -9999px;
+		width: 16px;
+	}
+	/* Item menu */
+	ul {
+		background: #FFF;
+		border: 2px solid #000;
+		display: none;
+		left: 101%;
+		min-width: 100%;
+		position: absolute;
+		z-index: 999;
+
+		a {
+			color: #000;
+			display: block;
+			line-height: 24px;
+			padding: 0 10px;
+
+			&:hover {
+				background: #E5F0F7;
+			}
+		}
+	}
+
+	li {
+		position: relative;
+
+		ul {
+			left: 100%;
+			position: absolute;
+			top: 0;
+		}
+
+		&:hover {
+			> a {
+				background: #E5F0F7;
+			}
+
+			> ul {
+				display: block;
+			}
+		}
+	}
+
+	.sitemap-panel & {
+		.trigger {
+			cursor: pointer;
+		}
+	}
+}

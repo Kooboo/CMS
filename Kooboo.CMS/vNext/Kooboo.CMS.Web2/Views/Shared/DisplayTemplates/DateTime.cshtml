@@ -1,0 +1,44 @@
+﻿@model DateTime?
+@{
+    DateTime? dt = null;
+    if (Model.HasValue)
+    {
+        if (Model.Value.Kind == DateTimeKind.Utc)
+        {
+            dt = Model.Value.ToLocalTime();
+        }
+        else
+        {
+            dt = Model;
+        }
+    }
+
+}
+<tr>
+    <th>
+        <label for="@ViewData.ModelMetadata.PropertyName">
+            @ViewData.ModelMetadata.GetDisplayName().Localize()
+        </label>
+        @if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+        {
+            <a href="#" class="tooltip-link" title="@ViewData.ModelMetadata.Description "></a>
+        }
+    </th>
+    <td>
+        @if (Model.HasValue)
+        {
+            @("-")
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(ViewData.ModelMetadata.DisplayFormatString))
+            {
+                @dt
+            }
+            else
+            {
+                @dt.Value.ToString(ViewData.ModelMetadata.DisplayFormatString)
+            }
+        }
+    </td>
+</tr>

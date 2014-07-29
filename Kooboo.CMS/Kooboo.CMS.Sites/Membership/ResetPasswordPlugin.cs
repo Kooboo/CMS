@@ -68,7 +68,7 @@ namespace Kooboo.CMS.Sites.Membership
             var membership = MemberPluginHelper.GetMembership();
 
             var model = new ResetPasswordModel();
-            bool valid = ModelBindHelper.BindModel(model, "", controllerContext, submissionSetting);
+            bool valid = Kooboo.CMS.Sites.Extension.ModelBindHelper.BindModel(model, "", controllerContext, submissionSetting);
             if (valid)
             {
                 try

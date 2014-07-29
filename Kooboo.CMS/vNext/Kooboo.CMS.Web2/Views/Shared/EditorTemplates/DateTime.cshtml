@@ -1,0 +1,124 @@
+﻿@model DateTime?
+@{ 
+    Layout = ViewBag.Layout ?? "_TR.cshtml";
+    ViewData.TemplateInfo.HtmlFieldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix.Replace(ViewData.ModelMetadata.PropertyName, "").Trim('.');
+    var propertyName = ViewData["name"] == null ? ViewData.ModelMetadata.PropertyName : ViewData["name"].ToString();
+
+
+    var editorHtmlAttributes = Html.GetUnobtrusiveValidationAttributes(propertyName, ViewData.ModelMetadata).Merge(ViewData.ModelMetadata.AdditionalValues, true);
+    var htmlAttributes = ViewBag.HtmlAttributes;
+    if (htmlAttributes != null)
+    {
+        if (htmlAttributes is IDictionary<string, object>)
+        {
+            editorHtmlAttributes.Merge((IDictionary<string, object>)htmlAttributes);
+        }
+        else
+        {
+            editorHtmlAttributes.Merge(new RouteValueDictionary(htmlAttributes));
+        }
+    }
+    editorHtmlAttributes = editorHtmlAttributes.Merge("data-bind", "value:dateStr");
+}
+<div id="@(ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName))_panel">
+    @Html.TextBox(propertyName, Model.HasValue ? Model.Value.ToLocalTime().ToString("yyyy/MM/dd HH:mm") : string.Empty, editorHtmlAttributes)
+    @Html.ValidationMessage(ViewData.ModelMetadata, new { name = ViewData["name"] })
+    <em class="tip" id="@ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName)_distance" data-bind="text:tip"></em>
+    @if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
+    {
+        <em class="tip">@Html.Raw(ViewData.ModelMetadata.Description.Localize())</em>
+    }
+</div>
+<script>
+    $(function () {
+        function DateModel() {
+            this.dateStr = ko.observable('');
+            this.tip = ko.observable('');
+            this.timer = null;
+
+            var dayOfMillSeconds = 1000 * 60 * 60 * 24,
+                    hoursOfMillSeconds = 1000 * 60 * 60,
+                    minutesOfMillSeconds = 1000 * 60,
+                    secondsOfMillSeconds = 1000;
+            this.updateTip = function () {
+                var self = this, date = null;
+                if (self.timer) {
+                    window.clearTimeout(self.timer);
+                    self.timer = null;
+                }
+                try {
+                    date = new Date(self.dateStr());
+                    console.log(self.dateStr());
+                }
+                catch (e) { date = null; }
+                if (date) {
+                    self.timer = setTimeout(function () {
+                        var now = new Date(), txt = "";
+                        if (date) {
+                            var millSeconds = date.getTime() - now.getTime();
+                            var distanceDay = 0, distanceHours = 0, distantceMinutes = 0, distanceSeconds = 0;
+                            if (millSeconds >= dayOfMillSeconds) {
+                                distanceDay = parseInt(millSeconds / dayOfMillSeconds);
+                                millSeconds = millSeconds - dayOfMillSeconds * distanceDay;
+                            }
+                            if (millSeconds >= hoursOfMillSeconds) {
+                                distanceHours = parseInt(millSeconds / hoursOfMillSeconds);
+                                millSeconds = millSeconds - hoursOfMillSeconds * distanceHours;
+                            }
+                            if (millSeconds >= minutesOfMillSeconds) {
+                                distantceMinutes = Math.floor(millSeconds / minutesOfMillSeconds);
+                                millSeconds = millSeconds - minutesOfMillSeconds * distantceMinutes;
+                            }
+                            if (millSeconds >= secondsOfMillSeconds) {
+                                distanceSeconds = Math.floor(millSeconds / secondsOfMillSeconds);
+                            }
+                            if (distanceDay > 0) {
+                                txt += distanceDay + " @("days".Localize()) ";
+                            }
+                            if (distanceHours > 0) {
+                                txt += distanceHours + " @("hours".Localize()) "
+                            }
+                            if (distantceMinutes > 0) {
+                                txt += distantceMinutes + " @("minutes".Localize()) "
+                            }
+                            if (distanceSeconds > 0) {
+                                txt += distanceSeconds + " @("seconds".Localize()) "
+                            }
+                            if (!txt) {
+                                txt = "@("Immediately".Localize())";
+                            }
+                            txt = "@("From now".Localize()) : " + txt;
+                            self.tip(txt);
+                        }
+                        self.timer = setTimeout(arguments.callee, 1 * 1000);
+                    }, 100);
+                } else {
+                    self.tip('');
+                }
+            };
+        }
+
+        var dayOfMillSeconds = 1000 * 60 * 60 * 24,
+            hoursOfMillSeconds = 1000 * 60 * 60,
+            minutesOfMillSeconds = 1000 * 60,
+            secondsOfMillSeconds = 1000;
+
+        var model = new DateModel();
+        ko.applyBindings(model, document.getElementById('@(ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName))_panel'));
+
+        var timePicker = $("#@ViewData.TemplateInfo.GetFullHtmlFieldId(propertyName)").datetimepicker({
+            controlType: 'select',
+            dateFormat: 'yy/mm/dd',
+            timeFormat: 'HH:mm',
+            onClose: function () {
+                $(this).trigger("datetimepicker.blur");
+            }
+        }).on("datetimepicker.blur", function () {
+            model.updateTip();
+        });
+        @if (Model.HasValue)
+        {
+            @:timePicker.datetimepicker("setDate", (new Date("@Model.Value.ToLocalTime().ToString("yyyy/MM/dd HH:mm")")))
+        }
+    });
+</script>

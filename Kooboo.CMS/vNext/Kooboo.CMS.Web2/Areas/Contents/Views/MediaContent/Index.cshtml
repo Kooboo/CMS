@@ -1,0 +1,306 @@
+﻿@model Kooboo.CMS.Web2.Areas.Contents.Models.MediaContentGrid
+@using Kooboo.CMS.Content.Models
+@{
+    ViewBag.Title = "Media Library".Localize();
+    Layout = "~/Views/Shared/Site.cshtml";
+
+
+    var fileType = ViewContext.RequestContext.GetRequestValue("fileType");
+
+    var fileTypeDic = new Dictionary<string, List<string>>();
+    fileTypeDic.Add("image", new List<string> { "jpg", "png", "gif", "jpeg", "bmp" });
+
+    var displayExtension = string.IsNullOrWhiteSpace(fileType) ? new List<string>() : fileTypeDic.ContainsKey(fileType) ? fileTypeDic[fileType.ToLower()] : new List<string>();
+
+    string action = ViewContext.RequestContext.GetRequestValue("action");
+    var folderPaths = (ViewContext.RequestContext.GetRequestValue("FolderName") != null ? FolderHelper.SplitFullName(ViewContext.RequestContext.GetRequestValue("FolderName")) : new string[] { }).ToArray();
+}
+@section Panel{
+    <ul class="panel">
+
+        <li><a id="CreateFolder">@Html.IconImage("add-folder")@("New folder".Localize())</a></li>
+
+        @if (folderPaths.Length > 0)
+        {
+            <li>
+                <a class="upload-button">
+                    <span>
+                        <form action="@this.Url.Action("Upload", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" enctype="multipart/form-data"
+                              method="post" class="no-stop">
+                            <input type="hidden" value="True" name="Overrided" />
+                            <input type="file" name="file" title="@("Upload".Localize())" />
+                        </form>
+                    </span>
+                    @Html.IconImage("upload")@("Upload".Localize())
+                </a>
+            </li>
+            <li><a href="@Url.Action("Html5Uploader", ViewContext.RequestContext.AllRouteValues().Merge("controller", "MediaContent").Merge("return", ViewContext.HttpContext.Request.RawUrl))">@Html.IconImage("uploads") @("Multi-file upload".Localize())</a></li>
+            <li>
+                <a href="@Url.Action("Import", ViewContext.RequestContext.AllRouteValues().Merge("title", "Import media content").Merge("return", ViewContext.HttpContext.Request.RawUrl).Merge("title", "Import media content"))">
+                    @Html.IconImage("import") @("Import".Localize())
+                </a>
+            </li>
+        }
+        <li>
+            <a href="@Html.Raw(this.Url.Action("Delete", ViewContext.RequestContext.AllRouteValues()))" data-show-on-check="Any" data-command-type="AjaxPost" data-confirm="@("Are you sure you want to delete these items?".Localize())">@Html.IconImage("delete") @("Delete".Localize())</a>
+        </li>
+        <li class="j_DropDown" data-show-on-check="Any">
+            <a>
+                @("More...".Localize())
+                @Html.IconImage("arrow small white-down")
+            </a>
+            <ul class="j_DropDownContent hide">
+                <li>
+                    <a id="RenameButton" data-show-on-check="Single">@("Rename".Localize())</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Export", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Any" data-command-type="Download">
+                        @("Export".Localize())
+                    </a>
+                </li>
+            </ul>
+        </li>
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
+    </ul>
+
+}
+<div class="topbar clearfix">
+    <h1 class="title">
+        @ViewBag.Title <strong>@ViewContext.RequestContext.GetRequestValue("folderPath")</strong>
+    </h1>
+    @if (folderPaths.Length > 0)
+    {
+        <div class="breadcrumb">
+            <a href="@Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("FolderName", ""))">@("Root".Localize())</a>
+
+            @for (var i = 0; i < folderPaths.Length; i++)
+            {
+                if (i == folderPaths.Length - 1)
+                {
+                    @Html.IconImage("arrow gray-right")
+                    <span>@folderPaths[i]</span>
+                }
+                else
+                {
+                    @Html.IconImage("arrow gray-right")
+                    <a href="@Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("FolderName", FolderHelper.CombineFullName(folderPaths.Take(i + 1))))">@folderPaths[i]</a>
+                }
+            }
+        </div>
+    }
+
+    @(Html.Partial("_Search"))
+    <ul class="view-switch">
+        <li class="list active"><a title="@("Details view".Localize())" href="@Url.Action(ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.GetRequestValue("controller"), ViewContext.RequestContext.AllRouteValues().Merge("listType", null))">@Html.IconImage("list")</a></li>
+        <li class="grid"><a title="@("Thumbnails view".Localize())" href="@Url.Action(ViewContext.RequestContext.GetRequestValue("action"), ViewContext.RequestContext.GetRequestValue("controller"), ViewContext.RequestContext.AllRouteValues().Merge("listType", "Grid"))">@Html.IconImage("grid")</a></li>
+    </ul>
+</div>
+@helper RenderHeader()
+{
+    <thead>
+        <tr>
+            <th class="checkbox mutiple">
+                <div>
+                    <input type="checkbox" class="select-all" />
+                    @Html.IconImage("arrow")
+                    <ul class="hide">
+                        <li>Select:</li>
+                        <li class="all">
+                            <a>
+                                @Html.Raw("All Elements".Localize())
+                            </a>
+                        </li>
+                        <li class="docs">
+                            <a>
+                                @Html.Raw("Only Documents".Localize())
+                            </a>
+                        </li>
+                        <li class="folders">
+                            <a>
+                                @Html.Raw("Only Folders".Localize())
+                            </a>
+                        </li>
+                        <li class="none">
+                            <a>
+                                @Html.Raw("None".Localize())
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </th>
+            <th class="common @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "FileName", 1)">
+                @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Title".Localize(), "FileName", 1)
+            </th>
+            <th class="type @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "FileType", 2)">
+                @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "FileType".Localize(), "FileType", 2)
+            </th>
+            <th class="date @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "UtcCreationDate", 3)">
+                @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Date".Localize(), "UtcCreationDate", 3)
+            </th>
+            <th class="size @SortByExtension.RenderSortHeaderClass(ViewContext.RequestContext, "Size", 4)">
+                @SortByExtension.RenderGridHeader(ViewContext.RequestContext, "Size".Localize(), "Size", 4)
+            </th>
+
+    </thead>
+}
+<div class="common-table fixed">
+    <div class="thead">
+        <table>
+            @RenderHeader()
+        </table>
+    </div>
+    <div class="tbody">
+        <table>
+            @RenderHeader()
+            <tbody>
+                <tr id="CreateFolderTemplate" class="hide">
+                    <td class="checkbox"></td>
+                    <td>
+                        @using (Html.BeginForm(ViewContext.RequestContext.AllRouteValues().Merge("action", "CreateFolder").Merge("return", ViewContext.HttpContext.Request.RawUrl)))
+                        {
+                            @Html.Hidden("FolderName", ViewContext.RequestContext.GetRequestValue("FolderName"))
+                            <input class="editor" type="text" name="Name"
+                                   @(new[] {Validator.Regex(RegexPatterns.FileName,"Invalid folder name.".Localize()).ClientValidationRule, Validator.Required().ClientValidationRule,  ValidatorExtensions.Remote(Url.Action("IsFolderNameAvailable", ViewContext.RequestContext.AllRouteValues())) }.GenerateHtmlAttributes()) />
+                            <a class="action" data-ajaxform="">@Html.IconImage("save small")</a>
+                            <a class="action" data-inline-action='{"hide":"#CreateFolderTemplate"}'>@Html.IconImage("minus small")</a>
+                            @Html.ValidationMessageForInput("Name")
+                        }
+                    </td>
+                    <td class="type"></td>
+                    <td class="date"></td>
+                    <td class="size"></td>
+                </tr>
+                @{
+                    var childFolders = Model.ChildFolders.ToArray();
+                    var contents = Model.Contents == null ? new MediaContent[0] : Model.Contents.ToArray();
+                }
+                @if (Model.ChildFolders.Count() == 0 && (Model.Contents == null || Model.Contents.Count() == 0))
+                {
+                    <tr class="empty">
+                        <td colspan="6">
+                            @("Empty".Localize())
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var folder in childFolders)
+                    {
+                        var templateId = "folder_" + folder.Name;
+                        var displayTemplateId = templateId + "_display";
+                        var editorTemplateId = templateId + "_editor";
+                        <tr class="foldertr">
+                            <td class="checkbox">
+                                <input type="checkbox" name="select" value="@Html.Raw(folder.FullName)" class="select folder" autocomplete="off" />
+                            </td>
+                            <td>
+
+                                <div id="@displayTemplateId" class="display-template">
+                                    <a class="text" href="@this.Url.Action(action, ViewContext.RequestContext.AllRouteValues().Merge("FolderName", folder.FullName))">@Html.IconImage("folder")@folder.Name</a>
+
+                                    <a data-tr-hover="true" data-inline-action='{"show":"#@editorTemplateId","hide":"#@displayTemplateId"}' class="action hide">@Html.IconImage("edit small")</a>
+                                </div>
+
+                                <div id="@editorTemplateId" class="edit-template hide">
+                                    @using (Html.BeginForm(ViewContext.RequestContext.AllRouteValues().Merge("action", "RenameFolder").Merge("FolderName", folder.FullName).Merge("return", ViewContext.HttpContext.Request.RawUrl)))
+                                    {
+                                        <input class="editor" type="text" name="Name" value="@folder.Name"
+                                               @(new[] {Validator.Regex(RegexPatterns.FileName,"Invalid file name.".Localize()).ClientValidationRule, Validator.Required().ClientValidationRule, ValidatorExtensions.Remote(Url.Action("IsFolderNameAvailable", ViewContext.RequestContext.AllRouteValues().Merge("old",folder.Name))) }.GenerateHtmlAttributes()) />
+                                        <a class="action" data-ajaxform="">@Html.IconImage("save small")</a>
+                                        <a class="action" data-inline-action='{"show":"#@displayTemplateId","hide":"#@editorTemplateId"}'>@Html.IconImage("minus small")</a>
+                                        @Html.ValidationMessageForInput("Name")
+                                    }
+                                </div>
+                            </td>
+                            <td class="type">
+                                @Html.Raw("Folder".Localize())
+                            </td>
+                            <td class="date">@folder.UtcCreationDate.ToLocalTime().ToShortDateString()</td>
+                            <td class="size">-</td>
+                        </tr>
+                    }
+
+                    foreach (var content in contents)
+                    {
+                        var templateId = "file_" + UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
+                        var displayTemplateId = templateId + "_display";
+                        var editorTemplateId = templateId + "_editor";
+
+                        if (displayExtension.Count == 0 || displayExtension.Contains(content.FileType.ToLower()))
+                        {
+                            <tr class="doctr">
+                                <td class="checkbox">
+                                    <input type="checkbox" value="@Html.Raw(content.UUID)" class="select doc" />
+                                </td>
+                                <td>
+                                    <div id="@displayTemplateId" class="display-template">
+                                        @if (content.IsImage)
+                                        {
+                                            <a class="text" href="@this.Url.Action("Edit", ViewContext.RequestContext.AllRouteValues().Merge("UUID", content.UUID).Merge("return", ViewContext.HttpContext.Request.RawUrl))">@Html.IconImage("file image " + content.FileType.ToLower())@content.FileName</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="text" href="@Url.Content(content.Url)">@Html.IconImage("file " + content.FileType.ToLower())@content.FileName</a>
+                                        }
+                                        <a class="action hide" data-tr-hover="true" data-inline-action='{"show":"#@editorTemplateId","hide":"#@displayTemplateId"}' class="hide">@Html.IconImage("edit small")</a>
+                                    </div>
+                                    <div id="@editorTemplateId" class="edit-template hide">
+                                        @using (Html.BeginForm(ViewContext.RequestContext.AllRouteValues().Merge("action", "RenameFile").Merge("uuid", content.FileName).Merge("return", ViewContext.HttpContext.Request.RawUrl)))
+                                        {
+                                            <input class="editor" type="text" name="Name" value="@content.FileName"
+                                                   @(new[] { Validator.Required().ClientValidationRule, ValidatorExtensions.Remote(Url.Action("IsFileNameAvailable", ViewContext.RequestContext.AllRouteValues().Merge("uuid", content.FileName))) }.GenerateHtmlAttributes()) />
+                                            <a class="action" data-ajaxform="">@Html.IconImage("save small")</a>
+                                            <a class="action" data-inline-action='{"show":"#@displayTemplateId","hide":"#@editorTemplateId"}'>@Html.IconImage("minus small")</a>
+                                            @Html.ValidationMessageForInput("Name")
+                                        }
+                                    </div>
+                                    <div class="display-template">
+                                    </div>
+                                    <div class="edit-template" style="display: none">
+                                    </div>
+                                </td>
+                                <td class="type">
+                                    @Html.Raw(content.FileType.Localize().ToUpper())
+                                </td>
+                                <td class="date">
+                                    @Html.Raw(content.UtcCreationDate.ToShortDateString())
+                                </td>
+                                <td class="size">
+                                    @Html.Raw(string.Format("{0:0.00}", content.Size / 1024))
+                                    KB
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        @(Html.Pager(Model.Contents, "", ViewContext.RequestContext.AllRouteValues(), null))
+    </div>
+</div>
+<script>
+    $(function () {
+        var $table = $('.common-table table');
+        $table.checkableTable();
+        $table.mixedGrid();
+        $table.gridInlineEdit();
+        $('#CreateFolder').click(function () {
+            $('#CreateFolderTemplate').removeClass('hide');
+            $('.empty').hide();
+        });
+
+        $('#RenameButton').click(function () {
+            var $selected = $table.find("tbody tr input:checkbox[checked]");
+            var $td = $selected.parent().next();
+            $td.find('.display-template').addClass('hide');
+            $td.find('.edit-template').removeClass('hide');
+        });
+    });
+</script>

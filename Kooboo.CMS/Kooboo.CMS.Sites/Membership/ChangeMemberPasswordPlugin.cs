@@ -70,7 +70,7 @@ namespace Kooboo.CMS.Sites.Membership
             var membership = MemberPluginHelper.GetMembership();
 
             var model = new ChangeMemberPasswordModel();
-            bool valid = ModelBindHelper.BindModel(model, "", controllerContext, submissionSetting);
+            bool valid = Kooboo.CMS.Sites.Extension.ModelBindHelper.BindModel(model, "", controllerContext, submissionSetting);
             if (valid)
             {
                 valid = _manager.Validate(membership, memberAuth.GetMember().Identity.Name, model.OldPassword);

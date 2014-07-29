@@ -1,0 +1,86 @@
+﻿@model Kooboo.Common.Web.Grid.GridModel
+@{
+    var items = Model.GetItems().ToArray();
+}
+@helper RenderHeader()
+{
+    <thead>
+        <tr>
+            @if (Model.Checkable)
+            {
+                <th class="checkbox">
+                    <input type="checkbox" class="select-all" />
+                </th>
+            }
+            @foreach (var column in Model.Columns)
+            {
+                <th @column.RenderHeaderContainerAtts(ViewContext)>
+                    @column.RenderHeader(ViewContext)
+                </th>
+            }
+        </tr>
+    </thead>
+}
+<div class="common-table fixed">
+    <div class="thead">
+        <table>
+            @RenderHeader()
+        </table>
+    </div>
+    <div class="tbody">
+        <table>
+            @RenderHeader()
+            <tbody>
+                @if (items.Length == 0)
+                { 
+                    <tr class="empty">
+                        <td colspan="100">
+                            @(string.IsNullOrEmpty(Model.GridAttribute.EmptyText)? ("Empty".Localize()) : Model.GridAttribute.EmptyText)
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in items)
+                    {
+                    <tr @item.RenderItemContainerAtts()>
+                        @if (Model.Checkable)
+                        {
+                           
+                            <td class="checkbox @(Model.Draggable ? "draggable" : "")">
+                                @if (Model.Draggable)
+                                {
+                                    <div>
+                                        @Html.IconImage("drag")
+                                        <input type="checkbox"  class="select" name="select" value="@item.IdPropertyValue" data-id-property="@Model.IdPorperty"
+                                 @(item.IsCheckable == true ? "" : "disabled") autocomplete="off"/>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="checkbox"  class="select" name="select" value="@item.IdPropertyValue" data-id-property="@Model.IdPorperty"
+                                 @(item.IsCheckable == true ? "" : "disabled") autocomplete="off"/>
+                                }
+                            </td>
+                        }
+                        @foreach (var itemValue in item.GetItemColumns())
+                        {
+                            <td @itemValue.RenderItemColumnContainerAtts(ViewContext)>
+                                @itemValue.RenderItemColumn(ViewContext)
+                            </td>
+                        }
+                    </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            var table = $('.common-table table');
+            table.checkableTable();
+            table.grid();
+        });
+    </script>
+</div>

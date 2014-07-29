@@ -1,0 +1,56 @@
+﻿@model Kooboo.Common.Web.Menu.MenuItem
+@if (Model.Visible)
+{
+    var menuItem = Model as Kooboo.Common.Web.Menu.MenuItem;
+    if (menuItem != null)
+    {
+        var controller = menuItem.Controller ?? ViewContext.RequestContext.GetRequestValue("controller");
+        var folderClass = "";
+        var folderControllders = new string[]{
+        "TextFolder",
+        "MediaContent",
+        "ThemeResource",
+        "FileResource",
+        "View"
+       };
+
+        if (folderControllders.Where(o => o.ToLower() == controller.ToLower()).Count() == 1)
+        {
+            folderClass = "folder";
+        }
+        var iconClass = (menuItem.ReadOnlyProperties != null && !string.IsNullOrEmpty(menuItem.ReadOnlyProperties["iconClass"])) ? menuItem.ReadOnlyProperties["iconClass"] : "";
+        var subMenuCount = menuItem.Items == null ? 0 : menuItem.Items.Where(it => it.Visible == true).Count();
+        
+    <li class="@Html.Raw(menuItem.Name) @(menuItem.IsActive ? " active " : " ") @((menuItem.IsCurrent) ? "current" : "")  @Html.Raw(folderClass)">
+        @* @if (!string.IsNullOrEmpty(iconClass))
+        {
+            @Html.IconImage(iconClass);
+        }*@
+        @if (subMenuCount > 0)
+        {
+            <span class="arrow">@Html.IconImage("arrow")</span>
+        }
+        @if (!string.IsNullOrEmpty(menuItem.Action) || !string.IsNullOrEmpty(menuItem.Controller))
+        {
+            var text = menuItem.Localizable ? menuItem.Text.Localize() : menuItem.Text;
+            var htmlAttributes = menuItem.HtmlAttributes ?? new RouteValueDictionary();
+            htmlAttributes["title"] = text;
+            @Html.ActionLink(text, menuItem.Action, menuItem.Controller, menuItem.RouteValues, htmlAttributes)
+        }
+        else
+        {
+            <a class="action" title="@menuItem.Text.Localize()">
+                @menuItem.Text.Localize()</a>
+        }
+        @if (Model.Items.Count() > 0)
+        {
+            <ul>
+                @foreach (var item in Model.Items)
+                {
+                    @Html.Partial("MenuItem", item)
+                }
+            </ul>
+        }
+    </li>
+    }
+}

@@ -90,7 +90,7 @@ namespace Kooboo.CMS.Sites.Membership
 
             var editMemberModel = new EditMemberProfileModel();
 
-            bool valid = ModelBindHelper.BindModel(editMemberModel, "", controllerContext, submissionSetting);
+            bool valid = Kooboo.CMS.Sites.Extension.ModelBindHelper.BindModel(editMemberModel, "", controllerContext, submissionSetting);
 
             if (valid)
             {

@@ -207,7 +207,7 @@ namespace Kooboo.CMS.Membership.Services
             _provider.Update(membershipUser, membershipUser);
 
         }
-        #endregion
+        #endregion      
 
         #region ChangePassword
         public virtual void ChangePassword(Kooboo.CMS.Membership.Models.Membership membership, string userName, string newPassword)

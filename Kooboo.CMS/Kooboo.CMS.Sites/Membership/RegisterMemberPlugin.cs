@@ -91,7 +91,7 @@ namespace Kooboo.CMS.Sites.Membership
 
             var registerMemberModel = new RegisterMemberModel();
 
-            bool valid = ModelBindHelper.BindModel(registerMemberModel, "", controllerContext, submissionSetting);
+            bool valid = Kooboo.CMS.Sites.Extension.ModelBindHelper.BindModel(registerMemberModel, "", controllerContext, submissionSetting);
 
             if (valid)
             {

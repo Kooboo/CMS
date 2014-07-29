@@ -1,0 +1,38 @@
+﻿@model Kooboo.CMS.Search.Models.SearchSetting
+@{
+    ViewBag.Title = "Edit search setting".Localize();
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+
+@section Panel{
+    <ul class="panel">
+        <li>
+            <a data-ajaxform="">
+                @Html.IconImage("save") @("Save".Localize())</a>
+        </li>
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
+        <li>
+            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
+                @Html.IconImage("cancel") @("Back".Localize())</a>
+        </li>
+    </ul>
+}
+<div class="block common-form">
+    <h1 class="title">@ViewBag.Title</h1>
+    @using (Html.BeginForm())
+    { 
+        <input type="hidden" name="FolderName" id="FolderName" value="@Model.FolderName" />
+        @Html.ValidationSummary(true) 
+        <table>
+            <tbody>
+                @Html.DisplayFor(m => m.FolderName, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.LinkPage, new { HtmlAttributes = new { @class = "medium" } })
+                @Html.EditorFor(m => m.RouteValueFields, new { HtmlAttributes = new { @class = "medium" } })
+            </tbody>
+        </table>
+    }
+</div>
+@Html.Partial("_Scripts")

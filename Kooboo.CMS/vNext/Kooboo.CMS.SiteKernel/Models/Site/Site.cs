@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.SiteKernel.Models
 {
-    public partial class Site : IIdentifiable, IComparable
+    public partial class Site : IIdentifiable, IComparable, IPersistable
     {
         #region Current
         public static Site Current
@@ -122,6 +122,27 @@ namespace Kooboo.CMS.SiteKernel.Models
             return this.FullName.CompareTo(((Site)obj).FullName);
         }
         #endregion
+
+        #region IPersistable
+        public bool IsDummy
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void Init(IPersistable source)
+        {
+            throw new NotImplementedException();
+        }
+        public void OnSaved()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnSaving()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
     public partial class Site
     {
@@ -132,6 +153,8 @@ namespace Kooboo.CMS.SiteKernel.Models
         public string Theme { get; set; }
 
         public ReleaseMode Mode { get; set; }
+
+        public DomainSetting DomainSetting { get; set; }
 
         public bool Published { get; set; }
 

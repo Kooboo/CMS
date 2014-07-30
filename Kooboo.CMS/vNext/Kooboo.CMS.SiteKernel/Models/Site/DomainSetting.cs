@@ -16,12 +16,12 @@ namespace Kooboo.CMS.SiteKernel.Models
 {
     public class DomainSetting
     {
-        string[] Domains { get; set; }
-        string SitePath { get; set; }
-        string ResourceDomain { get; set; }
+        public string[] Domains { get; set; }
+        public string SitePath { get; set; }
+        public string ResourceDomain { get; set; }
         /// <summary>
         /// 相同同域名根据UserAgent查找不同站点
         /// </summary>
-        string UserAgent { get; set; }
+        public string UserAgent { get; set; }
     }
 }

@@ -91,11 +91,27 @@
     <Compile Include="Extension\Site\SiteSettingButtonPlugin.cs" />
     <Compile Include="Extension\Site\SiteSettingFormTabPlugin.cs" />
     <Compile Include="Extension\View\ViewExtensionPoints.cs" />
-    <Compile Include="FrontAPI\PageUrlExtensions.cs" />
-    <Compile Include="FrontAPI\PlaceHolderExtensions.cs" />
+    <Compile Include="FrontAPI\Html\LoadMetaExtensions.cs" />
+    <Compile Include="FrontAPI\Html\LoadScriptsExtensions.cs" />
+    <Compile Include="FrontAPI\Html\LoadStylesExtensions.cs" />
+    <Compile Include="FrontAPI\Html\PageLinkExtensions.cs" />
+    <Compile Include="FrontAPI\Html\ResizeImageLinkExtensions.cs" />
+    <Compile Include="FrontAPI\Html\ViewLinkExtensions.cs" />
+    <Compile Include="FrontAPI\Url\FrontUrlHelper.cs" />
+    <Compile Include="FrontAPI\Url\MediaContentUrlExtensions.cs" />
+    <Compile Include="FrontAPI\Url\ModuleResourceExtensions.cs" />
+    <Compile Include="FrontAPI\Url\PageUrlExtensions.cs" />
+    <Compile Include="FrontAPI\Html\PlaceHolderExtensions.cs" />
+    <Compile Include="FrontAPI\Url\ResizeImageUrlExtensions.cs" />
+    <Compile Include="FrontAPI\Url\SiteResourceUrlExtensions.cs" />
+    <Compile Include="FrontAPI\Url\SubmissionUrlExtensions.cs" />
+    <Compile Include="FrontAPI\Url\ViewUrlExtensions.cs" />
+    <Compile Include="Models\Page\PageExtensions.cs" />
+    <Compile Include="Models\Site\SiteExtensions.cs" />
+    <Compile Include="RouteValuesHelper.cs" />
     <Compile Include="FrontRequestChannel.cs" />
-    <Compile Include="FrontAPI\IFrontHtmlHelper.cs" />
-    <Compile Include="FrontAPI\IFrontUrlHelper.cs" />
+    <Compile Include="FrontAPI\Html\IFrontHtmlHelper.cs" />
+    <Compile Include="FrontAPI\Url\IFrontUrlHelper.cs" />
     <Compile Include="Models\CacheSettings.cs" />
     <Compile Include="Models\DataRuleSetting.cs" />
     <Compile Include="Models\ExpirationPolicy.cs" />
@@ -104,6 +120,7 @@
     <Compile Include="Models\IInheritableExtensions.cs" />
     <Compile Include="Models\Layout\Layout.cs" />
     <Compile Include="Models\Page\IPageContent.cs" />
+    <Compile Include="Models\Page\PageRouteExtensions.cs" />
     <Compile Include="Models\Site\DomainSetting.cs" />
     <Compile Include="Models\HtmlMeta.cs" />
     <Compile Include="Models\Page\Page.cs" />
@@ -176,6 +193,10 @@
     <ProjectReference Include="..\..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Kooboo.CMS.Content\Kooboo.CMS.Content\Kooboo.CMS.Content.csproj">
+      <Project>{c5a5186d-6f8e-4bb9-af0e-74f0993b48da}</Project>
+      <Name>Kooboo.CMS.Content</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -11,13 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace Kooboo.CMS.SiteKernel.FrontAPI
 {
-    public interface IFrontHtmlHelper
+    class ResizeImageLinkExtensions
     {
-        HtmlHelper HtmlHelper { get; }
-        Page_Context Page_Context { get; }
     }
 }

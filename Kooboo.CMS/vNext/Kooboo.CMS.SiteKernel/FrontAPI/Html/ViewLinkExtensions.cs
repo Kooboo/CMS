@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.SiteKernel.FrontAPI
 {
-    public static class PageUrlExtensions
+    class ViewLinkExtensions
     {
     }
 }

@@ -17,7 +17,7 @@ using System.Web.Routing;
 
 namespace Kooboo.CMS.SiteKernel.Models
 {
-    public partial class Page : ISiteObject, IInheritable<Page>, IIdentifiable
+    public partial class Page : ISiteObject, IInheritable<Page>, IIdentifiable, IPersistable
     {
         #region .ctor
         public Page() { }
@@ -62,6 +62,30 @@ namespace Kooboo.CMS.SiteKernel.Models
                 this.Name = value;
             }
         }
+
+        #region IPersistable methods
+        public bool IsDummy
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void Init(IPersistable source)
+        {
+            throw new NotImplementedException();
+        }
+        public void OnSaved()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnSaving()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+
+      
     }
     public partial class Page
     {
@@ -69,7 +93,7 @@ namespace Kooboo.CMS.SiteKernel.Models
         public string Name { get; set; }
         public string FullName { get; set; }
 
-        public bool IsHomePage { get; set; }
+        public bool IsDefault { get; set; }
 
         public string Layout { get; set; }
 
@@ -82,6 +106,8 @@ namespace Kooboo.CMS.SiteKernel.Models
         public bool Published { get; set; }
 
         public string Editor { get; set; }
+
+        public bool RequireHttps { get; set; }
 
         public HtmlMeta HtmlMeta { get; set; }
 

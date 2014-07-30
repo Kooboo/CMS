@@ -299,6 +299,7 @@
     <Compile Include="View\PositionRender\RemoteRequestActionResult.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="View\PreviewExtensions.cs" />
     <Compile Include="View\SecurityHelper.cs" />
     <Compile Include="View\WebProxy\IHttpProcessor.cs" />
     <Compile Include="ABTest\ABPageTestMatchedObserver.cs" />

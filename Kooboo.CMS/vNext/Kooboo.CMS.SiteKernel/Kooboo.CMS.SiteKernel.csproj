@@ -129,6 +129,7 @@
     <Compile Include="Services\Label\ILabelService.cs" />
     <Compile Include="Services\Label\LabelExtensions.cs" />
     <Compile Include="Services\Layout\ILayoutService.cs" />
+    <Compile Include="Services\Layout\LayouExtensions.cs" />
     <Compile Include="Services\Page\IDraftPageService.cs" />
     <Compile Include="Services\Page\IFrontPageService.cs" />
     <Compile Include="Services\Page\IPageContentRenderer.cs" />

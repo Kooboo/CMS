@@ -91,10 +91,14 @@
     <Compile Include="Extension\Site\SiteSettingButtonPlugin.cs" />
     <Compile Include="Extension\Site\SiteSettingFormTabPlugin.cs" />
     <Compile Include="Extension\View\ViewExtensionPoints.cs" />
+    <Compile Include="FrontAPI\Html\FrontHtmlHelper.cs" />
     <Compile Include="FrontAPI\Html\LoadMetaExtensions.cs" />
     <Compile Include="FrontAPI\Html\LoadScriptsExtensions.cs" />
     <Compile Include="FrontAPI\Html\LoadStylesExtensions.cs" />
     <Compile Include="FrontAPI\Html\PageLinkExtensions.cs" />
+    <Compile Include="FrontAPI\Html\PagerExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FrontAPI\Html\ResizeImageLinkExtensions.cs" />
     <Compile Include="FrontAPI\Html\ViewLinkExtensions.cs" />
     <Compile Include="FrontAPI\Url\FrontUrlHelper.cs" />

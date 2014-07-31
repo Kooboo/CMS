@@ -19,6 +19,8 @@ namespace Kooboo.CMS.SiteKernel.Models
 {
     public static class SiteExtensions
     {
+        public static string PREFIX_FRONT_DEBUG_URL = "dev~";
+
         public static string GetVersionUsedInUrl(this Site site)
         {
             StringBuilder sb = new StringBuilder();

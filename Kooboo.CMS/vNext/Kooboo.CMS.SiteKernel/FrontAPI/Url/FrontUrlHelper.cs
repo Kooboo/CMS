@@ -55,8 +55,67 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
 
         public System.Web.IHtmlString WrapperUrl(string url, bool? requireSSL)
         {
-            throw new NotImplementedException();
-        }     
+            if (string.IsNullOrEmpty(url))
+            {
+                return new HtmlString(url);
+            }
+            var applicationPath = HttpContext.Current.Request.ApplicationPath.TrimStart(new char[] { '/' });
+            if (!url.StartsWith("/") && !string.IsNullOrEmpty(applicationPath))
+            {
+                url = "/" + applicationPath + "/" + url;
+            }
+
+
+            var sitePath = Site.AsActual().DomainSetting.SitePath;
+            if (RequestChannel == FrontRequestChannel.Debug || RequestChannel == FrontRequestChannel.Design || RequestChannel == FrontRequestChannel.Unknown)
+            {
+                sitePath = SiteExtensions.PREFIX_FRONT_DEBUG_URL + Site.FullName;
+            }
+            var urlSplit = url.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            IEnumerable<string> urlPaths = urlSplit;
+            if (!string.IsNullOrEmpty(sitePath))
+            {
+                if (urlSplit.Length > 0 && applicationPath.EqualsOrNullEmpty(urlSplit[0], StringComparison.OrdinalIgnoreCase))
+                {
+                    urlPaths = new string[] { applicationPath, sitePath }.Concat(urlSplit.Skip(1));
+                }
+                else
+                {
+                    urlPaths = new string[] { sitePath }.Concat(urlSplit);
+                }
+            }
+            var endWithSlash = url.EndsWith("/");
+            url = "/" + string.Join("/", urlPaths.ToArray());
+            if (endWithSlash && !url.EndsWith("/"))
+            {
+                url = url + "/";
+            }
+
+
+            #region SSL
+            if (requireSSL.HasValue)
+            {
+                if (RequestChannel == FrontRequestChannel.Host || RequestChannel == FrontRequestChannel.HostNPath)
+                {
+                    if (HttpContext.Current.Request.IsSecureConnection)
+                    {
+                        //if (!requireSSL.Value)
+                        //{
+                        //    url = "http://" + HttpContext.Current.Request.Url.Host + url;
+                        //}
+                    }
+                    else if (requireSSL.Value)
+                    {
+                        url = "https://" + HttpContext.Current.Request.Url.Host + url;
+                    }
+                }
+            }
+
+
+            #endregion
+
+            return new HtmlString(url);
+        }
 
         #region GeneratePageUrl
         public virtual IHtmlString GeneratePageUrl(string urlKey, object values, Func<Site, string, Page> findPage, out Page page)

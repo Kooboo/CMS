@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Routing;
 
 namespace Kooboo.CMS.SiteKernel.FrontAPI
@@ -49,29 +50,29 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
                     .GeneratePageUrl(frontHtml.Page_Context.PageRequestContext.Page, routeValues).ToString();
             }
         }
-        public virtual IHtmlString Pager(object model)
+        public static IHtmlString Pager(this IFrontHtmlHelper frontHtml, object model)
         {
-            return Pager(model, null);
+            return Pager(frontHtml, model, null);
         }
-        public virtual IHtmlString Pager(object model, PagerOptions options)
+        public static IHtmlString Pager(this IFrontHtmlHelper frontHtml, object model, PagerOptions options)
         {
-            return Pager(model, null, options, null);
+            return Pager(frontHtml, model, null, options, null);
         }
         //Optional parameter does not support NVelocity
-        public virtual IHtmlString Pager(object model, object routeValues, PagerOptions options, object htmlAttributes)
+        public static IHtmlString Pager(this IFrontHtmlHelper frontHtml, object model, object routeValues, PagerOptions options, object htmlAttributes)
         {
             options = options ?? new PagerOptions();
 
-            if ((model is DataRulePagedList))
-            {
-                options.PageIndexParameterName = ((DataRulePagedList)model).PageIndexParameterName;
-            }
+            //if ((model is DataRulePagedList))
+            //{
+            //    options.PageIndexParameterName = ((DataRulePagedList)model).PageIndexParameterName;
+            //}
 
             var pagedList = (IPagedList)model;
 
             var builder = new CmsPagerBuilder
              (
-                 this,
+                 frontHtml,
                  pagedList,
                  options,
                  RouteValuesHelper.GetRouteValues(routeValues),

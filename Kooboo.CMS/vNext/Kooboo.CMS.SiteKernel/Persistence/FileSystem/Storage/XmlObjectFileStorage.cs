@@ -7,8 +7,8 @@
 // 
 #endregion
 using Ionic.Zip;
+using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
+namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
 {
     public class XmlObjectFileStorage<T> : IFileStorage<T>
          where T : IIdentifiable, IPersistable, new()
@@ -113,12 +113,12 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
         #region Serialization
         private T Deserialize(T dummy, string filePath)
         {
-            var o = (T)Serialization.Deserialize(dummy.GetType(), _knownTypes, filePath);
+            var o = (T)XmlSerialization.Deserialize(dummy.GetType(), _knownTypes, filePath);
             return o;
         }
         private void Serialize(T item, string filePath)
         {
-            Serialization.Serialize(item, _knownTypes, filePath);
+            XmlSerialization.Serialize(item, _knownTypes, filePath);
         }
         #endregion
 

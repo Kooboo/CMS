@@ -13,10 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Newtonsoft.Json;
-using Kooboo.CMS.Sites.Models;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 
-namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
+namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
 {
     public class JsonListFileStorage<T> : IFileStorage<T>
         where T : IPersistable, new()

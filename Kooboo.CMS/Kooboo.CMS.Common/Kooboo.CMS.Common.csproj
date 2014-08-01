@@ -51,6 +51,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -104,6 +105,7 @@
     <Compile Include="Persistence\Relational\IProvider.cs" />
     <Compile Include="Persistence\Relational\ISiteObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlSerialization.cs" />
     <Compile Include="StateControllerContextActionFilterAttribute.cs" />
     <Compile Include="UriHelper.cs" />
   </ItemGroup>

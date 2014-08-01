@@ -9,6 +9,7 @@
 using Kooboo.CMS.SiteKernel.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace Kooboo.CMS.SiteKernel.Services
 {
     public interface ISiteService : IPersistenceService<Site>, IImportExportService<Site>
     {
+        Site Create(Site parentSite, string siteName, Stream packageStream);
         IEnumerable<Site> RootSites();
         IEnumerable<Site> ChildSites(Site parentSite);
     }

@@ -6,59 +6,20 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.SiteKernel.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using Kooboo.CMS.Sites.Models;
-using System.IO;
-using Kooboo.CMS.Sites.Models.Options;
+using System.Threading.Tasks;
 
-namespace Kooboo.CMS.Sites.Persistence
+namespace Kooboo.CMS.SiteKernel.Persistence
 {
-    public class DomainMapping
+    public interface ISiteProvider : IProvider<Site>
     {
-        public DomainMapping(string fullDomain, string userAgent, Site siteObject)
-        {
-            this.FullDomain = fullDomain;
-            this.UserAgent = userAgent ?? "";
-            this.SiteObject = siteObject;
-        }
-        public string FullDomain { get; set; }
-        public string UserAgent { get; set; }
-        public Site SiteObject { get; set; }
-    }
-    
-    public interface ISiteProvider : ISiteElementProvider<Site>
-    {
-        [Obsolete("Move to PageManager")]
-        Site GetSiteByHostNameNPath(string hostName, string requestPath);
-
-        //Site GetSiteByHostName(string hostName);
-
-        IEnumerable<DomainMapping> GetDomainTable();
-
-        /// <summary>
-        /// Alls the sites. Include all the child sites.
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Site> AllSites();
-
-        IEnumerable<Site> AllRootSites();
-
-        IEnumerable<Site> ChildSites(Site site);
-
-
-        void Offline(Site site);
-
-        void Online(Site site);
-
-        bool IsOnline(Site site);
-
-        Site Create(Site parentSite, string siteName, Stream packageStream, CreateSiteOptions options);
-
-        void Initialize(Site site);
-
-        void Export(Site site, Stream outputStream, bool includeDatabase, bool includeSubSites);
+        IEnumerable<Site> RootSites();
+        IEnumerable<Site> ChildSites(Site parentSite);
     }
 }

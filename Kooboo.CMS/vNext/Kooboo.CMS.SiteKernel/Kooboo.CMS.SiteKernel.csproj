@@ -33,12 +33,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Kooboo.Common, Version=5.0.5318.25815, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Kooboo.Common.5.0.5318.25815\lib\net45\Kooboo.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Data">
-      <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5317.25227\lib\net45\Kooboo.Common.Data.dll</HintPath>
+    <Reference Include="Kooboo.Common.Data, Version=5.0.5326.30170, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5326.30170\lib\net45\Kooboo.Common.Data.dll</HintPath>
     </Reference>
     <Reference Include="Kooboo.Common.Web, Version=5.0.5317.25227, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -47,6 +51,10 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -101,6 +109,7 @@
     </Compile>
     <Compile Include="FrontAPI\Html\ResizeImageLinkExtensions.cs" />
     <Compile Include="FrontAPI\Html\ViewLinkExtensions.cs" />
+    <Compile Include="FrontAPI\NavigationHelper.cs" />
     <Compile Include="FrontAPI\Url\FrontUrlHelper.cs" />
     <Compile Include="FrontAPI\Url\MediaContentUrlExtensions.cs" />
     <Compile Include="FrontAPI\Url\ModuleResourceExtensions.cs" />
@@ -112,6 +121,14 @@
     <Compile Include="FrontAPI\Url\ViewUrlExtensions.cs" />
     <Compile Include="Models\Page\PageExtensions.cs" />
     <Compile Include="Models\Site\SiteExtensions.cs" />
+    <Compile Include="Persistence\FileSystem\SiteProvider.cs" />
+    <Compile Include="Persistence\IImportExportProvider.cs" />
+    <Compile Include="Persistence\ISiteProvider.cs" />
+    <Compile Include="Persistence\FileSystem\Storage\DirectoryObjectFileStorage.cs" />
+    <Compile Include="Persistence\FileSystem\Storage\IFileStorage.cs" />
+    <Compile Include="Persistence\FileSystem\Storage\JsonListFileStorage.cs" />
+    <Compile Include="Persistence\FileSystem\Storage\XmlListFileStorage.cs" />
+    <Compile Include="Persistence\FileSystem\Storage\XmlObjectFileStorage.cs" />
     <Compile Include="RouteValuesHelper.cs" />
     <Compile Include="FrontRequestChannel.cs" />
     <Compile Include="FrontAPI\Html\IFrontHtmlHelper.cs" />
@@ -160,6 +177,9 @@
     <Compile Include="Services\Site\IFrontSiteService.cs" />
     <Compile Include="Services\Site\ISiteService.cs" />
     <Compile Include="Services\Site\SiteExtensions.cs" />
+    <Compile Include="Services\Site\SiteService.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Services\View\IViewRenderer.cs" />
     <Compile Include="Services\View\IViewService.cs" />
     <Compile Include="SiteFlow\Args\BeginSiteRequestEventArgs.cs" />

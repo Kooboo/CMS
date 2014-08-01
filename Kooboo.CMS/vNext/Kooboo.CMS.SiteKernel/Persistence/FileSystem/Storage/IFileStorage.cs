@@ -7,14 +7,12 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
-namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
+namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
 {
     public interface IFileStorage<T>
          where T : IPersistable, new()

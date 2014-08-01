@@ -6,16 +6,23 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.SiteKernel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kooboo.CMS.SiteKernel.Services.Site
+namespace Kooboo.CMS.SiteKernel.Services
 {
     public class SiteService : ISiteService
     {
+
+        public Site Create(Site parentSite, string siteName, System.IO.Stream packageStream)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Site> RootSites()
         {
             throw new NotImplementedException();

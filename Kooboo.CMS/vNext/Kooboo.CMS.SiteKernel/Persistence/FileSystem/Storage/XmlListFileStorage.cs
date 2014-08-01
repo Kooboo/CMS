@@ -7,8 +7,8 @@
 // 
 #endregion
 using Ionic.Zip;
+using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
+namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
 {
     public class XmlListFileStorage<T> : IFileStorage<T>
          where T : IPersistable, new()
@@ -42,7 +42,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
             _locker.EnterReadLock();
             try
             {
-                var list = Serialization.DeserializeSettings<List<T>>(_dataFile) ?? new List<T>();
+                var list = XmlSerialization.Deserialize<List<T>>(_dataFile) ?? new List<T>();
                 return list;
             }
             finally
@@ -136,7 +136,7 @@ namespace Kooboo.CMS.Sites.Persistence.FileSystem.Storage
             _locker.EnterWriteLock();
             try
             {
-                Serialization.Serialize<List<T>>(list, _dataFile);
+                XmlSerialization.Serialize<List<T>>(list, _dataFile);
             }
             finally
             {

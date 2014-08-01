@@ -297,13 +297,6 @@
                     }
                 };
 
-                var initLayoutEditor = function () {
-                    $("body").KoobooHighlight();
-                    $("a").click(function () {
-                        return false;
-                    });
-                    $(":text,textarea,input[type=search]").attr('readonly', 'readonly');
-                };
                 $(function () {
                     initViewEditor();
                     __ctx__.initEditorHandler = initViewEditor;

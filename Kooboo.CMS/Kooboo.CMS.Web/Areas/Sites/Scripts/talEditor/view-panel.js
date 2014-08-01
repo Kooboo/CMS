@@ -865,7 +865,7 @@ var PanelModel = function () {
 
     self.initBoundList = function () {
         $("#span-clear-clicked").trigger('click');
-    }
+    };
 
     //edit events
     self.cancelEdit = function (data, event) {

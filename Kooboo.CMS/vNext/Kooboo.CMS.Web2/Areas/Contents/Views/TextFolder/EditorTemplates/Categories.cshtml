@@ -6,19 +6,21 @@
     var modelJson = Model != null ? Newtonsoft.Json.JsonConvert.SerializeObject(Model) : "[]";
 }
 
-<div id="categories" class="category-list">
+<div id="categories" class="form-list with-action medium">
     <ul data-bind="foreach: data">
         <li>
             @Html.DropDownList("FolderName", ViewData.ModelMetadata.GetDataSource()
                             .GetSelectListItems(ViewContext.RequestContext), new RouteValueDictionary()
                             .Merge("data-bind", "value:FolderName, attr: {name: $parent.getPrefixFieldName($index()) + 'FolderName'}"))
-            <input type="checkbox" name="SingleChoice" value="True" data-bind="checked:SingleChoice, attr: {name: $parent.getPrefixFieldName($index()) + 'SingleChoice'}" />
-            <label class="inline">@("Single choice".Localize())</label>
+            <label class="inline">
+                <input type="checkbox" name="SingleChoice" value="True" data-bind="checked:SingleChoice, attr: {name: $parent.getPrefixFieldName($index()) + 'SingleChoice'}" />
+                @("Single choice".Localize())
+            </label>
             <input type="hidden" name="SingleChoice" value="False" data-bind="attr: {name: $parent.getPrefixFieldName($index()) + 'SingleChoice'}" />
-            <a class="action right" data-bind="click: $parent.removeItem">@Html.IconImage("minus")</a>
+            <a class="action right" data-bind="click: $parent.removeItem">@Html.IconImage("minus-small")</a>
         </li>
     </ul>
-    <a class="action" data-bind="click: $data.addItem">@Html.IconImage("plus")</a>
+    <a class="action" data-bind="click: $data.addItem">@Html.IconImage("plus-small")</a>
 </div>
 <script type="text/javascript">
     $(function () {

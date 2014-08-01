@@ -1,0 +1,211 @@
+/* Buttons
+------------------------------------------------------*/
+.button {
+	background: @blue;
+	color: #FFF;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 14px;
+	height: 28px;
+	line-height: 28px;
+	min-width: 100px;
+	padding: 0 10px;
+	text-align: center;
+	.box-sizing(border-box);
+	.transition(0.2s);
+
+	&:hover {
+		background: darken(@blue, 5%);
+	}
+
+	&.disabled {
+		background: @blue;
+		color: #FFF;
+		cursor: not-allowed;
+	}
+
+	&.gray {
+		background: @gray;
+		color: #000;
+
+		&:hover {
+			background: darken(@gray, 5%);
+		}
+
+		&.disabled {
+			background: lighten(@gray, 5%);
+			color: #666;
+		}
+	}
+
+	&.light-gray {
+		background: @light-gray;
+		color: #000;
+
+		&:hover {
+			background: darken(@light-gray, 5%);
+		}
+
+		&.disabled {
+			background: @light-gray;
+			color: #666;
+		}
+	}
+
+	&.white {
+		background: #FFF;
+		color: #333;
+
+		&:hover {
+			background: darken(#FFF, 5%);
+		}
+
+		&.disabled {
+			background: #FFF;
+			color: #666;
+		}
+	}
+
+	&.upload {
+		position: relative;
+
+		span {
+			height: 100%;
+			left: 0;
+			overflow: hidden;
+			position: absolute;
+			top: 0;
+			width: 100%;
+			z-index: 9999;
+			.opacity(0);
+		}
+
+		input {
+			cursor: pointer;
+			font-size: 32px;
+			height: 100px;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+
+		&.disabled input {
+			cursor: not-allowed;
+		}
+	}
+
+	&.dropdown {
+		padding: 0 30px 0 10px;
+		position: relative;
+
+		span {
+			display: block;
+		}
+
+		.sprite {
+			position: absolute;
+			right: 11px;
+			top: 11px;
+			.sprite(@chevron-down-white);
+		}
+
+		&.active .sprite {
+			.sprite(@chevron-up-white);
+		}
+
+		ul {
+			background: #FFF;
+			border: 1px solid #DDD;
+			cursor: default;
+			display: none;
+			font-size: 12px;
+			left: 0;
+			min-width: 100%;
+			position: absolute;
+			top: 32px;
+			z-index: 999;
+			.box-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+			.box-sizing(border-box);
+
+			li {
+				color: #999;
+				cursor: not-allowed;
+				font-style: italic;
+				line-height: 30px;
+				padding: 0 10px;
+				text-align: left;
+				white-space: nowrap;
+
+				a {
+					color: #000;
+					display: block;
+					font-style: normal;
+					margin: 0 -10px;
+					padding: 0 10px;
+
+					&:hover {
+						background: #DDD;
+					}
+				}
+			}
+		}
+
+		&.only-icon {
+			height: auto;
+			line-height: 0;
+			min-width: 0;
+			padding: 0;
+
+			ul {
+				margin-top: 4px;
+				top: auto;
+			}
+		}
+	}
+}
+/* Form button
+------------------------------------------------------*/
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+	border: none;
+	.button();
+}
+
+/* Switcher button
+------------------------------------------------------*/
+.button-switcher {
+	border: 1px solid @gray;
+	display: inline-block;
+	.rounded(3px);
+
+	li {
+		float: left;
+
+		&:first-child a {
+			.rounded(3px 0 0 3px);
+		}
+
+		&:last-child a {
+			.rounded(0 3px 3px 0);
+		}
+
+		&.active a {
+			background: @light-gray;
+			color: #000;
+		}
+	}
+
+	a {
+		background: #FFF;
+		color: #666;
+		display: block;
+		line-height: 26px;
+		padding: 0 10px;
+
+		&:hover {
+			color: #000;
+		}
+	}
+}

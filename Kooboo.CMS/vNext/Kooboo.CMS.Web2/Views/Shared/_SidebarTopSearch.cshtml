@@ -1,9 +1,8 @@
-﻿<div class="topbar clearfix">
-    <div class="searchbox">
-        <form class="no-stop">
-            <input type="text" name="search" placeholder="Search" value="@Html.Raw(ViewContext.RequestContext.GetRequestValue("search"))" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }">
-            <button type="submit">
-                @Html.IconImage("search")</button>
-        </form>
-    </div>
+﻿<div class="searchbox">
+    <form class="no-stop">
+        <input type="text" name="search" placeholder="Search" value="@Html.Raw(ViewContext.RequestContext.GetRequestValue("search"))" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }">
+        <button type="submit">
+            @Html.IconImage("search")
+        </button>
+    </form>
 </div>

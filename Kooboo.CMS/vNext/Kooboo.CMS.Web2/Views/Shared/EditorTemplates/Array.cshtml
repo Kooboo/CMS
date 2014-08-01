@@ -25,11 +25,11 @@
         }
     }
 }
-<div id="@elementId-Editor" class="mutiple-list">
+<div id="@elementId-Editor" class="form-list vertical">
     <ul data-bind="foreach: data">
         <li class="clearfix">
             @Html.TextBox("", "", editorHtmlAttributes.Merge("data-bind", "value: value, attr: {name: $parent.getName($index())}"))
-            <a class="action left" data-bind="click: $parent.removeItem">@Html.IconImage("minus")</a>
+            <a class="action" data-bind="click: $parent.removeItem">@Html.IconImage("minus")</a>
         </li>
     </ul>
     <a class="action" data-bind="click: $data.addItem">@Html.IconImage("plus")</a>

@@ -22,7 +22,7 @@
                     </li>*@
         <li>
             <a href="@Url.Action("index", new { controller = "Users", area = "account" })">
-                @Html.IconImage("users-roles")
+                @Html.IconImage("users")
                 @("Users".Localize())
             </a>
         </li>
@@ -31,7 +31,7 @@
     <li class="last j_DropDown">
         <a>
             @Html.IconImage("profile")
-            @Html.IconImage("arrow small white-down")
+            @Html.IconImage("chevron-down-white")
             @ViewContext.HttpContext.User.Identity.Name
         </a>
         <ul class="j_DropDownContent hide">

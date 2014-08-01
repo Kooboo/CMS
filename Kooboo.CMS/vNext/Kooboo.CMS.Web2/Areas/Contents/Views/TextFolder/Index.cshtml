@@ -10,12 +10,12 @@
 }
 
 @section Panel{
-    <ul class="panel">
+    <ul class="header-panel">
         @if (Kooboo.CMS.Web2.Authorizations.AuthorizationHelpers.Authorize(ViewContext.RequestContext, Kooboo.CMS.Account.Models.Permission.Contents_FolderPermission))
         {
             <li>
                 <a href="@Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">
-                    @Html.IconImage("add-folder") @("New folder".Localize())
+                    @Html.IconImage("folder-add") @("New folder".Localize())
                 </a>
             </li>
 
@@ -27,7 +27,7 @@
             <li class="j_DropDown" data-show-on-check="Any">
                 <a>
                     @("More...".Localize())
-                    @Html.IconImage("arrow small white-down")
+                    @Html.IconImage("chevron-down-white")
                 </a>
                 <ul class="j_DropDownContent hide">
                     <li>
@@ -46,7 +46,7 @@
         }
     </ul>
 }
-<div class="topbar clearfix">
+@section Topbar{
     <h1 class="title">
         @if (currentFolder == null)
         {
@@ -59,5 +59,5 @@
     </h1>
     @Html.Partial("_TextContentGridBreadcrumb", currentFolder, new ViewDataDictionary())
     @Html.Partial("_Search")
-</div>
+}
 @Html.GridForModel2()

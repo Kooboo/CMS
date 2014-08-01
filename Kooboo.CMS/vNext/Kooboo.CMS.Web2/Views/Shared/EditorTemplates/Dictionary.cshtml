@@ -16,10 +16,9 @@
 <table class="key-value" id="@koTemplateId">
     <thead data-bind="visible: data().length > 0">
         <tr>
-            <th>@("Key".Localize())
-            </th>
-            <th>@("Value".Localize())
-            </th>
+            <th class="key">@("Key".Localize())</th>
+            <th class="value">@("Value".Localize())</th>
+            <th class="action"></th>
         </tr>
     </thead>
     <tbody data-bind="foreach: data">
@@ -28,16 +27,16 @@
                 <input type="text" title='key' name="Key" class="short" data-bind="value: $data.Key, attr: { name: $parent.getPrefixFieldName($index()) + 'Key' }" />
             </td>
             <td>
-                <textarea name="Value" data-bind="value: $data.Value, attr: { name: $parent.getPrefixFieldName($index()) + 'Value' }"></textarea>
+                <textarea class="autoresize" name="Value" data-bind="value: $data.Value, attr: { name: $parent.getPrefixFieldName($index()) + 'Value' }"></textarea>
             </td>
-            <td>
+            <td class="action">
                 <a class="action" data-bind="click: $parent.removeItem">@Html.IconImage("minus")</a>
             </td>
         </tr>
     </tbody>
     <tfoot>
         <tr>
-            <td><a class="action" data-bind="click: $data.addItem">@Html.IconImage("plus")</a></td>
+            <td colspan="3"><a class="action" data-bind="click: $data.addItem">@Html.IconImage("plus")</a></td>
         </tr>
     </tfoot>
 </table>

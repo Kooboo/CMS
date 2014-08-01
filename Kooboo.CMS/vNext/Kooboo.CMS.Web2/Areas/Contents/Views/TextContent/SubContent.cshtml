@@ -38,7 +38,7 @@
     }
     else
     {
-        <ul class="panel">
+        <ul class="header-panel">
             <li>
                 <a href="@Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">@Html.IconImage("add")@("Add content".Localize())</a>
             </li>
@@ -49,7 +49,7 @@
             <li class="j_DropDown" data-show-on-check="Any">
                 <a>
                     @("More...".Localize())
-                    @Html.IconImage("arrow small white-down")
+                    @Html.IconImage("chevron-down-white")
                 </a>
                 <ul class="j_DropDownContent hide">
                     @if (ViewBag.AllowedEdit)
@@ -81,7 +81,7 @@
 
             <li>
                 <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                    @Html.IconImage("cancel") @("Back".Localize())</a>
+                    @Html.IconImage("back") @("Back".Localize())</a>
             </li>
         </ul>
     }

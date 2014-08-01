@@ -1,0 +1,100 @@
+/* Site manager
+----------------------------------------------------------*/
+.block.sitemanager {
+	padding: 8px 16px 9px;
+	.clearfix();
+
+	.title {
+		color: #FFF;
+		font-size: 14px;
+		line-height: 1;
+		margin-bottom: 10px;
+		text-transform: uppercase;
+	}
+
+	.switcher {
+		background: #FFF;
+		float: left;
+		font-size: 16px;
+		position: relative;
+		width: 135px;
+
+		.current {
+			display: block;
+			line-height: 30px;
+			padding: 0 10px;
+			position: relative;
+
+			span {
+				display: block;
+				overflow: hidden;
+				white-space: nowrap;
+			}
+
+			.caret-toggle {
+				position: absolute;
+				right: 10px;
+				top: 10px;
+			}
+		}
+
+		.caret-toggle {
+			display: none;
+		}
+
+		&.active {
+			.current {
+				cursor: pointer;
+				display: block;
+				padding: 0 20px 0 10px;
+			}
+
+			.caret-toggle {
+				display: block;
+			}
+		}
+
+		> ul {
+			background: #FFF;
+			border: 1px solid #A8A8A8;
+			display: none;
+			left: -1px;
+			min-width: 100%;
+			position: absolute;
+			z-index: 9999;
+
+			a {
+				color: #000;
+				display: block;
+				font-size: 14px;
+				line-height: 2;
+				padding: 0 10px;
+				white-space: nowrap;
+
+				&:hover {
+					background: #E7E7E7;
+				}
+
+				&.active {
+					font-weight: 600;
+				}
+			}
+
+			ul a {
+				padding-left: 20px;
+
+				ul a {
+					padding-left: 30px;
+
+					ul a {
+						padding-left: 40px;
+					}
+				}
+			}
+		}
+	}
+
+	.right.add {
+		margin: 2px -4px 0 0;
+	}
+}

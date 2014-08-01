@@ -456,6 +456,36 @@ $(function () {
             }
         });
     }
+    $.fn.scrollFixTable = function (target) {
+        if (target == null) {
+            target = $('#main > .wrap');
+        }
+        var $table = $(this);
+        var $tableHead = $table.find('thead');
+        var $fixedHead = $('<div class="fixed">');
+        var $fixedHeadTable = $('<table>');
+        $fixedHead.prepend($fixedHeadTable);
+        $fixedHeadTable.prepend($tableHead.clone(true, true));
+        $fixedHead.prependTo($table);
+        $fixedHead.children('table').width($tableHead.width());
+        $fixedHead.find('th').each(function (i) {
+            $(this).width($tableHead.find('th').eq(i).width())
+        })
+        $(window).resize(function () {
+            $fixedHead.children('table').width($tableHead.width());
+            $fixedHead.find('th').each(function (i) {
+                $(this).width($tableHead.find('th').eq(i).width())
+            })
+        })
+        target.scroll(function () {
+            $fixedHead.css('top', target.scrollTop());
+            if (target.scrollTop() != 0) {
+                $fixedHead.show();
+            } else {
+                $fixedHead.hide();
+            }
+        })
+    }
     $.fn.grid = function (options) {
         options = $.extend({
             checkSelector: "input:checkbox[name=select][checked],input:radio[name=select][checked]"

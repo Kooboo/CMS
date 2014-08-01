@@ -7,9 +7,13 @@
     var fileInputName = propertyName + "_file";
 }
 <div>
-    <ul class="thumbnails clearfix">
-        <li><a href="@imageUrl"  rel="imageviewer[image]">
-            <img src='@imageUrl' alt='@propertyName' height="100" width="100" /></a>
+    <ul class="form-list images">
+        <li>
+            <div class="file-thumbnail">
+                <a href="@imageUrl" rel="imageviewer[image]">
+                    <img src='@imageUrl' alt='@propertyName'>
+                </a>
+            </div>
         </li>
     </ul>
 

@@ -5,14 +5,14 @@
 }
 
 @section Panel{
-    <ul class="panel">
+    <ul class="header-panel">
         @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
         {
             @Html.Partial("_ToolbarGroupButtons", group)
         }
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
+                @Html.IconImage("back") @("Back".Localize())</a>
         </li>
     </ul>
 }

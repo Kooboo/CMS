@@ -8,74 +8,78 @@
     var hasContentType = Kooboo.CMS.Content.Services.ServiceFactory.SchemaManager.All(Kooboo.CMS.Content.Models.Repository.Current, "").Count() != 0;
     var hasTextFolder = Kooboo.CMS.Content.Services.ServiceFactory.TextFolderManager.All(Kooboo.CMS.Content.Models.Repository.Current, "").Count() != 0;
 }
-
-<div class="topbar">
+@section topbar{
     <h1 class="title">
-        @("Start".Localize())</h1>
+        @("Start".Localize())
+    </h1>
     <ul class="sitemap-description right">
-        <li><span class="available">A</span>
-            @Html.Raw("Available".Localize())</li>
-        <li><span class="disabled">A</span>
-            @Html.Raw("Not avaliable".Localize())</li>
-        <li><span class="completed">A</span>
-            @Html.Raw("Completed".Localize())</li>
+        <li>
+            <span class="available">A</span>
+            @Html.Raw("Available".Localize())
+        </li>
+        <li>
+            <span class="disabled">A</span>
+            @Html.Raw("Not avaliable".Localize())
+        </li>
+        <li>
+            <span class="completed">A</span>
+            @Html.Raw("Completed".Localize())
+        </li>
     </ul>
-</div>
-<div class="block fixed">
-    <div class="block repository-flowchart">
-        <div class="step">
-            <h3>@Html.Raw("1. Database".Localize())</h3>
-            <div class="description">
-                @Html.Raw("Create a database to store your content".Localize())
-            </div>
+}
+<div class="block process">
+    <div class="step">
+        <h3>@Html.Raw("1. Database".Localize())</h3>
+        <div class="description">
+            @Html.Raw("Create a database to store your content".Localize())
         </div>
-        <div class="step">
-            <h3>@Html.Raw("2. Setting".Localize())</h3>
-            <div class="description">
-                @Html.Raw("Create folders or content types with custom fields".Localize())
-            </div>
-        </div>
-        <div class="step">
-            <h3>@Html.Raw("3. Content ".Localize())</h3>
-            <div class="description">
-                @Html.Raw("Create text content <br /> or upload media files".Localize())
-            </div>
-        </div>
-        <div class="map-item repository completed">
-            <a class="pop" title="@("Create a database".Localize())">
-                @Html.Raw("Create a database".Localize())
-            </a>
-        </div>
-        <div class="map-item content-type @(hasContentType ? "completed" : "")">
-            <a href="@Url.Action("Index", "ContentType", ViewContext.RequestContext.AllRouteValues())">
-                @Html.Raw("Add content type".Localize())
-            </a>
-        </div>
-        <div class="map-item text-folder @(hasTextFolder ? "completed" : "") ">
-            <a href="@Url.Action("Index", "TextFolder", ViewContext.RequestContext.AllRouteValues())">
-                @Html.Raw("Add text folder".Localize())
-            </a>
-        </div>
-        <div class="map-item text-content @((!hasTextFolder || !hasContentType) ? "disabled" : "")">
-            <a href="@((!hasTextFolder || !hasContentType) ? "#":Url.Action("Index", "TextFolder", ViewContext.RequestContext.AllRouteValues()))">
-                @Html.Raw("Add text content".Localize())
-            </a>
-        </div>
-        <div class="map-item media-content">
-            <a href="@Url.Action("Index", "MediaContent", ViewContext.RequestContext.AllRouteValues())">
-                @Html.Raw("Add media files".Localize())
-            </a>
-        </div>
-        <span class="line x line-1">@Html.IconImage("arrow point-right")</span>
-        <span class="line y line-2"></span>
-        <span class="line x line-3">@Html.IconImage("arrow point-right")</span>
-        <span class="line y line-4">@Html.IconImage("arrow point-down")</span>
-        <span class="line x line-5">@Html.IconImage("arrow point-right")</span>
-        <span class="line x line-6">@Html.IconImage("arrow point-right")</span>
     </div>
+    <div class="step">
+        <h3>@Html.Raw("2. Setting".Localize())</h3>
+        <div class="description">
+            @Html.Raw("Create folders or content types with custom fields".Localize())
+        </div>
+    </div>
+    <div class="step">
+        <h3>@Html.Raw("3. Content ".Localize())</h3>
+        <div class="description">
+            @Html.Raw("Create text content <br /> or upload media files".Localize())
+        </div>
+    </div>
+    <div class="map-item repository completed">
+        <a class="pop" title="@("Create a database".Localize())">
+            @Html.Raw("Create a database".Localize())
+        </a>
+    </div>
+    <div class="map-item content-type @(hasContentType ? "completed" : "")">
+        <a href="@Url.Action("Index", "ContentType", ViewContext.RequestContext.AllRouteValues())">
+            @Html.Raw("Add content type".Localize())
+        </a>
+    </div>
+    <div class="map-item text-folder @(hasTextFolder ? "completed" : "") ">
+        <a href="@Url.Action("Index", "TextFolder", ViewContext.RequestContext.AllRouteValues())">
+            @Html.Raw("Add text folder".Localize())
+        </a>
+    </div>
+    <div class="map-item text-content @((!hasTextFolder || !hasContentType) ? "disabled" : "")">
+        <a href="@((!hasTextFolder || !hasContentType) ? "#":Url.Action("Index", "TextFolder", ViewContext.RequestContext.AllRouteValues()))">
+            @Html.Raw("Add text content".Localize())
+        </a>
+    </div>
+    <div class="map-item media-content">
+        <a href="@Url.Action("Index", "MediaContent", ViewContext.RequestContext.AllRouteValues())">
+            @Html.Raw("Add media files".Localize())
+        </a>
+    </div>
+    <span class="line x line-1">@Html.IconImage("triangle-right-black")</span>
+    <span class="line y line-2"></span>
+    <span class="line x line-3">@Html.IconImage("triangle-right-black")</span>
+    <span class="line y line-4">@Html.IconImage("triangle-down-black")</span>
+    <span class="line x line-5">@Html.IconImage("triangle-right-black")</span>
+    <span class="line x line-6">@Html.IconImage("triangle-right-black")</span>
 </div>
 <script>
-    //kooboo.cms.content.home.init(@Html.Raw(JsonConvert.SerializeObject(Model));
+    //kooboo.cms.content.home.init(@Html.Raw(Model.ToJSON()));
 
     $(function () {
         var model = @Html.Raw(Model.ToJSON());

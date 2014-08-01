@@ -4,33 +4,23 @@
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
-    <ul class="panel">
-        <li>
-            <a data-ajaxform="">
-                @Html.IconImage("save") @("Save".Localize())</a>
-        </li>
+    <ul class="header-panel">
+        <li><a data-ajaxform="">@Html.IconImage("save") @("Save".Localize())</a></li>
         @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
         {
             @Html.Partial("_ToolbarGroupButtons", group)
         }
-        <li>
-            <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
-        </li>
+        <li><a href="@ViewContext.RequestContext.GetRequestValue("return")">@Html.IconImage("back") @("Cancel".Localize())</a></li>
     </ul>
 }
 
 <div class="block common-form">
-    <h1 class="title">@ViewBag.Title</h1>
-
     @using (Html.BeginForm())
-    { 
+    {
         @Html.ValidationSummary(true)
-      
         <table>
-            @Html.EditorFor(m => m.Name)
+            @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
         </table>
-              
-        @Html.Partial("Permissions")        
+        @Html.Partial("_Permissions")
     }
 </div>

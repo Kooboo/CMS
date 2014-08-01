@@ -1,0 +1,27 @@
+/* Box
+----------------------------------------------------------*/
+.box {
+	border: 1px solid #EEE;
+	padding: 10px;
+
+	&.border-blue {
+		border-color: @blue;
+	}
+
+	&.border-light-blue {
+		border-color: @light-blue;
+	}
+
+	&.border-gray {
+		border-color: #BBB;
+	}
+
+	&.bg-light-gray {
+		background: #F9F9F9;
+	}
+
+	&.bg-light-blue {
+		background: @light-blue;
+		border-color: @blue;
+	}
+}

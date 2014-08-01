@@ -4,10 +4,10 @@
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
-    <ul class="panel">
+    <ul class="header-panel">
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
+                @Html.IconImage("back") @("Back".Localize())</a>
         </li>
     </ul>
 }

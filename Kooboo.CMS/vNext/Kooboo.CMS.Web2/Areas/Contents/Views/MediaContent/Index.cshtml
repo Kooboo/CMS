@@ -16,7 +16,7 @@
     var folderPaths = (ViewContext.RequestContext.GetRequestValue("FolderName") != null ? FolderHelper.SplitFullName(ViewContext.RequestContext.GetRequestValue("FolderName")) : new string[] { }).ToArray();
 }
 @section Panel{
-    <ul class="panel">
+    <ul class="header-panel">
 
         <li><a id="CreateFolder">@Html.IconImage("add-folder")@("New folder".Localize())</a></li>
 
@@ -47,7 +47,7 @@
         <li class="j_DropDown" data-show-on-check="Any">
             <a>
                 @("More...".Localize())
-                @Html.IconImage("arrow small white-down")
+                @Html.IconImage("chevron-down-white")
             </a>
             <ul class="j_DropDownContent hide">
                 <li>

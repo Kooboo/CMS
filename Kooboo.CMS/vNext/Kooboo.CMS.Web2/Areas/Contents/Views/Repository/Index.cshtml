@@ -5,21 +5,27 @@
 }
 
 @section Sidebar{
-    @Html.Partial("_SidebarTopSearch")
-    <nav class="container block menu">
-        @Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))
-    </nav>
+    <div class="topbar">
+        @Html.Partial("_SidebarTopSearch")
+    </div>
+    <div class="wrap">
+        <nav class="block menu">
+            @Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))
+        </nav>
+    </div>
 }
 @section Panel{
-    <ul class="panel">
+    <ul class="header-panel">
         <li>
             <a href="@Url.Action("Create", "Repository", new { @return = ViewContext.HttpContext.Request.RawUrl })">
-                @Html.IconImage("add") @("Create".Localize())</a>
+                @Html.IconImage("add") @("Create".Localize())
+            </a>
         </li>
         <li>
             <a href="@Url.Action("Import", "Repository", new { @return = ViewContext.HttpContext.Request.RawUrl })">
                 @Html.IconImage("import")
-                @("Import".Localize())</a>
+                @("Import".Localize())
+            </a>
         </li>
 
         <li>
@@ -52,29 +58,19 @@
 
 @if (Model.Count() == 0)
 {
-    <div class="topbar">
-        <h1 class="title">@ViewBag.Title</h1>
-    </div>
-    <div class="block fixed">
-        <div class="sitemap-panel clearfix">
-            <div class="blank">
-                <p>
-                    @("You do not have any content database yet, click the button below to create a content database.".Localize())
-                </p>
-                @Html.ActionLink("Create a database", "Create", "Repository", new { @return = ViewContext.HttpContext.Request.RawUrl }, new { @class = "button" })
-            </div>
-        </div>
+    <div class="block blank-page">
+        <p>
+            @("You do not have any content database yet, click the button below to create a content database.".Localize())
+        </p>
+        @Html.ActionLink("Create a database", "Create", "Repository", new { @return = ViewContext.HttpContext.Request.RawUrl }, new { @class = "button" })
     </div>
 }
 else
-{	
-    <div class="topbar">
-        <h1 class="title">@ViewBag.Title</h1>
-    </div>
-    <div class="block fixed" id="database_list">
+{
+    <div id="database_list">
         @foreach (var item in Model)
-        { 
-            @Html.Partial("_DatabaseNode", item.AsActual())          
+        {
+            @Html.Partial("_DatabaseNode", item.AsActual())
         }
     </div>
 }

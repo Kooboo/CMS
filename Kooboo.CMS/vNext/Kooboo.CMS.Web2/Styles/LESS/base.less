@@ -9,16 +9,6 @@
 
 /* =0 Global
 ---------------------------------------------------------------------------------------------------------------------*/
-body {
-	font: 12px/1.5 "Segoe UI", "Helvetica Neue", openSansRegular, Arial, Helvetica, sans-serif;
-	overflow-y: scroll;
-	min-width: 1024px;
-}
-
-body.blank {
-	overflow: auto;
-}
-
 .hide {
 	display: none;
 }
@@ -34,7 +24,35 @@ body.blank {
 .clear {
 	clear: both;
 }
-/* Clearfix */
+/* Color
+------------------------------------------------------*/
+@blue: #0078B1;
+@light-blue: #009AD7;
+@deep-blue: #005683;
+@green: #5BA52E;
+@yellow: #FFAA31;
+@red: #D32B28;
+@gray: #CCC;
+@light-gray: #EEE;
+/* Text
+------------------------------------------------------*/
+.text-center {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.text-red {
+	color: @red;
+}
+
+.text-green {
+	color: @green;
+}
+/* Clearfix
+------------------------------------------------------*/
 .clearfix:after {
 	clear: both;
 	content: " ";
@@ -51,242 +69,191 @@ body.blank {
 * + html .clearfix {
 	zoom: 1;
 }
+
 /* =1 Links
 ---------------------------------------------------------------------------------------------------------------------*/
 a {
 	color: #0078B1;
 	cursor: pointer;
 	text-decoration: none;
-	-moz-transition: all 0.2s ease-in-out 0s;
-	-webkit-transition: all 0.2s ease-in-out 0s;
-	transition: all 0.2s ease-in-out 0s;
-}
+	.transition(0.2s);
 
-a.action {
-	display: inline-block;
-}
+	&.action {
+		display: inline-block;
 
-a.action.hide {
-	display: none;
-}
+		.icon {
+			display: block;
+		}
 
-a.button {
-	background: #0078B1;
-	color: #FFF;
-	display: inline-block;
-	font-size: 14px;
-	height: 30px;
-	line-height: 30px;
-	min-width: 80px;
-	padding: 0 10px;
-	text-align: center;
-}
+		&.hide {
+			display: none;
+		}
+	}
 
-a.button.gray {
-	background: #CCC;
-	color: #000;
-}
+	&.upload-link {
+		position: relative;
 
-a.button.white {
-	background: #FFF;
-	color: #333;
-}
+		span {
+			height: 100%;
+			left: 0;
+			overflow: hidden;
+			position: absolute;
+			top: 0;
+			width: 100%;
+			z-index: 9999;
+			.opacity(0);
+		}
 
-a.button.upload {
-	position: relative;
-}
-
-a.button.upload span {
-	filter: alpha(opacity=0);
-	height: 100%;
-	left: 0;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	top: 0;
-	width: 100%;
-	z-index: 9999;
-}
-
-a.button.upload input {
-	cursor: pointer;
-	font-size: 32px;
-	height: 100px;
-	position: absolute;
-	right: 0;
-	top: 0;
-}
-
-a.upload-link {
-	position: relative;
-}
-
-a.upload-link span {
-	filter: alpha(opacity=0);
-	height: 100%;
-	left: 0;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	top: 0;
-	width: 100%;
-	z-index: 9999;
-}
-
-a.upload-link input {
-	cursor: pointer;
-	font-size: 32px;
-	height: 100px;
-	position: absolute;
-	right: 0;
-	top: 0;
-}
-
-.dropdown-button {
-	background: #0078B1;
-	cursor: pointer;
-	display: inline-block;
-	min-width: 140px;
-	position: relative;
-	white-space: nowrap;
-}
-
-.dropdown-button span {
-	border-right: 1px solid #FFF;
-	color: #FFF;
-	display: block;
-	font-size: 14px;
-	height: 30px;
-	line-height: 30px;
-	margin-right: 30px;
-	padding: 0 10px;
-	position: relative;
-	text-align: center;
-	z-index: 3;
-}
-
-.dropdown-button .icon {
-	position: absolute;
-	right: 7px;
-	top: 7px;
-}
-
-.dropdown-button.active .icon {
-	background-position: -145px -64px;
-}
-
-.dropdown-button ul {
-	background: #FFF;
-	border: 2px solid #0078B1;
-	cursor: default;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	display: none;
-	left: 0;
-	min-width: 100%;
-	position: absolute;
-	top: 28px;
-}
-
-.dropdown-button li {
-	color: #999;
-	cursor: not-allowed;
-	font-style: italic;
-	line-height: 2;
-	padding: 0 10px;
-	text-align: left;
-}
-
-.dropdown-button li a {
-	color: #000;
-	display: block;
-	font-style: normal;
-	margin: 0 -10px;
-	padding: 0 10px;
-}
-
-.dropdown-button li a:hover {
-	background: #DDD;
+		input {
+			cursor: pointer;
+			font-size: 32px;
+			height: 100px;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+	}
 }
 
 /* =2 Content(For Tinymce)
 ---------------------------------------------------------------------------------------------------------------------*/
-.content h1,
-.content h2,
-.content h3,
-.content h4,
-.content h5,
-.content h6 {
-	font-weight: bold;
-	margin-bottom: 15px;
-}
+.content {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-weight: 700;
+		margin-bottom: 15px;
+	}
 
-.content h1 {
-	font-size: 2em;
-}
+	h1 {
+		font-size: 2em;
+	}
 
-.content h2 {
-	font-size: 1.5em;
-}
+	h2 {
+		font-size: 1.5em;
+	}
 
-.content h3 {
-	font-size: 1.17em;
-}
+	h3 {
+		font-size: 1.17em;
+	}
 
-.content h4 {
-	font-size: 1em;
-}
+	h4 {
+		font-size: 1em;
+	}
 
-.content h5 {
-	font-size: 0.83em;
-}
+	h5 {
+		font-size: 0.83em;
+	}
 
-.content h6 {
-	font-size: 0.75em;
-}
+	h6 {
+		font-size: 0.75em;
+	}
 
-.content p {
-	margin-bottom: 10px;
-}
+	p {
+		margin-bottom: 10px;
+	}
 
-.content pre {
-	padding: 8px;
-}
+	pre {
+		padding: 8px;
+	}
 
-.content ol,
-.content ul {
-	margin-bottom: 10px;
-	padding-left: 20px;
-}
+	ol,
+	ul {
+		margin-bottom: 10px;
+		padding-left: 20px;
+	}
 
-.content ol li {
-	list-style: decimal outside;
-}
+		ol li {
+			list-style: decimal outside;
+		}
 
-.content ul li {
-	list-style: disc outside;
+		ul li {
+			list-style: disc outside;
+		}
 }
 
 /* =3 Fontface
 ---------------------------------------------------------------------------------------------------------------------*/
+/* Segoe UI
+---------------------------------------------------------*/
 @font-face {
-	font-family: 'openSansLight';
-	src: url('fonts/opensans-light-webfont.eot');
-	src: url('fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-light-webfont.woff') format('woff'), url('fonts/opensans-light-webfont.ttf') format('truetype'), url('fonts/opensans-light-webfont.svg#openSansLight') format('svg');
-	font-weight: normal;
+	font-family: 'SegoeUI';
 	font-style: normal;
+	font-weight: 300;
+	src: local('Segoe UI Light'), local('SegoeUI-Light');
+}
+
+@font-face {
+	font-family: 'SegoeUI';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Segoe UI'), local('SegoeUI');
+}
+
+@font-face {
+	font-family: 'SegoeUI';
+	font-style: normal;
+	font-weight: 600;
+	src: local('Segoe UI Semibold'), local('SegoeUI-Semibold');
+}
+
+@font-face {
+	font-family: 'SegoeUI';
+	font-style: normal;
+	font-weight: 700;
+	src: local('Segoe UI Bold'), local('SegoeUI-bold'), local('segoeuib');
+}
+
+@font-face {
+	font-family: 'SegoeUI';
+	font-style: normal;
+	font-weight: 800;
+	src: local('Segoe UI Black'), local('SegoeUI-black'), local('segoeuibl');
+}
+/* Open Sans
+---------------------------------------------------------*/
+@font-face {
+	font-family: 'OpenSans';
+	font-style: normal;
+	font-weight: 300;
+	src: url('fonts/opensans-light-webfont.eot');
+	src: url('fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-light-webfont.woff') format('woff'), url('fonts/opensans-light-webfont.ttf') format('truetype'), url('fonts/opensans-light-webfont.svg#OpenSans') format('svg');
 }
 
 
-
+@font-face {
+	font-family: 'OpenSans';
+	font-style: normal;
+	font-weight: 400;
+	src: url('fonts/opensans-regular-webfont.eot');
+	src: url('fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-regular-webfont.woff') format('woff'), url('fonts/opensans-Regular-webfont.ttf') format('truetype'), url('fonts/opensans-regular-webfont.svg#OpenSans') format('svg');
+}
 
 @font-face {
-	font-family: 'openSansRegular';
-	src: url('fonts/opensans-regular-webfont.eot');
-	src: url('fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-regular-webfont.woff') format('woff'), url('fonts/opensans-regular-webfont.ttf') format('truetype'), url('fonts/opensans-regular-webfont.svg#openSansRegular') format('svg');
-	font-weight: normal;
+	font-family: 'OpenSans';
 	font-style: normal;
+	font-weight: 600;
+	src: url('fonts/opensans-semibold-webfont.eot');
+	src: url('fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-semibold-webfont.woff') format('woff'), url('fonts/opensans-semibold-webfont.ttf') format('truetype'), url('fonts/opensans-semibold-webfont.svg#OpenSans') format('svg');
+}
+
+@font-face {
+	font-family: 'OpenSans';
+	font-style: normal;
+	font-weight: 700;
+	src: url('fonts/opensans-bold-webfont.eot');
+	src: url('fonts/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-bold-webfont.woff') format('woff'), url('fonts/opensans-bold-webfont.ttf') format('truetype'), url('fonts/opensans-bold-webfont.svg#OpenSans') format('svg');
+}
+
+@font-face {
+	font-family: 'OpenSans';
+	font-style: normal;
+	font-weight: 800;
+	src: url('fonts/opensans-extrabold-webfont.eot');
+	src: url('fonts/opensans-extrabold-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-extrabold-webfont.woff') format('woff'), url('fonts/opensans-extrabold-webfont.ttf') format('truetype'), url('fonts/opensans-extrabold-webfont.svg#OpenSans') format('svg');
 }
 
 /* =4 Tinymce
@@ -321,10 +288,10 @@ body .mce-btn-group {
 	padding-left: 4px;
 }
 
-body .mce-btn-group.mce-first {
-	border: none;
-	padding-left: 0;
-}
+	body .mce-btn-group.mce-first {
+		border: none;
+		padding-left: 0;
+	}
 
 .mce-btn button {
 	min-width: 0;
@@ -349,9 +316,9 @@ body .mce-btn-group .mce-btn.mce-disabled:hover {
 	box-shadow: none;
 }
 
-body .mce-btn-group .mce-btn.mce-disabled button {
-	cursor: not-allowed;
-}
+	body .mce-btn-group .mce-btn.mce-disabled button {
+		cursor: not-allowed;
+	}
 
 body .mce-btn-group .mce-first,
 body .mce-btn-group .mce-last {
@@ -432,22 +399,22 @@ body .mce-menu-item:focus {
 	background: #D5E1F2;
 }
 
-body .mce-menu-item.mce-selected .mce-caret,
-body .mce-menu-item:focus .mce-caret {
-	border-left-color: #333;
-}
+	body .mce-menu-item.mce-selected .mce-caret,
+	body .mce-menu-item:focus .mce-caret {
+		border-left-color: #333;
+	}
 
-body .mce-menu-item:hover .mce-ico,
-body .mce-menu-item.mce-selected .mce-ico,
-body .mce-menu-item:focus .mce-ico {
-	color: #333;
-}
+	body .mce-menu-item:hover .mce-ico,
+	body .mce-menu-item.mce-selected .mce-ico,
+	body .mce-menu-item:focus .mce-ico {
+		color: #333;
+	}
 
-body .mce-menu-item:hover .mce-text,
-body .mce-menu-item.mce-selected .mce-text,
-body .mce-menu-item:focus .mce-text {
-	color: #333;
-}
+	body .mce-menu-item:hover .mce-text,
+	body .mce-menu-item.mce-selected .mce-text,
+	body .mce-menu-item:focus .mce-text {
+		color: #333;
+	}
 
 /* MCE dialog
 ----------------------------------------------------------*/
@@ -484,11 +451,11 @@ body .mce-combobox.mce-has-open input {
 	border-radius: 0;
 }
 
-body .mce-textbox:focus {
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
+	body .mce-textbox:focus {
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
 
 body .mce-combobox .mce-btn {
 	background: #E1E1E1;

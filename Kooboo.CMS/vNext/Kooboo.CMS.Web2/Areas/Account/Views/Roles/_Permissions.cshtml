@@ -1,0 +1,43 @@
+﻿@model Kooboo.CMS.Web2.Areas.Account.Models.CreateRoleModel
+@{
+    var index = 0;
+}
+@foreach (var area in Model.GetAreas())
+{
+    <fieldset>
+        <legend>
+            @area.Localize()
+        </legend>
+        <table>
+            @foreach (var group in Model.GetGroups(area))
+            {
+                <tr>
+                    <th>
+                        <label>
+                            @group.Localize()
+                        </label>
+                    </th>
+                    <td>
+                        <ul class="form-list">
+                            @foreach (var permission in Model.GetPermission(area, group))
+                            {
+                                var indexName = string.Format("AllPermissions[{0}]", index);
+                                index++;
+
+                                <li class="equate">
+                                    @Html.CheckBox(indexName + ".Checked", permission.Checked, new { id = indexName + ".CheckedId" })
+                                    <label for="@(indexName+".CheckedId")" class="inline">
+                                        @permission.DisplayName.Localize()
+                                    </label>
+                                    @Html.Hidden(indexName + ".AreaName", permission.AreaName)
+                                    @Html.Hidden(indexName + ".Group", permission.Group)
+                                    @Html.Hidden(indexName + ".Name", permission.Name)
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </table>
+    </fieldset>
+}

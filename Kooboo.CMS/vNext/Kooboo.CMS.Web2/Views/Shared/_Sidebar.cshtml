@@ -1,40 +1,48 @@
-﻿
-
-@if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("SiteName")))
+﻿@if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("SiteName")))
 {
-    <div class="topbar block sitemanager clearfix">
-        <a class="right" href="@Url.Action("Index", new { controller = "Home", area = "sites" })" title="@("Go to site cluster".Localize())">@Html.IconImage("cluster")</a>
-        <h6 class="title">@("Site manager".Localize())</h6>
-        @Html.Partial("_SitesNavTree", Site.Current)
-        @if (ServiceFactory.UserManager.IsAdministrator(User.Identity.Name))
-        {
-            <a class="right add" href="@Url.Action("CreateSubSite", "Site", new { area = "Sites", parent = ViewContext.RequestContext.GetRequestValue("siteName"), @return = ViewContext.HttpContext.Request.RawUrl })" title='@("New sub site".Localize())'>@Html.IconImage("add")</a>
-        }
+    <div class="topbar">
+        <div class="block sitemanager">
+            <a class="right" href="@Url.Action("Index", new { controller = "Home", area = "sites" })" title="@("Go to site cluster".Localize())">@Html.IconImage("cluster")</a>
+            <h6 class="title">@("Site manager".Localize())</h6>
+            @Html.Partial("_SitesNavTree", Site.Current)
+            @if (ServiceFactory.UserManager.IsAdministrator(User.Identity.Name))
+            {
+                <a class="right add" href="@Url.Action("CreateSubSite", "Site", new { area = "Sites", parent = ViewContext.RequestContext.GetRequestValue("siteName"), @return = ViewContext.HttpContext.Request.RawUrl })" title='@("New sub site".Localize())'>@Html.IconImage("add")</a>
+            }
+        </div>
     </div>
-
-
-    <nav class="container block menu">
-        @*@Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Sites").SetCurrentSite(this.ViewContext))*@
-    </nav>
+    <div class="wrap">
+        <nav class="block menu">
+            @*@Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Sites").SetCurrentSite(this.ViewContext))*@
+        </nav>
+    </div>
 }
 else if (!string.IsNullOrEmpty(ViewContext.RequestContext.GetRequestValue("RepositoryName")))
 {
-    <div class="topbar block sitemanager clearfix">
-        <a href="@Url.Action("Index", new { controller = "Repository", area = "Contents" })" title="@("Content database".Localize())">
-            <h6 class="title">@("Content database".Localize())</h6>
-        </a>
-        <span class="name-title clear">@(ViewContext.RequestContext.GetRequestValue("RepositoryName"))</span>
+    <div class="topbar">
+        <div class="block sitemanager">
+            <a href="@Url.Action("Index", new { controller = "Repository", area = "Contents" })" title="@("Content database".Localize())">
+                <h6 class="title">@("Content database".Localize())</h6>
+            </a>
+            <span class="name-title clear">@(ViewContext.RequestContext.GetRequestValue("RepositoryName"))</span>
+        </div>
+
     </div>
-    
-    <nav class="container block menu">
-        @Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Contents").SetCurrentRepository(this.ViewContext))
-    </nav>
+    <div class="wrap">
+        <nav class="block menu">
+            @Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Contents").SetCurrentRepository(this.ViewContext))
+        </nav>
+    </div>
 }
 else
 {
-    @Html.Partial("_SidebarTopSearch")
+    <div class="topbar">
+        @Html.Partial("_SidebarTopSearch")
 
-    <nav class="container block menu">
-        @Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))
-    </nav>
+    </div>
+    <div class="wrap">
+        <nav class="block menu">
+            @*@Html.Partial("Menu", Kooboo.Web.Mvc.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "AreasMenu"))*@
+        </nav>
+    </div>
 }

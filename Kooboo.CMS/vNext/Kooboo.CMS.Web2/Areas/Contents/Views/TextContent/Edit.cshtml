@@ -20,14 +20,14 @@
     }
     else
     {
-        <ul class="panel">
+        <ul class="header-panel">
             @if (availableEdit)
             {
                 if (Model.IsLocalized.HasValue && Model.IsLocalized.Value == false)
                 { <li class="j_DropDown">
                     <a>
                         @Html.IconImage("save")
-                        @Html.IconImage("arrow small white-down")
+                        @Html.IconImage("chevron-down-white")
                         @("Save".Localize())
                     </a>
                     <ul class="j_DropDownContent hide">
@@ -55,7 +55,7 @@
 
             <li>
                 <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                    @Html.IconImage("cancel") @("Back".Localize())</a>
+                    @Html.IconImage("back") @("Back".Localize())</a>
             </li>           
         </ul>
     }

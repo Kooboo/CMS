@@ -29,14 +29,22 @@
             @Html.Partial("_QuickLinks")
         </header>
         <div id="main-container" class="clearfix">
-            <div class="wrap">
-                @RenderBody()
-            </div>
+            @if (IsSectionDefined("MainContainer"))
+            {
+                @RenderSection("MainContainer")
+            }
+            else
+            {
+                <div class="wrap">
+                    <h1 class="title">@ViewBag.Title</h1>
+                    @RenderBody()
+                </div>
+            }
         </div>
         <footer id="footer">
-            @Html.Partial("Footer")
+            @Html.Partial("_Footer")
         </footer>
     </div>
-    @Html.Partial("Master.Script")
+    @Html.Partial("_Master.Script")
 </body>
 </html>

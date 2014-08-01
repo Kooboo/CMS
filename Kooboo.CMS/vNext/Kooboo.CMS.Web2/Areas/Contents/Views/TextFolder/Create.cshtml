@@ -4,10 +4,11 @@
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
-    <ul class="panel">
+    <ul class="header-panel">
         <li>
             <a data-ajaxform="">
-                @Html.IconImage("save") @("Save".Localize())</a>
+                @Html.IconImage("save") @("Save".Localize())
+            </a>
         </li>
         @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
         {
@@ -15,23 +16,23 @@
         }
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
+                @Html.IconImage("back") @("Cancel".Localize())
+            </a>
         </li>
     </ul>
 }
 <div class="block common-form">
-    <h1 class="title">@ViewBag.Title</h1>
     @using (Html.BeginForm())
-    { 
+    {
         @Html.ValidationSummary(true)
-        <div class="tabs">
-            <ul class="tab-index clearfix">
-                <li class="active"><a href="#basicInfo">@("Basic info".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-                <li><a href="#permissionSetting">@("Permission Setting".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-                <li class="extend"><a href="#relationFolders">@("Relation folders".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-                <li class="extend"><a href="#contentManagement">@("Content management".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+        <div class="J_Tabs">
+            <ul>
+                <li><a href="#basicInfo">@("Basic info".Localize())</a></li>
+                <li><a href="#permissionSetting">@("Permission Setting".Localize())</a></li>
+                <li class="extend"><a href="#relationFolders">@("Relation folders".Localize())</a></li>
+                <li class="extend"><a href="#contentManagement">@("Content management".Localize())</a></li>
             </ul>
-            <div class="tab-content active" id="basicInfo">
+            <div id="basicInfo">
                 <table>
                     <tbody>
                         @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })
@@ -40,22 +41,25 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tab-content" id="permissionSetting">
+            <div id="permissionSetting">
                 <table>
                     <tbody>
                         <tr>
                             <th></th>
                             <td>
-                                <ul class="radio-list">
+                                <ul class="form-list vertical">
                                     <li>
-                                        <input type="radio" name="EnabledWorkflow" value="False" id="EnabledWorkflow_False"
-                                            checked="checked" />
+                                        <input type="radio" name="EnabledWorkflow" value="False" id="EnabledWorkflow_False" checked="checked" />
                                         <label class="inline" for="EnabledWorkflow_False">
-                                            @("Role base".Localize())</label></li>
+                                            @("Role base".Localize())
+                                        </label>
+                                    </li>
                                     <li>
                                         <input type="radio" name="EnabledWorkflow" value="True" id="EnabledWorkflow_True" />
                                         <label class="inline" for="EnabledWorkflow_True">
-                                            @("Workflow".Localize())</label></li>
+                                            @("Workflow".Localize())
+                                        </label>
+                                    </li>
                                 </ul>
                             </td>
                         </tr>
@@ -64,7 +68,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tab-content" id="relationFolders">
+            <div id="relationFolders">
                 <table>
                     <tbody>
                         @Html.EditorFor(m => m.Categories, new { HtmlAttributes = new { @class = "medium" } })
@@ -72,7 +76,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tab-content" id="contentManagement">
+            <div id="contentManagement">
                 <table>
                     <tbody>
                         @Html.EditorFor(o => o.Sortable)
@@ -87,7 +91,7 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        $('.tabs').koobooTab();
+        $('.J_Tabs').tabs();
         var contentType = $('#SchemaName').change(function () {
             handleContentType($(this));
         });
@@ -95,10 +99,10 @@
         function handleContentType(contentType) {
             if (!contentType.val()) {
                 $('#EnabledWorkflow_True').hide().next().hide();
-                $('.tab-index .extend').hide();
+                $('.J_Tabs .extend').hide();
             } else {
                 $('#EnabledWorkflow_True').show().next().show();
-                $('.tab-index .extend').show();
+                $('.J_Tabs .extend').show();
             }
         }
 

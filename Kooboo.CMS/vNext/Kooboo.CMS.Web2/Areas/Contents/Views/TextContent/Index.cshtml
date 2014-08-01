@@ -39,7 +39,7 @@
     }
     else
     {
-        <ul class="panel">
+        <ul class="header-panel">
             <li>
                 <a href="@(new HtmlString(Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))))">@Html.IconImage("add")@("Add content".Localize())</a>
             </li>
@@ -54,7 +54,7 @@
                         <a>
                             @Html.IconImage("import")
                         @("Import".Localize())
-                        @Html.IconImage("arrow small white-down")
+                        @Html.IconImage("chevron-down-white")
                     </a>
                     <ul class="j_DropDownContent hide">
                         @foreach (var exporter in formatters)
@@ -72,7 +72,7 @@
                         <a>
                             @Html.IconImage("export")
                             @("Export".Localize())
-                            @Html.IconImage("arrow small white-down")
+                            @Html.IconImage("chevron-down-white")
                         </a>
                         <ul class="j_DropDownContent hide">
                             @foreach (var exporter in formatters)
@@ -94,7 +94,7 @@
             <li class="j_DropDown" data-show-on-check="Any">
                 <a>
                     @("More...".Localize())
-                    @Html.IconImage("arrow small white-down")
+                    @Html.IconImage("chevron-down-white")
                 </a>
                 <ul class="j_DropDownContent hide">
                     @if (ViewBag.AllowedEdit)
@@ -151,13 +151,11 @@
     }
 }
 
-<div class="topbar clearfix">
-    <h1 class="title">
-        @ViewBag.Title
-    </h1>
+@section Topbar{
+    <h1 class="title">@ViewBag.Title</h1>
     @Html.Partial("_TextContentGridBreadcrumb", folder)
     @Html.Partial("_AdvancedSearch")
-</div>
+}
 
 @*<ul class="table-desc">
         <li><span class="red"></span>

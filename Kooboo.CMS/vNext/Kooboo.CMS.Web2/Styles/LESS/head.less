@@ -1,0 +1,60 @@
+/* Head
+----------------------------------------------------------*/
+.head {
+	border-bottom: 1px solid #CCC;
+	padding: 7px 0;
+	.clearfix();
+
+	&.blue {
+		background: @blue;
+		border: none;
+		color: #FFF;
+		padding: 7px 10px;
+
+		a {
+			color: #FFF;
+		}
+	}
+
+	&.light-blue {
+		background: @light-blue;
+		border: none;
+		color: #FFF;
+		padding: 7px 10px;
+
+		a {
+			color: #FFF;
+		}
+	}
+
+	&.light-gray {
+		background: @light-gray;
+		border: none;
+		padding: 7px 10px;
+
+		a {
+			color: #000;
+		}
+	}
+
+	.title {
+		display: inline-block;
+		font-size: 20px;
+		font-weight: normal;
+		line-height: 1;
+	}
+
+	.actions {
+		float: right;
+		line-height: 20px;
+
+		li {
+			float: left;
+			margin-left: 10px;
+		}
+
+		a {
+			text-decoration: underline;
+		}
+	}
+}

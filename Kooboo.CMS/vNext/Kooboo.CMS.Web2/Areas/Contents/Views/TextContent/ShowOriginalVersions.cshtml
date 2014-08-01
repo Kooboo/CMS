@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
-    <ul class="panel">
+    <ul class="header-panel">
 
         <li><a href="@Url.Action("ShowOriginalDiff", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))" data-show-on-check="Two" data-command-type="Redirect">
             @Html.IconImage("preview") @("Compare".Localize())</a></li>
@@ -12,8 +12,8 @@
         <li>
             <li class="j_DropDown">
                 <a>
-                    @Html.IconImage("cancel")
-                    @Html.IconImage("arrow small white-down")
+                    @Html.IconImage("back")
+                    @Html.IconImage("chevron-down-white")
                     @("Back".Localize())
                 </a>
                 <ul class="j_DropDownContent hide">

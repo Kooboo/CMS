@@ -1,0 +1,576 @@
+/* Editor
+----------------------------------------------------------*/
+.block.editor {
+	.editor {
+		bottom: 0;
+		left: 0;
+		overflow: hidden;
+		position: absolute;
+		right: 401px;
+		top: 0;
+
+		.ui-tabs {
+			bottom: 0;
+			left: 0;
+			overflow: hidden;
+			position: absolute;
+			right: 0;
+			top: 0;
+
+			.ui-tabs-panel {
+				margin: 0;
+				bottom: 37px;
+				left: 0;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+
+			.ui-tabs-nav {
+				background: #F5F5F5;
+				border-color: #DDD;
+				bottom: 0;
+				left: 0;
+				padding-bottom: 5px;
+				position: absolute;
+				right: 0;
+
+				a {
+					height: 30px;
+					line-height: 30px;
+
+					&:hover {
+						background: #DDD;
+						border-color: #DDD;
+					}
+				}
+
+				.ui-tabs-active a {
+					background: #FFF;
+					border-color: #DDD;
+				}
+			}
+		}
+
+		iframe {
+			border: none;
+			height: 100%;
+			padding: 10px;
+			width: 100%;
+			.box-sizing(border-box);
+		}
+	}
+
+	.panel {
+		border-left: 1px solid #DDD;
+		bottom: 0;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		padding-top: 10px;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 400px;
+
+		.ui-tabs .ui-tabs-nav li a {
+			min-width: 50px;
+		}
+
+		.code-viewer {
+			.title {
+				font-size: 12px;
+				font-weight: 600;
+			}
+
+			.container {
+				background: #FFF;
+				border: 1px solid #CCC;
+				border-bottom: none;
+				padding: 10px;
+			}
+
+			li ul {
+				margin-left: 30px;
+			}
+
+			.code {
+				cursor: pointer;
+
+				&.active,
+				&.hover {
+					background: #39F;
+					color: #FFF;
+					.rounded(3px);
+				}
+			}
+
+			.bottom {
+				background: #F5F5F5;
+				border: 1px solid #CCC;
+
+				a {
+					display: inline-block;
+					line-height: 20px;
+					margin: 0 5px;
+					padding: 0 5px;
+
+					&:hover {
+						background: #DDD;
+					}
+
+					&.active,
+					&.hover {
+						background: #39F;
+						color: #FFF;
+					}
+				}
+			}
+		}
+
+		.settings {
+			background: #F6F6F6;
+			border-bottom: 1px solid #CCC;
+			border-top: 1px solid #CCC;
+			margin-bottom: 20px;
+			padding: 10px;
+
+			.item {
+				border-top: 1px solid #DDD;
+				margin-top: 10px;
+				padding-top: 10px;
+
+				&.convert {
+					p {
+						font-weight: 600;
+					}
+
+					.form-list.vertical li {
+						margin-bottom: 5px;
+
+						&:last-child {
+							margin: 0;
+						}
+					}
+				}
+
+				&.form-editor {
+					.action {
+						float: right;
+						margin-top: 6px;
+					}
+				}
+			}
+
+			.buttons {
+				border-top: 1px solid #DDD;
+				margin-top: 10px;
+				overflow: hidden;
+				padding-top: 10px;
+
+				.button {
+					color: #FFF;
+					float: left;
+					margin-right: 20px;
+
+					&.gray {
+						color: #000;
+					}
+				}
+			}
+		}
+
+		.block {
+			.title {
+				cursor: pointer;
+				font-size: 18px;
+				font-weight: 400;
+				line-height: 28px;
+				margin-bottom: 5px;
+				padding: 0 20px;
+				position: relative;
+
+				.sprite {
+					position: absolute;
+					left: 7px;
+					top: 10px;
+					.sprite(@chevron-right-black);
+				}
+
+				&:hover {
+					background: #F9F9F9;
+				}
+			}
+
+			.container {
+				display: none;
+
+				.empty {
+					background: #F9F9F9;
+					color: #333;
+					font-style: italic;
+					padding: 5px 20px;
+				}
+			}
+
+			&.active {
+				.title .sprite {
+					left: 6px;
+					top: 11px;
+					.sprite(@chevron-down-black);
+				}
+
+				.container {
+					display: block;
+				}
+			}
+
+			&.list {
+				li {
+					overflow: hidden;
+					padding: 5px 20px;
+
+					.action {
+						float: right;
+						margin-left: 5px;
+					}
+
+					span {
+						display: block;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+
+					li {
+						background: url(images/line.png) no-repeat 6px -35px;
+						padding: 0 0 0 16px;
+
+						&:last-child {
+							background: url(images/line-end.png) no-repeat 6px -11px;
+						}
+
+						span {
+							background: #FFF;
+							padding-left: 4px;
+						}
+					}
+
+					&:hover {
+						background: #F5F5F5;
+
+						span {
+							background-color: #F5F5F5;
+						}
+					}
+				}
+
+				table {
+					width: 100%;
+
+					th,
+					td {
+						padding: 4px;
+
+						&:first-child {
+							padding-left: 20px;
+						}
+
+						&:last-child {
+							padding-right: 20px;
+						}
+					}
+
+					td {
+						&.action {
+							width: 16px;
+						}
+					}
+				}
+			}
+
+			&.thumbnail {
+				.container {
+					padding: 20px;
+				}
+
+				li {
+					border: 2px solid transparent;
+					float: left;
+					height: 100px;
+					margin: 0 15px 15px 0;
+					overflow: hidden;
+					position: relative;
+					width: 100px;
+
+					&:nth-child(3n) {
+						margin-right: 0;
+					}
+
+					&:hover {
+						border-color: #DDD;
+					}
+
+					img {
+						display: block;
+					}
+
+					.action {
+						cursor: default;
+						position: absolute;
+						right: 0;
+						top: 0;
+					}
+				}
+			}
+		}
+
+		.layout-box {
+			position: relative;
+
+			> .label {
+				bottom: 0;
+				top: auto !important;
+
+				&.left {
+					left: 0;
+				}
+
+				&.right {
+					left: auto;
+					right: 0;
+				}
+			}
+
+			div {
+				padding: 24px;
+				position: relative;
+
+				&.hover {
+					background: #39F;
+					color: #FFF;
+
+					> .label,
+					> input,
+					> .text {
+						color: #FFF !important;
+					}
+				}
+			}
+
+			.label {
+				background: none;
+				color: #555;
+				left: 4px;
+				line-height: 1.5;
+				padding: 0;
+				position: absolute;
+				top: 0;
+			}
+
+			input.top,
+			input.bottom,
+			input.left,
+			input.right {
+				background: none;
+				border: none;
+				height: 20px;
+				padding: 0;
+				position: absolute;
+				text-align: center;
+				width: 20px;
+
+				&.null {
+					color: #999;
+				}
+
+				&:focus {
+					background: #FFF;
+					color: #555 !important;
+				}
+			}
+
+			input.top {
+				left: 50%;
+				margin-left: -10px;
+				top: 2px;
+			}
+
+			input.bottom {
+				bottom: 2px;
+				left: 50%;
+				margin-left: -10px;
+			}
+
+			input.left {
+				left: 2px;
+				top: 50%;
+				margin-top: -10px;
+			}
+
+			input.right {
+				right: 2px;
+				top: 50%;
+				margin-top: -10px;
+			}
+
+			.margin {
+				background: #FFF;
+				border: 1px dashed #BBB;
+			}
+
+			.border {
+				background: #BBB;
+				border: 1px solid #888;
+			}
+
+			.padding {
+				background: #DDD;
+				border: 1px solid #888;
+			}
+
+			.content {
+				background: #DDD;
+				border: 1px solid #888;
+				padding: 40px;
+
+				input.height,
+				input.width {
+					background: none;
+					border: none;
+					height: 20px;
+					padding: 0;
+					text-align: center;
+					width: 24px;
+
+					&.null {
+						color: #999;
+					}
+
+					&:focus {
+						background: #FFF;
+						color: #555 !important;
+					}
+				}
+
+				.text {
+					color: #555;
+				}
+			}
+		}
+	}
+}
+
+/* Style editor
+----------------------------------------------------------*/
+.style-editor {
+	border: 1px solid #CCC;
+	padding: 10px 20px;
+	.clearfix();
+
+	.no-sidebar & {
+		bottom: 30px;
+		left: 0;
+		margin: 0 !important;
+		overflow: scroll;
+		position: fixed;
+		right: 0;
+		top: 110px;
+	}
+
+	li {
+		clear: both;
+		float: left;
+		width: 100%;
+		.box-sizing(border-box);
+	}
+
+	ol > li {
+		color: #999;
+		line-height: 22px;
+		padding-left: 1em;
+		position: relative;
+
+		ul, ol {
+			margin-left: 2em;
+		}
+
+		.label {
+			display: none;
+			float: left;
+			line-height: 15px;
+			margin: 2px 0 0 4px;
+		}
+
+		&:hover .label {
+			display: inline;
+		}
+
+		.action {
+			margin-left: 2em;
+
+			~ .separator {
+				clear: left;
+			}
+		}
+
+		ul + .action {
+			margin-bottom: 1em;
+		}
+	}
+
+	.arrow {
+		cursor: pointer;
+		left: 0;
+		position: absolute;
+
+		.sprite {
+			.sprite(@caret-hollow-right-gray);
+		}
+
+		&.active {
+			line-height: 18px;
+
+			.sprite {
+				.sprite(@caret-rightbottom-gray);
+			}
+		}
+	}
+
+	.separator {
+		color: #666;
+		float: left;
+		height: 22px;
+		line-height: 20px;
+		margin: 0 2px;
+	}
+
+	.text {
+		float: left;
+		line-height: 20px;
+		min-height: 20px;
+		min-width: 20px;
+		padding: 0 1px;
+
+		&.selector {
+			color: #444;
+		}
+
+		&.attribute {
+			color: #006400;
+		}
+
+		&.value {
+			color: #00008B;
+		}
+
+		&.highlight {
+			outline: 1px solid #999;
+			.box-shadow(0 0 5px 1px rgba(0,0,0,.5));
+		}
+	}
+
+	.action {
+		clear: both;
+		float: left;
+	}
+}

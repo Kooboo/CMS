@@ -1,0 +1,151 @@
+/* Menu
+----------------------------------------------------------*/
+.block.menu {
+	a {
+		color: #000;
+		display: block;
+		font-size: 20px;
+		padding: 0 6px 0 16px;
+
+		&:hover {
+			background-color: #E7E7E7;
+		}
+
+		.badge {
+			float: right;
+		}
+	}
+
+	.arrow:hover ~ a {
+		background-color: #E7E7E7;
+	}
+	/* Arrow */
+	.arrow {
+		display: none;
+		height: 30px;
+		position: absolute;
+		text-indent: -9999px;
+		width: 15px;
+
+		.sprite {
+			display: block;
+			margin: 12px 0 0 4px;
+			.sprite(@chevron-right-gray);
+		}
+
+		&:hover .sprite {
+			.sprite(@chevron-right-black);
+		}
+	}
+
+	&:hover .arrow {
+		display: block;
+	}
+
+	> ul {
+		padding-bottom: 30px;
+	}
+
+	li {
+		font-weight: 300;
+		position: relative;
+
+		&.current > a {
+			background-color: #D4D4D4;
+		}
+
+		&.with-icon {
+			> .sprite {
+				position: absolute;
+				top: 5px;
+				left: 20px;
+			}
+
+			> a {
+				padding-left: 50px;
+			}
+		}
+
+		&.active {
+			> .arrow {
+				display: block;
+
+				.sprite {
+					margin-top: 13px;
+					.sprite(@chevron-down-gray);
+				}
+
+				&:hover .sprite {
+					.sprite(@chevron-down-black);
+				}
+			}
+
+			> ul {
+				display: block;
+			}
+		}
+		/* Level 2 */
+		ul {
+			display: none;
+			margin-top: 3px;
+		}
+
+		li {
+			a {
+				font-size: 12px;
+				padding: 6px 6px 6px 28px;
+			}
+
+			.arrow {
+				display: block;
+				left: 16px;
+				width: 9px;
+
+				.sprite {
+					margin: 11px 0 0 2px;
+					.sprite(@caret-hollow-right-gray);
+				}
+
+				&:hover .sprite {
+					.sprite(@caret-hollow-right-black);
+				}
+			}
+
+			&.active {
+				> .arrow {
+					.sprite {
+						.sprite(@caret-rightbottom-gray);
+					}
+
+					&:hover .sprite {
+						.sprite(@caret-rightbottom-black);
+					}
+				}
+			}
+			/* Level 3 */
+			ul {
+				margin: 0;
+			}
+
+			li {
+				a {
+					padding-left: 40px;
+				}
+
+				.arrow {
+					left: 28px;
+				}
+				/* Level 4 */
+				li {
+					a {
+						padding-left: 52px;
+					}
+
+					.arrow {
+						left: 40px;
+					}
+				}
+			}
+		}
+	}
+}

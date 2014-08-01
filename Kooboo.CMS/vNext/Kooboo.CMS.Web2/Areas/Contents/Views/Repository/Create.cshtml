@@ -6,10 +6,11 @@
 
 
 @section Panel{
-    <ul class="panel">
+    <ul class="header-panel">
         <li>
             <a data-ajaxform="">
-                @Html.IconImage("save") @("Save".Localize())</a>
+                @Html.IconImage("save") @("Save".Localize())
+            </a>
         </li>
         @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
         {
@@ -17,15 +18,15 @@
         }
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
+                @Html.IconImage("back") @("Cancel".Localize())
+            </a>
         </li>
     </ul>
 }
 <div class="block common-form">
-    <h1 class="title">@ViewBag.Title</h1>
     @using (Html.BeginForm())
-    { 
-        @Html.ValidationSummary(true)        
+    {
+        @Html.ValidationSummary(true)
         <table>
             <tbody>
                 @Html.EditorFor(m => m.Name, new { HtmlAttributes = new { @class = "medium" } })

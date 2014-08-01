@@ -63,10 +63,10 @@ namespace Kooboo.CMS.Web2
             {
                 var sortDir = requestContext.GetRequestValue("sortDir") ?? "asc";
 
-                return new HtmlString(string.Format("sort {0}", sortDir));
+                return new HtmlString(string.Format("sort {0} active", sortDir));
             }
 
-            return new HtmlString("sort");
+            return new HtmlString("sort asc");
         }
 
         private static bool IsSortField(RequestContext requestContext, string propertyName, int propertyOrder)
@@ -78,7 +78,7 @@ namespace Kooboo.CMS.Web2
 
         public static IHtmlString RenderGridHeader(RequestContext requestContext, string headerText, string propertyName, int propertyOrder)
         {
-            var html = @"<a href=""{0}"">{1}<img class=""icon arrow"" src=""{2}""></a>";
+            var html = @"<a href=""{0}"">{1}<img class=""sprite"" src=""{2}""></a>";
             var sortDir = "asc";
             if (IsSortField(requestContext, propertyName, propertyOrder))
             {

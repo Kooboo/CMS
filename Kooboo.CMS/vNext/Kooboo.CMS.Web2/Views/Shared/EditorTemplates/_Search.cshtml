@@ -13,8 +13,7 @@
             @ViewData.ModelMetadata.GetDisplayName()</label>
         if (!string.IsNullOrEmpty(ViewData.ModelMetadata.Description))
         {
-        <a href="#" class="tooltip-link" title="@ViewData.ModelMetadata.Description.Localize()">
-        </a>
+        <a href="#" class="tooltip-link" title="@ViewData.ModelMetadata.Description.Localize()"></a>
         }
     }
     @RenderBody()

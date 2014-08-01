@@ -8,10 +8,10 @@
     <script src="@(Url.Content("~/Scripts/html5uploader/jquery.fileupload.js"))" type="text/javascript"></script>
 }
 @section Panel{
-    <ul class="panel">
+    <ul class="header-panel">
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
+                @Html.IconImage("back") @("Back".Localize())</a>
         </li>
     </ul>
 }

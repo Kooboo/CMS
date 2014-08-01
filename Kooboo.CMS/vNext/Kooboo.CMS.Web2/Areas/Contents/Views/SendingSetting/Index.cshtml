@@ -5,7 +5,7 @@
 }
 
 @section Panel{
-    <ul class="panel">
+    <ul class="header-panel">
         <li>
             <a href="@Url.Action("Create", ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl))">
                 @Html.IconImage("add") @("Create".Localize())</a>
@@ -18,9 +18,4 @@
         }
     </ul>
 }
-
-<div class="topbar clearfix">
-    <h1 class="title">
-        @ViewBag.Title</h1>
-</div>
 @Html.GridForModel2()

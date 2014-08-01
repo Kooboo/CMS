@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/Blank.cshtml";
 }
 @section Panel{
-    <ul class="panel">
+    <ul class="header-panel">
         <li>
             <a data-ajaxform=""  data-confirm="@("Are you sure you want to process the workflow item?".Localize())">
                 @Html.IconImage("process") @("Process".Localize())</a>
@@ -19,7 +19,7 @@
         }
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
-                @Html.IconImage("cancel") @("Back".Localize())</a>
+                @Html.IconImage("back") @("Back".Localize())</a>
         </li>
     </ul>
 }

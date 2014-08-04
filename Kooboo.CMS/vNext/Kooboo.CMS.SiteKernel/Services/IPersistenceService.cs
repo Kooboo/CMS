@@ -19,6 +19,6 @@ namespace Kooboo.CMS.SiteKernel.Services
         T Get(T o);
         void Add(T o);
         void Update(T @new, T @old);
-        void Delete(T o);
+        void Remove(T o);
     }
 }

@@ -36,5 +36,11 @@ namespace Kooboo.CMS.SiteKernel.Models
             }
             return null;
         }
+        public static string GetName(string fullName)
+        {
+            var namePaths = Split(fullName).ToArray();
+
+            return namePaths[namePaths.Length - 1];
+        }
     }
 }

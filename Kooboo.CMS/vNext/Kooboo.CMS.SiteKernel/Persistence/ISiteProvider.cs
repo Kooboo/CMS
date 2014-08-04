@@ -16,8 +16,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Kooboo.CMS.SiteKernel.Persistence
-{
-    public interface ISiteProvider : IProvider<Site>
+{   
+    public interface ISiteProvider : IProvider<Site>, IImportExportProvider<Site>
     {
         IEnumerable<Site> RootSites();
         IEnumerable<Site> ChildSites(Site parentSite);

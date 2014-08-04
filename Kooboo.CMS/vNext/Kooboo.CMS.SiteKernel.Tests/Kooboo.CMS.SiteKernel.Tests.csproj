@@ -66,6 +66,12 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kooboo.CMS.SiteKernel\Kooboo.CMS.SiteKernel.csproj">
+      <Project>{1cae42cb-b7a7-4325-976c-59a9de307293}</Project>
+      <Name>Kooboo.CMS.SiteKernel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

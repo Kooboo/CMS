@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.SiteKernel.Models;
+using Kooboo.CMS.SiteKernel.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,15 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.SiteKernel.Services
 {
-    public class SiteService : ISiteService
+    public class SiteService : ServiceBase<Site, ISiteProvider>, ISiteService
     {
+        #region .ctor
+        public SiteService(ISiteProvider siteProvider)
+            : base(siteProvider)
+        {
+
+        }
+        #endregion
 
         public Site Create(Site parentSite, string siteName, System.IO.Stream packageStream)
         {
@@ -25,42 +33,22 @@ namespace Kooboo.CMS.SiteKernel.Services
 
         public IEnumerable<Site> RootSites()
         {
-            throw new NotImplementedException();
+            return Provider.RootSites();
         }
 
         public IEnumerable<Site> ChildSites(Site parentSite)
         {
-            throw new NotImplementedException();
+            return Provider.ChildSites(parentSite);
         }
 
-        public Site Get(Site o)
+        public void Import(Site data, System.IO.Stream zipData, bool @override)
         {
             throw new NotImplementedException();
         }
 
-        public void Add(Site o)
+        public System.IO.Stream[] Export(IEnumerable<Site> data)
         {
             throw new NotImplementedException();
-        }
-
-        public void Update(Site @new, Site old)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Site o)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Import(Site data, byte[] zipData, bool @override)
-        {
-            throw new NotImplementedException();
-        }
-
-        public byte[] Export(IEnumerable<Site> data)
-        {
-            throw new NotImplementedException();
-        }
+        }       
     }
 }

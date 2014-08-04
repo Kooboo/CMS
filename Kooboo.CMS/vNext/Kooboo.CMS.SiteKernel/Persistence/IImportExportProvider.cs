@@ -8,6 +8,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +17,8 @@ namespace Kooboo.CMS.SiteKernel.Persistence
 {
     public interface IImportExportProvider<T>
     {
-        void Import(T data, byte[] zipData, IDictionary<string, object> options);
+        void Import(T data, Stream zipData, IDictionary<string, object> options);
 
-        byte[] Export(IEnumerable<T> data, IDictionary<string, object> options);
+        Stream Export(IEnumerable<T> data, IDictionary<string, object> options);
     }
 }

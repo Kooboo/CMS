@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.SiteKernel.Models
 {
-    public partial class Site : IIdentifiable, IComparable, IPersistable
+    public partial class Site : IIdentifiable, IComparable, IPersistable, ISiteObject
     {
         #region Current
         public static Site Current
@@ -40,13 +40,16 @@ namespace Kooboo.CMS.SiteKernel.Models
         }
         public Site(string fullName)
         {
+            this.Name = FullNameHelper.GetName(fullName);
             this.FullName = fullName;
         }
         public Site(Site parent, string name)
         {
+            this.Name = name;
             this.FullName = FullNameHelper.Combine(parent.FullName, name);
         }
         #endregion
+        #region Parent
         public Site Parent
         {
             get
@@ -58,8 +61,31 @@ namespace Kooboo.CMS.SiteKernel.Models
                 }
                 return null;
             }
-        }
+            set
+            {
+                if (Parent != null)
+                {
+                    this.FullName = FullNameHelper.Combine(Parent.FullName, this.Name);
+                }
+                else
+                {
+                    this.FullName = this.Name;
+                }
+            }
 
+        }
+        Site ISiteObject.Site
+        {
+            get
+            {
+                return this.Parent;
+            }
+            set
+            {
+                this.Parent = value;
+            }
+        }
+        #endregion
         public string UUID
         {
             get
@@ -143,6 +169,8 @@ namespace Kooboo.CMS.SiteKernel.Models
             throw new NotImplementedException();
         }
         #endregion
+
+
     }
     public partial class Site
     {

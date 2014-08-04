@@ -40,9 +40,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Kooboo.Common.5.0.5318.25815\lib\net45\Kooboo.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Data, Version=5.0.5326.30170, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Data, Version=5.0.5329.26556, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5326.30170\lib\net45\Kooboo.Common.Data.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5329.26556\lib\net45\Kooboo.Common.Data.dll</HintPath>
     </Reference>
     <Reference Include="Kooboo.Common.Web, Version=5.0.5317.25227, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -121,6 +121,9 @@
     <Compile Include="FrontAPI\Url\ViewUrlExtensions.cs" />
     <Compile Include="Models\Page\PageExtensions.cs" />
     <Compile Include="Models\Site\SiteExtensions.cs" />
+    <Compile Include="Persistence\FileSystem\FileProviderBase.cs" />
+    <Compile Include="Persistence\FileSystem\ProviderRegistrar.cs" />
+    <Compile Include="Persistence\FileSystem\SiteExtensions.cs" />
     <Compile Include="Persistence\FileSystem\SiteProvider.cs" />
     <Compile Include="Persistence\IImportExportProvider.cs" />
     <Compile Include="Persistence\ISiteProvider.cs" />
@@ -174,6 +177,7 @@
     <Compile Include="Services\Page\IPageService.cs" />
     <Compile Include="Services\Page\MapPageResult.cs" />
     <Compile Include="Services\Page\PageExtensions.cs" />
+    <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\Site\IFrontSiteService.cs" />
     <Compile Include="Services\Site\ISiteService.cs" />
     <Compile Include="Services\Site\SiteExtensions.cs" />

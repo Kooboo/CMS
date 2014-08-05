@@ -175,7 +175,7 @@ namespace Kooboo.CMS.Sites.View
                     this.PageRequestContext.RequestChannel != Web.FrontRequestChannel.Design
                     && this.PageRequestContext.Site.InlineEditing.HasValue
                     && this.PageRequestContext.Site.InlineEditing.Value == true
-                    && ServiceFactory.UserManager.Authorize(Page_Context.Current.PageRequestContext.Site, Page_Context.Current.ControllerContext.HttpContext.User.Identity.Name, Account.Models.Permission.Sites_Page_PublishPermission)
+                    && ServiceFactory.UserManager.Authorize(Page_Context.Current.PageRequestContext.Site, Page_Context.Current.ControllerContext.HttpContext.User.Identity.Name, Permissions.Sites_Page_PublishPermission)
                     );
             }
         }

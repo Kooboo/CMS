@@ -89,7 +89,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
         }
         protected virtual bool IsValidDataItem(string dirName)
         {
-            var valid = dirName.EqualsOrNullEmpty("~versions", StringComparison.OrdinalIgnoreCase);
+            var valid = !dirName.EqualsOrNullEmpty("~versions", StringComparison.OrdinalIgnoreCase);
             if (valid)
             {
                 valid = isolatedStorage.FileExists(Path.Combine(dirName, DataFileName));

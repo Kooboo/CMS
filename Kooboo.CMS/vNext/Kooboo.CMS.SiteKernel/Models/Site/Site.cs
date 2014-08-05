@@ -46,7 +46,14 @@ namespace Kooboo.CMS.SiteKernel.Models
         public Site(Site parent, string name)
         {
             this.Name = name;
-            this.FullName = FullNameHelper.Combine(parent.FullName, name);
+            if (parent != null)
+            {
+                this.FullName = FullNameHelper.Combine(parent.FullName, name);
+            }
+            else
+            {
+                this.FullName = name;
+            }
         }
         #endregion
         #region Parent
@@ -54,6 +61,10 @@ namespace Kooboo.CMS.SiteKernel.Models
         {
             get
             {
+                if (string.IsNullOrEmpty(this.FullName))
+                {
+                    this.FullName = this.Name;
+                }
                 var parentFullName = FullNameHelper.GetParentFullName(this.FullName);
                 if (!string.IsNullOrEmpty(parentFullName))
                 {

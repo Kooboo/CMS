@@ -61,17 +61,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\dotLess\dotless.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common, Version=5.0.5318.25815, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common, Version=5.0.5330.30638, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Kooboo.Common.5.0.5318.25815\lib\net45\Kooboo.Common.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.5.0.5330.30638\lib\net45\Kooboo.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Data, Version=5.0.5329.26556, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Data, Version=5.0.5330.32188, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5329.26556\lib\net45\Kooboo.Common.Data.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5330.32188\lib\net45\Kooboo.Common.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Web, Version=5.0.5317.25227, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Web, Version=5.0.5330.31266, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Kooboo.Common.Web.5.0.5317.25227\lib\net45\Kooboo.Common.Web.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5330.31266\lib\net45\Kooboo.Common.Web.dll</HintPath>
     </Reference>
     <Reference Include="Kooboo.Common.Windows, Version=5.0.5302.32861, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -240,6 +240,14 @@
     <Compile Include="Areas\Membership\Models\MembershipGroup_Metadata.cs" />
     <Compile Include="Areas\Membership\Models\MembershipUser_Metadata.cs" />
     <Compile Include="Areas\Membership\Models\Membership_Metadata.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSubSite.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSite.cs" />
+    <Compile Include="Areas\Sites\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Sites\Permissions.cs" />
+    <Compile Include="Areas\Sites\SitesAreaRegistration.cs" />
+    <Compile Include="Authorizations\RequiredLogOnAttribute.cs" />
+    <Compile Include="Button\CreateGroup.cs" />
+    <Compile Include="Button\ResolveTopButtonsFilter.cs" />
     <Compile Include="KoobooCMSHttpApplicationEvents.cs" />
     <Compile Include="Misc\DynamicClientResourceDIFactory.cs" />
     <Compile Include="Misc\LessCssProvider.cs" />
@@ -1625,6 +1633,10 @@
       <Project>{c7b73e67-d226-41cb-a86d-410276b265a1}</Project>
       <Name>Kooboo.CMS.Search</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Kooboo.CMS.SiteKernel\Kooboo.CMS.SiteKernel.csproj">
+      <Project>{1cae42cb-b7a7-4325-976c-59a9de307293}</Project>
+      <Name>Kooboo.CMS.SiteKernel</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\tiny_mce\skins\lightgray\fonts\tinymce-small.eot" />
@@ -1649,6 +1661,8 @@
     <Content Include="Views\Shared\DisplayTemplates\_TR.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Sites\Models\" />
+    <Folder Include="Areas\Sites\Views\Shared\" />
     <Folder Include="Cms_Data\" />
     <Folder Include="Interoperability\" />
     <Folder Include="Styles\images\" />
@@ -1664,6 +1678,37 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Menu.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\WebResources.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Home\Cluster.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Home\_SiteNode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_GroupedButton.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Toolbar - Copy.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_ButtonPlugin.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_TopButtonPanel.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

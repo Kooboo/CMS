@@ -25,7 +25,18 @@
                 <img src="@Html.Raw(Url.Content("~/Images/logo.png")) " alt="LOGO">
                 @Html.IconImage("home")
             </a>
-            @RenderSection("Panel", false)
+            @if (IsSectionDefined("Panel"))
+            {
+                @RenderSection("Panel", false)
+            }
+            else
+            {
+                if (ViewBag.TopButtons != null)
+                {
+                    @Html.Partial("_TopButtonPanel", (object)(ViewBag.TopButtons))
+                }
+            }
+
             @Html.Partial("_QuickLinks")
         </header>
 

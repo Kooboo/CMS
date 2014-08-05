@@ -206,7 +206,7 @@ namespace Kooboo.CMS.Sites.View
             if (PageContext.EnabledInlineEditing(EditingType.Page) && PageContext.PageRequestContext.Page.IsLocalized(PageContext.PageRequestContext.Site))
             {
                 if (PageContext.PageRequestContext.Page.Published.Value == false
-                    || (PageContext.PageRequestContext.Page.Published.Value == true && ServiceFactory.UserManager.Authorize(PageContext.PageRequestContext.Site, PageContext.ControllerContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_PublishPermission)))
+                    || (PageContext.PageRequestContext.Page.Published.Value == true && ServiceFactory.UserManager.Authorize(PageContext.PageRequestContext.Site, PageContext.ControllerContext.HttpContext.User.Identity.Name, Permissions.Sites_Page_PublishPermission)))
                 {
                     html = string.Format("<var start=\"true\" editType=\"html\" dataType=\"{0}\" positionId=\"{1}\" positionName=\"{2}\" style=\"display:none;\"></var>{3}<var end=\"true\" style=\"display:none;\"></var>", FieldDataType.RichText.ToString(), htmlPosition.PagePositionId, HttpUtility.HtmlAttributeEncode(htmlPosition.ToString()), html);
                 }
@@ -319,7 +319,7 @@ namespace Kooboo.CMS.Sites.View
                 if (PageContext.EnabledInlineEditing(EditingType.Page) && htmlBlock.IsLocalized(PageContext.PageRequestContext.Site))
                 {
                     if (PageContext.PageRequestContext.Page.Published == false
-                        || (PageContext.PageRequestContext.Page.Published == true && ServiceFactory.UserManager.Authorize(PageContext.PageRequestContext.Site, PageContext.ControllerContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_PublishPermission)))
+                        || (PageContext.PageRequestContext.Page.Published == true && ServiceFactory.UserManager.Authorize(PageContext.PageRequestContext.Site, PageContext.ControllerContext.HttpContext.User.Identity.Name, Permissions.Sites_Page_PublishPermission)))
                     {
                         body = string.Format("<var start=\"true\" editType=\"htmlBlock\" positionId=\"{0}\" positionName=\"{1}\" blockName=\"{2}\" style=\"display:none;\"></var>{3}<var end=\"true\" style=\"display:none;\"></var>", "", "", HttpUtility.HtmlAttributeEncode(htmlBlock.Name), body);
                     }

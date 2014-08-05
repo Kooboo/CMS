@@ -1,0 +1,49 @@
+﻿@model Kooboo.Common.Web.Button.IButtonPlugin
+@{
+
+    var buttonTarget = Model.GetMvcRoute(ViewContext.Controller.ControllerContext);
+    var routeValues = ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl);
+    if (buttonTarget != null)
+    {
+        //manual button link
+        if (!string.IsNullOrEmpty(buttonTarget.Area))
+        {
+            routeValues = routeValues.Merge("area", buttonTarget.Area);
+        }
+        if (!string.IsNullOrEmpty(buttonTarget.Controller))
+        {
+            routeValues = routeValues.Merge("controller", buttonTarget.Controller);
+        }
+        if (!string.IsNullOrEmpty(buttonTarget.Action))
+        {
+            routeValues = routeValues.Merge("action", buttonTarget.Action);
+        }
+        if (buttonTarget.RouteValues != null)
+        {
+            routeValues = routeValues.Merge(new RouteValueDictionary(buttonTarget.RouteValues));
+        }
+    }
+    else
+    {
+        //managed button plugin
+        routeValues = routeValues.Merge("Area", null);
+        routeValues = routeValues.Merge("Controller", "ManagedButton");
+        routeValues = routeValues.Merge("Action", "POST");
+    }
+
+    IHtmlString htmlAttributes = null;
+    var att = Model.HtmlAttributes(ViewContext.Controller.ControllerContext);
+    if (att != null)
+    {
+        htmlAttributes = Html.GenerateHtmlAttributes(att);
+    }
+}
+<li>
+    <a href="@Url.Action(routeValues["controller"].ToString(), routeValues["action"].ToString(), routeValues)" @htmlAttributes>
+        @if (!string.IsNullOrEmpty(Model.IconClass))
+        {
+            @Html.IconImage(Model.IconClass)
+        }
+        @(Model.DisplayText.Localize())
+    </a>
+</li>

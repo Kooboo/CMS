@@ -21,6 +21,7 @@ namespace Kooboo.CMS.SiteKernel.Services
         Site Create(Site parentSite, string siteName, Stream packageStream);
         IEnumerable<Site> RootSites();
         IEnumerable<Site> ChildSites(Site parentSite);
+        IEnumerable<SiteNode> SiteTrees(string userName = null);
     }
 
     //public class Site : ISite

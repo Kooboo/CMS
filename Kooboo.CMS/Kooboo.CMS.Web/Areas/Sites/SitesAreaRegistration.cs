@@ -45,26 +45,26 @@ namespace Kooboo.CMS.Web.Areas.Sites
             var roleManager = Kooboo.Common.ObjectContainer.EngineContext.Current.Resolve<RoleManager>();
 
 
-            roleManager.AddPermission(Permission.Sites_Settings_SystemPermission);            
-            roleManager.AddPermission(Permission.Sites_Settings_UserSettingPermission);
-            roleManager.AddPermission(Permission.Sites_Settings_CustomErrorPermission);
-            roleManager.AddPermission(Permission.Sites_Settings_UrlRedirectPermission);
-            roleManager.AddPermission(Permission.Sites_Settings_Robot_TxtPermission);
-            roleManager.AddPermission(Permission.Sites_Settings_VisitRulePermission);
+            roleManager.AddPermission(Permissions.Sites_Settings_SystemPermission);            
+            roleManager.AddPermission(Permissions.Sites_Settings_UserSettingPermission);
+            roleManager.AddPermission(Permissions.Sites_Settings_CustomErrorPermission);
+            roleManager.AddPermission(Permissions.Sites_Settings_UrlRedirectPermission);
+            roleManager.AddPermission(Permissions.Sites_Settings_Robot_TxtPermission);
+            roleManager.AddPermission(Permissions.Sites_Settings_VisitRulePermission);
 
-            roleManager.AddPermission(Permission.Sites_Templates_LayoutPermission);
-            roleManager.AddPermission(Permission.Sites_Templates_ViewPermission);
-            roleManager.AddPermission(Permission.Sites_Templates_LabelPermission);
-            roleManager.AddPermission(Permission.Sites_Templates_FilePermission);
-            roleManager.AddPermission(Permission.Sites_Templates_PageMappingPermission);
-            roleManager.AddPermission(Permission.Sites_Development_SubmissionPermission);
+            roleManager.AddPermission(Permissions.Sites_Templates_LayoutPermission);
+            roleManager.AddPermission(Permissions.Sites_Templates_ViewPermission);
+            roleManager.AddPermission(Permissions.Sites_Templates_LabelPermission);
+            roleManager.AddPermission(Permissions.Sites_Templates_FilePermission);
+            roleManager.AddPermission(Permissions.Sites_Templates_PageMappingPermission);
+            roleManager.AddPermission(Permissions.Sites_Development_SubmissionPermission);
 
-            roleManager.AddPermission(Permission.Sites_Extensions_PluginPermission);
-            roleManager.AddPermission(Permission.Sites_Extensions_ModulePermission);
+            roleManager.AddPermission(Permissions.Sites_Extensions_PluginPermission);
+            roleManager.AddPermission(Permissions.Sites_Extensions_ModulePermission);
 
-            roleManager.AddPermission(Permission.Sites_Page_EditPermission);
+            roleManager.AddPermission(Permissions.Sites_Page_EditPermission);
             //roleManager.AddPermission(Permission.Sites_Page_StyleEditPermission);
-            roleManager.AddPermission(Permission.Sites_Page_PublishPermission);
+            roleManager.AddPermission(Permissions.Sites_Page_PublishPermission);
             #endregion
             base.RegisterArea(context);
         }

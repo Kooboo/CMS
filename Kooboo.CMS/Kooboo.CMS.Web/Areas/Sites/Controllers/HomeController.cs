@@ -201,7 +201,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
             if (site.ShowSitemap.HasValue && site.ShowSitemap.Value == false)
             {
-                if (ServiceFactory.UserManager.Authorize(site, User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_EditPermission))
+                if (ServiceFactory.UserManager.Authorize(site, User.Identity.Name, Permissions.Sites_Page_EditPermission))
                 {
                     return RedirectToAction("Index", this.ControllerContext.RequestContext.AllRouteValues().Merge("Controller", "Page"));
                 }

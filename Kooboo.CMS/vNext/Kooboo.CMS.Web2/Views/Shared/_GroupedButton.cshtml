@@ -1,0 +1,47 @@
+﻿@model Kooboo.Common.Web.Button.GroupedButton
+@if ((Model.Buttons == null || Model.Buttons.Count() == 0) && Model.Group is Kooboo.Common.Web.Button.IButtonPlugin)
+{
+    @Html.Partial("_ButtonPlugin", Model.Group)
+}
+else
+{
+    var htmlAttributes = Model.Group.HtmlAttributes(ViewContext.Controller.ControllerContext) ?? new Dictionary<string, object>();
+
+
+    var dic = new Dictionary<string, object>
+    (htmlAttributes, StringComparer.OrdinalIgnoreCase);
+    if (dic.ContainsKey("class"))
+    {
+        dic["class"] = "j_DropDown " + dic["class"] ?? "";
+    }
+    else
+    {
+        dic["class"] = "j_DropDown";
+    }
+    var attrs = Html.GenerateHtmlAttributes(dic);
+
+
+    <li @attrs>
+        <a>
+            @if (Model.Group is Kooboo.Common.Web.Button.IButtonGroup)
+            {
+                if (!string.IsNullOrEmpty(Model.Group.IconClass))
+                {
+                    @Html.IconImage(Model.Group.IconClass)
+                }
+                @(Model.Group.DisplayText.Localize())
+            }
+            else
+            {
+                @Html.Partial("_ButtonPlugin", Model.Group)
+            }
+            @Html.IconImage("chevron-down-white")
+        </a>
+        <ul class="j_DropDownContent hide">
+            @foreach (var item in Model.Buttons)
+            {
+                @Html.Partial("_ButtonPlugin", item);
+            }
+        </ul>
+    </li>
+}

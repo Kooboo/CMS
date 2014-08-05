@@ -31,13 +31,16 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
 
             var list = fileStorage.GetList().ToArray();
 
-            if (typeof(ISiteObject).IsAssignableFrom(typeof(T)))
+            if (site!=null)
             {
-                foreach (var item in list)
+                if (typeof(ISiteObject).IsAssignableFrom(typeof(T)))
                 {
-                    ((ISiteObject)item).Site = site;
+                    foreach (var item in list)
+                    {
+                        ((ISiteObject)item).Site = site;
+                    }
                 }
-            }
+            }            
 
             return list;
         }

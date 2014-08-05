@@ -36,17 +36,17 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common, Version=5.0.5318.25815, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common, Version=5.0.5330.30638, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.5.0.5318.25815\lib\net45\Kooboo.Common.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.5.0.5330.30638\lib\net45\Kooboo.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Data, Version=5.0.5329.26556, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Data, Version=5.0.5330.32188, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5329.26556\lib\net45\Kooboo.Common.Data.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5330.32188\lib\net45\Kooboo.Common.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Web, Version=5.0.5317.25227, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Web, Version=5.0.5330.31266, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5317.25227\lib\net45\Kooboo.Common.Web.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5330.31266\lib\net45\Kooboo.Common.Web.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -121,6 +121,7 @@
     <Compile Include="FrontAPI\Url\ViewUrlExtensions.cs" />
     <Compile Include="Models\Page\PageExtensions.cs" />
     <Compile Include="Models\Site\SiteExtensions.cs" />
+    <Compile Include="Permissions.cs" />
     <Compile Include="Persistence\FileSystem\FileProviderBase.cs" />
     <Compile Include="Persistence\FileSystem\ProviderRegistrar.cs" />
     <Compile Include="Persistence\FileSystem\SiteExtensions.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Services\Site\SiteService.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Services\Site\SiteNode.cs" />
     <Compile Include="Services\View\IViewRenderer.cs" />
     <Compile Include="Services\View\IViewService.cs" />
     <Compile Include="SiteFlow\Args\BeginSiteRequestEventArgs.cs" />
@@ -218,6 +220,10 @@
     <Compile Include="SiteFlow\SiteRequestFlowAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Kooboo.CMS.Account\Kooboo.CMS.Account.csproj">
+      <Project>{61ed004c-9e20-4680-af2b-0723fe7648bb}</Project>
+      <Name>Kooboo.CMS.Account</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>

@@ -32,7 +32,8 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
             this.baseDir = baseDir;
         }
         #endregion
-        #region
+
+        #region GetFileStorage
         protected override IFileStorage<Site> GetFileStorage(Site site)
         {
             IIsolatedStorage isolatedStorage;
@@ -44,10 +45,13 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
             }
             else
             {
-                isolatedStorage = new DiskIsolateStorage("RootSites", baseDir.Cms_DataPhysicalPath);
+                isolatedStorage = new DiskIsolateStorage("Sites", baseDir.Cms_DataPhysicalPath);
             }
 
-            var directoryStorage = new DirectoryObjectFileStorage<Site>(isolatedStorage, "", locker);
+            var directoryStorage = new DirectoryObjectFileStorage<Site>(isolatedStorage, "", locker, new Type[0], (name) =>
+            {
+                return new Site(site, name);
+            });
             return directoryStorage;
         }
         #endregion

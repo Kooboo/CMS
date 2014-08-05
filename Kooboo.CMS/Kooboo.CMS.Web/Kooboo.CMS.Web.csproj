@@ -61,17 +61,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\dotLess\dotless.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common, Version=5.0.5318.25815, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common, Version=5.0.5330.30638, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Kooboo.Common.5.0.5318.25815\lib\net45\Kooboo.Common.dll</HintPath>
+      <HintPath>..\packages\Kooboo.Common.5.0.5330.30638\lib\net45\Kooboo.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Data, Version=5.0.5326.30170, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Data, Version=5.0.5330.32188, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Kooboo.Common.Data.5.0.5326.30170\lib\net45\Kooboo.Common.Data.dll</HintPath>
+      <HintPath>..\packages\Kooboo.Common.Data.5.0.5330.32188\lib\net45\Kooboo.Common.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Web, Version=5.0.5317.25227, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Web, Version=5.0.5330.31266, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Kooboo.Common.Web.5.0.5317.25227\lib\net45\Kooboo.Common.Web.dll</HintPath>
+      <HintPath>..\packages\Kooboo.Common.Web.5.0.5330.31266\lib\net45\Kooboo.Common.Web.dll</HintPath>
     </Reference>
     <Reference Include="Kooboo.Common.Windows, Version=5.0.5302.32861, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -295,6 +295,7 @@
     <Compile Include="Areas\Sites\Models\ABRuleSetting_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\SiteTemplate_ViewModel.cs" />
     <Compile Include="Areas\Sites\Models\QueryStringVisitRule_Metadata.cs" />
+    <Compile Include="Areas\Sites\Permissions.cs" />
     <Compile Include="Areas\Sites\Views\ABRuleSetting\ABRuleSettingIndexToolbarProvider.cs" />
     <Compile Include="Areas\Sites\Views\DataSource\IndexToolbarProvider.cs" />
     <Compile Include="Areas\Sites\Views\Page\PageIndexToolbarProvider.cs" />

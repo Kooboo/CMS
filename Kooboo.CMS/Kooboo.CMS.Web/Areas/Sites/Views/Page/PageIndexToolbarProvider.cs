@@ -59,7 +59,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Views.Page
                 CommandText = "Copy",
                 HtmlAttributes = new Dictionary<string, object>() { { "data-show-on-check", "Single" }, { "data-show-on-selector", ".localized" }, { "data-command-type", "Redirect" } }
             });
-            if (ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, requestContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_PublishPermission))
+            if (ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, requestContext.HttpContext.User.Identity.Name, Permissions.Sites_Page_PublishPermission))
             {
                 buttons.AddRange(new ToolbarButton[]{                
                 new ToolbarButton(){

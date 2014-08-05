@@ -38,7 +38,7 @@ namespace Kooboo.CMS.Web2.Areas.Contents
                 "Contents/{controller}/{action}",///{repositoryName}/{name}
                 new { action = "Index" }
                 , null
-                , new[] { "Kooboo.CMS.Web2.Areas.Contents.Controllers", "Kooboo.Web.Mvc", "Kooboo.Common.Web.WebResourceLoader" }
+                , new[] { "Kooboo.CMS.Web2.Areas.Contents.Controllers", "Kooboo.Common.Web", "Kooboo.Common.Web.WebResourceLoader" }
             );
 
             Kooboo.Common.Web.Menu.MenuFactory.RegisterAreaMenu(AreaName, AreaHelpers.CombineAreaFilePhysicalPath(AreaName, "Menu.config"));

@@ -25,5 +25,10 @@ namespace Kooboo.CMS.SiteKernel.Extension
         public abstract IEnumerable<Kooboo.Common.Web.MvcRoute> ApplyTo { get; }
         public abstract void LoadData(FormTabContext context);
         public abstract void Submit(FormTabContext context);
+
+        string Kooboo.Common.Web.IApplyTo.Position
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

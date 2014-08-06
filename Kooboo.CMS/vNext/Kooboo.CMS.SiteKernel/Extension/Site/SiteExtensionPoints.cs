@@ -21,5 +21,8 @@ namespace Kooboo.CMS.SiteKernel.Extension.Site
         public static MvcRoute SiteCluster = new MvcRoute() { Area = "Sites", Controller = "Home", Action = "Cluster" };
         //Site setting页面
         public static MvcRoute SiteSetting = new MvcRoute() { Area = "Sites", Controller = "Site", Action = "Settings" };
+
+        //Site node上面的按钮操作
+        public static string SiteNodeButton = "SiteNode";
     }
 }

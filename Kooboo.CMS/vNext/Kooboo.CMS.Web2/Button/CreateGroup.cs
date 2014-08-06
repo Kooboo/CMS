@@ -45,5 +45,11 @@ namespace Kooboo.CMS.Web2.Button
         {
             get { return new[] { SiteExtensionPoints.SiteCluster }; }
         }
+
+
+        public string Position
+        {
+            get { return null; }
+        }
     }
 }

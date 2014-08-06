@@ -30,7 +30,8 @@
     string tinymceContentStyle = null;
     if (Kooboo.CMS.Sites.Models.Site.Current != null)
     {
-        tinymceContentStyle = (new FrontUrlHelper(Url, Site.Current, Kooboo.CMS.Sites.Web.FrontRequestChannel.Debug)).FileUrl("tinymce_content.css", false).ToString();
+        //tinymceContentStyle = (new FrontUrlHelper(Url, Site.Current, Kooboo.CMS.Sites.Web.FrontRequestChannel.Debug)).FileUrl("tinymce_content.css", false).ToString();
+        tinymceContentStyle = "tinymce_content.css";
         if (!File.Exists(Server.MapPath(tinymceContentStyle)))
         {
             tinymceContentStyle = null;

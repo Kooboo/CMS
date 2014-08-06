@@ -11,6 +11,7 @@ using Kooboo.CMS.SiteKernel.Services;
 using Kooboo.CMS.Web2.Authorizations;
 using Kooboo.CMS.Web2.Button;
 using Kooboo.Common.Data;
+using Kooboo.Common.Web.Button;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,10 +26,12 @@ namespace Kooboo.CMS.Web2.Areas.Sites.Controllers
     {
         #region .ctor
         SiteService siteService;
+        IButtonPluginExecutor buttonPluginExecutor;
 
-        public HomeController(SiteService siteService)
+        public HomeController(SiteService siteService, IButtonPluginExecutor buttonPluginExecutor)
         {
             this.siteService = siteService;
+            this.buttonPluginExecutor = buttonPluginExecutor;
         }
         #endregion
 
@@ -52,6 +55,10 @@ namespace Kooboo.CMS.Web2.Areas.Sites.Controllers
                     || (!string.IsNullOrEmpty(it.Site.DisplayName) && it.Site.AsActual().DisplayName.ToLower().Contains(search.ToLower())));
             }
             var model = sites.ToPagedList<SiteNode>(page ?? 1, pageSize ?? 20);
+
+
+            ViewBag.SiteNodeButtons = buttonPluginExecutor.LoadButtons(this.ControllerContext, Kooboo.CMS.SiteKernel.Extension.Site.SiteExtensionPoints.SiteNodeButton);
+
             return View(model);
         }
         #endregion

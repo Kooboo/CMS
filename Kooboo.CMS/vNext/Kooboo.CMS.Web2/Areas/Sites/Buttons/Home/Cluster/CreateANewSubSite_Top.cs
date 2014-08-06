@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Kooboo.CMS.Web2.Areas.Sites.Buttons.Home.Cluster
 {
-    public class CreateANewSubSite : IButtonPlugin
+    public class CreateANewSubSite_Top : IButtonPlugin
     {
         System.Web.Mvc.ActionResult IButtonPlugin.Execute(ButtonPluginContext context)
         {
@@ -24,49 +24,55 @@ namespace Kooboo.CMS.Web2.Areas.Sites.Buttons.Home.Cluster
             };
         }
 
-        public string GroupName
+        public virtual string GroupName
         {
             get { return "Create"; }
         }
 
-        public Type OptionModelType
+        public virtual Type OptionModelType
         {
             get { throw new NotImplementedException(); }
         }
 
-        public string DisplayText
+        public virtual string DisplayText
         {
             get { return "A new sub site"; }
         }
 
-        public IDictionary<string, object> HtmlAttributes(System.Web.Mvc.ControllerContext controllerContext)
+        public virtual IDictionary<string, object> HtmlAttributes(System.Web.Mvc.ControllerContext controllerContext)
         {
             return new Dictionary<string, object>();
         }
 
-        public string IconClass
+        public virtual string IconClass
         {
             get { return null; }
         }
 
-        public bool IsVisibleFor(object dataItem)
+        public virtual bool IsVisibleFor(object dataItem)
         {
             throw new NotImplementedException();
         }
 
-        public string Name
+        public virtual string Name
         {
             get { return "CreateANewSubSite"; }
         }
 
-        public int Order
+        public virtual int Order
         {
             get { return 2; }
         }
 
-        public IEnumerable<Kooboo.Common.Web.MvcRoute> ApplyTo
+        public virtual IEnumerable<Kooboo.Common.Web.MvcRoute> ApplyTo
         {
             get { return new[] { SiteExtensionPoints.SiteCluster }; }
+        }
+
+
+        public virtual string Position
+        {
+            get { return null; }
         }
     }
 }

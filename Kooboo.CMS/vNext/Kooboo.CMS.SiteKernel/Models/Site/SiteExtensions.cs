@@ -41,5 +41,10 @@ namespace Kooboo.CMS.SiteKernel.Models
             }
             return null;
         }
+
+        public static string GetDisplayText(this Site site)
+        {
+            return (string.IsNullOrEmpty(site.DisplayName) == true ? site.Name : site.DisplayName);
+        }
     }
 }

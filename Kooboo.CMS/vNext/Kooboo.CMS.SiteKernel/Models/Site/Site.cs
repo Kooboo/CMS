@@ -56,6 +56,7 @@ namespace Kooboo.CMS.SiteKernel.Models
             }
         }
         #endregion
+
         #region Parent
         public Site Parent
         {
@@ -74,9 +75,9 @@ namespace Kooboo.CMS.SiteKernel.Models
             }
             set
             {
-                if (Parent != null)
+                if (value != null)
                 {
-                    this.FullName = FullNameHelper.Combine(Parent.FullName, this.Name);
+                    this.FullName = FullNameHelper.Combine(value.FullName, this.Name);
                 }
                 else
                 {
@@ -161,23 +162,27 @@ namespace Kooboo.CMS.SiteKernel.Models
         #endregion
 
         #region IPersistable
+        bool isDummy = true;
         public bool IsDummy
         {
-            get { throw new NotImplementedException(); }
+            get { return isDummy; }
         }
 
         public void Init(IPersistable source)
         {
-            throw new NotImplementedException();
+            this.isDummy = false;
+            var site = (Site)source;
+            this.Name = site.Name;
+            this.Parent = site.Parent;
         }
         public void OnSaved()
         {
-            throw new NotImplementedException();
+
         }
 
         public void OnSaving()
         {
-            throw new NotImplementedException();
+
         }
         #endregion
 
@@ -193,9 +198,43 @@ namespace Kooboo.CMS.SiteKernel.Models
 
         public ReleaseMode Mode { get; set; }
 
-        public DomainSetting DomainSetting { get; set; }
+        private DomainSetting domainSetting;
 
-        public bool Published { get; set; }
+        public DomainSetting DomainSetting
+        {
+            get
+            {
+                if (domainSetting == null)
+                {
+                    this.domainSetting = new DomainSetting();
+                }
+                return domainSetting;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    this.domainSetting = new DomainSetting();
+                }
+                else
+                {
+                    this.domainSetting = value;
+                }
+            }
+        }
+
+        private bool published = true;
+        public bool Published
+        {
+            get
+            {
+                return this.published;
+            }
+            set
+            {
+                this.published = value;
+            }
+        }
 
         public string Version { get; set; }
 
@@ -241,4 +280,63 @@ namespace Kooboo.CMS.SiteKernel.Models
 
 
     }
+
+    /// <summary>
+    /// capability properties
+    /// </summary>
+    //public partial class Site
+    //{
+    //    /// <summary>
+    //    /// 
+    //    /// </summary>
+    //    [Obsolete("Move to DomainSetting.Domains")]
+    //    public string[] Domains
+    //    {
+    //        get
+    //        {
+    //            return domainSetting.Domains;
+    //        }
+    //        set
+    //        {
+    //            domainSetting.Domains = value;
+    //        }
+    //    }
+
+    //    [Obsolete("Move to DomainSetting.SitePath")]
+    //    public string SitePath
+    //    {
+    //        get
+    //        {
+    //            return domainSetting.SitePath;
+    //        }
+    //        set
+    //        {
+    //            domainSetting.SitePath = value;
+    //        }
+    //    }
+    //    [Obsolete("Move to DomainSetting.ResourceDomain")]
+    //    public string ResourceDomain
+    //    {
+    //        get
+    //        {
+    //            return domainSetting.ResourceDomain;
+    //        }
+    //        set
+    //        {
+    //            domainSetting.ResourceDomain = value;
+    //        }
+    //    }
+    //    [Obsolete("Move to DomainSetting.UserAgent")]
+    //    public string UserAgent
+    //    {
+    //        get
+    //        {
+    //            return domainSetting.UserAgent;
+    //        }
+    //        set
+    //        {
+    //            domainSetting.UserAgent = value;
+    //        }
+    //    }
+    //}
 }

@@ -46,5 +46,6 @@ namespace Kooboo.CMS.SiteKernel.Extension
 
         public abstract System.Web.Mvc.ActionResult Execute(ButtonPluginContext context);
 
+        public abstract string Position { get; }
     }
 }

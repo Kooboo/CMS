@@ -1,32 +1,26 @@
-﻿using Kooboo.CMS.SiteKernel.Extension.Site;
-using Kooboo.Common.Web.Button;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace Kooboo.CMS.Web2.Areas.Sites.Buttons.Home.Cluster
 {
-    public class CreateANewSite : IButtonPlugin
+    public class Preview_SiteNode : Kooboo.Common.Web.Button.IButtonPlugin
     {
-        System.Web.Mvc.ActionResult IButtonPlugin.Execute(ButtonPluginContext context)
+
+        public System.Web.Mvc.ActionResult Execute(Kooboo.Common.Web.Button.ButtonPluginContext context)
         {
             throw new NotImplementedException();
         }
 
         public Kooboo.Common.Web.MvcRoute GetMvcRoute(System.Web.Mvc.ControllerContext controllerContext)
         {
-
-            return new Kooboo.Common.Web.MvcRoute()
-            {
-                Controller = "Site",
-                Action = "Create"
-            };
+            return new Kooboo.Common.Web.MvcRoute();
         }
 
         public string GroupName
         {
-            get { return "Create"; }
+            get { return null; }
         }
 
         public Type OptionModelType
@@ -36,7 +30,7 @@ namespace Kooboo.CMS.Web2.Areas.Sites.Buttons.Home.Cluster
 
         public string DisplayText
         {
-            get { return "A new site"; }
+            get { return "Preview"; }
         }
 
         public IDictionary<string, object> HtmlAttributes(System.Web.Mvc.ControllerContext controllerContext)
@@ -56,7 +50,7 @@ namespace Kooboo.CMS.Web2.Areas.Sites.Buttons.Home.Cluster
 
         public string Name
         {
-            get { return "CreateANewSite"; }
+            get { return "Preview_Site"; }
         }
 
         public int Order
@@ -66,7 +60,12 @@ namespace Kooboo.CMS.Web2.Areas.Sites.Buttons.Home.Cluster
 
         public IEnumerable<Kooboo.Common.Web.MvcRoute> ApplyTo
         {
-            get { return new[] { SiteExtensionPoints.SiteCluster }; }
+            get { return new[] { Kooboo.CMS.SiteKernel.Extension.Site.SiteExtensionPoints.SiteCluster }; }
+        }
+
+        public string Position
+        {
+            get { return Kooboo.CMS.SiteKernel.Extension.Site.SiteExtensionPoints.SiteNodeButton; }
         }
     }
 }

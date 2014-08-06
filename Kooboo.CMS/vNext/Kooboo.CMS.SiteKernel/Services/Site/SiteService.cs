@@ -52,7 +52,7 @@ namespace Kooboo.CMS.SiteKernel.Services
             //var visible = string.IsNullOrEmpty(userName) || ServiceFactory.UserManager.Authorize(site, userName);
             var visible = true;
 
-            SiteNode siteNode = new SiteNode() { Site = Get(site) };
+            SiteNode siteNode = new SiteNode() { Site = Get(site), AbleToEdit = true };
 
             siteNode.Children = ChildSites(site)
                 .Select(it => GetSiteNode(it, userName))

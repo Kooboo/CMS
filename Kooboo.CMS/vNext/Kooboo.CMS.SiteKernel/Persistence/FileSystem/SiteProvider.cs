@@ -22,7 +22,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
 {
     [Kooboo.Common.ObjectContainer.Dependency.DependencyAttribute(typeof(ISiteProvider))]
     [Kooboo.Common.ObjectContainer.Dependency.DependencyAttribute(typeof(IProvider<Site>))]
-    public class SiteProvider : FileProviderBase<Site>, ISiteProvider
+    public class SiteProvider : ISiteProvider
     {
         #region .ctor
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
@@ -34,7 +34,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
         #endregion
 
         #region GetFileStorage
-        protected override IFileStorage<Site> GetFileStorage(Site site)
+        protected virtual IFileStorage<Site> GetFileStorage(Site site, string pathInStorage = "")
         {
             IIsolatedStorage isolatedStorage;
             if (site != null)
@@ -45,10 +45,10 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
             }
             else
             {
-                isolatedStorage = new DiskIsolateStorage("Sites", baseDir.Cms_DataPhysicalPath);
+                isolatedStorage = new DiskIsolateStorage("RootSites", Path.Combine(baseDir.Cms_DataPhysicalPath, "Sites"));
             }
 
-            var directoryStorage = new DirectoryObjectFileStorage<Site>(isolatedStorage, "", locker, new Type[0], (name) =>
+            var directoryStorage = new DirectoryObjectFileStorage<Site>(isolatedStorage, pathInStorage, locker, new Type[0], (name) =>
             {
                 return new Site(site, name);
             });
@@ -56,17 +56,64 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
         }
         #endregion
 
+        #region All
         public virtual IEnumerable<Site> RootSites()
         {
             return All();
         }
-
-        public IEnumerable<Site> ChildSites(Site parentSite)
+        public virtual IEnumerable<Site> All()
         {
-            var fileStorage = GetFileStorage(parentSite);
+            var fileStorage = GetFileStorage(null);
 
             var list = fileStorage.GetList().ToArray();
 
+            return list;
+        }
+        #endregion
+
+        #region Get
+        public Site Get(Site dummy)
+        {
+            var fileStorage = GetFileStorage(dummy);
+
+            return fileStorage.Get(dummy);
+        }
+        #endregion
+
+        #region Add
+        public void Add(Site item)
+        {
+            var fileStorage = GetFileStorage(null);
+
+            fileStorage.Add(item);
+        }
+        #endregion
+
+        #region Update
+        public void Update(Site @new, Site old)
+        {
+            var fileStorage = GetFileStorage(@new);
+
+            fileStorage.Update(@new, old);
+        }
+        #endregion
+
+        #region Remove
+        public void Remove(Site item)
+        {
+            var fileStorage = GetFileStorage(null);
+
+            fileStorage.Remove(item);
+        }
+
+        #endregion
+
+        #region ChildSites
+        public IEnumerable<Site> ChildSites(Site parentSite)
+        {
+            var fileStorage = GetFileStorage(parentSite, "Sites");
+
+            var list = fileStorage.GetList().ToArray();
 
             foreach (var item in list)
             {
@@ -76,10 +123,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
             return list;
         }
 
-        public virtual IEnumerable<Site> All()
-        {
-            return All(null);
-        }
+        #endregion
 
         public void Import(Models.Site data, Stream zipData, IDictionary<string, object> options)
         {
@@ -90,6 +134,9 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
         {
             throw new NotImplementedException();
         }
+
+
+
 
     }
 }

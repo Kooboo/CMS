@@ -76,7 +76,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
 
             foreach (var item in isolatedStorage.GetDirectoryNames(pathInStorage))
             {
-                if (IsValidDataItem(item))
+                if (IsValidDataItem(Path.Combine(pathInStorage, item)))
                 {
                     var o = _initialize(item);
                     if (o != null)
@@ -102,7 +102,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
         public T Get(T dummy)
         {
             string filePath = GetDataFilePath(dummy);
-            if (!File.Exists(filePath))
+            if (!this.isolatedStorage.FileExists(filePath))
             {
                 return default(T);
             }
@@ -137,8 +137,11 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
         {
             using (var storageFileStream = isolatedStorage.OpenFile(filePath, FileMode.Open))
             {
-                var o = (T)XmlSerialization.Deserialize(dummy.GetType(), _knownTypes, storageFileStream.Stream);
-                return o;
+                using (var newStream = storageFileStream.Stream.NewNamespace())
+                {
+                    var o = (T)XmlSerialization.Deserialize(dummy.GetType(), _knownTypes, newStream);
+                    return o;
+                }
             }
         }
         private void Serialize(T item, string filePath)

@@ -65,13 +65,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Kooboo.Common.5.0.5330.30638\lib\net45\Kooboo.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Data, Version=5.0.5330.32188, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Data, Version=5.0.5331.30589, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5330.32188\lib\net45\Kooboo.Common.Data.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5331.30589\lib\net45\Kooboo.Common.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Web, Version=5.0.5330.31266, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Web, Version=5.0.5331.30728, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5330.31266\lib\net45\Kooboo.Common.Web.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5331.30728\lib\net45\Kooboo.Common.Web.dll</HintPath>
     </Reference>
     <Reference Include="Kooboo.Common.Windows, Version=5.0.5302.32861, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -83,8 +83,9 @@
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\Lib\JSON.NET\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -240,8 +241,11 @@
     <Compile Include="Areas\Membership\Models\MembershipGroup_Metadata.cs" />
     <Compile Include="Areas\Membership\Models\MembershipUser_Metadata.cs" />
     <Compile Include="Areas\Membership\Models\Membership_Metadata.cs" />
-    <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSubSite.cs" />
-    <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSite.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSubSite_Top.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSite_Top.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSubSite_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\ImportSite_Top.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\Preview_SiteNode.cs" />
     <Compile Include="Areas\Sites\Controllers\HomeController.cs" />
     <Compile Include="Areas\Sites\Permissions.cs" />
     <Compile Include="Areas\Sites\SitesAreaRegistration.cs" />
@@ -1702,13 +1706,13 @@
     <Content Include="Views\Shared\_GroupedButton.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\_Toolbar - Copy.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Shared\_ButtonPlugin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_TopButtonPanel.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Home\_SiteNodeButtons.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

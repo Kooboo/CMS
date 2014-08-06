@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Kooboo.Common.Web.Button.GroupedButton>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        @Html.Partial("_GroupedButton", item)
+    }
+</ul>

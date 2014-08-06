@@ -33,6 +33,8 @@ namespace Kooboo.CMS.SiteKernel.Models
             if (namePaths.Length > 1)
             {
                 var parentNamePaths = namePaths.Take(namePaths.Length - 1);
+
+                return Combine(parentNamePaths.ToArray());
             }
             return null;
         }

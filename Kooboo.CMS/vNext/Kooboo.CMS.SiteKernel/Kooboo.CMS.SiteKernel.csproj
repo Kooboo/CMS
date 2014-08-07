@@ -181,6 +181,7 @@
     <Compile Include="Services\Page\MapPageResult.cs" />
     <Compile Include="Services\Page\PageExtensions.cs" />
     <Compile Include="Services\Page\PageService.cs" />
+    <Compile Include="Services\Page\SiteMap.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\Site\IFrontSiteService.cs" />
     <Compile Include="Services\Site\ISiteService.cs" />

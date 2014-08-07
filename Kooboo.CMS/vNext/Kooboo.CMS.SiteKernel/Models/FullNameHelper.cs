@@ -44,5 +44,6 @@ namespace Kooboo.CMS.SiteKernel.Models
 
             return namePaths[namePaths.Length - 1];
         }
+        
     }
 }

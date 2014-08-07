@@ -17,7 +17,11 @@ namespace Kooboo.CMS.SiteKernel.Services
 {
     public interface IPageService : IPersistenceService<Page>, IImportExportService<Page>, IInheritable<Page>
     {
-        IEnumerable<Page> AllRootPages(Site site);
+        Page GetDefaultPage(Site site);
+
+        SiteMap GetSiteMap(Site site);
+
+        IEnumerable<Page> RootPages(Site site);
         IEnumerable<Page> ChildPages(Page parentPage);
 
         Page Copy(Site site, string sourcePageFullName, string newPageFullName);

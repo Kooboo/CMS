@@ -18,8 +18,13 @@ namespace Kooboo.CMS.SiteKernel.Persistence
 {
     public interface IPageProvider : IProvider<Page>, IImportExportProvider<Page>
     {
+        /// <summary>
+        /// 站点内的所有页面，包括所有的子页面都在一个集合内
+        /// </summary>
+        /// <param name="site"></param>
+        /// <returns></returns>
         IEnumerable<Page> All(Site site);
-
+        IEnumerable<Page> RootPages(Site site);
         IEnumerable<Page> ChildPages(Page parentPage);
 
         Page GetDraft(Page page);

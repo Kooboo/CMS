@@ -25,7 +25,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
 
 
         #region All
-        public virtual IEnumerable<T> All(Site site)
+        public virtual IEnumerable<T> RootItems(Site site)
         {
             var fileStorage = GetFileStorage(site);
 

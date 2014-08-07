@@ -27,7 +27,7 @@ namespace Kooboo.CMS.SiteKernel.Tests.Persistence.FileSystem
         {
             var pageProvider = new PageProvider();
             var site = new Site("SampleSite");
-            var pages = pageProvider.All(site);
+            var pages = pageProvider.RootItems(site);
 
             Assert.AreEqual(4, pages.Count());
 

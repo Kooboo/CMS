@@ -34,10 +34,31 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
             });
             return directoryStorage;
         }
+        public IEnumerable<Page> RootPages(Site site)
+        {
+            return RootItems(site);
+        }
+        public IEnumerable<Page> All(Site site)
+        {
+            List<Page> allPages = new List<Page>();
 
+            foreach (var page in RootPages(site))
+            {
+                AddPageAndItsChildPages(page, ref allPages);
+            }
+            return allPages;
+        }
+        private void AddPageAndItsChildPages(Page page, ref List<Page> pages)
+        {
+            pages.Add(page);
+            foreach (var item in ChildPages(page))
+            {
+                AddPageAndItsChildPages(item, ref pages);
+            }
+        }
         public IEnumerable<Page> ChildPages(Page parentPage)
         {
-            throw new NotImplementedException();
+            return GetFileStorage(parentPage.Site).GetList(parentPage.FullName);
         }
 
         public Page GetDraft(Page page)
@@ -69,5 +90,10 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
         {
             throw new NotImplementedException();
         }
+
+
+
+
+
     }
 }

@@ -241,11 +241,17 @@
     <Compile Include="Areas\Membership\Models\MembershipGroup_Metadata.cs" />
     <Compile Include="Areas\Membership\Models\MembershipUser_Metadata.cs" />
     <Compile Include="Areas\Membership\Models\Membership_Metadata.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\ClearCache_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\Copy_SiteNode.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSubSite_Top.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSite_Top.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSubSite_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\Delete_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\Export_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\ImportDatabase_SiteNode.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\ImportSite_Top.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\Preview_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\TakeOffline_SiteNode.cs" />
     <Compile Include="Areas\Sites\Controllers\HomeController.cs" />
     <Compile Include="Areas\Sites\Permissions.cs" />
     <Compile Include="Areas\Sites\SitesAreaRegistration.cs" />

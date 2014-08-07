@@ -35,7 +35,7 @@ namespace Kooboo.CMS.SiteKernel.Extension
         /// </summary>
         /// <param name="controllerContext"></param>
         /// <returns></returns>
-        Kooboo.Common.Web.MvcRoute IButtonPlugin.GetMvcRoute(System.Web.Mvc.ControllerContext controllerContext)
+        Kooboo.Common.Web.MvcRoute IButtonPlugin.GetMvcRoute(System.Web.Mvc.ControllerContext controllerContext, object dataContext)
         {
             return null;
         }

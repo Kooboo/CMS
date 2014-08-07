@@ -5,14 +5,14 @@ using System.Web;
 
 namespace Kooboo.CMS.Web2.Areas.Sites.Buttons.Home.Cluster
 {
-    public class ClearCache_SiteNode:Kooboo.Common.Web.Button.IButtonPlugin
+    public class ClearCache_SiteNode : Kooboo.Common.Web.Button.IButtonPlugin
     {
         public System.Web.Mvc.ActionResult Execute(Kooboo.Common.Web.Button.ButtonPluginContext context)
         {
             throw new NotImplementedException();
         }
 
-        public Kooboo.Common.Web.MvcRoute GetMvcRoute(System.Web.Mvc.ControllerContext controllerContext)
+        public Kooboo.Common.Web.MvcRoute GetMvcRoute(System.Web.Mvc.ControllerContext controllerContext, object dataContext)
         {
             return new Kooboo.Common.Web.MvcRoute()
             {

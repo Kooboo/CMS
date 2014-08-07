@@ -39,9 +39,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
             IIsolatedStorage isolatedStorage;
             if (site != null)
             {
-                var basePath = site.DiskStoragePath(baseDir);
-
-                isolatedStorage = new DiskIsolateStorage(site.Name, basePath);
+                isolatedStorage = site.GetIsolatedStorage();
             }
             else
             {
@@ -133,10 +131,6 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem
         public Stream Export(IEnumerable<Models.Site> data, IDictionary<string, object> options)
         {
             throw new NotImplementedException();
-        }
-
-
-
-
+        }        
     }
 }

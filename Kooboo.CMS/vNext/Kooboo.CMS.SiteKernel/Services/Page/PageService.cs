@@ -6,7 +6,6 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
-using Kooboo.CMS.SiteKernel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +14,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.SiteKernel.Services
 {
-    public interface IDraftService
+    class PageService
     {
-        void SaveAsDraft(Page page);
-        Page GetDraft(Page page);
-        void RemoveDraft(Page page);
     }
 }

@@ -15,13 +15,17 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.SiteKernel.Services
 {
-    public interface PageService : IPersistenceService<Page>, IImportExportService<Page>, IInheritable<Page>
+    public interface IPageService : IPersistenceService<Page>, IImportExportService<Page>, IInheritable<Page>
     {
         IEnumerable<Page> AllRootPages(Site site);
         IEnumerable<Page> ChildPages(Page parentPage);
 
+        Page Copy(Site site, string sourcePageFullName, string newPageFullName);
+
         void Move(IEnumerable<Page> pages, Page newParent);
 
         IEnumerable<Page> GetUnsyncedPages(Site site, Page parentPage);
+
+        void Clear(Site site);
     }
 }

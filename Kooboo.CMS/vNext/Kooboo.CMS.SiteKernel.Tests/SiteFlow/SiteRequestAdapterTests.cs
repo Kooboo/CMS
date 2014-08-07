@@ -6,7 +6,7 @@ using Kooboo.CMS.SiteKernel.SiteFlow;
 using Moq;
 using Kooboo.CMS.SiteKernel.SiteFlow.Args;
 
-namespace Kooboo.CMS.Site.Tests.SiteFlow
+namespace Kooboo.CMS.SiteKernel.Tests.SiteFlow
 {
     /// <summary>
     /// Summary description for SiteRequestAdapterTests

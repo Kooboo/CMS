@@ -57,12 +57,12 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
         #endregion
 
         #region GetList
-        public IEnumerable<T> GetList()
+        public IEnumerable<T> GetList(string parentItemName = null)
         {
             _lock.EnterReadLock();
             try
             {
-                return Enumerate();
+                return Enumerate(parentItemName);
             }
             finally
             {
@@ -70,15 +70,20 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
             }
         }
 
-        private IEnumerable<T> Enumerate()
+        private IEnumerable<T> Enumerate(string parentItemName)
         {
             List<T> list = new List<T>();
 
             foreach (var item in isolatedStorage.GetDirectoryNames(pathInStorage))
             {
-                if (IsValidDataItem(Path.Combine(pathInStorage, item)))
+                var itemFullName = item;
+                if (!string.IsNullOrEmpty(parentItemName))
                 {
-                    var o = _initialize(item);
+                    itemFullName = Path.Combine(parentItemName, item);
+                }
+                if (IsValidDataItem(Path.Combine(pathInStorage, itemFullName)))
+                {
+                    var o = _initialize(itemFullName);
                     if (o != null)
                     {
                         list.Add(o);

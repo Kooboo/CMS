@@ -17,7 +17,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
     public interface IFileStorage<T>
          where T : IPersistable, new()
     {
-        IEnumerable<T> GetList();
+        IEnumerable<T> GetList(string parentItemName = null);
         T Get(T dummy);
         void Add(T item, bool @override = true);
         void Update(T item, T oldItem);

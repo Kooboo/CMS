@@ -19,5 +19,6 @@ namespace Kooboo.CMS.SiteKernel.Services
     {
         void SaveAsDraft(Page page);
         Page GetDraft(Page page);
+        void RemoveDraft(Page page);
     }
 }

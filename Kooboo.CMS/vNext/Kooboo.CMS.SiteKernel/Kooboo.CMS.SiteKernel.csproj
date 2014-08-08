@@ -44,9 +44,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5331.30589\lib\net45\Kooboo.Common.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Web, Version=5.0.5331.30728, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Web, Version=5.0.5332.27272, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5331.30728\lib\net45\Kooboo.Common.Web.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5332.27272\lib\net45\Kooboo.Common.Web.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -124,6 +124,7 @@
     <Compile Include="Permissions.cs" />
     <Compile Include="Persistence\FileSystem\CapabilityStream.cs" />
     <Compile Include="Persistence\FileSystem\FileProviderBase.cs" />
+    <Compile Include="Persistence\FileSystem\PageProvider.cs" />
     <Compile Include="Persistence\FileSystem\ProviderRegistrar.cs" />
     <Compile Include="Persistence\FileSystem\SiteExtensions.cs" />
     <Compile Include="Persistence\FileSystem\SiteProvider.cs" />
@@ -131,11 +132,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Persistence\IImportExportProvider.cs" />
+    <Compile Include="Persistence\IPageProvider.cs" />
     <Compile Include="Persistence\ISiteProvider.cs" />
     <Compile Include="Persistence\FileSystem\Storage\IFileStorage.cs" />
-    <Compile Include="Persistence\FileSystem\Storage\JsonListFileStorage.cs" />
-    <Compile Include="Persistence\FileSystem\Storage\XmlListFileStorage.cs" />
-    <Compile Include="Persistence\FileSystem\Storage\XmlObjectFileStorage.cs" />
     <Compile Include="RouteValuesHelper.cs" />
     <Compile Include="FrontRequestChannel.cs" />
     <Compile Include="FrontAPI\Html\IFrontHtmlHelper.cs" />
@@ -181,6 +180,8 @@
     <Compile Include="Services\Page\IPageService.cs" />
     <Compile Include="Services\Page\MapPageResult.cs" />
     <Compile Include="Services\Page\PageExtensions.cs" />
+    <Compile Include="Services\Page\PageService.cs" />
+    <Compile Include="Services\Page\SiteMap.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\Site\IFrontSiteService.cs" />
     <Compile Include="Services\Site\ISiteService.cs" />

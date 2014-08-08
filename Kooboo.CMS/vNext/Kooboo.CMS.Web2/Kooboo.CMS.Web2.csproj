@@ -69,9 +69,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5331.30589\lib\net45\Kooboo.Common.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Web, Version=5.0.5331.30728, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Web, Version=5.0.5332.27272, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5331.30728\lib\net45\Kooboo.Common.Web.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5332.27272\lib\net45\Kooboo.Common.Web.dll</HintPath>
     </Reference>
     <Reference Include="Kooboo.Common.Windows, Version=5.0.5302.32861, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -241,11 +241,17 @@
     <Compile Include="Areas\Membership\Models\MembershipGroup_Metadata.cs" />
     <Compile Include="Areas\Membership\Models\MembershipUser_Metadata.cs" />
     <Compile Include="Areas\Membership\Models\Membership_Metadata.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\ClearCache_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\Copy_SiteNode.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSubSite_Top.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSite_Top.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\CreateANewSubSite_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\Delete_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\Export_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\ImportDatabase_SiteNode.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\ImportSite_Top.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\Preview_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\Cluster\TakeOffline_SiteNode.cs" />
     <Compile Include="Areas\Sites\Controllers\HomeController.cs" />
     <Compile Include="Areas\Sites\Permissions.cs" />
     <Compile Include="Areas\Sites\SitesAreaRegistration.cs" />
@@ -1713,6 +1719,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\Home\_SiteNodeButtons.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Home\SiteMap.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -32,7 +32,7 @@ namespace Kooboo.CMS.SiteKernel.Services
             set;
         }
         #endregion
-      
+
         #region Get
         public virtual T Get(T item)
         {
@@ -75,6 +75,18 @@ namespace Kooboo.CMS.SiteKernel.Services
         public virtual IEnumerable<RelationModel> GetRelations<T>(T o)
         {
             return new RelationModel[0];
+        }
+        #endregion
+
+        #region Import/Export
+        public virtual void Import(Page data, System.IO.Stream zipData, bool @override)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual System.IO.Stream[] Export(IEnumerable<Page> data)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

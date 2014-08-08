@@ -1,7 +1,7 @@
 ﻿@model Kooboo.Common.Web.Button.IButtonPlugin
 @{
 
-    var buttonTarget = Model.GetMvcRoute(ViewContext.Controller.ControllerContext);
+    var buttonTarget = Model.GetMvcRoute(ViewContext.Controller.ControllerContext, null);
     var routeValues = ViewContext.RequestContext.AllRouteValues().Merge("return", ViewContext.HttpContext.Request.RawUrl);
     if (buttonTarget != null)
     {
@@ -39,7 +39,7 @@
     }
 }
 <li>
-    <a href="@Url.Action(routeValues["controller"].ToString(), routeValues["action"].ToString(), routeValues)" @htmlAttributes>
+    <a href="@Url.Action(routeValues["action"].ToString(), routeValues["controller"].ToString(), routeValues)" @htmlAttributes>
         @if (!string.IsNullOrEmpty(Model.IconClass))
         {
             @Html.IconImage(Model.IconClass)

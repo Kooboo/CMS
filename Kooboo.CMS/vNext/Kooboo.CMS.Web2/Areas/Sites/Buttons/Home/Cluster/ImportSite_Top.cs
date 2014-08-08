@@ -12,7 +12,7 @@ namespace Kooboo.CMS.Web2.Areas.Sites.Buttons.Home.Cluster
             throw new NotImplementedException();
         }
 
-        public Kooboo.Common.Web.MvcRoute GetMvcRoute(System.Web.Mvc.ControllerContext controllerContext)
+        public Kooboo.Common.Web.MvcRoute GetMvcRoute(System.Web.Mvc.ControllerContext controllerContext, object dataContext)
         {
             return new Kooboo.Common.Web.MvcRoute() { Area = "Sites", Controller = "Site", Action = "ImportSite" };
         }

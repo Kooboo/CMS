@@ -163,24 +163,24 @@ namespace Kooboo.CMS.SiteKernel.Models
 
         #region IPersistable
         bool isDummy = true;
-        public bool IsDummy
+        bool IPersistable.IsDummy
         {
             get { return isDummy; }
         }
 
-        public void Init(IPersistable source)
+        void IPersistable.Init(IPersistable source)
         {
             this.isDummy = false;
             var site = (Site)source;
             this.Name = site.Name;
             this.Parent = site.Parent;
         }
-        public void OnSaved()
+        void IPersistable.OnSaved()
         {
 
         }
 
-        public void OnSaving()
+        void IPersistable.OnSaving()
         {
 
         }

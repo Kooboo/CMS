@@ -252,7 +252,13 @@
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\ImportSite_Top.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\Preview_SiteNode.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\TakeOffline_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\SiteMap\Preview_SiteMapNode.cs" />
     <Compile Include="Areas\Sites\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Sites\Menu\ContentFolderMenuItemInitializer.cs" />
+    <Compile Include="Areas\Sites\Menu\ContentFolderMenuItems.cs" />
+    <Compile Include="Areas\Sites\Menu\ModuleAreaMenuItems.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Areas\Sites\Permissions.cs" />
     <Compile Include="Areas\Sites\SitesAreaRegistration.cs" />
     <Compile Include="Authorizations\RequiredLogOnAttribute.cs" />
@@ -1722,6 +1728,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Sites\Views\Home\SiteMap.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Home\_SiteMapNode.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\Home\_UnsyncedPageNode.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

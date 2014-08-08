@@ -27,11 +27,11 @@ namespace Kooboo.CMS.Web2.Areas.Sites.Controllers
     public class HomeController : Kooboo.CMS.Sites.AreaControllerBase
     {
         #region .ctor
-        SiteService siteService;
-        PageService pageService;
+        ISiteService siteService;
+        IPageService pageService;
         IButtonPluginExecutor buttonPluginExecutor;
 
-        public HomeController(SiteService siteService, PageService pageService, IButtonPluginExecutor buttonPluginExecutor)
+        public HomeController(ISiteService siteService, IPageService pageService, IButtonPluginExecutor buttonPluginExecutor)
         {
             this.siteService = siteService;
             this.pageService = pageService;
@@ -87,6 +87,7 @@ namespace Kooboo.CMS.Web2.Areas.Sites.Controllers
 
             //ViewData["LayoutList"] = layoutList;
 
+            ViewBag.SiteMapNodeButtons = buttonPluginExecutor.LoadButtons(this.ControllerContext, Kooboo.CMS.SiteKernel.Extension.Page.PageExtensionPoints.SiteMapNodeButton);
             return View(siteMap);
         }
         #endregion

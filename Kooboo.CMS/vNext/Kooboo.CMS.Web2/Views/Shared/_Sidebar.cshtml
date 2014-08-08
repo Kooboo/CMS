@@ -13,7 +13,7 @@
     </div>
     <div class="wrap">
         <nav class="block menu">
-            @*@Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Sites").SetCurrentSite(this.ViewContext))*@
+            @Html.Partial("Menu", Kooboo.Common.Web.Menu.MenuFactory.BuildMenu(ViewContext.Controller.ControllerContext, "Sites").SetCurrentSite(this.ViewContext))
         </nav>
     </div>
 }

@@ -24,5 +24,7 @@ namespace Kooboo.CMS.SiteKernel.Extension.Page
         public static MvcRoute Page_Create = new MvcRoute() { Area = "Sites", Controller = "Page", Action = "Create" };
         public static MvcRoute Page_Edit = new MvcRoute() { Area = "Sites", Controller = "Page", Action = "Edit" };
         public static MvcRoute Page_Draft = new MvcRoute() { Area = "Sites", Controller = "Page", Action = "Draft" };
+
+        public static string SiteMapNodeButton = "SiteMapNode";
     }
 }

@@ -8,6 +8,7 @@
 #endregion
 using Kooboo.CMS.SiteKernel.Models;
 using Kooboo.CMS.SiteKernel.Persistence;
+using Kooboo.Common.ObjectContainer.Dependency;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.SiteKernel.Services
 {
+    [Dependency(typeof(IPageService))]
     public class PageService : ServiceBase<Page, IPageProvider>, IPageService
     {
         #region .ctor
@@ -84,9 +86,9 @@ namespace Kooboo.CMS.SiteKernel.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Page> GetUnsyncedPages(Site site, Page parentPage)
+        public IEnumerable<Page> GetUnsyncedPages(Site currentSite, Page parentPage)
         {
-            throw new NotImplementedException();
+            return new Page[0];
         }
 
         public void Clear(Site site)

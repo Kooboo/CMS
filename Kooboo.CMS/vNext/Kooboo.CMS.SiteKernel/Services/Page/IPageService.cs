@@ -28,7 +28,7 @@ namespace Kooboo.CMS.SiteKernel.Services
 
         void Move(IEnumerable<Page> pages, Page newParent);
 
-        IEnumerable<Page> GetUnsyncedPages(Site site, Page parentPage);
+        IEnumerable<Page> GetUnsyncedPages(Site currentSite, Page parentPage);
 
         void Clear(Site site);
     }

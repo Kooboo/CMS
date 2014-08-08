@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.SiteKernel.Models;
+using Kooboo.Common.ObjectContainer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,13 @@ namespace Kooboo.CMS.SiteKernel.Services
 {
     public static class PageExtensions
     {
+        public static IPageService PageService
+        {
+            get
+            {
+                return EngineContext.Current.Resolve<IPageService>();
+            }
+        }
 
         /// <summary>
         /// 页面包含的所有View
@@ -47,6 +55,21 @@ namespace Kooboo.CMS.SiteKernel.Services
         public static IEnumerable<string> AllPlugins(this Page page)
         {
             return null;
-        }       
+        }
+
+        public static bool IsStaticPage(this Page page)
+        {
+            return page.PageType == PageType.Static;
+        }
+
+        public static Page GetDraft(this Page page)
+        {
+            return null;
+        }
+
+        public static IEnumerable<Page> GetUnsyncedSubPages(this Page page, Site currentSite)
+        {
+            return PageService.GetUnsyncedPages(currentSite, page);
+        }
     }
 }

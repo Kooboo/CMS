@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.SiteKernel.Models;
+using Kooboo.Common.ObjectContainer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,16 @@ namespace Kooboo.CMS.SiteKernel.Services
 {
     public static class SiteObjectExtensions
     {
-        public static IEnumerable<Site> SubSites(this Site site)
+        public static ISiteService SiteService
         {
-            //siteService.ChildSites(site);
-            return null;
+            get
+            {
+                return EngineContext.Current.Resolve<ISiteService>();
+            }
+        }
+        public static IEnumerable<Site> ChildSites(this Site site)
+        {
+            return SiteService.ChildSites(site);
         }
 
         public static IEnumerable<Layout> Layouts(this Site site)

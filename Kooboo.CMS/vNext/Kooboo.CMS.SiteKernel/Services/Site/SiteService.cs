@@ -8,6 +8,7 @@
 #endregion
 using Kooboo.CMS.SiteKernel.Models;
 using Kooboo.CMS.SiteKernel.Persistence;
+using Kooboo.Common.ObjectContainer.Dependency;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.SiteKernel.Services
 {
+    [Dependency(typeof(ISiteService))]
     public class SiteService : ServiceBase<Site, ISiteProvider>, ISiteService
     {
         #region .ctor

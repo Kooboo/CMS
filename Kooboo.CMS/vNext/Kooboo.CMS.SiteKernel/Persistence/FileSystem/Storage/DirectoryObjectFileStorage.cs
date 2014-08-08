@@ -9,6 +9,7 @@
 using Ionic.Zip;
 using Kooboo.CMS.Common;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
+using Kooboo.CMS.SiteKernel.Models;
 using Kooboo.Common.Data.IsolatedStorage;
 using Kooboo.Common.IO;
 using System;
@@ -79,7 +80,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
                 var itemFullName = item;
                 if (!string.IsNullOrEmpty(parentItemName))
                 {
-                    itemFullName = Path.Combine(parentItemName, item);
+                    itemFullName = Path.Combine(FullNameHelper.ToPathName(parentItemName), item);
                 }
                 if (IsValidDataItem(Path.Combine(pathInStorage, itemFullName)))
                 {
@@ -128,11 +129,11 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
         }
         protected virtual string GetItemPath(T o)
         {
-            return Path.Combine(pathInStorage, o.UUID);
+            return Path.Combine(pathInStorage, FullNameHelper.ToPathName(o.UUID));
         }
         protected virtual string GetDataFilePath(T o)
         {
-            return Path.Combine(pathInStorage, DataFileName);
+            return Path.Combine(GetItemPath(o), DataFileName);
         }
 
         #endregion

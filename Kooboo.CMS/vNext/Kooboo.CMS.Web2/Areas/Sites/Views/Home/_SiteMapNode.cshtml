@@ -1,0 +1,45 @@
+﻿@model Kooboo.CMS.SiteKernel.Services.SiteMapNode
+@{
+    var isLocal = Model.Page.IsLocalized(Kooboo.CMS.SiteKernel.Models.Site.Current);
+    var isStaticPage = Model.Page.IsStaticPage();
+    var hasDraft = Model.Page.GetDraft() != null;
+}
+@if (Model != null)
+{
+    <div class="map-item @( isLocal ? "" : "inherited") @(isStaticPage ? "static" : "dynamic") @(!Model.Page.Published == true ? "unpublished" : "") @(Model.Page.Navigation.Show ? "show-in-menu" : "")">
+        <span class="status">@Html.IconImage("status")</span>
+        <span class="text trigger" title="@((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)">
+            <span>@((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)</span>
+            @Html.IconImage("angle-right-white")
+        </span>
+        <ul>
+            @if (ViewBag.SiteMapNodeButtons != null)
+            {
+                @Html.Partial("_SiteNodeButtons", (object)(ViewBag.SiteMapNodeButtons))
+            }
+        </ul>
+    </div>
+
+    <div class="children">
+        <ul>
+            @foreach (var item in Model.Children)
+            {
+                ViewBag.IsRoot = false;
+                <li class="tree-node clearfix active">
+                    @if (item.Children.Count() > 0)
+                    {
+                        @Html.IconImage("tree-icon")
+                    }
+                    @Html.Partial("_SiteMapNode", item)
+                </li>
+            }
+            @foreach (var unsyncedPage in Model.Page.GetUnsyncedSubPages(Site.Current))
+            {
+                <li class="tree-node active">
+                    @Html.Partial("_UnsyncedPageNode", unsyncedPage)
+                </li>
+            }
+        </ul>
+    </div>
+
+} 

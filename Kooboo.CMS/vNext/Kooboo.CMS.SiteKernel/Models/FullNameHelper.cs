@@ -44,6 +44,10 @@ namespace Kooboo.CMS.SiteKernel.Models
 
             return namePaths[namePaths.Length - 1];
         }
-        
+
+        public static string ToPathName(string fullName)
+        {
+            return fullName.Replace("~", "\\");
+        }
     }
 }

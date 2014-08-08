@@ -23,7 +23,7 @@ namespace Kooboo.CMS.SiteKernel.Models
 
         public static bool IsLocalized<T>(this IInheritable<T> obj, Site site)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public static T LastVersion<T>(this IInheritable<T> obj, Site site)

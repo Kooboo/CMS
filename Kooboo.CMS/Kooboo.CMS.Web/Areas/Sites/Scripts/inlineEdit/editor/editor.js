@@ -172,6 +172,7 @@
                 schema: "html5",
                 inline: true,
                 menubar: false,
+                allow_script_urls: true,
                 toolbar_items_size: 'small',
 		toolbar: "save exit | searchreplace undo redo | bold italic forecolor formatselect | indent outdent | alignleft aligncenter alignright alignjustify | bullist numlist | image link unlink | rawcode",
                 setup: function (ed) {                   

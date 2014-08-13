@@ -21,6 +21,8 @@ using Kooboo.CMS.Content.Services;
 using System.IO;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.Web.Url;
+using Kooboo.CMS.Content.Caching;
+using Kooboo.CMS.Caching;
 namespace Kooboo.CMS.Content.Persistence.AzureBlobService
 {
 
@@ -184,31 +186,34 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         }
         public static Dictionary<string, MediaFolder> GetList(Repository repository)
         {
-            var container = MediaBlobHelper.InitializeRepositoryContainer(repository);
 
-            var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
-
-            var folderBlob = container.GetBlobReference(MediaBlobHelper.MediaDirectoryName);
-
-            Dictionary<string, MediaFolder> folders = null;
-            try
+            var mediaFolders = repository.ObjectCache().GetCache<Dictionary<string, MediaFolder>>("Azure-MediaFolders-Cachings", () =>
             {
+                var container = MediaBlobHelper.InitializeRepositoryContainer(repository);
 
-                folderBlob.FetchAttributes();
-                if (folderBlob.CheckIfMediaFolder())
+                var blobClient = CloudStorageAccountHelper.GetStorageAccount().CreateCloudBlobClient();
+
+                var folderBlob = container.GetBlobReference(MediaBlobHelper.MediaDirectoryName);
+
+                Dictionary<string, MediaFolder> folders = null;
+                try
                 {
-                    var xml = folderBlob.DownloadText();
-                    folders = DataContractSerializationHelper.DeserializeFromXml<Dictionary<string, MediaFolder>>(xml);
+                    folderBlob.FetchAttributes();
+                    if (folderBlob.CheckIfMediaFolder())
+                    {
+                        var xml = folderBlob.DownloadText();
+                        folders = DataContractSerializationHelper.DeserializeFromXml<Dictionary<string, MediaFolder>>(xml);
+                    }
+
                 }
-
-            }
-            catch { }
-
-            if (folders == null)
-            {
-                folders = new Dictionary<string, MediaFolder>();
-            }
-            return new Dictionary<string, MediaFolder>(folders, StringComparer.OrdinalIgnoreCase);
+                catch { }
+                if (folders == null)
+                {
+                    folders = new Dictionary<string, MediaFolder>();
+                }
+                return new Dictionary<string, MediaFolder>(folders, StringComparer.OrdinalIgnoreCase);
+            });
+            return mediaFolders;
         }
         private static void SaveList(Repository repository, Dictionary<string, MediaFolder> folders)
         {

@@ -59,9 +59,9 @@
                 </th>
                 <td>
                     <select name="DataType" class="medium" data-bind="value:DataType">
-                        @foreach (var d in Enum.GetNames(typeof(Kooboo.CMS.Common.DataType)))
+                        @foreach (var d in Enum.GetNames(typeof(Kooboo.Common.Data.DataType)))
                         { 
-                            <option value="@((int)Enum.Parse(typeof(Kooboo.CMS.Common.DataType), d))">
+                            <option value="@((int)Enum.Parse(typeof(Kooboo.Common.Data.DataType), d))">
                                 @d</option>
                         }
                     </select>

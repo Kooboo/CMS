@@ -131,7 +131,7 @@
                         {
                             <input class="editor" type="text" name="FolderName"
                                 @(new[] { Validator.Regex(RegexPatterns.FileName,"Invalid folder name.".Localize()).ClientValidationRule,  Validator.Required().ClientValidationRule, 
-                                ValidatorExtensions.Remote(Url.Action("IsFolderNameAvailable", routes), "The name already exists.".Localize()) }.GenerateHtmlAttributes())/>
+                                ValidatorExtensionMethods.Remote(Url.Action("IsFolderNameAvailable", routes), "The name already exists.".Localize()) }.GenerateHtmlAttributes())/>
                             <a class="action" data-ajaxform="">@Html.IconImage("save small")</a>
                             <a class="action" data-inline-action='{"hide":"#CreateFolderTemplate"}'>@Html.IconImage("minus small")</a>
                             @Html.ValidationMessageForInput("FolderName")
@@ -179,7 +179,7 @@
                                     <input type="text" name="FolderName" class="editor" value="@folder.Name" 
                                         @(new[] { Validator.Regex(RegexPatterns.FileName,"Invalid file name.".Localize()).ClientValidationRule,
                                         Validator.Required().ClientValidationRule,
-                                        ValidatorExtensions.Remote(Url.Action("IsFolderNameAvailable", ViewContext.RequestContext.AllRouteValues()), "") }.GenerateHtmlAttributes())/>
+                                        ValidatorExtensionMethods.Remote(Url.Action("IsFolderNameAvailable", ViewContext.RequestContext.AllRouteValues()), "") }.GenerateHtmlAttributes())/>
                                     <a class="action" data-ajaxform="">@Html.IconImage("save small")</a>
                                     <a class="action" data-inline-action='{"show":"#@displayTemplateId","hide":"#@editorTemplateId"}'>@Html.IconImage("minus small")</a>
                                     @Html.ValidationMessageForInput("FolderName")
@@ -233,7 +233,7 @@
                                 @using (Html.BeginForm(ViewContext.RequestContext.AllRouteValues().Merge("action", "RenameFile").Merge("relativePath", content.RelativePath)))
                                 {
                                     <input type="text" name="FileName" class="editor" value="@content.FileName" 
-                                        @(new[] { Validator.Required().ClientValidationRule, ValidatorExtensions.Remote(Url.Action("IsFileNameAvailable", ViewContext.RequestContext.AllRouteValues()), "") }.GenerateHtmlAttributes())/>
+                                        @(new[] { Validator.Required().ClientValidationRule, ValidatorExtensionMethods.Remote(Url.Action("IsFileNameAvailable", ViewContext.RequestContext.AllRouteValues()), "") }.GenerateHtmlAttributes())/>
                                     <a class="action" data-ajaxform="">@Html.IconImage("save small")</a>
                                     <a class="action" data-inline-action='{"show":"#@displayTemplateId","hide":"#@editorTemplateId"}'>@Html.IconImage("minus small")</a>
                                     @Html.ValidationMessageForInput("FileName")

@@ -27,7 +27,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
         #region .ctor
         public string DataFileName = "setting.config";
         protected Kooboo.Common.Data.IsolatedStorage.IIsolatedStorage isolatedStorage;
-        protected string pathInStorage;
+        protected string rootPathInStorage;
         protected ReaderWriterLockSlim _lock;
         protected IEnumerable<Type> _knownTypes;
         protected Func<string, T> _initialize = (path) =>
@@ -35,18 +35,18 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
              var o = new T() { UUID = Path.GetFileName(path) };
              return o;
          };
-        public DirectoryObjectFileStorage(IIsolatedStorage isolatedStorage, string pathInStorage, ReaderWriterLockSlim @lock)
-            : this(isolatedStorage, pathInStorage, @lock, new Type[0])
+        public DirectoryObjectFileStorage(IIsolatedStorage isolatedStorage, string rootPathInStorage, ReaderWriterLockSlim @lock)
+            : this(isolatedStorage, rootPathInStorage, @lock, new Type[0])
         {
         }
-        public DirectoryObjectFileStorage(IIsolatedStorage isolatedStorage, string pathInStorage, ReaderWriterLockSlim @lock, IEnumerable<Type> knownTypes)
-            : this(isolatedStorage, pathInStorage, @lock, knownTypes, null)
+        public DirectoryObjectFileStorage(IIsolatedStorage isolatedStorage, string rootPathInStorage, ReaderWriterLockSlim @lock, IEnumerable<Type> knownTypes)
+            : this(isolatedStorage, rootPathInStorage, @lock, knownTypes, null)
         {
         }
-        public DirectoryObjectFileStorage(IIsolatedStorage isolatedStorage, string pathInStorage, ReaderWriterLockSlim @lock, IEnumerable<Type> knownTypes, Func<string, T> initialize)
+        public DirectoryObjectFileStorage(IIsolatedStorage isolatedStorage, string rootPathInStorage, ReaderWriterLockSlim @lock, IEnumerable<Type> knownTypes, Func<string, T> initialize)
         {
             this.isolatedStorage = isolatedStorage;
-            this.pathInStorage = pathInStorage;
+            this.rootPathInStorage = rootPathInStorage;
             this._lock = @lock;
             this._knownTypes = knownTypes;
             if (initialize != null)
@@ -74,15 +74,21 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
         private IEnumerable<T> Enumerate(string parentItemName)
         {
             List<T> list = new List<T>();
+            var relativePath = rootPathInStorage;
+            if (!string.IsNullOrEmpty(parentItemName))
+            {
+                parentItemName = FullNameHelper.ToPathName(parentItemName);
+                relativePath = Path.Combine(rootPathInStorage, parentItemName);
+            }
 
-            foreach (var item in isolatedStorage.GetDirectoryNames(pathInStorage))
+            foreach (var item in isolatedStorage.GetDirectoryNames(relativePath))
             {
                 var itemFullName = item;
                 if (!string.IsNullOrEmpty(parentItemName))
                 {
-                    itemFullName = Path.Combine(FullNameHelper.ToPathName(parentItemName), item);
+                    itemFullName = Path.Combine(parentItemName, item);
                 }
-                if (IsValidDataItem(Path.Combine(pathInStorage, itemFullName)))
+                if (IsValidDataItem(Path.Combine(rootPathInStorage, itemFullName)))
                 {
                     var o = _initialize(itemFullName);
                     if (o != null)
@@ -129,7 +135,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
         }
         protected virtual string GetItemPath(T o)
         {
-            return Path.Combine(pathInStorage, FullNameHelper.ToPathName(o.UUID));
+            return Path.Combine(rootPathInStorage, FullNameHelper.ToPathName(o.UUID));
         }
         protected virtual string GetDataFilePath(T o)
         {
@@ -207,8 +213,7 @@ namespace Kooboo.CMS.SiteKernel.Persistence.FileSystem.Storage
             }
         }
         #endregion
-
-
+        
         #region Export
         public void Export(IEnumerable<T> items, Stream outputStream)
         {

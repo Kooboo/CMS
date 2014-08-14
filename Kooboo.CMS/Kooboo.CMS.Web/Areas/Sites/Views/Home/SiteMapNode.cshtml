@@ -1,12 +1,12 @@
 ﻿@model Kooboo.CMS.Sites.Models.SiteMapNode
 @if (Model != null)
 {
-    var allowToPublish = ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_PublishPermission);
+    var allowToPublish = ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current, ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Sites.Permissions.Sites_Page_PublishPermission);
     var isLocal = Model.Page.IsLocalized(Kooboo.CMS.Sites.Models.Site.Current);
     var isStaticPage = Kooboo.CMS.Sites.Services.ServiceFactory.PageManager.IsStaticPage(Kooboo.CMS.Sites.Models.Site.Current, Model.Page);
 
     var hasEditPagePermission = Kooboo.CMS.Sites.Services.ServiceFactory.UserManager.Authorize(Kooboo.CMS.Sites.Models.Site.Current,
-        Html.ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Page_EditPermission);
+        Html.ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Sites.Permissions.Sites_Page_EditPermission);
 
     var hasDraft = ServiceFactory.PageManager.HasDraft(Model.Page);
     var isABTestPage = new Kooboo.CMS.Sites.ABTest.ABPageSetting() { Site = Kooboo.CMS.Sites.Models.Site.Current, MainPage = Model.Page.FullName }.AsActual() != null;

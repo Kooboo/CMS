@@ -1,216 +1,225 @@
 ﻿@model List<Kooboo.CMS.Sites.Models.Parameter>
-@{
-    var parameterJson = Newtonsoft.Json.JsonConvert.SerializeObject(new Kooboo.CMS.Sites.Models.Parameter());
-    var modelJson = Model == null ? "[]" : Newtonsoft.Json.JsonConvert.SerializeObject(Model
-        .Select(it => new
-            {
-                it.Name,
-                it.DataType,
-                Value = ((it.Value is DateTime) ? ((object)(((DateTime)(it.Value)).ToLocalTime().ToShortDateString())) : it.Value)
-            }));
-    var fullPropertyName = ViewData.TemplateInfo.HtmlFieldPrefix;
-    var elementId = fullPropertyName.Replace(".", "_");
-    var koTemplateId = elementId + "_List";
+    @{
+        var parameterJson = Newtonsoft.Json.JsonConvert.SerializeObject(new Kooboo.CMS.Sites.Models.Parameter());
+        var modelJson = Model == null ? "[]" : Newtonsoft.Json.JsonConvert.SerializeObject(Model
+            .Select(it => new
+                {
+                    it.Name,
+                    it.DataType,
+                    Value = ((it.Value is DateTime) ? ((object)(((DateTime)(it.Value)).ToLocalTime().ToShortDateString())) : it.Value)
+                }));
+        var fullPropertyName = ViewData.TemplateInfo.HtmlFieldPrefix;
+        var elementId = fullPropertyName.Replace(".", "_");
+        var koTemplateId = elementId + "_List";
 
-    var editTemplateId = elementId + "_Editor";
+        var editTemplateId = elementId + "_Editor";
 
-    var viewEngine = (Kooboo.CMS.Sites.View.ITemplateEngine)ViewData["ViewEngine"]; 
-}
-<div class="block parameters">
-    <h6 class="title active">
-        @Html.IconImage("arrow")
-        @("Parameters".Localize())</h6>
-    <div id="@koTemplateId" class="container" >
-        <ul class="parameters" data-bind="foreach: data">
-            <li data-bind="{attr:{id:'@koTemplateId'+'_li_' + $index()}}">
-                <div class="clearfix">
-                    <span data-bind="text: $data.Name"></span>
-                    <a class="action" data-bind="click: $parent.removeItem">@Html.IconImage("minus small")</a>
-                    <a class="action" data-bind="click:$parent.editItem">@Html.IconImage("edit small")</a>
-                    <a class="action" data-bind="click:$parent.insertCodeSnippet">@Html.IconImage("csharp")</a>
+        var viewEngine = (Kooboo.CMS.Sites.View.ITemplateEngine)ViewData["ViewEngine"];
+    }
+    <div class="block parameters">
+        <h6 class="title active">
+            @Html.IconImage("arrow")
+            @("Parameters".Localize())
+        </h6>
+        <div id="@koTemplateId" class="container">
+            <ul class="parameters" data-bind="foreach: data">
+                <li data-bind="{attr:{id:'@koTemplateId'+'_li_' + $index()}}">
+                    <div class="clearfix">
+                        <span data-bind="text: $data.Name"></span>
+                        <a class="action" data-bind="click: $parent.removeItem">@Html.IconImage("minus small")</a>
+                        <a class="action" data-bind="click:$parent.editItem">@Html.IconImage("edit small")</a>
+                        <a class="action" data-bind="click:$parent.insertCodeSnippet">@Html.IconImage("csharp")</a>
 
-                    <input type="hidden" data-bind="value: $data.Name, attr: {name: $parent.getPrefixFieldName($index()) + 'Name'}" />
-                    <input type="hidden" data-bind="value: $data.DataType, attr: {name: $parent.getPrefixFieldName($index()) + 'DataType'}" />
-                    <input type="hidden" data-bind="value: $data.Value, attr: {name: $parent.getPrefixFieldName($index()) + 'Value'}" />
-                </div>
-            </li>
-        </ul>
-        <p class="actions clearfix">
-            <a class="right" data-bind="click:addItem">@Html.IconImage("plus small")</a>
-        </p>
+                        <input type="hidden" data-bind="value: $data.Name, attr: {name: $parent.getPrefixFieldName($index()) + 'Name'}" />
+                        <input type="hidden" data-bind="value: $data.DataType, attr: {name: $parent.getPrefixFieldName($index()) + 'DataType'}" />
+                        <input type="hidden" data-bind="value: $data.Value, attr: {name: $parent.getPrefixFieldName($index()) + 'Value'}" />
+                    </div>
+                </li>
+            </ul>
+            <p class="actions clearfix">
+                <a class="right" data-bind="click:addItem">@Html.IconImage("plus small")</a>
+            </p>
+        </div>
     </div>
-</div>
-<div class="hide">
-    <div id="@editTemplateId" class="common-form">
-        <table>
-            <tr>
-                <th>
-                    <label>
-                        @("Name".Localize())</label>
-                </th>
-                <td>
-                    <input type="text" class="medium" data-bind="value:Name" />
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    <label>
-                        @("DataType".Localize())</label>
-                </th>
-                <td>
-                    <select name="DataType" class="medium" data-bind="value:DataType">
-                        @foreach (var d in Enum.GetNames(typeof(Kooboo.CMS.Common.DataType)))
-                        { 
-                            <option value="@((int)Enum.Parse(typeof(Kooboo.CMS.Common.DataType), d))">
-                                @d</option>
-                        }
-                    </select>
-                </td>
-            </tr>
-            <tr class="value-input">
-                <th>
-                    <label>
-                        @("Default Value".Localize())</label>
-                </th>
-                <td>
-                    <input name="Value" type="text" class="medium" data-bind="value:Value" />
-                </td>
-            </tr>
-            <tr class="value-input-bool">
-                <th></th>
-                <td>
-                    <input id="defaultValue" type="checkbox" value="True" data-bind="checked:Value" />
-                    <label for="defaultValue" class="inline">
-                        @("Default Value".Localize())</label>
-                    <input type="hidden" value="False" />
-                </td>
-            </tr>
-        </table>
-        <p class="buttons">
-            <a class="button save">
-                @("Save".Localize())</a>
-            <a class="button gray cancel">
-                @("Cancel".Localize())</a>
-        </p>
-    </div>
-</div>
-<script type="text/javascript">	
-    @Html.Raw(viewEngine.GetCodeHelper().RegisterParameterCode())
-    $(function () {
-        var editTemplate = $('#@editTemplateId');
-        var valueInput = editTemplate.find('[name=Value]');
-        var syncEditorForDataType = function () {
-            var select = editTemplate.find('[name=DataType]');
-            switch (select.val()) {
-                case '0':
-                case '1':
-                case '2':
-                    valueInput.datepicker("destroy");
-                    editTemplate.find('.value-input').show();
-                    editTemplate.find('.value-input-bool').hide();
-                    break;
-                case '3':
-                    valueInput.datepicker().datepicker('enable');
-                    editTemplate.find('.value-input').show();
-                    editTemplate.find('.value-input-bool').hide();
-                    break;
-                case '4':
-                    valueInput.datepicker("destroy");
-                    editTemplate.find('.value-input').hide();
-                    editTemplate.find('.value-input-bool').show();
-                    break;
-            }
-        };
-        (function () {
-            var textArea = $('textarea');
-            function ParamtersViewModel() {
-                var self = this;
-                self.data = ko.observableArray(@Html.Raw(modelJson));
-                self.addItem = function () {
-                    var item = ko.observable(@Html.Raw(parameterJson));
-                    ko.applyBindings(item, editTemplate[0]);
-                    var dialog = editTemplate.dialog({
-                        autoOpen: false,
-                        modal: true,
-                        width: 500,
-                        draggable: false,
-                        resizable: false,
-                        title: this.Name
-                    }).dialog('open');
-                    dialog.find('a.save').unbind('click').click(function () {
-                        var model = ko.toJS(item);
-                        if (model.Name == null || model.Name == "") {
-                            editTemplate.find('[name=Name]').effect('highlight', { color: 'red' }, 3000);
-                        }
-                        else {
-                            var index = -1;
-                            var items = self.data();
-                            for (var i = 0; i < items.length; i++) {
-                                if (items[i].Name == model.Name) {
-                                    index = i;
-                                    break;
-                                }
+    <div class="hide">
+        <div id="@editTemplateId" class="common-form">
+            <table>
+                <tr>
+                    <th>
+                        <label>
+                            @("Name".Localize())
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text" class="medium" data-bind="value:Name" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label>
+                            @("DataType".Localize())
+                        </label>
+                    </th>
+                    <td>
+                        <select name="DataType" class="medium" data-bind="value:DataType">
+                            @foreach (var d in Enum.GetNames(typeof(Kooboo.Common.Data.DataType)))
+                            {
+                                <option value="@((int)Enum.Parse(typeof(Kooboo.Common.Data.DataType), d))">
+                                    @d
+                                </option>
                             }
-                            if (index == -1) {
-                                self.data.push(model);
-                                dialog.dialog('close');
+                        </select>
+                    </td>
+                </tr>
+                <tr class="value-input">
+                    <th>
+                        <label>
+                            @("Default Value".Localize())
+                        </label>
+                    </th>
+                    <td>
+                        <input name="Value" type="text" class="medium" data-bind="value:Value" />
+                    </td>
+                </tr>
+                <tr class="value-input-bool">
+                    <th></th>
+                    <td>
+                        <input id="defaultValue" type="checkbox" value="True" data-bind="checked:Value" />
+                        <label for="defaultValue" class="inline">
+                            @("Default Value".Localize())
+                        </label>
+                        <input type="hidden" value="False" />
+                    </td>
+                </tr>
+            </table>
+            <p class="buttons">
+                <a class="button save">
+                    @("Save".Localize())
+                </a>
+                <a class="button gray cancel">
+                    @("Cancel".Localize())
+                </a>
+            </p>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    @Html.Raw(viewEngine.GetCodeHelper().RegisterParameterCode())
+        $(function () {
+            var editTemplate = $('#@editTemplateId');
+            var valueInput = editTemplate.find('[name=Value]');
+            var syncEditorForDataType = function () {
+                var select = editTemplate.find('[name=DataType]');
+                switch (select.val()) {
+                    case '0':
+                    case '1':
+                    case '2':
+                        valueInput.datepicker("destroy");
+                        editTemplate.find('.value-input').show();
+                        editTemplate.find('.value-input-bool').hide();
+                        break;
+                    case '3':
+                        valueInput.datepicker().datepicker('enable');
+                        editTemplate.find('.value-input').show();
+                        editTemplate.find('.value-input-bool').hide();
+                        break;
+                    case '4':
+                        valueInput.datepicker("destroy");
+                        editTemplate.find('.value-input').hide();
+                        editTemplate.find('.value-input-bool').show();
+                        break;
+                }
+            };
+            (function () {
+                var textArea = $('textarea');
+                function ParamtersViewModel() {
+                    var self = this;
+                    self.data = ko.observableArray(@Html.Raw(modelJson));
+                    self.addItem = function () {
+                        var item = ko.observable(@Html.Raw(parameterJson));
+                        ko.applyBindings(item, editTemplate[0]);
+                        var dialog = editTemplate.dialog({
+                            autoOpen: false,
+                            modal: true,
+                            width: 500,
+                            draggable: false,
+                            resizable: false,
+                            title: this.Name
+                        }).dialog('open');
+                        dialog.find('a.save').unbind('click').click(function () {
+                            var model = ko.toJS(item);
+                            if (model.Name == null || model.Name == "") {
+                                editTemplate.find('[name=Name]').effect('highlight', { color: 'red' }, 3000);
                             }
                             else {
-                                editTemplate.find('[name=Name]').effect('highlight', { color: 'red' }, 3000);
-                                $('#@koTemplateId' + '_li_' + index).effect('highlight', { color: 'red' }, 3000);
+                                var index = -1;
+                                var items = self.data();
+                                for (var i = 0; i < items.length; i++) {
+                                    if (items[i].Name == model.Name) {
+                                        index = i;
+                                        break;
+                                    }
+                                }
+                                if (index == -1) {
+                                    self.data.push(model);
+                                    dialog.dialog('close');
+                                }
+                                else {
+                                    editTemplate.find('[name=Name]').effect('highlight', { color: 'red' }, 3000);
+                                    $('#@koTemplateId' + '_li_' + index).effect('highlight', { color: 'red' }, 3000);
+                                }
                             }
-                        }
-                    });
-                    dialog.find('a.cancel').one('click', function () {
-                        dialog.dialog('close');
-                    });
-                };
+                        });
+                        dialog.find('a.cancel').one('click', function () {
+                            dialog.dialog('close');
+                        });
+                    };
 
-                self.removeItem = function () {
-                    self.data.remove(this);
-                };
+                    self.removeItem = function () {
+                        self.data.remove(this);
+                    };
 
-                var namePrfix = '@fullPropertyName';
-                self.getPrefixFieldName = function (index) {
-                    return namePrfix + '[' + (index) + '].';
-                };
+                    var namePrfix = '@fullPropertyName';
+                    self.getPrefixFieldName = function (index) {
+                        return namePrfix + '[' + (index) + '].';
+                    };
 
-                self.insertCodeSnippet = function () {
-                    var codeMirrorAPI = textArea.data("codeMirror");
-                    var insertText = getParameterCode(this.Name);
-                    codeMirrorAPI.insertAtCursor(insertText);
+                    self.insertCodeSnippet = function () {
+                        var codeMirrorAPI = textArea.data("codeMirror");
+                        var insertText = getParameterCode(this.Name);
+                        codeMirrorAPI.insertAtCursor(insertText);
+                    }
+
+                    self.editItem = function (model, e) {
+                        var list = self.data();
+                        var index = _.indexOf(list, model);
+                        ko.applyBindings(ko.toJS(model), editTemplate[0]);
+                        var dialog = editTemplate.dialog({
+                            autoOpen: false,
+                            modal: true,
+                            width: 500,
+                            draggable: false,
+                            resizable: false,
+                            title: this.Name
+                        }).dialog('open');
+                        editTemplate.find('[name=Name]').attr('readonly', 'readonly');
+                        syncEditorForDataType();
+                        dialog.find('a.save').unbind('click').click(function () {
+                            list.splice(index, 1, ko.dataFor(editTemplate[0]));
+                            self.data(list);
+                            dialog.dialog('close');
+                            ko.cleanNode(editTemplate[0]);
+                        });
+                        dialog.find('a.cancel').one('click', function () {
+                            dialog.dialog('close');
+                        });
+                    }
+
                 }
-
-                self.editItem = function (model, e) {
-                    var list = self.data();
-                    var index = _.indexOf(list, model);
-                    ko.applyBindings(ko.toJS(model), editTemplate[0]);
-                    var dialog = editTemplate.dialog({
-                        autoOpen: false,
-                        modal: true,
-                        width: 500,
-                        draggable: false,
-                        resizable: false,
-                        title: this.Name
-                    }).dialog('open');
-                    editTemplate.find('[name=Name]').attr('readonly', 'readonly');
-                    syncEditorForDataType();
-                    dialog.find('a.save').unbind('click').click(function () {
-                        list.splice(index, 1, ko.dataFor(editTemplate[0]));
-                        self.data(list);
-                        dialog.dialog('close');
-                        ko.cleanNode(editTemplate[0]);
-                    });
-                    dialog.find('a.cancel').one('click', function () {
-                        dialog.dialog('close');
-                    });
-                }
-
-            }
-            ko.applyBindings(new ParamtersViewModel(), $('#@koTemplateId')[0]);
-        })();
-        editTemplate.find('[name=DataType]').change(function (element) {
-            syncEditorForDataType();
+                ko.applyBindings(new ParamtersViewModel(), $('#@koTemplateId')[0]);
+            })();
+            editTemplate.find('[name=DataType]').change(function (element) {
+                syncEditorForDataType();
+            });
         });
-    });
-</script>
+    </script>

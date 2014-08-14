@@ -49,7 +49,7 @@ namespace Kooboo.CMS.SiteKernel.Tests.Persistence.FileSystem
             Assert.AreEqual(4, rootPages.Count());
             Assert.AreEqual("about", rootPages.First().FullName);
             Assert.AreEqual("Search", rootPages.Last().FullName);
-            Assert.AreEqual("SampleSite", rootPages.Last().Site.FullName);
+            Assert.AreEqual("SampleSite", rootPages.Last().Site.AbsoluteName);
         }
 
         [TestMethod]
@@ -59,9 +59,9 @@ namespace Kooboo.CMS.SiteKernel.Tests.Persistence.FileSystem
             var site = new Site("SampleSite");
             var page = new Page(site, "Member");
 
-            var childPages=pageProvider.ChildPages(page);
+            var childPages = pageProvider.ChildPages(page);
 
-            Assert.AreEqual(8,childPages.Count());
+            Assert.AreEqual(8, childPages.Count());
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace Kooboo.CMS.SiteKernel.Tests.Persistence.FileSystem
 
             var o = pageProvider.Get(pageProvider.RootPages(site).First());
 
-            Assert.AreEqual("about",o.FullName);
+            Assert.AreEqual("about", o.FullName);
         }
 
         [TestMethod]
@@ -80,7 +80,7 @@ namespace Kooboo.CMS.SiteKernel.Tests.Persistence.FileSystem
         {
             var pageProvider = new PageProvider();
             var site = new Site("SampleSite");
-            var newPage = new Page(site,"newPage");
+            var newPage = new Page(site, "newPage");
 
             pageProvider.Add(newPage);
 
@@ -98,11 +98,11 @@ namespace Kooboo.CMS.SiteKernel.Tests.Persistence.FileSystem
             var newPage = new Page(site, "newPage");
 
             pageProvider.Add(oldPage);
-            pageProvider.Update(newPage,oldPage);
+            pageProvider.Update(newPage, oldPage);
 
             var o = pageProvider.Get(newPage);
 
-            Assert.AreEqual("newPage",o.FullName);
+            Assert.AreEqual("newPage", o.FullName);
         }
 
         [TestMethod]
@@ -126,7 +126,7 @@ namespace Kooboo.CMS.SiteKernel.Tests.Persistence.FileSystem
         {
             var pageProvider = new PageProvider();
             var site = new Site("SampleSite");
-            var page = new Page(site,"about");
+            var page = new Page(site, "about");
 
             pageProvider.GetDraft(page);
         }

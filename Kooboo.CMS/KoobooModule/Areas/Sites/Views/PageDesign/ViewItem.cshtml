@@ -36,7 +36,7 @@
                             <td>
                                 <input type="hidden" no_submit_name="Parameters[@index].Name" value="@p.Name" />
                                 <input type="hidden" no_submit_name="Parameters[@index].DataType" value="@p.DataType" />
-                                @if (p.DataType == Kooboo.CMS.Common.DataType.Bool)
+                                @if (p.DataType == Kooboo.Common.Data.DataType.Bool)
                                 {
                                     var check = (p.Value != null && p.Value.ToString().ToLower() == "true") ? "checked=\"checked\"" : "";
 

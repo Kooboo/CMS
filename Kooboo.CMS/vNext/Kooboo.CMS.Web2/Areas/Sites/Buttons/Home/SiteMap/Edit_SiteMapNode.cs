@@ -5,24 +5,21 @@ using System.Web;
 
 namespace Kooboo.CMS.Web2.Areas.Sites.Buttons.Home.SiteMap
 {
-    public class Preview_SiteMapNode : SiteMapNodeButtonBase
+    public class Edit_SiteMapNode : SiteMapNodeButtonBase
     {
         public override string DisplayText
         {
-            get { return "Preview"; }
+            get { return "Edit"; }
         }
-
 
         public override string Name
         {
-            get { return "Preview_SiteMapNode"; }
+            get { return "Edit_SiteMapNode"; }
         }
 
         public override int Order
         {
-            get { return 1; }
+            get { return 2; }
         }
-
-
     }
 }

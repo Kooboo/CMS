@@ -30,7 +30,7 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
         /// <returns></returns>
         public static IHtmlString SiteScriptsUrl(this IFrontUrlHelper frontUrl)
         {
-            return SiteScriptsUrl(frontUrl, frontUrl.Site.DomainSetting.ResourceDomain);
+            return SiteScriptsUrl(frontUrl, frontUrl.Site.ResourceDomain);
         }
         /// <summary>
         /// The URL for combined site scripts.
@@ -50,7 +50,7 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
         public static IHtmlString SiteScriptsUrl(this IFrontUrlHelper frontUrl, string baseUri, string folder, bool compressed)
         {
             var site = frontUrl.Site;
-            return new HtmlString(UrlUtility.ToHttpAbsolute(baseUri, frontUrl.Url.Action("scripts", "Resource", new { siteName = site.FullName, version = site.GetVersionUsedInUrl(), area = "", compressed, name = folder })));
+            return new HtmlString(UrlUtility.ToHttpAbsolute(baseUri, frontUrl.Url.Action("scripts", "Resource", new { siteName = site.AbsoluteName, version = site.GetVersionUsedInUrl(), area = "", compressed, name = folder })));
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
         public static IHtmlString SiteThemeUrl(this IFrontUrlHelper frontUrl)
         {
             var site = frontUrl.Site;
-            return SiteThemeUrl(frontUrl, site.DomainSetting.ResourceDomain, site.Theme);
+            return SiteThemeUrl(frontUrl, site.ResourceDomain, site.Theme);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
         public static IHtmlString SiteThemeUrl(this IFrontUrlHelper frontUrl, string baseUri, string themeName)
         {
             var site = frontUrl.Site;
-            return new HtmlString(UrlUtility.ToHttpAbsolute(baseUri, frontUrl.Url.Action("theme", "Resource", new { siteName = site.FullName, name = themeName, version = site.GetVersionUsedInUrl(), area = "" })).ToString());
+            return new HtmlString(UrlUtility.ToHttpAbsolute(baseUri, frontUrl.Url.Action("theme", "Resource", new { siteName = site.AbsoluteName, name = themeName, version = site.GetVersionUsedInUrl(), area = "" })).ToString());
         }
 
         ///// <summary>
@@ -112,7 +112,7 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
         /// <returns></returns>
         public static IHtmlString ResourceCDNUrl(this IFrontUrlHelper frontUrl, string relativeUrl)
         {
-            string resourceDomain = frontUrl.Site.DomainSetting.ResourceDomain;
+            string resourceDomain = frontUrl.Site.ResourceDomain;
 
             return new HtmlString(UrlUtility.ToHttpAbsolute(resourceDomain, relativeUrl));
         }

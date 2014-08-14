@@ -15,30 +15,32 @@ using System.Threading.Tasks;
 
 namespace Kooboo.CMS.SiteKernel.Models
 {
-    public class DomainSetting
+    public class Binding
     {
-        private string[] domains;
-        public string[] Domains
+        static Regex regex = new Regex("http(s?)\\://", RegexOptions.IgnoreCase);
+
+        private string domain;
+        public string Domain
         {
-            get { return domains; }
+            get { return domain; }
             set
             {
                 if (value != null)
                 {
-                    var regex = new Regex("http(s?)\\://", RegexOptions.IgnoreCase);
-                    domains = value.Where(it => !string.IsNullOrEmpty(it)).Select(it => regex.Replace(it, "")).ToArray();
+
+                    domain = regex.Replace(value, "");
                 }
                 else
                 {
-                    domains = value;
+                    domain = value;
                 }
             }
         }
-        public string SitePath { get; set; }
-        public string ResourceDomain { get; set; }
+        public string SitePath { get; set; }        
         /// <summary>
         /// 相同同域名根据UserAgent查找不同站点
+        /// Device == UserAgent
         /// </summary>
-        public string UserAgent { get; set; }
+        public string Device { get; set; }
     }
 }

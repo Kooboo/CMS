@@ -23,13 +23,14 @@ namespace Kooboo.CMS.SiteKernel.Models
 
         public static string GetVersionUsedInUrl(this Site site)
         {
-            StringBuilder sb = new StringBuilder();
-            while (site != null)
-            {
-                sb.AppendFormat("{0}!", (site.AsActual().Version ?? "1.0.0.0").Replace(".", "_"));
-                site = site.Parent;
-            }
-            return sb.Remove(sb.Length - 1, 1).ToString();
+            return DateTime.UtcNow.ToString("yyyy-MM-dd");
+            //StringBuilder sb = new StringBuilder();
+            //while (site != null)
+            //{
+            //    sb.AppendFormat("{0}!", (site.AsActual().Version ?? "1.0.0.0").Replace(".", "_"));
+            //    site = site.Parent;
+            //}
+            //return sb.Remove(sb.Length - 1, 1).ToString();
         }
 
         public static Repository GetRepository(this Site site)

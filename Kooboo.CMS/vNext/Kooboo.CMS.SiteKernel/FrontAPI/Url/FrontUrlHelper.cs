@@ -66,10 +66,10 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
             }
 
 
-            var sitePath = Site.AsActual().DomainSetting.SitePath;
+            var sitePath = "";// Site.AsActual().SitePath;
             if (RequestChannel == FrontRequestChannel.Debug || RequestChannel == FrontRequestChannel.Design || RequestChannel == FrontRequestChannel.Unknown)
             {
-                sitePath = SiteExtensions.PREFIX_FRONT_DEBUG_URL + Site.FullName;
+                sitePath = SiteExtensions.PREFIX_FRONT_DEBUG_URL + Site.AbsoluteName;
             }
             var urlSplit = url.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             IEnumerable<string> urlPaths = urlSplit;

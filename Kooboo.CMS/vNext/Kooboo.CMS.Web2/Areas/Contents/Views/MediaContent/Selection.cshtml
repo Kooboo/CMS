@@ -110,7 +110,7 @@
                                     <input class="editor" type="text" name="Name"
                                 @(new[] {Validator.Regex(RegexPatterns.FileName,"Invalid folder name.".Localize()).ClientValidationRule,
                                 Validator.Required().ClientValidationRule, 
-                                ValidatorExtensions.Remote(Url.Action("IsFolderNameAvailable", ViewContext.RequestContext.AllRouteValues())) }.GenerateHtmlAttributes())/>
+                                ValidatorExtensionMethods.Remote(Url.Action("IsFolderNameAvailable", ViewContext.RequestContext.AllRouteValues())) }.GenerateHtmlAttributes())/>
                                     <a class="action" data-ajaxform="">@Html.IconImage("save small")</a>
                                     <a class="action" data-inline-action='{"hide":"#CreateFolderTemplate"}'>@Html.IconImage("minus small")</a>
                                     @Html.ValidationMessageForInput("Name")

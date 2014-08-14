@@ -99,9 +99,6 @@ namespace Kooboo.CMS.SiteKernel.Models
         {
         }
         #endregion
-
-
-
     }
     public partial class Page
     {

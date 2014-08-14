@@ -54,7 +54,7 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
         /// <returns></returns>
         public static IHtmlString LoadStyles(this IFrontHtmlHelper frontHtml, string themeName)
         {
-            return LoadAbsoluteStyles(frontHtml, frontHtml.Page_Context.PageRequestContext.Site.DomainSetting.ResourceDomain, themeName);
+            return LoadAbsoluteStyles(frontHtml, frontHtml.Page_Context.PageRequestContext.Site.ResourceDomain, themeName);
         }
         public static IHtmlString LoadAbsoluteStyles(this IFrontHtmlHelper frontHtml, string baseUri)
         {

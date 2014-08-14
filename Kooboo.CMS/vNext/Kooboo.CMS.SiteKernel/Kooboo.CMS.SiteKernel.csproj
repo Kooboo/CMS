@@ -121,6 +121,7 @@
     <Compile Include="FrontAPI\Url\SubmissionUrlExtensions.cs" />
     <Compile Include="FrontAPI\Url\ViewUrlExtensions.cs" />
     <Compile Include="Models\Page\PageExtensions.cs" />
+    <Compile Include="Models\Site\SiteContent.cs" />
     <Compile Include="Models\Site\SiteExtensions.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Persistence\FileSystem\CapabilityStream.cs" />
@@ -134,6 +135,7 @@
     </Compile>
     <Compile Include="Persistence\IImportExportProvider.cs" />
     <Compile Include="Persistence\IPageProvider.cs" />
+    <Compile Include="Persistence\ISiteContentProvider.cs" />
     <Compile Include="Persistence\ISiteProvider.cs" />
     <Compile Include="Persistence\FileSystem\Storage\IFileStorage.cs" />
     <Compile Include="RouteValuesHelper.cs" />
@@ -149,7 +151,7 @@
     <Compile Include="Models\Layout\Layout.cs" />
     <Compile Include="Models\Page\IPageContent.cs" />
     <Compile Include="Models\Page\PageRouteExtensions.cs" />
-    <Compile Include="Models\Site\DomainSetting.cs" />
+    <Compile Include="Models\Site\Binding.cs" />
     <Compile Include="Models\HtmlMeta.cs" />
     <Compile Include="Models\Page\Page.cs" />
     <Compile Include="Models\Page\LinkTarget.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Services\Site\IFrontSiteService.cs" />
     <Compile Include="Services\Site\ISiteService.cs" />
+    <Compile Include="Services\Site\ISiteContentService.cs" />
     <Compile Include="Services\Site\SiteExtensions.cs" />
     <Compile Include="Services\Site\SiteService.cs">
       <SubType>Code</SubType>
@@ -242,7 +245,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\StyleSheet\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

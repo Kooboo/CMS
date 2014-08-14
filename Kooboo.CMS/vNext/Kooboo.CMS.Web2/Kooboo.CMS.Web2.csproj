@@ -252,7 +252,9 @@
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\ImportSite_Top.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\Preview_SiteNode.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\Cluster\TakeOffline_SiteNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\SiteMap\Edit_SiteMapNode.cs" />
     <Compile Include="Areas\Sites\Buttons\Home\SiteMap\Preview_SiteMapNode.cs" />
+    <Compile Include="Areas\Sites\Buttons\Home\SiteMap\SiteMapNodeButtonBase.cs" />
     <Compile Include="Areas\Sites\Controllers\HomeController.cs" />
     <Compile Include="Areas\Sites\Menu\ContentFolderMenuItemInitializer.cs" />
     <Compile Include="Areas\Sites\Menu\ContentFolderMenuItems.cs" />

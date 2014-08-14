@@ -12,12 +12,11 @@
             <span>@((Model.Page.Navigation == null || string.IsNullOrEmpty(Model.Page.Navigation.DisplayText)) ? Model.Page.Name : Model.Page.Navigation.DisplayText)</span>
             @Html.IconImage("angle-right-white")
         </span>
-        <ul>
-            @if (ViewBag.SiteMapNodeButtons != null)
-            {
-                @Html.Partial("_SiteNodeButtons", (object)(ViewBag.SiteMapNodeButtons))
-            }
-        </ul>
+
+        @if (ViewBag.SiteMapNodeButtons != null)
+        {
+            @Html.Partial("_SiteNodeButtons", (object)(ViewBag.SiteMapNodeButtons))
+        }
     </div>
 
     <div class="children">

@@ -40,7 +40,7 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
         public static IHtmlString ResizeImageUrl(this IFrontUrlHelper frontUrl, string imagePath, int width, int height, bool? preserverAspectRatio, int? quality)
         {
             return frontUrl.ResourceCDNUrl(frontUrl.WrapperUrl(frontUrl.Url.Action("ResizeImage", "Resource",
-                new { siteName = frontUrl.Site.FullName, url = imagePath, area = "", width = width, height = height, preserverAspectRatio = preserverAspectRatio, quality = quality })).ToString());
+                new { siteName = frontUrl.Site.AbsoluteName, url = imagePath, area = "", width = width, height = height, preserverAspectRatio = preserverAspectRatio, quality = quality })).ToString());
         }
 
     }

@@ -32,7 +32,7 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
         /// <returns></returns>
         public static IHtmlString LoadScripts(this IFrontHtmlHelper frontHtml)
         {
-            return LoadAbsoluteScripts(frontHtml, frontHtml.Page_Context.PageRequestContext.Site.DomainSetting.ResourceDomain);
+            return LoadAbsoluteScripts(frontHtml, frontHtml.Page_Context.PageRequestContext.Site.ResourceDomain);
         }
         /// <summary>
         /// Registers the scripts.
@@ -41,7 +41,7 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
         /// <returns></returns>
         public static IHtmlString LoadScripts(this IFrontHtmlHelper frontHtml, bool compressed)
         {
-            return LoadAbsoluteScripts(frontHtml, frontHtml.Page_Context.PageRequestContext.Site.DomainSetting.ResourceDomain, compressed);
+            return LoadAbsoluteScripts(frontHtml, frontHtml.Page_Context.PageRequestContext.Site.ResourceDomain, compressed);
         }
         /// <summary>
         /// Registers the absolute scripts.
@@ -210,7 +210,7 @@ namespace Kooboo.CMS.SiteKernel.FrontAPI
         #region RegisterScriptFolder
         public static IHtmlString LoadScriptFolder(this IFrontHtmlHelper frontHtml, string folder)
         {
-            return LoadScriptFolder(frontHtml, folder, true, frontHtml.Page_Context.PageRequestContext.Site.DomainSetting.ResourceDomain);
+            return LoadScriptFolder(frontHtml, folder, true, frontHtml.Page_Context.PageRequestContext.Site.ResourceDomain);
         }
         public static IHtmlString LoadScriptFolder(this IFrontHtmlHelper frontHtml, string folder, bool compressed, string baseUri)
         {

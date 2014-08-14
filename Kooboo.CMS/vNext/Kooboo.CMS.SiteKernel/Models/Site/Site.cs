@@ -41,18 +41,18 @@ namespace Kooboo.CMS.SiteKernel.Models
         public Site(string fullName)
         {
             this.Name = FullNameHelper.GetName(fullName);
-            this.FullName = fullName;
+            this.AbsoluteName = fullName;
         }
         public Site(Site parent, string name)
         {
             this.Name = name;
             if (parent != null)
             {
-                this.FullName = FullNameHelper.Combine(parent.FullName, name);
+                this.AbsoluteName = FullNameHelper.Combine(parent.AbsoluteName, name);
             }
             else
             {
-                this.FullName = name;
+                this.AbsoluteName = name;
             }
         }
         #endregion
@@ -62,11 +62,11 @@ namespace Kooboo.CMS.SiteKernel.Models
         {
             get
             {
-                if (string.IsNullOrEmpty(this.FullName))
+                if (string.IsNullOrEmpty(this.AbsoluteName))
                 {
-                    this.FullName = this.Name;
+                    this.AbsoluteName = this.Name;
                 }
-                var parentFullName = FullNameHelper.GetParentFullName(this.FullName);
+                var parentFullName = FullNameHelper.GetParentFullName(this.AbsoluteName);
                 if (!string.IsNullOrEmpty(parentFullName))
                 {
                     return new Site(parentFullName);
@@ -77,11 +77,11 @@ namespace Kooboo.CMS.SiteKernel.Models
             {
                 if (value != null)
                 {
-                    this.FullName = FullNameHelper.Combine(value.FullName, this.Name);
+                    this.AbsoluteName = FullNameHelper.Combine(value.AbsoluteName, this.Name);
                 }
                 else
                 {
-                    this.FullName = this.Name;
+                    this.AbsoluteName = this.Name;
                 }
             }
 
@@ -102,7 +102,7 @@ namespace Kooboo.CMS.SiteKernel.Models
         {
             get
             {
-                return this.FullName;
+                return this.AbsoluteName;
             }
             set
             {
@@ -134,7 +134,7 @@ namespace Kooboo.CMS.SiteKernel.Models
                 return false;
             }
             var site = (Site)obj;
-            if (this.FullName.EqualsOrNullEmpty(site.FullName, StringComparison.CurrentCultureIgnoreCase))
+            if (this.AbsoluteName.EqualsOrNullEmpty(site.AbsoluteName, StringComparison.CurrentCultureIgnoreCase))
             {
                 return true;
             }
@@ -146,7 +146,7 @@ namespace Kooboo.CMS.SiteKernel.Models
         }
         public override string ToString()
         {
-            return this.FullName;
+            return this.AbsoluteName;
         }
         #endregion
 
@@ -157,7 +157,7 @@ namespace Kooboo.CMS.SiteKernel.Models
             {
                 return 1;
             }
-            return this.FullName.CompareTo(((Site)obj).FullName);
+            return this.AbsoluteName.CompareTo(((Site)obj).AbsoluteName);
         }
         #endregion
 
@@ -190,37 +190,28 @@ namespace Kooboo.CMS.SiteKernel.Models
     }
     public partial class Site
     {
+        /// <summary>
+        /// your website name. e.g. giftshop, guestforum. 
+        /// </summary>
         public string Name { get; set; }
-        public string FullName { get; set; }
+        public string AbsoluteName { get; set; }
         public string DisplayName { get; set; }
         public string Culture { get; set; }
-        public string Theme { get; set; }
+        public bool IsDebug { get; set; }
 
-        public ReleaseMode Mode { get; set; }
-
-        private DomainSetting domainSetting;
-
-        public DomainSetting DomainSetting
+        /// <summary>
+        /// Site match setting, example: 
+        //domain,                path,     device, 
+        //www.mysite.com                   iphone
+        //www.mysite.com         en
+        //www.anothersite.com    xm
+        //www.x.com
+        // TODO: TO be changed. 
+        /// </summary>
+        public Binding[] Bindings
         {
-            get
-            {
-                if (domainSetting == null)
-                {
-                    this.domainSetting = new DomainSetting();
-                }
-                return domainSetting;
-            }
-            set
-            {
-                if (value == null)
-                {
-                    this.domainSetting = new DomainSetting();
-                }
-                else
-                {
-                    this.domainSetting = value;
-                }
-            }
+            get;
+            set;
         }
 
         private bool published = true;
@@ -236,9 +227,10 @@ namespace Kooboo.CMS.SiteKernel.Models
             }
         }
 
-        public string Version { get; set; }
-
-        public Smtp Smtp { get; set; }
+        /// <summary>
+        /// TODO: Setting should moved to plugin, the plugin who needs this setting hook into system setting panel itself
+        /// </summary>
+        //public Smtp Smtp { get; set; }
 
         /// <summary>
         /// 1  站点的设置加了一个时区设置
@@ -253,32 +245,39 @@ namespace Kooboo.CMS.SiteKernel.Models
         /// </value>
         public string TimeZoneId { get; set; }
 
+
+        /// <summary>
+        /// TODO: should consider again. 
+        /// </summary>
+        public string Theme { get; set; }
         /// <summary>
         /// 全局性的HtmlMeta设置
         /// </summary>
         public HtmlMeta HtmlMeta { get; set; }
-
+        /// <summary>
+        /// 暂时放在Site对象，等Theme和Script 一起考虑
+        /// </summary>
+        public string ResourceDomain { get; set; }
+      
         public Dictionary<string, string> CustomFields { get; set; }
 
         // Repository,Membership，还有以后可能的其它模块，是不是反方向设置会比较容易扩展？
         public string Repository { get; set; }
-        public string Membership { get; set; }
+        //public string Membership { get; set; }
 
         /// <summary>
         /// 可能不需要，用插件形式扩展引用JQuery
         /// </summary>
-        public bool EnableJQuery { get; set; }
+        //public bool EnableJQuery { get; set; }
         /// <summary>
         /// 可能不需要，做成插件扩展会更好
         /// </summary>
-        public bool EnableInlineEditing { get; set; }
-        public bool EnableVersioning { get; set; }
-        public bool EnableStyleEditing { get; set; }
+        //public bool EnableInlineEditing { get; set; }
+        //public bool EnableVersioning { get; set; }
+        //public bool EnableStyleEditing { get; set; }
 
         ///用扩展实现
         //KeyValue<string, string> SSLDetection { get; set; }
-
-
     }
 
     /// <summary>

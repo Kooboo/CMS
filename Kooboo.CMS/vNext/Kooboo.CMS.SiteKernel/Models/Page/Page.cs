@@ -282,6 +282,16 @@ namespace Kooboo.CMS.SiteKernel.Models
 
         [DataMember]
         public bool CacheToDisk { get; set; }
-
+                
+        /// <summary>
+        /// 页面引用的脚本文件（组）
+        /// 默认从站点设置的继承过来，可以自己增加或修改
+        /// </summary>
+        public IncludingFileSetting[] Scripts { get; set; }
+        /// <summary>
+        /// 页面引用的样式文件（组）
+        /// 默认从站点
+        /// </summary>
+        public IncludingFileSetting[] Styles { get; set; }
     }
 }

@@ -258,8 +258,19 @@ namespace Kooboo.CMS.SiteKernel.Models
         /// 暂时放在Site对象，等Theme和Script 一起考虑
         /// </summary>
         public string ResourceDomain { get; set; }
-      
+
         public Dictionary<string, string> CustomFields { get; set; }
+
+        /// <summary>
+        /// 站点默认引用的脚本文件（组）
+        /// 默认被页面继承过去，页面在这基础上可以单独添加或删除
+        /// </summary>
+        public IncludingFileSetting[] Scripts { get; set; }
+        /// <summary>
+        /// 站点默认引用的样式文件（组）
+        /// 默认会被页面继承过去，页面在这基础上可以单独添加或者删除。
+        /// </summary>
+        public IncludingFileSetting[] Styles { get; set; }
 
         // Repository,Membership，还有以后可能的其它模块，是不是反方向设置会比较容易扩展？
         public string Repository { get; set; }

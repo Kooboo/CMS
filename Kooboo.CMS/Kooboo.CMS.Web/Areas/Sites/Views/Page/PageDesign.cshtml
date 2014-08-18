@@ -37,9 +37,9 @@
             }));
         }
         <input name="PagePositionsJson" type="hidden" />
-        <input id="PageDesignJs" type="hidden" value="@Html.Raw(js)" />
-        <input id="PageDesignCss" type="hidden" value="@Html.Raw(css)" />
-        <input id="PageDesignUrl" type="hidden" value="@Html.Raw(url)" />
+        <input id="PageDesignJs" type="hidden" value="@Html.Encode(js)" />
+        <input id="PageDesignCss" type="hidden" value="@Html.Encode(css)" />
+        <input id="PageDesignUrl" type="hidden" value="@Html.Encode(url)" />
         <script type="text/javascript">
             var __pageDesign = {
                 leaveConfirm: '@("All your changes might be lost.".Localize())',

@@ -38,16 +38,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Kooboo.Common, Version=5.0.5332.27272, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.5.0.5332.27272\lib\net45\Kooboo.Common.dll</HintPath>
+    <Reference Include="Kooboo.Common">
+      <HintPath>..\..\packages\Kooboo.Common.5.0.5343.26015\lib\net45\Kooboo.Common.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Kooboo.Common.Data">
       <HintPath>..\..\packages\Kooboo.Common.Data.5.0.5332.27272\lib\net45\Kooboo.Common.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Kooboo.Common.Web, Version=5.0.5332.27272, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common.Web, Version=5.0.5343.26016, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5332.27272\lib\net45\Kooboo.Common.Web.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.Web.5.0.5343.26016\lib\net45\Kooboo.Common.Web.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>

@@ -34,9 +34,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Kooboo.Common, Version=5.0.5330.30638, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Kooboo.Common, Version=5.0.5343.26015, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Kooboo.Common.5.0.5330.30638\lib\net45\Kooboo.Common.dll</HintPath>
+      <HintPath>..\..\packages\Kooboo.Common.5.0.5343.26015\lib\net45\Kooboo.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

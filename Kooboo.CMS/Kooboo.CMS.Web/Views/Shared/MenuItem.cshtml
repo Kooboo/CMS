@@ -1,4 +1,5 @@
 ﻿@model Kooboo.Web.Mvc.Menu.MenuItem
+@using Kooboo.Web.Mvc.Menu;
 @helper RenderBadge(Badge badge)
 {
     if (badge != null)
@@ -45,7 +46,7 @@
 
                 var htmlAttributes = menuItem.HtmlAttributes ?? new RouteValueDictionary();
                 htmlAttributes["title"] = tips;
-                <a href="@Url.Action(menuItem.Action,menuItem.Controller,menuItem.RouteValues)" @Html.GenerateHtmlAttributes(htmlAttributes)> @text @RenderBadge(menuItem.Badge)</a>          
+                <a href="@Url.Action(menuItem.Action,menuItem.Controller,menuItem.RouteValues)" @Html.GenerateHtmlAttributes(htmlAttributes)> @text @RenderBadge(menuItem.Badge)</a>
             }
             else
             {

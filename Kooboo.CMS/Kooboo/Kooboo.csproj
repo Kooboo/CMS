@@ -202,6 +202,7 @@
     <Compile Include="Web\Css\ColonCommentCollection.cs" />
     <Compile Include="Web\Css\Comment.cs" />
     <Compile Include="Web\Css\Node.cs" />
+    <Compile Include="Web\Mvc\Badge.cs" />
     <Compile Include="Web\Mvc\Constraints\DoNotMatchConstraint.cs" />
     <Compile Include="Web\Mvc\Grid2\Design\GridColumnAttribute.cs" />
     <Compile Include="Web\Mvc\Grid2\Design\GridAttribute.cs" />

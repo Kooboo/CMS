@@ -1,4 +1,11 @@
 ﻿@model Kooboo.Web.Mvc.Menu.MenuItem
+@helper RenderBadge(Badge badge)
+{
+    if (badge != null)
+    {
+        <span @Html.GenerateHtmlAttributes(badge.HtmlAttributes ?? new Dictionary<string, object>())>@badge.Text</span>
+    }
+}
 @if (Model.Visible)
 {
     var menuItem = Model as Kooboo.Web.Mvc.Menu.MenuItem;
@@ -20,40 +27,41 @@
         }
         var iconClass = (menuItem.ReadOnlyProperties != null && !string.IsNullOrEmpty(menuItem.ReadOnlyProperties["iconClass"])) ? menuItem.ReadOnlyProperties["iconClass"] : "";
         var subMenuCount = menuItem.Items == null ? 0 : menuItem.Items.Where(it => it.Visible == true).Count();
-        
-    <li class="@Html.Raw(menuItem.Name) @(menuItem.IsActive ? " active " : " ") @((menuItem.IsCurrent) ? "current" : "")  @Html.Raw(folderClass)">
-        @* @if (!string.IsNullOrEmpty(iconClass))
-        {
-            @Html.IconImage(iconClass);
-        }*@
-        @if (subMenuCount > 0)
-        {
-            <span class="arrow">@Html.IconImage("arrow")</span>
-        }
-        @if (!string.IsNullOrEmpty(menuItem.Action) || !string.IsNullOrEmpty(menuItem.Controller))
-        {            
-            var text = menuItem.Localizable ? menuItem.Text.Localize() : menuItem.Text;
 
-            var tips = string.IsNullOrEmpty(menuItem.Tips) ? text : menuItem.Localizable ? menuItem.Tips.Localize() : menuItem.Tips;
-            
-            var htmlAttributes = menuItem.HtmlAttributes ?? new RouteValueDictionary();
-            htmlAttributes["title"] = tips;
-            @Html.ActionLink(text, menuItem.Action, menuItem.Controller, menuItem.RouteValues, htmlAttributes)
-        }
-        else
-        {
-            <a class="action" title="@menuItem.Text.Localize()">
-                @menuItem.Text.Localize()</a>
-        }
-        @if (Model.Items.Count() > 0)
-        {
-            <ul>
-                @foreach (var item in Model.Items)
+        <li class="@Html.Raw(menuItem.Name) @(menuItem.IsActive ? " active " : " ") @((menuItem.IsCurrent) ? "current" : "")  @Html.Raw(folderClass)">
+            @* @if (!string.IsNullOrEmpty(iconClass))
                 {
-                    @Html.Partial("MenuItem", item)
-                }
-            </ul>
-        }
-    </li>
+                    @Html.IconImage(iconClass);
+                }*@
+            @if (subMenuCount > 0)
+            {
+                <span class="arrow">@Html.IconImage("arrow")</span>
+            }
+            @if (!string.IsNullOrEmpty(menuItem.Action) || !string.IsNullOrEmpty(menuItem.Controller))
+            {
+                var text = menuItem.Localizable ? menuItem.Text.Localize() : menuItem.Text;
+
+                var tips = string.IsNullOrEmpty(menuItem.Tips) ? text : menuItem.Localizable ? menuItem.Tips.Localize() : menuItem.Tips;
+
+                var htmlAttributes = menuItem.HtmlAttributes ?? new RouteValueDictionary();
+                htmlAttributes["title"] = tips;
+                <a href="@Url.Action(menuItem.Action,menuItem.Controller,menuItem.RouteValues)" @Html.GenerateHtmlAttributes(htmlAttributes)> @text @RenderBadge(menuItem.Badge)</a>          
+            }
+            else
+            {
+                <a class="action" title="@menuItem.Text.Localize()">
+                    @menuItem.Text.Localize() @RenderBadge(menuItem.Badge)
+                </a>
+            }
+            @if (Model.Items.Count() > 0)
+            {
+                <ul>
+                    @foreach (var item in Model.Items)
+                    {
+                        @Html.Partial("MenuItem", item)
+                    }
+                </ul>
+            }
+        </li>
     }
 }

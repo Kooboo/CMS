@@ -30,11 +30,14 @@ namespace Kooboo.Web.Mvc.Menu
         public string Controller { get; set; }
         public bool Visible { get; set; }
         public string Area { get; set; }
-
+        /// <summary>
+        /// 文本上面的一些小标记
+        /// </summary>
+        public Badge Badge { get; set; }
 
         private bool localizable = true;
         public virtual bool Localizable { get { return localizable; } set { localizable = value; } }
-        
+
         public string Tips { get; set; }
 
         public RouteValueDictionary RouteValues { get; set; }

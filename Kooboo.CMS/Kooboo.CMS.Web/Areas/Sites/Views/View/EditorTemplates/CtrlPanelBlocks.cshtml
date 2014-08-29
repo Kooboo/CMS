@@ -204,7 +204,7 @@
                 <label>Redirect to:</label>
             </div>
             <div class="span8">
-                <select id="select-redirect-to" data-bind="foreach:{data:linkTo.pages,as:'page'},value:linkTo.chosenPage,event:{change:form.redirectToChange}">
+                <select id="select-redirect-to" data-bind="foreach:{data:linkTo.pages,as:'page'},event:{change:form.redirectToChange}">
                     <option data-bind="value:page.name,text:page.name"></option>
                 </select>
             </div>

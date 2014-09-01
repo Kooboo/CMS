@@ -94,6 +94,7 @@
     <Compile Include="Controllers\ActionFilters\FormSubmitionFilterAttribute.cs" />
     <Compile Include="Controllers\ActionFilters\MemberAuthorizeAttribute.cs" />
     <Compile Include="Controllers\ActionFilters\OutputCacheFilterAttribute.cs" />
+    <Compile Include="Controllers\DataSourceController.cs" />
     <Compile Include="Controllers\SubmissionController.cs" />
     <Compile Include="DataRule\HttpDataRule.cs" />
     <Compile Include="DataRule\Http\HttpDataRequest.cs" />

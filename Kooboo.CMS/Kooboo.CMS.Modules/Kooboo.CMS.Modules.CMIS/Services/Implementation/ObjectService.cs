@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.ServiceModel;
 
 namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
 {
@@ -33,11 +34,23 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
 
         public createDocumentResponse CreateDocument(createDocumentRequest request)
         {
-            var site = ModelHelper.GetSite(request.repositoryId);
-            var textFolder = ModelHelper.GetTextFolder(request.repositoryId, request.folderId);
-            var nameValueCollection = request.properties.ToNameValueCollection();
-            var inegrateId = _incomeDataManager.AddTextContent(site, textFolder, nameValueCollection, "", ContextHelper.GetVendor());
-            return new createDocumentResponse(inegrateId, null);
+            try
+            {
+                var site = ModelHelper.GetSite(request.repositoryId);
+                var textFolder = ModelHelper.GetTextFolder(request.repositoryId, request.folderId);
+                var nameValueCollection = request.properties.ToNameValueCollection();
+                var inegrateId = _incomeDataManager.AddTextContent(site, textFolder, nameValueCollection, "", ContextHelper.GetVendor());
+
+                return new createDocumentResponse(inegrateId, null);
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(string.Format(@"
+Exception message:{0}
+Stack trace:{1}", e.Message, e.StackTrace));
+            }
+
+
         }
         #endregion
 

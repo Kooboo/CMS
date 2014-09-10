@@ -239,7 +239,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #region NoSuchObjectMessage
         private static void NoSuchObjectMessage(ref RemotePublishingQueue queueItem)
         {
-            queueItem.Status = QueueStatus.Processed;
+            queueItem.Status = QueueStatus.Warning;
             queueItem.Message = string.Format("No such object:{0}".Localize(), queueItem.ObjectUUID);
         }
         #endregion
@@ -251,29 +251,26 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         }
         private void NoSuchEndpoint(ref RemotePublishingQueue queueItem, string endpoint)
         {
-            queueItem.Status = QueueStatus.Processed;
+            queueItem.Status = QueueStatus.Warning;
             queueItem.Message = string.Format("No such endpoint:{0}".Localize(), endpoint);
-        }
-        private void NoSuchMapping(ref RemotePublishingQueue queueItem, string mapping)
-        {
-            queueItem.Status = QueueStatus.Processed;
-            queueItem.Message = string.Format("No such text content :{0}".Localize(), mapping);
         }
 
         #region RemotePublish
         protected virtual void PublishTextContent(ref RemotePublishingQueue queueItem, PublishingAction action, out RemoteEndpointSetting remoteEndpoint)
         {
-
+            remoteEndpoint = null;
             var mapping = new RemoteTextFolderMapping(queueItem.TextFolderMapping).AsActual();
             if (mapping == null)
             {
                 NoSuchPublishingMapping(ref queueItem);
+                return;
             }
             remoteEndpoint = new RemoteEndpointSetting(mapping.RemoteEndpoint).AsActual();
 
             if (remoteEndpoint == null)
             {
                 NoSuchEndpoint(ref queueItem, mapping.RemoteEndpoint);
+                return;
             }
             var contentIntegrateId = new ContentIntegrateId(queueItem.ObjectUUID);
             var repository = new Repository(contentIntegrateId.Repository).AsActual();
@@ -288,7 +285,6 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                     if (content != null)
                     {
                         var cmisService = _cmisSession.OpenSession(remoteEndpoint.CmisService, remoteEndpoint.CmisUserName, remoteEndpoint.CmisPassword);
-
 
                         switch (action)
                         {

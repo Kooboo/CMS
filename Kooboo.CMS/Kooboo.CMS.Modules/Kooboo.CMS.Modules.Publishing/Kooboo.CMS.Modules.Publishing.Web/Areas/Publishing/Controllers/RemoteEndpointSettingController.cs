@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Common;
+using Kooboo.Web.Mvc;
 
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models;
@@ -65,7 +66,15 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         public ActionResult Edit(string uuid)
         {
             var model = _manager.Get(uuid);
-            return View(model);
+            if (model == null)
+            {
+                return RedirectToAction("Index", ControllerContext.RequestContext.AllRouteValues());
+            }
+            else
+            {
+                return View(model);
+            }
+
         }
 
         [HttpPost]

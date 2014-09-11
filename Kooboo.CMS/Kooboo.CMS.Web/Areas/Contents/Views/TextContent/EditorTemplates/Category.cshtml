@@ -89,13 +89,8 @@
                                     return false;
                                 }
                                 var contents = iframe.contents();
-                                _.each(categoryViewModel.data(), function (item, index) {
-                                    var $tr = contents.find('tr#' + item.UUID);
-                                    $tr.addClass('active');
-                                    $tr.find('input.select').attr('checked', 'checked');
-                                });
-                                contents.find('tr').click(function(){
-                                    var $tr = $(this);
+                                var trClickHandler= function($tr)
+                                {
                                     var text = $tr.find('td:eq(1)').text(),
                                         uuid = $tr.attr('id');
                                     if ($tr.hasClass('active')) {
@@ -104,7 +99,24 @@
                                     else {
                                         categoryViewModel.removeByUUID(uuid);
                                     }
-                                });
+                                };
+                                var $rootTrs = contents.find('tr');
+                                var bindTrHandlers=function($trs)
+                                {                                   
+                                    _.each(categoryViewModel.data(), function (item, index) {
+                                        var $tr = contents.find('tr#' + item.UUID);
+                                        $tr.addClass('active');
+                                        $tr.find('input.select').attr('checked', 'checked');
+                                    });
+                                    $trs.click(function(){
+                                        var $tr = $(this);
+                                        trClickHandler($tr);
+                                    });
+                                    $trs.bind('treeNodeLoaded', function (e, treeNode) {                                        
+                                        bindTrHandlers(treeNode);
+                                    });
+                                };
+                                bindTrHandlers($rootTrs);
                                 (function initButton() {
                                     var saveBtn = contents.find('.save'),
                                     cancelBtn = contents.find('.cancel');

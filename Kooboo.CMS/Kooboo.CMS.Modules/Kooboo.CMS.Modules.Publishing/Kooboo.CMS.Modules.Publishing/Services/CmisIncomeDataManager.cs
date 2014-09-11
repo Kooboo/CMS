@@ -47,12 +47,12 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             textContent.SchemaName = textFolder.SchemaName;
             textContent.FolderName = textFolder.FullName;
 
-            textContent = _textContentBinder.Bind(schema, textContent, values);
-
             if (!string.IsNullOrEmpty(values["UUID"]))
             {
                 textContent.UUID = values["UUID"];
             }
+            textContent = _textContentBinder.Bind(schema, textContent, values, true, false);
+
 
             IncomingQueue incomeQueue = new IncomingQueue()
             {

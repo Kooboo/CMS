@@ -2,6 +2,24 @@
 <ArrayOfLastAction xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Kooboo.CMS.Search.Models">
 	<LastAction>
 		<FolderName>Article</FolderName>
+		<ContentSummary>test media files11234</ContentSummary>
+		<Action>Delete</Action>
+		<UtcActionDate>2014-09-11T03:15:06.1438256Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>test media files112</ContentSummary>
+		<Action>Delete</Action>
+		<UtcActionDate>2014-09-11T02:14:54.5419289Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>test media files11</ContentSummary>
+		<Action>Delete</Action>
+		<UtcActionDate>2014-09-11T02:10:36.1233782Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
 		<ContentSummary>test media files</ContentSummary>
 		<Action>Delete</Action>
 		<UtcActionDate>2014-09-10T03:27:42.6779672Z</UtcActionDate>
@@ -11,23 +29,5 @@
 		<ContentSummary>test1</ContentSummary>
 		<Action>Add</Action>
 		<UtcActionDate>2014-02-10T07:16:19.4480817Z</UtcActionDate>
-	</LastAction>
-	<LastAction>
-		<FolderName>Article</FolderName>
-		<ContentSummary>file content </ContentSummary>
-		<Action>Update</Action>
-		<UtcActionDate>2013-12-13T06:17:31.4801689Z</UtcActionDate>
-	</LastAction>
-	<LastAction>
-		<FolderName>Article</FolderName>
-		<ContentSummary>file content </ContentSummary>
-		<Action>Update</Action>
-		<UtcActionDate>2013-11-27T08:06:09.5694205Z</UtcActionDate>
-	</LastAction>
-	<LastAction>
-		<FolderName>Article</FolderName>
-		<ContentSummary>file content </ContentSummary>
-		<Action>Add</Action>
-		<UtcActionDate>2013-11-26T09:55:24.5422822Z</UtcActionDate>
 	</LastAction>
 </ArrayOfLastAction>

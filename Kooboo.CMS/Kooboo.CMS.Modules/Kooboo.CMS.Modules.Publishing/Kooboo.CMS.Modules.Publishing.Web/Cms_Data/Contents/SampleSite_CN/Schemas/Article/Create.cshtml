@@ -162,7 +162,16 @@
     </td>
 
 </tr>
-
+<tr>
+            <th>
+            <label for="UserKey">UserKey</label>
+            </th>
+            <td>
+            <input class='long' id="UserKey" name="UserKey" type="text" value="@(Model.UserKey ?? "")"  data-val-required="The field is required unique" data-val="true"/>            
+            @Html.ValidationMessageForColumn(((ISchema)ViewData["Schema"])["UserKey"], null)
+            
+            </td>          
+            </tr>
             @if (allowedEdit) {
                 <tr>
             <th>

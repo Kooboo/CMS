@@ -21,7 +21,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.DataSources
         public IEnumerable<System.Web.Mvc.SelectListItem> GetSelectListItems(System.Web.Routing.RequestContext requestContext, string filter = null)
         {
             var provider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IRemoteEndpointSettingProvider>();
-            var settings = provider.CreateQuery(Kooboo.CMS.Sites.Models.Site.Current.Name).Where(it => it.Enabled);
+            var settings = provider.CreateQuery(Kooboo.CMS.Sites.Models.Site.Current.FullName).Where(it => it.Enabled);
             yield return new SelectListItem() { Text = string.Empty, Value = string.Empty };
             foreach (var set in settings)
             {

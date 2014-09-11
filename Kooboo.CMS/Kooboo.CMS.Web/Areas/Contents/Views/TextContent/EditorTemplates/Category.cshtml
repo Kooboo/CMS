@@ -102,7 +102,7 @@
                                 };
                                 var $rootTrs = contents.find('tr');
                                 var bindTrHandlers=function($trs)
-                                {                                   
+                                {
                                     _.each(categoryViewModel.data(), function (item, index) {
                                         var $tr = contents.find('tr#' + item.UUID);
                                         $tr.addClass('active');
@@ -113,7 +113,7 @@
                                         trClickHandler($tr);
                                     });
                                     $trs.bind('treeNodeLoaded', function (e, treeNode) {                                        
-                                        bindTrHandlers(treeNode);
+                                        bindTrHandlers($(treeNode));
                                     });
                                 };
                                 bindTrHandlers($rootTrs);

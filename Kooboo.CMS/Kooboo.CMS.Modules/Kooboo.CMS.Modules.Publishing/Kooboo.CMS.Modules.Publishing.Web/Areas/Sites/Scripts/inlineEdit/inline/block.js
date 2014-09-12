@@ -50,6 +50,7 @@
                 uuid: this.el.attr('uuid'),
                 schema: this.el.attr('schema'),
                 folder: this.el.attr('folder'),
+                title: this.el.attr('title'),
                 published: this.el.attr('published'),
                 publishAvailable: this.el.attr('publishAvailable'),
                 editUrl: this.el.attr('editUrl'),
@@ -62,7 +63,7 @@
             // bind menu bar
             var self = this;
             this.menu = new ctx.blockAnchor({
-                title: this.params.folder,
+                title: this.params.title,
                 alignTo: this.el,
                 renderTo: ctx.cacheCon,
                 onEdit: function () { self.doEdit(); },
@@ -115,7 +116,7 @@
                 dialogClass: 'iframe-dialog',
                 title: self.params.summary,
                 width: 800,
-                height: 500,                
+                height: 500,
                 popupOnTop: true,
                 onclose: function () {
                     self.disable(false);

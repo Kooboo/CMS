@@ -1,4 +1,4 @@
-﻿@model Element
+﻿@model Label
 @{
     var templateId = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
     var displayTemplateId = templateId + "_display";
@@ -10,7 +10,7 @@
 </div>
 
 <div id="@editorTemplateId" class="edit-template hide">
-    @using (Html.BeginForm(ViewContext.RequestContext.AllRouteValues().Merge("Category", Model.Category).Merge("Name", Model.Name).Merge("Action", "Edit").Merge("return", Request.RawUrl)))
+    @using (Html.BeginForm(ViewContext.RequestContext.AllRouteValues().Merge("UUID",Model.UUID).Merge("Category", Model.Category).Merge("Name", Model.Name).Merge("Action", "Edit").Merge("return", Request.RawUrl)))
     {
         <textarea name="Value" class="editor">@Model.Value</textarea>
         <a class="action" data-ajaxform="">@Html.IconImage("save small")</a>

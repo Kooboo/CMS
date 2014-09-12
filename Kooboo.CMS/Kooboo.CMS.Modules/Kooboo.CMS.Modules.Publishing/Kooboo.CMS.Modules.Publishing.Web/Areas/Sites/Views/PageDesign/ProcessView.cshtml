@@ -18,7 +18,7 @@
         <tr>
             <th></th>
             <td>
-                <input type="checkbox" id="skipError" name="SkipError" value="true"/>
+                <input type="checkbox" id="skipError" name="SkipError" value="true" />
                 <input type="hidden" name="SkipError" value="false" />
                 <label for="skipError" class="inline">@("On Error Resume Next".Localize())</label>
                 <em class="tip">@Html.Raw("When a run-time error occurs, the error will be skipped and continue executing the rest of page.".Localize())</em>
@@ -27,7 +27,8 @@
         <tr>
             <th>@("Cache Settings".Localize())</th>
             <td>
-                <input type="checkbox" id="enablecache" />
+                <input type="checkbox" id="enablecache" name="OutputCache.EnableCaching" value="true" />
+                <input type="hidden" name="OutputCache.EnableCaching" value="false" />
                 <label class="inline" for="enablecache">
                     @("Enable".Localize())
                 </label>

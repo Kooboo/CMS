@@ -15,25 +15,15 @@
     @using (Html.BeginForm(ViewContext.RequestContext.GetRequestValue("Action"), ViewContext.RequestContext.GetRequestValue("Controller"), ViewContext.RequestContext.AllRouteValues(), FormMethod.Post, new RouteValueDictionary() { { "class", "no-stop" } }))
     { 
         @Html.Hidden("SiteName", siteName)
-        if (!ServiceFactory.SiteManager.UseSharedDB(Model))
-        {  
+      
         <p class="clearfix">
-
             <input type="checkbox" id="DeleteRepository" value="True" name="DeleteRepository" /><label
                 class="inline" for="DeleteRepository">
                 <strong>
-                    @Html.Raw("The content database is not used by any other website any more. <br />Would you like to delete the associated content database.".Localize())
+                    @Html.Raw("Would you like to delete the associated content database </br> when it does not used by any other website any more?".Localize())
                 </strong>
             </label>
-
         </p>  
-        }
-        else
-        {
-        <strong>* @("The content database is being used by other websites, it will not be deleted.".Localize())
-        </strong>
-        }
-        <input type="hidden" value="False" name="DeleteRepository" />
     }
     <p class="buttons">
         <button class="white" data-ajaxform="" data-confirm='@("This site will be permanently deleted and cannot be recovered. Are you sure?".Localize())'>

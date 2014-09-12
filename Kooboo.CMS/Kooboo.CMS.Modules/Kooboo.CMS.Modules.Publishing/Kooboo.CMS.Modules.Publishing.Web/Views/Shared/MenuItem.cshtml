@@ -22,7 +22,7 @@
         var subMenuCount = menuItem.Items == null ? 0 : menuItem.Items.Where(it => it.Visible == true).Count();
         
     <li class="@Html.Raw(menuItem.Name) @(menuItem.IsActive ? " active " : " ") @((menuItem.IsCurrent) ? "current" : "")  @Html.Raw(folderClass)">
-       @* @if (!string.IsNullOrEmpty(iconClass))
+        @* @if (!string.IsNullOrEmpty(iconClass))
         {
             @Html.IconImage(iconClass);
         }*@
@@ -31,12 +31,18 @@
             <span class="arrow">@Html.IconImage("arrow")</span>
         }
         @if (!string.IsNullOrEmpty(menuItem.Action) || !string.IsNullOrEmpty(menuItem.Controller))
-        {
-            @Html.ActionLink(menuItem.Localizable ? menuItem.Text.Localize() : menuItem.Text, menuItem.Action, menuItem.Controller, menuItem.RouteValues, menuItem.HtmlAttributes)
+        {            
+            var text = menuItem.Localizable ? menuItem.Text.Localize() : menuItem.Text;
+
+            var tips = string.IsNullOrEmpty(menuItem.Tips) ? text : menuItem.Localizable ? menuItem.Tips.Localize() : menuItem.Tips;
+            
+            var htmlAttributes = menuItem.HtmlAttributes ?? new RouteValueDictionary();
+            htmlAttributes["title"] = tips;
+            @Html.ActionLink(text, menuItem.Action, menuItem.Controller, menuItem.RouteValues, htmlAttributes)
         }
         else
         {
-            <a class="action">
+            <a class="action" title="@menuItem.Text.Localize()">
                 @menuItem.Text.Localize()</a>
         }
         @if (Model.Items.Count() > 0)

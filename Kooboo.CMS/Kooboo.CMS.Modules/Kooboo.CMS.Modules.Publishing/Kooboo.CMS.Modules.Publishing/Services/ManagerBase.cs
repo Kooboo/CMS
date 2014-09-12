@@ -1,4 +1,5 @@
 ﻿using Kooboo.CMS.Modules.Publishing.Persistence;
+using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,15 +22,15 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #region CreateQuery
         public IQueryable<T> CreateQuery()
         {
-            return this._provider.CreateQuery();
+            return this._provider.All().AsQueryable();
         }
 
         #endregion
 
         #region CreateQuery
-        public IQueryable<T> CreateQuery(string siteName)
+        public IQueryable<T> CreateQuery(Site site)
         {
-            return this._provider.CreateQuery(siteName);
+            return this._provider.All(site).AsQueryable();
         }
         #endregion
 

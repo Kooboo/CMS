@@ -1,6 +1,7 @@
 ﻿using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Content.Persistence;
-using Kooboo.CMS.Modules.Publishing.Models.Paths;
+using Kooboo.CMS.Sites.Models;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,8 +11,16 @@ using System.Text;
 namespace Kooboo.CMS.Modules.Publishing.Persistence.Default
 {
     public abstract class FileSystemProviderBase<T>
-        where T : IPersistable, IIdentifiable
+        where T : ISiteObject, IPersistable, IIdentifiable
     {
+        #region .ctor
+        Kooboo.CMS.Sites.Persistence.ISiteProvider _siteProvider;
+        public FileSystemProviderBase(Kooboo.CMS.Sites.Persistence.ISiteProvider siteProvider)
+        {
+            _siteProvider = siteProvider;
+        }
+        #endregion
+
         #region KnownTypes
         protected virtual IEnumerable<Type> KnownTypes
         {
@@ -22,16 +31,27 @@ namespace Kooboo.CMS.Modules.Publishing.Persistence.Default
         }
         #endregion
 
+        #region Abstract methods
+        protected abstract string GetBasePath(Site site);
+
+        protected virtual string GetItemDataPath(T item)
+        {
+            var basePath = GetBasePath(item.Site);
+
+            return Path.Combine(basePath, item.UUID + ".config");
+        }
+        #endregion
+
         #region Get
         public virtual T Get(T dummy)
         {
-            var pathInstance = PathFactory.GetPath(dummy);
-            if (File.Exists(pathInstance.DataFile))
+            var dataFilePath = GetItemDataPath(dummy);
+            if (File.Exists(dataFilePath))
             {
                 GetLocker().EnterReadLock();
                 try
                 {
-                    var item = (T)Serialization.Deserialize(dummy.GetType(), KnownTypes, pathInstance.DataFile);
+                    var item = (T)Serialization.Deserialize(dummy.GetType(), KnownTypes, dataFilePath);
                     item.Init(dummy);
                     return item;
                 }
@@ -54,13 +74,13 @@ namespace Kooboo.CMS.Modules.Publishing.Persistence.Default
         #region Save
         protected virtual void Save(T item)
         {
-            var pathInstance = PathFactory.GetPath(item);
+            var dataFile = GetItemDataPath(item);
             item.OnSaving();
-            IO.IOUtility.EnsureDirectoryExists(Path.GetDirectoryName(pathInstance.PhysicalPath));
+            IO.IOUtility.EnsureDirectoryExists(Path.GetDirectoryName(dataFile));
             GetLocker().EnterWriteLock();
             try
             {
-                Serialization.Serialize<T>(item,pathInstance.DataFile);
+                Serialization.Serialize<T>(item, dataFile);
             }
             finally
             {
@@ -80,7 +100,7 @@ namespace Kooboo.CMS.Modules.Publishing.Persistence.Default
         #region Remove
         public virtual void Remove(T item)
         {
-            var pathInstance = PathFactory.GetPath(item);
+            var dataFile = GetItemDataPath(item);
             GetLocker().EnterWriteLock();
             try
             {
@@ -88,9 +108,9 @@ namespace Kooboo.CMS.Modules.Publishing.Persistence.Default
             DELETE:
                 try
                 {
-                    if (File.Exists(pathInstance.DataFile))
+                    if (File.Exists(dataFile))
                     {
-                        File.Delete(pathInstance.DataFile);
+                        File.Delete(dataFile);
                     }
                 }
                 catch (Exception e)
@@ -110,33 +130,34 @@ namespace Kooboo.CMS.Modules.Publishing.Persistence.Default
             }
         }
 
-        public virtual void Remove<T>(string uuid)
-        {
-            var pathInstance = PathFactory.GetPath<T>();
-            var file = Path.Combine(pathInstance.PhysicalPath, uuid + ".config");
-            if (File.Exists(file))
-            {
-                int i = 0;
-            DELETE:
-                try
-                {
-                    GetLocker().EnterWriteLock();
-                    File.Delete(file);
-                }
-                catch(Exception ex)
-                {
-                    if (i < 3)
-                    {
-                        i++;
-                        goto DELETE;
-                    }
-                    throw ex;
-                }
-                finally{
-                    GetLocker().ExitWriteLock();
-                }
-            }
-        }
+        //public virtual void Remove<T>(string uuid)
+        //{
+        //    var pathInstance = PathFactory.GetPath<T>();
+        //    var file = Path.Combine(pathInstance.PhysicalPath, uuid + ".config");
+        //    if (File.Exists(file))
+        //    {
+        //        int i = 0;
+        //    DELETE:
+        //        try
+        //        {
+        //            GetLocker().EnterWriteLock();
+        //            File.Delete(file);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            if (i < 3)
+        //            {
+        //                i++;
+        //                goto DELETE;
+        //            }
+        //            throw ex;
+        //        }
+        //        finally
+        //        {
+        //            GetLocker().ExitWriteLock();
+        //        }
+        //    }
+        //}
 
         #endregion
 
@@ -148,29 +169,40 @@ namespace Kooboo.CMS.Modules.Publishing.Persistence.Default
         public virtual IEnumerable<T> All()
         {
             var lst = new List<T>();
-            var pathInstance = PathFactory.GetPath<T>();
-            if (Directory.Exists(pathInstance.PhysicalPath))
+            foreach (var site in _siteProvider.AllSites())
             {
-                var files=Directory.GetFiles(pathInstance.PhysicalPath, "*.config", SearchOption.TopDirectoryOnly);
-                foreach (var file in files)
+                lst.AddRange(All(site));
+            }
+            return lst;
+        }
+
+        public virtual IEnumerable<T> All(Site site)
+        {
+            var lst = new List<T>();
+            var basePath = GetBasePath(site);
+            if (Directory.Exists(basePath))
+            {
+                GetLocker().EnterReadLock();
+                try
                 {
-                    if (File.Exists(file))
+                    var files = Directory.GetFiles(basePath, "*.config", SearchOption.TopDirectoryOnly);
+                    foreach (var file in files)
                     {
-                        GetLocker().EnterReadLock();
-                        try
+                        if (File.Exists(file))
                         {
                             var item = (T)Serialization.Deserialize(typeof(T), KnownTypes, file);
+                            item.Site = site;
+                            item.Init(item);
                             lst.Add(item);
-                        }
-                        finally
-                        {
-                            GetLocker().ExitReadLock();
                         }
                     }
                 }
+                finally
+                {
+                    GetLocker().ExitReadLock();
+                }
             }
             return lst;
-            //throw new NotSupportedException("The method does not supported in Kooboo.CMS.Modules.Publishing.");
         }
         #endregion
     }

@@ -48,19 +48,23 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #endregion
 
         #region Get
-        public virtual OutgoingQueue Get(string uuid)
+        public virtual OutgoingQueue Get(Site site, string uuid)
         {
-            return new OutgoingQueue(uuid).AsActual();
+            return new OutgoingQueue(site, uuid).AsActual();
         }
         #endregion
 
         #region Delete
-        public virtual void Delete(string[] uuids)
+        public virtual void Delete(Site site, string[] uuids)
         {
             foreach (string uuid in uuids)
             {
-                var model = new OutgoingQueue(uuid).AsActual();
-                this._outgoingQueueProvider.Remove(model);
+                var model = new OutgoingQueue(site, uuid).AsActual();
+                if (model != null)
+                {
+                    this._outgoingQueueProvider.Remove(model);
+                }
+
             }
         }
         #endregion
@@ -68,12 +72,10 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #region ProcessQueueItem
         private void AddLog(OutgoingQueue queueItem, Exception e)
         {
-            PublishingLog log = new PublishingLog()
+            PublishingLog log = new PublishingLog(queueItem.Site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(20))
             {
-                UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(20),
                 QueueType = QueueType.Outgoing,
                 QueueUUID = queueItem.UUID,
-                SiteName = queueItem.SiteName,
                 PublishingObject = queueItem.PublishingObject,
                 ObjectUUID = queueItem.ObjectUUID,
                 //PublishingType = PublishingType.Remote,
@@ -97,7 +99,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             queueItem.RetryTimes = queueItem.RetryTimes + 1;
             queueItem.UtcLastExecutedTime = DateTime.UtcNow;
 
-            var remoteEndpoint = new RemoteEndpointSetting() { SiteName = queueItem.SiteName, Name = queueItem.RemoteEndpoint }.AsActual();
+            var remoteEndpoint = new RemoteEndpointSetting(queueItem.Site, queueItem.RemoteEndpoint).AsActual();
             if (remoteEndpoint != null)
             {
                 try

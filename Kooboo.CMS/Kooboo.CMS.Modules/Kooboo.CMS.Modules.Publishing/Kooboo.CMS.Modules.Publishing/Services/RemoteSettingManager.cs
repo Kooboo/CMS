@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Kooboo.CMS.Sites.Models;
 
 namespace Kooboo.CMS.Modules.Publishing.Services
 {
@@ -23,18 +24,18 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #endregion
 
         #region Get
-        public virtual RemoteEndpointSetting Get(string uuid)
+        public virtual RemoteEndpointSetting Get(Site site, string uuid)
         {
-            return new RemoteEndpointSetting(uuid).AsActual();
+            return new RemoteEndpointSetting(site, uuid).AsActual();
         }
         #endregion
 
         #region Delete
-        public virtual void Delete(string[] uuids)
+        public virtual void Delete(Site site, string[] uuids)
         {
             foreach (string uuid in uuids)
             {
-                var model = new RemoteEndpointSetting(uuid).AsActual();
+                var model = new RemoteEndpointSetting(site, uuid).AsActual();
                 if (model != null)
                 {
                     if (Relations(model).Count() > 0)
@@ -48,7 +49,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
         public virtual IEnumerable<RelationModel> Relations(RemoteEndpointSetting remoteEndpointSetting)
         {
-            var allTextFolderMappings = _textFolderMappingProvider.CreateQuery(remoteEndpointSetting.SiteName);
+            var allTextFolderMappings = _textFolderMappingProvider.All(remoteEndpointSetting.Site);
 
             return allTextFolderMappings.Select(it => it.AsActual()).Where(it => it.RemoteEndpoint.EqualsOrNullEmpty(remoteEndpointSetting.UUID, StringComparison.OrdinalIgnoreCase))
                    .Select(it => new RelationModel()

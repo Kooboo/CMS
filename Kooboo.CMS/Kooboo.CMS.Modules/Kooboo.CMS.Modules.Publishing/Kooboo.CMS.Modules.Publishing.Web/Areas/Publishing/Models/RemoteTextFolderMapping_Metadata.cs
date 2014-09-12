@@ -2,6 +2,7 @@
 using Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.DataSources;
 using Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2;
 using Kooboo.CMS.Web.Grid2;
+using Kooboo.CMS.Web.Models;
 using Kooboo.ComponentModel;
 using Kooboo.Web.Mvc;
 using Kooboo.Web.Mvc.Grid2.Design;
@@ -20,6 +21,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
     {
         [GridColumn(Order = 1, HeaderText = "Name",GridColumnType=typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn))]
         [Required(ErrorMessage = "Required")]
+        [RemoteEx("IsNameAvailable", "RemoteTextFolderMapping", AdditionalFields = "SiteName,old_Key")]
         public string Name { get; set; }
 
         [GridColumn(Order = 2, HeaderText = "Local folder", GridColumnType = typeof(SortableGridColumn),GridItemColumnType=typeof(TooltipGridItemColumn))]

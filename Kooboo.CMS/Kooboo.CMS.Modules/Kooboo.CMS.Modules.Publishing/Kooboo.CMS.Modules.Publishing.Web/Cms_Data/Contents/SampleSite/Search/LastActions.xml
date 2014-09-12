@@ -2,32 +2,32 @@
 <ArrayOfLastAction xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Kooboo.CMS.Search.Models">
 	<LastAction>
 		<FolderName>Article</FolderName>
+		<ContentSummary>test media files5555</ContentSummary>
+		<Action>Delete</Action>
+		<UtcActionDate>2014-09-12T07:03:02.5535731Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
 		<ContentSummary>test media files11234</ContentSummary>
 		<Action>Delete</Action>
-		<UtcActionDate>2014-09-11T03:15:06.1438256Z</UtcActionDate>
+		<UtcActionDate>2014-09-12T06:20:03.5820542Z</UtcActionDate>
 	</LastAction>
 	<LastAction>
 		<FolderName>Article</FolderName>
-		<ContentSummary>test media files112</ContentSummary>
-		<Action>Delete</Action>
-		<UtcActionDate>2014-09-11T02:14:54.5419289Z</UtcActionDate>
+		<ContentSummary>test media files11234</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2014-09-12T06:16:02.6105872Z</UtcActionDate>
 	</LastAction>
 	<LastAction>
 		<FolderName>Article</FolderName>
-		<ContentSummary>test media files11</ContentSummary>
+		<ContentSummary>test media files11234</ContentSummary>
 		<Action>Delete</Action>
-		<UtcActionDate>2014-09-11T02:10:36.1233782Z</UtcActionDate>
+		<UtcActionDate>2014-09-12T06:05:36.3525652Z</UtcActionDate>
 	</LastAction>
 	<LastAction>
 		<FolderName>Article</FolderName>
-		<ContentSummary>test media files</ContentSummary>
-		<Action>Delete</Action>
-		<UtcActionDate>2014-09-10T03:27:42.6779672Z</UtcActionDate>
-	</LastAction>
-	<LastAction>
-		<FolderName>PublishTest</FolderName>
-		<ContentSummary>test1</ContentSummary>
-		<Action>Add</Action>
-		<UtcActionDate>2014-02-10T07:16:19.4480817Z</UtcActionDate>
+		<ContentSummary>test media files11234</ContentSummary>
+		<Action>Update</Action>
+		<UtcActionDate>2014-09-12T05:57:06.5008945Z</UtcActionDate>
 	</LastAction>
 </ArrayOfLastAction>

@@ -57,7 +57,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
         [DataSource(typeof(RemotePublishingMappingDataSource))]
         public string[] PublishingMappings { get; set; }
 
-        [GridColumn(Order = 8, HeaderText = "Publishing draft", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
+       // [GridColumn(Order = 8, HeaderText = "Publishing draft", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
         [DisplayName("Publishing draft")]
         public bool PublishDraft { get; set; }
 

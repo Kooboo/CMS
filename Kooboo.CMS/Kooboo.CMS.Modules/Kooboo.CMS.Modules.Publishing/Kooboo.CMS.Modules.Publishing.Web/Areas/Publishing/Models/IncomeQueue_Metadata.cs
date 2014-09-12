@@ -17,14 +17,14 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
         [GridColumn(Order = 1, HeaderText = "Vendor", GridColumnType = typeof(SortableGridColumn))]
         public string Vendor { get; set; }
 
-        //[GridColumn(Order = 2, HeaderText = "Type", GridColumnType = typeof(SortableGridColumn))]
-        //public PublishingObject PublishingObject { get; set; }
+        [GridColumn(Order = 2, HeaderText = "Type", GridColumnType = typeof(SortableGridColumn))]
+        public PublishingObject PublishingObject { get; set; }
 
-        [GridColumn(Order = 3, HeaderText = "Title",GridColumnType=typeof(SortableGridColumn),GridItemColumnType=typeof(TooltipGridItemColumn))]
+        [GridColumn(Order = 3, HeaderText = "Title", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(TooltipGridItemColumn))]
         public string ObjectTitle { get; set; }
 
-        //[GridColumn(Order = 4, HeaderText = "Action", GridColumnType = typeof(SortableGridColumn))]
-        //public PublishingAction Action { get; set; }
+        [GridColumn(Order = 4, HeaderText = "Action", GridColumnType = typeof(SortableGridColumn))]
+        public PublishingAction Action { get; set; }
 
         [GridColumn(Order = 5, HeaderText = "Creation date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2.ShortDateTimeGridItemColumnType))]
         public DateTime UtcCreationDate { get; set; }

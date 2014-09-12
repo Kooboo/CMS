@@ -20,14 +20,14 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         public PublishingQueueController(PublishingQueueManager manager)
         {
             this._manager = manager;
-        } 
+        }
         #endregion
 
         #region Index
-        public ActionResult Index(string siteName, string search,int? publishingObject,int? publishingType,int? status,
-            string sortField,string sortDir)
+        public ActionResult Index(string search, int? publishingObject, int? publishingType, int? status,
+            string sortField, string sortDir)
         {
-            var query = this._manager.CreateQuery(siteName);
+            var query = this._manager.CreateQuery(Site);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(it => it.ObjectUUID.Contains(search, StringComparison.OrdinalIgnoreCase));
@@ -56,7 +56,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                 query = query.OrderByDescending(it => it.UtcCreationDate);
             }
             return View(query.ToList());
-        } 
+        }
         #endregion
 
         #region Create
@@ -88,15 +88,15 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                 });
             }
             return Json(resultEntry);
-        } 
+        }
         #endregion
 
         #region Detail
         public ActionResult Detail(string uuid)
         {
-            var model = this._manager.Get(uuid);
+            var model = this._manager.Get(Site,uuid);
             return View(model);
-        } 
+        }
         #endregion
 
         #region Delete
@@ -111,13 +111,13 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                     var uuids = model.Select(it => it.UUID).ToArray();
                     if (uuids.Any())
                     {
-                        _manager.Delete(uuids);
+                        _manager.Delete(Site,uuids);
                     }
                     data.ReloadPage = true;
                 });
             }
             return Json(resultEntry);
-        } 
+        }
         #endregion
     }
 }

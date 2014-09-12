@@ -54,7 +54,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             textContent = _textContentBinder.Bind(schema, textContent, values, true, false);
 
 
-            IncomingQueue incomeQueue = new IncomingQueue()
+            IncomingQueue incomeQueue = new IncomingQueue(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
             {
                 Message = null,
                 Object = new Dictionary<string, object>(textContent),
@@ -63,11 +63,9 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                 Vendor = vendor,
                 PublishingObject = PublishingObject.TextContent,
                 Action = PublishingAction.Publish,
-                SiteName = site.FullName,
                 Status = QueueStatus.Pending,
                 UtcCreationDate = DateTime.UtcNow,
-                UtcProcessedTime = null,
-                UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10)
+                UtcProcessedTime = null
             };
             _incomeQueueProvider.Add(incomeQueue);
 
@@ -81,7 +79,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
             textContent = _textContentBinder.Bind(schema, textContent, values);
 
-            IncomingQueue incomeQueue = new IncomingQueue()
+            IncomingQueue incomeQueue = new IncomingQueue(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
             {
                 Message = null,
                 Object = new Dictionary<string, object>(textContent),
@@ -90,11 +88,10 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                 Vendor = vendor,
                 PublishingObject = PublishingObject.TextContent,
                 Action = PublishingAction.Publish,
-                SiteName = site.FullName,
                 Status = QueueStatus.Pending,
                 UtcCreationDate = DateTime.UtcNow,
-                UtcProcessedTime = null,
-                UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10)
+                UtcProcessedTime = null
+
             };
             _incomeQueueProvider.Add(incomeQueue);
 
@@ -107,7 +104,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             var content = textFolder.CreateQuery().WhereEquals("UUID", integrateId.ContentUUID).FirstOrDefault();
             if (content != null)
             {
-                IncomingQueue incomeQueue = new IncomingQueue()
+                IncomingQueue incomeQueue = new IncomingQueue(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
                 {
                     Message = null,
                     Object = null,
@@ -116,11 +113,9 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                     Vendor = vendor,
                     PublishingObject = PublishingObject.TextContent,
                     Action = PublishingAction.Unbpulish,
-                    SiteName = site.FullName,
                     Status = QueueStatus.Pending,
                     UtcCreationDate = DateTime.UtcNow,
-                    UtcProcessedTime = null,
-                    UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10)
+                    UtcProcessedTime = null
                 };
                 _incomeQueueProvider.Add(incomeQueue);
             }
@@ -131,7 +126,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #region Page
         public string AddPage(Site site, Page page, string vendor)
         {
-            IncomingQueue incomeQueue = new IncomingQueue()
+            IncomingQueue incomeQueue = new IncomingQueue(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
             {
                 Message = null,
                 Object = page,
@@ -140,11 +135,9 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                 Vendor = vendor,
                 PublishingObject = PublishingObject.Page,
                 Action = PublishingAction.Publish,
-                SiteName = site.FullName,
                 Status = QueueStatus.Pending,
                 UtcCreationDate = DateTime.UtcNow,
-                UtcProcessedTime = null,
-                UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10)
+                UtcProcessedTime = null
             };
             _incomeQueueProvider.Add(incomeQueue);
 
@@ -153,7 +146,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
         public string UpdatePage(Site site, Page page, string vendor)
         {
-            IncomingQueue incomeQueue = new IncomingQueue()
+            IncomingQueue incomeQueue = new IncomingQueue(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
             {
                 Message = null,
                 Object = page,
@@ -162,11 +155,9 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                 Vendor = vendor,
                 PublishingObject = PublishingObject.Page,
                 Action = PublishingAction.Publish,
-                SiteName = site.FullName,
                 Status = QueueStatus.Pending,
                 UtcCreationDate = DateTime.UtcNow,
-                UtcProcessedTime = null,
-                UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10)
+                UtcProcessedTime = null
             };
             _incomeQueueProvider.Add(incomeQueue);
 
@@ -175,7 +166,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
         public void DeletePage(Site site, string pageId, string vendor)
         {
-            IncomingQueue incomeQueue = new IncomingQueue()
+            IncomingQueue incomeQueue = new IncomingQueue(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
             {
                 Message = null,
                 Object = null,
@@ -184,11 +175,9 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                 Vendor = vendor,
                 PublishingObject = PublishingObject.Page,
                 Action = PublishingAction.Unbpulish,
-                SiteName = site.FullName,
                 Status = QueueStatus.Pending,
                 UtcCreationDate = DateTime.UtcNow,
-                UtcProcessedTime = null,
-                UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10)
+                UtcProcessedTime = null
             };
             _incomeQueueProvider.Add(incomeQueue);
         }

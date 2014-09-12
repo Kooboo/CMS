@@ -33,19 +33,22 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #endregion
 
         #region Get
-        public virtual LocalPublishingQueue Get(string uuid)
+        public virtual LocalPublishingQueue Get(Site site, string uuid)
         {
-            return new LocalPublishingQueue(uuid).AsActual();
+            return new LocalPublishingQueue(site, uuid).AsActual();
         }
         #endregion
 
         #region Delete
-        public virtual void Delete(string[] uuids)
+        public virtual void Delete(Site site, string[] uuids)
         {
             foreach (string uuid in uuids)
             {
-                var model = new LocalPublishingQueue(uuid).AsActual();
-                this._localPublishingQueueProvider.Remove(model);
+                var model = new LocalPublishingQueue(site, uuid).AsActual();
+                if (model != null)
+                {
+                    this._localPublishingQueueProvider.Remove(model);
+                }
             }
         }
         #endregion
@@ -125,12 +128,10 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
         protected virtual void AddLog(LocalPublishingQueue queueItem, QueueStatus logStatus, PublishingAction action, Exception e = null)
         {
-            PublishingLog log = new PublishingLog()
+            PublishingLog log = new PublishingLog(queueItem.Site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(20))
             {
-                UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(20),
                 QueueType = QueueType.Local,
                 QueueUUID = queueItem.UUID,
-                SiteName = queueItem.SiteName,
                 PublishingObject = queueItem.PublishingObject,
                 ObjectUUID = queueItem.ObjectUUID,
                 ObjectTitle = queueItem.ObjectTitle,
@@ -153,7 +154,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #region PublishPage
         protected virtual void PublishPage(ref LocalPublishingQueue queueItem, PublishingAction action)
         {
-            var site = new Site(queueItem.SiteName).AsActual();
+            var site = queueItem.Site;
             if (site != null)
             {
                 var page = new Page(site, queueItem.ObjectUUID).AsActual();
@@ -189,7 +190,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #region PublicTextContent
         private void PublicTextContent(ref LocalPublishingQueue queueItem, PublishingAction action)
         {
-            var site = new Site(queueItem.SiteName).AsActual();
+            var site = queueItem.Site;
             if (site != null)
             {
                 var contentIntegrateId = new ContentIntegrateId(queueItem.ObjectUUID);

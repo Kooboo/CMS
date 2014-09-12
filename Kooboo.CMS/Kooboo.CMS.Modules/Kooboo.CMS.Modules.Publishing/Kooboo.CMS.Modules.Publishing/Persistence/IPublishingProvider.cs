@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Kooboo.CMS.Modules.Publishing.Persistence
 {
     public interface IPublishingProvider<T> : Kooboo.CMS.Common.Persistence.Non_Relational.IProvider<T>
     {
-        IQueryable<T> CreateQuery();
-        IQueryable<T> CreateQuery(string siteName);
+        IEnumerable<T> All();
+        IEnumerable<T> All(Site site);
     }
 }

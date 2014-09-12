@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,9 @@ namespace Kooboo.CMS.Modules.Publishing.Models
 {
     public interface IPublishingQueueItem
     {
+        Site Site { get; set; }
 
-        string UUID { get; set; }
-
-        string SiteName { get; set; }
+        string UUID { get; set; }        
 
         PublishingObject PublishingObject { get; set; }
 

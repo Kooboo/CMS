@@ -19,6 +19,7 @@
     <h1 class="title">@ViewBag.Title</h1>
     @using (Html.BeginForm())
     { 
+        @Html.Hidden("SiteName", ViewContext.RequestContext.GetRequestValue("SiteName"))
         @Html.ValidationSummary(true)
         <table>
             <tbody>

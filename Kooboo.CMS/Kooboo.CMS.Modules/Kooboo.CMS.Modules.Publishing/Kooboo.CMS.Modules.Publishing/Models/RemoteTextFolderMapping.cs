@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common.Persistence.Relational;
+using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +18,10 @@ namespace Kooboo.CMS.Modules.Publishing.Models
 {
     #region Persistence
     [DataContract]
-    public partial class RemoteTextFolderMapping : ISiteObject
+    public partial class RemoteTextFolderMapping
     {
         [DataMember]
         public string Name { get; set; }
-
-        [DataMember]
-        public string SiteName { get; set; }
 
         [DataMember]
         public string LocalFolderId { get; set; }
@@ -40,15 +37,16 @@ namespace Kooboo.CMS.Modules.Publishing.Models
     }
     #endregion
 
-    public partial class RemoteTextFolderMapping : IPersistable, IIdentifiable
+    public partial class RemoteTextFolderMapping : IPersistable, IIdentifiable, ISiteObject
     {
         public RemoteTextFolderMapping()
         {
-            
+
         }
 
-        public RemoteTextFolderMapping(string uuid)
+        public RemoteTextFolderMapping(Site site, string uuid)
         {
+            this.Site = site;
             this.UUID = uuid;
         }
 
@@ -80,6 +78,7 @@ namespace Kooboo.CMS.Modules.Publishing.Models
         public void Init(IPersistable source)
         {
             this.IsDummy = false;
+            this.Site = ((ISiteObject)source).Site;
         }
 
         public void OnSaved()
@@ -91,5 +90,6 @@ namespace Kooboo.CMS.Modules.Publishing.Models
         {
 
         }
+        public Site Site { get; set; }
     }
 }

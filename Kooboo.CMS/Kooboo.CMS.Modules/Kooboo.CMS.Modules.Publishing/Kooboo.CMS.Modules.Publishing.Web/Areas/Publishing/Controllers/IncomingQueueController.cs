@@ -23,9 +23,9 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         #endregion
 
         #region Index
-        public ActionResult Index(string siteName, string search)
+        public ActionResult Index(string search)
         {
-            var query = this._manager.CreateQuery(siteName);
+            var query = this._manager.CreateQuery(Site);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(it => it.Vendor.Contains(search, StringComparison.OrdinalIgnoreCase));
@@ -42,7 +42,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             if (ModelState.IsValid)
             {
                 var uuids = model.Select(it => it.UUID).ToArray();
-                this._manager.Delete(uuids);
+                this._manager.Delete(Site, uuids);
                 resultEntry.ReloadPage = true;
             }
             return Json(resultEntry);

@@ -45,7 +45,7 @@
                 formatResult: function (state) {
                     var txt = state.text, published = $(state.element[0]).data("published");
                     if (txt) {
-                        return txt + '<span class="status ' + (published ? 'published' : 'unpublished') + '">' + (published ? 'Published' : 'UnPublished') + '</span>';
+                        return txt + ' - <span class="status ' + (published ? 'published' : 'unpublished') + '">' + (published ? 'Published' : 'Unpublished') + '</span>';
                     }
                 }
             });

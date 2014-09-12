@@ -26,16 +26,6 @@ namespace Kooboo.CMS.Module.Publishing.EmailLog
             _publishingLogProvider = publishingLogProvider;
         }
 
-        public IQueryable<Modules.Publishing.Models.PublishingLog> CreateQuery()
-        {
-            return _publishingLogProvider.CreateQuery();
-        }
-
-        public IQueryable<Modules.Publishing.Models.PublishingLog> CreateQuery(string siteName)
-        {
-            return _publishingLogProvider.CreateQuery(siteName);
-        }
-
         public void Add(Modules.Publishing.Models.PublishingLog item)
         {
             _publishingLogProvider.Add(item);
@@ -52,9 +42,9 @@ namespace Kooboo.CMS.Module.Publishing.EmailLog
 
         private void SendLog(PublishingLog item)
         {
-            if (!string.IsNullOrEmpty(item.SiteName))
+            if (item.Site != null)
             {
-                var site = new Site(item.SiteName).AsActual();
+                var site = item.Site;
                 //have set smtp
                 if (site != null && site.Smtp != null && !string.IsNullOrEmpty(site.Smtp.Host) && !string.IsNullOrEmpty(site.Smtp.From)
                     && site.Smtp.To != null && site.Smtp.To.Length > 0)
@@ -111,6 +101,12 @@ Stack trace : {11}
         public void Update(Modules.Publishing.Models.PublishingLog @new, Modules.Publishing.Models.PublishingLog old)
         {
             _publishingLogProvider.Update(@new, old);
+        }
+
+
+        public IEnumerable<PublishingLog> All(Site site)
+        {
+            return _publishingLogProvider.All(site);
         }
     }
 }

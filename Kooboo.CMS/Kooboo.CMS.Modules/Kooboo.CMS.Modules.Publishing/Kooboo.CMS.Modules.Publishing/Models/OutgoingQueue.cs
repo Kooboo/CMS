@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common.Persistence.Relational;
+using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace Kooboo.CMS.Modules.Publishing.Models
 {
     #region Persistence
     [DataContract]
-    public partial class OutgoingQueue : IIdentifiable, ISiteObject
+    public partial class OutgoingQueue : IIdentifiable
     {
         [DataMember]
         public string UUID { get; set; }
@@ -49,15 +49,16 @@ namespace Kooboo.CMS.Modules.Publishing.Models
     }
     #endregion
 
-    public partial class OutgoingQueue : IPersistable
+    public partial class OutgoingQueue : IPersistable, ISiteObject
     {
         public OutgoingQueue()
         {
             this.UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10);
         }
 
-        public OutgoingQueue(string uuid)
+        public OutgoingQueue(Site site, string uuid)
         {
+            this.Site = site;
             this.UUID = uuid;
         }
 
@@ -77,6 +78,7 @@ namespace Kooboo.CMS.Modules.Publishing.Models
         public void Init(IPersistable source)
         {
             this.IsDummy = false;
+            this.Site = ((ISiteObject)source).Site;
         }
 
         public void OnSaved()
@@ -87,6 +89,12 @@ namespace Kooboo.CMS.Modules.Publishing.Models
         public void OnSaving()
         {
 
+        }
+
+        public Site Site
+        {
+            get;
+            set;
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Modules.Publishing.Models;
 using Kooboo.CMS.Web.Grid2;
+using Kooboo.CMS.Web.Models;
 using Kooboo.ComponentModel;
 using Kooboo.Web.Mvc.Grid2.Design;
 using System;
@@ -11,12 +12,13 @@ using System.Web;
 
 namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
 {
-    [Grid(IdProperty="UUID",Checkable=true)]
+    [Grid(IdProperty = "UUID", Checkable = true)]
     [MetadataFor(typeof(RemoteEndpointSetting))]
     public class RemoteEndpointSetting_Metadata
     {
-        [GridColumn(Order = 1, HeaderText = "Name",GridColumnType=typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn))]
+        [GridColumn(Order = 1, HeaderText = "Name", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(EditGridActionItemColumn))]
         [Required(ErrorMessage = "Required")]
+        [RemoteEx("IsNameAvailable", "RemoteEndpointSetting", AdditionalFields = "SiteName,old_Key")]
         public string Name { get; set; }
 
         [GridColumn(Order = 2, HeaderText = "Cmis service", GridColumnType = typeof(SortableGridColumn))]
@@ -29,7 +31,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
         [DisplayName("Cmis user name")]
         [Required(ErrorMessage = "Required")]
         public string CmisUserName { get; set; }
-                
+
         [DisplayName("Cmis password")]
         [UIHint("Password")]
         [Required(ErrorMessage = "Required")]

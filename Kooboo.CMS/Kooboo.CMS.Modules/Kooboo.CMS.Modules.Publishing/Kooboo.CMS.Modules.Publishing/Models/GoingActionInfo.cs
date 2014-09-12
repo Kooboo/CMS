@@ -13,6 +13,10 @@ using System.Text;
 
 namespace Kooboo.CMS.Modules.Publishing.Models
 {
+    /// <summary>
+    /// 判断一个队列对象是否还有需要处理的动作。
+    /// 因为有Publish和Unpublish动作，所以需要判断昨晚一个动作以后，是否还有后续的动作需要去做。
+    /// </summary>
     public class GoingActionInfo
     {
         IPublishingQueueItem _queueItem;

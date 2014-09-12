@@ -15,10 +15,10 @@ using Kooboo.CMS.Modules.Publishing.Models;
 namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
 {
     [MetadataFor(typeof(LocalPublishingQueue))]
-    [Grid(IdProperty="UUID",Checkable=true)]
+    [Grid(IdProperty = "UUID", Checkable = true)]
     public class LocalPublishingQueue_Metadata
     {
-        [GridColumn(Order = 1, HeaderText = "Type",GridColumnType=typeof(SortableGridColumn), GridItemColumnType = typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2.DetailGridItemColumn))]
+        [GridColumn(Order = 1, HeaderText = "Type", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2.DetailGridItemColumn))]
         [DisplayName("Type")]
         [UIHint("DropDownList")]
         [DataSource(typeof(PublishingObjectDataSource))]
@@ -32,21 +32,29 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
         [DisplayName("Title")]
         public string ObjectTitle { get; set; }
 
-        [GridColumn(Order = 3, HeaderText = "Publish", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2.ShortDateTimeGridItemColumnType))]
+        [GridColumn(Order = 3, HeaderText = "Time to publish", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         [UIHint("DateTime")]
-        [DisplayName("Publishing time")]
+        [DisplayName("Time to publish")]
         public DateTime? UtcTimeToPublish { get; set; }
 
-        [GridColumn(Order = 4, HeaderText = "Unpublish", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2.ShortDateTimeGridItemColumnType))]
+        [GridColumn(Order = 4, HeaderText = "Time to unpublish", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         [UIHint("DateTime")]
-        [DisplayName("Unpublishing time")]
+        [DisplayName("Time to unpublish")]
         public DateTime? UtcTimeToUnpublish { get; set; }
 
-        [GridColumn(Order = 5, HeaderText = "Draft version", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
-        [DisplayName("Publishing draft")]
+        [GridColumn(Order = 5, HeaderText = "Published time", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
+        [DisplayName("Published time")]
+        public DateTime? UtcProcessedPublishTime { get; set; }
+
+        [GridColumn(Order = 6, HeaderText = "Unpublished time", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
+        [DisplayName("Unpublished time")]
+        public DateTime? UtcProcessedUnpublishTime { get; set; }
+
+        //[GridColumn(Order = 5, HeaderText = "Draft version", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
+        [DisplayName("Draft version")]
         public bool PublishDraft { get; set; }
 
-        [GridColumn(Order = 6, HeaderText = "Creation date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2.ShortDateTimeGridItemColumnType))]
+        [GridColumn(Order = 7, HeaderText = "Creation date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2.ShortDateTimeGridItemColumnType))]
         [DisplayName("Creation date")]
         public DateTime UtcCreationDate { get; set; }
 

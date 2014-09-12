@@ -258,7 +258,6 @@
   <ItemGroup>
     <Folder Include="Areas\Publishing\Scripts\" />
     <Folder Include="Areas\Publishing\Views\RemoteEndpointSetting\EditorTemplates\" />
-    <Folder Include="Areas\Publishing\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\CookComputing.XmlRpcV2.dll" />
@@ -307,6 +306,7 @@
     <Content Include="Areas\Publishing\Views\LocalPublishingQueue\EditorTemplates\Page_DropDownList.cshtml" />
     <Content Include="Areas\Publishing\Views\RemotePublishingQueue\EditorTemplates\Page_DropDownList.cshtml" />
     <Content Include="Areas\Publishing\PackModule.bat" />
+    <Content Include="Areas\Publishing\Views\Shared\DisplayTemplates\DateTime.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

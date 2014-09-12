@@ -1,0 +1,43 @@
+﻿@model Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarGroupButtons
+@if (Model.Group == null)
+{
+    foreach (var item in Model.Buttons)
+    {
+    @Html.Partial("_ToolbarButton", item);
+    }
+}
+else
+{
+
+    IHtmlString htmlAttributes = new HtmlString("class='j_DropDown'");
+    if (Model.Group.HtmlAttributes != null)
+    {
+        var dic = new Dictionary<string, object>(Model.Group.HtmlAttributes, StringComparer.OrdinalIgnoreCase);
+        if (dic.ContainsKey("class"))
+        {
+            dic["class"] = "j_DropDown " + dic["class"] ?? "";
+        }
+        else
+        {
+            dic["class"] = "j_DropDown";
+        }
+        htmlAttributes = Html.GenerateHtmlAttributes(dic);
+    }
+
+    <li @htmlAttributes>
+        <a>
+            @if (!string.IsNullOrEmpty(Model.Group.IconClass))
+            {
+                @Html.IconImage(Model.Group.IconClass)
+            }
+            @(Model.Group.DisplayText.Localize())
+            @Html.IconImage("arrow small white-down")
+        </a>
+        <ul class="j_DropDownContent hide">
+            @foreach (var item in Model.Buttons)
+            {
+                @Html.Partial("_ToolbarButton", item);
+            }
+        </ul>
+    </li>
+}

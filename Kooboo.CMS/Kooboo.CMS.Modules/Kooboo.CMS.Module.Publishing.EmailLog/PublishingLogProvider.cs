@@ -44,7 +44,7 @@ namespace Kooboo.CMS.Module.Publishing.EmailLog
         {
             if (item.Site != null)
             {
-                var site = item.Site;
+                var site = item.Site.AsActual();
                 //have set smtp
                 if (site != null && site.Smtp != null && !string.IsNullOrEmpty(site.Smtp.Host) && !string.IsNullOrEmpty(site.Smtp.From)
                     && site.Smtp.To != null && site.Smtp.To.Length > 0)

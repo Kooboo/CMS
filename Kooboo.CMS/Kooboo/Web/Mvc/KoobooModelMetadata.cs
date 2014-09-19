@@ -23,8 +23,8 @@ namespace Kooboo.Web.Mvc
         public KoobooModelMetadata(DataAnnotationsModelMetadataProvider provider, Type containerType, Func<object> modelAccessor, Type modelType, string propertyName, DisplayColumnAttribute displayColumnAttribute, IEnumerable<Attribute> attributes)
             : base(provider, containerType, modelAccessor, modelType, propertyName, displayColumnAttribute)
         {
-            var descAttr = attributes.OfType<DescriptionAttribute>().SingleOrDefault();
-            _description = descAttr != null ? descAttr.Description : "";
+            //var descAttr = attributes.OfType<DescriptionAttribute>().SingleOrDefault();
+            //_description = descAttr != null ? descAttr.Description : "";
 
             DataSourceAttribute = attributes.OfType<DataSourceAttribute>().SingleOrDefault();
 
@@ -45,18 +45,18 @@ namespace Kooboo.Web.Mvc
 
         public virtual object DefaultValue { get; set; }
 
-        // here's the really important part
-        public override string Description
-        {
-            get
-            {
-                return _description;
-            }
-            set
-            {
-                _description = value;
-            }
-        }
+        //// here's the really important part
+        //public override string Description
+        //{
+        //    get
+        //    {
+        //        return _description;
+        //    }
+        //    set
+        //    {
+        //        _description = value;
+        //    }
+        //}
 
         public DataSourceAttribute DataSourceAttribute { get; private set; }
 

@@ -33,6 +33,10 @@ namespace Kooboo.Web.Mvc
                 ConvertEmptyStringToNull = false,
                 EditFormatString = baseModelMetadata.EditFormatString,
                 ShowForDisplay = baseModelMetadata.ShowForDisplay,
+                Description = baseModelMetadata.Description,
+                ShortDisplayName = baseModelMetadata.ShortDisplayName,
+                Watermark = baseModelMetadata.Watermark,
+                Order = baseModelMetadata.Order,
                 ShowForEdit = baseModelMetadata.ShowForEdit,
                 DisplayName = baseModelMetadata.DisplayName,
                 IsRequired = baseModelMetadata.IsRequired

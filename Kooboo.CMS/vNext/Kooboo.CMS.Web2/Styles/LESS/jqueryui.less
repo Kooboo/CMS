@@ -12,14 +12,15 @@
 /* Tabs
 ----------------------------------------------------------*/
 .ui-tabs {
+	background: none;
 	border: none;
 	padding: 0;
+	position: static;
 
 	.ui-tabs-nav {
 		background: none;
 		border: none;
 		border-bottom: 1px solid #CCC;
-		margin-bottom: 10px;
 		padding: 0 10px;
 
 		li {
@@ -27,51 +28,6 @@
 			border: none;
 			margin: 0 8px 0 0;
 			position: relative;
-
-			a {
-				border: 1px solid transparent;
-				border-bottom: none;
-				color: #000;
-				display: block;
-				font-size: 13px;
-				font-weight: 600;
-				line-height: 36px;
-				min-width: 100px;
-				padding: 0 12px;
-				position: relative;
-				text-align: center;
-				.rounded(3px 3px 0 0);
-
-				.action {
-					.opacity(30);
-
-					&:hover {
-						.opacity(100);
-					}
-
-					&.remove {
-						cursor: default;
-						line-height: 0;
-						position: absolute;
-						right: 3px;
-						top: 4px;
-						.opacity(0);
-					}
-				}
-
-				&:hover {
-					background: #EEE;
-					border-color: #EEE;
-
-					.action.remove {
-						.opacity(30);
-
-						&:hover {
-							.opacity(100);
-						}
-					}
-				}
-			}
 
 			&.ui-tabs-active {
 				margin-bottom: 0;
@@ -116,8 +72,54 @@
 		}
 	}
 
+	.ui-tabs-anchor {
+		border: 1px solid transparent;
+		border-bottom: none;
+		color: #000;
+		display: block;
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 36px;
+		min-width: 100px;
+		padding: 0 12px;
+		position: relative;
+		text-align: center;
+		.rounded(3px 3px 0 0);
+
+		.action {
+			.opacity(30);
+
+			&:hover {
+				.opacity(100);
+			}
+
+			&.remove {
+				cursor: default;
+				line-height: 0;
+				position: absolute;
+				right: 3px;
+				top: 4px;
+				.opacity(0);
+			}
+		}
+
+		&:hover {
+			background: #EEE;
+			border-color: #EEE;
+
+			.action.remove {
+				.opacity(30);
+
+				&:hover {
+					.opacity(100);
+				}
+			}
+		}
+	}
+
 	.ui-tabs-panel {
-		padding: 0;
+		background: #FFF;
+		padding: 10px 0;
 	}
 
 	&.tabs-bottom {
@@ -144,6 +146,16 @@
 			margin-bottom: 10px;
 		}
 	}
+
+	&.tabs-small {
+
+		.ui-tabs-anchor {
+			font-size: 12px;
+			line-height: 28px;
+			min-width: 45px;
+			padding: 0 6px;
+		}
+	}
 }
 
 /* Dialog
@@ -159,7 +171,7 @@
 	z-index: 10000;
 }
 
-.ui-dialog {
+.kb-dialog {
 	background: #F6F6F6;
 	border: none;
 	left: 0 !important;
@@ -193,7 +205,7 @@
 	}
 }
 
-.iframe-dialog {
+.kb-iframe-dialog {
 	.ui-dialog-content {
 		overflow: hidden;
 
@@ -212,6 +224,51 @@
 			right: 0;
 			top: 0;
 		}
+	}
+}
+
+/* Inline dialog
+----------------------------------------------------------*/
+.kb-inline-dialog {
+	border: none;
+	padding: 0;
+	z-index: 9999;
+	.rounded(5px);
+	.box-shadow(0 0 15px rgba(0,0,0,.5));
+
+	.ui-dialog-titlebar {
+		background: none;
+		border: none;
+		border-bottom: 1px solid #CCC;
+		padding: 0 10px;
+		line-height: 30px;
+		.rounded(0);
+	}
+
+	.ui-dialog-title {
+		margin: 0;
+	}
+
+	.ui-dialog-titlebar-close {
+		background: none;
+		border: none;
+		border-left: 1px solid #CCC;
+		height: 30px;
+		margin: 0;
+		min-width: 0;
+		padding: 0;
+		right: 0;
+		top: 0;
+		width: 30px;
+		.rounded(0);
+	}
+
+	.ui-dialog-content {
+		padding: 10px;
+	}
+
+	.common-form th {
+		width: 100px;
 	}
 }
 
@@ -303,6 +360,7 @@
 /* Tooltip
 ----------------------------------------------------------*/
 body .ui-tooltip {
+	background: #FFF;
 	border: 1px solid #CCC;
 	max-width: none;
 	.box-shadow(0 2px 5px rgba(0, 0, 0, .2));
@@ -364,6 +422,40 @@ span.jquery-ui-spinner-rewrite .ui-spinner-down {
 	bottom: 1px;
 }
 
-.ui-tooltip {
-	background: #fff;
+/* Spinner
+----------------------------------------------------------*/
+.ui-spinner {
+	border-color: #CCC;
+
+	.ui-spinner-input {
+		border: none;
+		height: 26px;
+		margin: 0 17px 0 0 !important;
+		padding: 3px 6px;
+	}
+
+	.ui-spinner-button {
+		border-color: #CCC;
+		.rounded(0);
+	}
+}
+
+/* Accordion
+----------------------------------------------------------*/
+.ui-accordion {
+	border: 1px solid #DDD;
+
+	.ui-accordion-header {
+		background: #F2F2F2;
+		border: none;
+		border-bottom: 1px solid #FFF;
+		margin: 0;
+		padding: 8px 10px 8px 30px;
+	}
+
+	.ui-accordion-content {
+		background: #FFF;
+		border: none;
+		padding: 10px 5px;
+	}
 }

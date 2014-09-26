@@ -161,6 +161,10 @@
 				}
 			}
 
+			.kb-code-editor {
+				margin-top: 10px;
+			}
+
 			.buttons {
 				border-top: 1px solid #DDD;
 				margin-top: 10px;
@@ -323,137 +327,319 @@
 				}
 			}
 		}
+	}
+}
+/* Visual editor
+----------------------------------------------------------*/
+.block-visual-editor {
 
-		.layout-box {
+	&.fullscreen {
+		background: #FFF;
+		bottom: 0;
+		left: 0;
+		position: fixed;
+		right: 0;
+		top: 0;
+		z-index: 9999;
+	}
+	/* Toolbar */
+	.toolbar {
+		background: none;
+		border: none;
+		left: 20px;
+		padding: 0;
+		position: absolute;
+		top: 20px;
+		z-index: 999;
+
+		li {
+			float: left;
+			margin-right: 5px;
+		}
+
+		a {
+			background: #FFF;
+			border: 1px solid #DDD;
+			display: block;
+			height: 24px;
+			line-height: 28px;
+			text-align: center;
+			width: 24px;
+			.rounded(3px);
+			.opacity(50);
+
+			&:hover {
+				.opacity(100);
+			}
+
+			&.disabled {
+				cursor: not-allowed;
+				.opacity(50);
+			}
+		}
+
+		.action-undo {
+			.sprite {
+				.sprite(@undo-blue);
+			}
+
+			&.disabled .sprite {
+				.sprite(@undo-gray);
+			}
+		}
+
+		.action-redo {
+			.sprite {
+				.sprite(@redo-blue);
+			}
+
+			&.disabled .sprite {
+				.sprite(@redo-gray);
+			}
+		}
+
+		.action-fullscreen {
+			.sprite {
+				.sprite(@zoom-in);
+			}
+
+			&.active .sprite {
+				.sprite(@zoom-out);
+			}
+		}
+	}
+	/* Editor */
+	.editor {
+		bottom: 0;
+		left: 0;
+		overflow: hidden;
+		position: absolute;
+		right: 401px;
+		top: 0;
+		/* jQueryUI tabs */
+		.ui-tabs {
+			bottom: 0;
+			left: 0;
+			overflow: hidden;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+
+		.ui-tabs-panel {
+			margin: 0;
+			bottom: 37px;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+
+		.ui-tabs-nav {
+			background: #F5F5F5;
+			border-color: #DDD;
+			bottom: 0;
+			left: 0;
+			padding-bottom: 5px;
+			position: absolute;
+			right: 0;
+		}
+
+		.ui-tabs-anchor {
+			height: 30px;
+			line-height: 30px;
+
+			&:hover {
+				background: #DDD;
+				border-color: #DDD;
+			}
+		}
+
+		.ui-tabs-active .ui-tabs-anchor {
+			background: #FFF;
+			border-color: #DDD;
+		}
+		/* Iframe */
+		.visual-frame {
+			border: none;
+			height: 100%;
+			padding: 10px;
+			width: 100%;
+			.box-sizing(border-box);
+		}
+	}
+	/* Panel */
+	.panel {
+		border-left: 1px solid #DDD;
+		bottom: 0;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		padding-top: 10px;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 400px;
+
+		.box {
+			border-left: none;
+			border-right: none;
+		}
+
+		.common-form {
+			th {
+				padding: 10px 0 0 20px;
+				width: 80px;
+			}
+
+			.field {
+				padding: 10px 20px;
+			}
+		}
+	}
+
+	.panel-block {
+		&.with-margin {
+			margin: 10px;
+		}
+
+		.title {
+			cursor: pointer;
+			font-size: 18px;
+			font-weight: 400;
+			line-height: 28px;
+			margin-bottom: 5px;
+			padding: 0 20px;
 			position: relative;
 
-			> .label {
+			.sprite {
+				position: absolute;
+				left: 7px;
+				top: 10px;
+				.sprite(@chevron-right-black);
+			}
+
+			&:hover {
+				background: #F9F9F9;
+			}
+		}
+
+		.container {
+			display: none;
+
+			.empty {
+				background: #F9F9F9;
+				color: #333;
+				font-style: italic;
+				padding: 5px 20px;
+			}
+
+			&.with-padding {
+				padding: 20px;
+			}
+		}
+
+		&.active {
+			background: #F9F9F9;
+
+			.title .sprite {
+				left: 6px;
+				top: 11px;
+				.sprite(@chevron-down-black);
+			}
+
+			.container {
+				display: block;
+			}
+		}
+	}
+
+	&.vertical {
+		bottom: 0;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+
+		&.fullscreen {
+			position: fixed;
+		}
+
+		.editor {
+			bottom: 305px;
+			right: 0;
+		}
+
+		.visual-frame {
+			padding: 0;
+		}
+
+		.panel {
+			background: #F9F9F9;
+			border: none;
+			height: 300px;
+			left: 0;
+			overflow: hidden;
+			padding-top: 2px;
+			top: auto;
+			width: auto;
+			.box-sizing(border-box);
+
+			.ui-tabs-panel {
 				bottom: 0;
-				top: auto !important;
-
-				&.left {
-					left: 0;
-				}
-
-				&.right {
-					left: auto;
-					right: 0;
-				}
+				left: 0;
+				overflow: auto;
+				position: absolute;
+				right: 0;
+				top: 32px;
 			}
 
-			div {
-				padding: 24px;
-				position: relative;
-
-				&.hover {
-					background: #39F;
-					color: #FFF;
-
-					> .label,
-					> input,
-					> .text {
-						color: #FFF !important;
-					}
-				}
-			}
-
-			.label {
-				background: none;
-				color: #555;
-				left: 4px;
-				line-height: 1.5;
-				padding: 0;
+			.left-column,
+			.right-column {
+				bottom: 0;
+				overflow: auto;
 				position: absolute;
 				top: 0;
+				.box-sizing(border-box);
 			}
 
-			input.top,
-			input.bottom,
-			input.left,
-			input.right {
-				background: none;
-				border: none;
-				height: 20px;
-				padding: 0;
-				position: absolute;
-				text-align: center;
-				width: 20px;
+			.left-column {
+				left: 0;
+				right: 505px;
 
-				&.null {
-					color: #999;
-				}
-
-				&:focus {
-					background: #FFF;
-					color: #555 !important;
-				}
-			}
-
-			input.top {
-				left: 50%;
-				margin-left: -10px;
-				top: 2px;
-			}
-
-			input.bottom {
-				bottom: 2px;
-				left: 50%;
-				margin-left: -10px;
-			}
-
-			input.left {
-				left: 2px;
-				top: 50%;
-				margin-top: -10px;
-			}
-
-			input.right {
-				right: 2px;
-				top: 50%;
-				margin-top: -10px;
-			}
-
-			.margin {
-				background: #FFF;
-				border: 1px dashed #BBB;
-			}
-
-			.border {
-				background: #BBB;
-				border: 1px solid #888;
-			}
-
-			.padding {
-				background: #DDD;
-				border: 1px solid #888;
-			}
-
-			.content {
-				background: #DDD;
-				border: 1px solid #888;
-				padding: 40px;
-
-				input.height,
-				input.width {
-					background: none;
-					border: none;
-					height: 20px;
-					padding: 0;
-					text-align: center;
-					width: 24px;
-
-					&.null {
-						color: #999;
+				.kb-code-viewer {
+					.container {
+						border: none;
+						bottom: 21px;
+						height: auto;
+						left: 0;
+						position: absolute;
+						right: 0;
+						top: 0;
 					}
 
-					&:focus {
-						background: #FFF;
-						color: #555 !important;
+					.bottom {
+						border: none;
+						border-top: 1px solid #CCC;
+						bottom: 0;
+						left: 0;
+						position: absolute;
+						right: 0;
 					}
 				}
+			}
 
-				.text {
-					color: #555;
+			.right-column {
+				background: #F9F9F9;
+				padding: 10px 0;
+				right: 0;
+				width: 500px;
+
+				.ui-tabs-panel {
+					top: 40px;
+				}
+
+				.kb-style-editor {
+					padding: 0 10px;
 				}
 			}
 		}

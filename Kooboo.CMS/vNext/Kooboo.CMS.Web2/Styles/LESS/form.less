@@ -99,6 +99,12 @@ label {
 	}
 }
 
+/* Number input
+----------------------------------------------------------*/
+.input-number {
+	display: inline-block;
+}
+
 /* CodeMirror
 ----------------------------------------------------------*/
 .CodeMirror {
@@ -213,6 +219,10 @@ div.radio {
 		&.equate {
 			width: 10%;
 		}
+	}
+
+	.file-thumbnail {
+		display: block;
 	}
 
 	&.images {
@@ -371,6 +381,7 @@ div.radio {
 }
 
 .file-thumbnail {
+	display: inline-block;
 	height: 100px;
 	position: relative;
 
@@ -732,7 +743,11 @@ body .select2-drop-active {
 		border-top: 1px solid #EEE;
 		font-weight: 600;
 		padding: 10px;
-		width: auto;
+		width: 45%;
+
+		&:first-child {
+			width: auto;
+		}
 	}
 
 	td {
@@ -749,13 +764,14 @@ body .select2-drop-active {
 		}
 	}
 
-	tr.border td {
+	.border td {
 		border-bottom: 1px solid #CCC;
 	}
 
 	input[type="text"],
 	input[type="password"],
-	select {
+	select,
+	.ui-spinner {
 		float: left;
 		margin-right: 10px;
 	}
@@ -767,6 +783,17 @@ body .select2-drop-active {
 	.text {
 		float: left;
 		margin-right: 10px;
+	}
+
+	.unit {
+		float: left;
+		margin-left: -6px;
+		margin-right: 10px;
+	}
+
+	.field {
+		padding: 10px 0;
+		.clearfix();
 	}
 	/* Common form panel */
 	&.with-panel {
@@ -992,8 +1019,8 @@ body .select2-drop-active {
 		width: 35%;
 
 		th {
-			background: none;
-			border: none;
+			background: none !important;
+			border: none !important;
 		}
 		/* Length */
 		&.large {
@@ -1019,19 +1046,6 @@ body .select2-drop-active {
 .key-value {
 	th {
 		padding: 0 5px 5px 0 !important;
-
-		&.key {
-			width: 35%;
-		}
-
-		&.value {
-			width: 65%;
-		}
-
-		&.action {
-			padding: 0;
-			width: 16px;
-		}
 	}
 
 	td {
@@ -1041,6 +1055,19 @@ body .select2-drop-active {
 		&.action {
 			padding-right: 0 !important;
 		}
+	}
+
+	.key {
+		width: 35%;
+	}
+
+	.value {
+		width: 65%;
+	}
+
+	.action {
+		padding: 0;
+		width: 16px;
 	}
 
 	input,

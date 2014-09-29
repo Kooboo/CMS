@@ -366,9 +366,9 @@
 /* @module: Splitter */
 .kb-splitter {
 	background: #CCC;
-	bottom: 300px;
+	bottom: 0;
 	cursor: ns-resize;
-	height: 5px;
+	height: 0;
 	left: 0;
 	position: absolute;
 	right: 0;
@@ -386,14 +386,9 @@
 		top: -25px;
 		width: 60px;
 		.rounded(3px 3px 0 0);
-		.opacity(60);
 
 		.sprite {
 			.sprite(@chevron-up-gray);
-		}
-
-		&:hover {
-			.opacity(100);
 		}
 
 		&.active .sprite {
@@ -493,6 +488,31 @@
 			&:hover {
 				background: #EEE;
 			}
+		}
+	}
+
+	.actions {
+		background: #F5F5F5;
+		border-top: 1px solid #CCC;
+		overflow: hidden;
+		padding: 3px;
+		.rounded(0 0 3px 3px);
+	}
+
+	.action {
+		background: #FFF;
+		border: 1px solid #DDD;
+		float: left;
+		height: 24px;
+		margin-right: 3px;
+		padding: 3px;
+		text-align: center;
+		width: 24px;
+		.rounded(3px);
+		.box-sizing(border-box);
+
+		&:hover {
+			border-color: #AAA;
 		}
 	}
 }

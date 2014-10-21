@@ -220,6 +220,10 @@ namespace Kooboo.CMS.Sites.Controllers
             {
                 throw new ArgumentNullException(url);
             }
+            if (!ImageTools.IsImageExtension(url))
+            {
+                throw new HttpException(403, "");
+            }
             url = HttpUtility.UrlDecode(url);
             var index = url.IndexOf("?");
             if (index != -1)

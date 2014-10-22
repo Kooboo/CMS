@@ -220,7 +220,7 @@ namespace Kooboo.CMS.Sites.Controllers
             {
                 throw new ArgumentNullException(url);
             }
-            if (!ImageTools.IsImageExtension(url))
+            if (!ImageTools.IsImageExtension(Path.GetExtension(url)))
             {
                 throw new HttpException(403, "");
             }

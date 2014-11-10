@@ -40,7 +40,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
         [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
         public virtual ActionResult Index(string FolderName, string search)
         {
-            var folders = Manager.All(Repository, search, FolderName);
+            var folders = Manager.All(Repository, search, FolderName).OrderBy(it=>it.FriendlyText).ToArray();
 
             folders = folders
                 .Select(it => it.AsActual())

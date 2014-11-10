@@ -167,7 +167,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
             //ViewData["ContentPagedList"] = workflowContentPagedList;
             return View(new TextContentGrid()
             {
-                ChildFolders = childFolders.ToArray(),
+                ChildFolders = childFolders.OrderBy(it => it.FriendlyText).ToArray(),
                 ContentQuery = query,
                 PageIndex = page.Value,
                 PageSize = pageSize.Value,

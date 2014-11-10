@@ -28,7 +28,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Menu
             {
                 return new MenuItem[0];
             }
-            var folders = FolderManager.All(repository, "");
+            var folders = FolderManager.All(repository, "").OrderBy(it => it.FriendlyText).ToArray();
             List<MenuItem> items = new List<MenuItem>();
             foreach (var folder in folders)
             {
@@ -47,7 +47,7 @@ namespace Kooboo.CMS.Web.Areas.Contents.Menu
             if (folder != null)
             {
                 MenuItem menuItem = new FolderMenuItem(folder.AsActual());
-                var childFolders = FolderManager.ChildFolders(folder);
+                var childFolders = FolderManager.ChildFolders(folder).OrderBy(it => it.FriendlyText).ToArray();
                 List<MenuItem> items = new List<MenuItem>();
                 menuItem.Items = items;
                 foreach (var child in childFolders)

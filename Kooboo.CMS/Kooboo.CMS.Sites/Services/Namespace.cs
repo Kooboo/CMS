@@ -6,6 +6,7 @@
 // See the file LICENSE.txt for details.
 // 
 #endregion
+using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,5 +74,64 @@ namespace Kooboo.CMS.Sites.Services
             return node;
         }
 
+    }
+
+    public static class NamespaceParser
+    {
+        public static Namespace<T> Extract<T>(IEnumerable<T> list)
+            where T : PathResource
+        {
+            Dictionary<string, Namespace<T>> namespaces = new Dictionary<string, Namespace<T>>(StringComparer.CurrentCultureIgnoreCase);
+            Namespace<T> root = new Namespace<T>();
+            foreach (var item in list)
+            {
+                string parentName = "";
+                Namespace<T> last = null;
+                var names = item.Name.Split(".".ToArray(), StringSplitOptions.RemoveEmptyEntries);
+                foreach (var name in names.Take(names.Length - 1))
+                {
+                    string fullName = "";
+                    if (string.IsNullOrEmpty(parentName))
+                    {
+                        fullName = name;
+                    }
+                    else
+                    {
+                        fullName = parentName + "." + name;
+                    }
+                    if (!namespaces.ContainsKey(fullName))
+                    {
+                        last = new Namespace<T>()
+                        {
+                            Name = name,
+                            FullName = fullName
+                        };
+                        namespaces[fullName] = last;
+                        if (!string.IsNullOrEmpty(parentName))
+                        {
+                            namespaces[parentName].AddNamespace(last);
+                        }
+                        else
+                        {
+                            root.AddNamespace(last);
+                        }
+                    }
+                    else
+                    {
+                        last = namespaces[fullName];
+                    }
+                    parentName = fullName;
+                }
+                if (last == null)
+                {
+                    root.AddEntry(item.Name, item);
+                }
+                else
+                {
+                    last.AddEntry(item.Name, item);
+                }
+            }
+            return root;
+        }
     }
 }

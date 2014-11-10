@@ -466,7 +466,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         {
             if (IsGet())
             {
-                return View(ServiceFactory.HtmlBlockManager.All(this.Site, null));
+                return View(ServiceFactory.HtmlBlockManager.GetNamespace(this.Site));
             }
             else
             {

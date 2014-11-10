@@ -7,6 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common;
+using Kooboo.Web.Mvc;
 using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Sites.Models;
@@ -29,10 +30,35 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
         public HtmlBlockController(HtmlBlockManager manager)
             : base(manager) { }
 
+        #region Index
+        protected override IEnumerable<HtmlBlock> List(string search, string sortField, string sortDir)
+        {
+            string ns = ControllerContext.RequestContext.GetRequestValue("ns");
+            return Manager.ByNamespace(Site, ns, search);
+        }
+
+        public override System.Web.Mvc.ActionResult Index(string search, string sortField, string sortDir, int? page, int? pageSize)
+        {
+            string nsStr = ControllerContext.RequestContext.GetRequestValue("ns");
+
+            var ns = Manager.GetNamespace(Site).GetNamespaceNode(nsStr);
+            ViewData["NameSpace"] = ns;
+            return View(List(search, sortField, sortDir));
+        }
+
+        #endregion
+
         #region CURD
         public override ActionResult Create(HtmlBlock model)
         {
             ViewBag.ExternalCssSetting = this.GetExternalCssSetting();
+            if (model == null)
+            {
+                model = new HtmlBlock();
+            }
+            string name = Request.RequestContext.GetRequestValue("ns");
+            name = !string.IsNullOrEmpty(name) ? name + "." : null;
+            model.Name = name;
             return base.Create(model);
         }
 

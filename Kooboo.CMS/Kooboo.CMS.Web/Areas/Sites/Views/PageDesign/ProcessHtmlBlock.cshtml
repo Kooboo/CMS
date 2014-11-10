@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Kooboo.CMS.Sites.Models.HtmlBlock>
+﻿@model Kooboo.CMS.Sites.Services.Namespace<HtmlBlock>
 @{
     Layout = "Design.cshtml";
 }
@@ -9,18 +9,13 @@
 }
 
 <h1 class="title">@("HTML block:".Localize())</h1>
-<div class="simple-table">
-    <table>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        <input type="radio" name="BlockName" id="@Html.Raw(item.UUID)" value="@Html.Raw(item.Name)" />
-                        <label for="@Html.Raw(item.UUID)">@Html.Raw(item.Name)</label>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="block treeview">
+    <ul id="J_DataTree">
+        @(Html.Partial("HtmlBlockNamespace", Model))
+    </ul>
 </div>
+<script>
+    $(function () {
+        $('#J_DataTree li.tree-node').treeNode();
+    })
+</script>

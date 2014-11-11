@@ -21,6 +21,7 @@ using System.Web.Mvc;
 using Kooboo.CMS.Common.Persistence;
 namespace Kooboo.CMS.Web.Areas.Sites.Controllers
 {
+    [Kooboo.CMS.Web.Misc.RedirectManagerActionFilter]
     public abstract class ManageControllerBase<T, Service> : Kooboo.CMS.Sites.AreaControllerBase
   where Service : IManager<T>
     {
@@ -108,8 +109,9 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             }
             return Json(data);
         }
-        protected virtual T Get(string name)        {
-            
+        protected virtual T Get(string name)
+        {
+
             return Manager.Get(Site, name);
         }
         protected virtual void Update(T newModel, string old_key)

@@ -18,6 +18,7 @@ using Kooboo.Web.Mvc;
 
 namespace Kooboo.CMS.Web.Areas.Contents.Controllers
 {
+    [Kooboo.CMS.Web.Misc.RedirectManagerActionFilter]
     public class ManagerControllerBase : ControllerBase
     {
         protected override void OnActionExecuting(ActionExecutingContext filterContext)

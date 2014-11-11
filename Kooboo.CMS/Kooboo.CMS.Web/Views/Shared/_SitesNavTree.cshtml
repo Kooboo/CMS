@@ -59,7 +59,10 @@
 @helper RenderSiteTree(Site site, Site current)
 {
     <li @(site == current ? "class=active" : "")>
-        @Html.ActionLink(string.IsNullOrEmpty(site.DisplayName) ? site.Name : site.DisplayName, "SiteMap", new { Area = "Sites", controller = "Home", siteName = site.FullName, repositoryName = site.AsActual().Repository })
+
+        @Html.ActionLink(string.IsNullOrEmpty(site.DisplayName) ? site.Name : site.DisplayName, ViewContext.RequestContext.GetRequestValue("action")
+        , ViewContext.RequestContext.AllRouteValues().Merge("siteName", site.FullName).Merge("repositoryName", site.AsActual().Repository)
+        .Merge("_swithSite", "true"))
 
         <ul>
             @foreach (var child in ServiceFactory.SiteManager.ChildSites(site))

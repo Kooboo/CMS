@@ -892,6 +892,10 @@ namespace Kooboo.CMS.Sites.View
                         htmlStrings.Add(BuildMeta(item.Key, item.Value));
                     }
                 }
+                if (!string.IsNullOrEmpty(htmlMeta.HtmlMetaBlock))
+                {
+                    htmlStrings.Add(new HtmlString(htmlMeta.HtmlMetaBlock));
+                }
             }
             return htmlStrings;
         }

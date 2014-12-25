@@ -1,11 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
-Creation date: 2012/05/18
-Version 1.0 for KooBoo CMS 3.2
-This translation is made by Ella S. (http://kooboo-cms.ru/)    
-
-Microsoft ResX Schema 
+    Microsoft ResX Schema 
     
     Version 2.0
     
@@ -2192,5 +2188,26 @@ Microsoft ResX Schema
   </data>
   <data name="Goto" xml:space="preserve">
     <value>Перейти</value>
+  </data>
+  <data name="Activate code is invalid." xml:space="preserve">
+    <value>Неверный код активации.</value>
+  </data>
+  <data name="Activate code is null." xml:space="preserve">
+    <value>Не указан код активации.</value>
+  </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>Данный email уже зарегистрирован в системе</value>
+  </data>
+  <data name="DuplicateUserName" xml:space="preserve">
+    <value>Данный логин занят</value>
+  </data>
+  <data name="The member does not exists." xml:space="preserve">
+    <value>Указанный пользователь не найден.</value>
+  </data>
+  <data name="The member still not actived." xml:space="preserve">
+    <value>Учетная запись не активированна</value>
+  </data>
+  <data name="The member was locked out." xml:space="preserve">
+    <value>Учетная запись заблокированна</value>
   </data>
 </root>

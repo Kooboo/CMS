@@ -459,6 +459,10 @@ namespace Kooboo.CMS.Sites.View
                     this.htmlMeta.Customs[item.Key] = EvaluateStringFormulas(item.Value);
                 }
             }
+            if (!string.IsNullOrEmpty(htmlMetaSetting.HtmlMetaBlock))
+            {
+                this.htmlMeta.HtmlMetaBlock = EvaluateStringFormulas(htmlMetaSetting.HtmlMetaBlock) + this.htmlMeta.HtmlMetaBlock ?? "";
+            }
         }
 
         /// <summary>

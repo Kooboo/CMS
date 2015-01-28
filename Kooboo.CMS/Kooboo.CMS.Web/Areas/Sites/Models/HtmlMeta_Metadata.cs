@@ -40,6 +40,10 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         {
             get;
             set;
-        }
+        }        
+        [DisplayName("Meta block")]
+        [Description("Can input any text what you want to render in the HTML HEAD. For example: </br> &lt;meta name=&quot;keywords&quot; content=&quot;{Title}&quot;&gt;&lt;meta http-equiv=&quot;charset&quot; content=&quot;{Charset}&quot;&gt;")]
+        [UIHintAttribute("MultilineText")]
+        public string HtmlMetaBlock { get; set; }
     }
 }

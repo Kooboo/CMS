@@ -1,0 +1,11 @@
+﻿@model Kooboo.CMS.Sites.Models.HtmlBlock
+<li class="tree-node clearfix">
+    <span>
+        @Html.IconImage("folder")
+        @{
+            var id = @Html.Raw(Model.UUID);
+        }
+        <input type="radio" class="viewSelection" id="@id" value="@Html.Raw(Model.Name)" name="BlockName" />
+        <label class="inline" for="@id">@Html.Raw(Model.Name)</label>
+    </span>
+</li>

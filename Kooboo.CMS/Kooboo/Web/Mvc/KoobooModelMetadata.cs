@@ -37,7 +37,7 @@ namespace Kooboo.Web.Mvc
             Attributes = attributes;
 
             var defaultValueAttr = attributes.OfType<DefaultValueAttribute>().SingleOrDefault();
-            
+
             DefaultValue = defaultValueAttr != null ? defaultValueAttr.Value : this.ModelType.GetDefaultValue();
 
             this.AdditionalValues["DefaultValue"] = DefaultValue;
@@ -50,11 +50,19 @@ namespace Kooboo.Web.Mvc
         {
             get
             {
-                return _description;
+                if (string.IsNullOrEmpty(base.Description))
+                {
+                    return _description;
+                }
+                else
+                {
+                    return base.Description;
+                }
+
             }
             set
             {
-                _description = value;
+                base.Description = value;
             }
         }
 

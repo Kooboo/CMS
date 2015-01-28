@@ -110,7 +110,7 @@ namespace Kooboo.CMS.Sites.Models
         public override void OnSaving()
         {
             base.OnSaving();
-            Parse(this.Body);
+            //Parse(this.Body);
         }        
     }
 

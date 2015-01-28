@@ -1,7 +1,7 @@
 ﻿@model Kooboo.CMS.Content.Services.CategoryContents
 @using Kooboo.Web.Script.Serialization
 @using Kooboo.CMS.Content.Models
-@{ 
+@{
     var categoryFolder = (Model.CategoryFolder).AsActual();
     var categories = Model.Contents.Select(it => new { Text = it.GetSummary(), UUID = it.UUID });
     var categoriesJson = categories.ToJSON();
@@ -22,7 +22,7 @@
                 </li>
             </ul>
             <input type="hidden" name="@("cat_" + Model.CategoryFolder.FullName + "_value")" data-bind="{value:postValue}" />
-            <input type="hidden" name="@("cat_" + Model.CategoryFolder.FullName + "_value_old")" value="@string.Join(",", categories.Select(it => it.UUID).ToArray())"/>
+            <input type="hidden" name="@("cat_" + Model.CategoryFolder.FullName + "_value_old")" value="@string.Join(",", categories.Select(it => it.UUID).ToArray())" />
             <a href="@Html.Raw(Url.Action("SelectCategories", new { siteName = ViewContext.RequestContext.GetRequestValue("siteName"), repositoryName = ViewContext.RequestContext.GetRequestValue("RepositoryName"), folderName = Model.CategoryFolder.FullName, singleChoice = Model.SingleChoice }))" class="action categoryButton">@Html.IconImage("plus small")</a>
 
             <script>
@@ -32,11 +32,27 @@
                         self.data = ko.observableArray(@Html.Raw(categoriesJson));
                         self.removeItem = function () {
                             window.leaveConfirm.stop();
-                            self.data.remove(this);                       
+                            self.data.remove(this);
+                        };
+                        self.removeByUUID=function(uuid){
+                            var item = self.findByUUID(uuid);
+                            console.log(item);
+                            if (item!=null) {
+                                self.data.remove(item);
+                            }
+                        };
+                        self.findByUUID= function(uuid)
+                        {
+                            return  _.find(self.data(),function(item){
+                                return item.UUID== uuid;
+                            });
                         };
                         self.addItem = function (uuid, text) {
-                            window.leaveConfirm.stop();
-                            self.data.push({ UUID: uuid, Text: text });                            
+                            var item = self.findByUUID(uuid);
+                            if (item==null) {
+                                window.leaveConfirm.stop();
+                                self.data.push({ UUID: uuid, Text: text });
+                            }
                         };
                         self.postValue = ko.computed(function () {
                             var uuid = [];
@@ -73,12 +89,34 @@
                                     return false;
                                 }
                                 var contents = iframe.contents();
-                                _.each(categoryViewModel.data(), function (item, index) {
-                                    var $tr = contents.find('tr#' + item.UUID);
-                                    $tr.addClass('active');
-                                    $tr.find('input.select').attr('checked', 'checked');
-                                });
-
+                                var trClickHandler= function($tr)
+                                {
+                                    var text = $tr.find('td:eq(1)').text(),
+                                        uuid = $tr.attr('id');
+                                    if ($tr.hasClass('active')) {
+                                        categoryViewModel.addItem(uuid, text);
+                                    }
+                                    else {
+                                        categoryViewModel.removeByUUID(uuid);
+                                    }
+                                };
+                                var $rootTrs = contents.find('tr');
+                                var bindTrHandlers=function($trs)
+                                {
+                                    _.each(categoryViewModel.data(), function (item, index) {
+                                        var $tr = contents.find('tr#' + item.UUID);
+                                        $tr.addClass('active');
+                                        $tr.find('input.select').attr('checked', 'checked');
+                                    });
+                                    $trs.click(function(){
+                                        var $tr = $(this);
+                                        trClickHandler($tr);
+                                    });
+                                    $trs.bind('treeNodeLoaded', function (e, treeNode) {                                        
+                                        bindTrHandlers($(treeNode));
+                                    });
+                                };
+                                bindTrHandlers($rootTrs);
                                 (function initButton() {
                                     var saveBtn = contents.find('.save'),
                                     cancelBtn = contents.find('.cancel');
@@ -86,15 +124,7 @@
                                         pop.close();
                                     });
                                     saveBtn.click(function () {
-                                        var $selectedTr = contents.find('tr.active');
-                                        categoryViewModel.data.removeAll();
-                                        _.each($selectedTr, function (tr) {
-                                            var $tr = $(tr);
-                                            var text = $tr.find('td:eq(1)').text(),
-                                                uuid = $tr.attr('id');
-                                            categoryViewModel.addItem(uuid, text);
-                                        });
-                                        pop.close();                                       
+                                        pop.close();
                                     });
 
                                 })();

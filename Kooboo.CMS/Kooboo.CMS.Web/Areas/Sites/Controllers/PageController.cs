@@ -185,9 +185,12 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
                     newModel.Site = Site;
                     newModel.UserName = User.Identity.Name;
 
-                    var old = Manager.Get(Site, old_key);
+                    var old = Manager.Get(Site, old_key).AsActual();
 
-                    SavePosition(newModel);
+                    if (SavePosition(newModel) == false)
+                    {
+                        newModel.PagePositions = old.PagePositions;
+                    }
 
                     if (saveAsDraft.HasValue && saveAsDraft.Value == true)
                     {
@@ -236,14 +239,17 @@ namespace Kooboo.CMS.Web.Areas.Sites.Controllers
             return Json(data);
         }
 
-        private void SavePosition(Page newModel)
+        private bool SavePosition(Page newModel)
         {
             var json = Request.Form["PagePositionsJson"];
             if (!string.IsNullOrEmpty(json))
             {
                 var positions = PageDesignController.ParsePagePositions(json);
                 newModel.PagePositions = positions;
+
+                return true;
             }
+            return false;
         }
         #endregion
 

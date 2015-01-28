@@ -1,5 +1,6 @@
 ﻿using Kooboo.CMS.Common.Persistence.Non_Relational;
 using Kooboo.CMS.Common;
+using Kooboo.Web.Mvc;
 
 using Kooboo.CMS.Sites;
 using Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models;
@@ -28,7 +29,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
 
         public ActionResult Index(string siteName, string search, string sortField, string sortDir)
         {
-            var query = this._manager.CreateQuery(siteName);
+            var query = this._manager.CreateQuery(Site);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(it => it.Name.Contains(search));
@@ -55,6 +56,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             {
                 resultEntry.RunWithTry((data) =>
                 {
+                    setting.Site = Site;
                     _manager.Add(setting);
                     data.RedirectUrl = @return;
                 });
@@ -64,8 +66,16 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
 
         public ActionResult Edit(string uuid)
         {
-            var model = _manager.Get(uuid);
-            return View(model);
+            var model = _manager.Get(Site, uuid);
+            if (model == null)
+            {
+                return RedirectToAction("Index", ControllerContext.RequestContext.AllRouteValues());
+            }
+            else
+            {
+                return View(model);
+            }
+
         }
 
         [HttpPost]
@@ -76,7 +86,8 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             {
                 resultEntry.RunWithTry((data) =>
                 {
-                    var oldModel = _manager.Get(setting.UUID);
+                    setting.Site = Site;
+                    var oldModel = _manager.Get(Site, setting.UUID);
                     _manager.Update(setting, oldModel);
                     resultEntry.RedirectUrl = @return;
                 });
@@ -95,7 +106,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                     var uuids = model.Select(it => it.UUID).ToArray();
                     if (uuids.Any())
                     {
-                        _manager.Delete(uuids);
+                        _manager.Delete(Site, uuids);
                     }
                     data.ReloadPage = true;
                 });
@@ -118,6 +129,19 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             });
 
             return Json(resultEntry);
+        }
+
+
+        public virtual ActionResult IsNameAvailable(string name, string old_Key)
+        {
+            if (old_Key == null || !name.EqualsOrNullEmpty(old_Key, StringComparison.CurrentCultureIgnoreCase))
+            {
+                if (_manager.Get(Site, name) != null)
+                {
+                    return Json("The name already exists.", JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }

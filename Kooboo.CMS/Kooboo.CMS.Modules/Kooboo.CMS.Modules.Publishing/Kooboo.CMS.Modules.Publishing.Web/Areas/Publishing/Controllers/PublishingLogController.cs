@@ -18,10 +18,10 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             this._manager = manager;
         }
 
-        public ActionResult Index(string siteName,string search,int? queueType,int? publishingObject,int? publishingType,int? status,
+        public ActionResult Index(string search, int? queueType, int? publishingObject, int? publishingType, int? status,
             string sortField, string sortDir)
         {
-            var query = this._manager.CreateQuery(siteName);
+            var query = this._manager.CreateQuery(Site);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(it => it.ObjectUUID.Contains(search, StringComparison.OrdinalIgnoreCase));

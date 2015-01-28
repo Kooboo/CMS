@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -55,7 +56,6 @@
     <Compile Include="..\..\CMSAssemblyInfoGlobal.cs">
       <Link>CMSAssemblyInfoGlobal.cs</Link>
     </Compile>
-    <Compile Include="AssemblyInitializer.cs" />
     <Compile Include="StorageNamesEncoder.cs" />
     <Compile Include="CloudBlobExtension.cs" />
     <Compile Include="DependencyRegistrar.cs" />
@@ -70,6 +70,10 @@
     <Compile Include="TextContentFileProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Kooboo.CMS.Caching\Kooboo.CMS.Caching.csproj">
+      <Project>{570cd9d3-75d2-468a-8245-45bdca57432e}</Project>
+      <Name>Kooboo.CMS.Caching</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Kooboo.CMS.Common\Kooboo.CMS.Common.csproj">
       <Project>{ab6dde14-eeb6-4497-80a0-d148a0a692b5}</Project>
       <Name>Kooboo.CMS.Common</Name>

@@ -28,26 +28,35 @@ namespace Kooboo.CMS.Web.Areas.Contents.Menu
             {
                 return new MenuItem[0];
             }
-            var folders = FolderManager.All(repository, "");
+            var folders = FolderManager.All(repository, "").OrderBy(it => it.FriendlyText).ToArray();
             List<MenuItem> items = new List<MenuItem>();
             foreach (var folder in folders)
             {
-                items.Add(CreateFolderMenuItem(folder));
+                var menuItem = CreateFolderMenuItem(folder);
+                if (menuItem != null)
+                {
+                    items.Add(menuItem);
+                }
             }
 
             return items;
         }
         protected virtual MenuItem CreateFolderMenuItem(T folder)
         {
-            MenuItem menuItem = new FolderMenuItem(folder.AsActual());
-            var childFolders = FolderManager.ChildFolders(folder);
-            List<MenuItem> items = new List<MenuItem>();
-            menuItem.Items = items;
-            foreach (var child in childFolders)
+            folder = folder.AsActual();
+            if (folder != null)
             {
-                items.Add(CreateFolderMenuItem(child));
+                MenuItem menuItem = new FolderMenuItem(folder.AsActual());
+                var childFolders = FolderManager.ChildFolders(folder).OrderBy(it => it.FriendlyText).ToArray();
+                List<MenuItem> items = new List<MenuItem>();
+                menuItem.Items = items;
+                foreach (var child in childFolders)
+                {
+                    items.Add(CreateFolderMenuItem(child));
+                }
+                return menuItem;
             }
-            return menuItem;
+            return null;
         }
 
 

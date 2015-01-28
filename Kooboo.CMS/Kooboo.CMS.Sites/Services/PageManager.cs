@@ -260,9 +260,20 @@ namespace Kooboo.CMS.Sites.Services
 
         public override void Remove(Site site, Page o)
         {
+            var pages = new List<Page>();
+            PagesToRemoveFromIndex(site, o, ref pages);
+
             base.Remove(site, o);
 
-            SearchHelper.OpenService(site.GetRepository()).Delete(o);
+            SearchHelper.OpenService(site.GetRepository()).BatchDelete(pages);
+        }
+        private void PagesToRemoveFromIndex(Site site, Page o, ref List<Page> pages)
+        {
+            pages.Add(o);
+            foreach (var child in ChildPages(site, o.FullName, null))
+            {
+                PagesToRemoveFromIndex(site, child.AsActual(), ref pages);
+            }
         }
         #endregion
 

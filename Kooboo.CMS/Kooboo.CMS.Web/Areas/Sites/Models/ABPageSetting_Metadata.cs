@@ -53,7 +53,7 @@ namespace Kooboo.CMS.Web.Areas.Sites.Models
         [GridColumnAttribute(HeaderText = "Goal page", GridColumnType = typeof(SortableGridColumn), Order = 3)]
         [DisplayName("Goal page")]
         [DataSource(typeof(PagesDataSource))]
-        [Description("The destnation page to measure the result of individual pages that come from A/B test.")]
+        [Description("The destination page to measure the result of individual pages that come from A/B test.")]
         public string ABTestGoalPage { get; set; }
     }
 }

@@ -54,7 +54,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
             }
             else
             {
-                var maxResult = 100;
+                var maxResult = 1000;
                 if (Take.HasValue)
                 {
                     maxResult = Take.Value;
@@ -65,7 +65,7 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
                 if (Skip.HasValue)
                 {
                     skip = Skip.Value;
-                    maxResult = +skip;
+                    maxResult += skip;
                 }
                 var blobPrefix = mediaFolder.GetMediaFolderItemPath(prefix);
 
@@ -101,16 +101,16 @@ namespace Kooboo.CMS.Content.Persistence.AzureBlobService
         }
         private void ValidExpression(string fieldName)
         {
-            if (!fieldName.EqualsOrNullEmpty("FileName", StringComparison.OrdinalIgnoreCase)
-                && !fieldName.EqualsOrNullEmpty("UUID", StringComparison.OrdinalIgnoreCase)
-                && !fieldName.EqualsOrNullEmpty("UserKey", StringComparison.OrdinalIgnoreCase))
-            {
-                throw new NotSupportedException("The azure storage provider only support query by FileName,UUID,UserKey.");
-            }
-            if (!string.IsNullOrEmpty(fileName) || !string.IsNullOrEmpty(prefix))
-            {
-                throw new NotSupportedException("The azure storage provider only support query by one condition.");
-            }
+            //if (!fieldName.EqualsOrNullEmpty("FileName", StringComparison.OrdinalIgnoreCase)
+            //    && !fieldName.EqualsOrNullEmpty("UUID", StringComparison.OrdinalIgnoreCase)
+            //    && !fieldName.EqualsOrNullEmpty("UserKey", StringComparison.OrdinalIgnoreCase))
+            //{      
+            //    //throw new NotSupportedException("The azure storage provider only support query by FileName,UUID,UserKey.");
+            //}      
+            //if (!string.IsNullOrEmpty(fileName) || !string.IsNullOrEmpty(prefix))
+            //{
+            //    throw new NotSupportedException("The azure storage provider only support query by one condition.");
+            //}
         }
         protected override void VisitWhereStartsWith(Query.Expressions.WhereStartsWithExpression expression)
         {

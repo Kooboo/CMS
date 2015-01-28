@@ -20,6 +20,10 @@
 }
 @section Panel{
     <ul class="panel">
+        @foreach (var group in Kooboo.CMS.Sites.Extension.UI.TopToolbar.ToolbarButtons.GetToolbarButtons(ViewContext.RequestContext))
+        {
+            @Html.Partial("_ToolbarGroupButtons", group)
+        }
         <li>
             <a href="@ViewContext.RequestContext.GetRequestValue("return")">
                 @Html.IconImage("cancel") @("Cancel".Localize())
@@ -42,7 +46,7 @@
         </div>
     </div>
     <div class="content">
-         <p>@("We are about to reinstall your module. In this step, we will perform the following actions:".Localize())</p>
+        <p>@("We are about to reinstall your module. In this step, we will perform the following actions:".Localize())</p>
         <ol>
             <li><strong>@("Copy the module files into Kooboo CMS system.".Localize())</strong></li>
             <li><strong>@("Run the 'Reinstallation' events defined by module developers".Localize())</strong></li>
@@ -77,6 +81,12 @@
                 async: false
             });
             return success;
+        },
+        success: function (response, statusText, xhr, $form) {
+            parse_JsonResultData.call(this, response, statusText, xhr, $form)
+            if (response.Success) {
+                setTimeout(function () { window.loading.show(); }, 10);
+            }
         }
     }
 </script>

@@ -31,7 +31,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         #region Index
         public ActionResult Index(string siteName, string search, string sortField, string sortDir)
         {
-            var query = this._manager.CreateQuery(siteName);
+            var query = this._manager.CreateQuery(Site);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(it => it.Name.Contains(search));
@@ -60,6 +60,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             {
                 resultEntry.RunWithTry((data) =>
                 {
+                    mapping.Site = Site;
                     _manager.Add(mapping);
                     data.RedirectUrl = @return;
                 });
@@ -71,7 +72,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         #region Edit
         public ActionResult Edit(string uuid)
         {
-            var model = _manager.Get(uuid);
+            var model = _manager.Get(Site, uuid);
             return View(model);
         }
 
@@ -83,7 +84,8 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             {
                 resultEntry.RunWithTry((data) =>
                 {
-                    var oldModel = _manager.Get(mapping.UUID);
+                    mapping.Site = Site;
+                    var oldModel = _manager.Get(Site, mapping.UUID);
                     _manager.Update(mapping, oldModel);
                     resultEntry.RedirectUrl = @return;
                 });
@@ -104,7 +106,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                     var uuids = model.Select(it => it.UUID).ToArray();
                     if (uuids.Any())
                     {
-                        _manager.Delete(uuids);
+                        _manager.Delete(Site, uuids);
                     }
                     data.ReloadPage = true;
                 });
@@ -117,7 +119,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         public ActionResult GetRemoteFolders(string endPoint)
         {
             var resultEntry = new JsonResultData(ModelState);
-            var ep = this._remoteEndPointSettingManager.Get(endPoint);
+            var ep = this._remoteEndPointSettingManager.Get(Site, endPoint);
             var items = this._cmisSession.OpenSession(ep.CmisService, ep.CmisService, ep.CmisPassword).GetFolderTrees(ep.RemoteRepositoryId);
             var folders = new List<string>();
             foreach (var item in items)
@@ -145,6 +147,18 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                 }
             }
             return list;
+        }
+
+        public virtual ActionResult IsNameAvailable(string name, string old_Key)
+        {
+            if (old_Key == null || !name.EqualsOrNullEmpty(old_Key, StringComparison.CurrentCultureIgnoreCase))
+            {
+                if (_manager.Get(Site, name) != null)
+                {
+                    return Json("The name already exists.", JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Kooboo.CMS.Modules.Publishing.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -9,13 +10,13 @@ namespace Kooboo.CMS.Modules.Publishing.Persistence.Default
 {
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IRemoteEndpointSettingProvider))]
     [Kooboo.CMS.Common.Runtime.Dependency.Dependency(typeof(IProvider<RemoteEndpointSetting>))]
-    public class RemoteEndpointSettingProvider:FileSystemProviderBase<RemoteEndpointSetting>,IRemoteEndpointSettingProvider
+    public class RemoteEndpointSettingProvider : FileSystemProviderBase<RemoteEndpointSetting>, IRemoteEndpointSettingProvider
     {
-        public override IEnumerable<RemoteEndpointSetting> All()
-        {
-            return base.All();
-        }
-
+        #region .ctor
+        public RemoteEndpointSettingProvider(Kooboo.CMS.Sites.Persistence.ISiteProvider siteProvider)
+            : base(siteProvider)
+        { }
+        #endregion
         #region GetLocker
         static System.Threading.ReaderWriterLockSlim locker = new System.Threading.ReaderWriterLockSlim();
         protected override System.Threading.ReaderWriterLockSlim GetLocker()
@@ -24,15 +25,9 @@ namespace Kooboo.CMS.Modules.Publishing.Persistence.Default
         }
         #endregion
 
-
-        public IQueryable<RemoteEndpointSetting> CreateQuery()
+        protected override string GetBasePath(Sites.Models.Site site)
         {
-            return this.All().AsQueryable();
-        }
-
-        public IQueryable<RemoteEndpointSetting> CreateQuery(string siteName)
-        {
-            return this.All().Where(it => it.SiteName.Equals(siteName, StringComparison.OrdinalIgnoreCase)).AsQueryable();
+            return Path.Combine(site.PhysicalPath, PublishingPath.PublishingFolderName, "RemoteEndpointSettings");
         }
     }
 }

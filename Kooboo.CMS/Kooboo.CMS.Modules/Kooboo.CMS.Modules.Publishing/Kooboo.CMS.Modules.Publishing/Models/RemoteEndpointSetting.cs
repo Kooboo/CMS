@@ -7,7 +7,7 @@
 // 
 #endregion
 using Kooboo.CMS.Common.Persistence.Non_Relational;
-using Kooboo.CMS.Common.Persistence.Relational;
+using Kooboo.CMS.Sites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace Kooboo.CMS.Modules.Publishing.Models
 {
     #region Persistence
     [DataContract]
-    public partial class RemoteEndpointSetting : ISiteObject
+    public partial class RemoteEndpointSetting
     {
         [DataMember]
         public string Name { get; set; }
@@ -36,12 +36,10 @@ namespace Kooboo.CMS.Modules.Publishing.Models
         public bool PublishPageAutomatically { get; set; }
         [DataMember]
         public string RemoteRepositoryId { get; set; }
-        [DataMember]
-        public string SiteName { get; set; }
     }
     #endregion
 
-    public partial class RemoteEndpointSetting : IPersistable, IIdentifiable
+    public partial class RemoteEndpointSetting : IPersistable, IIdentifiable, ISiteObject
     {
         public string UUID
         {
@@ -58,8 +56,9 @@ namespace Kooboo.CMS.Modules.Publishing.Models
         {
 
         }
-        public RemoteEndpointSetting(string uuid)
+        public RemoteEndpointSetting(Site site, string uuid)
         {
+            this.Site = site;
             this.UUID = uuid;
         }
 
@@ -79,6 +78,7 @@ namespace Kooboo.CMS.Modules.Publishing.Models
         public void Init(IPersistable source)
         {
             this.IsDummy = false;
+            this.Site = ((ISiteObject)source).Site;
         }
 
         public void OnSaved()
@@ -89,6 +89,12 @@ namespace Kooboo.CMS.Modules.Publishing.Models
         public void OnSaving()
         {
 
+        }
+
+        public Site Site
+        {
+            get;
+            set;
         }
     }
 }

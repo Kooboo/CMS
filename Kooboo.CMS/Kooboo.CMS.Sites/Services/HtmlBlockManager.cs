@@ -23,6 +23,25 @@ namespace Kooboo.CMS.Sites.Services
         public HtmlBlockManager(IHtmlBlockProvider provider) : base(provider) { }
         #endregion
 
+        #region GetNamespace
+        public virtual Namespace<HtmlBlock> GetNamespace(Site site, params string[] exculdes)
+        {
+            var views = All(site, "").Where(it => !exculdes.Any(ex => ex.EqualsOrNullEmpty(it.Name, StringComparison.OrdinalIgnoreCase)));
+
+            return NamespaceParser.Extract(views);
+        }
+        public virtual IEnumerable<HtmlBlock> ByNamespace(Site site, string ns, string filter)
+        {
+            if (string.IsNullOrEmpty(ns))
+            {
+                return All(site, filter).Where(it => !it.Name.Contains(".", StringComparison.CurrentCultureIgnoreCase));
+            }
+            else
+                return All(site, filter).Where(it => it.Name.StartsWith(ns + ".", StringComparison.CurrentCultureIgnoreCase)
+                    && it.Name.Split(".".ToArray(), StringSplitOptions.RemoveEmptyEntries).Length == ns.Split(".".ToArray(), StringSplitOptions.RemoveEmptyEntries).Length + 1);
+        }
+        #endregion
+
         #region Get
         public override HtmlBlock Get(Site site, string name)
         {
@@ -44,7 +63,7 @@ namespace Kooboo.CMS.Sites.Services
                 {
                     target.UserName = userName;
                     Update(targetSite, target, target);
-                }              
+                }
             }
 
         }

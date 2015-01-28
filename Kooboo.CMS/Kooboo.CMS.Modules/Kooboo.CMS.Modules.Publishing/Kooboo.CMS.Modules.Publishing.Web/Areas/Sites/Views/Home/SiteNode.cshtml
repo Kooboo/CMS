@@ -8,7 +8,7 @@
 @if (ServiceFactory.UserManager.Authorize(Model.Site, ViewContext.HttpContext.User.Identity.Name))
 {
     <div class="map-item @(Model.IsOnLine ? "" : "offline")">
-        <a href="@Url.Action("SiteMap", new { siteName = Model.Site.FullName, repositoryName = Model.Site.Repository })" title="@displayName"><span>@displayName</span></a>
+        <a href="@Url.Action("SiteMap", new { siteName = Model.Site.FullName, repositoryName = Model.Site.Repository })" title="@(Model.Site.Name)"><span>@displayName</span></a>
         <span class="arrow trigger">
             @Html.IconImage("arrow-right")
         </span>
@@ -24,7 +24,7 @@
                     @Html.ActionLink("Create a subsite".Localize(), "CreateSubSite", new { controller = "Site", parent = Model.Site.FullName, @return = Request.RawUrl }, new { title = "New sub site".Localize() })
                 </li>
             }
-            @if (Kooboo.CMS.Sites.Services.ServiceFactory.UserManager.Authorize(Model.Site, Html.ViewContext.HttpContext.User.Identity.Name, Kooboo.CMS.Account.Models.Permission.Sites_Settings_SystemPermission))
+            @if (Kooboo.CMS.Sites.Services.ServiceFactory.UserManager.IsAdministrator(Html.ViewContext.HttpContext.User.Identity.Name))
             {
 
                 <li>
@@ -40,13 +40,16 @@
                     , new RouteValueDictionary() { { "data-ajax", "POST" } })
                 </li>
                 <li>
-                    @Html.ActionLink("Clear cache".Localize(), "ClearCache", ViewContext.RequestContext.AllRouteValues().Merge("controller", "Site").Merge("SiteName", Model.Site.FullName),
-                new RouteValueDictionary() { { "data-ajax", "POST" } })
-                </li>
-                <li>
                     @Html.ActionLink("Copy".Localize(), "Copy", "Site", new { siteName = Model.Site.FullName, @return = Request.RawUrl }, null)
                 </li>
             }
+
+            <li>
+                @Html.ActionLink("Clear cache".Localize(), "ClearCache", ViewContext.RequestContext.AllRouteValues().Merge("controller", "Site").Merge("SiteName", Model.Site.FullName),
+                new RouteValueDictionary() { { "data-ajax", "POST" } })
+            </li>
+
+
         </ul>
     </div>
 }

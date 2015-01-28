@@ -28,6 +28,7 @@
             verify_html: false,
             media_strict: false,
             keep_styles: true,
+            allow_script_urls: true,
             extended_valid_elements: "*[*]",
             valid_elements: '*[*]',
             valid_children: "+body[style|link]" //http://tinymce.moxiecode.com/wiki.php/Configuration:valid_children

@@ -49,19 +49,22 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #endregion
 
         #region Get
-        public virtual IncomingQueue Get(string uuid)
+        public virtual IncomingQueue Get(Site site, string uuid)
         {
-            return new IncomingQueue(uuid).AsActual();
+            return new IncomingQueue(site, uuid).AsActual();
         }
         #endregion
 
         #region Delete
-        public virtual void Delete(string[] uuids)
+        public virtual void Delete(Site site, string[] uuids)
         {
             foreach (string uuid in uuids)
             {
-                var model = new IncomingQueue(uuid).AsActual();
-                this._incomeQueueProvider.Remove(model);
+                var model = new IncomingQueue(site, uuid).AsActual();
+                if (model != null)
+                {
+                    this._incomeQueueProvider.Remove(model);
+                }
             }
         }
         #endregion
@@ -121,13 +124,11 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
         protected virtual void AddLog(IncomingQueue queueItem, QueueStatus logStatus, Exception e = null)
         {
-            PublishingLog log = new PublishingLog()
+            PublishingLog log = new PublishingLog(queueItem.Site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(20))
             {
-                UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(20),
                 QueueType = QueueType.Incoming,
                 QueueUUID = queueItem.UUID,
                 ObjectTitle = queueItem.ObjectTitle,
-                SiteName = queueItem.SiteName,
                 PublishingObject = queueItem.PublishingObject,
                 ObjectUUID = queueItem.ObjectUUID,
                 //PublishingType = PublishingType.Remote,
@@ -148,7 +149,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
         protected virtual void PublishPage(ref IncomingQueue queueItem)
         {
-            var site = new Site(queueItem.SiteName).AsActual();
+            var site = queueItem.Site;
             Page page;
             if (site != null)
             {
@@ -217,7 +218,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #endregion
         protected virtual void PublishTextContent(ref IncomingQueue queueItem)
         {
-            var site = new Site(queueItem.SiteName).AsActual();
+            var site = queueItem.Site;
 
             if (site != null)
             {

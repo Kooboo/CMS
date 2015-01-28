@@ -67,7 +67,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
             var site = new Kooboo.CMS.Sites.Models.Site(repositoryId).AsActual();
             if (site == null)
             {
-                throw new FaultException<cmisFaultType>(CreateFault(enumServiceException.objectNotFound, string.Format("No such site:{0}.".Localize(), repositoryId)));
+                throw new FaultException(string.Format("No such site:{0}.".Localize(), repositoryId));
             }
             return site;
         }
@@ -80,7 +80,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
             var repository = site.GetRepository();
             if (repository == null)
             {
-                throw new FaultException<cmisFaultType>(CreateFault(enumServiceException.objectNotFound, string.Format("No such repository:{0}.".Localize(), repositoryId)));
+                throw new FaultException(string.Format("No such repository:{0}.".Localize(), repositoryId));
             }
             return repository;
         }
@@ -93,7 +93,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
             var schema = new Kooboo.CMS.Content.Models.Schema(repository, typeId).AsActual();
             if (schema == null)
             {
-                throw new FaultException<cmisFaultType>(CreateFault(enumServiceException.objectNotFound, string.Format("No such object type:{0}.".Localize(), typeId)));
+                throw new FaultException(string.Format("No such object type:{0}.".Localize(), typeId));
             }
             return schema;
         }
@@ -106,7 +106,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
             var textFolder = new Kooboo.CMS.Content.Models.TextFolder(repository, folderId).AsActual();
             if (textFolder == null)
             {
-                throw new FaultException<cmisFaultType>(CreateFault(enumServiceException.objectNotFound, string.Format("No such folder:{0}.".Localize(), folderId)));
+                throw new FaultException(string.Format("No such folder:{0}.".Localize(), folderId));
             }
             return textFolder;
         }
@@ -145,7 +145,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
                     values[key] = "";
                 }
             }
-            
+
             return files;
         }
 
@@ -153,7 +153,7 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
         {
             IMediaPathField mediaPathField = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IMediaPathField>();
             HttpFileCollectionImp files = new HttpFileCollectionImp();
-            string key="_____MediaBinaryString_____",str = values[key];
+            string key = "_____MediaBinaryString_____", str = values[key];
             if (!string.IsNullOrWhiteSpace(str))
             {
                 var binarys = mediaPathField.ToBinaryStream(str);
@@ -281,7 +281,8 @@ namespace Kooboo.CMS.Modules.CMIS.Services.Implementation
         private static string ConvertVirtualPathField(string value)
         {
             var virtuaFieldValue = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IVirtualPathField>();
-            if (virtuaFieldValue.IsVirtualPathField(value))
+            var mediaPathField = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IMediaPathField>();
+            if (virtuaFieldValue.IsVirtualPathField(value) && !mediaPathField.IsMediaPathField(value))
             {
                 return virtuaFieldValue.ToBinaryString(value);
             }

@@ -36,7 +36,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         public ActionResult Index(string siteName, string search, int? publishingObject, int? publishingType, int? status,
             string sortField, string sortDir)
         {
-            var query = this._manager.CreateQuery(siteName);
+            var query = this._manager.CreateQuery(Site);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(it => it.ObjectUUID.Contains(search, StringComparison.OrdinalIgnoreCase));
@@ -85,10 +85,9 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                     {
                         foreach (string endpoint in model.RemoteEndPoints)
                         {
-                            var queue = new RemotePublishingQueue()
+                            var queue = new RemotePublishingQueue(Site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
                             {
-                                PublishingObject = PublishingObject.Page,
-                                SiteName = Site.Name,
+                                PublishingObject = PublishingObject.Page,                                
                                 UserId = User.Identity.Name,
                                 UtcCreationDate = DateTime.UtcNow,
                                 RemoteEndpoint = endpoint,
@@ -154,10 +153,9 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                         {
                             foreach (string mapping in model.TextFolderMappings)
                             {
-                                var queue = new RemotePublishingQueue()
+                                var queue = new RemotePublishingQueue(Site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
                                 {
-                                    PublishingObject = PublishingObject.TextContent,
-                                    SiteName = Site.Name,
+                                    PublishingObject = PublishingObject.TextContent,                                    
                                     UserId = User.Identity.Name,
                                     UtcCreationDate = DateTime.UtcNow,
                                     TextFolderMapping = mapping,
@@ -278,7 +276,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         #region Detail
         public ActionResult Detail(string uuid)
         {
-            var model = this._manager.Get(uuid);
+            var model = this._manager.Get(Site,uuid);
             return View(model);
         }
         #endregion
@@ -295,7 +293,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                     var uuids = model.Select(it => it.UUID).ToArray();
                     if (uuids.Any())
                     {
-                        _manager.Delete(uuids);
+                        _manager.Delete(Site,uuids);
                     }
                     data.ReloadPage = true;
                 });

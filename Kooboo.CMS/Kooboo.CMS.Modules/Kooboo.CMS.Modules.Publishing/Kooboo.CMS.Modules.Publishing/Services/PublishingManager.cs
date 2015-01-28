@@ -48,11 +48,11 @@ namespace Kooboo.CMS.Modules.Publishing.Services
             var draft = Kooboo.CMS.Sites.Services.ServiceFactory.PageManager.Provider.GetDraft(page);
             return draft != null;
         }
-        public virtual void PublishPage(string[] docs, bool localPublish, bool remotePublish, bool publishDraft, string[] remoteEndpoints, string userName)
+        public virtual void PublishPage(Site site, string[] docs, bool localPublish, bool remotePublish, bool publishDraft, string[] remoteEndpoints, string userName)
         {
-            PublishPage(docs, localPublish, remotePublish, false, publishDraft, remoteEndpoints, null, null, userName);
+            PublishPage(site, docs, localPublish, remotePublish, false, publishDraft, remoteEndpoints, null, null, userName);
         }
-        public virtual void PublishPage(string[] docs, bool localPublish, bool remotePublish, bool publishSchedule, bool publishDraft, string[] remoteEndpoints, DateTime? publishDate, DateTime? unpublishDate, string userName)
+        public virtual void PublishPage(Site site, string[] docs, bool localPublish, bool remotePublish, bool publishSchedule, bool publishDraft, string[] remoteEndpoints, DateTime? publishDate, DateTime? unpublishDate, string userName)
         {
             foreach (string uuid in docs)
             {
@@ -60,12 +60,11 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                 {
                     if (publishSchedule)
                     {
-                        var queue = new LocalPublishingQueue()
+                        var queue = new LocalPublishingQueue(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
                         {
                             ObjectUUID = uuid,
-                            ObjectTitle=uuid,
+                            ObjectTitle = uuid,
                             UserId = userName,
-                            SiteName = Site.Current.Name,
                             UtcCreationDate = DateTime.UtcNow,
                             PublishingObject = PublishingObject.Page,
                             PublishDraft = publishDraft,
@@ -86,10 +85,9 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                         var page = new Page(Site.Current, uuid);
                         page = page.AsActual();
                         _pageManager.Publish(page, publishDraft, userName);
-                        _publishingLogProvider.Add(new PublishingLog()
+                        _publishingLogProvider.Add(new PublishingLog(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(12))
                         {
                             QueueType = QueueType.Local,
-                            SiteName = Site.Current.Name,
                             PublishingObject = PublishingObject.Page,
                             ObjectUUID = uuid,
                             ObjectTitle = uuid,
@@ -106,12 +104,11 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                 {
                     foreach (var endpoint in remoteEndpoints)
                     {
-                        var queue = new RemotePublishingQueue()
+                        var queue = new RemotePublishingQueue(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
                        {
                            ObjectUUID = uuid,
                            ObjectTitle = uuid,
                            PublishingObject = PublishingObject.Page,
-                           SiteName = Site.Current.Name,
                            UserId = userName,
                            RemoteEndpoint = endpoint,
                            UtcCreationDate = DateTime.UtcNow,
@@ -141,7 +138,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #endregion
 
         #region Publish text content
-        public virtual void PublishTextContent(TextFolder textFolder, string[] docs, bool localPublish, bool remotePublish, bool publishSchedule, string[] publishingMappings, DateTime? publishDate, DateTime? unpublishDate, string userName)
+        public virtual void PublishTextContent(Site site, TextFolder textFolder, string[] docs, bool localPublish, bool remotePublish, bool publishSchedule, string[] publishingMappings, DateTime? publishDate, DateTime? unpublishDate, string userName)
         {
             foreach (string uuid in docs)
             {
@@ -152,12 +149,11 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                     {
                         if (publishSchedule)
                         {
-                            var queue = new LocalPublishingQueue()
+                            var queue = new LocalPublishingQueue(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
                             {
                                 ObjectUUID = content.IntegrateId,
-                                ObjectTitle=content.GetSummary(),
+                                ObjectTitle = content.GetSummary(),
                                 UserId = userName,
-                                SiteName = Site.Current.Name,
                                 UtcCreationDate = DateTime.UtcNow,
                                 PublishingObject = PublishingObject.TextContent,
                                 Status = QueueStatus.Pending
@@ -175,15 +171,14 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                         else
                         {
                             this._textContentManager.Publish(textFolder, uuid, userName);
-                            _publishingLogProvider.Add(new PublishingLog()
+                            _publishingLogProvider.Add(new PublishingLog(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(20))
                             {
                                 QueueType = QueueType.Local,
-                                SiteName = Site.Current.Name,
                                 PublishingObject = PublishingObject.TextContent,
                                 ObjectUUID = uuid,
                                 ObjectTitle = uuid,
                                 PublishingAction = PublishingAction.Publish,
-                                UserId = userName,                                
+                                UserId = userName,
                                 Status = QueueStatus.OK,
                                 UtcProcessedTime = DateTime.UtcNow
                             });
@@ -195,12 +190,11 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
                         foreach (string mapping in publishingMappings)
                         {
-                            var queue = new RemotePublishingQueue()
+                            var queue = new RemotePublishingQueue(site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
                             {
                                 ObjectUUID = content.IntegrateId,
                                 ObjectTitle = content.GetSummary(),
                                 PublishingObject = PublishingObject.TextContent,
-                                SiteName = Site.Current.Name,
                                 UserId = userName,
                                 TextFolderMapping = mapping,
                                 UtcCreationDate = DateTime.UtcNow,

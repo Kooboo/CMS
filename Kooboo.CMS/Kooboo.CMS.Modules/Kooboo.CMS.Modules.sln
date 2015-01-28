@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Modules.Publishing.Web", "Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.Web\Kooboo.CMS.Modules.Publishing.Web.csproj", "{D906BE0F-6E5D-4AE2-B259-DF72E5382157}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Modules.Publishing", "Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing\Kooboo.CMS.Modules.Publishing.csproj", "{59201EE6-DD93-47CA-BA8C-2C4ACA457978}"
@@ -10,6 +12,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CMIS", "CMIS", "{D64EFACC-7F31-46A7-B8FF-94F95451046C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Publishing", "Publishing", "{EF0C2C73-A6EC-4FBA-81FE-93311E40386B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Module.Publishing.EmailLog", "Kooboo.CMS.Module.Publishing.EmailLog\Kooboo.CMS.Module.Publishing.EmailLog.csproj", "{CD42F883-0508-4C8D-9F54-81E6FE63CF8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kooboo.CMS.Modules.DiscardDraft", "Kooboo.CMS.Modules.DiscardDraft\Kooboo.CMS.Modules.DiscardDraft.csproj", "{335589B9-16C7-4D4A-A841-C68274B7B808}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,13 +35,23 @@ Global
 		{29B36D82-20E0-473C-9D90-EDD5981587EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29B36D82-20E0-473C-9D90-EDD5981587EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29B36D82-20E0-473C-9D90-EDD5981587EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD42F883-0508-4C8D-9F54-81E6FE63CF8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD42F883-0508-4C8D-9F54-81E6FE63CF8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD42F883-0508-4C8D-9F54-81E6FE63CF8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD42F883-0508-4C8D-9F54-81E6FE63CF8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{335589B9-16C7-4D4A-A841-C68274B7B808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{335589B9-16C7-4D4A-A841-C68274B7B808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{335589B9-16C7-4D4A-A841-C68274B7B808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{335589B9-16C7-4D4A-A841-C68274B7B808}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{59201EE6-DD93-47CA-BA8C-2C4ACA457978} = {EF0C2C73-A6EC-4FBA-81FE-93311E40386B}
 		{D906BE0F-6E5D-4AE2-B259-DF72E5382157} = {EF0C2C73-A6EC-4FBA-81FE-93311E40386B}
+		{59201EE6-DD93-47CA-BA8C-2C4ACA457978} = {EF0C2C73-A6EC-4FBA-81FE-93311E40386B}
 		{29B36D82-20E0-473C-9D90-EDD5981587EC} = {D64EFACC-7F31-46A7-B8FF-94F95451046C}
+		{CD42F883-0508-4C8D-9F54-81E6FE63CF8D} = {EF0C2C73-A6EC-4FBA-81FE-93311E40386B}
+		{335589B9-16C7-4D4A-A841-C68274B7B808} = {EF0C2C73-A6EC-4FBA-81FE-93311E40386B}
 	EndGlobalSection
 EndGlobal

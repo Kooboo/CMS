@@ -1,43 +1,76 @@
 ﻿@model Kooboo.CMS.Sites.Models.Page
 @{
-    var customTabs = Kooboo.CMS.Web.Areas.Sites.PageCustomTabs.Tabs(Model.Layout).ToArray();
+    var customTabs = Kooboo.CMS.Sites.Extension.UI.Tabs.CustomTabs.GetTabs(ViewContext.RequestContext).ToArray(); // Kooboo.CMS.Web.Areas.Sites.PageCustomTabs.Tabs(Model.Layout).ToArray();
 }
 <div class="tabs">
     <ul class="tab-index clearfix">
-        <li class="active"><a href="#basicInfo">
-            @("Designer".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-        <li><a href="#setting">
-            @("Settings".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-        <li><a href="#navigation">
-            @("Navigation".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-        <li><a href="#htmlmeta">
-            @("HTML meta".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+        <li class="active">
+            <a href="#basicInfo">
+                @("Designer".Localize())
+            </a>@Html.IconImage("arrow blue-down")
+        </li>
+        <li>
+            <a href="#setting">
+                @("Settings".Localize())
+            </a>@Html.IconImage("arrow blue-down")
+        </li>
+        <li>
+            <a href="#navigation">
+                @("Navigation".Localize())
+            </a>@Html.IconImage("arrow blue-down")
+        </li>
+        <li>
+            <a href="#htmlmeta">
+                @("HTML meta".Localize())
+            </a>@Html.IconImage("arrow blue-down")
+        </li>
 
-        <li><a href="#route">
-            @("URL route".Localize())</a>@Html.IconImage("arrow blue-down")</li>
-        <li><a href="#outputCache">
-            @("Output cache".Localize())</a>@Html.IconImage("arrow blue-down") </li>
-        <li><a href="#plugins">
-            @("Plug-ins".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+        <li>
+            <a href="#route">
+                @("URL route".Localize())
+            </a>@Html.IconImage("arrow blue-down")
+        </li>
+        <li>
+            <a href="#outputCache">
+                @("Output cache".Localize())
+            </a>@Html.IconImage("arrow blue-down")
+        </li>
+        <li>
+            <a href="#plugins">
+                @("Plug-ins".Localize())
+            </a>@Html.IconImage("arrow blue-down")
+        </li>
         @if (!string.IsNullOrEmpty(Kooboo.CMS.Sites.Models.Site.Current.Repository))
         {
-            <li><a href="#datarules">
-                @("DataRules".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+            <li>
+                <a href="#datarules">
+                    @("DataRules".Localize())
+                </a>@Html.IconImage("arrow blue-down")
+            </li>
         }
         @if (!string.IsNullOrEmpty(Kooboo.CMS.Sites.Models.Site.Current.Membership))
         {
-            <li><a href="#permission">
-                @("Permission".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+            <li>
+                <a href="#permission">
+                    @("Permission".Localize())
+                </a>@Html.IconImage("arrow blue-down")
+            </li>
         }
         @if (customTabs.Length == 0)
         {
-            <li><a href="#customFields">
-                @("Custom fields".Localize())</a>@Html.IconImage("arrow blue-down")</li>
+            <li>
+                <a href="#customFields">
+                    @("Custom fields".Localize())
+                </a>@Html.IconImage("arrow blue-down")
+            </li>
         }
         @foreach (var tab in customTabs)
         {
-            <li><a href="#@tab.Title">
-                @Html.Raw(tab.Title.Localize())</a>@Html.IconImage("arrow blue-down")</li>
+            <li>
+                <a href="#@tab.Name">
+                    @Html.Raw(tab.DisplayText.Localize())
+                </a>@Html.IconImage("arrow blue-down")
+            </li>
         }
     </ul>
     <div class="tab-content active" id="basicInfo">
@@ -99,8 +132,27 @@
     }
     @foreach (var tab in customTabs)
     {
-        <div class="tab-content " id="@tab.Title">
-            @Html.Partial(tab.VirualPath, Model.CustomFields, new ViewDataDictionary())
+        <div class="tab-content " id="@tab.Name">
+            @Html.Partial(tab.VirtualPath, Model.CustomFields, new ViewDataDictionary())
         </div>
     }
 </div>
+<script type="text/javascript">
+    window.keepLoading = true;
+    @if (Model.Published!=true)
+    {
+        <text>
+    $(function () {
+        $('#save_bar').click(function (e) {
+            var $self = $(this);
+            if ($('#IsDefault').is(":checked")) {
+                $self.data("confirm", '@("You have set this page as homepage, but it is not yet published! Are you sure?".Localize())');
+            }
+            else {
+                $self.removeData("confirm");
+            }
+        });
+    });
+    </text>
+    }
+</script>

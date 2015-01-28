@@ -22,7 +22,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.DataSources
         public IEnumerable<System.Web.Mvc.SelectListItem> GetSelectListItems(System.Web.Routing.RequestContext requestContext, string filter = null)
         {
             var provider = Kooboo.CMS.Common.Runtime.EngineContext.Current.Resolve<IRemoteTextFolderMappingProvider>();
-            var settings = provider.CreateQuery(Kooboo.CMS.Sites.Models.Site.Current.Name).Where(it => it.Enabled);
+            var settings = provider.All(Kooboo.CMS.Sites.Models.Site.Current).Where(it => it.Enabled);
             foreach (var set in settings)
             {
                 yield return new SelectListItem() { Text = set.Name, Value = set.Name };

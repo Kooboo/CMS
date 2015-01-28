@@ -166,14 +166,22 @@
                 selector: selector,
                 plugins: [
                     ["advlist autolink link image lists charmap hr anchor pagebreak spellchecker"],
-                    ["searchreplace wordcount visualblocks visualchars rawcode media nonbreaking"],
+		    ["searchreplace wordcount visualblocks visualchars rawcode media nonbreaking"],
                     ["exit table contextmenu directionality emoticons template paste"]
                 ],
                 schema: "html5",
                 inline: true,
                 menubar: false,
+                allow_script_urls: true,
                 toolbar_items_size: 'small',
-                toolbar: "save exit | searchreplace undo redo | bold italic forecolor formatselect | indent outdent | alignleft aligncenter alignright alignjustify | bullist numlist | image link unlink | rawcode",
+		toolbar: "save exit | searchreplace undo redo | bold italic forecolor formatselect | indent outdent | alignleft aligncenter alignright alignjustify | bullist numlist | image link unlink | rawcode",
+                setup: function (ed) {                   
+		     //tinymce.ui.FloatPanel.zIndex=0x7FFFFFFF;
+                     ed.on('BeforeSetContent', function (e) {
+                         e.format = 'raw';
+                     });
+                },
+                verify_html: false,
                 init_instance_callback: function (ed) {
                     self.editorInstance = ed;
                     setTimeout(function () {
@@ -181,12 +189,6 @@
                         ed.off('blur');
                     }, 500);
                 },
-                setup: function (ed) {                   
-                    ed.on('BeforeSetContent', function (e) {
-                        e.format = 'raw';
-                    });
-                },
-                verify_html: false,
                 exit_onsavecallback: function (ed) {
                     self.onSave && self.onSave();
                 },
@@ -242,7 +244,7 @@
             });
         },
 
-        editable: function (edit) {
+        editable: function (edit) {console.log(edit);
             edit = (edit !== false);
             // prop
             try {
@@ -315,7 +317,8 @@
                     this.el.attr('disabled', 'DISABLED');
                 }
             } else {
-                this.editable(this.enable);
+                this.
+(this.enable);
             }*/
             this.editable(this.enable);
         },

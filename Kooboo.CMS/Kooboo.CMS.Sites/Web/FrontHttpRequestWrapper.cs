@@ -119,7 +119,14 @@ namespace Kooboo.CMS.Sites.Web
         {
             get
             {
-                return (bool)HttpContext.Current.Items["IsSSL"];
+                if (HttpContext.Current.Items["IsSSL"] == null)
+                {
+                    return HttpContext.Current.Request.IsSecureConnection;
+                }
+                else
+                {
+                    return (bool)HttpContext.Current.Items["IsSSL"];
+                }
             }
             set
             {

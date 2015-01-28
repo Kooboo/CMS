@@ -1,33 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfLastAction xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Kooboo.CMS.Search.Models">
 	<LastAction>
-		<FolderName>PublishTest</FolderName>
-		<ContentSummary>test1</ContentSummary>
-		<Action>Add</Action>
-		<UtcActionDate>2014-02-10T07:16:19.4480817Z</UtcActionDate>
+		<FolderName>Article</FolderName>
+		<ContentSummary>test media files5555</ContentSummary>
+		<Action>Delete</Action>
+		<UtcActionDate>2014-09-12T07:03:02.5535731Z</UtcActionDate>
 	</LastAction>
 	<LastAction>
 		<FolderName>Article</FolderName>
-		<ContentSummary>file content </ContentSummary>
+		<ContentSummary>test media files11234</ContentSummary>
+		<Action>Delete</Action>
+		<UtcActionDate>2014-09-12T06:20:03.5820542Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>test media files11234</ContentSummary>
 		<Action>Update</Action>
-		<UtcActionDate>2013-12-13T06:17:31.4801689Z</UtcActionDate>
+		<UtcActionDate>2014-09-12T06:16:02.6105872Z</UtcActionDate>
 	</LastAction>
 	<LastAction>
 		<FolderName>Article</FolderName>
-		<ContentSummary>file content </ContentSummary>
+		<ContentSummary>test media files11234</ContentSummary>
+		<Action>Delete</Action>
+		<UtcActionDate>2014-09-12T06:05:36.3525652Z</UtcActionDate>
+	</LastAction>
+	<LastAction>
+		<FolderName>Article</FolderName>
+		<ContentSummary>test media files11234</ContentSummary>
 		<Action>Update</Action>
-		<UtcActionDate>2013-11-27T08:06:09.5694205Z</UtcActionDate>
-	</LastAction>
-	<LastAction>
-		<FolderName>Article</FolderName>
-		<ContentSummary>file content </ContentSummary>
-		<Action>Add</Action>
-		<UtcActionDate>2013-11-26T09:55:24.5422822Z</UtcActionDate>
-	</LastAction>
-	<LastAction>
-		<FolderName>Article</FolderName>
-		<ContentSummary>To cn article</ContentSummary>
-		<Action>Add</Action>
-		<UtcActionDate>2013-10-31T02:06:25.1162718Z</UtcActionDate>
+		<UtcActionDate>2014-09-12T05:57:06.5008945Z</UtcActionDate>
 	</LastAction>
 </ArrayOfLastAction>

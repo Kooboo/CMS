@@ -39,7 +39,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         public ActionResult Index(string siteName, string search, int? publishingObject, int? publishingType, int? status,
             string sortField, string sortDir)
         {
-            var query = this._manager.CreateQuery(siteName);
+            var query = this._manager.CreateQuery(Site);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(it => it.ObjectUUID.Contains(search, StringComparison.OrdinalIgnoreCase));
@@ -86,10 +86,9 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                 {
                     foreach (string uuid in model.Pages)
                     {
-                        var queue = new LocalPublishingQueue()
+                        var queue = new LocalPublishingQueue(Site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
                         {
                             PublishingObject = PublishingObject.Page,
-                            SiteName = Site.Name,
                             UserId = User.Identity.Name,
                             UtcCreationDate = DateTime.UtcNow,
                             ObjectUUID = uuid,
@@ -148,10 +147,9 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                     for (int i = 0, j = model.TextContents.Length; i < j; i++)
                     {
                         var content = textFolder.CreateQuery().WhereEquals("UUID", model.TextContents[i]).FirstOrDefault();
-                        var queue = new LocalPublishingQueue()
+                        var queue = new LocalPublishingQueue(Site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10))
                         {
                             PublishingObject = PublishingObject.TextContent,
-                            SiteName = Site.Name,
                             UserId = User.Identity.Name,
                             UtcCreationDate = DateTime.UtcNow,
                             ObjectUUID = content.IntegrateId,
@@ -269,7 +267,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         #region Detail
         public ActionResult Detail(string uuid)
         {
-            var model = this._manager.Get(uuid);
+            var model = this._manager.Get(Site, uuid);
             if (model == null)
             {
                 //TODO:Prompt "Can not find the entity object".
@@ -290,7 +288,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                     var uuids = model.Select(it => it.UUID).ToArray();
                     if (uuids.Any())
                     {
-                        _manager.Delete(uuids);
+                        _manager.Delete(Site, uuids);
                     }
                     data.ReloadPage = true;
                 });

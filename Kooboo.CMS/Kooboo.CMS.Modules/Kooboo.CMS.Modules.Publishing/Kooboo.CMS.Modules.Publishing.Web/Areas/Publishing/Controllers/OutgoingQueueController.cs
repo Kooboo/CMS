@@ -28,7 +28,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         public ActionResult Index(string siteName, string search, int? publishingObject, int? status,
             string sortField,string sortDir)
         {
-            var query = this._manager.CreateQuery(siteName);
+            var query = this._manager.CreateQuery(Site);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(it => it.ObjectUUID.Contains(search, StringComparison.OrdinalIgnoreCase));
@@ -58,7 +58,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
         #region Logs
         public ActionResult Logs(string siteName, string uuid,string sortField,string sortDir)
         {
-            var query = this._outgoingLogManager.CreateQuery(siteName).Where(it => it.QueueType==QueueType.Outgoing&&it.ObjectUUID.Equals(uuid, StringComparison.OrdinalIgnoreCase));
+            var query = this._outgoingLogManager.CreateQuery(Site).Where(it => it.QueueType==QueueType.Outgoing&&it.ObjectUUID.Equals(uuid, StringComparison.OrdinalIgnoreCase));
             if (!string.IsNullOrWhiteSpace(sortField))
             {
                 query = query.SortByField(sortField, sortDir);
@@ -69,7 +69,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
 
         public ActionResult Edit(string uuid)
         {
-            var model = _manager.Get(uuid);
+            var model = _manager.Get(Site,uuid);
             return View(model);
         }
 
@@ -81,8 +81,8 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
             {
                 resultEntry.RunWithTry((data) =>
                 {
-                    var oldModel = _manager.Get(uuid);
-                    var newModel = _manager.Get(uuid);
+                    var oldModel = _manager.Get(Site,uuid);
+                    var newModel = _manager.Get(Site,uuid);
                     newModel.Status = status;
                     _manager.Update(newModel, oldModel);
                     resultEntry.RedirectUrl = @return;
@@ -103,7 +103,7 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Controllers
                     var uuids = model.Select(it => it.UUID).ToArray();
                     if (uuids.Any())
                     {
-                        _manager.Delete(uuids);
+                        _manager.Delete(Site,uuids);
                     }
                     data.ReloadPage = true;
                 });

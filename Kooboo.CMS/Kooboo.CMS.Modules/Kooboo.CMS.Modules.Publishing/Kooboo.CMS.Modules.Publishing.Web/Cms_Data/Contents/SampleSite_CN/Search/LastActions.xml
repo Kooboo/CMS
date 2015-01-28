@@ -1,33 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfLastAction xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Kooboo.CMS.Search.Models">
 	<LastAction>
-		<FolderName>Category</FolderName>
-		<ContentSummary>test1</ContentSummary>
+		<FolderName>Article</FolderName>
+		<ContentSummary>test media files5555</ContentSummary>
 		<Action>Add</Action>
-		<UtcActionDate>2014-02-10T09:21:26.0886904Z</UtcActionDate>
+		<UtcActionDate>2014-09-12T08:01:10.8407291Z</UtcActionDate>
 	</LastAction>
 	<LastAction>
 		<FolderName>Article</FolderName>
-		<ContentSummary>file content </ContentSummary>
+		<ContentSummary>test media files5555</ContentSummary>
 		<Action>Delete</Action>
-		<UtcActionDate>2014-01-27T06:26:16.2950887Z</UtcActionDate>
+		<UtcActionDate>2014-09-12T08:00:09.5608032Z</UtcActionDate>
 	</LastAction>
 	<LastAction>
 		<FolderName>Article</FolderName>
-		<ContentSummary>To cn article</ContentSummary>
+		<ContentSummary>test media files5555</ContentSummary>
 		<Action>Add</Action>
-		<UtcActionDate>2013-12-13T10:45:22.2586057Z</UtcActionDate>
+		<UtcActionDate>2014-09-12T07:57:10.4007171Z</UtcActionDate>
 	</LastAction>
 	<LastAction>
 		<FolderName>Article</FolderName>
-		<ContentSummary>To cn article</ContentSummary>
+		<ContentSummary>test media files5555</ContentSummary>
 		<Action>Delete</Action>
-		<UtcActionDate>2013-12-13T10:45:22.0895846Z</UtcActionDate>
+		<UtcActionDate>2014-09-12T07:57:10.0086936Z</UtcActionDate>
 	</LastAction>
 	<LastAction>
 		<FolderName>Article</FolderName>
-		<ContentSummary>file content </ContentSummary>
+		<ContentSummary>test media files5555</ContentSummary>
 		<Action>Add</Action>
-		<UtcActionDate>2013-12-13T06:19:04.3523876Z</UtcActionDate>
+		<UtcActionDate>2014-09-12T07:56:09.1207413Z</UtcActionDate>
 	</LastAction>
 </ArrayOfLastAction>

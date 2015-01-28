@@ -79,7 +79,7 @@
     };
 
     function bindRedoundo(redoundo) {
-        var btnUndo = $(settings.btnUndo).unbind('click').click(function () { redoundo.undo(); return false;});
+        var btnUndo = $(settings.btnUndo).unbind('click').click(function () { redoundo.undo(); return false; });
         var btnRedo = $(settings.btnRedo).unbind('click').click(function () { redoundo.redo(); return false; });
         var disableFunc = function () {
             if (redoundo.canUndo()) {
@@ -118,14 +118,14 @@
     }
 
     function bindDesignerDialog(designCtx) {
-        designCtx.showDialog = function (cfg, onOk, outer) {            
+        designCtx.showDialog = function (cfg, onOk, outer) {
             removeDialog();
             var settings = $.extend({}, cfg, {
                 position: 'center',
                 modal: true,
                 width: 750,
                 height: 500,
-                dialogClass:'iframe-dialog'
+                dialogClass: 'iframe-dialog'
             });
             dialogObject = $('<div style="overflow:hidden;"></div>');
             dialogObject.appendTo('body').dialog(settings);
@@ -182,6 +182,7 @@
     var iframeUrl = decodeURIComponent($(settings.pageDesignUrl).val());
     $(settings.iframeMarkup).insertAfter(settings.iframeMask);
     $(settings.iframeSelector).load(function () {
+        console.log(arguments);
         // get doc
         var doc;
         try {
@@ -253,8 +254,13 @@
                 // in ie7, the array object in inner iframe content window scope, 
                 // when it pass to the top window scope is become to a native object but not a array.
                 // so now parse the setting object to json string in inner iframe scope.
-                var json = designContext.getSettingsJson(); //var json = $.toJSON(designContext.getSettings());
-                $(settings.pagePositionsJson).val(encodeURIComponent(json));
+                if (designContext.designerLoaded()) {
+                    var json = designContext.getSettingsJson(); //var json = $.toJSON(designContext.getSettings());
+                    $(settings.pagePositionsJson).val(encodeURIComponent(json));
+                }
+                else {
+                    $(settings.pagePositionsJson).val("");
+                }
             }
         };
     });

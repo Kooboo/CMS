@@ -747,6 +747,8 @@
                         optionsHtml.push("<option action='" + op.EntryAction + "' controller='" + op.EntryController + "' values='" + ko.toJSON(op.Values) + "' linkToEntryName='" + op.LinkToEntryName + "'>" + op.Name + '</option>');
                     });
                 }
+                self.EntryOptionsSelect.empty();
+
                 self.EntryOptionsSelect.append(optionsHtml.join(''));
 
                 if (self.ValuesTemplate.data('KO_ViewModel')) {

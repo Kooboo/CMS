@@ -218,6 +218,7 @@
     <Compile Include="Areas\Sites\Controllers\ABSiteSettingController.cs" />
     <Compile Include="Areas\Sites\Controllers\ABRuleSettingController.cs" />
     <Compile Include="Areas\Sites\Menu\MembershipMenuItems.cs" />
+    <Compile Include="Areas\Sites\Menu\HtmlBlockNamespaceMenuItems.cs" />
     <Compile Include="Areas\Sites\Models\ABPageTestHitsReport.cs" />
     <Compile Include="Areas\Sites\Models\ABPageTestResult_Metadata.cs" />
     <Compile Include="Areas\Sites\Models\DataSources\RouteTypesDatasource.cs" />
@@ -267,6 +268,7 @@
     <Compile Include="KoobooCMSHttpApplicationEvents.cs" />
     <Compile Include="Misc\DynamicClientResourceDIFactory.cs" />
     <Compile Include="Misc\LessCssProvider.cs" />
+    <Compile Include="Misc\RedirectManagerActionFilterAttribute.cs" />
     <Compile Include="Misc\RenderHelper.cs" />
     <Compile Include="Models\AllPropertiesResolver.cs" />
     <Compile Include="Models\ImportModel.cs" />
@@ -2549,6 +2551,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Toolbar.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\HtmlBlock\_Grid2.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\PageDesign\HtmlBlockNamespace.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Sites\Views\PageDesign\HtmlBlockItem.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -35,19 +35,22 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #endregion
 
         #region Get
-        public virtual PublishingQueue Get(string uuid)
+        public virtual PublishingQueue Get(Site site, string uuid)
         {
-            return new PublishingQueue(uuid).AsActual();
+            return new PublishingQueue(site, uuid).AsActual();
         }
         #endregion
 
         #region Delete
-        public virtual void Delete(string[] uuids)
+        public virtual void Delete(Site site, string[] uuids)
         {
             foreach (string uuid in uuids)
             {
-                var model = new PublishingQueue(uuid).AsActual();
-                this._publishingQueueProvider.Remove(model);
+                var model = new PublishingQueue(site, uuid).AsActual();
+                if (model != null)
+                {
+                    this._publishingQueueProvider.Remove(model);
+                }
             }
         }
         #endregion
@@ -121,12 +124,10 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
         protected virtual void AddLog(PublishingQueue queueItem, PublishingAction action, Exception e = null)
         {
-            PublishingLog log = new PublishingLog()
+            PublishingLog log = new PublishingLog(queueItem.Site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(20))
             {
-                UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(20),
                 QueueType = QueueType.Publishing,
                 QueueUUID = queueItem.UUID,
-                SiteName = queueItem.SiteName,
                 PublishingObject = queueItem.PublishingObject,
                 ObjectUUID = queueItem.ObjectUUID,
                 //PublishingType = queueItem.PublishingType,
@@ -218,7 +219,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #region LocalPublish
         protected virtual void LocalPublish(ref PublishingQueue queueItem, PublishingAction action)
         {
-            var site = new Site(queueItem.SiteName).AsActual();
+            var site = queueItem.Site;
             if (site != null)
             {
                 switch (queueItem.PublishingObject)
@@ -299,7 +300,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #region RemotePublish
         private void RemotePublish(ref PublishingQueue queueItem, PublishingAction action)
         {
-            var site = new Site(queueItem.SiteName).AsActual();
+            var site = queueItem.Site;
             if (site != null)
             {
                 switch (queueItem.PublishingObject)
@@ -312,8 +313,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                             {
                                 foreach (var remote in queueItem.RemoteEndpoints)
                                 {
-                                    var outgoingQueue = new OutgoingQueue();
-                                    outgoingQueue.SiteName = queueItem.SiteName;
+                                    var outgoingQueue = new OutgoingQueue(queueItem.Site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10));                                    
                                     outgoingQueue.PublishingObject = queueItem.PublishingObject;
                                     outgoingQueue.ObjectUUID = queueItem.ObjectUUID;
                                     outgoingQueue.RemoteEndpoint = remote;
@@ -349,8 +349,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                                         var mapping = new RemoteTextFolderMapping();//todo:AsActual
                                         if (mapping != null)
                                         {
-                                            var outgoingQueue = new OutgoingQueue();
-                                            outgoingQueue.SiteName = queueItem.SiteName;
+                                            var outgoingQueue = new OutgoingQueue(queueItem.Site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(10));                                            
                                             outgoingQueue.PublishingObject = queueItem.PublishingObject;
                                             outgoingQueue.ObjectUUID = queueItem.ObjectUUID;
                                             outgoingQueue.RemoteEndpoint = mapping.RemoteEndpoint;

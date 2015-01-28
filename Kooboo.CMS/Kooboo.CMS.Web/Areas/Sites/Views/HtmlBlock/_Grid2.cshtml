@@ -1,0 +1,101 @@
+﻿@model Kooboo.Web.Mvc.Grid2.GridModel
+@{
+    var ns = (Kooboo.CMS.Sites.Services.Namespace<HtmlBlock>)ViewData["NameSpace"] ?? new Kooboo.CMS.Sites.Services.Namespace<HtmlBlock>();
+}
+<div class="common-table fixed">
+    <div class="thead">
+        <table>
+            <thead>
+                <tr>
+                    @if (Model.Checkable)
+                    {
+                        <th class="checkbox">
+                            <input type="checkbox" class="select-all" />
+                        </th>
+                    }
+                    @foreach (var column in Model.Columns)
+                    {
+                        <th @column.RenderHeaderContainerAtts(ViewContext)>
+                            @column.RenderHeader(ViewContext)
+                        </th>
+                    }
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="tbody">
+        <table>
+            <thead>
+                <tr>
+                    @if (Model.Checkable)
+                    {
+                        <th class="checkbox">
+                            <input type="checkbox" class="select-all" />
+                        </th>
+                    }
+                    @foreach (var column in Model.Columns)
+                    {
+                        <th @column.RenderHeaderContainerAtts(ViewContext)>
+                            @column.RenderHeader(ViewContext)
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var subNsList = ns.ChildNamespaces.ToArray();
+                    var items = Model.GetItems().ToArray();
+                }
+                @if (subNsList.Length == 0 && items.Length == 0)
+                { 
+                    <tr class="empty">
+                        <td colspan="100">
+                            @("Empty".Localize())
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var s in ns.ChildNamespaces)
+                    {
+                    <tr>
+                        <td class="checkbox">
+                            <input type="checkbox" value="@s.FullName " data-id-property="FullName" disabled="disabled" />
+                        </td>
+                        <td colspan="7">
+                            <a href="@Url.Action("Index", ViewContext.RequestContext.AllRouteValues().Merge("ns", s.FullName))">
+                                @Html.IconImage("folder")
+                                @s.Name</a>
+                        </td>
+                    </tr>
+                    }
+                    foreach (var item in Model.GetItems())
+                    {
+                    <tr @item.RenderItemContainerAtts()>
+                        @if (Model.Checkable)
+                        {
+                            <td class="checkbox">
+                                <input type="checkbox"  class="select" name="select" value="@item.IdPropertyValue" data-id-property="@Model.IdPorperty"
+                                 @(item.IsCheckable == true ? "" : "disabled") autocomplete="off"/>
+                            </td>
+                        }
+                        @foreach (var itemValue in item.GetItemColumns())
+                        {
+                            <td @itemValue.RenderItemColumnContainerAtts(ViewContext)>
+                                @itemValue.RenderItemColumn(ViewContext)
+                            </td>
+                        }
+                    </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(function () {
+            var table = $('.common-table table');
+            table.checkableTable();
+            table.grid();
+        });
+    </script>
+</div>

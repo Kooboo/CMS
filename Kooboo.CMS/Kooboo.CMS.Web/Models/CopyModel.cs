@@ -20,6 +20,7 @@ namespace Kooboo.CMS.Web.Models
 
         [Required(ErrorMessage = "Required")]
         [Display(Name = "Destination name")]
+        [RegularExpression(RegexPatterns.FileName, ErrorMessage = "A name cannot contain a space or any of the following characters:\\/:*?<>|~")]
         [RemoteEx("CopyNameAvailabled", "*", RouteFields = "SiteName,RepositoryName,UUID", AdditionalFields = "ParentPage")]
         public virtual string DestinationName { get; set; }
     }

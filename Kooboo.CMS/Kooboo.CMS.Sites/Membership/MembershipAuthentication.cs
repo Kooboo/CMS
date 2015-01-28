@@ -70,6 +70,11 @@ namespace Kooboo.CMS.Sites.Membership
             var authCookie = GetAuthCookie(_site, _httpContext.Request.Cookies);
             if (authCookie != null)
             {
+                if (!string.IsNullOrEmpty(_membership.AuthCookieDomain))
+                {
+                    authCookie.Domain = _membership.AuthCookieDomain;
+                }
+
                 authCookie.Expires = DateTime.Now.AddDays(-100);
                 HttpContext.Current.Response.SetCookie(authCookie);
             }

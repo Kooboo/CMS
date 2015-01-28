@@ -43,19 +43,22 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #endregion
 
         #region Get
-        public virtual RemotePublishingQueue Get(string uuid)
+        public virtual RemotePublishingQueue Get(Site site, string uuid)
         {
-            return new RemotePublishingQueue(uuid).AsActual();
+            return new RemotePublishingQueue(site, uuid).AsActual();
         }
         #endregion
 
         #region Delete
-        public virtual void Delete(string[] uuids)
+        public virtual void Delete(Site site, string[] uuids)
         {
             foreach (string uuid in uuids)
             {
-                var model = new RemotePublishingQueue(uuid).AsActual();
-                this._remotePublishingQueueProvider.Remove(model);
+                var model = new RemotePublishingQueue(site, uuid).AsActual();
+                if (model != null)
+                {
+                    this._remotePublishingQueueProvider.Remove(model);
+                }
             }
         }
         #endregion
@@ -65,7 +68,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         public virtual void ProcessQueueItem(RemotePublishingQueue queueItem, DateTime executeTime)
         {
             Exception exception = null;
-            bool hasMoreAction;
+            //bool hasMoreAction;
             QueueStatus logStatus = QueueStatus.OK;
             var goingActionInfo = queueItem.GoingActionInfo;
             RemoteEndpointSetting remoteEndpoint = null;
@@ -161,13 +164,11 @@ namespace Kooboo.CMS.Modules.Publishing.Services
 
         protected virtual void AddLog(RemotePublishingQueue queueItem, QueueStatus logStatus, PublishingAction action, Exception e = null)
         {
-            PublishingLog log = new PublishingLog()
+            PublishingLog log = new PublishingLog(queueItem.Site, Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(20))
             {
-                UUID = Kooboo.UniqueIdGenerator.GetInstance().GetBase32UniqueId(20),
                 QueueType = QueueType.Remote,
                 QueueUUID = queueItem.UUID,
                 ObjectTitle = queueItem.ObjectTitle,
-                SiteName = queueItem.SiteName,
                 PublishingObject = queueItem.PublishingObject,
                 ObjectUUID = queueItem.ObjectUUID,
                 RemoteEndpoint = null,
@@ -188,14 +189,14 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #region PublishPage
         protected virtual void PublishPage(ref RemotePublishingQueue queueItem, PublishingAction action, out RemoteEndpointSetting remoteEndpoint)
         {
-            remoteEndpoint = new RemoteEndpointSetting() { SiteName = queueItem.SiteName, Name = queueItem.RemoteEndpoint }.AsActual();
+            remoteEndpoint = new RemoteEndpointSetting(queueItem.Site, queueItem.RemoteEndpoint).AsActual();
 
             if (remoteEndpoint == null)
             {
                 NoSuchEndpoint(ref queueItem, queueItem.RemoteEndpoint);
             }
 
-            var site = new Site(queueItem.SiteName).AsActual();
+            var site = queueItem.Site;
             if (site != null)
             {
                 var page = new Page(site, queueItem.ObjectUUID).AsActual();
@@ -239,7 +240,7 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         #region NoSuchObjectMessage
         private static void NoSuchObjectMessage(ref RemotePublishingQueue queueItem)
         {
-            queueItem.Status = QueueStatus.Processed;
+            queueItem.Status = QueueStatus.Warning;
             queueItem.Message = string.Format("No such object:{0}".Localize(), queueItem.ObjectUUID);
         }
         #endregion
@@ -251,29 +252,26 @@ namespace Kooboo.CMS.Modules.Publishing.Services
         }
         private void NoSuchEndpoint(ref RemotePublishingQueue queueItem, string endpoint)
         {
-            queueItem.Status = QueueStatus.Processed;
+            queueItem.Status = QueueStatus.Warning;
             queueItem.Message = string.Format("No such endpoint:{0}".Localize(), endpoint);
-        }
-        private void NoSuchMapping(ref RemotePublishingQueue queueItem, string mapping)
-        {
-            queueItem.Status = QueueStatus.Processed;
-            queueItem.Message = string.Format("No such text content :{0}".Localize(), mapping);
         }
 
         #region RemotePublish
         protected virtual void PublishTextContent(ref RemotePublishingQueue queueItem, PublishingAction action, out RemoteEndpointSetting remoteEndpoint)
         {
-
-            var mapping = new RemoteTextFolderMapping(queueItem.TextFolderMapping).AsActual();
+            remoteEndpoint = null;
+            var mapping = new RemoteTextFolderMapping(queueItem.Site, queueItem.TextFolderMapping).AsActual();
             if (mapping == null)
             {
                 NoSuchPublishingMapping(ref queueItem);
+                return;
             }
-            remoteEndpoint = new RemoteEndpointSetting(mapping.RemoteEndpoint).AsActual();
+            remoteEndpoint = new RemoteEndpointSetting(queueItem.Site, mapping.RemoteEndpoint).AsActual();
 
             if (remoteEndpoint == null)
             {
                 NoSuchEndpoint(ref queueItem, mapping.RemoteEndpoint);
+                return;
             }
             var contentIntegrateId = new ContentIntegrateId(queueItem.ObjectUUID);
             var repository = new Repository(contentIntegrateId.Repository).AsActual();
@@ -288,7 +286,6 @@ namespace Kooboo.CMS.Modules.Publishing.Services
                     if (content != null)
                     {
                         var cmisService = _cmisSession.OpenSession(remoteEndpoint.CmisService, remoteEndpoint.CmisUserName, remoteEndpoint.CmisPassword);
-
 
                         switch (action)
                         {

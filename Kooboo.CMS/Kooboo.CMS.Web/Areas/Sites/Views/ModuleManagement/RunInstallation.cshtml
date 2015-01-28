@@ -75,10 +75,16 @@
                 success: function (data, textStatus, jqXHR) {
                     parse_JsonResultData.call(this, data, textStatus, jqXHR)
                     success = data.Success;
-                },             
+                },
                 async: false
-            });          
+            });
             return success;
+        },
+        success: function (response, statusText, xhr, $form) {
+            parse_JsonResultData.call(this, response, statusText, xhr, $form)
+            if (response.Success) {
+                setTimeout(function () { window.loading.show(); }, 10);
+            }
         }
-    }
+    };
 </script>

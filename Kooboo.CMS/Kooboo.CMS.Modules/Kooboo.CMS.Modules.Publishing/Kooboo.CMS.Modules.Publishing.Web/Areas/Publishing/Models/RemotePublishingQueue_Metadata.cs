@@ -33,29 +33,37 @@ namespace Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models
         [DisplayName("Title")]
         public string ObjectTitle { get; set; }
 
-        [GridColumn(Order = 3, HeaderText = "Publish", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2.ShortDateTimeGridItemColumnType))]
+        [GridColumn(Order = 3, HeaderText = "Time to publish", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         [UIHint("DateTime")]
-        [DisplayName("Publishing time")]
+        [DisplayName("Time to publish")]
         public DateTime? UtcTimeToPublish { get; set; }
 
-        [GridColumn(Order = 4, HeaderText = "Unpublish", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2.ShortDateTimeGridItemColumnType))]
+        [GridColumn(Order = 4, HeaderText = "Time to unpublish", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         [UIHint("DateTime")]
-        [DisplayName("Unpublishing time")]
+        [DisplayName("Time to unpublish")]
         public DateTime? UtcTimeToUnpublish { get; set; }
 
-        [GridColumn(Order = 5, HeaderText = "Remote site", GridColumnType = typeof(SortableGridColumn))]
+        [GridColumn(Order = 5, HeaderText = "Published time", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
+        [DisplayName("Published time")]
+        public DateTime? UtcProcessedPublishTime { get; set; }
+
+        [GridColumn(Order = 6, HeaderText = "Unpublished time", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
+        [DisplayName("Unpublished time")]
+        public DateTime? UtcProcessedUnpublishTime { get; set; }
+
+        [GridColumn(Order = 7, HeaderText = "Remote site", GridColumnType = typeof(SortableGridColumn))]
         [DisplayName("Remote site")]
         public string RemoteEndpoint { get; set; }
 
-        [GridColumn(Order = 6, HeaderText = "Textfolder mapping", GridColumnType = typeof(SortableGridColumn))]
+        [GridColumn(Order = 8, HeaderText = "Textfolder mapping", GridColumnType = typeof(SortableGridColumn))]
         [DisplayName("Textfolder mapping")]
         public string TextFolderMapping { get; set; }
 
-        [GridColumn(Order = 7, HeaderText = "Draft version", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
+        // [GridColumn(Order = 7, HeaderText = "Draft version", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(BooleanGridItemColumn))]
         [DisplayName("Publishing draft")]
         public bool PublishDraft { get; set; }
 
-        [GridColumn(Order = 8, HeaderText = "Creation date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(Kooboo.CMS.Modules.Publishing.Web.Areas.Publishing.Models.Grid2.ShortDateTimeGridItemColumnType))]
+        [GridColumn(Order = 9, HeaderText = "Creation date", GridColumnType = typeof(SortableGridColumn), GridItemColumnType = typeof(DateTimeGridItemColumn))]
         [DisplayName("Creation date")]
         public DateTime UtcCreationDate { get; set; }
 

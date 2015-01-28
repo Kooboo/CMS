@@ -37,5 +37,8 @@ namespace Kooboo.CMS.Sites.Models
 
         [DataMember(Order = 10)]
         public string Canonical { get; set; }
+        [DataMember]
+        /// To allow write custom html meta block. for example: <meta http-equiv="charset" content="XXX"> <meta property="title" content="{title}">
+        public string HtmlMetaBlock { get; set; }
     }
 }

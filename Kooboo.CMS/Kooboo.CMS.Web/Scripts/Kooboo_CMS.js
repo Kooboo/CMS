@@ -59,13 +59,23 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                 location.href = responseData.RedirectUrl.replace("&amp;", "&");
             }
         } else {
-            //why:当出现错误的时候，刷新会让错误信息马上消失掉。(Module/Install)
-            if (responseData.Messages.length == 0 && responseData.ReloadPage == true) {
+            var reload = function() {
                 if (responseData.RedirectToOpener == true) {
                     top.location.reload(true);
                 }
                 else {
                     location.reload(true);
+                }
+            };
+			
+			if (responseData.ReloadPage == true) {
+                // if there no messages reload the page 
+                if (responseData.Messages.length === 0) {
+                    reload(); 
+                }
+                // otherwise reload it after message notification fades or clicked away
+                else {
+                    $('.notification').on('onHid', reload); 
                 }
             }
         }
@@ -1086,6 +1096,8 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             var hide = function () {
                 $notification.fadeOut('normal', function () {
                     $notification.css('right', '-18%').show();
+					// is used for reload in parse_JsonResultData function
+					$notification.trigger('onHid'); 
                 });
             };
             var show = function (msg, success, timeout) {

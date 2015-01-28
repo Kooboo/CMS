@@ -68,7 +68,7 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
                 }
             };
 			
-			if (responseData.ReloadPage == true) {
+            if (responseData.ReloadPage == true) {
                 // if there no messages reload the page 
                 if (responseData.Messages.length === 0) {
                     reload(); 
@@ -1096,8 +1096,8 @@ function parse_JsonResultData(response, statusText, xhr, $form) {
             var hide = function () {
                 $notification.fadeOut('normal', function () {
                     $notification.css('right', '-18%').show();
-					// is used for reload in parse_JsonResultData function
-					$notification.trigger('onHid'); 
+                    // is used for reload in parse_JsonResultData function
+                    $notification.trigger('onHid'); 
                 });
             };
             var show = function (msg, success, timeout) {

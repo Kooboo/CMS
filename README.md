@@ -52,7 +52,7 @@
 <h2>Thank you</h2>
 
 
-<p>Our team is currently devoting 100% of our effort to bring New Kooboo to life, as soon as possible. Despite fully awareness of all the risks and possibilities, we believe we are on the right track, stepping out of our comfort zone and striving for excellence, and we are not going back.</p>
+<p>Our team is currently devoting 100% of our effort to bring New Kooboo to life, as soon as possible. Despite full awareness of all the risks and possibilities, we believe we are on the right track, stepping out of our comfort zone and striving for excellence, and we are not going back.</p>
 <p>Together, we are forever grateful for all the confidence our users render upon us and would like to ask you to give us a little more time and patience. It’s a promise that we make to you, our dear users, and to ourselves – </p>
 
 <h1><center>New Kooboo is coming</center></h1>

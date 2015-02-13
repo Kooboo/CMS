@@ -16,31 +16,31 @@
 
  1. New Kooboo will be composed of mainly 4 sections: dashboard, domains, sites, and email:
  <center>![enter image description here](https://lh5.googleusercontent.com/twie6NxAl6k4GO-a5dEoW6BENJdK1Z0AtBCAl5QYe9M=s0 "SS1 - 4 sections of New Kooboo")</center><br></br>
-<center>SS1 - 4 sections of New Kooboo</center>
+<h6><center>SS1 - 4 sections of New Kooboo</center></h6>
  2. Dashboard is newly introduced to facilitate convenient access to overall management of content, with the following look:
 <center>![enter image description here](https://lh4.googleusercontent.com/88w8M9I7J8xua8KTIY6Tkl4xcPuNYQjYWbQgMzZAtxQ=s0 "SS2 - New Kooboo Dashboard")</center><br></br>
-  <center>SS2 - New Kooboo Dashboard</center>
+<h6><center>SS2 - New Kooboo Dashboard</center></h6>
  3. Here’s what it looks like when adding domains, which are necessary to create your own website(s):
  <center>![enter image description here](https://lh3.googleusercontent.com/R7ub_3G0N5a8FDDZLKvP53JE7Z6H983O-WCyjrXQZOk=s0 "SS3 - adding domains")</center><br></br>
-<center>SS3 – adding domains</center>
+<h6><center>SS3 – adding domains</center></h6>
  4. “Email” section is newly introduced for handling business emails with customized domains:
  <center>![enter image description here](https://lh4.googleusercontent.com/52Wwj7IPnoCy8bZsfQF9puMbWZyiS8WycNQk9IInkYg=s0 "SS4 - New Kooboo quot;Emailquot; section")</center><br></br>
-<center>SS4 - New Kooboo “Email” section</center>
+<h6><center>SS4 - New Kooboo “Email” section</center></h6>
  5. In “sites” section, you can easily start creating a new site by one click:
  <center>![enter image description here](https://lh5.googleusercontent.com/OvCqnO9fsAvL0mNqYH5IUCTCKBcYHV48Ygi3ASyu1Vs=s0 "SS5 - New Kooboo quot;Sitesquot; section")</center><br></br>
- <center>SS5 - New Kooboo “Sites” section</center>
+<h6><center>SS5 - New Kooboo “Sites” section</center></h6>
  6. While creating a new site, you need to set some basics first:
 <center>![enter image description here](https://lh3.googleusercontent.com/3uXHH_jOiYxZzvrylyhez5O6SdwzfFWUM3xXcY9OGmA=s0 "SS6 - Basic setting for new site")</center><br></br>
-<center>SS6 - Basic setting for new site</center>
+<h6><center>SS6 - Basic setting for new site</center></h6>
  7. Then there’s one of the most important features of New Kooboo – in site template, you can choose to convert a website you like into your own (as an option, not mandatory):
 <center>![enter image description here](https://lh5.googleusercontent.com/-1cLKkEkFxJDRXgDUrsSTa-jT8gmH0kfdVM2RZ-ICvA=s0 "SS7 - convert a site you like into your own") </center><br></br>
-<center>SS7 - Convert a site you like into your own</center>
+<h6><center>SS7 - Convert a site you like into your own</center></h6>
  8. When converting is done, you’ll get all the pages you want downloaded to local server, at your disposal:
 <center>![enter image description here](https://lh4.googleusercontent.com/wpL6VPZPCfRsSwQfGZz2UXr0gbIxW2Jb3gO0mt5nSGw=s0 "SS8 - pages downloaded to local") </center><br></br>
-<center>SS8 - Pages downloaded to local</center>
+<h6><center>SS8 - Pages downloaded to local</center></h6>
  9. After converting, you may need to edit the pages to make a website of your own. We adopted the concept of “What You Click Is What You Edit”. Clicking on an item can be used to express that a particular item is to be manipulated (deleted, renamed, etc.), just like what we do with email templates using email marketing tools. Or, if you prefer editing codes directly, there’s also code view:
 <center>![enter image description here](https://lh3.googleusercontent.com/kRMV0I5Sy4ZPyRzsnhxpAFbjHa2FDEk1xzVNLMB2G0k=s0 "SS9 - Editing interface: the codes area can be either collapsed or expanded")</center><br></br>
-<center>SS9 - Editing interface: the codes area can be either collapsed or expanded</center>
+<h6><center>SS9 - Editing interface: the codes area can be either collapsed or expanded</center></h6>
 
 <h2>What do you think?</h2>
 

@@ -20,7 +20,7 @@
  2. Dashboard is newly introduced to facilitate convenient access to overall management of content, with the following look:
 <center>![enter image description here](https://lh4.googleusercontent.com/88w8M9I7J8xua8KTIY6Tkl4xcPuNYQjYWbQgMzZAtxQ=s0 "SS2 - New Kooboo Dashboard")</center><br></br>
 <h6><center>SS2 - New Kooboo Dashboard</center></h6>
- 3. Here’s what it looks like when adding domains, which are necessary to create your own website(s):
+ 3. Here’s what it looks like when adding domain(s), which are necessary to create your own website(s):
  <center>![enter image description here](https://lh3.googleusercontent.com/R7ub_3G0N5a8FDDZLKvP53JE7Z6H983O-WCyjrXQZOk=s0 "SS3 - adding domains")</center><br></br>
 <h6><center>SS3 – adding domains</center></h6>
  4. “Email” section is newly introduced for handling business emails with customized domains:

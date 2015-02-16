@@ -14,7 +14,7 @@
 <h2>New Features</h2>
 
 
- 1. New Kooboo will be composed of mainly 4 sections: dashboard, domains, sites, and email:
+ 1. New Kooboo will be mainly composed of  4 sections: dashboard, domains, sites, and email:
  <center>![enter image description here](https://lh5.googleusercontent.com/twie6NxAl6k4GO-a5dEoW6BENJdK1Z0AtBCAl5QYe9M=s0 "SS1 - 4 sections of New Kooboo")</center><br></br>
 <h6><center>SS1 - 4 sections of New Kooboo</center></h6>
  2. Dashboard is newly introduced to facilitate convenient access to overall management of content, with the following look:

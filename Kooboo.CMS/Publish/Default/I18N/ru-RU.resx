@@ -2210,4 +2210,10 @@
   <data name="The member was locked out." xml:space="preserve">
     <value>Учетная запись заблокированна</value>
   </data>
+  <data name="Are you sure you want to add watermark to these items?" xml:space="preserve">
+    <value>Вы действительно хотите добавить водяной знак на выбранные элементы?</value>
+  </data>
+  <data name="Watermark" xml:space="preserve">
+    <value>Водяной знак</value>
+  </data>
 </root>

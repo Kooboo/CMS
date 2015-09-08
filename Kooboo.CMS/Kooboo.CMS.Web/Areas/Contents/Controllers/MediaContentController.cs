@@ -18,6 +18,7 @@ using Kooboo.CMS.Web.Areas.Contents.Models;
 using Kooboo.CMS.Web.Authorizations;
 using Kooboo.CMS.Web.Models;
 using Kooboo.Drawing;
+using Kooboo.Drawing.Filters;
 using Kooboo.Globalization;
 using Kooboo.IO;
 using Kooboo.Web.Mvc;
@@ -688,6 +689,89 @@ namespace Kooboo.CMS.Web.Areas.Contents.Controllers
                 }
             }
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region Watermark
+
+        [Kooboo.CMS.Web.Authorizations.Authorization(AreaName = "Contents", Group = "", Name = "Content", Order = 1)]
+        [HttpPost]
+        public virtual ActionResult Watermark( string folderName, string[] docs )
+        {
+            var data = new JsonResultData(ModelState);
+            data.RunWithTry(( resultData ) =>
+            {
+                if( !string.IsNullOrWhiteSpace(folderName) && docs != null )
+                {
+                    var folder = FolderManager.Get(Repository, folderName).AsActual();
+                    var uuids = from uuid in docs where !string.IsNullOrEmpty(uuid) select uuid;
+                    foreach( var uuid in uuids )
+                    {
+                        var content = folder.CreateQuery().WhereEquals("UUID", uuid).First();
+                        var provider = Providers.DefaultProviderFactory.GetProvider<IMediaContentProvider>();
+                        using( var sourceStream = new MemoryStream(provider.GetContentStream(content)) )
+                        {
+                            var imageFormat = GetImageFormat(Path.GetExtension(content.FileName));
+                            if( imageFormat == null )
+                            {
+                                continue;
+                            }
+                            var stream = Watermark(Repository, sourceStream, imageFormat);
+                            ContentManager.Update(Repository, folder, uuid, content.FileName, stream, User.Identity.Name);
+                        }
+                    }
+                }
+                resultData.ReloadPage = true;
+            });
+            return Json(data);
+        }
+
+        public static ImageFormat GetImageFormat( string extension )
+        {
+            switch( extension.ToLower() )
+            {
+                case ".jpg":
+                case ".jpeg":
+                    return ImageFormat.Jpeg;
+                case ".gif":
+                    return ImageFormat.Gif;
+                case ".png":
+                    return ImageFormat.Png;
+                case ".bmp":
+                    return ImageFormat.Bmp;
+            }
+            return null;
+        }
+        private Stream Watermark( Repository repository, Stream stream, ImageFormat imageFormat )
+        {
+            var waterImageFile = GetWaterImage(repository);
+            if (System.IO.File.Exists(waterImageFile))
+            {
+                var waterImage = Image.FromFile(waterImageFile);
+
+                var rawImage = Image.FromStream(stream);
+
+                var filter = new ImageWatermarkFilter
+                {
+                    WaterMarkImage = waterImage,
+                    Alpha = 0.7f,
+                    Valign = WaterMarkFilter.VAlign.Right,
+                    Halign = WaterMarkFilter.HAlign.Bottom
+                };
+                var image = filter.ExecuteFilter(rawImage);
+
+                var ms = new MemoryStream();
+                image.Save(ms, imageFormat);
+                ms.Seek(0, SeekOrigin.Begin);
+                return ms;
+            }
+            return stream;
+        }
+        private string GetWaterImage( Repository repository )
+        {
+            var path = new RepositoryPath(repository);
+
+            return Path.Combine(path.PhysicalPath, "Watermark.png");
         }
         #endregion
     }

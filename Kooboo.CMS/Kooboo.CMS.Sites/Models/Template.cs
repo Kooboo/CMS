@@ -98,7 +98,7 @@ namespace Kooboo.CMS.Sites.Models
             {
                 if (body == null && this.Site != null)
                 {
-                    return IOUtility.ReadAsString(this.PhysicalTemplateFileName);
+                    body = IOUtility.ReadAsString(this.PhysicalTemplateFileName);
                 }
                 return body;
             }
@@ -152,11 +152,11 @@ namespace Kooboo.CMS.Sites.Models
         {
             this.IsDummy = false;
 
-            if (body == null)
+            if (Body == null)
             {
-                body = "";
+                Body = "";
             }
-            IOUtility.SaveStringToFile(this.PhysicalTemplateFileName, body);
+            IOUtility.SaveStringToFile(this.PhysicalTemplateFileName, Body);
         }
 
         public string DataFile

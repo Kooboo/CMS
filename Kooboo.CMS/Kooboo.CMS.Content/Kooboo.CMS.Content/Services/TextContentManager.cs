@@ -191,15 +191,15 @@ namespace Kooboo.CMS.Content.Services
             EventBus.Content.ContentEvent.Fire(ContentAction.PreUpdate, textContent);
 
             TextContentProvider.Update(textContent, old);
-
-            if (addedCateogries != null)
-            {
-                AddCategories(repository, textContent, addedCateogries.ToArray());
-            }
             if (removedCategories != null)
             {
                 RemoveCategories(repository, textContent, removedCategories.ToArray());
             }
+            if (addedCateogries != null)
+            {
+                AddCategories(repository, textContent, addedCateogries.ToArray());
+            }
+           
 
             EventBus.Content.ContentEvent.Fire(ContentAction.Update, textContent);
             return textContent;

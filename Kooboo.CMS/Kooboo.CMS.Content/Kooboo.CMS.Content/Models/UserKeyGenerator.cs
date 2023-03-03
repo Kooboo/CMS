@@ -81,7 +81,8 @@ namespace Kooboo.CMS.Content.Models
             string tmpUserKey = userKey.StripAllTags();
 
             //http://stackoverflow.com/questions/9565360/how-to-convert-utf-8-characters-to-ascii-for-use-in-a-url/9628594#9628594
-            tmpUserKey = RemoveDiacritics(tmpUserKey);
+            //會造成中文tltile 全變成空白
+            //tmpUserKey = RemoveDiacritics(tmpUserKey);
 
             Repository repository = content.GetRepository().AsActual();
             tmpUserKey = Regex.Replace(tmpUserKey, repository.UserKeyReplacePattern, repository.UserKeyHyphens);

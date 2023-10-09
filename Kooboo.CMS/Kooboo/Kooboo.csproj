@@ -186,9 +186,7 @@
     <Compile Include="ServiceProcess\Commands\InstallCommand.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ServiceProcess\Commands\ServiceCommand.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="ServiceProcess\Commands\ServiceCommand.cs" />
     <Compile Include="ServiceProcess\Commands\UninstallCommand.cs">
       <SubType>Code</SubType>
     </Compile>

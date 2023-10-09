@@ -33,11 +33,29 @@
     <Reference Include="DotNetOpenAuth.AspNet">
       <HintPath>..\..\Lib\DotNetOpenAuth\DotNetOpenAuth.AspNet.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetOpenAuth.Core">
+      <HintPath>..\..\Lib\DotNetOpenAuth\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth">
+      <HintPath>..\..\Lib\DotNetOpenAuth\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer">
+      <HintPath>..\..\Lib\DotNetOpenAuth\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty">
+      <HintPath>..\..\Lib\DotNetOpenAuth\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\..\Lib\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http">
+      <HintPath>..\..\Lib\MVC\4.0\WebAPI\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <HintPath>..\..\Lib\MVC\4.0\WebAPI\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />

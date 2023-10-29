@@ -17,6 +17,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Kooboo.CMS.Common.DataViolation;
 using Kooboo.CMS.Membership.OAuthClients;
+using Kooboo.Globalization;
 
 
 namespace Kooboo.CMS.Membership.Services
@@ -67,11 +68,11 @@ namespace Kooboo.CMS.Membership.Services
             List<DataViolationItem> violations = new List<DataViolationItem>();
             if (membershipUser.AsActual() != null)
             {
-                violations.Add(new DataViolationItem("UserName", userName, "DuplicateUserName"));
+                violations.Add(new DataViolationItem("UserName", userName, "DuplicateUserName".Localize()));
             }
             if (_provider.QueryUserByEmail(membership, email) != null)
             {
-                violations.Add(new DataViolationItem("Email", email, "DuplicateEmail"));
+                violations.Add(new DataViolationItem("Email", email, "DuplicateEmail".Localize()));
             }
             if (violations.Count > 0)
             {
@@ -237,11 +238,11 @@ namespace Kooboo.CMS.Membership.Services
             }
             if (!membershipUser.IsApproved)
             {
-                violations.Add(new DataViolationItem("UserName", userName, "The member still not actived."));
+                violations.Add(new DataViolationItem("UserName", userName, "The member still not actived.".Localize()));
             }
             if (membershipUser.IsLockedOut)
             {
-                violations.Add(new DataViolationItem("UserName", userName, "The member was locked out."));
+                violations.Add(new DataViolationItem("UserName", userName, "The member was locked out.".Localize()));
             }
             if (violations.Count > 0)
             {
@@ -275,11 +276,11 @@ namespace Kooboo.CMS.Membership.Services
             List<DataViolationItem> violations = new List<DataViolationItem>();
             if (membershipUser == null)
             {
-                violations.Add(new DataViolationItem("UserName", userName, "The member does not exists."));
+                violations.Add(new DataViolationItem("UserName", userName, "The member does not exists.".Localize()));
             }
             if (string.IsNullOrEmpty(activateCode))
             {
-                violations.Add(new DataViolationItem("ActivateCode", userName, "Activate code is null."));
+                violations.Add(new DataViolationItem("ActivateCode", userName, "Activate code is null.".Localize()));
             }
             if (membershipUser.IsApproved)
             {
@@ -340,7 +341,7 @@ namespace Kooboo.CMS.Membership.Services
             List<DataViolationItem> violations = new List<DataViolationItem>();
             if (membershipUser == null)
             {
-                violations.Add(new DataViolationItem("UserName", userName, "The member does not exists."));
+                violations.Add(new DataViolationItem("UserName", userName, "The member does not exists.".Localize()));
             }
             if (violations.Count > 0)
             {
@@ -364,11 +365,11 @@ namespace Kooboo.CMS.Membership.Services
             List<DataViolationItem> violations = new List<DataViolationItem>();
             if (membershipUser == null)
             {
-                violations.Add(new DataViolationItem("UserName", userName, "The member does not exists."));
+                violations.Add(new DataViolationItem("UserName", userName, "The member does not exists.".Localize()));
             }
             if (string.IsNullOrEmpty(activateCode))
             {
-                violations.Add(new DataViolationItem("ActivateCode", userName, "Activate code is null."));
+                violations.Add(new DataViolationItem("ActivateCode", userName, "Activate code is null.".Localize()));
             }
 
             var valid = !string.IsNullOrEmpty(membershipUser.ActivateCode) && membershipUser.ActivateCode == activateCode;
@@ -380,7 +381,7 @@ namespace Kooboo.CMS.Membership.Services
             }
             else
             {
-                violations.Add(new DataViolationItem("ActivateCode", userName, "Activate code is invalid."));
+                violations.Add(new DataViolationItem("ActivateCode", userName, "Activate code is invalid.".Localize()));
             }
             if (violations.Count > 0)
             {
